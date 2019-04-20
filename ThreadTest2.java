@@ -24,7 +24,7 @@ public class ThreadTest2 implements Runnable{
    /////////////////////Public Methods///////////////////////////////
    /*
    */
-   public synchronized void setTrigger(){
+   public void setTrigger(){
       this.isTriggered = true;
    }
 
@@ -34,8 +34,8 @@ public class ThreadTest2 implements Runnable{
    public void run(){
       int SLEEPTIME = 1000;
       while(true){
-         System.out.println(Thread.currentThread().getName());
          this.goAheadAndPrint();
+         System.out.println(Thread.currentThread().getName());
       }
    }
 
