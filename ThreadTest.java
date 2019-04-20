@@ -10,10 +10,12 @@ import java.lang.*;
 public class ThreadTest implements Runnable{
    private String threadName;
    private boolean trigger;
+   private int count;
 
    {
       threadName = null;
       trigger    = false;
+      count      = 0;
    };
 
    ///////////////////Constructors///////////////////////////////////
@@ -43,7 +45,9 @@ public class ThreadTest implements Runnable{
                System.out.println("Name:  " + this.threadName);
                this.setTrigger(false);
             }
-            System.out.println(Thread.currentThread().getName());
+            ++count;
+            System.out.println(Thread.currentThread().getName() +" " + count);
+            System.out.println();
             Thread.sleep(SLEEPTIME);
          }
          catch(InterruptedException ie){
