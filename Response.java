@@ -14,7 +14,7 @@ public class Response implements Runnable{
 
    {
       _quit      = false;
-      _triggered = true;
+      _triggered = false;
       _sleepTime = 500;
    };
 
@@ -26,6 +26,9 @@ public class Response implements Runnable{
    */
    public void quit(boolean quit_){
       this._quit = quit_;
+      if(this._quit){
+         this.trigger(true);
+      }
    }
 
    /*
@@ -36,14 +39,31 @@ public class Response implements Runnable{
 
    /*
    */
-   public void trigger(boolean trigger_){
+   public synchronized void trigger(boolean trigger_){
       this._triggered = trigger_;
+      if(this._triggered){
+         this.notify();
+      }
    }
 
    /////////////////Runnable Interface Implementation/////////////////
    /*
    */
    public void run(){
+      while(!this._quit){
+         try{
+            synchronized(this){
+               while(!this._triggered){
+                  this.wait();
+                }
+	    }
+	    if(!this._quit){
+               System.out.println(Thread.currentThread().getName());
+            }
+	    this.trigger(false);
+	 }
+         catch(InterruptedException e){ e. printStackTrace(); }
+      }
    }
 
 }

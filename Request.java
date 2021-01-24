@@ -57,15 +57,19 @@ public class Request implements Runnable{
    public void run(){
       try{
          Thread th = new Thread(this._response);
+	 th.start();
          Random random = new Random();
          while(!this._quit){
             Thread.sleep(this._sleepTime);
 	    System.out.println(Thread.currentThread().getName());
 	    int next = random.nextInt();
 	    if(next > -1 && ((next % 10000) > 8000)){
-               System.out.println(next);
+	       System.out.println(next);
+               this._response.trigger(true);
 	    }
          }
+         //this._response.trigger(true);
+	 this._response.quit(true);
          th.join();
       }
       catch(InterruptedException e){ e.printStackTrace(); }
