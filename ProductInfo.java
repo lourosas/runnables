@@ -22,13 +22,14 @@ public class ProductInfo{
       this.key     = key_;
    }
 
-   public void makeTheComputation
+   public void makeTheComputation(){}
 
    public String toString(){
-
+      String _return = this.product+","+this.key+":"+this.name;
+      return _return;
    }
 
-   public ProducInfo requestProduct(){
-      return new ProducInfo(this.product,this.key);
+   public ProductInfo requestProduct(){
+      return new ProductInfo(this.product,this.key);
    }
 }
