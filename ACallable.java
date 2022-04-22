@@ -7,19 +7,21 @@ import java.util.*;
 import java.util.concurrent.*;
 import rosas.lou.runnables.*;
 
-public class ACallable<T> implements Callable<T>{
-   private T t = null;
+public class ACallable<ProductInfo> implements Callable<ProductInfo>{
+   private ProductInfo pi = null;
 
    /**/
-   public ACallable(T t_){ this.t = t_; }
+   public ACallable(ProductInfo pi__){ this.pi = pi_; }
    ///////////////////////////////////////////////////////////////////
    /**/
-   public T call() throws Exception{
+   public ProductInfo call() throws Exception{
+      System.out.prinln("call()");
       return this.loadType();
    }
 
    /**/
-   private T loadType(){
-      return null;
+   private ProductInfo loadType(){
+      //Delay here
+      return this.pi.requestProduct();
    }
 }
