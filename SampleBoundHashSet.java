@@ -6,17 +6,18 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public class SampleBoundHashSet<T> implements Runnable{
-   private BoundedHashSet<T> set;
-   private Stack<T> stack;
+public class SampleBoundHashSet implements Runnable{
+   private BoundedHashSet<Integer> set;
+   private Stack<Integer>          stack;
    {
-      set         = null;
+      set   = null;
+      stack = null;
    };
 
    /**/
-   public SampleBoundHashSet(BoundedHashSet<T> set_){
-      this.set = set_;
-      this.stack = new Stack<T>();
+   public SampleBoundHashSet(BoundedHashSet<Integer> set_){
+      this.set   = set_;
+      this.stack = new Stack<Integer>();
    }
 
    /**/
@@ -25,10 +26,10 @@ public class SampleBoundHashSet<T> implements Runnable{
       while(toRun){
          try{
             Thread.sleep(1000);
-            //System.out.println(Thread.currentThread().getName());
+            System.out.println(Thread.currentThread().getName());
             int i = (int)Math.round(Math.random()*1000);
-            if(this.set.add(i)){
-               this.stack.push(i);
+            if(this.set.add(Integer.valueOf(i))){
+               this.stack.push(Integer.valueOf(i));
             }
          }
          catch(InterruptedException ie){
