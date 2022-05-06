@@ -25,12 +25,12 @@ public class BoundedHashSet<T>{
    public boolean add(T t){
       boolean wasAdded = false;
       try{
-         System.out.println(Thread.currentThread().getName());
-         System.out.println("0");
+         System.out.println("add(...) Set Size:  "+this.set.size()+" "+Thread.currentThread().getName());
+         System.out.println("add(...) starting permits "+this.sem.availablePermits()+" "+Thread.currentThread().getName());
          this.sem.acquire();
-         System.out.println("1");
+         System.out.println("add(...) remaining permits "+this.sem.availablePermits()+" "+Thread.currentThread().getName());
          wasAdded = this.set.add(t);
-         System.out.println("2");
+         System.out.println("add(...) value "+t+" "+Thread.currentThread().getName());
       }
       catch(InterruptedException ie){
          ie.printStackTrace();
@@ -44,7 +44,12 @@ public class BoundedHashSet<T>{
    /**/
    public boolean remove(T t){
       boolean wasRemoved = this.set.remove(t);
-      if(wasRemoved){ this.sem.release(); }
+      if(wasRemoved){
+         this.sem.release();
+         System.out.println("remove(...) value "+t+" "+Thread.currentThread().getName());
+         //System.out.println("remove(...) Thread Name "+Thread.currentThread().getName());
+         System.out.println("remove(...) permits "+this.sem.availablePermits()+" "+Thread.currentThread().getName());
+      }
       return wasRemoved;
    }
 }
