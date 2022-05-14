@@ -45,6 +45,7 @@ public class BoundedHashSet<T>{
    public boolean remove(T t){
       boolean wasRemoved = this.set.remove(t);
       if(wasRemoved){
+         System.out.println("remove(...) pre-release "+Thread.currentThread().getName());
          this.sem.release();
          System.out.println("remove(...) value "+t+" "+Thread.currentThread().getName());
          //System.out.println("remove(...) Thread Name "+Thread.currentThread().getName());
