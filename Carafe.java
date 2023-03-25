@@ -35,9 +35,8 @@ public class Carafe implements Runnable{
       if(_instance == null){
          _instance = new Carafe();
       }
-      //Do this for now--easy--but will have to check the state
-      //instance._state == State.HOME return _instance
-      //else return null
+      //This may have to change again!!!
+      //I definitely need to think about this
       if(_instance._state == State.HOME){
          return _instance;
       }
@@ -50,7 +49,7 @@ public class Carafe implements Runnable{
    //
    //
    public void fill(double amount){
-      System.out.println("Carafe: "+Thread.currentThread().getId());
+      //System.out.println("Carafe: "+Thread.currentThread().getId());
       if(this._state == State.HOME){
          this._quantity += amount;
          if(this._quantity >= this.CAPACITY){
@@ -71,18 +70,14 @@ public class Carafe implements Runnable{
    //
    //
    public void pull(){
-      System.out.println("Pull Carafe: "+this._state);
       this._state = State.PULLED;
-      System.out.println("Pull Carafe: "+this._state);
    }
 
    //
    //
    //
    public void putback(){
-      System.out.println("Putback Carafe: "+this._state);
       this._state = State.HOME;
-      System.out.println("Putback Carafe: "+this._state);
    }
 
    //

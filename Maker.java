@@ -16,7 +16,7 @@ public class Maker implements Runnable{
 
    {
       _reservoir = null;
-      _carafe    = null;
+      //_carafe    = null;
       _t         = null;
       _state     = State.NOCOFFEE;
    };
@@ -27,7 +27,7 @@ public class Maker implements Runnable{
    //
    public Maker(){
       this._reservoir = new Reservoir();
-      this._carafe    = Carafe.instance();
+      //this._carafe    = Carafe.instance();
       //REMOVE THE TEST PRINTS!!!
       //System.out.println(Thread.currentThread().getId());
       this._t = new Thread(this);
@@ -67,9 +67,18 @@ public class Maker implements Runnable{
    //
    //
    public Carafe getCarafe(){
-      return this._carafe;
+      Carafe carafe = Carafe.instance();
+      try{
+      }
+      catch(NullPointerException npe){}
+      finally{
+      }
    }
 
+   //
+   //
+   //
+   public void returnCarafe(){}
 
    //////////////////////Interface Methods////////////////////////////
    //
