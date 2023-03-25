@@ -27,7 +27,7 @@ public class Maker implements Runnable{
    //
    public Maker(){
       this._reservoir = new Reservoir();
-      this._carafe    = new Carafe();
+      this._carafe    = Carafe.instance();
       //REMOVE THE TEST PRINTS!!!
       //System.out.println(Thread.currentThread().getId());
       this._t = new Thread(this);
