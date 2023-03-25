@@ -102,11 +102,13 @@ bg=gray
     <panel_attributes>Carafe
 --
 -CAPACITY:int {final}=32
+__-_instance:Carafe__
 -_quantity:int
 --
 +fill(amount:int)
 +pour(mug:Mug)
-+quantity():int</panel_attributes>
++quantity():int
+__+instance():Carafe__</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
