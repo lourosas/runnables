@@ -1,0 +1,61 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case1: }Brew Coffee\\
+\textbf{Scope: }Coffee Maker\\
+\textbf{Level: }Coffee Drinker Goal\\
+\textbf{Primary Actor: }Coffee Drinker\\
+\textbf{Scenario: }None\\
+\textbf{Related Use Cases: }\textit{Use Case 2:  The Coffee Drinker
+shall get Coffee}\\
+\textbf{Stakeholders \& Interrests: }
+\begin{itemize}
+\item Coffee Drinker: wants coffee
+\end{itemize}
+\textbf{Preconditions: }The System is ready to make Coffee.  The
+Coffee Drinker already added fresh coffee.\\
+\textbf{Postconditions: }Coffee is brewed, in the Carafe and ready for
+serving.\\
+\textbf{Success Guarantees: }The System brews the coffee.\\\\
+\textbf{Main Success Scenario: }\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+\textbf{Coffee Drinker} & \textbf{System}\\\hline
+1.  Add Water & \\\hline
+2.  Start the Brewing Process &\\\hline
+& 3. Brews the coffee\\\hline
+& 4. Alerts when brewing complete\\\hline
+\end{tabular}\\\\
+\textbf{Extentions (Alternative Flows): }
+\begin{itemize}
+\item[3a.]
+If the Coffee Drinker pulls the carafe before the Coffee Maker
+is finished brewing the coffee, then Coffee Maker stops brewing,
+continuing once the carafe is returned (under the spigot).
+\end{itemize}
+\textbf{Special Requirements:  }
+\begin{itemize}
+\item [--]As stated in the Assumptions, the Coffee Drinker adding
+coffee
+is not modeled in this Use Case; since this Use Case addressed brewing
+coffee, the brew behavior will continue regardless of the addition of
+unbrewed coffee grounds.
+\end{itemize}
+\textbf{Technology \& Data Variations List: }
+\begin{itemize}
+\item[2a.] Predict the adding ability of choice to the Coffee Drinker
+to automate coffee brewing in future upgrades and improvements.
+\end{itemize}
+\textbf{Frequency of Occurrence: } Dependent upon the brewing time
+combined with the demand of Coffee Drinkers.\\\\
+\textbf{Open Issues: }
+\begin{itemize}
+\item[--]The size of the carafe is variable
+\item[--]What about a Coffee Maker with multiple carafes?  Would that
+alter the 3a Alternative Flows?
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
