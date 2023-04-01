@@ -7,11 +7,25 @@
 \begin{document}
 \noindent
 \textbf{Brew Coffee}\\
-\textit{Main Success Scenario:  }  The Coffee Drinker fills the
-reservoir with water and starts the brewing process.  The Coffee Maker
-brews the coffee by having the resevoir pump the water over
-the coffee grinds and into the carafe until the reservoir is empty.
-The Coffee Maker signals the brewing is complete.\\\\
+\textit{Main Success Scenario:  }
+\begin{enumerate}
+   \item Coffee drinker puts the coffee in the coffee maker
+   \item Coffee drinker puts the wather in the coffee maker
+   \item Coffee drinker indicates to(messages) the coffee maker to
+   brew the coffee
+   \item Coffee maker brews the coffee
+   \item (Optional) Coffee maker alerts when done brewing the coffee
+\end{enumerate}
 \textit{Alternative Scenarios:  }
+\begin{enumerate}
+\item[3a] If the coffee drinker pulls the carafe before the coffee
+        maker is finished brewing (see \textit{Use Case 2:  Get
+        Coffee}), then one of two scenarios can take place. 1) The 
+        coffee continues brewing coffee, 2) The Coffee stops brewing
+        until the coffee drinker puts the carafe back in its place.
+\item[5a] This is optional, if there is no alert, then it is up to the
+        coffee drinker to check when the coffee is done.  If there is
+        an alert, then the coffee maker somehow alerts.
+\end{enumerate}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
