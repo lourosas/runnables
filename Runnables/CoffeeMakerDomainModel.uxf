@@ -251,8 +251,8 @@ bg=yellow</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>630</x>
-      <y>470</y>
+      <x>650</x>
+      <y>280</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -263,8 +263,8 @@ bg=blue</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>910</x>
-      <y>480</y>
+      <x>920</x>
+      <y>290</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -274,20 +274,20 @@ bg=blue</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>720</x>
-      <y>470</y>
-      <w>210</w>
+      <x>740</x>
+      <y>280</y>
+      <w>200</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 pours coffee from</panel_attributes>
-    <additional_attributes>190.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>180.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1200</x>
-      <y>480</y>
+      <x>1170</x>
+      <y>280</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -298,13 +298,13 @@ bg=red</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1000</x>
-      <y>470</y>
-      <w>220</w>
-      <h>50</h>
+      <x>1010</x>
+      <y>280</y>
+      <w>180</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 pours coffee into</panel_attributes>
-    <additional_attributes>200.0;30.0;10.0;20.0</additional_attributes>
+    <additional_attributes>160.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>
