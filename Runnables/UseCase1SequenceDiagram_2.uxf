@@ -100,14 +100,10 @@ isBrewing():boolean</panel_attributes>
       <x>60</x>
       <y>200</y>
       <w>950</w>
-      <h>640</h>
+      <h>580</h>
     </coordinates>
     <panel_attributes>_brewing = false
 --
-
-
-
-
 
 
 
@@ -147,7 +143,7 @@ isBrewing():boolean</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>340</x>
-      <y>730</y>
+      <y>670</y>
       <w>130</w>
       <h>50</h>
     </coordinates>
@@ -159,7 +155,7 @@ exception</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>90</x>
-      <y>800</y>
+      <y>730</y>
       <w>280</w>
       <h>40</h>
     </coordinates>
@@ -252,12 +248,22 @@ bg=orange</panel_attributes>
     <id>UMLFrame</id>
     <coordinates>
       <x>290</x>
-      <y>320</y>
+      <y>330</y>
       <w>700</w>
-      <h>400</h>
+      <h>220</h>
     </coordinates>
     <panel_attributes>loop
-[quantity &gt; 0]</panel_attributes>
+[quantity &gt; 0]
+--
+
+
+
+
+
+
+
+-.
+[exception]</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -271,5 +277,105 @@ bg=orange</panel_attributes>
     <panel_attributes>lt=&lt;&lt;&lt;-
 quantity=empty():double</panel_attributes>
     <additional_attributes>260.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>360</y>
+      <w>540</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+fill(quantity:double)</panel_attributes>
+    <additional_attributes>520.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>410</y>
+      <w>280</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+quantity = empty():double</panel_attributes>
+    <additional_attributes>260.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>590</x>
+      <y>500</y>
+      <w>290</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+NotHomeException</panel_attributes>
+    <additional_attributes>10.0;20.0;270.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>620</x>
+      <y>120</y>
+      <w>230</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>while(quantity &gt; 0){
+try{
+Carafe::fill(quantity);
+quantity = Reservoir::empty();
+}
+catch(NotHomeException ){}
+}
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>850</x>
+      <y>380</y>
+      <w>240</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+home = isHome():boolean</panel_attributes>
+    <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>650</x>
+      <y>240</y>
+      <w>90</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;90.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>590</x>
+      <y>450</y>
+      <w>400</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>home = false</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>550</y>
+      <w>140</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+setReady()</panel_attributes>
+    <additional_attributes>10.0;30.0;50.0;30.0;50.0;10.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
