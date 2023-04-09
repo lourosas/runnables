@@ -48,7 +48,8 @@ public class Carafe implements Runnable{
    //
    //
    //
-   public void fill(double amount){
+   public void fill(double amount) throws NotHomeException{
+      /* Need to redo this completely!!!
       //System.out.println("Carafe: "+Thread.currentThread().getId());
       if(this._state == State.HOME){
          this._quantity += amount;
@@ -59,6 +60,7 @@ public class Carafe implements Runnable{
             this._quantity = this.CAPACITY;
          }
       }
+      */
    }
 
    //

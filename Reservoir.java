@@ -27,18 +27,12 @@ public class Reservoir{
    //
    //Fill up to a certain amount
    //
-   public void fill(double amount){
+   public void fill(double amount) throws OverflowException{
       this._quantity += amount;
       if(this._quantity > this.CAPACITY){
          this._quantity = this.CAPACITY;
+         throw new OverflowException("Reservoir Overflowing!!");
       }
-   }
-
-   //
-   //Fill up the entire resevior
-   //
-   public void totalFill(){
-      this.fill(this.CAPACITY);
    }
 
    //

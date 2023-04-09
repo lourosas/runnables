@@ -8,7 +8,7 @@ import java.lang.*;
 import rosas.lou.runnables.*;
 
 public class Maker implements Runnable{
-   private enum State{NOCOFFEE,BREWING,BREWED};
+   private enum State{READY,BREWING};
    private Reservoir _reservoir;
    private Carafe    _carafe;
    private Thread    _t;
@@ -18,7 +18,7 @@ public class Maker implements Runnable{
       _reservoir = null;
       _carafe    = null;
       _t         = null;
-      _state     = State.NOCOFFEE;
+      _state     = State.READY;
    };
 
    ///////////////////////////Constructors////////////////////////////
@@ -38,6 +38,7 @@ public class Maker implements Runnable{
    //
    //Brew an entire pot of coffee
    //
+   /*
    public void brewCoffee(){
       //0.  Check the current state--only brew if not currently
       //    brewing--subject to change, possibly...
@@ -51,10 +52,32 @@ public class Maker implements Runnable{
          this._t.start();
       }
    }
+   */
+
+   //
+   //
+   //
+   public void brew(double amount)throws AlreadyBrewingException{
+      //Check the current state--only brew if not currently brewing...
+      //subject to change...
+      if(!this.isBrewing()){
+         try{
+            this._reservoir.fill(amount);
+         }
+         catch(OverflowException oe){}
+         finally{
+            this.brew();
+         }
+      }
+      else{
+         throw new AlreadyBrewingException();
+      }
+   }
 
    //
    //Brew something other than a full pot
    //
+   /*
    public void brewCoffee(double amount){
       //0.  Check the current state--only brew if not currently
       //    brewing--subject to change, possibly...
@@ -62,6 +85,7 @@ public class Maker implements Runnable{
       
       }
    }
+   */
 
    //
    //
@@ -75,6 +99,42 @@ public class Maker implements Runnable{
    //
    public void returnCarafe(){}
 
+   ////////////////////////Privatte Methods///////////////////////////
+   //
+   //
+   //
+   private void brew(){
+      //1.  Set the State to State.BREWING
+      //READY-->BREWING
+      this.setBrewing();
+      //2.  Go ahead and start the thread meant for brewing...
+      //This means I need to update/create new sequence diagram for
+      //this use case...
+      //The thread starting here may be TEMPORARY until I figure out
+      //if I like it...
+      this._t.start();
+   }
+
+   //
+   //
+   //
+   //
+   private boolean isBrewing()(
+      return(this._state == State.BREWING);
+   }
+
+   //
+   //
+   //
+   private void setBrewing(){
+      this._state = State.BREWING;
+   }
+
+   //
+   //
+   //
+   private void setReady(){}
+
    //////////////////////Interface Methods////////////////////////////
    //
    //
@@ -83,6 +143,7 @@ public class Maker implements Runnable{
       //For the time being, sleep for .5 seconds!
       int sleepTime = 1000;
       try{
+         //This is definitely a redundant check...
          if(this._state == State.BREWING){  
             double amount = this._reservoir.empty(sleepTime);
             while(amount > 0){
@@ -91,7 +152,9 @@ public class Maker implements Runnable{
                System.out.println("Carafe: "+this._carafe.quantity());
                amount = this._reservoir.empty(sleepTime);
             }
-            this._state = State.BREWED;
+            //Once Done, set back to the READY state
+            //BREWING-->READY
+            this.setReady();
             System.out.println("Carafe: "+this._carafe.quantity());
          }
       }

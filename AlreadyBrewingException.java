@@ -6,16 +6,16 @@ package rosas.lou.runnables;
 import java.lang.*;
 import java.util.*;
 
-public class OverflowException extends RuntimeException{
+public class AlreadyBrewingException extends RuntimeException{
    /*
     * */
-   public OverflowException(){
-      this("Overflow Exception");
+   public AlreadyBrewingException(){
+      this("Already Brewing");
    }
 
    /*
     * */
-   public OverflowException(String message){
+   public AlreadyBrewingException(String message){
       super(message);
    }
 }
