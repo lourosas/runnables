@@ -271,7 +271,7 @@ bg=orange</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-quantity=empty():double</panel_attributes>
+quantity=empty(time:int):double</panel_attributes>
     <additional_attributes>260.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
@@ -295,7 +295,7 @@ fill(quantity:double)</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-quantity = empty():double</panel_attributes>
+quantity = empty(time:int):double</panel_attributes>
     <additional_attributes>260.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>

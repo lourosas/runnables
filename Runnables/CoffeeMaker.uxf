@@ -4,8 +4,8 @@
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>240</x>
-      <y>30</y>
+      <x>280</x>
+      <y>70</y>
       <w>80</w>
       <h>90</h>
     </coordinates>
@@ -17,8 +17,8 @@ run()</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>70</x>
-      <y>240</y>
+      <x>110</x>
+      <y>280</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -29,8 +29,8 @@ bg=blue</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>110</x>
-      <y>30</y>
+      <x>150</x>
+      <y>70</y>
       <w>190</w>
       <h>230</h>
     </coordinates>
@@ -40,8 +40,8 @@ bg=blue</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>350</x>
-      <y>230</y>
+      <x>390</x>
+      <y>270</y>
       <w>110</w>
       <h>30</h>
     </coordinates>
@@ -53,8 +53,8 @@ bg=gray
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>270</x>
-      <y>30</y>
+      <x>310</x>
+      <y>70</y>
       <w>150</w>
       <h>220</h>
     </coordinates>
@@ -64,8 +64,8 @@ bg=gray
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>160</x>
-      <y>240</y>
+      <x>200</x>
+      <y>280</y>
       <w>210</w>
       <h>40</h>
     </coordinates>
@@ -77,57 +77,60 @@ m2=*</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>380</x>
-      <y>400</y>
+      <x>420</x>
+      <y>440</y>
       <w>190</w>
-      <h>110</h>
+      <h>160</h>
     </coordinates>
     <panel_attributes>Maker
 bg=gray
 --
 --
-+brewCoffee()
-+brewCoffee(amount:int)
-+getCarafe():Carafe</panel_attributes>
++brew(amount:double)
++getCarafe():Carafe
+-brew()
+-isBrewing():boolean
+-setBrewing()
+-setReady()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>760</x>
-      <y>410</y>
+      <x>820</x>
+      <y>450</y>
       <w>250</w>
       <h>160</h>
     </coordinates>
     <panel_attributes>Carafe
 --
--CAPACITY:int {final}=32
--_quantity:int
+-CAPACITY:int =32
+-_quantity:double
 --
-+fill(amount:int)
++fill(amount:double)
 +pour(mug:Mug)
-+quantity():int</panel_attributes>
++quantity():double</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>560</x>
-      <y>410</y>
-      <w>220</w>
+      <x>600</x>
+      <y>450</y>
+      <w>240</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
 m2=1
 </panel_attributes>
-    <additional_attributes>10.0;20.0;200.0;20.0</additional_attributes>
+    <additional_attributes>10.0;20.0;220.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>820</x>
-      <y>130</y>
+      <x>860</x>
+      <y>170</y>
       <w>80</w>
       <h>90</h>
     </coordinates>
@@ -139,8 +142,8 @@ run()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>470</x>
-      <y>130</y>
+      <x>510</x>
+      <y>170</y>
       <w>410</w>
       <h>290</h>
     </coordinates>
@@ -150,19 +153,19 @@ run()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>850</x>
-      <y>130</y>
-      <w>30</w>
+      <x>890</x>
+      <y>170</y>
+      <w>50</w>
       <h>300</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;280.0</additional_attributes>
+    <additional_attributes>10.0;10.0;30.0;280.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1170</x>
-      <y>430</y>
+      <x>1210</x>
+      <y>470</y>
       <w>170</w>
       <h>130</h>
     </coordinates>
@@ -180,21 +183,21 @@ bg=red
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1000</x>
-      <y>460</y>
-      <w>190</w>
+      <x>1060</x>
+      <y>500</y>
+      <w>170</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=1</panel_attributes>
-    <additional_attributes>10.0;10.0;170.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;150.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>850</x>
-      <y>130</y>
+      <x>890</x>
+      <y>170</y>
       <w>410</w>
       <h>320</h>
     </coordinates>
@@ -204,33 +207,58 @@ m2=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>370</x>
-      <y>660</y>
-      <w>230</w>
-      <h>150</h>
+      <x>410</x>
+      <y>820</y>
+      <w>250</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>Reservoir
 --
--CAPACITY:int{final}=32
--_quantity:int
--_emptyRate:int
+-CAPACITY:int=32
+-EMPTY_RATE:double=0.5
 --
 +fill(amount:int)
-+totalFill()
-+empty(elapsedTime:int):int</panel_attributes>
++empty(elapsedTime:int):double</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>460</x>
-      <y>500</y>
+      <x>500</x>
+      <y>590</y>
       <w>40</w>
-      <h>180</h>
+      <h>250</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
 m2=1</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;160.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>180</x>
+      <y>540</y>
+      <w>120</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+State
+--
+READY
+BREWING</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>490</y>
+      <w>200</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=-
+r2=-state</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;20.0;180.0;20.0</additional_attributes>
   </element>
 </diagram>
