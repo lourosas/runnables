@@ -301,14 +301,14 @@ quantity = empty(time:int):double</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>600</x>
-      <y>500</y>
-      <w>290</w>
+      <x>350</x>
+      <y>510</y>
+      <w>540</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 NotHomeException</panel_attributes>
-    <additional_attributes>10.0;20.0;270.0;20.0</additional_attributes>
+    <additional_attributes>10.0;20.0;520.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLNote</id>
@@ -354,9 +354,9 @@ home = isHome():boolean</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>600</x>
+      <x>340</x>
       <y>450</y>
-      <w>400</w>
+      <w>660</w>
       <h>100</h>
     </coordinates>
     <panel_attributes>home = false</panel_attributes>
