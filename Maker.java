@@ -64,7 +64,10 @@ public class Maker implements Runnable{
          try{
             this._reservoir.fill(amount);
          }
-         catch(OverflowException oe){}
+         catch(OverflowException oe){
+            //oe.printStackTrace();
+            System.out.println(oe.getMessage());
+         }
          finally{
             this.brew();
          }
@@ -112,6 +115,7 @@ public class Maker implements Runnable{
       //this use case...
       //The thread starting here may be TEMPORARY until I figure out
       //if I like it...
+      System.out.println(this._t.getState());
       this._t.start();
    }
 
@@ -119,7 +123,7 @@ public class Maker implements Runnable{
    //
    //
    //
-   private boolean isBrewing()(
+   private boolean isBrewing(){
       return(this._state == State.BREWING);
    }
 
@@ -133,7 +137,9 @@ public class Maker implements Runnable{
    //
    //
    //
-   private void setReady(){}
+   private void setReady(){
+      this._state = State.READY;
+   }
 
    //////////////////////Interface Methods////////////////////////////
    //
@@ -149,7 +155,8 @@ public class Maker implements Runnable{
             while(amount > 0){
                Thread.sleep(sleepTime);
                this._carafe.fill(amount);
-               System.out.println("Carafe: "+this._carafe.quantity());
+               //System.out.println("Carafe: "+this._carafe.quantity());
+               System.out.println(Thread.currentThread().getId());
                amount = this._reservoir.empty(sleepTime);
             }
             //Once Done, set back to the READY state

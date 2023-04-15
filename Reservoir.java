@@ -28,6 +28,8 @@ public class Reservoir{
    //Fill up to a certain amount
    //
    public void fill(double amount) throws OverflowException{
+      //Test Prints
+      System.out.println("Reservoir.fill():  "+amount);
       this._quantity += amount;
       if(this._quantity > this.CAPACITY){
          this._quantity = this.CAPACITY;
