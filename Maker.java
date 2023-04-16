@@ -75,6 +75,7 @@ public class Maker implements Runnable{
    //
    public void power(boolean toPowerUp){
       this._power = toPowerUp;
+      this._t.interrupt();
    }
 
    //
@@ -126,10 +127,9 @@ public class Maker implements Runnable{
             //This is definitely a redundant check...
             if(this._state == State.BREWING){  
                double amount=this._reservoir.empty(reservoirSleepTime);
-               while(amount > 0 && this._power){
+               while(amount > 0){
                   Thread.sleep(reservoirSleepTime);
                   this._carafe.fill(amount);
-                  //System.out.println("Carafe: "+this._carafe.quantity());
                   System.out.println(Thread.currentThread().getId());
                   amount=this._reservoir.empty(reservoirSleepTime);
                }
@@ -140,7 +140,9 @@ public class Maker implements Runnable{
             }
             Thread.sleep(sleepTime);
          }
-         catch(InterruptedException ie){}
+         catch(InterruptedException ie){
+            System.out.println("Thread Interrupted, "+this._power);
+         }
       }
    }
 }
