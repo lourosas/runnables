@@ -12,12 +12,14 @@ public class Maker implements Runnable{
    private Reservoir _reservoir;
    private Carafe    _carafe;
    private Thread    _t;
+   private boolean   _power;
    private State     _state;
 
    {
       _reservoir = null;
       _carafe    = null;
       _t         = null;
+      _power     = true;
       _state     = State.READY;
    };
 
@@ -31,29 +33,12 @@ public class Maker implements Runnable{
       //REMOVE THE TEST PRINTS!!!
       //System.out.println(Thread.currentThread().getId());
       this._t = new Thread(this);
-      //this._t.start();
+      //since power is on, go ahead and start the thread...
+      //this is the POWERON (super)state
+      this._t.start();
    }
    
    ///////////////////////////Public Methods//////////////////////////
-   //
-   //Brew an entire pot of coffee
-   //
-   /*
-   public void brewCoffee(){
-      //0.  Check the current state--only brew if not currently
-      //    brewing--subject to change, possibly...
-      if(this._state != State.BREWING){
-         //1.  Fill Reservoir completely
-         this._reservoir.totalFill();
-         //2.  Set the State to State.BREWING
-         this._state = State.BREWING;
-         //Start the Thread here???
-         //This is going to be temporary until I decide where to start
-         this._t.start();
-      }
-   }
-   */
-
    //
    //
    //
@@ -78,23 +63,18 @@ public class Maker implements Runnable{
    }
 
    //
-   //Brew something other than a full pot
-   //
-   /*
-   public void brewCoffee(double amount){
-      //0.  Check the current state--only brew if not currently
-      //    brewing--subject to change, possibly...
-      if(this._state != State.BREWING){
-      
-      }
-   }
-   */
-
-   //
    //
    //
    public Carafe getCarafe(){
       return this._carafe;
+   }
+
+   //
+   //
+   //
+   //
+   public void power(boolean toPowerUp){
+      this._power = toPowerUp;
    }
 
    //
@@ -110,12 +90,6 @@ public class Maker implements Runnable{
       //1.  Set the State to State.BREWING
       //READY-->BREWING
       this.setBrewing();
-      //2.  Go ahead and start the thread meant for brewing...
-      //This means I need to update/create new sequence diagram for
-      //this use case...
-      //The thread starting here may be TEMPORARY until I figure out
-      //if I like it...
-      this._t.start();
    }
 
    //
@@ -145,26 +119,29 @@ public class Maker implements Runnable{
    //
    //
    public void run(){
-      //For the time being, sleep for .5 seconds!
-      int sleepTime = 1000;
-      try{
-         //This is definitely a redundant check...
-         if(this._state == State.BREWING){  
-            double amount = this._reservoir.empty(sleepTime);
-            while(amount > 0){
-               Thread.sleep(sleepTime);
-               this._carafe.fill(amount);
-               //System.out.println("Carafe: "+this._carafe.quantity());
-               System.out.println(Thread.currentThread().getId());
-               amount = this._reservoir.empty(sleepTime);
+      int sleepTime          = 100;
+      int reservoirSleepTime = 1000;
+      while(this._power){
+         try{
+            //This is definitely a redundant check...
+            if(this._state == State.BREWING){  
+               double amount=this._reservoir.empty(reservoirSleepTime);
+               while(amount > 0 && this._power){
+                  Thread.sleep(reservoirSleepTime);
+                  this._carafe.fill(amount);
+                  //System.out.println("Carafe: "+this._carafe.quantity());
+                  System.out.println(Thread.currentThread().getId());
+                  amount=this._reservoir.empty(reservoirSleepTime);
+               }
+               //Once Done, set back to the READY state
+               //BREWING-->READY
+               this.setReady();
+               System.out.println("Carafe: "+this._carafe.quantity());
             }
-            //Once Done, set back to the READY state
-            //BREWING-->READY
-            this.setReady();
-            System.out.println("Carafe: "+this._carafe.quantity());
+            Thread.sleep(sleepTime);
          }
+         catch(InterruptedException ie){}
       }
-      catch(InterruptedException ie){}
    }
 }
 

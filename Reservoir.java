@@ -56,6 +56,8 @@ public class Reservoir{
       }
       //4.  Subtract the amount from the quantity
       this._quantity -= amount;
+      //Test Prints
+      System.out.println("Reservoir quantity: "+this._quantity);
       //5.  Return the amount "pummped" (emptied) from the reservoir
       return amount;
    }
