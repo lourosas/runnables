@@ -115,7 +115,6 @@ public class Maker implements Runnable{
       //this use case...
       //The thread starting here may be TEMPORARY until I figure out
       //if I like it...
-      System.out.println(this._t.getState());
       this._t.start();
    }
 
