@@ -14,13 +14,13 @@ public class TestCoffeeMaker{
    public TestCoffeeMaker(){
       System.out.println("Hello World");
       Maker maker = new Maker();
-      maker.brewCoffee();
       try{
-         Thread.sleep(10000);
+         Thread.sleep(1600);
+         maker.brew(100.);
+         Thread.sleep(20550);
+         maker.brew(10.);
       }
       catch(InterruptedException ie){}
-      Carafe carafe = maker.getCarafe();
-      System.out.println("Carafe:  "+carafe);
    }
 }
 //////////////////////////////////////////////////////////////////////
