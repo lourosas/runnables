@@ -14,6 +14,8 @@ public class Maker implements Runnable{
    private Thread    _t;
    private boolean   _power;
    private State     _state;
+   //Temporary for the moment
+   private Object    _o;
 
    {
       _reservoir = null;
@@ -21,6 +23,7 @@ public class Maker implements Runnable{
       _t         = null;
       _power     = true;
       _state     = State.READY;
+      _o         = null;
    };
 
    ///////////////////////////Constructors////////////////////////////
@@ -31,6 +34,9 @@ public class Maker implements Runnable{
       this._reservoir = new Reservoir();
       //This is going to want to change, as well!!!
       this._carafe    = Carafe.instance();
+      //Two lines below may be temporary
+      this._o         = new Object();
+      this._carafe.setObject(this._o);
       //REMOVE THE TEST PRINTS!!!
       //System.out.println(Thread.currentThread().getId());
       this._t = new Thread(this);
@@ -149,6 +155,9 @@ public class Maker implements Runnable{
                      System.out.println(nhe.getMessage());
                      System.out.println("R: "+this._reservoir.quantity());
                      System.out.println("C: "+this._carafe.quantity());
+                     synchronized(this._o){
+                        this._o.wait();
+                     }
                   }
                }
                //Once Done, set back to the READY state

@@ -19,11 +19,14 @@ public class Carafe implements Runnable{
 
    private double _quantity;
    private State  _state;
+   private Object _o;
 
    {
       _quantity = 0.;
       _state    = State.HOME;
       _instance = null;
+      //This may be temporary
+      _o        = null;
    };
 
 
@@ -66,6 +69,11 @@ public class Carafe implements Runnable{
    }
 
    //
+   //This may be temporary
+   //
+   public void setObject(Object o){ this._o = o; }
+
+   //
    //
    //
    public void pour(Mug mug){}
@@ -81,7 +89,13 @@ public class Carafe implements Runnable{
    //
    //
    public void putback(){
-      this._state = State.HOME;
+      if(this._state != State.HOME){
+         this._state = State.HOME;
+         //This may be temporary...
+         synchronized(this._o){
+            this._o.notify();
+         }
+      }
    }
 
    //
