@@ -29,6 +29,7 @@ public class Maker implements Runnable{
    //
    public Maker(){
       this._reservoir = new Reservoir();
+      //This is going to want to change, as well!!!
       this._carafe    = Carafe.instance();
       //REMOVE THE TEST PRINTS!!!
       //System.out.println(Thread.currentThread().getId());
@@ -66,6 +67,9 @@ public class Maker implements Runnable{
    //
    //
    public Carafe getCarafe(){
+      //This is WRONG!!!  This is going to need to change!
+      //will need to set-up a Mutex region!
+      this._carafe.pull();
       return this._carafe;
    }
 
@@ -74,6 +78,7 @@ public class Maker implements Runnable{
    //
    //
    public void power(boolean toPowerUp){
+      //Will want to set up a mutex
       this._power = toPowerUp;
       this._t.interrupt();
    }
@@ -81,7 +86,10 @@ public class Maker implements Runnable{
    //
    //
    //
-   public void returnCarafe(){}
+   public void returnCarafe(){
+      //Will want to set up mutex
+      this._carafe.putback();
+   }
 
    ////////////////////////Privatte Methods///////////////////////////
    //
@@ -129,9 +137,19 @@ public class Maker implements Runnable{
                double amount=this._reservoir.empty(reservoirSleepTime);
                while(amount > 0){
                   Thread.sleep(reservoirSleepTime);
-                  this._carafe.fill(amount);
-                  System.out.println(Thread.currentThread().getId());
-                  amount=this._reservoir.empty(reservoirSleepTime);
+                  try{
+                     this._carafe.fill(amount);
+                     System.out.println(this._carafe);
+                     //System.out.println(Thread.currentThread().getId());
+                     System.out.println("R: "+this._reservoir.quantity());
+                     System.out.println("C: "+this._carafe.quantity());
+                     amount=this._reservoir.empty(reservoirSleepTime);
+                  }
+                  catch(NotHomeException nhe){
+                     System.out.println(nhe.getMessage());
+                     System.out.println("R: "+this._reservoir.quantity());
+                     System.out.println("C: "+this._carafe.quantity());
+                  }
                }
                //Once Done, set back to the READY state
                //BREWING-->READY

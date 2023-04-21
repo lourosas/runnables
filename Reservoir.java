@@ -59,5 +59,10 @@ public class Reservoir{
       //5.  Return the amount "pummped" (emptied) from the reservoir
       return amount;
    }
+
+   //
+   //Make this temporary...
+   //
+   public double quantity(){ return this._quantity; }
 }
 //////////////////////////////////////////////////////////////////////
