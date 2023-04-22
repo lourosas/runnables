@@ -49,9 +49,7 @@ public class Carafe implements Runnable{
    //
    //
    public void fill(double amount) throws NotHomeException{
-      /* Need to redo this completely!!!*/
-      //System.out.println("Carafe: "+Thread.currentThread().getId());
-      if(this._state == State.HOME){
+      if(this.isHome()){
          this._quantity += amount;
          if(this._quantity >= this.CAPACITY){
             if(this._quantity > this.CAPACITY){
@@ -81,7 +79,7 @@ public class Carafe implements Runnable{
    //
    //
    public void pull() throws NotHomeException{
-      if(this._state == State.HOME){
+      if(this.isHome()){
          this._state = State.PULLED;
       }
       else{
@@ -93,9 +91,8 @@ public class Carafe implements Runnable{
    //
    //
    public void putback(){
-      if(this._state != State.HOME){
-         this._state = State.HOME;
-         //This may be temporary...
+      if(!isHome()){
+         this.setHome();
          synchronized(this._o){
             this._o.notify();
          }
@@ -115,6 +112,20 @@ public class Carafe implements Runnable{
    //
    //
    private Carafe(){}
+
+   //
+   //
+   //
+   private boolean isHome(){
+      return (this._state == State.HOME);
+   }
+
+   //
+   //
+   //
+   private void setHome(){
+      this._state = State.HOME;
+   }
 
    ///////////////////////Interface Methods///////////////////////////
    //
