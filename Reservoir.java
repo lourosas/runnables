@@ -60,9 +60,5 @@ public class Reservoir{
       return amount;
    }
 
-   //
-   //Make this temporary...eventually remove...
-   //
-   public double quantity(){ return this._quantity; }
 }
 //////////////////////////////////////////////////////////////////////

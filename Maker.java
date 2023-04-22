@@ -153,16 +153,12 @@ public class Maker implements Runnable{
                      //this._carafe.fill(amount);
                      Carafe.instance().fill(amount);
                      System.out.println(Carafe.instance());
-                     //System.out.println(Thread.currentThread().getId());
-                     System.out.println("R: "+this._reservoir.quantity());
-                     System.out.println("C: "+Carafe.instance().quantity());
                      amount=this._reservoir.empty(reservoirSleepTime);
                   }
                   catch(NotHomeException nhe){
                      System.out.println(nhe.getMessage());
-                     System.out.println("R: "+this._reservoir.quantity());
-                     System.out.println("C: "+Carafe.instance().quantity());
                      synchronized(this._o){
+                        //Wait until the Carafe gets returned...
                         this._o.wait();
                      }
                   }

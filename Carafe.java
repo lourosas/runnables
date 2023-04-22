@@ -30,7 +30,6 @@ public class Carafe implements Runnable{
       _quantity = 0.;
       _state    = State.HOME;
       _instance = null;
-      //This may be temporary
       _o        = null;
    };
 
@@ -67,9 +66,11 @@ public class Carafe implements Runnable{
    }
 
    //
-   //This may be temporary
    //
-   public void setObject(Object o){ this._o = o; }
+   //
+   public void setObject(Object o){
+      this._o = o;
+   }
 
    //
    //
@@ -80,7 +81,6 @@ public class Carafe implements Runnable{
    //
    //
    public void pull() throws NotHomeException{
-      //Carafe carafe = null;
       if(this._state == State.HOME){
          this._state = State.PULLED;
       }
