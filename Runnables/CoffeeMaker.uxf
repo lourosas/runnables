@@ -88,7 +88,7 @@ bg=gray
 -_power:boolean=false
 --
 +brew(amount:double)
-+getCarafe():Carafe
++pullCarafe():Carafe
 +power(power:boolean)
 -brew()
 -isBrewing():boolean
@@ -101,8 +101,8 @@ bg=gray
     <coordinates>
       <x>740</x>
       <y>380</y>
-      <w>250</w>
-      <h>210</h>
+      <w>270</w>
+      <h>240</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Singleton&gt;&gt;
 Carafe
@@ -114,6 +114,8 @@ __-_instance:Carafe__
 __+instance():Carafe__
 +fill(amount:double)
 +pour(mug:Mug)
++pull()
++putback()
 +quantity():double
 -isHome():boolean
 -setHome()</panel_attributes>
@@ -190,15 +192,15 @@ bg=red
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>980</x>
+      <x>1000</x>
       <y>430</y>
-      <w>170</w>
+      <w>150</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=1</panel_attributes>
-    <additional_attributes>10.0;10.0;150.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;130.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -300,11 +302,11 @@ bg=orange</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>680</x>
-      <y>580</y>
+      <y>610</y>
       <w>120</w>
-      <h>150</h>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>100.0;10.0;10.0;130.0</additional_attributes>
+    <additional_attributes>100.0;10.0;10.0;100.0</additional_attributes>
   </element>
 </diagram>
