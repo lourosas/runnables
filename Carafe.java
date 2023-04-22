@@ -9,6 +9,11 @@ import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 import rosas.lou.runnables.Mug;
 
+//
+//Implements the Singleton Interface
+//
+//
+
 public class Carafe implements Runnable{
    private static Lock lock = new ReentrantLock();
    private static Carafe _instance;
@@ -38,14 +43,7 @@ public class Carafe implements Runnable{
       if(_instance == null){
          _instance = new Carafe();
       }
-      //This may have to change again!!!
-      //I definitely need to think about this
-      if(_instance._state == State.HOME){
-         return _instance;
-      }
-      else{
-         return null;
-      }
+      return _instance;
    }
 
    //
@@ -79,10 +77,16 @@ public class Carafe implements Runnable{
    public void pour(Mug mug){}
 
    //
-   //Time to think of a different way to do this...
    //
-   public void pull(){
-      this._state = State.PULLED;
+   //
+   public void pull() throws NotHomeException{
+      //Carafe carafe = null;
+      if(this._state == State.HOME){
+         this._state = State.PULLED;
+      }
+      else{
+         throw new NotHomeException();
+      }
    }
 
    //

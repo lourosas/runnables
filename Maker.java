@@ -10,7 +10,6 @@ import rosas.lou.runnables.*;
 public class Maker implements Runnable{
    private enum State{READY,BREWING};
    private Reservoir _reservoir;
-   private Carafe    _carafe;
    private Thread    _t;
    private boolean   _power;
    private State     _state;
@@ -19,7 +18,6 @@ public class Maker implements Runnable{
 
    {
       _reservoir = null;
-      _carafe    = null;
       _t         = null;
       _power     = true;
       _state     = State.READY;
@@ -33,10 +31,10 @@ public class Maker implements Runnable{
    public Maker(){
       this._reservoir = new Reservoir();
       //This is going to want to change, as well!!!
-      this._carafe    = Carafe.instance();
+      Carafe carafe = Carafe.instance();
       //Two lines below may be temporary
       this._o         = new Object();
-      this._carafe.setObject(this._o);
+      carafe.setObject(this._o);
       //REMOVE THE TEST PRINTS!!!
       //System.out.println(Thread.currentThread().getId());
       this._t = new Thread(this);
@@ -72,16 +70,6 @@ public class Maker implements Runnable{
    //
    //
    //
-   public Carafe getCarafe(){
-      //This is WRONG!!!  This is going to need to change!
-      //will need to set-up a Mutex region!
-      this._carafe.pull();
-      return this._carafe;
-   }
-
-   //
-   //
-   //
    //
    public void power(boolean toPowerUp){
       //Will want to set up a mutex
@@ -92,9 +80,27 @@ public class Maker implements Runnable{
    //
    //
    //
+   public Carafe pullCarafe(){
+      Carafe carafe = null;
+      try{
+         Carafe.instance().pull();
+         carafe = Carafe.instance();
+      }
+      catch(NotHomeException nhe){
+         //Print this for the temporary...
+         nhe.printStackTrace();
+      }
+      finally{
+         return carafe;
+      }
+   }
+
+   //
+   //
+   //
    public void returnCarafe(){
       //Will want to set up mutex
-      this._carafe.putback();
+      Carafe.instance().putback();
    }
 
    ////////////////////////Privatte Methods///////////////////////////
@@ -144,17 +150,18 @@ public class Maker implements Runnable{
                while(amount > 0){
                   Thread.sleep(reservoirSleepTime);
                   try{
-                     this._carafe.fill(amount);
-                     System.out.println(this._carafe);
+                     //this._carafe.fill(amount);
+                     Carafe.instance().fill(amount);
+                     System.out.println(Carafe.instance());
                      //System.out.println(Thread.currentThread().getId());
                      System.out.println("R: "+this._reservoir.quantity());
-                     System.out.println("C: "+this._carafe.quantity());
+                     System.out.println("C: "+Carafe.instance().quantity());
                      amount=this._reservoir.empty(reservoirSleepTime);
                   }
                   catch(NotHomeException nhe){
                      System.out.println(nhe.getMessage());
                      System.out.println("R: "+this._reservoir.quantity());
-                     System.out.println("C: "+this._carafe.quantity());
+                     System.out.println("C: "+Carafe.instance().quantity());
                      synchronized(this._o){
                         this._o.wait();
                      }
@@ -163,7 +170,7 @@ public class Maker implements Runnable{
                //Once Done, set back to the READY state
                //BREWING-->READY
                this.setReady();
-               System.out.println("Carafe: "+this._carafe.quantity());
+               System.out.println("Carafe: "+Carafe.instance().quantity());
             }
             Thread.sleep(sleepTime);
          }
