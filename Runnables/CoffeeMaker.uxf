@@ -80,7 +80,7 @@ m2=*</panel_attributes>
       <x>340</x>
       <y>370</y>
       <w>190</w>
-      <h>180</h>
+      <h>200</h>
     </coordinates>
     <panel_attributes>Maker
 bg=gray
@@ -90,6 +90,7 @@ bg=gray
 +brew(amount:double)
 +pullCarafe():Carafe
 +power(power:boolean)
++returnCarafe()
 -brew()
 -isBrewing():boolean
 -setBrewing()
@@ -102,7 +103,7 @@ bg=gray
       <x>740</x>
       <y>380</y>
       <w>270</w>
-      <h>240</h>
+      <h>270</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Singleton&gt;&gt;
 Carafe
@@ -117,6 +118,8 @@ __+instance():Carafe__
 +pull()
 +putback()
 +quantity():double
++stopPour()
+-empty(mug:Mug)
 -isHome():boolean
 -setHome()</panel_attributes>
     <additional_attributes/>
@@ -184,7 +187,6 @@ bg=red
 -SIZE:int{final}=8
 -_quantity:int
 --
-+fillCompletely()
 +fill(amount:int)
 +quantity():int</panel_attributes>
     <additional_attributes/>
@@ -234,14 +236,14 @@ m2=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>350</x>
-      <y>540</y>
+      <y>560</y>
       <w>40</w>
-      <h>230</h>
+      <h>210</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
 m2=1</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;210.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;190.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -291,22 +293,22 @@ bg=orange</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>490</x>
-      <y>540</y>
+      <y>560</y>
       <w>130</w>
-      <h>190</h>
+      <h>170</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;110.0;170.0</additional_attributes>
+    <additional_attributes>10.0;10.0;110.0;150.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>680</x>
-      <y>610</y>
+      <y>640</y>
       <w>120</w>
-      <h>120</h>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>100.0;10.0;10.0;100.0</additional_attributes>
+    <additional_attributes>100.0;10.0;10.0;70.0</additional_attributes>
   </element>
 </diagram>
