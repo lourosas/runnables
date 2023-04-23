@@ -52,11 +52,9 @@ public class Carafe implements Runnable{
    OverflowException{
       if(this.isHome()){
          this._quantity += amount;
-         if(this._quantity >= this.CAPACITY){
-            if(this._quantity > this.CAPACITY){
-               throw new OverflowException("Carafe Overfilling!");
-            }
+         if(this._quantity > this.CAPACITY){
             this._quantity = this.CAPACITY;
+            throw new OverflowException("Carafe Overfilling!");
          }
       }
       else{
