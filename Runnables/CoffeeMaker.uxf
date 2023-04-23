@@ -121,9 +121,9 @@ __+instance():Carafe__
 +stopPour()
 -empty(mug:Mug)
 -isHome():boolean
--isPouring():boolean
+-isPulled():boolean
 -setHome()
--setPouring()</panel_attributes>
+-setPulled()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
