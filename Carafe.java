@@ -18,7 +18,7 @@ public class Carafe implements Runnable{
    private static Lock lock = new ReentrantLock();
    private static Carafe _instance;
 
-   private enum State{HOME,PULLED};
+   private enum State{HOME,PULLED,POUR};
 
    private final double CAPACITY = 32.;//Set for 32 at the moment
 
@@ -72,10 +72,15 @@ public class Carafe implements Runnable{
    //
    //
    //
-   public void pour(Mug mug){
-      //Test Prints
-      System.out.println("Carafe.pour()");
-      this.empty(mug);
+   public void pour(Mug mug) throws NotPulledException{
+      if(this.isPulled()){
+         //Test Prints
+         System.out.println("Carafe.pour()");
+         this.empty(mug);
+      }
+      else{
+         throw new NotPulledException();
+      }
    }
 
    //
@@ -83,7 +88,8 @@ public class Carafe implements Runnable{
    //
    public void pull() throws NotHomeException{
       if(this.isHome()){
-         this._state = State.PULLED;
+         //this._state = State.PULLED;
+         this.setPulled();
       }
       else{
          throw new NotHomeException();
@@ -94,13 +100,21 @@ public class Carafe implements Runnable{
    //
    //
    public void putback(){
-      if(!isHome()){
+      //Only return when it is in the PULLED State, not the HOME,
+      //nor POURING States
+      if(isPulled()){
          this.setHome();
          synchronized(this._o){
             this._o.notify();
          }
       }
    }
+
+   //
+   //This will need to be modified...for now, set it up for
+   //Stubbing
+   //
+   public void stopPour(){}
 
    //
    //
@@ -126,8 +140,23 @@ public class Carafe implements Runnable{
    //
    //
    //
+   //
+   private boolean isPulled(){
+      return(this._state == State.PULLED);
+   }
+
+   //
+   //
+   //
    private void setHome(){
       this._state = State.HOME;
+   }
+
+   //
+   //
+   //
+   private void setPulled(){
+      this._state = State.PULLED;
    }
    
    //
@@ -136,6 +165,7 @@ public class Carafe implements Runnable{
    private void empty(Mug mug){
       //Test Prints
       System.out.println("Carafe.empty()");
+      System.out.println(mug);
       //mug.fill(1.);
    }
 
