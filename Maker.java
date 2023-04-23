@@ -150,8 +150,12 @@ public class Maker implements Runnable{
                while(amount > 0){
                   Thread.sleep(reservoirSleepTime);
                   try{
-                     //this._carafe.fill(amount);
-                     Carafe.instance().fill(amount);
+                     try{
+                        Carafe.instance().fill(amount);
+                     }
+                     catch(OverflowException oe){
+                        System.out.println(oe.getMessage());
+                     }
                      System.out.println(Carafe.instance());
                      amount=this._reservoir.empty(reservoirSleepTime);
                   }

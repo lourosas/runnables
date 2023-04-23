@@ -48,12 +48,13 @@ public class Carafe implements Runnable{
    //
    //
    //
-   public void fill(double amount) throws NotHomeException{
+   public void fill(double amount) throws NotHomeException,
+   OverflowException{
       if(this.isHome()){
          this._quantity += amount;
          if(this._quantity >= this.CAPACITY){
             if(this._quantity > this.CAPACITY){
-               System.out.println("Carafe Overfilling!");
+               throw new OverflowException("Carafe Overfilling!");
             }
             this._quantity = this.CAPACITY;
          }
@@ -73,7 +74,11 @@ public class Carafe implements Runnable{
    //
    //
    //
-   public void pour(Mug mug){}
+   public void pour(Mug mug){
+      //Test Prints
+      System.out.println("Carafe.pour()");
+      this.empty(mug);
+   }
 
    //
    //
@@ -125,6 +130,15 @@ public class Carafe implements Runnable{
    //
    private void setHome(){
       this._state = State.HOME;
+   }
+   
+   //
+   //
+   //
+   private void empty(Mug mug){
+      //Test Prints
+      System.out.println("Carafe.empty()");
+      //mug.fill(1.);
    }
 
    ///////////////////////Interface Methods///////////////////////////
