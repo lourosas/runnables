@@ -103,7 +103,7 @@ bg=gray
       <x>730</x>
       <y>380</y>
       <w>270</w>
-      <h>270</h>
+      <h>300</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Singleton&gt;&gt;
 Carafe
@@ -121,7 +121,9 @@ __+instance():Carafe__
 +stopPour()
 -empty(mug:Mug)
 -isHome():boolean
--setHome()</panel_attributes>
+-isPouring():boolean
+-setHome()
+-setPouring()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -276,7 +278,7 @@ r2=-state</panel_attributes>
     <id>UMLGeneric</id>
     <coordinates>
       <x>580</x>
-      <y>710</y>
+      <y>770</y>
       <w>130</w>
       <h>120</h>
     </coordinates>
@@ -295,20 +297,20 @@ bg=orange</panel_attributes>
       <x>480</x>
       <y>560</y>
       <w>130</w>
-      <h>170</h>
+      <h>230</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;110.0;150.0</additional_attributes>
+    <additional_attributes>10.0;10.0;110.0;210.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>670</x>
-      <y>640</y>
+      <y>670</y>
       <w>120</w>
-      <h>90</h>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>100.0;10.0;10.0;70.0</additional_attributes>
+    <additional_attributes>100.0;10.0;10.0;100.0</additional_attributes>
   </element>
 </diagram>
