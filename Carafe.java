@@ -7,14 +7,15 @@ import java.util.*;
 import java.lang.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
+import rosas.lou.runnables.CarafeInterface;
 import rosas.lou.runnables.Mug;
 
 //
 //Implements the Singleton Interface
-//
+//Implements the CarafeInterface Interface
 //
 
-public class Carafe implements Runnable{
+public class Carafe implements Runnable, CarafeInterface{
    private static Lock lock = new ReentrantLock();
    private static Carafe _instance;
 
@@ -65,27 +66,6 @@ public class Carafe implements Runnable{
    //
    //
    //
-   public void setObject(Object o){
-      this._o = o;
-   }
-
-   //
-   //
-   //
-   public void pour(Mug mug) throws NotPulledException{
-      if(this.isPulled()){
-         //Test Prints
-         System.out.println("Carafe.pour()");
-         this.empty(mug);
-      }
-      else{
-         throw new NotPulledException();
-      }
-   }
-
-   //
-   //
-   //
    public void pull() throws NotHomeException{
       if(this.isHome()){
          //this._state = State.PULLED;
@@ -95,7 +75,6 @@ public class Carafe implements Runnable{
          throw new NotHomeException();
       }
    }
-
    //
    //
    //
@@ -110,17 +89,19 @@ public class Carafe implements Runnable{
       }
    }
 
+
    //
-   //This will need to be modified...for now, set it up for
-   //Stubbing
+   //This may change to be an interface implentation...
    //
-   public void stopPour(){}
+   public double quantity(){
+         return this._quantity;
+   }
 
    //
    //
    //
-   public double quantity(){
-      return this._quantity;
+   public void setObject(Object o){
+      this._o = o;
    }
 
    ////////////////////////Private Methods////////////////////////////
@@ -158,7 +139,7 @@ public class Carafe implements Runnable{
    private void setPulled(){
       this._state = State.PULLED;
    }
-   
+
    //
    //
    //
@@ -170,9 +151,39 @@ public class Carafe implements Runnable{
    }
 
    ///////////////////////Interface Methods///////////////////////////
+   ///////////////////////Runnable Implementation/////////////////////
    //
    //
    //
-   public void run(){}
+   public void run(){
+      int sleepTime = 100;
+      while(true){//to change
+         try{
+            Thread.sleep(sleepTime);
+         }
+         catch(InterruptedException ie){}
+      }
+   }
+
+   ///////////CarafeInterface Implementation//////////////////////////
+   //
+   //
+   //
+   public void pour(Mug mug) throws NotPulledException{
+      if(this.isPulled()){
+         //Test Prints
+         System.out.println("Carafe.pour()");
+         this.empty(mug);
+      }
+      else{
+         throw new NotPulledException();
+      }
+   }
+
+   //
+   //This will need to be modified...for now, set it up for
+   //Stubbing
+   //
+   public void stopPour(){}
 }
 //////////////////////////////////////////////////////////////////////

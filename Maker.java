@@ -80,18 +80,20 @@ public class Maker implements Runnable{
    //
    //
    //
-   public Carafe pullCarafe(){
-      Carafe carafe = null;
+   public CarafeInterface pullCarafe(){
+      Carafe carafe                   = null;
+      CarafeInterface carafeInterface = null;
       try{
          Carafe.instance().pull();
-         carafe = Carafe.instance();
+         carafeInterface = Carafe.instance();
+         
       }
       catch(NotHomeException nhe){
          //Print this for the temporary...
          nhe.printStackTrace();
       }
       finally{
-         return carafe;
+         return carafeInterface;
       }
    }
 

@@ -5,9 +5,11 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
+import rosas.lou.runnables.*;
 
 public class Mug implements Runnable{
-   private final double SIZE = 8.0;//set the size to 8 Oz for the moment
+   //Set the size to 8 Oz. for the moment
+   private final double SIZE = 8.0;
    private double _quantity;
 
    {
@@ -24,7 +26,7 @@ public class Mug implements Runnable{
    //
    //
    //
-   public void fill(double amount){}
+   public void fill(double amount)throws OverflowException{}
 
    //
    //
