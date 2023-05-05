@@ -185,6 +185,8 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    public void pour(Mug mug) throws NotPulledException{
+      System.out.println("Carafe.pour()");
+      /*
       if(this.isPulled()){
          //Test Prints
          System.out.println("Carafe.pour()");
@@ -193,6 +195,7 @@ public class Carafe implements Runnable, CarafeInterface{
       else{
          throw new NotPulledException();
       }
+      */
    }
 
    //

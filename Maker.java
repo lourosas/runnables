@@ -81,6 +81,10 @@ public class Maker implements Runnable{
    //
    //
    public CarafeInterface pullCarafe(){
+      //Do it like this!!
+      //public void pullCarafe(){}
+      //Perhaps, it is time to implement this in an
+      //Publish-Subscribe type Design Pattern...
       Carafe carafe                   = null;
       CarafeInterface carafeInterface = null;
       try{
