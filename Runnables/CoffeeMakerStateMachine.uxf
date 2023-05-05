@@ -353,14 +353,14 @@ valign=center
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>780</x>
+      <x>760</x>
       <y>660</y>
-      <w>200</w>
+      <w>240</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-POUR</panel_attributes>
-    <additional_attributes>10.0;40.0;10.0;20.0;180.0;20.0;180.0;40.0</additional_attributes>
+START_POURING[NOT IN POUR]</panel_attributes>
+    <additional_attributes>30.0;40.0;30.0;20.0;200.0;20.0;200.0;40.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
