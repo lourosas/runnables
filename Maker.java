@@ -105,7 +105,7 @@ public class Maker implements Runnable{
       Carafe.instance().putback();
    }
 
-   ////////////////////////Privatte Methods///////////////////////////
+   ////////////////////////Private Methods////////////////////////////
    //
    //
    //
@@ -158,7 +158,7 @@ public class Maker implements Runnable{
                      catch(OverflowException oe){
                         System.out.println(oe.getMessage());
                      }
-                     System.out.println(Carafe.instance());
+                     System.out.println(Carafe.instance().quantity());
                      amount=this._reservoir.empty(reservoirSleepTime);
                   }
                   catch(NotHomeException nhe){
@@ -177,6 +177,7 @@ public class Maker implements Runnable{
             Thread.sleep(sleepTime);
          }
          catch(InterruptedException ie){
+            Carafe.instance().takeOutOfUse();
             System.out.println("Thread Interrupted, "+this._power);
          }
       }

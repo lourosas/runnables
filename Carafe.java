@@ -23,13 +23,16 @@ public class Carafe implements Runnable, CarafeInterface{
 
    private final double CAPACITY = 32.;//Set for 32 at the moment
 
-   private double _quantity;
-   private State  _state;
-   private Object _o;
+   private double   _quantity;
+   private State    _state;
+   private Thread   _t;
+   //possibly temporary for the moment
+   private Object   _o;
 
    {
       _quantity = 0.;
       _state    = State.HOME;
+      _t        = null;
       _instance = null;
       _o        = null;
    };
@@ -100,6 +103,13 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    //
+   public void takeOutOfUse(){
+      this._t.interrupt();
+   }
+
+   //
+   //
+   //
    public void setObject(Object o){
       this._o = o;
    }
@@ -109,7 +119,12 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    //
-   private Carafe(){}
+   private Carafe(){
+      this._t = new Thread(this);
+      //Somehow, will need to end this thread upon "power down" of
+      //the Coffee Maker
+      this._t.start();
+   }
 
    //
    //
@@ -156,13 +171,13 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    public void run(){
-      int sleepTime = 100;
-      while(true){//to change
-         try{
+      int sleepTime = 50;
+      try{
+         while(true){
             Thread.sleep(sleepTime);
          }
-         catch(InterruptedException ie){}
       }
+      catch(InterruptedException ie){}
    }
 
    ///////////CarafeInterface Implementation//////////////////////////
