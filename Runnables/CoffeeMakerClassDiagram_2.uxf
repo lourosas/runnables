@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="15.0.0">
+<diagram program="umlet" version="15.1">
   <zoom_level>10</zoom_level>
   <element>
     <id>UMLClass</id>
@@ -15,40 +15,54 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>230</x>
+      <x>210</x>
       <y>100</y>
-      <w>160</w>
-      <h>30</h>
+      <w>260</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>/Publisher/
-</panel_attributes>
+--
+--
+addSuscriber(:MakerSubscriber)
+removeSubscriber(:MakerSubscriber)
+notify()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>300</x>
-      <y>120</y>
+      <y>190</y>
       <w>30</w>
-      <h>160</h>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
   </element>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>890</x>
-      <y>60</y>
-      <w>200</w>
-      <h>140</h>
+      <x>900</x>
+      <y>90</y>
+      <w>180</w>
+      <h>120</h>
     </coordinates>
-    <panel_attributes>MakerObserver
+    <panel_attributes>MakerSubscriber
 --
-update(:String)
-receiveCarafe(:Carafe)
+update(:Object)
 error(:RuntimeException)
 error(:String)</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>460</x>
+      <y>100</y>
+      <w>540</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>520.0;10.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
