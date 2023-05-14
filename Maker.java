@@ -9,19 +9,21 @@ import rosas.lou.runnables.*;
 
 public class Maker implements Runnable{
    private enum State{READY,BREWING};
-   private Reservoir _reservoir;
-   private Thread    _t;
-   private boolean   _power;
-   private State     _state;
+   private List<Subscriber> _subscribers;
+   private Reservoir        _reservoir;
+   private Thread           _t;
+   private boolean          _power;
+   private State            _state;
    //Temporary for the moment
-   private Object    _o;
+   private Object           _o;
 
    {
-      _reservoir = null;
-      _t         = null;
-      _power     = true;
-      _state     = State.READY;
-      _o         = null;
+      _subscribers = null;
+      _reservoir   = null;
+      _t           = null;
+      _power       = true;
+      _state       = State.READY;
+      _o           = null;
    };
 
    ///////////////////////////Constructors////////////////////////////
@@ -44,6 +46,11 @@ public class Maker implements Runnable{
    }
    
    ///////////////////////////Public Methods//////////////////////////
+   //
+   //
+   //
+   public void addSubscriber(Subscriber subscriber){}
+   
    //
    //
    //
@@ -105,6 +112,11 @@ public class Maker implements Runnable{
    //
    //
    //
+   public void removeSubscriber(Subscriber subscriber){}
+
+   //
+   //
+   //
    public void returnCarafe(){
       //Will want to set up mutex
       Carafe.instance().putback();
@@ -131,6 +143,22 @@ public class Maker implements Runnable{
    //
    //
    //
+   private void notify(Object o){}
+
+   //
+   //
+   //
+   private void notifyError(RuntimeError error){}
+
+   //
+   //
+   //
+   //
+   private void notifyError(String error){}
+
+   //
+   //
+   //
    private void setBrewing(){
       this._state = State.BREWING;
    }
@@ -143,6 +171,7 @@ public class Maker implements Runnable{
    }
 
    //////////////////////Interface Methods////////////////////////////
+   /////////////////////Runnable Interface ///////////////////////////
    //
    //
    //
