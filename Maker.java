@@ -49,12 +49,20 @@ public class Maker implements Runnable{
    //
    //
    //
-   public void addSubscriber(Subscriber subscriber){}
+   public void addSubscriber(Subscriber subscriber){
+      try{
+         this._subscribers.add(subscriber);
+      }
+      catch(NullPointerException npe){
+         this._subscribers = new LinkedList<Subscriber>();
+         this._subscribers.add(subscriber);
+      }
+   }
    
    //
    //
    //
-   public void brew(double amount)throws AlreadyBrewingException{
+   public void brew(double amount)/*throws AlreadyBrewingException*/{
       //Check the current state--only brew if not currently brewing...
       //subject to change...
       if(!this.isBrewing()){
@@ -64,13 +72,16 @@ public class Maker implements Runnable{
          catch(OverflowException oe){
             //oe.printStackTrace();
             System.out.println(oe.getMessage());
+            this.notifyError(oe.getMessage());
          }
          finally{
             this.brew();
          }
       }
       else{
-         throw new AlreadyBrewingException();
+         //AlreadyBrewingException abe = new AlreadyBrewingException();
+         this.notifyError(new AlreadyBrewingException());
+         //throw(abe);
       }
    }
 
@@ -143,18 +154,37 @@ public class Maker implements Runnable{
    //
    //
    //
-   private void notify(Object o){}
+   private void notify(Object o){
+      Iterator<Subscriber> it = this._subscribers.iterator();
+      while(it.hasNext()){
+         Subscriber s = it.next();
+         //Do this part for now...as just part of testing...
+         s.update(o);
+      }
+   }
 
    //
    //
    //
-   private void notifyError(RuntimeError error){}
+   private void notifyError(RuntimeException exception){
+      Iterator<Subscriber> it = this._subscribers.iterator();
+      while(it.hasNext()){
+         Subscriber s = it.next();
+         s.error(exception);
+      }
+   }
 
    //
    //
    //
    //
-   private void notifyError(String error){}
+   private void notifyError(String error){
+      Iterator<Subscriber> it = this._subscribers.iterator();
+      while(it.hasNext()){
+         Subscriber s = it.next();
+         s.error(error);
+      }
+   }
 
    //
    //
