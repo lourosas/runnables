@@ -338,14 +338,15 @@ __+instance():Carafe__
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>1390</x>
+      <x>1380</x>
       <y>50</y>
-      <w>140</w>
-      <h>100</h>
+      <w>160</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>CarafeInterface
 --
 +pour(mug:Mug)
++quantity():double
 +stopPour()</panel_attributes>
     <additional_attributes/>
   </element>

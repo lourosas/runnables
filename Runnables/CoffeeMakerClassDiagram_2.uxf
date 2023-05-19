@@ -7,7 +7,7 @@
       <x>130</x>
       <y>120</y>
       <w>250</w>
-      <h>140</h>
+      <h>160</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Publisher&gt;&gt;
 Maker
@@ -16,6 +16,7 @@ Maker
 +addSubscriber(:Subscriber)
 +removeSubscriber(:Subscriber)
 -notify(:Object)
+-notify(:Object, :String)
 -notifyError(:RuntimeException)
 -notifyError(:String)</panel_attributes>
     <additional_attributes/>
@@ -37,11 +38,12 @@ Maker
       <x>780</x>
       <y>110</y>
       <w>200</w>
-      <h>120</h>
+      <h>140</h>
     </coordinates>
     <panel_attributes>Subscriber
 --
 update(:Object)
+update(:Object, :String)
 error(:RuntimeException)
 error(:String)</panel_attributes>
     <additional_attributes/>

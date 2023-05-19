@@ -94,13 +94,6 @@ public class Carafe implements Runnable, CarafeInterface{
 
 
    //
-   //This may change to be an interface implentation...
-   //
-   public double quantity(){
-         return this._quantity;
-   }
-
-   //
    //
    //
    public void takeOutOfUse(){
@@ -196,6 +189,13 @@ public class Carafe implements Runnable, CarafeInterface{
          throw new NotPulledException();
       }
       */
+   }
+
+   //
+   //This may change to be an interface implentation...
+   //
+   public double quantity(){
+      return this._quantity;
    }
 
    //

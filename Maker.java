@@ -37,8 +37,6 @@ public class Maker implements Runnable{
       //Two lines below may be temporary
       this._o         = new Object();
       carafe.setObject(this._o);
-      //REMOVE THE TEST PRINTS!!!
-      //System.out.println(Thread.currentThread().getId());
       this._t = new Thread(this);
       //since power is on, go ahead and start the thread...
       //this is the POWERON (super)state
@@ -70,8 +68,6 @@ public class Maker implements Runnable{
             this._reservoir.fill(amount);
          }
          catch(OverflowException oe){
-            //oe.printStackTrace();
-            System.out.println(oe.getMessage());
             this.notifyError(oe.getMessage());
          }
          finally{
@@ -79,9 +75,7 @@ public class Maker implements Runnable{
          }
       }
       else{
-         //AlreadyBrewingException abe = new AlreadyBrewingException();
          this.notifyError(new AlreadyBrewingException());
-         //throw(abe);
       }
    }
 
@@ -160,6 +154,17 @@ public class Maker implements Runnable{
          Subscriber s = it.next();
          //Do this part for now...as just part of testing...
          s.update(o);
+      }
+   }
+
+   //
+   //
+   //
+   private void notify(Object object, String string){
+      Iterator<Subscriber> it = this._subscribers.iterator();
+      while(it.hasNext()){
+         Subscriber s = it.next();
+         s.update(object, string);
       }
    }
 

@@ -29,6 +29,11 @@ public class MakerSubscriber implements Subscriber{
    //
    //
    //
+   public void update(Object o, String s){}
+
+   //
+   //
+   //
    public void error(RuntimeException re){
       //Temporary fix for the moment...
       System.out.println(re);

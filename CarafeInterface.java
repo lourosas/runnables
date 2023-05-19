@@ -12,7 +12,8 @@ import rosas.lou.runnables.*;
 //
 
 public interface CarafeInterface{
-   public void pour(Mug mug) throws NotPulledException;
-   public void stopPour();
+   public void   pour(Mug mug) throws NotPulledException;
+   public double quantity();
+   public void   stopPour();
 }
 //////////////////////////////////////////////////////////////////////
