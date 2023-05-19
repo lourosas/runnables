@@ -6,7 +6,7 @@ package rosas.lou.runnables;
 import java.util.*;
 import java.lang.*;
 
-public class Reservoir{
+public class Reservoir implements ReservoirInterface{
    //set it for 32 oz for the moment
    private final double CAPACITY = 32.;
    private double _quantity;
@@ -58,6 +58,13 @@ public class Reservoir{
       this._quantity -= amount;
       //5.  Return the amount "pummped" (emptied) from the reservoir
       return amount;
+   }
+
+   ///////////////////////Interface Methods///////////////////////////
+   /*
+   */
+   public double quantity(){
+      return this._quantity;
    }
 
 }
