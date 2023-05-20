@@ -152,7 +152,6 @@ public class Maker implements Runnable{
       Iterator<Subscriber> it = this._subscribers.iterator();
       while(it.hasNext()){
          Subscriber s = it.next();
-         //Do this part for now...as just part of testing...
          s.update(o);
       }
    }
@@ -178,6 +177,11 @@ public class Maker implements Runnable{
          s.error(exception);
       }
    }
+
+   //
+   //
+   //
+   private void notifyError(RuntimeException exception, Object o){}
 
    //
    //

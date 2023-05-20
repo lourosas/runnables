@@ -14,6 +14,7 @@ public interface Subscriber{
    public void update(Object o);
    public void update(Object o, String s);
    public void error(RuntimeException re);
+   public void error(RuntimeException re, Object o);
    public void error(String error);
 }
 //////////////////////////////////////////////////////////////////////

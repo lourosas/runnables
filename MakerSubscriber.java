@@ -42,6 +42,11 @@ public class MakerSubscriber implements Subscriber{
    //
    //
    //
+   public void error(RuntimeException re, Object o){}
+
+   //
+   //
+   //
    public void error(String error){
       //Temporary for the moment...but proof of concept...
       System.out.println(error);
