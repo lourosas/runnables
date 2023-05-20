@@ -412,7 +412,7 @@ home = isHome():boolean</panel_attributes>
       <x>320</x>
       <y>390</y>
       <w>1100</w>
-      <h>240</h>
+      <h>230</h>
     </coordinates>
     <panel_attributes>quantity &gt; CARAFE_CAPACITY
 --
@@ -724,5 +724,17 @@ bg=yellow</panel_attributes>
     <panel_attributes>lt=&lt;&lt;&lt;-
 update(:CarafeInterface,"carafe filled":String)</panel_attributes>
     <additional_attributes>1050.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>620</y>
+      <w>380</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+amount=empty(pumptTime:int):double</panel_attributes>
+    <additional_attributes>360.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>
