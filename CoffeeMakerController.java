@@ -7,14 +7,14 @@ import java.lang.*;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swimg.*;
+import javax.swing.*;
 import rosas.lou.runnables.*;
 
 /**/
 public class CoffeeMakerController
 implements ActionListener, KeyListener, ItemListener{
-   private Suscriber _subscriber;
-   private Maker     _maker;
+   private Subscriber _subscriber;
+   private Maker      _maker;
    
    {
       _subscriber = null;
@@ -33,7 +33,7 @@ implements ActionListener, KeyListener, ItemListener{
 
    ///////////////////////////Public Methods//////////////////////////
    /**/
-   public void addSuscriber(Subscriber subscriber){}
+   public void addSubscriber(Subscriber subscriber){}
 
    /**/
    public void addModel(Maker maker){}
