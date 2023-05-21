@@ -4,7 +4,7 @@
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>160</x>
+      <x>130</x>
       <y>10</y>
       <w>130</w>
       <h>50</h>
@@ -17,7 +17,7 @@ bg=gray</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>210</x>
+      <x>180</x>
       <y>50</y>
       <w>30</w>
       <h>910</h>
@@ -28,7 +28,7 @@ bg=gray</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>380</x>
+      <x>350</x>
       <y>10</y>
       <w>100</w>
       <h>40</h>
@@ -40,7 +40,7 @@ bg=yellow</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>420</x>
+      <x>390</x>
       <y>40</y>
       <w>30</w>
       <h>920</h>
@@ -51,7 +51,7 @@ bg=yellow</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>570</x>
+      <x>540</x>
       <y>10</y>
       <w>150</w>
       <h>40</h>
@@ -62,7 +62,7 @@ bg=yellow</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>640</x>
+      <x>610</x>
       <y>40</y>
       <w>30</w>
       <h>920</h>
@@ -73,7 +73,7 @@ bg=yellow</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>1290</x>
+      <x>1260</x>
       <y>10</y>
       <w>300</w>
       <h>40</h>
@@ -86,7 +86,7 @@ _concreteImplementations:Subscriber_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1430</x>
+      <x>1400</x>
       <y>40</y>
       <w>30</w>
       <h>920</h>
@@ -97,7 +97,7 @@ _concreteImplementations:Subscriber_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>30</x>
+      <x>0</x>
       <y>60</y>
       <w>210</w>
       <h>40</h>
@@ -109,7 +109,7 @@ ref</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>790</x>
+      <x>760</x>
       <y>10</y>
       <w>250</w>
       <h>50</h>
@@ -122,7 +122,7 @@ bg=blue</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>910</x>
+      <x>880</x>
       <y>50</y>
       <w>30</w>
       <h>890</h>
@@ -133,7 +133,7 @@ bg=blue</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>1130</x>
+      <x>1100</x>
       <y>10</y>
       <w>100</w>
       <h>50</h>
@@ -145,7 +145,7 @@ bg=red</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1170</x>
+      <x>1140</x>
       <y>50</y>
       <w>30</w>
       <h>910</h>
@@ -156,7 +156,7 @@ bg=red</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>160</x>
+      <x>130</x>
       <y>100</y>
       <w>1350</w>
       <h>820</h>
@@ -167,7 +167,7 @@ bg=red</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>170</x>
+      <x>140</x>
       <y>130</y>
       <w>1330</w>
       <h>770</h>
@@ -224,7 +224,7 @@ bg=red</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>180</x>
+      <x>150</x>
       <y>160</y>
       <w>1310</w>
       <h>660</h>
@@ -235,7 +235,7 @@ bg=red</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>210</x>
+      <x>180</x>
       <y>820</y>
       <w>240</w>
       <h>40</h>
@@ -247,7 +247,7 @@ sleep(sleepTime:int)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>210</x>
+      <x>180</x>
       <y>860</y>
       <w>240</w>
       <h>40</h>
@@ -259,7 +259,7 @@ Interrupted Exception</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>210</x>
+      <x>180</x>
       <y>170</y>
       <w>460</w>
       <h>40</h>
@@ -271,7 +271,7 @@ amount=empty(pumpTime:int):double</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>190</x>
+      <x>160</x>
       <y>200</y>
       <w>1290</w>
       <h>510</h>
@@ -282,7 +282,7 @@ amount=empty(pumpTime:int):double</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>210</x>
+      <x>180</x>
       <y>710</y>
       <w>130</w>
       <h>50</h>
@@ -294,7 +294,7 @@ setReady()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>210</x>
+      <x>180</x>
       <y>740</y>
       <w>320</w>
       <h>50</h>
@@ -306,7 +306,7 @@ notify(:CarafeInterface,"filled":String)</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>210</x>
+      <x>180</x>
       <y>780</y>
       <w>1260</w>
       <h>40</h>
@@ -317,7 +317,7 @@ notify(:CarafeInterface,"filled":String)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>210</x>
+      <x>180</x>
       <y>790</y>
       <w>1250</w>
       <h>40</h>
@@ -325,5 +325,19 @@ notify(:CarafeInterface,"filled":String)</panel_attributes>
     <panel_attributes>lt=&lt;&lt;&lt;-
 update(:CarafeInterface,"filled":String)</panel_attributes>
     <additional_attributes>1230.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>170</x>
+      <y>240</y>
+      <w>1260</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>ref0
+--
+bg=orange
+</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>
