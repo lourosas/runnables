@@ -29,21 +29,30 @@ implements ActionListener, KeyListener, ItemListener{
    public CoffeeMakerController(Subscriber sub){}
 
    /**/
-   public CoffeeMakerController(Subscriber sub, Maker maker){}
+   public CoffeeMakerController(Subscriber sub, Maker maker){
+      this.addSubscriber(sub);
+      this.addModel(maker);
+   }
 
    ///////////////////////////Public Methods//////////////////////////
    /**/
-   public void addSubscriber(Subscriber subscriber){}
+   public void addSubscriber(Subscriber subscriber){
+      this._subscriber = subscriber;
+   }
 
    /**/
-   public void addModel(Maker maker){}
+   public void addModel(Maker maker){
+      this._maker = maker;
+   }
 
    /////////////////////////Protected Methods/////////////////////////
    ///////////////////////////Private Methods/////////////////////////
    /////////////////////Interface Implementation//////////////////////
    //////////////////////////Action Listener//////////////////////////
    /**/
-   public void actionPerformed(ActionEvent e){}
+   public void actionPerformed(ActionEvent e){
+      System.out.println(e.getSource());
+   }
 
    ///////////////////////////Key Listener////////////////////////////
    /**/

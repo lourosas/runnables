@@ -55,6 +55,9 @@ public class Maker implements Runnable{
          this._subscribers = new LinkedList<Subscriber>();
          this._subscribers.add(subscriber);
       }
+      finally{
+         this.notify(new String("State: " + this._state));
+      }
    }
    
    //
