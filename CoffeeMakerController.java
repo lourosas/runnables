@@ -47,16 +47,34 @@ implements ActionListener, KeyListener, ItemListener{
 
    /////////////////////////Protected Methods/////////////////////////
    ///////////////////////////Private Methods/////////////////////////
+   /**/
+   public void handleButtonCommand(String command){
+      System.out.println(command);
+   }
+
    /////////////////////Interface Implementation//////////////////////
    //////////////////////////Action Listener//////////////////////////
    /**/
    public void actionPerformed(ActionEvent e){
-      System.out.println(e.getSource());
+      try{
+         JButton b = (JButton)e.getSource();
+         this.handleButtonCommand(b.getActionCommand());
+      }
+      catch(ClassCastException cce){}
    }
 
    ///////////////////////////Key Listener////////////////////////////
    /**/
-   public void keyPressed(KeyEvent ke){}
+   public void keyPressed(KeyEvent ke){
+      if(ke.getKeyCode() == KeyEvent.VK_ENTER){
+         try{
+            JButton b = (JButton)ke.getSource();
+            b.doClick(100);
+         }
+         catch(ClassCastException cce){}
+      }
+   }
+
    /**/
    public void keyReleased(KeyEvent ke){}
    /**/

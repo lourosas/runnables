@@ -31,22 +31,18 @@ implements Subscriber{
 
    /////////////////////////Constructors//////////////////////////////
    /**/
-   public CoffeeMakerView(){
-      this("");
+   public CoffeeMakerView(CoffeeMakerController controller){
+      this("", controller);
    }
 
    /**/
-   public CoffeeMakerView(String title){
+   public CoffeeMakerView(String title, CoffeeMakerController controller){
       super(title);
+      this._controller = controller;
       this.setUpGui();
    }
 
    ///////////////////////////Public Methods//////////////////////////
-   /**/
-   public void addController(CoffeeMakerController controller){
-      this._controller = controller;
-   }
-
    /////////////////////////Protected Methods/////////////////////////
    ///////////////////////////Private Methods/////////////////////////
    /**/
