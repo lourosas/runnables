@@ -19,13 +19,11 @@ implements Subscriber{
    private static final int WIDTH  = 700;
 
    private ButtonGroup _powerGroup;
-   private ButtonGroup _stateGroup;
    private CoffeeMakerController _controller;
 
    {
       _controller = null;
       _powerGroup = null;
-      _stateGroup = null;
       
    };
 
@@ -36,7 +34,11 @@ implements Subscriber{
    }
 
    /**/
-   public CoffeeMakerView(String title, CoffeeMakerController controller){
+   public CoffeeMakerView
+   (
+      String title,
+      CoffeeMakerController controller
+   ){
       super(title);
       this._controller = controller;
       this.setUpGui();
@@ -68,13 +70,33 @@ implements Subscriber{
    }
 
    /**/
+   private JPanel setUpCarafePanel(){
+      JPanel panel = new JPanel();
+      panel.setLayout(new BorderLayout());
+      panel.setBorder(BorderFactory.createEtchedBorder());
+      return panel;
+   }
+
+   /**/
+   private JPanel setUpCenterPanel(){
+      JPanel panel = new JPanel();
+      panel.setBorder(BorderFactory.createEtchedBorder());
+      panel.setLayout(new GridLayout(1,2,10,10));
+      panel.add(this.setUpCarafePanel());
+      panel.add(this.setUpReservoirPanel());
+      return panel;
+   }
+
+   /**/
    private void setUpGui(){
       this.setLayout(new BorderLayout());
       this.setSize(WIDTH,HEIGHT);
       this.setResizable(false);
+      JPanel centerPanel= this.setUpCenterPanel();
       JPanel northPanel = this.setUpNorthPanel();
       JPanel southPanel = this.setUpSouthPanel();
       this.getContentPane().add(northPanel, BorderLayout.NORTH);
+      this.getContentPane().add(centerPanel,BorderLayout.CENTER);
       this.getContentPane().add(southPanel, BorderLayout.SOUTH);
 
       this.setVisible(true);
@@ -85,7 +107,6 @@ implements Subscriber{
       JPanel panel = new JPanel();
       panel.setBorder(BorderFactory.createEtchedBorder());
       this._powerGroup = new ButtonGroup();
-      this._stateGroup = new ButtonGroup();
 
       JRadioButton power = new JRadioButton("Power", true);
       power.setActionCommand("Power");
@@ -109,6 +130,13 @@ implements Subscriber{
       brewing.setForeground(Color.blue);
       brewing.setEnabled(false);
       panel.add(brewing);
+      return panel;
+   }
+
+   /**/
+   private JPanel setUpReservoirPanel(){
+      JPanel panel = new JPanel();
+      panel.setBorder(BorderFactory.createEtchedBorder());
       return panel;
    }
 
