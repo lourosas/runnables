@@ -56,7 +56,9 @@ public class Maker implements Runnable{
          this._subscribers.add(subscriber);
       }
       finally{
+         //Notify the Subscribers of all the State information
          this.notify(new String("State: " + this._state));
+
       }
    }
    

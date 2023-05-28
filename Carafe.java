@@ -42,6 +42,13 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    //
+   public double capacity(){
+      return this.CAPACITY;
+   }
+
+   //
+   //
+   //
    static public Carafe instance(){
       if(_instance == null){
          _instance = new Carafe();
@@ -114,8 +121,6 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    private Carafe(){
       this._t = new Thread(this);
-      //Somehow, will need to end this thread upon "power down" of
-      //the Coffee Maker
       this._t.start();
    }
 

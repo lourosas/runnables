@@ -74,6 +74,13 @@ implements Subscriber{
       JPanel panel = new JPanel();
       panel.setLayout(new BorderLayout());
       panel.setBorder(BorderFactory.createEtchedBorder());
+      //Set up the North Part
+      JPanel northPanel = new JPanel();
+      northPanel.setBorder(BorderFactory.createEtchedBorder());
+      JLabel northLabel = new JLabel("Carafe",SwingConstants.CENTER);
+      northPanel.add(northLabel);
+      panel.add(northPanel,  BorderLayout.NORTH);
+      /////
       return panel;
    }
 

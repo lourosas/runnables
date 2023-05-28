@@ -24,6 +24,12 @@ public class Reservoir implements ReservoirInterface{
    public Reservoir(){}
 
    //////////////////////////Public Methods///////////////////////////
+   /*
+   */
+   public double capacity(){
+      return this.CAPACITY;
+   }
+
    //
    //Fill up to a certain amount
    //
