@@ -99,14 +99,40 @@ implements Subscriber{
 
    /**/
    private void setCarafeCapacity(double capacity){
-      //Need to be updated
-      System.out.println("Carafe Capacity: " + capacity);
+      //Set the Left panel
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel leftPanel = (JPanel)panel.getComponent(0);
+      JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
+      JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+      JPanel amountPanel = (JPanel)statePanel.getComponent(0);
+      JLabel cap = (JLabel)amountPanel.getComponent(1);
+      cap.setText(cap.getText()+" "+(int)capacity);
+      cap.setEnabled(true);
+      //Set the right panel
+      JPanel carafePanel = (JPanel)centerPanel.getComponent(1);
+      JProgressBar bar = (JProgressBar)carafePanel.getComponent(1);
+      bar.setMaximum((int)capacity);
+      this.getContentPane().validate();
+      this.getContentPane().repaint();
    }
 
    /**/
    private void setCarafeQuantity(double quantity){
-      //Need to be updated
-      System.out.println("Carafe Quantity: " + quantity);
+      //Set the Left Panel
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel leftPanel = (JPanel)panel.getComponent(0);
+      JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
+      JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+      JPanel amountPanel = (JPanel)statePanel.getComponent(0);
+      JLabel amountLabel = (JLabel)amountPanel.getComponent(0);
+      amountLabel.setText(amountLabel.getText()+" "+(int)quantity);
+      amountLabel.setEnabled(true);
+      //Set the Right Panel
+      JPanel carafePanel = (JPanel)centerPanel.getComponent(1);
+      JProgressBar bar = (JProgressBar)carafePanel.getComponent(1);
+      bar.setValue((int)quantity);
+      this.getContentPane().validate();
+      this.getContentPane().repaint();
    }
 
    /**/
@@ -159,7 +185,18 @@ implements Subscriber{
    private JPanel setUpCarafeCenterLeftPanel(){
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(3,1));
-      panel.add(new JPanel());//Just put up an empty panel
+
+      JPanel topPanel = new JPanel();
+      topPanel.setBorder(BorderFactory.createEtchedBorder());
+      topPanel.setLayout(new GridLayout(2,1));
+      JLabel amount = new JLabel("Amount: ");
+      amount.setEnabled(false);
+      topPanel.add(amount);
+      JLabel capacity = new JLabel("Capacity: ");
+      capacity.setEnabled(false);
+      topPanel.add(capacity);
+      panel.add(topPanel);//Just put up an empty panel
+
       JPanel centerPanel = new JPanel();
       centerPanel.setLayout(new GridLayout(3,1));
       centerPanel.setBorder(BorderFactory.createEtchedBorder());
@@ -176,20 +213,29 @@ implements Subscriber{
       pouring.setEnabled(false);
       centerPanel.add(pouring);
       panel.add(centerPanel);
-      panel.add(new JPanel());//Just put in another empty panel
+
+      panel.add(new JPanel());//Just put in an empty panel
       return panel;
    }
 
    /**/
    private JPanel setUpCarafeCenterRightPanel(){
       JPanel panel = new JPanel();
+      panel.setLayout(new BorderLayout());
       panel.setBorder(BorderFactory.createEtchedBorder());
+      //North Panel
+      JPanel northPanel = new JPanel();
+      JLabel amountLabel = new JLabel(" ");
+      northPanel.add(amountLabel);
+      panel.add(northPanel, BorderLayout.NORTH);
+      //Center Panel
       //This will need to be updated (upper and lower limits) based on
       //the initialization of the Model (Coffee Maker)...
       JProgressBar carafeAmount =
-                     new JProgressBar(SwingConstants.VERTICAL, 0, 32);
+                new JProgressBar(SwingConstants.VERTICAL, 0, 32);
       carafeAmount.setValue(carafeAmount.getMinimum());
-      panel.add(carafeAmount);
+      carafeAmount.setStringPainted(true);
+      panel.add(carafeAmount, BorderLayout.CENTER);
       return panel;
    }
 
@@ -214,7 +260,6 @@ implements Subscriber{
       this.getContentPane().add(northPanel, BorderLayout.NORTH);
       this.getContentPane().add(centerPanel,BorderLayout.CENTER);
       this.getContentPane().add(southPanel, BorderLayout.SOUTH);
-
       this.setVisible(true);
    }
 
