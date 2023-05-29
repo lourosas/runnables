@@ -392,7 +392,16 @@ implements Subscriber{
       topPanel.add(capacity);
       panel.add(topPanel);
       
-      panel.add(new JPanel());
+      //Add a "Fill" JButton
+      JPanel centerPanel = new JPanel();
+      centerPanel.setBorder(BorderFactory.createEtchedBorder());
+      JButton fill = new JButton("Fill");
+      fill.setActionCommand("Reservoir Fill");
+      fill.addActionListener(this._controller);
+      fill.addKeyListener(this._controller);
+      centerPanel.add(fill);
+      panel.add(centerPanel);
+
       panel.add(new JPanel());
       return panel;
    }
