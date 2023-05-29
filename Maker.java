@@ -56,8 +56,9 @@ public class Maker implements Runnable{
          this._subscribers.add(subscriber);
       }
       finally{
-         //Notify the Subscribers of all the State information
-         this.notify(new String("State: " + this._state));
+         this.notifyOfState();
+         this.notifyCarafeStartupStatus();
+         this.notifyReservoirStartupStatus();
 
       }
    }
@@ -191,7 +192,6 @@ public class Maker implements Runnable{
    //
    //
    //
-   //
    private void notifyError(String error){
       Iterator<Subscriber> it = this._subscribers.iterator();
       while(it.hasNext()){
@@ -199,6 +199,47 @@ public class Maker implements Runnable{
          s.error(error);
       }
    }
+
+   //
+   //
+   //
+   private void notifyCarafeStatus(){
+      if(Carafe.instance().isHome()){
+         this.notify(new String("Home "), new String("Carafe State"));
+      }
+      else if(Carafe.instance().isPulled()){
+         this.notify(new String("Pulled "),
+                                          new String("Carafe State"));
+      }
+      else if(Carafe.instance().isPouring()){
+         this.notify(new String("Pouring "),
+                                          new String("Carafe State"));
+      }
+      Double quantity = Double.valueOf(Carafe.instance().quantity());
+      this.notify(quantity, new String("Carafe Quantity"));
+   }
+
+   //
+   //Get the current state of the Carafe and notify
+   //
+   private void notifyCarafeStartupStatus(){
+      Double capacity = Double.valueOf(Carafe.instance().capacity());
+      this.notify(capacity, new String("Carafe Capacity"));
+      this.notifyCarafeStatus();
+   }
+
+
+   //
+   //Notify the Subscribers of all the State information
+   //
+   private void notifyOfState(){
+      this.notify(new String("State: ") + this._state);
+   }
+
+   //
+   //
+   //
+   private void notifyReservoirStartupStatus(){}
 
    //
    //

@@ -48,6 +48,34 @@ implements Subscriber{
    /////////////////////////Protected Methods/////////////////////////
    ///////////////////////////Private Methods/////////////////////////
    /**/
+   private void handleCarafeUpdates(Object o, String s){
+      String carafeType = s.split(" ")[1];
+      if(carafeType.toUpperCase().equals("STATE")){
+         try{
+            String state = (String)o;
+            this.setCarafeState(state);
+         }
+         catch(ClassCastException cce){}
+      }
+      else if(carafeType.toUpperCase().equals("CAPACITY")){
+         try{
+            Double cap = (Double)o;
+            double capacity = cap.doubleValue();
+            this.setCarafeCapacity(capacity);
+         }
+         catch(ClassCastException cce){}
+      }
+      else if(carafeType.toUpperCase().equals("QUANTITY")){
+         try{
+            Double quant    = (Double)o;
+            double quantity = quant.doubleValue();
+            this.setCarafeQuantity(quantity);
+         }
+         catch(ClassCastException cce){}
+      }
+   }
+
+   /**/
    private void handleMessage(String message){
       if(message.contains("State:")){
          this.reflectStateString(message.split(" ")[1]);
@@ -70,6 +98,42 @@ implements Subscriber{
    }
 
    /**/
+   private void setCarafeCapacity(double capacity){
+      //Need to be updated
+      System.out.println("Carafe Capacity: " + capacity);
+   }
+
+   /**/
+   private void setCarafeQuantity(double quantity){
+      //Need to be updated
+      System.out.println("Carafe Quantity: " + quantity);
+   }
+
+   /**/
+   private void setCarafeState(String state){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel leftPanel = (JPanel)panel.getComponent(0);
+      JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
+      JPanel statePanel  = (JPanel)centerPanel.getComponent(0);
+      JPanel indicatorPanel = (JPanel)statePanel.getComponent(1);
+      JLabel in   = (JLabel)indicatorPanel.getComponent(0);
+      JLabel out  = (JLabel)indicatorPanel.getComponent(1);
+      JLabel pour = (JLabel)indicatorPanel.getComponent(2);
+      in.setEnabled(false);
+      out.setEnabled(false);
+      pour.setEnabled(false);
+      if(state.trim().toUpperCase().equals("HOME")){
+         in.setEnabled(true);
+      }
+      else if(state.trim().toUpperCase().equals("PULLED")){
+         out.setEnabled(true);
+      }
+      else if(state.trim().toUpperCase().equals("POURING")){
+         pour.setEnabled(true);
+      }
+   }
+
+   /**/
    private JPanel setUpCarafePanel(){
       JPanel panel = new JPanel();
       panel.setLayout(new BorderLayout());
@@ -81,6 +145,51 @@ implements Subscriber{
       northPanel.add(northLabel);
       panel.add(northPanel,  BorderLayout.NORTH);
       /////
+      JPanel centerPanel = new JPanel();
+      centerPanel.setLayout(new GridLayout(1,2));
+      JPanel centerLeft = this.setUpCarafeCenterLeftPanel();
+      centerPanel.add(centerLeft);
+      JPanel centerRight = this.setUpCarafeCenterRightPanel();
+      centerPanel.add(centerRight);
+      panel.add(centerPanel, BorderLayout.CENTER);
+      return panel;
+   }
+
+   /**/
+   private JPanel setUpCarafeCenterLeftPanel(){
+      JPanel panel = new JPanel();
+      panel.setLayout(new GridLayout(3,1));
+      panel.add(new JPanel());//Just put up an empty panel
+      JPanel centerPanel = new JPanel();
+      centerPanel.setLayout(new GridLayout(3,1));
+      centerPanel.setBorder(BorderFactory.createEtchedBorder());
+      JLabel in = new JLabel("In");
+      in.setForeground(Color.blue);
+      in.setEnabled(false);
+      centerPanel.add(in);
+      JLabel out = new JLabel("Out");
+      out.setForeground(Color.orange);
+      out.setEnabled(false);
+      centerPanel.add(out);
+      JLabel pouring = new JLabel("Pouring");
+      pouring.setForeground(Color.red);
+      pouring.setEnabled(false);
+      centerPanel.add(pouring);
+      panel.add(centerPanel);
+      panel.add(new JPanel());//Just put in another empty panel
+      return panel;
+   }
+
+   /**/
+   private JPanel setUpCarafeCenterRightPanel(){
+      JPanel panel = new JPanel();
+      panel.setBorder(BorderFactory.createEtchedBorder());
+      //This will need to be updated (upper and lower limits) based on
+      //the initialization of the Model (Coffee Maker)...
+      JProgressBar carafeAmount =
+                     new JProgressBar(SwingConstants.VERTICAL, 0, 32);
+      carafeAmount.setValue(carafeAmount.getMinimum());
+      panel.add(carafeAmount);
       return panel;
    }
 
@@ -195,7 +304,11 @@ implements Subscriber{
    }
 
    /**/
-   public void update(Object o, String s){}
+   public void update(Object o, String s){
+      if(s.contains("Carafe ")){
+         this.handleCarafeUpdates(o, s);
+      }
+   }
 
    /**/
    public void error(RuntimeException re){}

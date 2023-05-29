@@ -76,6 +76,28 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    //
+   public boolean isHome(){
+      return (this._state == State.HOME);
+   }
+
+   //
+   //
+   //
+   public boolean isPulled(){
+      return (this._state == State.PULLED);
+   }
+
+   //
+   //
+   //
+   public boolean isPouring(){
+      return (this._state == State.POUR);
+   }
+
+
+   //
+   //
+   //
    public void pull() throws NotHomeException{
       if(this.isHome()){
          //this._state = State.PULLED;
@@ -122,21 +144,6 @@ public class Carafe implements Runnable, CarafeInterface{
    private Carafe(){
       this._t = new Thread(this);
       this._t.start();
-   }
-
-   //
-   //
-   //
-   private boolean isHome(){
-      return (this._state == State.HOME);
-   }
-
-   //
-   //
-   //
-   //
-   private boolean isPulled(){
-      return(this._state == State.PULLED);
    }
 
    //
