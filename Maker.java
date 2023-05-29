@@ -239,7 +239,19 @@ public class Maker implements Runnable{
    //
    //
    //
-   private void notifyReservoirStartupStatus(){}
+   private void notifyReservoirStatus(){
+      Double quantity = Double.valueOf(this._reservoir.quantity());
+      this.notify(quantity, new String("Reservoir Quantity"));
+   }
+
+   //
+   //
+   //
+   private void notifyReservoirStartupStatus(){
+      Double capacity = Double.valueOf(this._reservoir.capacity());
+      this.notify(capacity,new String("Reservoir Capacity"));
+      this.notifyReservoirStatus();
+   }
 
    //
    //

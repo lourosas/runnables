@@ -83,6 +83,27 @@ implements Subscriber{
    }
 
    /**/
+   private void handleReservoirUpdates(Object o, String s){
+      String message = s.split(" ")[1];
+      if(message.toUpperCase().equals("CAPACITY")){
+         try{
+            Double cap = (Double)o;
+            double capacity = cap.doubleValue();
+            this.setReservoirCapacity(capacity);
+         }
+         catch(ClassCastException cce){}
+      }
+      else if(message.toUpperCase().equals("QUANTITY")){
+         try{
+            Double quant = (Double)o;
+            double quantity = quant.doubleValue();
+            this.setReservoirQuantity(quantity);
+         }
+         catch(ClassCastException cce){}
+      }
+   }
+
+   /**/
    private void reflectStateString(String state){
       int readyLabelNumber   = 2;
       int brewingLabelNumber = 3;
@@ -195,7 +216,7 @@ implements Subscriber{
       JLabel capacity = new JLabel("Capacity: ");
       capacity.setEnabled(false);
       topPanel.add(capacity);
-      panel.add(topPanel);//Just put up an empty panel
+      panel.add(topPanel);
 
       JPanel centerPanel = new JPanel();
       centerPanel.setLayout(new GridLayout(3,1));
@@ -217,6 +238,45 @@ implements Subscriber{
       panel.add(new JPanel());//Just put in an empty panel
       return panel;
    }
+   
+   /**/
+   private void setReservoirCapacity(double capacity){
+      //Set Left Panel
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel rightPanel = (JPanel)panel.getComponent(1);
+      JPanel centerPanel = (JPanel)rightPanel.getComponent(1);
+      JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+      JPanel amountPanel = (JPanel)statePanel.getComponent(0);
+      JLabel cap = (JLabel)amountPanel.getComponent(1);
+      cap.setText(cap.getText()+" "+(int)capacity);
+      cap.setEnabled(true);
+      //Set Right Panel
+      JPanel reservoirPanel = (JPanel)centerPanel.getComponent(1);
+      JProgressBar bar = (JProgressBar)reservoirPanel.getComponent(1);
+      bar.setMaximum((int)capacity);
+      this.getContentPane().validate();
+      this.getContentPane().repaint();
+   }
+
+   /**/
+   private void setReservoirQuantity(double quantity){
+      //Set Left Panel
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel rightPanel = (JPanel)panel.getComponent(1);
+      JPanel centerPanel = (JPanel)rightPanel.getComponent(1);
+      JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+      JPanel amountPanel = (JPanel)statePanel.getComponent(0);
+      JLabel amountLabel = (JLabel)amountPanel.getComponent(0);
+      amountLabel.setText(amountLabel.getText()+" "+(int)quantity);
+      amountLabel.setEnabled(true);
+      //Set Right Panel
+      JPanel carafePanel = (JPanel)centerPanel.getComponent(1);
+      JProgressBar bar = (JProgressBar)carafePanel.getComponent(1);
+      bar.setValue((int)quantity);
+      this.getContentPane().validate();
+      this.getContentPane().repaint();
+   }
+
 
    /**/
    private JPanel setUpCarafeCenterRightPanel(){
@@ -298,6 +358,65 @@ implements Subscriber{
    private JPanel setUpReservoirPanel(){
       JPanel panel = new JPanel();
       panel.setBorder(BorderFactory.createEtchedBorder());
+      panel.setLayout(new BorderLayout());
+      //Set up North Part
+      JPanel northPanel = new JPanel();
+      northPanel.setBorder(BorderFactory.createEtchedBorder());
+      JLabel northLabel = new JLabel("Reservoir",SwingConstants.CENTER);
+      northPanel.add(northLabel);
+      panel.add(northPanel,  BorderLayout.NORTH);
+      //Set up the Center Part
+      JPanel centerPanel = new JPanel();
+      centerPanel.setLayout(new GridLayout(1,2));
+      JPanel centerLeft = this.setUpReservoirCenterLeftPanel();
+      centerPanel.add(centerLeft);
+      JPanel centerRight = this.setUpReservoirCenterRightPanel();
+      centerPanel.add(centerRight);
+      panel.add(centerPanel,  BorderLayout.CENTER);
+      return panel;
+   }
+
+   /**/
+   private JPanel setUpReservoirCenterLeftPanel(){
+      JPanel panel = new JPanel();
+      panel.setLayout(new GridLayout(3,1));
+
+      JPanel topPanel = new JPanel();
+      topPanel.setBorder(BorderFactory.createEtchedBorder());
+      topPanel.setLayout(new GridLayout(2,1));
+      JLabel amount = new JLabel("Amount: ");
+      amount.setEnabled(false);
+      topPanel.add(amount);
+      JLabel capacity = new JLabel("Capacity: ");
+      capacity.setEnabled(false);
+      topPanel.add(capacity);
+      panel.add(topPanel);
+      
+      panel.add(new JPanel());
+      panel.add(new JPanel());
+      return panel;
+   }
+
+   /**/
+   private JPanel setUpReservoirCenterRightPanel(){
+      JPanel panel = new JPanel();
+      panel.setLayout(new BorderLayout());
+      panel.setBorder(BorderFactory.createEtchedBorder());
+
+      //North Panel
+      JPanel northPanel = new JPanel();
+      JLabel northLabel = new JLabel(" ");
+      northPanel.add(northLabel);
+      panel.add(northPanel, BorderLayout.NORTH);
+
+      //Center Panel
+      //This will need to be updated (upper and lower limits) based on
+      //the initialization of the Model (Coffee Maker)...
+      JProgressBar bar=new JProgressBar(SwingConstants.VERTICAL,0,32);
+      bar.setValue(bar.getMinimum());
+      bar.setStringPainted(true);
+      panel.add(bar, BorderLayout.CENTER);
+
       return panel;
    }
 
@@ -352,6 +471,9 @@ implements Subscriber{
    public void update(Object o, String s){
       if(s.contains("Carafe ")){
          this.handleCarafeUpdates(o, s);
+      }
+      else if(s.contains("Reservoir ")){
+         this.handleReservoirUpdates(o, s);
       }
    }
 
