@@ -48,8 +48,50 @@ implements ActionListener, KeyListener, ItemListener{
    /////////////////////////Protected Methods/////////////////////////
    ///////////////////////////Private Methods/////////////////////////
    /**/
-   public void handleButtonCommand(String command){
-      System.out.println(command);
+   private void handleButtonCommand(String command){
+      if(command.toUpperCase().equals("RESERVOIR FILL")){
+         this.reservoirFill();
+      }
+   }
+
+   /**/
+   private void reservoirFill(){
+      Double amount  = null;
+      String s       = null;
+      boolean toLoop = true;
+      do{
+         try{
+            s = JOptionPane.showInputDialog(
+                   null,
+                   "Fill Amount",
+                   "Fillint the Reservoir for Brewing",
+                   JOptionPane.QUESTION_MESSAGE);
+            System.out.println("String: "+s);
+            amount = Double.parseDouble(s);
+            System.out.println("Amount: "+s);
+            toLoop = false;
+         }
+         catch(HeadlessException he){
+            he.printStackTrace();
+         }
+         catch(NullPointerException npe){
+            toLoop = false;
+         }
+         catch(NumberFormatException nfe){
+            //alert the user to input a number
+            //Show an error dialog
+            if(s.length() > 0){
+               JOptionPane.showMessageDialog(
+                  null,
+                  "Please Enter a Number",
+                  "Error",
+                  JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+               toLoop = false;
+            }
+         }
+      }while(toLoop);
    }
 
    /////////////////////Interface Implementation//////////////////////
@@ -69,7 +111,7 @@ implements ActionListener, KeyListener, ItemListener{
       if(ke.getKeyCode() == KeyEvent.VK_ENTER){
          try{
             JButton b = (JButton)ke.getSource();
-            b.doClick(100);
+            b.doClick(130);
          }
          catch(ClassCastException cce){}
       }
