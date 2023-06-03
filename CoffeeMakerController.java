@@ -62,13 +62,12 @@ implements ActionListener, KeyListener, ItemListener{
       do{
          try{
             s = JOptionPane.showInputDialog(
-                   null,
+                   (JFrame)this._subscriber,
                    "Fill Amount",
                    "Fillint the Reservoir for Brewing",
                    JOptionPane.QUESTION_MESSAGE);
-            System.out.println("String: "+s);
-            amount = Double.parseDouble(s);
-            System.out.println("Amount: "+s);
+            //amount = Double.parseDouble(s);
+            this._maker.fillReservoir(Double.parseDouble(s));
             toLoop = false;
          }
          catch(HeadlessException he){
@@ -82,7 +81,7 @@ implements ActionListener, KeyListener, ItemListener{
             //Show an error dialog
             if(s.length() > 0){
                JOptionPane.showMessageDialog(
-                  null,
+                  (JFrame)this._subscriber,
                   "Please Enter a Number",
                   "Error",
                   JOptionPane.ERROR_MESSAGE);

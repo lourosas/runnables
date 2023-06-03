@@ -74,7 +74,7 @@ public class Maker implements Runnable{
             this._reservoir.fill(amount);
          }
          catch(OverflowException oe){
-            this.notifyError(oe.getMessage());
+            this.notifyError(oe);
          }
          finally{
             this.brew();
@@ -82,6 +82,22 @@ public class Maker implements Runnable{
       }
       else{
          this.notifyError(new AlreadyBrewingException());
+      }
+   }
+
+   //
+   //
+   //
+   public void fillReservoir(double amount){
+      try{
+         this._reservoir.fill(amount);
+      }
+      catch(OverflowException oe){
+         this.notifyError(oe);
+      }
+      finally{
+         //Notify how full the Reservoir is...
+         this.notifyReservoirStatus();
       }
    }
 
