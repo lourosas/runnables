@@ -83,6 +83,14 @@ implements Subscriber{
    }
 
    /**/
+   private void handleOverflowExceptions(OverflowException oe){
+      JOptionPane.showMessageDialog(this,
+                                    oe.getMessage(),
+                                    "Overflow Exception",
+                                    JOptionPane.WARNING_MESSAGE);
+   }
+
+   /**/
    private void handleReservoirUpdates(Object o, String s){
       String message = s.split(" ")[1];
       if(message.toUpperCase().equals("CAPACITY")){
@@ -489,7 +497,13 @@ implements Subscriber{
    }
 
    /**/
-   public void error(RuntimeException re){}
+   public void error(RuntimeException re){
+      try{
+         OverflowException oe = (OverflowException)re;
+         this.handleOverflowExceptions(oe);
+      }
+      catch(ClassCastException cce){}
+   }
 
    /**/
    public void error(RuntimeException re, Object o){}
