@@ -52,6 +52,9 @@ implements ActionListener, KeyListener, ItemListener{
       if(command.toUpperCase().equals("RESERVOIR FILL")){
          this.reservoirFill();
       }
+      else if(command.toUpperCase().equals("BREW")){
+         this._maker.brew();
+      }
    }
 
    /**/

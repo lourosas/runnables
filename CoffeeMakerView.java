@@ -76,6 +76,21 @@ implements Subscriber{
    }
 
    /**/
+   private void handleEmptyReservoirException
+   (
+      EmptyReservoirException ere
+   ){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel rightPanel = (JPanel)panel.getComponent(1);
+      JPanel centerPanel = (JPanel)rightPanel.getComponent(1);
+      JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+      JPanel buttonPanel = (JPanel)statePanel.getComponent(1);
+      JButton fill = (JButton)buttonPanel.getComponent(0);
+      fill.doClick();
+
+   }
+
+   /**/
    private void handleMessage(String message){
       if(message.contains("State:")){
          this.reflectStateString(message.split(" ")[1]);
@@ -501,6 +516,11 @@ implements Subscriber{
       try{
          OverflowException oe = (OverflowException)re;
          this.handleOverflowExceptions(oe);
+      }
+      catch(ClassCastException cce){}
+      try{
+         EmptyReservoirException ere = (EmptyReservoirException)re;
+         this.handleEmptyReservoirException(ere);
       }
       catch(ClassCastException cce){}
    }

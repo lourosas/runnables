@@ -62,11 +62,37 @@ public class Maker implements Runnable{
 
       }
    }
+
+   //
+   //
+   //
+   //
+   public void brew(){
+      final double EMPTY = 0.25;//Minisule amount
+      //Check the current state--only brew if not currently brewing...
+      //subject to change...
+      if(!this.isBrewing()){
+         //Check the Reservoir...notfiy if empty
+         if(this._reservoir.quantity() <= EMPTY){
+            this.notifyError(new EmptyReservoirException());
+            //Somehow, once reservoir is filled, need to start...
+         }
+         else{
+            //Set the State to State.BRESING
+            //READY->BREWING
+            this.setBrewing();
+         }
+      }
+      else{
+         this.notifyError(new AlreadyBrewingException());
+      } 
+   }
    
    //
    //
    //
-   public void brew(double amount)/*throws AlreadyBrewingException*/{
+   /*
+   public void brew(double amount){
       //Check the current state--only brew if not currently brewing...
       //subject to change...
       if(!this.isBrewing()){
@@ -84,6 +110,7 @@ public class Maker implements Runnable{
          this.notifyError(new AlreadyBrewingException());
       }
    }
+   */
 
    //
    //
@@ -153,11 +180,13 @@ public class Maker implements Runnable{
    //
    //
    //
+   /*
    private void brew(){
       //1.  Set the State to State.BREWING
       //READY-->BREWING
       this.setBrewing();
    }
+   */
 
    //
    //
