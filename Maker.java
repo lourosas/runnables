@@ -80,7 +80,8 @@ public class Maker implements Runnable{
          else{
             //Set the State to State.BRESING
             //READY->BREWING
-            this.setBrewing();
+            //this.setBrewing();
+            System.out.println("READY->BREWING");
          }
       }
       else{

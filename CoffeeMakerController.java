@@ -69,7 +69,6 @@ implements ActionListener, KeyListener, ItemListener{
                    "Fill Amount",
                    "Fillint the Reservoir for Brewing",
                    JOptionPane.QUESTION_MESSAGE);
-            //amount = Double.parseDouble(s);
             this._maker.fillReservoir(Double.parseDouble(s));
             toLoop = false;
          }

@@ -80,6 +80,7 @@ implements Subscriber{
    (
       EmptyReservoirException ere
    ){
+      /*
       JPanel panel = (JPanel)this.getContentPane().getComponent(1);
       JPanel rightPanel = (JPanel)panel.getComponent(1);
       JPanel centerPanel = (JPanel)rightPanel.getComponent(1);
@@ -87,6 +88,14 @@ implements Subscriber{
       JPanel buttonPanel = (JPanel)statePanel.getComponent(1);
       JButton fill = (JButton)buttonPanel.getComponent(0);
       fill.doClick();
+      */
+      //For the time being, I am going to make it easy
+      //Just alert the Reservoir needs filling for the time
+      //being...then, address after this completion...
+      JOptionPane.showMessageDialog(this,
+                                    "Please Fill The Reservoir!",
+                                    "Fill the Reservoir",
+                                    JOptionPane.WARNING_MESSAGE);
 
    }
 
