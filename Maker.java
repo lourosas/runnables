@@ -9,13 +9,13 @@ import rosas.lou.runnables.*;
 
 public class Maker implements Runnable{
    private enum State{READY,BREWING};
-   private enum ReadySubstate{NOT_FILLED, FILLED};
+   private enum ReservoirSubstate{EMPTY, CANCELED, FILLED};
    private List<Subscriber> _subscribers;
    private Reservoir        _reservoir;
    private Thread           _t;
    private boolean          _power;
    private State            _state;
-   private ReadySubstate    _readySub;
+   private ReservoirSubstate _resSub;
    //Temporary for the moment
    private Object           _o;
 
@@ -25,7 +25,7 @@ public class Maker implements Runnable{
       _t           = null;
       _power       = true;
       _state       = State.READY;
-      _readySub    = ReadySubstate.NOT_FILLED;
+      _resSub      = ReservoirSubstate.EMPTY;
       _o           = null;
    };
 
@@ -120,8 +120,13 @@ public class Maker implements Runnable{
    //
    //
    public void fillReservoir(double amount){
+      final double EMPTY = 0.25;
+      this._resSub = ReservoirState.EMPTY;
       try{
          this._reservoir.fill(amount);
+         if(this._reservoir.quantity() > EMPTY){
+            this._resSub = ReservoirState.FILLED;
+         }
       }
       catch(OverflowException oe){
          this.notifyError(oe);
