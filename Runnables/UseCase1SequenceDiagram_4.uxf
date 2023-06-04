@@ -5,7 +5,7 @@
     <id>UMLActor</id>
     <coordinates>
       <x>40</x>
-      <y>20</y>
+      <y>0</y>
       <w>120</w>
       <h>110</h>
     </coordinates>
@@ -16,7 +16,7 @@
     <id>Relation</id>
     <coordinates>
       <x>90</x>
-      <y>50</y>
+      <y>30</y>
       <w>30</w>
       <h>870</h>
     </coordinates>
@@ -27,7 +27,7 @@
     <id>UMLGeneric</id>
     <coordinates>
       <x>280</x>
-      <y>20</y>
+      <y>0</y>
       <w>130</w>
       <h>50</h>
     </coordinates>
@@ -40,7 +40,7 @@ bg=gray</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>330</x>
-      <y>60</y>
+      <y>40</y>
       <w>30</w>
       <h>840</h>
     </coordinates>
@@ -51,7 +51,7 @@ bg=gray</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>540</x>
-      <y>50</y>
+      <y>30</y>
       <w>30</w>
       <h>920</h>
     </coordinates>
@@ -62,7 +62,7 @@ bg=gray</panel_attributes>
     <id>UMLGeneric</id>
     <coordinates>
       <x>500</x>
-      <y>20</y>
+      <y>0</y>
       <w>100</w>
       <h>40</h>
     </coordinates>
@@ -74,7 +74,7 @@ bg=yellow</panel_attributes>
     <id>UMLFrame</id>
     <coordinates>
       <x>280</x>
-      <y>70</y>
+      <y>50</y>
       <w>300</w>
       <h>70</h>
     </coordinates>
@@ -86,7 +86,7 @@ bg=pink</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>330</x>
-      <y>70</y>
+      <y>50</y>
       <w>240</w>
       <h>40</h>
     </coordinates>
@@ -98,7 +98,7 @@ ctor()</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>330</x>
-      <y>90</y>
+      <y>70</y>
       <w>240</w>
       <h>40</h>
     </coordinates>
@@ -110,7 +110,7 @@ start()</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>330</x>
-      <y>110</y>
+      <y>90</y>
       <w>240</w>
       <h>40</h>
     </coordinates>
@@ -122,19 +122,19 @@ run()</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>90</x>
-      <y>140</y>
+      <y>120</y>
       <w>270</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-brew(amount:double)</panel_attributes>
+brew()</panel_attributes>
     <additional_attributes>250.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>330</x>
-      <y>160</y>
+      <y>140</y>
       <w>210</w>
       <h>50</h>
     </coordinates>
@@ -147,9 +147,9 @@ isBrewing():boolean</panel_attributes>
     <id>UMLFrame</id>
     <coordinates>
       <x>50</x>
-      <y>200</y>
+      <y>180</y>
       <w>1030</w>
-      <h>360</h>
+      <h>370</h>
     </coordinates>
     <panel_attributes>_brewing=false
 --
@@ -175,7 +175,7 @@ bg=orange
     <id>UMLGeneric</id>
     <coordinates>
       <x>690</x>
-      <y>20</y>
+      <y>0</y>
       <w>150</w>
       <h>40</h>
     </coordinates>
@@ -186,7 +186,7 @@ bg=orange
     <id>UMLGeneric</id>
     <coordinates>
       <x>880</x>
-      <y>20</y>
+      <y>0</y>
       <w>300</w>
       <h>40</h>
     </coordinates>
@@ -199,7 +199,7 @@ bg=red</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1020</x>
-      <y>50</y>
+      <y>30</y>
       <w>30</w>
       <h>920</h>
     </coordinates>
@@ -210,7 +210,7 @@ bg=red</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>760</x>
-      <y>50</y>
+      <y>30</y>
       <w>30</w>
       <h>920</h>
     </coordinates>
@@ -221,56 +221,33 @@ bg=red</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>330</x>
-      <y>200</y>
+      <y>180</y>
       <w>460</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-fill(amount:double)</panel_attributes>
+amount = quantity():double</panel_attributes>
     <additional_attributes>440.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>330</x>
-      <y>220</y>
+      <y>200</y>
       <w>460</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;.
-OverflowException</panel_attributes>
-    <additional_attributes>10.0;20.0;440.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLFrame</id>
-    <coordinates>
-      <x>290</x>
-      <y>250</y>
-      <w>780</w>
-      <h>110</h>
-    </coordinates>
-    <panel_attributes>OverflowException</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>330</x>
-      <y>270</y>
-      <w>430</w>
       <h>50</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;-
-notifyError(:OverflowException,:ReservoirInterface)</panel_attributes>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+[amount &lt; 0.25]notifyError(:EmptyReservoirException)</panel_attributes>
     <additional_attributes>10.0;30.0;50.0;30.0;50.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>340</x>
-      <y>310</y>
-      <w>710</w>
-      <h>40</h>
+      <x>220</x>
+      <y>240</y>
+      <w>850</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>loop concreteImplementations</panel_attributes>
     <additional_attributes/>
@@ -279,19 +256,7 @@ notifyError(:OverflowException,:ReservoirInterface)</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>330</x>
-      <y>320</y>
-      <w>720</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-
-error(:OverflowException,:ReservoirInterface)</panel_attributes>
-    <additional_attributes>700.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>330</x>
-      <y>360</y>
+      <y>350</y>
       <w>90</w>
       <h>50</h>
     </coordinates>
@@ -303,7 +268,7 @@ brew()</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>330</x>
-      <y>390</y>
+      <y>380</y>
       <w>140</w>
       <h>50</h>
     </coordinates>
@@ -315,7 +280,7 @@ setBrewing()</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>330</x>
-      <y>440</y>
+      <y>420</y>
       <w>320</w>
       <h>50</h>
     </coordinates>
@@ -327,7 +292,7 @@ notifyError(:AlreadyBrewingException)</panel_attributes>
     <id>UMLFrame</id>
     <coordinates>
       <x>340</x>
-      <y>490</y>
+      <y>470</y>
       <w>720</w>
       <h>50</h>
     </coordinates>
@@ -338,7 +303,7 @@ notifyError(:AlreadyBrewingException)</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>330</x>
-      <y>500</y>
+      <y>480</y>
       <w>720</w>
       <h>40</h>
     </coordinates>
@@ -349,13 +314,76 @@ error(:AlreadyBrewingException)</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>300</x>
-      <y>570</y>
+      <x>310</x>
+      <y>560</y>
       <w>770</w>
       <h>70</h>
     </coordinates>
     <panel_attributes>ref
 bg=red</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>260</y>
+      <w>720</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+error(:EmptyReservoirException)</panel_attributes>
+    <additional_attributes>700.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1020</x>
+      <y>280</y>
+      <w>290</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+handleEmptyReservoirException()</panel_attributes>
+    <additional_attributes>10.0;30.0;30.0;30.0;30.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>330</y>
+      <w>720</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=.
+[else]</panel_attributes>
+    <additional_attributes>10.0;20.0;700.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1060</x>
+      <y>80</y>
+      <w>150</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Display an
+OptionPane: "Please
+press the "Fill
+Reservoir"Button in
+the Button Panel"
+bg=gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1040</x>
+      <y>160</y>
+      <w>100</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;130.0;80.0;10.0</additional_attributes>
   </element>
 </diagram>

@@ -81,7 +81,7 @@ implements Subscriber{
       EmptyReservoirException ere
    ){
       String fill = "Please fill the Reservoir\nBy pressing the";
-      fill += "\"Fill\" Button \nin the \"Reservoir\" Section";
+      fill += "\"Fill Reservoir\" \nButton in the Button Panel";
       JOptionPane.showMessageDialog(this,
                                     fill,
                                     "Fill the Reservoir",
@@ -416,16 +416,7 @@ implements Subscriber{
       topPanel.add(capacity);
       panel.add(topPanel);
       
-      //Add a "Fill" JButton
-      JPanel centerPanel = new JPanel();
-      centerPanel.setBorder(BorderFactory.createEtchedBorder());
-      JButton fill = new JButton("Fill");
-      fill.setActionCommand("Reservoir Fill");
-      fill.addActionListener(this._controller);
-      fill.addKeyListener(this._controller);
-      centerPanel.add(fill);
-      panel.add(centerPanel);
-
+      panel.add(new JPanel());
       panel.add(new JPanel());
       return panel;
    }
@@ -478,6 +469,13 @@ implements Subscriber{
       returnCarafe.addActionListener(this._controller);
       returnCarafe.addKeyListener(this._controller);
       panel.add(returnCarafe);
+      
+      JButton fill = new JButton("Fill Reservoir");
+      fill.setActionCommand("Reservoir Fill");
+      fill.setMnemonic(KeyEvent.VK_F);
+      fill.addActionListener(this._controller);
+      fill.addKeyListener(this._controller);
+      panel.add(fill);
 
       return panel;
    }

@@ -79,9 +79,7 @@ public class Maker implements Runnable{
          }
          else{
             //Set the State to State.BRESING
-            //READY->BREWING
-            //this.setBrewing();
-            System.out.println("READY->BREWING");
+            this.setBrewing();
          }
       }
       else{
@@ -304,6 +302,8 @@ public class Maker implements Runnable{
    //
    private void setBrewing(){
       this._state = State.BREWING;
+      //Notify Observers of State Change
+      this.notifyOfState();
    }
 
    //
@@ -311,6 +311,8 @@ public class Maker implements Runnable{
    //
    private void setReady(){
       this._state = State.READY;
+      //Notfiy Observers of State Change
+      this.notifyOfState();
    }
 
    //////////////////////Interface Methods////////////////////////////
