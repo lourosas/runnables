@@ -67,7 +67,7 @@ implements ActionListener, KeyListener, ItemListener{
             s = JOptionPane.showInputDialog(
                    (JFrame)this._subscriber,
                    "Fill Amount",
-                   "Fillint the Reservoir for Brewing",
+                   "Filling the Reservoir for Brewing",
                    JOptionPane.QUESTION_MESSAGE);
             this._maker.fillReservoir(Double.parseDouble(s));
             toLoop = false;

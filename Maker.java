@@ -9,11 +9,13 @@ import rosas.lou.runnables.*;
 
 public class Maker implements Runnable{
    private enum State{READY,BREWING};
+   private enum ReadySubstate{NOT_FILLED, FILLED};
    private List<Subscriber> _subscribers;
    private Reservoir        _reservoir;
    private Thread           _t;
    private boolean          _power;
    private State            _state;
+   private ReadySubstate    _readySub;
    //Temporary for the moment
    private Object           _o;
 
@@ -23,6 +25,7 @@ public class Maker implements Runnable{
       _t           = null;
       _power       = true;
       _state       = State.READY;
+      _readySub    = ReadySubstate.NOT_FILLED;
       _o           = null;
    };
 
