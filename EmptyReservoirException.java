@@ -9,7 +9,7 @@ import java.util.*;
 public class EmptyReservoirException extends RuntimeException{
    /**/
    public EmptyReservoirException(){
-      this("Empty Reservoir Excption");
+      this("Empty Reservoir Exception");
    }
 
    /**/

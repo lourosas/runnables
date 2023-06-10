@@ -71,8 +71,11 @@ public class Maker implements Runnable{
       final double EMPTY = 0.25;//Minisule amount
       //Check the current state--only brew if not currently brewing...
       //subject to change...
+      /*
       if(!this.isBrewing()){
          //Check the Reservoir...notfiy if empty
+         //REMOVE ALL OF THIS...let the Reservoir handle its own
+         //Exception!
          if(this._reservoir.quantity() <= EMPTY){
             this.notifyError(new EmptyReservoirException());
             //Somehow, once reservoir is filled, need to start...
@@ -81,6 +84,11 @@ public class Maker implements Runnable{
             //Set the State to State.BRESING
             this.setBrewing();
          }
+      }
+      */
+      if(!this.isBrewing()){
+         //Set the State to State.BREWING
+         this.setBrewing();
       }
       else{
          this.notifyError(new AlreadyBrewingException());
@@ -221,11 +229,22 @@ public class Maker implements Runnable{
    //
    //
    private void notifyError(RuntimeException exception){
-      Iterator<Subscriber> it = this._subscribers.iterator();
-      while(it.hasNext()){
-         Subscriber s = it.next();
-         s.error(exception);
+      try{
+         AlreadyBrewingException abe =
+                                   (AlreadyBrewingException)exception;
+         this.notifyError(abe.getMessage());
       }
+      catch(ClassCastException cce){}
+      try{
+         EmptyReservoirException ece =
+                                   (EmptyReservoirException)exception;
+         String reason = ece.getMessage();
+         if(reason.toUpperCase().contains("FALSE")){
+            System.out.println(reason);
+         }
+         //More to do...
+      }
+      catch(ClassCastException cce){}
    }
 
    //
@@ -321,37 +340,49 @@ public class Maker implements Runnable{
    //
    //
    public void run(){
+      final double EMPTY     = 0.25;
       int sleepTime          = 100;
       int reservoirSleepTime = 1000;
-      while(this._power){
+      double amount          = -1.;
+      while(this._power){//get rid of and make an accessor...
          try{
             //This is definitely a redundant check...
-            if(this._state == State.BREWING){  
-               double amount=this._reservoir.empty(reservoirSleepTime);
-               while(amount > 0){
-                  Thread.sleep(reservoirSleepTime);
-                  try{
+            if(this._state == State.BREWING){
+               try{
+                  amount = this._reservoir.empty(reservoirSleepTime);
+                  while(true){
+                     Thread.sleep(reservoirSleepTime);
                      try{
-                        Carafe.instance().fill(amount);
+                        try{
+                           Carafe.instance().fill(amount);
+                        }
+                        catch(OverflowException oe){
+                           System.out.println(oe.getMessage());
+                        }
+                        System.out.println(
+                                        Carafe.instance().quantity());
+                        amount = 
+                            this._reservoir.empty(reservoirSleepTime);
                      }
-                     catch(OverflowException oe){
-                        System.out.println(oe.getMessage());
-                     }
-                     System.out.println(Carafe.instance().quantity());
-                     amount=this._reservoir.empty(reservoirSleepTime);
-                  }
-                  catch(NotHomeException nhe){
-                     System.out.println(nhe.getMessage());
-                     synchronized(this._o){
-                        //Wait until the Carafe gets returned...
-                        this._o.wait();
+                     catch(NotHomeException nhe){
+                        System.out.println(nhe.getMessage());
+                           synchronized(this._o){
+                           //Wait until the Carafe gets returned...
+                           this._o.wait();
+                        }
                      }
                   }
                }
-               //Once Done, set back to the READY state
-               //BREWING-->READY
-               this.setReady();
-               System.out.println("Carafe: "+Carafe.instance().quantity());
+               catch(EmptyReservoirException ece){
+                  this.notifyError(ece);
+               }
+               finally{
+                  //Once Done, set back to the READY state
+                  //BREWING-->READY
+                  this.setReady();
+                  System.out.println(
+                             "Carafe: "+Carafe.instance().quantity());
+               }
             }
             Thread.sleep(sleepTime);
          }

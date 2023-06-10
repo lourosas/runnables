@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>50</x>
+      <y>220</y>
+      <w>30</w>
+      <h>340</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;320.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLActor</id>
+    <coordinates>
+      <x>0</x>
+      <y>230</y>
+      <w>120</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>Coffee Drinker</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>270</x>
+      <y>10</y>
+      <w>130</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Runnable&gt;&gt;
+_:Maker_
+bg=gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>50</y>
+      <w>30</w>
+      <h>930</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;910.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>70</x>
+      <y>60</y>
+      <w>290</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+ref</panel_attributes>
+    <additional_attributes>270.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>270</x>
+      <y>100</y>
+      <w>700</w>
+      <h>410</h>
+    </coordinates>
+    <panel_attributes>par</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>280</x>
+      <y>130</y>
+      <w>670</w>
+      <h>370</h>
+    </coordinates>
+    <panel_attributes>while power = true</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>290</x>
+      <y>160</y>
+      <w>650</w>
+      <h>330</h>
+    </coordinates>
+    <panel_attributes>state = BREWING
+--
+
+
+
+
+
+
+
+[reservoir is empty]
+-.
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>750</x>
+      <y>10</y>
+      <w>300</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Subscriber&gt;&gt;
+_concreteImplementations:Subscriber_
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>890</x>
+      <y>40</y>
+      <w>30</w>
+      <h>930</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;910.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>580</x>
+      <y>10</y>
+      <w>150</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>_:Reservoir_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>650</x>
+      <y>40</y>
+      <w>30</w>
+      <h>930</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;910.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>180</y>
+      <w>350</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+amount = empty(pumpTime:int):double</panel_attributes>
+    <additional_attributes>330.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>320</y>
+      <w>350</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+EmptyReservoirException</panel_attributes>
+    <additional_attributes>10.0;20.0;330.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>350</y>
+      <w>320</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+notifyError(:EmptyReservoirException)</panel_attributes>
+    <additional_attributes>10.0;30.0;30.0;30.0;30.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>310</x>
+      <y>400</y>
+      <w>610</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>loop concreteImplementations</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>420</y>
+      <w>590</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+error(reason:String)</panel_attributes>
+    <additional_attributes>570.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>570</x>
+      <y>220</y>
+      <w>360</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>ref
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>220</y>
+      <w>260</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>240.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>
