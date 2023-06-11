@@ -71,21 +71,6 @@ public class Maker implements Runnable{
       final double EMPTY = 0.25;//Minisule amount
       //Check the current state--only brew if not currently brewing...
       //subject to change...
-      /*
-      if(!this.isBrewing()){
-         //Check the Reservoir...notfiy if empty
-         //REMOVE ALL OF THIS...let the Reservoir handle its own
-         //Exception!
-         if(this._reservoir.quantity() <= EMPTY){
-            this.notifyError(new EmptyReservoirException());
-            //Somehow, once reservoir is filled, need to start...
-         }
-         else{
-            //Set the State to State.BRESING
-            this.setBrewing();
-         }
-      }
-      */
       if(!this.isBrewing()){
          //Set the State to State.BREWING
          this.setBrewing();
@@ -95,30 +80,6 @@ public class Maker implements Runnable{
       } 
    }
    
-   //
-   //
-   //
-   /*
-   public void brew(double amount){
-      //Check the current state--only brew if not currently brewing...
-      //subject to change...
-      if(!this.isBrewing()){
-         try{
-            this._reservoir.fill(amount);
-         }
-         catch(OverflowException oe){
-            this.notifyError(oe);
-         }
-         finally{
-            this.brew();
-         }
-      }
-      else{
-         this.notifyError(new AlreadyBrewingException());
-      }
-   }
-   */
-
    //
    //
    //
@@ -187,17 +148,6 @@ public class Maker implements Runnable{
    //
    //
    //
-   /*
-   private void brew(){
-      //1.  Set the State to State.BREWING
-      //READY-->BREWING
-      this.setBrewing();
-   }
-   */
-
-   //
-   //
-   //
    //
    private boolean isBrewing(){
       return(this._state == State.BREWING);
@@ -241,6 +191,11 @@ public class Maker implements Runnable{
          this.notifyError(ece.getMessage());
       }
       catch(ClassCastException cce){}
+      try{
+         NotHomeException nhe = (NotHomeException)exception;
+         String nh = new String("Carafe is out of the Coffee Maker");
+         this.notifyError(nh);
+      }
    }
 
    //
@@ -362,7 +317,7 @@ public class Maker implements Runnable{
                      }
                      catch(NotHomeException nhe){
                         System.out.println(nhe.getMessage());
-                           synchronized(this._o){
+                        synchronized(this._o){
                            //Wait until the Carafe gets returned...
                            this._o.wait();
                         }

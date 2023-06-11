@@ -75,7 +75,9 @@ implements Subscriber{
       }
    }
 
-   /**/
+   /*
+   TO BE REMOVED!!!
+   */
    private void handleEmptyReservoirException
    (
       EmptyReservoirException ere
@@ -102,6 +104,20 @@ implements Subscriber{
                                     oe.getMessage(),
                                     "Overflow Exception",
                                     JOptionPane.WARNING_MESSAGE);
+   }
+
+   /**/
+   private void handleReservoirErrors(String reservoirError){
+      String error = reservoirError.toUpperCase();
+      if(error.contains("EMPTY") && error.contains("FALSE")){
+         //Set up a JOption Pane indicating the error
+         String fill = "Please fill the Reservoir\nBy pressing the";
+         fill += "\"Fill Reservoir\" \nButton in the Button Panel";
+         JOptionPane.showMessageDialog(this,
+                                    fill,
+                                    "Fill the Reservoir",
+                                    JOptionPane.WARNING_MESSAGE);
+      }
    }
 
    /**/
@@ -510,6 +526,7 @@ implements Subscriber{
 
    /**/
    public void error(RuntimeException re){
+      /*
       try{
          OverflowException oe = (OverflowException)re;
          this.handleOverflowExceptions(oe);
@@ -520,6 +537,7 @@ implements Subscriber{
          this.handleEmptyReservoirException(ere);
       }
       catch(ClassCastException cce){}
+      */
    }
 
    /**/
@@ -527,8 +545,9 @@ implements Subscriber{
 
    /**/
    public void error(String error){
-      //for the time being...
-      System.out.println(error);
+      if(error.toUpperCase().contains("RESERVOIR")){
+         this.handleReservoirErrors(error);
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////
