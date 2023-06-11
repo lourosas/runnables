@@ -189,13 +189,19 @@ public class Maker implements Runnable{
          EmptyReservoirException ece =
                                    (EmptyReservoirException)exception;
          this.notifyError(ece.getMessage());
+         /*
+         String message = ece.getMessage();
+         if(message.toUpperCase().contains("FALSE")){
+            this.notifyReservoirStatus();
+         }
+         */
       }
       catch(ClassCastException cce){}
       try{
          NotHomeException nhe = (NotHomeException)exception;
-         String nh = new String("Carafe is out of the Coffee Maker");
-         this.notifyError(nh);
+         this.notifyCarafeStatus();
       }
+      catch(ClassCastException cce){}
    }
 
    //
