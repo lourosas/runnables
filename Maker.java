@@ -238,11 +238,7 @@ public class Maker implements Runnable{
       try{
          EmptyReservoirException ece =
                                    (EmptyReservoirException)exception;
-         String reason = ece.getMessage();
-         if(reason.toUpperCase().contains("FALSE")){
-            System.out.println(reason);
-         }
-         //More to do...
+         this.notifyError(ece.getMessage());
       }
       catch(ClassCastException cce){}
    }

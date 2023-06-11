@@ -526,6 +526,9 @@ implements Subscriber{
    public void error(RuntimeException re, Object o){}
 
    /**/
-   public void error(String error){}
+   public void error(String error){
+      //for the time being...
+      System.out.println(error);
+   }
 }
 //////////////////////////////////////////////////////////////////////
