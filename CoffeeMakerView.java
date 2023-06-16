@@ -139,6 +139,9 @@ implements Subscriber{
          }
          catch(ClassCastException cce){}
       }
+      else if(message.toUpperCase().equals("STATE")){
+         System.out.println((String)o);
+      }
    }
 
    /**/

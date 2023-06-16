@@ -262,7 +262,11 @@ public class Maker implements Runnable{
    //
    //
    private void notifyReservoirStatus(){
-      //refine this a little bit...
+      if(this._reservoir.isEmpty()){
+         String empty = new String("Empty");
+         String state = new String("Reservoir State");
+         this.notify(empty, state);
+      }
       Double quantity = Double.valueOf(this._reservoir.quantity());
       this.notify(quantity, new String("Reservoir Quantity"));
    }
@@ -334,9 +338,7 @@ public class Maker implements Runnable{
                   }
                }
                catch(EmptyReservoirException ece){
-                  //want to change how this is done
-                  //to notifyReservoirStatus()
-                  this.notifyError(ece);
+                  this.notifyReservoirStatus();
                }
                finally{
                   //Once Done, set back to the READY state
