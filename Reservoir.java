@@ -7,16 +7,19 @@ import java.util.*;
 import java.lang.*;
 
 public class Reservoir implements ReservoirInterface{
+   private enum State{STARTUP,EMPTY,FILLED, WASFILLED};
+   
    //set it for 32 oz for the moment
    private final double CAPACITY = 32.;
-   private double   _quantity;
-   private double   _emptyRate; //Oz/Sec--pretty Self-Explanatory
-   private boolean _initiallyFilled;
+
+   private double  _emptyRate; //Oz/Sec--pretty Self-Explanatory
+   private double  _quantity;
+   private State   _state;
 
    {
-      _quantity        = 0.;
-      _emptyRate       = 1.; //Oz/Sec
-      _initiallyFilled = false;
+      _quantity  = 0.;
+      _emptyRate = 1.; //Oz/Sec
+      _state     = State.STARTUP;
    };
 
    //////////////////////////Constructors/////////////////////////////
@@ -32,6 +35,30 @@ public class Reservoir implements ReservoirInterface{
       return this.CAPACITY;
    }
 
+   /*
+   */
+   public boolean isEmpty(){
+      return (this._state == State.EMPTY);
+   }
+
+   /*
+   */
+   public boolean isFilled(){
+      return (this._state == State.FILLED);
+   }
+
+   /*
+   */
+   public boolean isStartup(){
+      return (this._state == State.STARTUP);
+   }
+
+   /*
+   */
+   public boolean wasFilled(){
+      return (this._state == State.WASFILLED);
+   }
+
    //
    //Fill up to a certain amount
    //
@@ -41,7 +68,8 @@ public class Reservoir implements ReservoirInterface{
       if(amount > EMPTY){
          System.out.println("Reservoir.fill():  "+amount);
          this.quantity(this.quantity() + amount);
-         this.initiallyFilled(true);
+         //Indicate the State as FILLED...
+         this.setFilled();
          if(this.quantity() > this.CAPACITY){
             this.quantity(this.CAPACITY);
             throw new OverflowException("Reservoir Overflowing!!");
@@ -59,12 +87,14 @@ public class Reservoir implements ReservoirInterface{
       final double SECSPERMILLIS = .001;
       final double EMPTY         = 0.25;
       if(this.quantity() <= EMPTY){
-         String s = new String("Empty Reservoir Initially Filled:");
-         s += " " + this.initiallyFilled();
-         //Once empty, it needs to be filled again
-         this.initiallyFilled(false);
+         if(this.isFilled()){
+            this.setWasFilled();
+         }
+         else{
+            this.setEmpty();
+         }
          //Alert the User if the Reservoir was intially filled
-         throw new EmptyReservoirException(s);
+         throw new EmptyReservoirException();
       }
       //1.  Get the amount to empty
       double amount = this.emptyRate() * (elapsedTime*SECSPERMILLIS);
@@ -90,20 +120,26 @@ public class Reservoir implements ReservoirInterface{
 
    /*
    */
-   private boolean initiallyFilled(){
-      return this._initiallyFilled;
-   }
-
-   /*
-   */
-   private void initiallyFilled(boolean filled){
-      this._initiallyFilled = filled;
-   }
-
-   /*
-   */
    private void quantity(double quant){
       this._quantity = quant;
+   }
+
+   /*
+   */
+   private void setEmpty(){
+      this._state = State.EMPTY;
+   }
+
+   /*
+   */
+   private void setFilled(){
+      this._state = State.FILLED;
+   }
+
+   /*
+   */
+   private void setWasFilled(){
+      this._state = State.WASFILLED;
    }
    ///////////////////////Interface Methods///////////////////////////
    /*

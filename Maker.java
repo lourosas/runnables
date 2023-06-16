@@ -179,6 +179,8 @@ public class Maker implements Runnable{
    //
    //
    private void notifyError(RuntimeException exception){
+      //Re-Look at this--really do not need to do all of
+      //this
       try{
          AlreadyBrewingException abe =
                                    (AlreadyBrewingException)exception;
@@ -260,6 +262,7 @@ public class Maker implements Runnable{
    //
    //
    private void notifyReservoirStatus(){
+      //refine this a little bit...
       Double quantity = Double.valueOf(this._reservoir.quantity());
       this.notify(quantity, new String("Reservoir Quantity"));
    }
@@ -331,6 +334,8 @@ public class Maker implements Runnable{
                   }
                }
                catch(EmptyReservoirException ece){
+                  //want to change how this is done
+                  //to notifyReservoirStatus()
                   this.notifyError(ece);
                }
                finally{
