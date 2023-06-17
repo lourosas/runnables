@@ -109,7 +109,7 @@ implements Subscriber{
    /**/
    private void handleReservoirErrors(String reservoirError){
       String error = reservoirError.toUpperCase();
-      if(error.contains("EMPTY") && error.contains("FALSE")){
+      if(error.contains("EMPTY")){
          //Set up a JOption Pane indicating the error
          String fill = "Please fill the Reservoir\nBy pressing the";
          fill += "\"Fill Reservoir\" \nButton in the Button Panel";
@@ -140,7 +140,16 @@ implements Subscriber{
          catch(ClassCastException cce){}
       }
       else if(message.toUpperCase().equals("STATE")){
-         System.out.println((String)o);
+         try{
+            String state = (String)o;
+            String situation = state.split(" ")[0];
+            if(situation.toUpperCase().equals("ERROR")){
+               String condition = state.split(" ")[1];
+               //handle the reservoir error
+               this.handleReservoirErrors(condition);
+            }
+         }
+         catch(ClassCastException cce){}
       }
    }
 

@@ -263,7 +263,7 @@ public class Maker implements Runnable{
    //
    private void notifyReservoirStatus(){
       if(this._reservoir.isEmpty()){
-         String empty = new String("Empty");
+         String empty = new String("Error Empty");
          String state = new String("Reservoir State");
          this.notify(empty, state);
       }
