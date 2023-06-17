@@ -449,7 +449,7 @@ STOP_POURING</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-[quantity&lt;0.25 &amp;&amp;not FILLED]/empty()</panel_attributes>
+[quantity&lt;0.25]/empty()</panel_attributes>
     <additional_attributes>10.0;20.0;370.0;20.0</additional_attributes>
   </element>
   <element>
@@ -494,11 +494,11 @@ STOP_POURING</panel_attributes>
       <x>800</x>
       <y>730</y>
       <w>220</w>
-      <h>210</h>
+      <h>200</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 [amount&gt;0.25]/fill(amount)</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;190.0;50.0;190.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;180.0;50.0;180.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -511,5 +511,17 @@ STOP_POURING</panel_attributes>
     <panel_attributes>lt=-&gt;
 [amount&gt;0.25]fill()</panel_attributes>
     <additional_attributes>470.0;20.0;470.0;110.0;10.0;110.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>720</x>
+      <y>920</y>
+      <w>200</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[quantity&gt;0.25]/empty()</panel_attributes>
+    <additional_attributes>130.0;10.0;90.0;10.0;90.0;70.0;150.0;70.0;150.0;20.0</additional_attributes>
   </element>
 </diagram>

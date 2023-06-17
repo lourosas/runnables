@@ -17,8 +17,8 @@
     <coordinates>
       <x>410</x>
       <y>80</y>
-      <w>240</w>
-      <h>240</h>
+      <w>290</w>
+      <h>290</h>
     </coordinates>
     <panel_attributes>Coffee Maker
 halign=left</panel_attributes>
@@ -28,7 +28,7 @@ halign=left</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>470</x>
-      <y>140</y>
+      <y>130</y>
       <w>120</w>
       <h>40</h>
     </coordinates>
@@ -38,8 +38,8 @@ halign=left</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>460</x>
-      <y>220</y>
+      <x>490</x>
+      <y>300</y>
       <w>120</w>
       <h>40</h>
     </coordinates>
@@ -50,22 +50,56 @@ halign=left</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>240</x>
-      <y>140</y>
+      <y>130</y>
       <w>250</w>
-      <h>40</h>
+      <h>50</h>
     </coordinates>
     <panel_attributes/>
-    <additional_attributes>10.0;20.0;230.0;20.0</additional_attributes>
+    <additional_attributes>10.0;30.0;230.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>240</x>
       <y>150</y>
-      <w>240</w>
-      <h>110</h>
+      <w>270</w>
+      <h>190</h>
     </coordinates>
     <panel_attributes/>
-    <additional_attributes>10.0;10.0;220.0;90.0</additional_attributes>
+    <additional_attributes>10.0;10.0;250.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>560</x>
+      <y>230</y>
+      <w>120</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>Fill Reservoir</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>150</y>
+      <w>340</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;320.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>550</x>
+      <y>160</y>
+      <w>100</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+&lt;&lt;includes&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;70.0</additional_attributes>
   </element>
 </diagram>

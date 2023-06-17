@@ -116,6 +116,14 @@ implements Subscriber{
          JOptionPane.showMessageDialog(this,
                                     fill,
                                     "Fill the Reservoir",
+                                    JOptionPane.INFORMATION_MESSAGE);
+      }
+      else if(error.contains("OVERFLOWING")){
+         String ovrfl = "Reservoir is OVERFLOWING!\nPossible mess ";
+         ovrfl += "needing\nclean up!";
+         JOptionPane.showMessageDialog(this,
+                                    ovrfl,
+                                    reservoirError,
                                     JOptionPane.WARNING_MESSAGE);
       }
    }

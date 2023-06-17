@@ -88,7 +88,7 @@ public class Maker implements Runnable{
          this._reservoir.fill(amount);
       }
       catch(OverflowException oe){
-         this.notifyError(oe);
+         this.notifyError(oe.getMessage());
       }
       finally{
          //Notify how full the Reservoir is...
@@ -255,7 +255,8 @@ public class Maker implements Runnable{
    //Notify the Subscribers of all the State information
    //
    private void notifyOfState(){
-      this.notify(new String("State: ") + this._state);
+      String state = new String("State: ") + this._state;
+      this.notify(state);
    }
 
    //
