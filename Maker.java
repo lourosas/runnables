@@ -226,17 +226,18 @@ public class Maker implements Runnable{
    //
    //
    private void notifyCarafeStatus(){
+      String state = null;
+      String component = new String("Carafe State");
       if(Carafe.instance().isHome()){
-         this.notify(new String("Home "), new String("Carafe State"));
+         state = new String("Home");
       }
       else if(Carafe.instance().isPulled()){
-         this.notify(new String("Pulled "),
-                                          new String("Carafe State"));
+         state = new String("Pulled");
       }
       else if(Carafe.instance().isPouring()){
-         this.notify(new String("Pouring "),
-                                          new String("Carafe State"));
+         state = new String("Pouring");
       }
+      this.notify(state,component);
       Double quantity = Double.valueOf(Carafe.instance().quantity());
       this.notify(quantity, new String("Carafe Quantity"));
    }
@@ -312,7 +313,7 @@ public class Maker implements Runnable{
       while(this._power){//get rid of and make an accessor...
          try{
             //This is definitely a redundant check...
-            if(this._state == State.BREWING){
+            if(isBrewing()){
                try{
                   amount = this._reservoir.empty(reservoirSleepTime);
                   while(true){
@@ -331,6 +332,8 @@ public class Maker implements Runnable{
                      }
                      catch(NotHomeException nhe){
                         System.out.println(nhe.getMessage());
+                        //Notify the Carafe has been pulled
+                        this.notifyCarafeStatus();
                         synchronized(this._o){
                            //Wait until the Carafe gets returned...
                            this._o.wait();
@@ -339,6 +342,7 @@ public class Maker implements Runnable{
                   }
                }
                catch(EmptyReservoirException ece){
+                  //May want to set ready at some other point
                   this.notifyReservoirStatus();
                }
                finally{

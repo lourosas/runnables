@@ -408,7 +408,7 @@ implements Subscriber{
       panel.add(ready);
 
       JLabel brewing = new JLabel("Brewing");
-      brewing.setForeground(Color.blue);
+      brewing.setForeground(Color.red);
       brewing.setEnabled(false);
       panel.add(brewing);
       return panel;
