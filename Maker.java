@@ -340,11 +340,11 @@ public class Maker implements Runnable{
                         }
                      }
                      catch(NotHomeException nhe){
-                        //System.out.println(nhe.getMessage());
                         synchronized(this._o){
                            //Wait until the Carafe gets returned...
                            this._o.wait();
                         }
+                        Carafe.instance().fill(amount);
                      }
                   }
                }

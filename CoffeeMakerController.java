@@ -55,6 +55,12 @@ implements ActionListener, KeyListener, ItemListener{
       else if(command.toUpperCase().equals("BREW")){
          this._maker.brew();
       }
+      else if(command.toUpperCase().equals("GET")){
+         System.out.println(this._maker.pullCarafe());
+      }
+      else if(command.toUpperCase().equals("RETURN")){
+         this._maker.returnCarafe();
+      }
    }
 
    /**/

@@ -297,7 +297,7 @@ implements Subscriber{
       in.setEnabled(false);
       centerPanel.add(in);
       JLabel out = new JLabel("Out");
-      out.setForeground(Color.orange);
+      out.setForeground(Color.magenta);
       out.setEnabled(false);
       centerPanel.add(out);
       JLabel pouring = new JLabel("Pouring");
