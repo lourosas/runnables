@@ -323,28 +323,26 @@ public class Maker implements Runnable{
                   while(true){
                      Thread.sleep(reservoirSleepTime);
                      try{
-                        try{
-                           Carafe.instance().fill(amount);
-                        }
-                        catch(OverflowException oe){
-                           //System.out.println(oe.getMessage());
-                           this.notifyError(oe.getMessage());
-                        }
-                        finally{
-                           //System.out.println(
-                           //             Carafe.instance().quantity());
-                           this.notifyReservoirStatus();
-                           this.notifyCarafeStatus();
-                           amount = 
-                            this._reservoir.empty(reservoirSleepTime);
-                        }
+                        Carafe.instance().fill(amount);
+                     }
+                     catch(OverflowException oe){
+                        //System.out.println(oe.getMessage());
+                        this.notifyError(oe.getMessage());
                      }
                      catch(NotHomeException nhe){
                         synchronized(this._o){
-                           //Wait until the Carafe gets returned...
+                           //Wait until the Carafe is returned
                            this._o.wait();
                         }
                         Carafe.instance().fill(amount);
+                     }
+                     finally{
+                        //System.out.println(
+                        //             Carafe.instance().quantity());
+                        this.notifyReservoirStatus();
+                        this.notifyCarafeStatus();
+                        amount = 
+                            this._reservoir.empty(reservoirSleepTime);
                      }
                   }
                }
