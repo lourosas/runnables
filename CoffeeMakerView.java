@@ -48,6 +48,18 @@ implements Subscriber{
    /////////////////////////Protected Methods/////////////////////////
    ///////////////////////////Private Methods/////////////////////////
    /**/
+   private void handleCarafeErrors(String carafeError){
+      String error = carafeError.toUpperCase();
+      if(error.contains("OVERFLOWING")){
+         String ovrfl = new String("Carafe Overflowing!");
+         JOptionPane.showMessageDialog(this,
+                                    ovrfl,
+                                    carafeError,
+                                    JOptionPane.WARNING_MESSAGE);
+      }
+   }
+
+   /**/
    private void handleCarafeUpdates(Object o, String s){
       String carafeType = s.split(" ")[1];
       if(carafeType.toUpperCase().equals("STATE")){
@@ -567,6 +579,9 @@ implements Subscriber{
    public void error(String error){
       if(error.toUpperCase().contains("RESERVOIR")){
          this.handleReservoirErrors(error);
+      }
+      else if(error.toUpperCase().contains("CARAFE")){
+         this.handleCarafeErrors(error);
       }
    }
 }

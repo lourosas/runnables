@@ -119,11 +119,14 @@ public class Maker implements Runnable{
       try{
          Carafe.instance().pull();
          carafeInterface = Carafe.instance();
+         this.notifyCarafeStatus();
          
       }
       catch(NotHomeException nhe){
          //Print this for the temporary...
          nhe.printStackTrace();
+         //Handle the error...TBD...
+         this.notifyError(nhe);
       }
       finally{
          //Test Print
@@ -142,6 +145,7 @@ public class Maker implements Runnable{
    public void returnCarafe(){
       //Will want to set up mutex
       Carafe.instance().putback();
+      this.notifyCarafeStatus();
    }
 
    ////////////////////////Private Methods////////////////////////////
@@ -323,17 +327,20 @@ public class Maker implements Runnable{
                            Carafe.instance().fill(amount);
                         }
                         catch(OverflowException oe){
-                           System.out.println(oe.getMessage());
+                           //System.out.println(oe.getMessage());
+                           this.notifyError(oe.getMessage());
                         }
-                        System.out.println(
-                                        Carafe.instance().quantity());
-                        amount = 
+                        finally{
+                           //System.out.println(
+                           //             Carafe.instance().quantity());
+                           this.notifyReservoirStatus();
+                           this.notifyCarafeStatus();
+                           amount = 
                             this._reservoir.empty(reservoirSleepTime);
+                        }
                      }
                      catch(NotHomeException nhe){
-                        System.out.println(nhe.getMessage());
-                        //Notify the Carafe has been pulled
-                        this.notifyCarafeStatus();
+                        //System.out.println(nhe.getMessage());
                         synchronized(this._o){
                            //Wait until the Carafe gets returned...
                            this._o.wait();

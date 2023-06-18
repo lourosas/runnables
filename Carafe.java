@@ -65,7 +65,7 @@ public class Carafe implements Runnable, CarafeInterface{
          this._quantity += amount;
          if(this._quantity > this.CAPACITY){
             this._quantity = this.CAPACITY;
-            throw new OverflowException("Carafe Overfilling!");
+            throw new OverflowException("Carafe Overflowing!!");
          }
       }
       else{
@@ -100,7 +100,6 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    public void pull() throws NotHomeException{
       if(this.isHome()){
-         //this._state = State.PULLED;
          this.setPulled();
       }
       else{
