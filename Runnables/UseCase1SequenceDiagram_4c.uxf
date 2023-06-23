@@ -7,10 +7,10 @@
       <x>320</x>
       <y>60</y>
       <w>30</w>
-      <h>640</h>
+      <h>310</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;620.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;290.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
@@ -44,10 +44,10 @@ bg=blue</panel_attributes>
       <x>720</x>
       <y>70</y>
       <w>30</w>
-      <h>650</h>
+      <h>310</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;630.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;290.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
@@ -68,10 +68,10 @@ bg=red</panel_attributes>
       <x>1010</x>
       <y>70</y>
       <w>30</w>
-      <h>650</h>
+      <h>320</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;630.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;300.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -86,21 +86,10 @@ ref1</panel_attributes>
     <additional_attributes>230.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
-    <id>UMLFrame</id>
-    <coordinates>
-      <x>290</x>
-      <y>120</y>
-      <w>810</w>
-      <h>230</h>
-    </coordinates>
-    <panel_attributes>quantity &gt; CAPACITY</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>Relation</id>
     <coordinates>
       <x>320</x>
-      <y>150</y>
+      <y>100</y>
       <w>430</w>
       <h>40</h>
     </coordinates>
@@ -112,19 +101,7 @@ OverflowException</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>320</x>
-      <y>180</y>
-      <w>280</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-notifyError(:OverflowException)</panel_attributes>
-    <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>320</x>
-      <y>220</y>
+      <y>130</y>
       <w>420</w>
       <h>50</h>
     </coordinates>
@@ -136,7 +113,7 @@ notifyError(OverflowException.getMessage():String)</panel_attributes>
     <id>UMLFrame</id>
     <coordinates>
       <x>300</x>
-      <y>280</y>
+      <y>180</y>
       <w>750</w>
       <h>60</h>
     </coordinates>
@@ -147,106 +124,12 @@ notifyError(OverflowException.getMessage():String)</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>320</x>
-      <y>300</y>
+      <y>200</y>
       <w>720</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 error(:String)</panel_attributes>
-    <additional_attributes>700.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>320</x>
-      <y>510</y>
-      <w>430</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-quantity=quantity():double</panel_attributes>
-    <additional_attributes>410.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>320</x>
-      <y>350</y>
-      <w>200</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-notifyCarafeStatus()</panel_attributes>
-    <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>320</x>
-      <y>390</y>
-      <w>340</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-notify(state:String,"Carafe State":String)</panel_attributes>
-    <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>320</x>
-      <y>460</y>
-      <w>720</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-update(:String, :String)</panel_attributes>
-    <additional_attributes>700.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLFrame</id>
-    <coordinates>
-      <x>310</x>
-      <y>440</y>
-      <w>780</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>loop concreteImplementations</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>320</x>
-      <y>540</y>
-      <w>400</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-notify(Double(quantity),"Carafe Quantity":String)</panel_attributes>
-    <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLFrame</id>
-    <coordinates>
-      <x>300</x>
-      <y>590</y>
-      <w>780</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>loop concreteImplementations</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>320</x>
-      <y>610</y>
-      <w>720</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-update(quantity:Double, "Carafe Quantity":String)</panel_attributes>
     <additional_attributes>700.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>

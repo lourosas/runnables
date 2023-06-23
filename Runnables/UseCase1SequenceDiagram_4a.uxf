@@ -278,9 +278,9 @@ update(reason:String,componentState:String)</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>600</x>
+      <x>410</x>
       <y>220</y>
-      <w>360</w>
+      <w>550</w>
       <h>70</h>
     </coordinates>
     <panel_attributes>ref
@@ -292,11 +292,11 @@ bg=blue</panel_attributes>
     <coordinates>
       <x>360</x>
       <y>220</y>
-      <w>260</w>
+      <w>70</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>240.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
