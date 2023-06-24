@@ -16,25 +16,22 @@ shall get Coffee}\\
 \begin{itemize}
 \item Coffee Drinker: wants coffee
 \end{itemize}
-\textbf{Preconditions: }Power is supplied to the Coffee Maker.
-The Coffee Drinker already added fresh coffee.\\
+\textbf{Preconditions: }The System is ready to make Coffee.  Power is
+supplied to the Coffee Maker.  The Coffee Drinker already added fresh
+coffee.\\
 \textbf{Postconditions: }Coffee is brewed, in the Carafe and ready for
 serving.\\
 \textbf{Success Guarantees: }The System brews the coffee.\\\\
 \textbf{Main Success Scenario: }\\
 \begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
 \textbf{Coffee Drinker} & \textbf{System}\\\hline
-1.  Add Water &\\\hline
+1.  Add Water & \\\hline
 2.  Start the Brewing Process &\\\hline
 & 3. Brews the coffee\\\hline
-& 4. Alerts Coffee Drinker when brewing complete (when the Reservoir
-is out of water).\\\hline
+& 4. Alerts when brewing complete\\\hline
 \end{tabular}\\\\
 \textbf{Extensions (Alternative Flows): }
 \begin{itemize}
-\item[1a.]
-If the Coffee Drinker does not add water, then the System uses what
-ever water is already in the Reservoir.
 \item[3a.]
 If the Coffee Drinker pulls the carafe before the Coffee Maker
 is finished brewing the coffee, then Coffee Maker stops brewing,
@@ -50,9 +47,6 @@ unbrewed coffee grounds.
 \end{itemize}
 \textbf{Technology \& Data Variations List: }
 \begin{itemize}
-\item[1a.] The Coffee Drinker adding water is optional.  If the
-Reservoir is empty, and the Coffee Drinker does not add any Water,
-consider having the System alert the Coffee Drinker to add water.
 \item[2a.] Predict the adding ability of choice to the Coffee Drinker
 to automate coffee brewing in future upgrades and improvements.
 \end{itemize}
