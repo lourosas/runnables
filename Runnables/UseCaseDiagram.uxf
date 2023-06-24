@@ -17,8 +17,8 @@
     <coordinates>
       <x>410</x>
       <y>80</y>
-      <w>290</w>
-      <h>290</h>
+      <w>220</w>
+      <h>200</h>
     </coordinates>
     <panel_attributes>Coffee Maker
 halign=left</panel_attributes>
@@ -38,8 +38,8 @@ halign=left</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>490</x>
-      <y>300</y>
+      <x>480</x>
+      <y>210</y>
       <w>120</w>
       <h>40</h>
     </coordinates>
@@ -62,44 +62,10 @@ halign=left</panel_attributes>
     <coordinates>
       <x>240</x>
       <y>150</y>
-      <w>270</w>
-      <h>190</h>
+      <w>260</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes/>
-    <additional_attributes>10.0;10.0;250.0;170.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>560</x>
-      <y>230</y>
-      <w>120</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>Fill Reservoir</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>240</x>
-      <y>150</y>
-      <w>340</w>
-      <h>120</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>10.0;10.0;320.0;100.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>550</x>
-      <y>160</y>
-      <w>100</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes>lt=.&gt;
-&lt;&lt;includes&gt;&gt;</panel_attributes>
-    <additional_attributes>10.0;10.0;80.0;70.0</additional_attributes>
+    <additional_attributes>10.0;10.0;240.0;80.0</additional_attributes>
   </element>
 </diagram>
