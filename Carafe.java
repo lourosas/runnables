@@ -126,6 +126,7 @@ public class Carafe implements Runnable, CarafeInterface{
    public void pull() throws NotHomeException{
       if(this.isHome()){
          this.setPulled();
+         this.notifyState();
       }
       else{
          //Throw and notify Subscribers!!!
@@ -146,6 +147,7 @@ public class Carafe implements Runnable, CarafeInterface{
          synchronized(this._o){
             this._o.notify();
          }
+         this.notifyState();
       }
    }
 

@@ -117,14 +117,14 @@ public class Maker implements Runnable{
       try{
          Carafe.instance().pull();
          carafeInterface = Carafe.instance();
-         this.notifyCarafeStatus();
          
       }
       catch(NotHomeException nhe){
+         //Remove all of this for the time being...
          //Print this for the temporary...
-         nhe.printStackTrace();
+         //nhe.printStackTrace();
          //Handle the error...TBD...
-         this.notifyError(nhe);
+         //this.notifyError(nhe);
       }
       finally{
          //Test Print
@@ -143,7 +143,6 @@ public class Maker implements Runnable{
    public void returnCarafe(){
       //Will want to set up mutex
       Carafe.instance().putback();
-      this.notifyCarafeStatus();
    }
 
    ////////////////////////Private Methods////////////////////////////
@@ -193,17 +192,10 @@ public class Maker implements Runnable{
          EmptyReservoirException ece =
                                    (EmptyReservoirException)exception;
          this.notifyError(ece.getMessage());
-         /*
-         String message = ece.getMessage();
-         if(message.toUpperCase().contains("FALSE")){
-            this.notifyReservoirStatus();
-         }
-         */
       }
       catch(ClassCastException cce){}
       try{
          NotHomeException nhe = (NotHomeException)exception;
-         this.notifyCarafeStatus();
       }
       catch(ClassCastException cce){}
    }
