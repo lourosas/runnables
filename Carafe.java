@@ -19,26 +19,46 @@ public class Carafe implements Runnable, CarafeInterface{
    private static Lock lock = new ReentrantLock();
    private static Carafe _instance;
 
-   private enum State{HOME,PULLED,POUR};
+   private enum State{HOME,PULLED,POURING};
 
    private final double CAPACITY = 32.;//Set for 32 at the moment
 
-   private double   _quantity;
-   private State    _state;
-   private Thread   _t;
-   //possibly temporary for the moment
-   private Object   _o;
+   private List<Subscriber> _subscribers;
+   private double           _quantity;
+   private State            _state;
+   private Thread           _t;
+   private Object           _o;
 
    {
-      _quantity = 0.;
-      _state    = State.HOME;
-      _t        = null;
-      _instance = null;
-      _o        = null;
+      _subscribers = null;
+      _quantity    = 0.;
+      _state       = State.HOME;
+      _t           = null;
+      _instance    = null;
+      _o           = null;
    };
 
 
    ////////////////////////////Public Methods/////////////////////////
+   //
+   //
+   //
+   public void addSubscriber(Subscriber subscriber){
+      try{
+         this._subscribers.add(subscriber);
+      }
+      catch(NullPointerException npe){
+         this._subscribers = new LinkedList<Subscriber>();
+         this._subscribers.add(subscriber);
+      }
+      finally{
+         //notify the initialized values...
+         this.notifyState();
+         this.notifyCapacity();
+         this.notifyQuantity();
+      }
+   }
+
    //
    //
    //
@@ -59,14 +79,15 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    //
-   public void fill(double amount) throws NotHomeException,
-   OverflowException{
+   public void fill(double amount) throws NotHomeException{
       if(this.isHome()){
          this._quantity += amount;
          if(this._quantity > this.CAPACITY){
             this._quantity = this.CAPACITY;
-            throw new OverflowException("Carafe Overflowing!!");
+            //throw new OverflowException("Carafe Overflowing!!");
+            this.notifyError(new String("Carafe Overflowing!!"));
          }
+         this.notifyQuantity();
       }
       else{
          throw new NotHomeException();
@@ -83,6 +104,13 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    //
+   public boolean isPouring(){
+      return (this._state == State.POURING);
+   }
+
+   //
+   //
+   //
    public boolean isPulled(){
       return (this._state == State.PULLED);
    }
@@ -90,10 +118,7 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    //
-   public boolean isPouring(){
-      return (this._state == State.POUR);
-   }
-
+   public void pour(){}
 
    //
    //
@@ -103,9 +128,13 @@ public class Carafe implements Runnable, CarafeInterface{
          this.setPulled();
       }
       else{
-         throw new NotHomeException();
+         //Throw and notify Subscribers!!!
+         NotHomeException nhe = new NotHomeException();
+         this.notifyError(nhe);
+         throw nhe;
       }
    }
+
    //
    //
    //
@@ -148,6 +177,69 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    //
+   private void notify(Object object, String message){
+      Iterator<Subscriber> it = this._subscribers.iterator();
+      while(it.hasNext()){
+         Subscriber s = it.next();
+         s.update(object,message);
+      }
+   }
+
+   //
+   //
+   //
+   private void notifyCapacity(){
+      Double quantity = Double.valueOf(this.capacity());
+      this.notify(quantity,new String("Carafe Capacity"));
+   }
+
+   //
+   //
+   //
+   private void notifyError(RuntimeException re){
+      this.notifyError("Carafe " + re.getMessage());
+   }
+
+   //
+   //
+   //
+   private void notifyError(String error){
+      Iterator<Subscriber> it = this._subscribers.iterator();
+      while(it.hasNext()){
+         Subscriber s = it.next();
+         s.error(error);
+      }
+   }
+
+   //
+   //
+   //
+   private void notifyQuantity(){
+      Double quantity = Double.valueOf(this.quantity());
+      this.notify(quantity, new String("Carafe Quantity"));
+   }
+
+   //
+   //
+   //
+   private void notifyState(){
+      String state = "" + this._state;
+      this.notify(state, new String("Carafe State"));
+   }
+
+   //
+   //
+   //
+   private void empty(Mug mug){
+      //Test Prints
+      System.out.println("Carafe.empty()");
+      System.out.println(mug);
+      //mug.fill(1.);
+   }
+
+   //
+   //
+   //
    private void setHome(){
       this._state = State.HOME;
    }
@@ -162,13 +254,9 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    //
-   private void empty(Mug mug){
-      //Test Prints
-      System.out.println("Carafe.empty()");
-      System.out.println(mug);
-      //mug.fill(1.);
+   private void setPour(){
+      this._state = State.POURING;
    }
-
    ///////////////////////Interface Methods///////////////////////////
    ///////////////////////Runnable Implementation/////////////////////
    //

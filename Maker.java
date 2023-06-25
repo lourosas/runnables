@@ -32,11 +32,9 @@ public class Maker implements Runnable{
    //
    public Maker(){
       this._reservoir = new Reservoir();
-      //This is going to want to change, as well!!!
-      Carafe carafe = Carafe.instance();
       //Two lines below may be temporary
       this._o         = new Object();
-      carafe.setObject(this._o);
+      Carafe.instance().setObject(this._o);
       this._t = new Thread(this);
       //since power is on, go ahead and start the thread...
       //this is the POWERON (super)state
@@ -56,8 +54,8 @@ public class Maker implements Runnable{
          this._subscribers.add(subscriber);
       }
       finally{
+         Carafe.instance().addSubscriber(subscriber);
          this.notifyOfState();
-         this.notifyCarafeStartupStatus();
          this.notifyReservoirStartupStatus();
 
       }
@@ -325,10 +323,6 @@ public class Maker implements Runnable{
                      try{
                         Carafe.instance().fill(amount);
                      }
-                     catch(OverflowException oe){
-                        //System.out.println(oe.getMessage());
-                        this.notifyError(oe.getMessage());
-                     }
                      catch(NotHomeException nhe){
                         synchronized(this._o){
                            //Wait until the Carafe is returned
@@ -340,7 +334,6 @@ public class Maker implements Runnable{
                         //System.out.println(
                         //             Carafe.instance().quantity());
                         this.notifyReservoirStatus();
-                        this.notifyCarafeStatus();
                         amount = 
                             this._reservoir.empty(reservoirSleepTime);
                      }

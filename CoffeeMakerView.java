@@ -57,6 +57,15 @@ implements Subscriber{
                                     carafeError,
                                     JOptionPane.WARNING_MESSAGE);
       }
+      else if(error.contains("NOT HOME")){
+         String title = new String("Carafe Not Home!");
+         String body  = new String("Please Wait Unti Carafe");
+         body += "\nis returned";
+         JOptionPane.showMessageDialog(this,
+                         body,
+                         title,
+                         JOptionPane.ERROR_MESSAGE);
+      }
    }
 
    /**/
@@ -548,10 +557,10 @@ implements Subscriber{
 
    /**/
    public void update(Object o, String s){
-      if(s.contains("Carafe ")){
+      if(s.toUpperCase().contains("CARAFE ")){
          this.handleCarafeUpdates(o, s);
       }
-      else if(s.contains("Reservoir ")){
+      else if(s.toUpperCase().contains("RESERVOIR ")){
          this.handleReservoirUpdates(o, s);
       }
    }
