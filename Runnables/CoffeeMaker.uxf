@@ -133,7 +133,7 @@ __+instance():Carafe__
       <w>200</w>
       <h>50</h>
     </coordinates>
-    <panel_attributes>lt=-
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
 m2=1
 </panel_attributes>
