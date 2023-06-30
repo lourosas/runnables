@@ -4,7 +4,7 @@
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>160</x>
+      <x>120</x>
       <y>10</y>
       <w>130</w>
       <h>50</h>
@@ -17,29 +17,29 @@ bg=gray</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>220</x>
+      <x>180</x>
       <y>50</y>
       <w>30</w>
-      <h>850</h>
+      <h>820</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;830.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;800.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>660</x>
+      <x>620</x>
       <y>50</y>
       <w>30</w>
-      <h>850</h>
+      <h>830</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;830.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;810.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>620</x>
+      <x>580</x>
       <y>10</y>
       <w>110</w>
       <h>50</h>
@@ -50,7 +50,7 @@ bg=gray</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>960</x>
+      <x>920</x>
       <y>10</y>
       <w>300</w>
       <h>40</h>
@@ -63,18 +63,18 @@ bg=red</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1100</x>
+      <x>1060</x>
       <y>40</y>
       <w>30</w>
-      <h>820</h>
+      <h>790</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;800.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;770.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>80</x>
+      <x>40</x>
       <y>60</y>
       <w>170</w>
       <h>40</h>
@@ -86,7 +86,7 @@ ref</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>750</x>
+      <x>710</x>
       <y>10</y>
       <w>200</w>
       <h>50</h>
@@ -99,18 +99,18 @@ bg=blue</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>840</x>
+      <x>800</x>
       <y>50</y>
       <w>30</w>
-      <h>810</h>
+      <h>790</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;790.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;770.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>400</x>
+      <x>360</x>
       <y>10</y>
       <w>100</w>
       <h>50</h>
@@ -122,7 +122,7 @@ bg=yellow</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>440</x>
+      <x>400</x>
       <y>50</y>
       <w>30</w>
       <h>840</h>
@@ -133,10 +133,10 @@ bg=yellow</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>180</x>
+      <x>140</x>
       <y>100</y>
       <w>970</w>
-      <h>720</h>
+      <h>680</h>
     </coordinates>
     <panel_attributes>loop
 --
@@ -145,8 +145,15 @@ bg=yellow</panel_attributes>
 
 
 
--.
-[Over Flow]
+
+
+
+
+
+
+
+
+
 
 
 
@@ -169,7 +176,7 @@ bg=yellow</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>220</x>
+      <x>180</x>
       <y>110</y>
       <w>250</w>
       <h>40</h>
@@ -181,7 +188,7 @@ sleep(pumpTime:int)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>220</x>
+      <x>180</x>
       <y>130</y>
       <w>650</w>
       <h>40</h>
@@ -193,7 +200,7 @@ fill(amount:double)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>840</x>
+      <x>800</x>
       <y>150</y>
       <w>240</w>
       <h>50</h>
@@ -205,20 +212,8 @@ home = isHome():boolean</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>200</x>
-      <y>240</y>
-      <w>930</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>ref1
-bg=blue</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLFrame</id>
-    <coordinates>
-      <x>200</x>
-      <y>360</y>
+      <x>160</x>
+      <y>480</y>
       <w>930</w>
       <h>70</h>
     </coordinates>
@@ -229,8 +224,8 @@ bg=red</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>220</x>
-      <y>450</y>
+      <x>180</x>
+      <y>570</y>
       <w>210</w>
       <h>50</h>
     </coordinates>
@@ -241,8 +236,8 @@ notifyReservoirStatus()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>220</x>
-      <y>480</y>
+      <x>180</x>
+      <y>600</y>
       <w>470</w>
       <h>40</h>
     </coordinates>
@@ -253,8 +248,8 @@ quant = quantity():double</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>220</x>
-      <y>500</y>
+      <x>180</x>
+      <y>620</y>
       <w>480</w>
       <h>50</h>
     </coordinates>
@@ -265,8 +260,8 @@ notify(new Double(quant):Double,"Reservoir Quantity":String)</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>210</x>
-      <y>550</y>
+      <x>170</x>
+      <y>670</y>
       <w>910</w>
       <h>60</h>
     </coordinates>
@@ -276,8 +271,8 @@ notify(new Double(quant):Double,"Reservoir Quantity":String)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>220</x>
-      <y>570</y>
+      <x>180</x>
+      <y>690</y>
       <w>910</w>
       <h>40</h>
     </coordinates>
@@ -288,67 +283,8 @@ update(:Double,:String)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>220</x>
-      <y>610</y>
-      <w>190</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-notifyCarafeStatus()</panel_attributes>
-    <additional_attributes>10.0;30.0;30.0;30.0;30.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>220</x>
-      <y>640</y>
-      <w>650</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-quant = quantity():double</panel_attributes>
-    <additional_attributes>630.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>220</x>
-      <y>660</y>
-      <w>460</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-notify(new Double(quant):Double,"Carafe Quantity":String)</panel_attributes>
-    <additional_attributes>10.0;30.0;30.0;30.0;30.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLFrame</id>
-    <coordinates>
-      <x>210</x>
-      <y>710</y>
-      <w>910</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>loop concreteImplementations</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>220</x>
-      <y>730</y>
-      <w>910</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-update(:Double,:String)</panel_attributes>
-    <additional_attributes>890.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>220</x>
-      <y>770</y>
+      <x>180</x>
+      <y>740</y>
       <w>470</w>
       <h>40</h>
     </coordinates>
@@ -359,8 +295,8 @@ amount = empty(sleepTime:int):double</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>150</x>
-      <y>830</y>
+      <x>110</x>
+      <y>790</y>
       <w>180</w>
       <h>40</h>
     </coordinates>
@@ -371,13 +307,95 @@ bg=gray</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>320</x>
-      <y>830</y>
+      <x>280</x>
+      <y>790</y>
       <w>370</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 EmptyReservoirException</panel_attributes>
     <additional_attributes>10.0;20.0;350.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>180</y>
+      <w>510</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+[quantity &gt;= CAPACITY]notifyError("Carafe Overflowing":String)</panel_attributes>
+    <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>780</x>
+      <y>220</y>
+      <w>310</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>loop concreteImplementations</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>250</y>
+      <w>290</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+error("Carafe Overflowing":String)</panel_attributes>
+    <additional_attributes>270.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>290</y>
+      <w>170</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+notifyQuantity()</panel_attributes>
+    <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>320</y>
+      <w>260</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+quantity = quantity():double</panel_attributes>
+    <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>780</x>
+      <y>360</y>
+      <w>310</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>loop concreteImplementations</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>750</x>
+      <y>390</y>
+      <w>390</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+notify(new Double(quantity),"Carafe Quantity":String)</panel_attributes>
+    <additional_attributes>320.0;20.0;60.0;20.0</additional_attributes>
   </element>
 </diagram>
