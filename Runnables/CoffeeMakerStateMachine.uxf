@@ -399,10 +399,10 @@ STOP_POURING</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>850</x>
-      <y>900</y>
-      <w>90</w>
-      <h>40</h>
+      <x>790</x>
+      <y>890</y>
+      <w>150</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>FILLED</panel_attributes>
     <additional_attributes/>
@@ -413,7 +413,7 @@ STOP_POURING</panel_attributes>
       <x>1350</x>
       <y>910</y>
       <w>90</w>
-      <h>40</h>
+      <h>50</h>
     </coordinates>
     <panel_attributes>WASFILLED</panel_attributes>
     <additional_attributes/>
@@ -455,20 +455,20 @@ STOP_POURING</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>930</x>
+      <x>920</x>
       <y>730</y>
-      <w>370</w>
-      <h>190</h>
+      <w>380</w>
+      <h>180</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 [amount&gt;0.25]/fill(amount)</panel_attributes>
-    <additional_attributes>350.0;10.0;10.0;170.0</additional_attributes>
+    <additional_attributes>360.0;10.0;10.0;160.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>930</x>
-      <y>890</y>
+      <y>900</y>
       <w>440</w>
       <h>40</h>
     </coordinates>
@@ -494,34 +494,46 @@ STOP_POURING</panel_attributes>
       <x>800</x>
       <y>730</y>
       <w>220</w>
-      <h>200</h>
+      <h>180</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 [amount&gt;0.25]/fill(amount)</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;180.0;50.0;180.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;160.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>920</x>
+      <x>930</x>
       <y>930</y>
-      <w>490</w>
-      <h>130</h>
+      <w>440</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 [amount&gt;0.25]fill()</panel_attributes>
-    <additional_attributes>470.0;20.0;470.0;110.0;10.0;110.0;10.0;10.0</additional_attributes>
+    <additional_attributes>420.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>720</x>
-      <y>920</y>
+      <x>770</x>
+      <y>980</y>
       <w>200</w>
-      <h>90</h>
+      <h>60</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 [quantity&gt;0.25]/empty()</panel_attributes>
-    <additional_attributes>130.0;10.0;90.0;10.0;90.0;70.0;150.0;70.0;150.0;20.0</additional_attributes>
+    <additional_attributes>150.0;10.0;150.0;40.0;40.0;40.0;40.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>930</y>
+      <w>160</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+[amount&gt;0.25]fill()</panel_attributes>
+    <additional_attributes>60.0;10.0;10.0;10.0;10.0;40.0;60.0;40.0</additional_attributes>
   </element>
 </diagram>
