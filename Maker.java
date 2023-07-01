@@ -55,9 +55,8 @@ public class Maker implements Runnable{
       }
       finally{
          Carafe.instance().addSubscriber(subscriber);
+         this._reservoir.addSubscriber(subscriber);
          this.notifyOfState();
-         this.notifyReservoirStartupStatus();
-
       }
    }
 
@@ -82,16 +81,7 @@ public class Maker implements Runnable{
    //
    //
    public void fillReservoir(double amount){
-      try{
-         this._reservoir.fill(amount);
-      }
-      catch(OverflowException oe){
-         this.notifyError(oe.getMessage());
-      }
-      finally{
-         //Notify how full the Reservoir is...
-         this.notifyReservoirStatus();
-      }
+      this._reservoir.fill(amount);
    }
 
    //
@@ -119,15 +109,8 @@ public class Maker implements Runnable{
          carafeInterface = Carafe.instance();
          
       }
-      catch(NotHomeException nhe){
-         //Remove all of this for the time being...
-         //Print this for the temporary...
-         //nhe.printStackTrace();
-         //Handle the error...TBD...
-         //this.notifyError(nhe);
-      }
+      catch(NotHomeException nhe){}
       finally{
-         //Test Print
          return carafeInterface;
       }
    }
@@ -146,7 +129,6 @@ public class Maker implements Runnable{
    }
 
    ////////////////////////Private Methods////////////////////////////
-   //
    //
    //
    //
@@ -185,17 +167,7 @@ public class Maker implements Runnable{
       try{
          AlreadyBrewingException abe =
                                    (AlreadyBrewingException)exception;
-         this.notifyError(abe.getMessage());
-      }
-      catch(ClassCastException cce){}
-      try{
-         EmptyReservoirException ece =
-                                   (EmptyReservoirException)exception;
-         this.notifyError(ece.getMessage());
-      }
-      catch(ClassCastException cce){}
-      try{
-         NotHomeException nhe = (NotHomeException)exception;
+         this.notifyError("Coffee Maker " + abe.getMessage());
       }
       catch(ClassCastException cce){}
    }
@@ -217,63 +189,11 @@ public class Maker implements Runnable{
    }
 
    //
-   //
-   //
-   private void notifyCarafeStatus(){
-      String state = null;
-      String component = new String("Carafe State");
-      if(Carafe.instance().isHome()){
-         state = new String("Home");
-      }
-      else if(Carafe.instance().isPulled()){
-         state = new String("Pulled");
-      }
-      else if(Carafe.instance().isPouring()){
-         state = new String("Pouring");
-      }
-      this.notify(state,component);
-      Double quantity = Double.valueOf(Carafe.instance().quantity());
-      this.notify(quantity, new String("Carafe Quantity"));
-   }
-
-   //
-   //Get the current state of the Carafe and notify
-   //
-   private void notifyCarafeStartupStatus(){
-      Double capacity = Double.valueOf(Carafe.instance().capacity());
-      this.notify(capacity, new String("Carafe Capacity"));
-      this.notifyCarafeStatus();
-   }
-
-
-   //
    //Notify the Subscribers of all the State information
    //
    private void notifyOfState(){
       String state = new String("State: ") + this._state;
       this.notify(state);
-   }
-
-   //
-   //
-   //
-   private void notifyReservoirStatus(){
-      if(this._reservoir.isEmpty()){
-         String empty = new String("Error Empty");
-         String state = new String("Reservoir State");
-         this.notify(empty, state);
-      }
-      Double quantity = Double.valueOf(this._reservoir.quantity());
-      this.notify(quantity, new String("Reservoir Quantity"));
-   }
-
-   //
-   //
-   //
-   private void notifyReservoirStartupStatus(){
-      Double capacity = Double.valueOf(this._reservoir.capacity());
-      this.notify(capacity,new String("Reservoir Capacity"));
-      this.notifyReservoirStatus();
    }
 
    //
@@ -306,42 +226,28 @@ public class Maker implements Runnable{
       double amount          = -1.;
       while(this._power){//get rid of and make an accessor...
          try{
-            //This is definitely a redundant check...
             if(isBrewing()){
-               try{
-                  amount = this._reservoir.empty(reservoirSleepTime);
-                  while(true){
+               amount = this._reservoir.empty(reservoirSleepTime);
+               while(amount > Reservoir.EMPTY){
+                  try{
+                     Carafe.instance().fill(amount);
                      Thread.sleep(reservoirSleepTime);
-                     try{
-                        Carafe.instance().fill(amount);
+                  }
+                  catch(NotHomeException nhe){
+                     synchronized(this._o){
+                        //Wait until the Carafe is returned
+                        this._o.wait();
                      }
-                     catch(NotHomeException nhe){
-                        synchronized(this._o){
-                           //Wait until the Carafe is returned
-                           this._o.wait();
-                        }
-                        Carafe.instance().fill(amount);
-                     }
-                     finally{
-                        //System.out.println(
-                        //             Carafe.instance().quantity());
-                        this.notifyReservoirStatus();
-                        amount = 
+                     Carafe.instance().fill(amount);
+                  }
+                  finally{
+                     amount = 
                             this._reservoir.empty(reservoirSleepTime);
-                     }
                   }
                }
-               catch(EmptyReservoirException ece){
-                  //May want to set ready at some other point
-                  this.notifyReservoirStatus();
-               }
-               finally{
-                  //Once Done, set back to the READY state
-                  //BREWING-->READY
-                  this.setReady();
-                  System.out.println(
+               this.setReady();
+               System.out.println(
                              "Carafe: "+Carafe.instance().quantity());
-               }
             }
             Thread.sleep(sleepTime);
          }

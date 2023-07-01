@@ -60,7 +60,7 @@ implements Subscriber{
       else if(error.contains("NOT HOME")){
          String title = new String("Carafe Not Home!");
          String body  = new String("Please Wait Until Carafe");
-         body += "\nis Returned";
+         body += "\nis returned";
          JOptionPane.showMessageDialog(this,
                          body,
                          title,
@@ -96,20 +96,16 @@ implements Subscriber{
       }
    }
 
-   /*
-   TO BE REMOVED!!!
-   */
-   private void handleEmptyReservoirException
-   (
-      EmptyReservoirException ere
-   ){
-      String fill = "Please fill the Reservoir\nBy pressing the";
-      fill += "\"Fill Reservoir\" \nButton in the Button Panel";
-      JOptionPane.showMessageDialog(this,
-                                    fill,
-                                    "Fill the Reservoir",
-                                    JOptionPane.WARNING_MESSAGE);
-
+   /**/
+   private void handleMakerErrors(String message){
+      String error = message.toUpperCase();
+      if(error.contains("ALREADY") && error.contains("BREWING")){
+         String issue = "The Coffee Maker is Already Brewing";
+         JOptionPane.showMessageDialog(this,
+                                       issue,
+                                       message,
+                                       JOptionPane.WARNING_MESSAGE);
+      }
    }
 
    /**/
@@ -567,18 +563,6 @@ implements Subscriber{
 
    /**/
    public void error(RuntimeException re){
-      /*
-      try{
-         OverflowException oe = (OverflowException)re;
-         this.handleOverflowExceptions(oe);
-      }
-      catch(ClassCastException cce){}
-      try{
-         EmptyReservoirException ere = (EmptyReservoirException)re;
-         this.handleEmptyReservoirException(ere);
-      }
-      catch(ClassCastException cce){}
-      */
    }
 
    /**/
@@ -592,8 +576,8 @@ implements Subscriber{
       else if(error.toUpperCase().contains("CARAFE")){
          this.handleCarafeErrors(error);
       }
-      else if(error.toUpperCase().contains("BREWING")){
-         //this.handleBrewingErrors(error);
+      else if(error.toUpperCase().contains("MAKER")){
+         this.handleMakerErrors(error);
       }
    }
 }

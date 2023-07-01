@@ -144,10 +144,10 @@ public class Carafe implements Runnable, CarafeInterface{
       //nor POURING States
       if(isPulled()){
          this.setHome();
+         this.notifyState();
          synchronized(this._o){
             this._o.notify();
          }
-         this.notifyState();
       }
    }
 
