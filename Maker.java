@@ -107,7 +107,6 @@ public class Maker implements Runnable{
       try{
          Carafe.instance().pull();
          carafeInterface = Carafe.instance();
-         
       }
       catch(NotHomeException nhe){}
       finally{
