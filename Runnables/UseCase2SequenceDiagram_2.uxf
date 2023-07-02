@@ -4,7 +4,7 @@
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>20</x>
+      <x>50</x>
       <y>10</y>
       <w>120</w>
       <h>110</h>
@@ -15,7 +15,7 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>70</x>
+      <x>100</x>
       <y>50</y>
       <w>30</w>
       <h>900</h>
@@ -26,7 +26,7 @@
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>250</x>
+      <x>280</x>
       <y>10</y>
       <w>110</w>
       <h>50</h>
@@ -39,29 +39,29 @@ bg=gray</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
+      <x>320</x>
       <y>50</y>
       <w>30</w>
-      <h>890</h>
+      <h>880</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;870.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;860.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>480</x>
+      <x>510</x>
       <y>60</y>
       <w>30</w>
-      <h>930</h>
+      <h>850</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;910.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;830.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>380</x>
+      <x>410</x>
       <y>10</y>
       <w>220</w>
       <h>60</h>
@@ -75,7 +75,7 @@ bg=blue</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>620</x>
+      <x>650</x>
       <y>10</y>
       <w>100</w>
       <h>50</h>
@@ -87,18 +87,18 @@ _:Mug_</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>660</x>
+      <x>690</x>
       <y>50</y>
       <w>30</w>
-      <h>850</h>
+      <h>870</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;830.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;850.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>770</x>
+      <x>800</x>
       <y>30</y>
       <w>30</w>
       <h>880</h>
@@ -109,7 +109,7 @@ _:Mug_</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>730</x>
+      <x>760</x>
       <y>10</y>
       <w>100</w>
       <h>30</h>
@@ -121,20 +121,20 @@ bg=orange</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>70</x>
+      <x>100</x>
       <y>100</y>
       <w>250</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-pullCarafe():Carafe</panel_attributes>
+pullCarafe():CarafeInterface</panel_attributes>
     <additional_attributes>230.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
-      <y>120</y>
+      <x>510</x>
+      <y>150</y>
       <w>240</w>
       <h>50</h>
     </coordinates>
@@ -145,10 +145,10 @@ home = isHome():boolean</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>30</x>
-      <y>480</y>
-      <w>1000</w>
-      <h>160</h>
+      <x>320</x>
+      <y>350</y>
+      <w>720</w>
+      <h>200</h>
     </coordinates>
     <panel_attributes>home = false</panel_attributes>
     <additional_attributes/>
@@ -156,9 +156,9 @@ home = isHome():boolean</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>30</x>
-      <y>650</y>
-      <w>1000</w>
+      <x>60</x>
+      <y>560</y>
+      <w>290</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>finally</panel_attributes>
@@ -167,8 +167,8 @@ home = isHome():boolean</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
-      <y>480</y>
+      <x>320</x>
+      <y>470</y>
       <w>220</w>
       <h>40</h>
     </coordinates>
@@ -179,7 +179,7 @@ NotHomeException</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
+      <x>320</x>
       <y>500</y>
       <w>220</w>
       <h>50</h>
@@ -191,8 +191,8 @@ carafeInterface = null</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>70</x>
-      <y>660</y>
+      <x>100</x>
+      <y>570</y>
       <w>250</w>
       <h>40</h>
     </coordinates>
@@ -203,8 +203,8 @@ carafeInterface</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
-      <y>150</y>
+      <x>510</x>
+      <y>180</y>
       <w>130</w>
       <h>50</h>
     </coordinates>
@@ -215,43 +215,31 @@ setPulled()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>30</x>
-      <y>190</y>
-      <w>330</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-carafeInstance = instance():CarafeInstance</panel_attributes>
-    <additional_attributes>270.0;20.0;50.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>290</x>
+      <x>510</x>
       <y>210</y>
-      <w>200</w>
+      <w>150</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-notifyCarafeStatus()</panel_attributes>
+notifyState()</panel_attributes>
     <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
+      <x>510</x>
       <y>240</y>
-      <w>340</w>
+      <w>370</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-notify(state:String,"Carafe State":String)</panel_attributes>
+notify("PULLED":String,"Carafe State":String)</panel_attributes>
     <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>850</x>
+      <x>880</x>
       <y>10</y>
       <w>270</w>
       <h>40</h>
@@ -264,7 +252,7 @@ bg=red</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>980</x>
+      <x>1010</x>
       <y>40</y>
       <w>30</w>
       <h>840</h>
@@ -275,9 +263,9 @@ bg=red</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>290</x>
+      <x>500</x>
       <y>280</y>
-      <w>720</w>
+      <w>540</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>loop subscribers</panel_attributes>
@@ -286,81 +274,34 @@ bg=red</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
+      <x>510</x>
       <y>300</y>
-      <w>720</w>
+      <w>530</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-notify(:String,:String)</panel_attributes>
-    <additional_attributes>700.0;20.0;10.0;20.0</additional_attributes>
+notify("PULLED":String,"Carafe State":String)</panel_attributes>
+    <additional_attributes>510.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
+      <x>510</x>
       <y>350</y>
-      <w>220</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-quantity = quantity():double</panel_attributes>
-    <additional_attributes>200.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>290</x>
-      <y>370</y>
-      <w>440</w>
+      <w>290</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-notify(new Double(quantity),"Carafe Quantity":String)</panel_attributes>
-    <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLFrame</id>
-    <coordinates>
-      <x>280</x>
-      <y>410</y>
-      <w>730</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>loop suscribers</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>290</x>
-      <y>430</y>
-      <w>720</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-notify(:Double,:String)</panel_attributes>
-    <additional_attributes>700.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>290</x>
-      <y>530</y>
-      <w>200</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-notifyError(:String)</panel_attributes>
+notifyError(:NotHomeException)</panel_attributes>
     <additional_attributes>10.0;30.0;50.0;30.0;50.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>280</x>
-      <y>570</y>
-      <w>740</w>
-      <h>60</h>
+      <x>490</x>
+      <y>430</y>
+      <w>540</w>
+      <h>50</h>
     </coordinates>
     <panel_attributes>loop subscribers</panel_attributes>
     <additional_attributes/>
@@ -368,20 +309,20 @@ notifyError(:String)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>290</x>
-      <y>590</y>
-      <w>720</w>
+      <x>510</x>
+      <y>440</y>
+      <w>530</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-error(:String)</panel_attributes>
-    <additional_attributes>700.0;20.0;10.0;20.0</additional_attributes>
+error("NotHomeException":String)</panel_attributes>
+    <additional_attributes>510.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>70</x>
-      <y>730</y>
+      <x>100</x>
+      <y>640</y>
       <w>440</w>
       <h>40</h>
     </coordinates>
@@ -392,8 +333,8 @@ pour(:Mug)</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>540</x>
-      <y>730</y>
+      <x>570</x>
+      <y>640</y>
       <w>480</w>
       <h>50</h>
     </coordinates>
@@ -404,8 +345,8 @@ bg=blue</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>480</x>
-      <y>750</y>
+      <x>510</x>
+      <y>660</y>
       <w>80</w>
       <h>30</h>
     </coordinates>
@@ -415,12 +356,48 @@ bg=blue</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>30</x>
-      <y>710</y>
+      <x>60</x>
+      <y>620</y>
       <w>1000</w>
-      <h>80</h>
+      <h>250</h>
     </coordinates>
     <panel_attributes>carafeInterface != null</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>130</y>
+      <w>300</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+carafeInterface = pull():CarafeInterface</panel_attributes>
+    <additional_attributes>240.0;20.0;50.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>510</x>
+      <y>380</y>
+      <w>350</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+notifyError("NotHomeException":String)</panel_attributes>
+    <additional_attributes>10.0;30.0;50.0;30.0;50.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>100</x>
+      <y>680</y>
+      <w>440</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+stopPour()</panel_attributes>
+    <additional_attributes>420.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>
