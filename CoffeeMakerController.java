@@ -15,7 +15,7 @@ public class CoffeeMakerController
 implements ActionListener, KeyListener, ItemListener{
    private Subscriber _subscriber;
    private Maker      _maker;
-   
+
    {
       _subscriber = null;
       _maker      = null;
@@ -56,7 +56,8 @@ implements ActionListener, KeyListener, ItemListener{
          this._maker.brew();
       }
       else if(command.toUpperCase().equals("GET")){
-         System.out.println(this._maker.pullCarafe());
+         //System.out.println(this._maker.pullCarafe());
+         this._maker.pullCarafe();
       }
       else if(command.toUpperCase().equals("RETURN")){
          this._maker.returnCarafe();
