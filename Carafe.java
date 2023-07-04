@@ -25,6 +25,7 @@ public class Carafe implements Runnable, CarafeInterface{
 
    private List<Subscriber> _subscribers;
    private double           _quantity;
+   private double           _emptyRare;
    private State            _state;
    private Thread           _t;
    private Object           _o;
@@ -32,6 +33,7 @@ public class Carafe implements Runnable, CarafeInterface{
    {
       _subscribers = null;
       _quantity    = 0.;
+      _emptyRate   = 0.25; //Oz/sec-->put this low for now
       _state       = State.HOME;
       _t           = null;
       _instance    = null;
@@ -265,7 +267,8 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    public void run(){
-      int sleepTime = 50;
+      int sleepTime     = 50;
+      int pourSleepTime = 1000;//sleep for a second while filling
       try{
          while(true){
             Thread.sleep(sleepTime);
