@@ -5,18 +5,18 @@
     <id>Relation</id>
     <coordinates>
       <x>60</x>
-      <y>50</y>
+      <y>160</y>
       <w>30</w>
-      <h>730</h>
+      <h>490</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;710.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;470.0</additional_attributes>
   </element>
   <element>
     <id>UMLActor</id>
     <coordinates>
       <x>10</x>
-      <y>10</y>
+      <y>130</y>
       <w>120</w>
       <h>110</h>
     </coordinates>
@@ -27,7 +27,7 @@
     <id>UMLGeneric</id>
     <coordinates>
       <x>240</x>
-      <y>10</y>
+      <y>30</y>
       <w>110</w>
       <h>50</h>
     </coordinates>
@@ -40,18 +40,18 @@ bg=gray</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>280</x>
-      <y>50</y>
+      <y>70</y>
       <w>30</w>
-      <h>870</h>
+      <h>580</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;850.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;560.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
       <x>510</x>
-      <y>10</y>
+      <y>30</y>
       <w>220</w>
       <h>60</h>
     </coordinates>
@@ -65,18 +65,18 @@ bg=blue</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>610</x>
-      <y>60</y>
+      <y>80</y>
       <w>30</w>
-      <h>850</h>
+      <h>560</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;830.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;540.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
       <x>830</x>
-      <y>10</y>
+      <y>30</y>
       <w>100</w>
       <h>50</h>
     </coordinates>
@@ -88,18 +88,18 @@ _:Mug_</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>870</x>
-      <y>50</y>
+      <y>70</y>
       <w>30</w>
-      <h>840</h>
+      <h>580</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;820.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;560.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
       <x>990</x>
-      <y>10</y>
+      <y>30</y>
       <w>270</w>
       <h>40</h>
     </coordinates>
@@ -112,20 +112,20 @@ bg=red</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1120</x>
-      <y>40</y>
+      <y>60</y>
       <w>30</w>
-      <h>850</h>
+      <h>590</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;830.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;570.0</additional_attributes>
   </element>
   <element>
     <id>UMLFrame</id>
     <coordinates>
       <x>190</x>
-      <y>80</y>
-      <w>1070</w>
-      <h>780</h>
+      <y>100</y>
+      <w>1080</w>
+      <h>510</h>
     </coordinates>
     <panel_attributes>ref0</panel_attributes>
     <additional_attributes/>
@@ -134,7 +134,7 @@ bg=red</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>100</x>
-      <y>70</y>
+      <y>90</y>
       <w>110</w>
       <h>30</h>
     </coordinates>
@@ -142,32 +142,10 @@ bg=red</panel_attributes>
     <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
-    <id>UMLFrame</id>
-    <coordinates>
-      <x>460</x>
-      <y>330</y>
-      <w>790</w>
-      <h>520</h>
-    </coordinates>
-    <panel_attributes>par</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLFrame</id>
-    <coordinates>
-      <x>510</x>
-      <y>340</y>
-      <w>730</w>
-      <h>500</h>
-    </coordinates>
-    <panel_attributes>infinte loop</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>UMLGeneric</id>
     <coordinates>
       <x>380</x>
-      <y>10</y>
+      <y>30</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -179,23 +157,134 @@ bg=yellow</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>420</x>
-      <y>30</y>
+      <y>50</y>
       <w>30</w>
-      <h>890</h>
+      <h>600</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;870.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;580.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>510</x>
+      <y>150</y>
+      <w>750</w>
+      <h>450</h>
+    </coordinates>
+    <panel_attributes>pulled == true
+--
+
+
+
+
+
+-.
+
+
+
+
+
+
+
+
+
+
+-.</panel_attributes>
+    <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>610</x>
-      <y>90</y>
-      <w>130</w>
+      <y>100</y>
+      <w>250</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-setPour()</panel_attributes>
-    <additional_attributes>10.0;30.0;50.0;30.0;50.0;10.0;10.0;10.0</additional_attributes>
+pulled = isPulled():boolean</panel_attributes>
+    <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>550</x>
+      <y>180</y>
+      <w>670</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>ref1
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>610</x>
+      <y>260</y>
+      <w>240</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+home = isHome():boolean</panel_attributes>
+    <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>540</x>
+      <y>310</y>
+      <w>690</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>home == true</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>550</x>
+      <y>510</y>
+      <w>670</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>ref3
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>610</x>
+      <y>430</y>
+      <w>270</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+pouring = isPouring():boolean</panel_attributes>
+    <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>540</x>
+      <y>480</y>
+      <w>690</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>pouring = true</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>550</x>
+      <y>340</y>
+      <w>670</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>ref2
+bg=red</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>
