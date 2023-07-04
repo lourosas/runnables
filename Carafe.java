@@ -25,8 +25,9 @@ public class Carafe implements Runnable, CarafeInterface{
 
    private List<Subscriber> _subscribers;
    private double           _quantity;
-   private double           _emptyRare;
+   private double           _emptyRate;
    private State            _state;
+   private Mug              _mug;
    private Thread           _t;
    private Object           _o;
 
@@ -35,6 +36,7 @@ public class Carafe implements Runnable, CarafeInterface{
       _quantity    = 0.;
       _emptyRate   = 0.25; //Oz/sec-->put this low for now
       _state       = State.HOME;
+      _mug         = null; //Carafe Fills a mug
       _t           = null;
       _instance    = null;
       _o           = null;
@@ -116,11 +118,6 @@ public class Carafe implements Runnable, CarafeInterface{
    public boolean isPulled(){
       return (this._state == State.PULLED);
    }
-
-   //
-   //
-   //
-   public void pour(){}
 
    //
    //
@@ -281,19 +278,16 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    //
-   public void pour(Mug mug) throws NotPulledException{
-      System.out.println("Carafe.pour()");
-      this.setPour();
-      /*
+   public void pour(Mug mug){
+      _mug = mug;
       if(this.isPulled()){
-         //Test Prints
-         System.out.println("Carafe.pour()");
-         this.empty(mug);
+         this.setPour();
+	 this.notifyState();
       }
-      else{
-         throw new NotPulledException();
+      else if(this.isHome()){}
+      else if(this.isPouring()){
+         //Notify of error
       }
-      */
    }
 
    //

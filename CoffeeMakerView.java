@@ -24,7 +24,7 @@ implements Subscriber{
    {
       _controller = null;
       _powerGroup = null;
-      
+
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -311,10 +311,33 @@ implements Subscriber{
       centerPanel.add(pouring);
       panel.add(centerPanel);
 
-      panel.add(new JPanel());//Just put in an empty panel
+      JPanel southPanel = new JPanel();
+      southPanel.setLayout(new GridLayout(3,1));
+      southPanel.setBorder(BorderFactory.createEtchedBorder());
+      JButton mug = new JButton("Mug");
+      mug.setActionCommand("Mug");
+      mug.addActionListener(this._controller);
+      mug.addKeyListener(this._controller);
+      mug.setEnabled(false);
+      southPanel.add(mug);
+      JButton pour = new JButton("Pour");
+      pour.setActionCommand("Pour");
+      pour.addActionListener(this._controller);
+      pour.addKeyListener(this._controller);
+      pour.setEnabled(false);
+      southPanel.add(pour);
+      JButton stop = new JButton("Stop Pouring");
+      stop.setActionCommand("StopPouring");
+      stop.addActionListener(this._controller);
+      stop.addKeyListener(this._controller);
+      stop.setEnabled(false);
+      southPanel.add(stop);
+      panel.add(southPanel);
+
+      //panel.add(new JPanel());//Just put in an empty panel
       return panel;
    }
-   
+
    /**/
    private void setReservoirCapacity(double capacity){
       //Set Left Panel
@@ -468,7 +491,7 @@ implements Subscriber{
       capacity.setEnabled(false);
       topPanel.add(capacity);
       panel.add(topPanel);
-      
+
       panel.add(new JPanel());
       panel.add(new JPanel());
       return panel;
@@ -522,7 +545,7 @@ implements Subscriber{
       returnCarafe.addActionListener(this._controller);
       returnCarafe.addKeyListener(this._controller);
       panel.add(returnCarafe);
-      
+
       JButton fill = new JButton("Fill Reservoir");
       fill.setActionCommand("Reservoir Fill");
       fill.setMnemonic(KeyEvent.VK_F);
