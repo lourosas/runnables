@@ -239,12 +239,15 @@ implements Subscriber{
       JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
       JPanel statePanel  = (JPanel)centerPanel.getComponent(0);
       JPanel indicatorPanel = (JPanel)statePanel.getComponent(1);
+      JPanel buttonPanel = (JPanel)statePanel.getComponent(2);
       JLabel in   = (JLabel)indicatorPanel.getComponent(0);
       JLabel out  = (JLabel)indicatorPanel.getComponent(1);
       JLabel pour = (JLabel)indicatorPanel.getComponent(2);
       in.setEnabled(false);
       out.setEnabled(false);
       pour.setEnabled(false);
+      JButton mug = (JButton)buttonPanel.getComponent(0);
+      JButton pouring = (JButton)buttonPanel.getComponent(1);
       if(state.trim().toUpperCase().equals("HOME")){
          in.setEnabled(true);
       }

@@ -282,7 +282,7 @@ public class Carafe implements Runnable, CarafeInterface{
       _mug = mug;
       if(this.isPulled()){
          this.setPour();
-	 this.notifyState();
+         this.notifyState();
       }
       else if(this.isHome()){}
       else if(this.isPouring()){
