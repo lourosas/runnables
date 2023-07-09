@@ -48,6 +48,80 @@ implements Subscriber{
    /////////////////////////Protected Methods/////////////////////////
    ///////////////////////////Private Methods/////////////////////////
    /**/
+   private void carafePourEnable(boolean enable){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel leftPanel = (JPanel)panel.getComponent(0);
+      JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
+      JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+      JPanel buttonPanel = (JPanel)statePanel.getComponent(2);
+      JButton pour = (JButton)buttonPanel.getComponent(0);
+      JButton stop = (JButton)buttonPanel.getComponent(2);
+      pour.setEnabled(false);
+      stop.setEnabled(false);
+      if(enable){
+         pour.setEnabled(true);
+      }
+      else{
+         stop.setEnabled(true);
+      }
+   }
+
+   /**/
+   private void disableSouthButton(String button){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(2);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         JButton b = (JButton)panel.getComponent(i);
+         if(b.getText().toUpperCase().equals(button.toUpperCase())){
+            b.setEnabled(false);
+	 }
+      }
+   }
+
+   /**/
+   private void displayMug(Mug mug){
+      int sz = mug.size();
+      GenericJInteractionFrame mugFrame =
+                                 new GenericJInteractionFrame("Mug");
+      mugFrame.setLayout(new GridLayout(1,2));
+      mugFrame.setSize(320,450);
+      mugFrame.setResizable(false);
+      JPanel left  = new JPanel();
+      left.setBorder(BorderFactory.createEtchedBorder());
+      left.setLayout(new GridLayout(3,1));
+      JPanel topLeftPanel = new JPanel();
+      topLeftPanel.setBorder(BorderFactory.createEtchedBorder());
+      topLeftPanel.setLayout(new GridLayout(2,1));
+      JLabel amount = new JLabel("Amount: ");
+      topLeftPanel.add(amount);
+      JLabel capacity = new JLabel("Capacity: ");
+      topLeftPanel.add(capacity);
+      left.add(topLeftPanel);
+      left.add(new JPanel());
+      left.add(new JPanel());
+      JPanel right = new JPanel();
+      right.setLayout(new BorderLayout());
+      right.setBorder(BorderFactory.createEtchedBorder());
+      JProgressBar bar=new JProgressBar(SwingConstants.VERTICAL,0,sz);
+      bar.setValue(bar.getMinimum());
+      bar.setStringPainted(true);
+      right.add(bar, BorderLayout.CENTER);
+      mugFrame.add(left);
+      mugFrame.add(right);
+      mugFrame.setVisible(true);
+   }
+
+   /**/
+   private void enableSouthButton(String button){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(2);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         JButton b = (JButton)panel.getComponent(i);
+         if(b.getText().toUpperCase().equals(button.toUpperCase())){
+	    b.setEnabled(true);
+	 }
+      }
+   }
+
+   /**/
    private void handleCarafeErrors(String carafeError){
       String error = carafeError.toUpperCase();
       if(error.contains("OVERFLOWING")){
@@ -243,25 +317,24 @@ implements Subscriber{
       JLabel in   = (JLabel)indicatorPanel.getComponent(0);
       JLabel out  = (JLabel)indicatorPanel.getComponent(1);
       JLabel pour = (JLabel)indicatorPanel.getComponent(2);
-      JButton mug = (JButton)buttonPanel.getComponent(0);
-      JButton pouring = (JButton)buttonPanel.getComponent(1);
+      JButton pouring = (JButton)buttonPanel.getComponent(0);
       JButton stop = (JButton)buttonPanel.getComponent(2);
       in.setEnabled(false);
       out.setEnabled(false);
       pour.setEnabled(false);
-      mug.setEnabled(false);
       pouring.setEnabled(false);
       stop.setEnabled(false);
       if(state.trim().toUpperCase().equals("HOME")){
          in.setEnabled(true);
+	 this.disableSouthButton("Mug");
       }
       else if(state.trim().toUpperCase().equals("PULLED")){
          out.setEnabled(true);
-         mug.setEnabled(true);
-         //Once the Mug is true, need to enable the pouring button
+	 this.enableSouthButton("Mug");
       }
       else if(state.trim().toUpperCase().equals("POURING")){
          pour.setEnabled(true);
+	 this.disableSouthButton("Mug");
       }
    }
 
@@ -323,18 +396,15 @@ implements Subscriber{
       JPanel southPanel = new JPanel();
       southPanel.setLayout(new GridLayout(3,1));
       southPanel.setBorder(BorderFactory.createEtchedBorder());
-      JButton mug = new JButton("Mug");
-      mug.setActionCommand("Mug");
-      mug.addActionListener(this._controller);
-      mug.addKeyListener(this._controller);
-      mug.setEnabled(false);
-      southPanel.add(mug);
       JButton pour = new JButton("Pour");
       pour.setActionCommand("Pour");
       pour.addActionListener(this._controller);
       pour.addKeyListener(this._controller);
       pour.setEnabled(false);
       southPanel.add(pour);
+      JButton empty = new JButton(" ");
+      empty.setEnabled(false);
+      southPanel.add(empty);
       JButton stop = new JButton("Stop Pouring");
       stop.setActionCommand("StopPouring");
       stop.addActionListener(this._controller);
@@ -562,6 +632,14 @@ implements Subscriber{
       fill.addKeyListener(this._controller);
       panel.add(fill);
 
+      JButton mug = new JButton("Mug");
+      mug.setActionCommand("Mug");
+      mug.addActionListener(this._controller);
+      mug.addKeyListener(this._controller);
+      mug.setEnabled(false);
+      panel.add(mug);
+
+
       return panel;
    }
 
@@ -592,8 +670,11 @@ implements Subscriber{
          this.handleReservoirUpdates(o, s);
       }
       else if(s.toUpperCase().contains("MUG")){
-         System.out.println(s);
-         System.out.println(o);
+         try{
+            this.displayMug((Mug)o);
+            this.carafePourEnable(true);
+         }
+         catch(ClassCastException cce){}
       }
    }
 

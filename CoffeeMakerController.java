@@ -116,7 +116,7 @@ implements ActionListener, KeyListener, ItemListener{
                    "Mug Size",
                    "Enter The Mug Size",
                    JOptionPane.QUESTION_MESSAGE);
-            Mug mug = new Mug(Double.parseDouble(s));
+            Mug mug = new Mug(Integer.parseInt(s));
             this._subscriber.update(mug, "Mug");
             toLoop = false;
          }

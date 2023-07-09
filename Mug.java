@@ -9,9 +9,9 @@ import rosas.lou.runnables.*;
 
 public class Mug implements Runnable{
    //Set the size to 8 Oz. for the moment
-   private final double SIZE = 8.0;
-   private double _quantity;
-   private double _size;
+   private final int SIZE = 8;
+   private double    _quantity;
+   private int       _size;
 
    {
       _quantity = 0;
@@ -27,7 +27,7 @@ public class Mug implements Runnable{
    //
    //
    //
-   public Mug(double size){
+   public Mug(int size){
       this._size = size;
    }
 
@@ -47,7 +47,7 @@ public class Mug implements Runnable{
    //
    //
    //
-   public double size(){
+   public int size(){
       return this._size;
    }
 
