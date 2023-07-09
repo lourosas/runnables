@@ -257,7 +257,7 @@ implements Subscriber{
       }
       else if(state.trim().toUpperCase().equals("PULLED")){
          out.setEnabled(true);
-	 mug.setEnabled(true);
+         mug.setEnabled(true);
          //Once the Mug is true, need to enable the pouring button
       }
       else if(state.trim().toUpperCase().equals("POURING")){
@@ -327,11 +327,6 @@ implements Subscriber{
       mug.setActionCommand("Mug");
       mug.addActionListener(this._controller);
       mug.addKeyListener(this._controller);
-      mug.addActionListener(new ActionListener(){
-         public void actionPerformed(ActionEvent e){
-	    
-	 }
-      });
       mug.setEnabled(false);
       southPanel.add(mug);
       JButton pour = new JButton("Pour");
@@ -595,6 +590,10 @@ implements Subscriber{
       }
       else if(s.toUpperCase().contains("RESERVOIR ")){
          this.handleReservoirUpdates(o, s);
+      }
+      else if(s.toUpperCase().contains("MUG")){
+         System.out.println(s);
+         System.out.println(o);
       }
    }
 

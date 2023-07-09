@@ -11,9 +11,11 @@ public class Mug implements Runnable{
    //Set the size to 8 Oz. for the moment
    private final double SIZE = 8.0;
    private double _quantity;
+   private double _size;
 
    {
       _quantity = 0;
+      _size     = SIZE;
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -21,6 +23,13 @@ public class Mug implements Runnable{
    //
    //
    public Mug(){}
+
+   //
+   //
+   //
+   public Mug(double size){
+      this._size = size;
+   }
 
    /////////////////////////Public Methods////////////////////////////
    //
@@ -33,6 +42,13 @@ public class Mug implements Runnable{
    //
    public double quantity(){
       return this._quantity;
+   }
+
+   //
+   //
+   //
+   public double size(){
+      return this._size;
    }
 
    ///////////////////////Interface Methods///////////////////////////

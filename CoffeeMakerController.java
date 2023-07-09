@@ -61,7 +61,9 @@ implements ActionListener, KeyListener, ItemListener{
       else if(command.toUpperCase().equals("RETURN")){
          this._maker.returnCarafe();
       }
-      else if(command.toUpperCase().equals("MUG")){}
+      else if(command.toUpperCase().equals("MUG")){
+         this.setUpMug();
+      }
    }
 
    /**/
@@ -100,6 +102,46 @@ implements ActionListener, KeyListener, ItemListener{
             }
          }
       }while(toLoop);
+   }
+
+   /**/
+   private void setUpMug(){
+      Double amount  = null;
+      String s       = null;
+      boolean toLoop = true;
+      do{
+         try{
+            s = JOptionPane.showInputDialog(
+                   (JFrame)this._subscriber,
+                   "Mug Size",
+                   "Enter The Mug Size",
+                   JOptionPane.QUESTION_MESSAGE);
+            Mug mug = new Mug(Double.parseDouble(s));
+            this._subscriber.update(mug, "Mug");
+            toLoop = false;
+         }
+         catch(HeadlessException he){
+            he.printStackTrace();
+         }
+         catch(NullPointerException npe){
+            toLoop = false;
+         }
+         catch(NumberFormatException nfe){
+            //alert the User to input a number
+            //show the error dialog
+            if(s.length() > 0){
+               JOptionPane.showMessageDialog(
+                  (JFrame)this._subscriber,
+                  "Please Enter a Number",
+                  "Error",
+                  JOptionPane.ERROR_MESSAGE);
+            } 
+            else{
+               toLoop = false;
+            }
+         }
+      }while(toLoop);
+
    }
 
    /////////////////////Interface Implementation//////////////////////
