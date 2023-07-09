@@ -243,16 +243,22 @@ implements Subscriber{
       JLabel in   = (JLabel)indicatorPanel.getComponent(0);
       JLabel out  = (JLabel)indicatorPanel.getComponent(1);
       JLabel pour = (JLabel)indicatorPanel.getComponent(2);
+      JButton mug = (JButton)buttonPanel.getComponent(0);
+      JButton pouring = (JButton)buttonPanel.getComponent(1);
+      JButton stop = (JButton)buttonPanel.getComponent(2);
       in.setEnabled(false);
       out.setEnabled(false);
       pour.setEnabled(false);
-      JButton mug = (JButton)buttonPanel.getComponent(0);
-      JButton pouring = (JButton)buttonPanel.getComponent(1);
+      mug.setEnabled(false);
+      pouring.setEnabled(false);
+      stop.setEnabled(false);
       if(state.trim().toUpperCase().equals("HOME")){
          in.setEnabled(true);
       }
       else if(state.trim().toUpperCase().equals("PULLED")){
          out.setEnabled(true);
+	 mug.setEnabled(true);
+         //Once the Mug is true, need to enable the pouring button
       }
       else if(state.trim().toUpperCase().equals("POURING")){
          pour.setEnabled(true);
@@ -321,6 +327,11 @@ implements Subscriber{
       mug.setActionCommand("Mug");
       mug.addActionListener(this._controller);
       mug.addKeyListener(this._controller);
+      mug.addActionListener(new ActionListener(){
+         public void actionPerformed(ActionEvent e){
+	    
+	 }
+      });
       mug.setEnabled(false);
       southPanel.add(mug);
       JButton pour = new JButton("Pour");

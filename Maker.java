@@ -80,6 +80,14 @@ public class Maker implements Runnable{
    //
    //
    //
+   //
+   public void fillMug(Mug mug){
+      Carafe.instance().pour(mug);
+   }
+
+   //
+   //
+   //
    public void fillReservoir(double amount){
       this._reservoir.fill(amount);
    }
