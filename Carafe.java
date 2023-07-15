@@ -150,6 +150,22 @@ public class Carafe implements Runnable, CarafeInterface{
       }
    }
 
+   //
+   //
+   //
+   //
+   public void setMug(Mug mug){
+      this._mug = mug;
+      this.notify(this._mug, "Mug");
+   }
+
+
+   //
+   //
+   //
+   public void setObject(Object o){
+      this._o = o;
+   }
 
    //
    //
@@ -158,12 +174,6 @@ public class Carafe implements Runnable, CarafeInterface{
       this._t.interrupt();
    }
 
-   //
-   //
-   //
-   public void setObject(Object o){
-      this._o = o;
-   }
 
    ////////////////////////Private Methods////////////////////////////
    ////////////////////////Constructors///////////////////////////////
@@ -278,8 +288,7 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    //
-   public void pour(Mug mug){
-      _mug = mug;
+   public void pour(){
       if(this.isPulled()){
          this.setPour();
          this.notifyState();
@@ -288,6 +297,14 @@ public class Carafe implements Runnable, CarafeInterface{
       else if(this.isPouring()){
          //Notify of error
       }
+   }
+
+   //
+   //
+   //
+   public void pour(Mug mug){
+      this.setMug(mug);
+      this.pour();
    }
 
    //

@@ -8,6 +8,8 @@ import java.lang.*;
 import rosas.lou.runnables.*;
 
 public class Maker implements Runnable{
+   private static Maker _instance;
+
    private enum State{READY,BREWING};
    private List<Subscriber> _subscribers;
    private Reservoir        _reservoir;
@@ -18,6 +20,7 @@ public class Maker implements Runnable{
    private Object           _o;
 
    {
+      _instance    = null;
       _subscribers = null;
       _reservoir   = null;
       _t           = null;
@@ -25,21 +28,6 @@ public class Maker implements Runnable{
       _state       = State.READY;
       _o           = null;
    };
-
-   ///////////////////////////Constructors////////////////////////////
-   //
-   //
-   //
-   public Maker(){
-      this._reservoir = new Reservoir();
-      //Two lines below may be temporary
-      this._o         = new Object();
-      Carafe.instance().setObject(this._o);
-      this._t = new Thread(this);
-      //since power is on, go ahead and start the thread...
-      //this is the POWERON (super)state
-      this._t.start();
-   }
    
    ///////////////////////////Public Methods//////////////////////////
    //
@@ -54,7 +42,6 @@ public class Maker implements Runnable{
          this._subscribers.add(subscriber);
       }
       finally{
-         Carafe.instance().addSubscriber(subscriber);
          this._reservoir.addSubscriber(subscriber);
          this.notifyOfState();
       }
@@ -95,6 +82,16 @@ public class Maker implements Runnable{
    //
    //
    //
+   static public Maker instance(){
+      if(_instance == null){
+         _instance = new Maker();
+      }
+      return _instance;
+   }
+
+   //
+   //
+   //
    //
    public void power(boolean toPowerUp){
       //Will want to set up a mutex
@@ -105,37 +102,34 @@ public class Maker implements Runnable{
    //
    //
    //
-   public CarafeInterface pullCarafe(){
-      //Do it like this!!
-      //public void pullCarafe(){}
-      //Perhaps, it is time to implement this in an
-      //Publish-Subscribe type Design Pattern...
-      Carafe carafe                   = null;
-      CarafeInterface carafeInterface = null;
-      try{
-         Carafe.instance().pull();
-         carafeInterface = Carafe.instance();
-      }
-      catch(NotHomeException nhe){}
-      finally{
-         return carafeInterface;
-      }
-   }
-
-   //
-   //
-   //
    public void removeSubscriber(Subscriber subscriber){}
 
    //
    //
    //
+   /*
    public void returnCarafe(){
       //Will want to set up mutex
       Carafe.instance().putback();
    }
+   */
 
    ////////////////////////Private Methods////////////////////////////
+   //////////////////////////Constructors/////////////////////////////
+   //
+   //
+   //
+   private Maker(){
+      this._reservoir = new Reservoir();
+      //Two lines below may be temporary
+      this._o         = new Object();
+      Carafe.instance().setObject(this._o);
+      this._t = new Thread(this);
+      //since power is on, go ahead and start the thread...
+      //this is the POWERON (super)state
+      this._t.start();
+   }
+
    //
    //
    //

@@ -14,11 +14,9 @@ import rosas.lou.runnables.*;
 public class CoffeeMakerController
 implements ActionListener, KeyListener, ItemListener{
    private Subscriber _subscriber;
-   private Maker      _maker;
 
    {
       _subscriber = null;
-      _maker      = null;
    };
 
    ///////////////////////////Constructors////////////////////////////
@@ -26,23 +24,17 @@ implements ActionListener, KeyListener, ItemListener{
    public CoffeeMakerController(){}
 
    /**/
-   public CoffeeMakerController(Subscriber sub){}
-
-   /**/
-   public CoffeeMakerController(Subscriber sub, Maker maker){
+   public CoffeeMakerController(Subscriber sub){
       this.addSubscriber(sub);
-      this.addModel(maker);
    }
+
 
    ///////////////////////////Public Methods//////////////////////////
    /**/
    public void addSubscriber(Subscriber subscriber){
       this._subscriber = subscriber;
-   }
-
-   /**/
-   public void addModel(Maker maker){
-      this._maker = maker;
+      Maker.instance().addSubscriber(subscriber);
+      Carafe.instance().addSubscriber(subscriber);
    }
 
    /////////////////////////Protected Methods/////////////////////////
@@ -53,13 +45,18 @@ implements ActionListener, KeyListener, ItemListener{
          this.reservoirFill();
       }
       else if(command.toUpperCase().equals("BREW")){
-         this._maker.brew();
+         Maker.instance().brew();
       }
       else if(command.toUpperCase().equals("GET")){
-         this._maker.pullCarafe();
+         try{
+            Carafe.instance().pull();
+         }
+         //Do not do anything, at the moment...
+         catch(NotHomeException nhe){}
       }
       else if(command.toUpperCase().equals("RETURN")){
-         this._maker.returnCarafe();
+         //this._maker.returnCarafe();
+         Carafe.instance().putback();
       }
       else if(command.toUpperCase().equals("MUG")){
          this.setUpMug();
@@ -78,7 +75,7 @@ implements ActionListener, KeyListener, ItemListener{
                    "Fill Amount",
                    "Filling the Reservoir for Brewing",
                    JOptionPane.QUESTION_MESSAGE);
-            this._maker.fillReservoir(Double.parseDouble(s));
+            Maker.instance().fillReservoir(Double.parseDouble(s));
             toLoop = false;
          }
          catch(HeadlessException he){
@@ -116,8 +113,8 @@ implements ActionListener, KeyListener, ItemListener{
                    "Mug Size",
                    "Enter The Mug Size",
                    JOptionPane.QUESTION_MESSAGE);
-            Mug mug = new Mug(Integer.parseInt(s));
-            this._subscriber.update(mug, "Mug");
+            Carafe.instance().setMug(new Mug(Integer.parseInt(s)));
+            //Mug mug = new Mug(Integer.parseInt(s));
             toLoop = false;
          }
          catch(HeadlessException he){
