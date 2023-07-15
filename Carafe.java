@@ -293,7 +293,9 @@ public class Carafe implements Runnable, CarafeInterface{
          this.setPour();
          this.notifyState();
       }
-      else if(this.isHome()){}
+      else if(this.isHome()){
+         //Notify of issues
+      }
       else if(this.isPouring()){
          //Notify of error
       }

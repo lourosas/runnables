@@ -104,16 +104,6 @@ public class Maker implements Runnable{
    //
    public void removeSubscriber(Subscriber subscriber){}
 
-   //
-   //
-   //
-   /*
-   public void returnCarafe(){
-      //Will want to set up mutex
-      Carafe.instance().putback();
-   }
-   */
-
    ////////////////////////Private Methods////////////////////////////
    //////////////////////////Constructors/////////////////////////////
    //

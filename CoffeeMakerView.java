@@ -78,39 +78,6 @@ implements Subscriber{
    }
 
    /**/
-   private void displayMug(Mug mug){
-      int sz = mug.size();
-      GenericJInteractionFrame mugFrame =
-                                 new GenericJInteractionFrame("Mug");
-      mugFrame.setLayout(new GridLayout(1,2));
-      mugFrame.setSize(320,450);
-      mugFrame.setResizable(false);
-      JPanel left  = new JPanel();
-      left.setBorder(BorderFactory.createEtchedBorder());
-      left.setLayout(new GridLayout(3,1));
-      JPanel topLeftPanel = new JPanel();
-      topLeftPanel.setBorder(BorderFactory.createEtchedBorder());
-      topLeftPanel.setLayout(new GridLayout(2,1));
-      JLabel amount = new JLabel("Amount: ");
-      topLeftPanel.add(amount);
-      JLabel capacity = new JLabel("Capacity: ");
-      topLeftPanel.add(capacity);
-      left.add(topLeftPanel);
-      left.add(new JPanel());
-      left.add(new JPanel());
-      JPanel right = new JPanel();
-      right.setLayout(new BorderLayout());
-      right.setBorder(BorderFactory.createEtchedBorder());
-      JProgressBar bar=new JProgressBar(SwingConstants.VERTICAL,0,sz);
-      bar.setValue(bar.getMinimum());
-      bar.setStringPainted(true);
-      right.add(bar, BorderLayout.CENTER);
-      mugFrame.add(left);
-      mugFrame.add(right);
-      mugFrame.setVisible(true);
-   }
-
-   /**/
    private void enableSouthButton(String button){
       JPanel panel = (JPanel)this.getContentPane().getComponent(2);
       for(int i = 0; i < panel.getComponentCount(); ++i){
@@ -642,6 +609,39 @@ implements Subscriber{
 
       return panel;
    }
+   
+   /**/
+   private void updateMug(Mug mug){
+      int sz = mug.size();
+      GenericJInteractionFrame mugFrame =
+                                 new GenericJInteractionFrame("Mug");
+      mugFrame.setLayout(new GridLayout(1,2));
+      mugFrame.setSize(320,450);
+      mugFrame.setResizable(false);
+      JPanel left  = new JPanel();
+      left.setBorder(BorderFactory.createEtchedBorder());
+      left.setLayout(new GridLayout(3,1));
+      JPanel topLeftPanel = new JPanel();
+      topLeftPanel.setBorder(BorderFactory.createEtchedBorder());
+      topLeftPanel.setLayout(new GridLayout(2,1));
+      JLabel amount = new JLabel("Amount: ");
+      topLeftPanel.add(amount);
+      JLabel capacity = new JLabel("Capacity: ");
+      topLeftPanel.add(capacity);
+      left.add(topLeftPanel);
+      left.add(new JPanel());
+      left.add(new JPanel());
+      JPanel right = new JPanel();
+      right.setLayout(new BorderLayout());
+      right.setBorder(BorderFactory.createEtchedBorder());
+      JProgressBar bar=new JProgressBar(SwingConstants.VERTICAL,0,sz);
+      bar.setValue(bar.getMinimum());
+      bar.setStringPainted(true);
+      right.add(bar, BorderLayout.CENTER);
+      mugFrame.add(left);
+      mugFrame.add(right);
+      mugFrame.setVisible(true);
+   }
 
    ////////////////////////Interface Methods//////////////////////////
    /**/
@@ -671,7 +671,7 @@ implements Subscriber{
       }
       else if(s.toUpperCase().contains("MUG")){
          try{
-            this.displayMug((Mug)o);
+            this.updateMug((Mug)o);
             this.carafePourEnable(true);
          }
          catch(ClassCastException cce){}

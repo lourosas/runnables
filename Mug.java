@@ -12,6 +12,7 @@ public class Mug implements Runnable{
    private final int SIZE = 8;
    private double    _quantity;
    private int       _size;
+   private MugView   _view;
 
    {
       _quantity = 0;
@@ -22,13 +23,16 @@ public class Mug implements Runnable{
    //
    //
    //
-   public Mug(){}
+   public Mug(){
+      this._view = new MugView(SIZE);
+   }
 
    //
    //
    //
    public Mug(int size){
       this._size = size;
+      this._view = new MugView(this._size);
    }
 
    /////////////////////////Public Methods////////////////////////////
