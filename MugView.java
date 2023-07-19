@@ -5,6 +5,9 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import rosas.lou.runnables.*;
 import myclasses.*;
 
@@ -27,7 +30,7 @@ public class MugView extends GenericJInteractionFrame{
    //
    public MugView(int capacity){
       super("Mug");
-      this._capacity = capacity;
+      this.capacity(capacity);
       this.setGUI();
    }
 
@@ -69,8 +72,9 @@ public class MugView extends GenericJInteractionFrame{
       this._amountLabel = new JLabel("Amount: ");
       this._amountLabel.setEnabled(false);
       topLeft.add(this._amountLabel);
-      this._capacityLabel = new JLabel("Capacity: "+this._capacity);
+      this._capacityLabel = new JLabel("Capacity: "+this.capacity());
       topLeft.add(this._capacityLabel);
+      left.add(topLeft);
       left.add(new JPanel());
       left.add(new JPanel());
       return left;
@@ -83,11 +87,12 @@ public class MugView extends GenericJInteractionFrame{
       JPanel right = new JPanel();
       right.setLayout(new BorderLayout());
       right.setBorder(BorderFactory.createEtchedBorder());
-      int sz = this._capacity;
+      int sz = this.capacity();
       JProgressBar bar=new JProgressBar(SwingConstants.VERTICAL,0,sz);
       bar.setValue(bar.getMinimum());
       bar.setStringPainted(true);
       right.add(bar, BorderLayout.CENTER);
+      return right;
    }
 
    //
@@ -95,6 +100,13 @@ public class MugView extends GenericJInteractionFrame{
    //
    private int capacity(){
       return this._capacity;
+   }
+
+   //
+   //
+   //
+   private void capacity(int cap){
+      this._capacity = cap;
    }
 
 }

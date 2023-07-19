@@ -113,8 +113,10 @@ implements ActionListener, KeyListener, ItemListener{
                    "Mug Size",
                    "Enter The Mug Size",
                    JOptionPane.QUESTION_MESSAGE);
-            Carafe.instance().setMug(new Mug(Integer.parseInt(s)));
-            //Mug mug = new Mug(Integer.parseInt(s));
+            //This is now going away...
+	    //I will need to come up with a better way...
+            //Carafe.instance().setMug(new Mug(Integer.parseInt(s)));
+            Mug mug = new Mug(Integer.parseInt(s));
             toLoop = false;
          }
          catch(HeadlessException he){

@@ -17,6 +17,7 @@ public class Mug implements Runnable{
    {
       _quantity = 0;
       _size     = SIZE;
+      _view     = null;
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -25,6 +26,7 @@ public class Mug implements Runnable{
    //
    public Mug(){
       this._view = new MugView(SIZE);
+      this._view.setVisible(true);
    }
 
    //
@@ -33,6 +35,7 @@ public class Mug implements Runnable{
    public Mug(int size){
       this._size = size;
       this._view = new MugView(this._size);
+      this._view.setVisible(true);
    }
 
    /////////////////////////Public Methods////////////////////////////
