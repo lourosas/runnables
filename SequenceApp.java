@@ -16,7 +16,7 @@ public class SequenceApp{
          Request request = new Request();
          Thread th = new Thread(request);
 	 th.start();
-         Thread.sleep(3600000);
+	 for(int i = 0; i < 24; i++) Thread.sleep(3600000);
          request.quit(true);
          Thread.sleep(2000);
          th.join();
