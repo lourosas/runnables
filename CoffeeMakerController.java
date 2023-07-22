@@ -58,8 +58,11 @@ implements ActionListener, KeyListener, ItemListener{
          //this._maker.returnCarafe();
          Carafe.instance().putback();
       }
-      else if(command.toUpperCase().equals("MUG")){
-         this.setUpMug();
+      else if(command.toUpperCase().equals("POUR")){
+      }
+      //Test prints
+      else{
+         System.out.println(command.toUpperCase());
       }
    }
 

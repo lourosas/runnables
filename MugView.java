@@ -15,6 +15,7 @@ public class MugView extends GenericJInteractionFrame{
    private static final int WIDTH  = 320;
    private static final int HEIGHT = 450;
    private int    _capacity;
+   private double _quantity;
    private JLabel _amountLabel;
    private JLabel _capacityLabel;
    {
@@ -38,11 +39,23 @@ public class MugView extends GenericJInteractionFrame{
    //
    //
    //
+   public void alertOverflowError(){
+      String overflow = new String("Cup is Overflowing!\n");
+      overflow = overflow.concat("And spilling everwhere!");
+      JOptionPane.showMessageDialog(this,
+                                    overflow,
+                                    "Overflow Error!",
+                                    JOptionPane.WARNING_MESSAGE);
+   }
+
+   //
+   //
+   //
    public void amount(double quantity){
       try{
          String amount = this._amountLabel.getText().substring(0,7);
-         this._amountLabel.setText(amount + " " +(int)quantity);
-	 this._amountLabel.setEnabled(true);
+         this._amountLabel.setText(amount + " " +quantity);
+         this._amountLabel.setEnabled(true);
       }
       catch(NullPointerException npe){}
    }
@@ -108,6 +121,5 @@ public class MugView extends GenericJInteractionFrame{
    private void capacity(int cap){
       this._capacity = cap;
    }
-
 }
 //////////////////////////////////////////////////////////////////////

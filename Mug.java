@@ -42,7 +42,16 @@ public class Mug implements Runnable{
    //
    //
    //
-   public void fill(double amount)throws OverflowException{}
+   public void fill(double amount){
+      this._quantity += amount;
+      if(this.quantity() > this.SIZE){
+         //Alert the User via the View
+         this._view.alertOverflowError();
+         this._quantity = this.SIZE;
+      }
+      //Notify the View of the quantity...
+      this._view.amount(this.quantity());
+   }
 
    //
    //

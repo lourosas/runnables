@@ -48,25 +48,6 @@ implements Subscriber{
    /////////////////////////Protected Methods/////////////////////////
    ///////////////////////////Private Methods/////////////////////////
    /**/
-   private void carafePourEnable(boolean enable){
-      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
-      JPanel leftPanel = (JPanel)panel.getComponent(0);
-      JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
-      JPanel statePanel = (JPanel)centerPanel.getComponent(0);
-      JPanel buttonPanel = (JPanel)statePanel.getComponent(2);
-      JButton pour = (JButton)buttonPanel.getComponent(0);
-      JButton stop = (JButton)buttonPanel.getComponent(2);
-      pour.setEnabled(false);
-      stop.setEnabled(false);
-      if(enable){
-         pour.setEnabled(true);
-      }
-      else{
-         stop.setEnabled(true);
-      }
-   }
-
-   /**/
    private void disableSouthButton(String button){
       JPanel panel = (JPanel)this.getContentPane().getComponent(2);
       for(int i = 0; i < panel.getComponentCount(); ++i){
@@ -281,11 +262,14 @@ implements Subscriber{
       JPanel statePanel  = (JPanel)centerPanel.getComponent(0);
       JPanel indicatorPanel = (JPanel)statePanel.getComponent(1);
       JPanel buttonPanel = (JPanel)statePanel.getComponent(2);
+
       JLabel in   = (JLabel)indicatorPanel.getComponent(0);
       JLabel out  = (JLabel)indicatorPanel.getComponent(1);
       JLabel pour = (JLabel)indicatorPanel.getComponent(2);
+
       JButton pouring = (JButton)buttonPanel.getComponent(0);
       JButton stop = (JButton)buttonPanel.getComponent(2);
+
       in.setEnabled(false);
       out.setEnabled(false);
       pour.setEnabled(false);
@@ -293,15 +277,16 @@ implements Subscriber{
       stop.setEnabled(false);
       if(state.trim().toUpperCase().equals("HOME")){
          in.setEnabled(true);
-	 this.disableSouthButton("Mug");
       }
       else if(state.trim().toUpperCase().equals("PULLED")){
          out.setEnabled(true);
-	 this.enableSouthButton("Mug");
+         //Enable the Pour Button
+         pouring.setEnabled(true);
       }
       else if(state.trim().toUpperCase().equals("POURING")){
          pour.setEnabled(true);
-	 this.disableSouthButton("Mug");
+         //Enable the Stop Pouring Button
+         stop.setEnabled(true);
       }
    }
 
@@ -599,50 +584,9 @@ implements Subscriber{
       fill.addKeyListener(this._controller);
       panel.add(fill);
 
-      JButton mug = new JButton("Mug");
-      mug.setActionCommand("Mug");
-      mug.addActionListener(this._controller);
-      mug.addKeyListener(this._controller);
-      mug.setEnabled(false);
-      panel.add(mug);
-
-
       return panel;
    }
    
-   /**/
-   private void updateMug(Mug mug){
-      int sz = mug.size();
-      GenericJInteractionFrame mugFrame =
-                                 new GenericJInteractionFrame("Mug");
-      mugFrame.setLayout(new GridLayout(1,2));
-      mugFrame.setSize(320,450);
-      mugFrame.setResizable(false);
-      JPanel left  = new JPanel();
-      left.setBorder(BorderFactory.createEtchedBorder());
-      left.setLayout(new GridLayout(3,1));
-      JPanel topLeftPanel = new JPanel();
-      topLeftPanel.setBorder(BorderFactory.createEtchedBorder());
-      topLeftPanel.setLayout(new GridLayout(2,1));
-      JLabel amount = new JLabel("Amount: ");
-      topLeftPanel.add(amount);
-      JLabel capacity = new JLabel("Capacity: ");
-      topLeftPanel.add(capacity);
-      left.add(topLeftPanel);
-      left.add(new JPanel());
-      left.add(new JPanel());
-      JPanel right = new JPanel();
-      right.setLayout(new BorderLayout());
-      right.setBorder(BorderFactory.createEtchedBorder());
-      JProgressBar bar=new JProgressBar(SwingConstants.VERTICAL,0,sz);
-      bar.setValue(bar.getMinimum());
-      bar.setStringPainted(true);
-      right.add(bar, BorderLayout.CENTER);
-      mugFrame.add(left);
-      mugFrame.add(right);
-      mugFrame.setVisible(true);
-   }
-
    ////////////////////////Interface Methods//////////////////////////
    /**/
    public void update(Object o){
@@ -670,11 +614,6 @@ implements Subscriber{
          this.handleReservoirUpdates(o, s);
       }
       else if(s.toUpperCase().contains("MUG")){
-         try{
-            this.updateMug((Mug)o);
-            this.carafePourEnable(true);
-         }
-         catch(ClassCastException cce){}
       }
    }
 

@@ -278,7 +278,8 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    //
-   public void pour(){
+   public void pour(Mug mug){
+      this._mug = mug;
       if(this.isPulled()){
          this.setPour();
          this.notifyState();
@@ -289,14 +290,6 @@ public class Carafe implements Runnable, CarafeInterface{
       else if(this.isPouring()){
          //Notify of error
       }
-   }
-
-   //
-   //
-   //
-   public void pour(Mug mug){
-      this._mug = mug;
-      this.pour();
    }
 
    //
