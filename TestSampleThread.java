@@ -21,27 +21,13 @@ public class TestSampleThread{
          count = 0;
       }
       finally{
-         SampleThread st = new SampleThread(count);
-         Thread t        = new Thread(st);
+         Thread t = new Thread(new SampleThread(count));
          t.start();
-         /*
-         do{
-            try{
-               System.out.println("Invoking join()");
-               t.join(10000);
-               System.out.println("Returned from join()");
-            }
-            catch(InterruptedException ie){
-               ie.printStackTrace();
-            }
-         }while(st.processingCount > 0);
-         System.out.println("The End");
-         */
          try{
             System.out.println("Invoking join()");
             t.join(1000);
             System.out.println("Returned from join()");
-            Thread.sleep(2300);
+            Thread.sleep(23000);
             System.out.println("poop");
          }
          catch(InterruptedException ie){

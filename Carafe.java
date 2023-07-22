@@ -160,6 +160,11 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    //
+   public void stopPour(){}
+
+   //
+   //
+   //
    public void takeOutOfUse(){
       this._t.interrupt();
    }
@@ -294,9 +299,13 @@ public class Carafe implements Runnable, CarafeInterface{
       }
       else if(this.isHome()){
          //Notify of issues
+         String error = new String("Carafe not pouring because ");
+         error = error.concat("it is on the Coffee Maker (Home)");
+         this.notifyError(new String(error));
       }
       else if(this.isPouring()){
-         //Notify of error
+         String error = new String("Carafe already pouring");
+         this.notifyError(error);
       }
    }
 

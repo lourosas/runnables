@@ -84,9 +84,16 @@ implements Subscriber{
          String body  = new String("Please Wait Until Carafe");
          body += "\nis returned";
          JOptionPane.showMessageDialog(this,
-                         body,
-                         title,
-                         JOptionPane.ERROR_MESSAGE);
+                                       body,
+                                       title,
+                                       JOptionPane.ERROR_MESSAGE);
+      }
+      else if(error.contains("POURING")){
+         String title = new String("Pouring Error");
+         JOptionPane.showMessageDialog(this,
+                                       error,
+                                       title,
+                                       JOptionPane.ERROR_MESSAGE);
       }
    }
 

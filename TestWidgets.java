@@ -13,9 +13,9 @@ public class TestWidgets{
       System.out.println("Hello World");
       SampleWidgetTest swt = new SampleWidgetTest();
       Thread t0 = new Thread(swt);
+      t0.start();
       Thread t1 = new Thread(swt);
       t1.start();
-      t0.start();
       /*
       new LoggingWidget().doSomething();
       new Widget().doSomething();

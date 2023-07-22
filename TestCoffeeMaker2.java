@@ -20,7 +20,7 @@ public class TestCoffeeMaker2{
          maker.brew(100.0);
          Thread.sleep(16000);
          maker.brew(22.3);
-         Thread.sleep(40000);
+         Thread.sleep(10000);
       }
       catch(InterruptedException ie){}
       finally{

@@ -1,7 +1,7 @@
 import java.lang.*;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
-import rosas.lou.runnables.*;
+import rosas.lou.runnables.Worker;
 
 public class TestDriver{
    /**/
