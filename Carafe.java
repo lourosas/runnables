@@ -265,10 +265,18 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    public void run(){
       int sleepTime     = 50;
-      int pourSleepTime = 1000;//sleep for a second while filling
+      //int pourSleepTime = 1000;//sleep for a second while filling
+      int pourSleepTime = 500;
       try{
          while(true){
             Thread.sleep(sleepTime);
+            if(this.isPouring()){
+               //Do stuff
+               //do test prints, first
+               System.out.println(this._t.getId());
+               System.out.println(this._mug);
+               Thread.sleep(pourSleepTime);
+            }
          }
       }
       catch(InterruptedException ie){}

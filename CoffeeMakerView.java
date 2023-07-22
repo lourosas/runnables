@@ -277,16 +277,28 @@ implements Subscriber{
       stop.setEnabled(false);
       if(state.trim().toUpperCase().equals("HOME")){
          in.setEnabled(true);
+         this.enableSouthButton("Brew");
+         this.enableSouthButton("Get Carafe");
+         this.enableSouthButton("Fill Reservoir");
+         this.disableSouthButton("Return Carafe");
       }
       else if(state.trim().toUpperCase().equals("PULLED")){
          out.setEnabled(true);
          //Enable the Pour Button
          pouring.setEnabled(true);
+         this.enableSouthButton("Brew");
+         this.disableSouthButton("Get Carafe");
+         this.enableSouthButton("Return Carafe");
+         this.enableSouthButton("Fill Reservoir");
       }
       else if(state.trim().toUpperCase().equals("POURING")){
          pour.setEnabled(true);
          //Enable the Stop Pouring Button
          stop.setEnabled(true);
+         this.enableSouthButton("Brew");
+         this.disableSouthButton("Get Carafe");
+         this.disableSouthButton("Return Carafe");
+         this.enableSouthButton("Fill Reservoir");
       }
    }
 

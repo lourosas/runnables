@@ -59,6 +59,8 @@ implements ActionListener, KeyListener, ItemListener{
          Carafe.instance().putback();
       }
       else if(command.toUpperCase().equals("POUR")){
+         Mug mug = this.setUpMug();
+         Carafe.instance().pour(mug);
       }
       //Test prints
       else{
@@ -105,7 +107,8 @@ implements ActionListener, KeyListener, ItemListener{
    }
 
    /**/
-   private void setUpMug(){
+   private Mug setUpMug(){
+      Mug mug        = null;
       Double amount  = null;
       String s       = null;
       boolean toLoop = true;
@@ -119,7 +122,7 @@ implements ActionListener, KeyListener, ItemListener{
             //This is now going away...
 	    //I will need to come up with a better way...
             //Carafe.instance().setMug(new Mug(Integer.parseInt(s)));
-            Mug mug = new Mug(Integer.parseInt(s));
+            mug = new Mug(Integer.parseInt(s));
             toLoop = false;
          }
          catch(HeadlessException he){
@@ -143,7 +146,7 @@ implements ActionListener, KeyListener, ItemListener{
             }
          }
       }while(toLoop);
-
+      return mug;
    }
 
    /////////////////////Interface Implementation//////////////////////
