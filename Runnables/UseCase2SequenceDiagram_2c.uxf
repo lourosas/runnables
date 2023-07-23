@@ -7,10 +7,9 @@
       <x>290</x>
       <y>20</y>
       <w>220</w>
-      <h>60</h>
+      <h>50</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Singleton&gt;&gt;
-&lt;&lt;CarafeInterface&gt;&gt;
 __instance:Carafe_
 bg=blue</panel_attributes>
     <additional_attributes/>
@@ -19,12 +18,12 @@ bg=blue</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>390</x>
-      <y>70</y>
+      <y>60</y>
       <w>30</w>
-      <h>240</h>
+      <h>310</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;220.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;290.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
@@ -45,18 +44,18 @@ bg=red</panel_attributes>
       <x>800</x>
       <y>50</y>
       <w>30</w>
-      <h>270</h>
+      <h>320</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;250.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;300.0</additional_attributes>
   </element>
   <element>
     <id>UMLFrame</id>
     <coordinates>
       <x>280</x>
       <y>110</y>
-      <w>680</w>
-      <h>160</h>
+      <w>950</w>
+      <h>250</h>
     </coordinates>
     <panel_attributes>ref2</panel_attributes>
     <additional_attributes/>
@@ -89,8 +88,8 @@ notifyError("Carafe:  not pulled cannot pour coffee into mug":String)</panel_att
     <coordinates>
       <x>350</x>
       <y>190</y>
-      <w>580</w>
-      <h>70</h>
+      <w>490</w>
+      <h>60</h>
     </coordinates>
     <panel_attributes>loop concreteImplementations</panel_attributes>
     <additional_attributes/>
@@ -106,5 +105,97 @@ notifyError("Carafe:  not pulled cannot pour coffee into mug":String)</panel_att
     <panel_attributes>lt=&lt;&lt;&lt;-
 error(:String)</panel_attributes>
     <additional_attributes>420.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>960</x>
+      <y>20</y>
+      <w>100</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>_:Mug_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1000</x>
+      <y>60</y>
+      <w>30</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;260.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>1000</x>
+      <y>310</y>
+      <w>20</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>type=termination</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>250</y>
+      <w>640</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+noLongerNeeded()</panel_attributes>
+    <additional_attributes>620.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1160</x>
+      <y>20</y>
+      <w>100</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>_:MugView_
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1200</x>
+      <y>50</y>
+      <w>30</w>
+      <h>300</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;280.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1000</x>
+      <y>270</y>
+      <w>230</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+setVisible(false:boolean)</panel_attributes>
+    <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>300</y>
+      <w>640</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+dtor()</panel_attributes>
+    <additional_attributes>620.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>

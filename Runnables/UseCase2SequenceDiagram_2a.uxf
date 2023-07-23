@@ -53,10 +53,9 @@ bg=gray</panel_attributes>
       <x>510</x>
       <y>30</y>
       <w>220</w>
-      <h>60</h>
+      <h>50</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Singleton&gt;&gt;
-&lt;&lt;CarafeInterface&gt;&gt;
 __instance:Carafe_
 bg=blue</panel_attributes>
     <additional_attributes/>
@@ -65,12 +64,12 @@ bg=blue</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>610</x>
-      <y>80</y>
+      <y>70</y>
       <w>30</w>
-      <h>560</h>
+      <h>570</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;540.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;550.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
@@ -80,8 +79,7 @@ bg=blue</panel_attributes>
       <w>100</w>
       <h>50</h>
     </coordinates>
-    <panel_attributes>&lt;&lt;Runnable&gt;&gt;
-_:Mug_</panel_attributes>
+    <panel_attributes>_:Mug_</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
