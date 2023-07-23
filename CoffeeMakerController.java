@@ -62,6 +62,9 @@ implements ActionListener, KeyListener, ItemListener{
          Mug mug = this.setUpMug();
          Carafe.instance().pour(mug);
       }
+      else if(command.toUpperCase().equals("STOPPOURING")){
+         Carafe.instance().stopPour();
+      }
       //Test prints
       else{
          System.out.println(command.toUpperCase());

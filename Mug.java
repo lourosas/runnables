@@ -38,6 +38,13 @@ public class Mug implements Runnable{
       this._view.setVisible(true);
    }
 
+   //
+   //
+   //
+   public void noLongerNeeded(){
+      this._view.setVisible(false);
+   }
+
    /////////////////////////Public Methods////////////////////////////
    //
    //
