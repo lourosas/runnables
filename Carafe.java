@@ -16,7 +16,7 @@ import rosas.lou.runnables.Mug;
 //
 
 public class Carafe implements Runnable, CarafeInterface{
-   private static final double EMPTY = 0.25;
+   private static final double EMPTY = 0.05;
    private static Lock lock          = new ReentrantLock();
 
    private static Carafe _instance;

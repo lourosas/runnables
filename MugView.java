@@ -18,10 +18,12 @@ public class MugView extends GenericJInteractionFrame{
    private double _quantity;
    private JLabel _amountLabel;
    private JLabel _capacityLabel;
+   private JProgressBar _bar;
    {
       _capacity      = 0;
       _amountLabel   = null;
       _capacityLabel = null;
+      _bar           = null;
 
    };
 
@@ -56,6 +58,9 @@ public class MugView extends GenericJInteractionFrame{
          String amount = this._amountLabel.getText().substring(0,7);
          this._amountLabel.setText(amount + " " +quantity);
          this._amountLabel.setEnabled(true);
+	 this._bar.setValue((int)quantity);
+	 this.getContentPane().validate();
+	 this.getContentPane().repaint();
       }
       catch(NullPointerException npe){}
    }
@@ -101,10 +106,16 @@ public class MugView extends GenericJInteractionFrame{
       right.setLayout(new BorderLayout());
       right.setBorder(BorderFactory.createEtchedBorder());
       int sz = this.capacity();
+      /*
       JProgressBar bar=new JProgressBar(SwingConstants.VERTICAL,0,sz);
       bar.setValue(bar.getMinimum());
       bar.setStringPainted(true);
       right.add(bar, BorderLayout.CENTER);
+      */
+      this._bar = new JProgressBar(SwingConstants.VERTICAL,0,sz);
+      this._bar.setValue(this._bar.getMinimum());
+      this._bar.setStringPainted(true);
+      right.add(this._bar, BorderLayout.CENTER);
       return right;
    }
 
