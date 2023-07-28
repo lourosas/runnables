@@ -50,11 +50,11 @@ public class Mug implements Runnable{
    //
    //
    public void fill(double amount){
-      this._quantity += amount;
+      this.quantity(this.quantity() + amount);
       if(this.quantity() > this.SIZE){
          //Alert the User via the View
          this._view.alertOverflowError();
-         this._quantity = this.SIZE;
+         this.quantity(this.SIZE);
       }
       //Notify the View of the quantity...
       this._view.amount(this.quantity());
@@ -72,6 +72,14 @@ public class Mug implements Runnable{
    //
    public int size(){
       return this._size;
+   }
+
+   ///////////////////////Private Methods/////////////////////////////
+   //
+   //
+   //
+   private void quantity(double quant){
+      this._quantity = quant;
    }
 
    ///////////////////////Interface Methods///////////////////////////

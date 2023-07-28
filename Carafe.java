@@ -16,7 +16,9 @@ import rosas.lou.runnables.Mug;
 //
 
 public class Carafe implements Runnable, CarafeInterface{
-   private static Lock lock = new ReentrantLock();
+   private static final double EMPTY = 0.25;
+   private static Lock lock          = new ReentrantLock();
+
    private static Carafe _instance;
 
    private enum State{HOME,PULLED,POURING};
@@ -178,6 +180,35 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    //
+   private double empty(int pourTime){
+      final double SECSPERMILLIS = 0.001;
+
+      double amount = 0.;
+
+      double quant  = this.quantity();
+      if(quant <= EMPTY){
+         amount = 0;
+         this.notifyError("Carafe Empty");
+         this.notifyQuantity();
+      }
+      else{
+         amount = this.emptyRate()*(pourTime*SECSPERMILLIS);
+         if(quant < amount){
+            amount = quant;
+         }
+         this.quantity(quant - amount);
+         this.notifyQuantity();
+      }
+      return amount;
+   }
+
+   private double emptyRate(){
+      return this._emptyRate;
+   }
+
+   //
+   //
+   //
    private void notify(Object object, String message){
       Iterator<Subscriber> it = this._subscribers.iterator();
       while(it.hasNext()){
@@ -231,11 +262,8 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    //
-   private void empty(Mug mug){
-      //Test Prints
-      System.out.println("Carafe.empty()");
-      System.out.println(mug);
-      //mug.fill(1.);
+   private void quantity(double quant){
+      this._quantity = quant;
    }
 
    //
@@ -267,16 +295,27 @@ public class Carafe implements Runnable, CarafeInterface{
       int sleepTime     = 50;
       //int pourSleepTime = 1000;//sleep for a second while filling
       int pourSleepTime = 500;
+      boolean toContinue = false;
       try{
          while(true){
-            Thread.sleep(sleepTime);
-            if(this.isPouring()){
-               //Do stuff
-               //do test prints, first
-               System.out.println(this._t.getId());
-               System.out.println(this._mug);
-               Thread.sleep(pourSleepTime);
+            toContinue = true;
+            while(this.isPouring()){
+               if(toContinue){
+                  double amount = this.empty(pourSleepTime);
+                  if(amount > EMPTY){
+                     this._mug.fill(amount);
+                     Thread.sleep(pourSleepTime);
+                  }
+                  else{
+                     toContinue = false;
+                  }
+               }
+               else{
+                  //Not sure if this is actually needed, "safety add"
+                  Thread.sleep(sleepTime);
+               }
             }
+            Thread.sleep(sleepTime);
          }
       }
       catch(InterruptedException ie){}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="15.1">
+<diagram program="umlet" version="15.0.0">
   <zoom_level>10</zoom_level>
   <element>
     <id>UMLGeneric</id>
@@ -147,7 +147,7 @@ setPour()</panel_attributes>
     <coordinates>
       <x>520</x>
       <y>120</y>
-      <w>120</w>
+      <w>140</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -205,7 +205,7 @@ Interrupted Exception</panel_attributes>
     <coordinates>
       <x>520</x>
       <y>260</y>
-      <w>190</w>
+      <w>210</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -240,7 +240,7 @@ ref1</panel_attributes>
     <coordinates>
       <x>520</x>
       <y>350</y>
-      <w>320</w>
+      <w>360</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -309,7 +309,7 @@ bg=orange</panel_attributes>
     <coordinates>
       <x>520</x>
       <y>380</y>
-      <w>200</w>
+      <w>230</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -341,7 +341,7 @@ quant = quantity():double</panel_attributes>
     <coordinates>
       <x>520</x>
       <y>440</y>
-      <w>160</w>
+      <w>180</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -353,11 +353,11 @@ notifyError(:String)</panel_attributes>
     <coordinates>
       <x>520</x>
       <y>560</y>
-      <w>350</w>
+      <w>430</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-amount = empty():double*(elapsedTime*0.001)</panel_attributes>
+amount = emptyRate():double*(elapsedTime*0.001)</panel_attributes>
     <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -376,7 +376,7 @@ amount = empty():double*(elapsedTime*0.001)</panel_attributes>
     <coordinates>
       <x>520</x>
       <y>620</y>
-      <w>160</w>
+      <w>170</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -388,7 +388,7 @@ amount = quant</panel_attributes>
     <coordinates>
       <x>520</x>
       <y>670</y>
-      <w>210</w>
+      <w>240</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -400,7 +400,7 @@ quantity(quant - amount)</panel_attributes>
     <coordinates>
       <x>520</x>
       <y>700</y>
-      <w>150</w>
+      <w>170</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -412,7 +412,7 @@ notifyQuantity()</panel_attributes>
     <coordinates>
       <x>520</x>
       <y>730</y>
-      <w>370</w>
+      <w>410</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -485,14 +485,14 @@ sleep(sleepAmount:int)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>340</x>
+      <x>330</x>
       <y>880</y>
-      <w>210</w>
+      <w>230</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 sleep(pouringSleepAmount:int)</panel_attributes>
-    <additional_attributes>10.0;20.0;190.0;20.0</additional_attributes>
+    <additional_attributes>20.0;20.0;200.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -534,7 +534,7 @@ alertOverflowError()</panel_attributes>
     <coordinates>
       <x>770</x>
       <y>1000</y>
-      <w>160</w>
+      <w>180</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -546,7 +546,7 @@ _quantity = SIZE</panel_attributes>
     <coordinates>
       <x>770</x>
       <y>920</y>
-      <w>220</w>
+      <w>250</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -570,7 +570,7 @@ amount(_quantity:double)</panel_attributes>
     <coordinates>
       <x>770</x>
       <y>1120</y>
-      <w>170</w>
+      <w>190</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-

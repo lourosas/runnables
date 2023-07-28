@@ -435,17 +435,6 @@ actionPerformed("Pour":String)</panel_attributes>
     <additional_attributes>250.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
-    <id>UMLFrame</id>
-    <coordinates>
-      <x>40</x>
-      <y>550</y>
-      <w>1040</w>
-      <h>300</h>
-    </coordinates>
-    <panel_attributes>home = true</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>Relation</id>
     <coordinates>
       <x>320</x>
@@ -480,5 +469,16 @@ ctor(size:int)</panel_attributes>
     <panel_attributes>lt=&lt;-
 stopPour()</panel_attributes>
     <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>30</x>
+      <y>180</y>
+      <w>1040</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>home = true</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>
