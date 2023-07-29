@@ -251,7 +251,7 @@ implements Subscriber{
       JPanel amountPanel = (JPanel)statePanel.getComponent(0);
       JLabel amountLabel = (JLabel)amountPanel.getComponent(0);
       String amount = amountLabel.getText().substring(0,7);
-      amountLabel.setText(amount + " " + (int)quantity);
+      amountLabel.setText(amount + " " + quantity);
       amountLabel.setEnabled(true);
       //Set the Right Panel
       JPanel carafePanel = (JPanel)centerPanel.getComponent(1);
@@ -417,7 +417,7 @@ implements Subscriber{
       JPanel amountPanel = (JPanel)statePanel.getComponent(0);
       JLabel amountLabel = (JLabel)amountPanel.getComponent(0);
       String amount = amountLabel.getText().substring(0,7);
-      amountLabel.setText(amount + " " + (int)quantity);
+      amountLabel.setText(amount + " " + quantity);
       amountLabel.setEnabled(true);
       //Set Right Panel
       JPanel carafePanel = (JPanel)centerPanel.getComponent(1);

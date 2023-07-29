@@ -58,9 +58,9 @@ public class MugView extends GenericJInteractionFrame{
          String amount = this._amountLabel.getText().substring(0,7);
          this._amountLabel.setText(amount + " " +quantity);
          this._amountLabel.setEnabled(true);
-	 this._bar.setValue((int)quantity);
-	 this.getContentPane().validate();
-	 this.getContentPane().repaint();
+         this._bar.setValue((int)quantity);
+         this.getContentPane().validate();
+         this.getContentPane().repaint();
       }
       catch(NullPointerException npe){}
    }
