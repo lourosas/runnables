@@ -55,24 +55,20 @@ public class Mug implements Runnable{
       final double MAX         = this.size() + FUDGEFACTOR;
 
       this.quantity(this.quantity() + amount);
-      if(this.quantity() <= MAX){
+      this._view.amount(this.quantity());
+      if(this.quantity() > this.size()){
+         this.quantity(this.size());
          this._view.amount(this.quantity());
-         if(this.quantity() >= MIN){
-            try{
-               System.out.println("In Min & Max");
-               Thread.sleep(6000);
-            }
-            catch(InterruptedException ie){}
-         }
-      }
-      else{
-         this.quantity(this.SIZE);
-         this._view.amount(this.quantity());
-         //Alert the User via the View
          this._view.alertOverflowError();
-         try{
-            //Give the Drinker a chance to react
+	 try{
             Thread.sleep(1500);
+         }
+         catch(InterruptedException ie){}
+      }
+      else if(this.quantity() >= MIN){
+         System.out.println("In Min & Max");
+         try{
+            Thread.sleep(6000);
          }
          catch(InterruptedException ie){}
       }

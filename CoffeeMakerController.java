@@ -123,8 +123,12 @@ implements ActionListener, KeyListener, ItemListener{
                    "Enter The Mug Size",
                    JOptionPane.QUESTION_MESSAGE);
             //This is now going away...
-	    //I will need to come up with a better way...
+            //I will need to come up with a better way...
             //Carafe.instance().setMug(new Mug(Integer.parseInt(s)));
+	    //MORE TO THINK ABOUT!!!!
+            if(s == null){
+               throw new NullPointerException();
+            }
             mug = new Mug(Integer.parseInt(s));
             toLoop = false;
          }
