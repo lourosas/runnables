@@ -32,10 +32,32 @@ serving.\\
 \end{tabular}\\\\
 \textbf{Extensions (Alternative Flows): }
 \begin{itemize}
+\item[1a.]
+If the Coffee Drinker does not add water, then the System uses
+whatever water is already in the Reservoir.
+\item[1b.]
+If the Coffee Drinker adds too much water to the Reservoir, then the
+System alerts the Coffee Driker that too much water added.
+\item[1c.]
+If the Coffee Drinker adds to much water to the Reservoir, then the
+System does not add that extra water to the Reservoir, only adding the
+amount the Reservoir can hold and returning that maximum amount the
+Reservoir can hold to the Coffee Drinker.
 \item[3a.]
 If the Coffee Drinker pulls the carafe before the Coffee Maker
 is finished brewing the coffee, then Coffee Maker stops brewing,
 continuing once the carafe is returned (under the spigot).
+\item[3b.]
+If the Carafe is full, and the Coffee Maker continues to brew coffee,
+causing the Carafe to overflow, then the System alerts the Coffee
+Maker the Carafe is overflowing.
+\item[3c.]
+If the Carafe is full, and the Coffee Maker continues to brew coffee,
+causeing the Carafe to overflow, no more coffee is added to the
+Carafe and the System indicates that to the Coffee Maker.
+\item[3d.]
+If the Carafe is full, and the Coffee Maker continues to brew coffee,
+the Reservoir continues to decrease until the Reservoir is empty.
 \end{itemize}
 \textbf{Special Requirements:  }
 \begin{itemize}
