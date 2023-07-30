@@ -175,6 +175,14 @@ implements ActionListener, KeyListener, ItemListener{
 
    //////////////////////////Item Listener////////////////////////////
    /**/
-   public void itemStateChanged(ItemEvent ie){}
+   public void itemStateChanged(ItemEvent ie){
+      try{
+         JRadioButton jb = (JRadioButton)ie.getSource();
+         if(ie.getStateChange() == ItemEvent.SELECTED){
+	    this._subscriber.update(jb);
+	 }
+      }
+      catch(ClassCastException cce){}
+   }
 }
 //////////////////////////////////////////////////////////////////////

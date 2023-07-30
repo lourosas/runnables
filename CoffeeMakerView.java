@@ -134,6 +134,17 @@ implements Subscriber{
    }
 
    /**/
+   private void handleJRadioButton(JRadioButton jb){
+      String command = jb.getActionCommand().toUpperCase();
+      if(command.equals("OFF")){
+         this.powerOff();
+      }
+      else if(command.equals("POWER")){
+         this.powerOn();
+      }
+   }
+
+   /**/
    private void handleMakerErrors(String message){
       String error = message.toUpperCase();
       if(error.contains("ALREADY") && error.contains("BREWING")){
@@ -216,15 +227,37 @@ implements Subscriber{
    }
 
    /**/
+   private void powerOff(){
+      this.disableSouthButton("Brew");
+      this.disableSouthButton("Get Carafe");
+      this.disableSouthButton("Return Carafe");
+      this.disableSouthButton("Fill Reservoir");
+   }
+
+   /**/
+   private void powerOn(){
+      this.enableSouthButton("Brew");
+      this.enableSouthButton("Get Carafe");
+      this.disableSouthButton("Return Carafe");
+      this.enableSouthButton("Fill Reservoir");
+   }
+
+   /**/
    private void reflectStateString(String state){
+      int powerOnNumber      = 0;
+      int powerOffNumber     = 1;
       int readyLabelNumber   = 2;
       int brewingLabelNumber = 3;
       JPanel top = (JPanel)this.getContentPane().getComponent(0);
       if(state.toUpperCase().equals("READY")){
+         top.getComponent(powerOnNumber).setEnabled(true);
+         top.getComponent(powerOffNumber).setEnabled(true);
          top.getComponent(readyLabelNumber).setEnabled(true);
          top.getComponent(brewingLabelNumber).setEnabled(false);
       }
       else if(state.toUpperCase().equals("BREWING")){
+         top.getComponent(powerOnNumber).setEnabled(false);
+	 top.getComponent(powerOffNumber).setEnabled(false);
          top.getComponent(readyLabelNumber).setEnabled(false);
          top.getComponent(brewingLabelNumber).setEnabled(true);
       }
@@ -509,6 +542,7 @@ implements Subscriber{
       brewing.setForeground(Color.red);
       brewing.setEnabled(false);
       panel.add(brewing);
+
       return panel;
    }
 
@@ -520,7 +554,7 @@ implements Subscriber{
       //Set up North Part
       JPanel northPanel = new JPanel();
       northPanel.setBorder(BorderFactory.createEtchedBorder());
-      JLabel northLabel = new JLabel("Reservoir",SwingConstants.CENTER);
+      JLabel northLabel=new JLabel("Reservoir",SwingConstants.CENTER);
       northPanel.add(northLabel);
       panel.add(northPanel,  BorderLayout.NORTH);
       //Set up the Center Part
@@ -630,6 +664,11 @@ implements Subscriber{
          this.handleMessage(message);
       }
       catch(ClassCastException cce){}
+      try{
+         JRadioButton jb = (JRadioButton)o;
+         this.handleJRadioButton(jb);
+      }
+      catch(ClassCastException cce){}
    }
 
    /**/
@@ -640,8 +679,7 @@ implements Subscriber{
       else if(s.toUpperCase().contains("RESERVOIR ")){
          this.handleReservoirUpdates(o, s);
       }
-      else if(s.toUpperCase().contains("MUG")){
-      }
+      else if(s.toUpperCase().contains("MUG")){}
    }
 
    /**/
