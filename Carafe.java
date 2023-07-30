@@ -326,22 +326,24 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    public void pour(Mug mug){
-      if(this.isPulled()){
-         this._mug = mug;
-         this.setPour();
-         this.notifyState();
-      }
-      else if(this.isHome()){
-         //Notify of issues
-         String error = new String("Carafe not pouring because ");
-         error = error.concat("it is on the Coffee Maker (Home)");
-         this.notifyError(new String(error));
-         this._mug.noLongerNeeded();
-         this._mug = null;
-      }
-      else if(this.isPouring()){
-         String error = new String("Carafe already pouring");
-         this.notifyError(error);
+      if(mug != null){
+         if(this.isPulled()){
+            this._mug = mug;
+            this.setPour();
+            this.notifyState();
+         }
+         else if(this.isHome()){
+            //Notify of issues
+            String error = new String("Carafe not pouring because ");
+            error = error.concat("it is on the Coffee Maker (Home)");
+            this.notifyError(new String(error));
+            this._mug.noLongerNeeded();
+            this._mug = null;
+         }
+         else if(this.isPouring()){
+            String error = new String("Carafe already pouring");
+            this.notifyError(error);
+         }
       }
    }
 

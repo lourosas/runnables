@@ -64,8 +64,8 @@ implements Subscriber{
       for(int i = 0; i < panel.getComponentCount(); ++i){
          JButton b = (JButton)panel.getComponent(i);
          if(b.getText().toUpperCase().equals(button.toUpperCase())){
-	    b.setEnabled(true);
-	 }
+            b.setEnabled(true);
+         }
       }
    }
 
@@ -94,6 +94,14 @@ implements Subscriber{
                                        error,
                                        title,
                                        JOptionPane.ERROR_MESSAGE);
+      }
+      else if(error.contains("EMPTY")){
+         String title = new String("Carafe Empty!");
+         String body  = new String("Carafe is Empty. Please Refill");
+         JOptionPane.showMessageDialog(this,
+                                       body,
+                                       title,
+                                       JOptionPane.WARNING_MESSAGE);
       }
    }
 

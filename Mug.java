@@ -66,9 +66,8 @@ public class Mug implements Runnable{
          catch(InterruptedException ie){}
       }
       else if(this.quantity() >= MIN){
-         System.out.println("In Min & Max");
          try{
-            Thread.sleep(6000);
+            Thread.sleep(1500);
          }
          catch(InterruptedException ie){}
       }

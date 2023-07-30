@@ -65,10 +65,6 @@ implements ActionListener, KeyListener, ItemListener{
       else if(command.toUpperCase().equals("STOPPOURING")){
          Carafe.instance().stopPour();
       }
-      //Test prints
-      else{
-         System.out.println(command.toUpperCase());
-      }
    }
 
    /**/
@@ -112,7 +108,6 @@ implements ActionListener, KeyListener, ItemListener{
    /**/
    private Mug setUpMug(){
       Mug mug        = null;
-      Double amount  = null;
       String s       = null;
       boolean toLoop = true;
       do{
@@ -122,14 +117,8 @@ implements ActionListener, KeyListener, ItemListener{
                    "Mug Size",
                    "Enter The Mug Size",
                    JOptionPane.QUESTION_MESSAGE);
-            //This is now going away...
-            //I will need to come up with a better way...
-            //Carafe.instance().setMug(new Mug(Integer.parseInt(s)));
-	    //MORE TO THINK ABOUT!!!!
-            if(s == null){
-               throw new NullPointerException();
-            }
-            mug = new Mug(Integer.parseInt(s));
+            double amount = Double.parseDouble(s);
+            mug = new Mug((int)amount);
             toLoop = false;
          }
          catch(HeadlessException he){

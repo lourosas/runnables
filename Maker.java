@@ -237,14 +237,11 @@ public class Maker implements Runnable{
                   }
                }
                this.setReady();
-               System.out.println(
-                             "Carafe: "+Carafe.instance().quantity());
             }
             Thread.sleep(sleepTime);
          }
          catch(InterruptedException ie){
             Carafe.instance().takeOutOfUse();
-            System.out.println("Thread Interrupted, "+this._power);
          }
       }
    }
