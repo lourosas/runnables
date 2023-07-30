@@ -86,7 +86,6 @@ public class Reservoir implements ReservoirInterface{
    //
    public void fill(double amount){
       if(amount > EMPTY){
-         System.out.println("Reservoir.fill():  "+amount);
          this.quantity(this.quantity() + amount);
          //Indicate the State as FILLED...
          this.setFilled();
