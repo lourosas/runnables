@@ -251,9 +251,10 @@ implements Subscriber{
       JLabel in   = (JLabel)indicatorPanel.getComponent(0);
       JLabel out  = (JLabel)indicatorPanel.getComponent(1);
       JLabel pour = (JLabel)indicatorPanel.getComponent(2);
-      
+
       JButton pouring = (JButton)buttonPanel.getComponent(0);
       JButton stop    = (JButton)buttonPanel.getComponent(2);
+
 
       amountLabel.setEnabled(false);
       capacityLabel.setEnabled(false);
