@@ -180,6 +180,13 @@ implements ActionListener, KeyListener, ItemListener{
          JRadioButton jb = (JRadioButton)ie.getSource();
          if(ie.getStateChange() == ItemEvent.SELECTED){
 	    this._subscriber.update(jb);
+            String command = jb.getActionCommand().toUpperCase();
+            if(command.equals("OFF")){
+               Maker.instance().power(false);
+            }
+            else if(command.equals("POWER")){
+               Maker.instance().power(true);
+            }
 	 }
       }
       catch(ClassCastException cce){}

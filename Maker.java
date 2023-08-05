@@ -14,7 +14,6 @@ public class Maker implements Runnable{
    private List<Subscriber> _subscribers;
    private Reservoir        _reservoir;
    private Thread           _t;
-   private boolean          _power;
    private State            _state;
    //Temporary for the moment
    private Object           _o;
@@ -24,7 +23,6 @@ public class Maker implements Runnable{
       _subscribers = null;
       _reservoir   = null;
       _t           = null;
-      _power       = true;
       _state       = State.READY;
       _o           = null;
    };
@@ -93,10 +91,18 @@ public class Maker implements Runnable{
    //
    //
    //
-   public void power(boolean toPowerUp){
-      //Will want to set up a mutex
-      this._power = toPowerUp;
-      this._t.interrupt();
+   public void power(boolean power){
+      String carafeState = new String("Carafe:  ");
+      //Always set the System to ready...
+      //Power on/off will determine what is next..
+      this.setReady();
+      //Need to get the Carafe and check on the state...
+      if(Carafe.instance().isHome()){
+         carafeState = carafeState.append("Home");
+      }
+      else if(Carafe.instance().isPouring()){}
+      if(power){}
+      else{}
    }
 
    //
@@ -215,7 +221,7 @@ public class Maker implements Runnable{
       int sleepTime          = 100;
       int reservoirSleepTime = 1000;
       double amount          = -1.;
-      while(this._power){//get rid of and make an accessor...
+      while(true){//get rid of and make an accessor...
          try{
             if(isBrewing()){
                amount = this._reservoir.empty(reservoirSleepTime);
