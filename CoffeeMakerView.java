@@ -228,18 +228,105 @@ implements Subscriber{
 
    /**/
    private void powerOff(){
-      this.disableSouthButton("Brew");
-      this.disableSouthButton("Get Carafe");
-      this.disableSouthButton("Return Carafe");
-      this.disableSouthButton("Fill Reservoir");
+      this.reflectStateString("OFF");
    }
 
    /**/
    private void powerOn(){
-      this.enableSouthButton("Brew");
-      this.enableSouthButton("Get Carafe");
-      this.disableSouthButton("Return Carafe");
-      this.enableSouthButton("Fill Reservoir");
+      this.reflectStateString("ON");
+   }
+
+   /**/
+   private void reflectPowerOffInCarafe(){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel leftPanel = (JPanel)panel.getComponent(0);
+      JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
+      JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+      JPanel amountPanel = (JPanel)statePanel.getComponent(0);
+      JPanel indicatorPanel = (JPanel)statePanel.getComponent(1);
+      JPanel buttonPanel = (JPanel)statePanel.getComponent(2);
+
+      JLabel amountLabel = (JLabel)amountPanel.getComponent(0);
+      JLabel capacityLabel=(JLabel)amountPanel.getComponent(1);
+      JLabel in   = (JLabel)indicatorPanel.getComponent(0);
+      JLabel out  = (JLabel)indicatorPanel.getComponent(1);
+      JLabel pour = (JLabel)indicatorPanel.getComponent(2);
+      
+      JButton pouring = (JButton)buttonPanel.getComponent(0);
+      JButton stop    = (JButton)buttonPanel.getComponent(2);
+
+      amountLabel.setEnabled(false);
+      capacityLabel.setEnabled(false);
+      in.setEnabled(false);
+      out.setEnabled(false);
+      pour.setEnabled(false);
+      pouring.setEnabled(false);
+      stop.setEnabled(false);
+   }
+
+   /**/
+   private void reflectPowerOnInCarafe(){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel leftPanel = (JPanel)panel.getComponent(0);
+      JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
+      JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+      JPanel amountPanel = (JPanel)statePanel.getComponent(0);
+      JPanel indicatorPanel = (JPanel)statePanel.getComponent(1);
+      JPanel buttonPanel = (JPanel)statePanel.getComponent(2);
+   
+      JLabel amountLabel = (JLabel)amountPanel.getComponent(0);
+      JLabel capacityLabel=(JLabel)amountPanel.getComponent(1);
+      JLabel in   = (JLabel)indicatorPanel.getComponent(0);
+      JLabel out  = (JLabel)indicatorPanel.getComponent(1);
+      JLabel pour = (JLabel)indicatorPanel.getComponent(2);
+      
+      JButton pouring = (JButton)buttonPanel.getComponent(0);
+      JButton stop    = (JButton)buttonPanel.getComponent(2);
+
+      amountLabel.setEnabled(false);
+      capacityLabel.setEnabled(false);
+      in.setEnabled(false);
+      out.setEnabled(false);
+      pour.setEnabled(false);
+      pouring.setEnabled(false);
+      stop.setEnabled(false);
+
+      amountLabel.setEnabled(true);
+      capacityLabel.setEnabled(true);
+      in.setEnabled(true);
+   }
+
+   /**/
+   private void reflectPowerOffInReservoir(){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel rightPanel = (JPanel)panel.getComponent(1);
+      JPanel centerPanel = (JPanel)rightPanel.getComponent(1);
+      JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+      JPanel amountPanel = (JPanel)statePanel.getComponent(0);
+
+      JLabel amount   = (JLabel)amountPanel.getComponent(0);
+      JLabel capacity = (JLabel)amountPanel.getComponent(1);
+
+      amount.setEnabled(false);
+      capacity.setEnabled(false);
+   }
+
+   /**/
+   private void reflectPowerOnInReservoir(){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel rightPanel = (JPanel)panel.getComponent(1);
+      JPanel centerPanel = (JPanel)rightPanel.getComponent(1);
+      JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+      JPanel amountPanel = (JPanel)statePanel.getComponent(0);
+
+      JLabel amount   = (JLabel)amountPanel.getComponent(0);
+      JLabel capacity = (JLabel)amountPanel.getComponent(1);
+
+      amount.setEnabled(false);
+      capacity.setEnabled(false);
+
+      amount.setEnabled(true);
+      capacity.setEnabled(true);
    }
 
    /**/
@@ -248,7 +335,7 @@ implements Subscriber{
       int powerOffNumber     = 1;
       int readyLabelNumber   = 2;
       int brewingLabelNumber = 3;
-      JPanel top = (JPanel)this.getContentPane().getComponent(0);
+      JPanel top    = (JPanel)this.getContentPane().getComponent(0);
       if(state.toUpperCase().equals("READY")){
          top.getComponent(powerOnNumber).setEnabled(true);
          top.getComponent(powerOffNumber).setEnabled(true);
@@ -257,9 +344,31 @@ implements Subscriber{
       }
       else if(state.toUpperCase().equals("BREWING")){
          top.getComponent(powerOnNumber).setEnabled(false);
-	 top.getComponent(powerOffNumber).setEnabled(false);
+         top.getComponent(powerOffNumber).setEnabled(false);
          top.getComponent(readyLabelNumber).setEnabled(false);
          top.getComponent(brewingLabelNumber).setEnabled(true);
+      }
+      //This is "almost" a Meta-State
+      else if(state.toUpperCase().equals("OFF")){
+         this.disableSouthButton("Brew");
+         this.disableSouthButton("Get Carafe");
+         this.disableSouthButton("Return Carafe");
+         this.disableSouthButton("Fill Reservoir");
+         top.getComponent(readyLabelNumber).setEnabled(false);
+         top.getComponent(brewingLabelNumber).setEnabled(false);
+         this.reflectPowerOffInCarafe();
+         this.reflectPowerOffInReservoir();
+      }
+      //This is "almost" a Meta-State
+      else if(state.toUpperCase().equals("ON")){
+         this.enableSouthButton("Brew");
+         this.enableSouthButton("Get Carafe");
+         this.disableSouthButton("Return Carafe");
+         this.enableSouthButton("Fill Reservoir");
+         top.getComponent(readyLabelNumber).setEnabled(true);
+         top.getComponent(brewingLabelNumber).setEnabled(false);
+         this.reflectPowerOnInCarafe();
+         this.reflectPowerOnInReservoir();
       }
    }
 
