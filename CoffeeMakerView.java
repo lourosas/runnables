@@ -134,17 +134,6 @@ implements Subscriber{
    }
 
    /**/
-   private void handleJRadioButton(JRadioButton jb){
-      String command = jb.getActionCommand().toUpperCase();
-      if(command.equals("OFF")){
-         this.powerOff();
-      }
-      else if(command.equals("POWER")){
-         this.powerOn();
-      }
-   }
-
-   /**/
    private void handleMakerErrors(String message){
       String error = message.toUpperCase();
       if(error.contains("ALREADY") && error.contains("BREWING")){
@@ -169,6 +158,16 @@ implements Subscriber{
                                     oe.getMessage(),
                                     "Overflow Exception",
                                     JOptionPane.WARNING_MESSAGE);
+   }
+
+   /**/
+   private void handlePowerOnOff(String carafeState, String power){
+      if(power.toUpperCase().contains("OFF")){
+         this.powerOff(carafeState);
+      }
+      else if(power.toUpperCase().contains("ON")){
+         this.powerOn(carafeState);
+      }
    }
 
    /**/
@@ -227,13 +226,27 @@ implements Subscriber{
    }
 
    /**/
-   private void powerOff(){
-      this.reflectStateString("OFF");
+   private void powerOff(String carafeState){
+      int powerOnNumber      = 0;
+      int powerOffNumber     = 1;
+      int readyLabelNumber   = 2;
+      int brewingLabelNumber = 3;
+      JPanel top = (JPanel)this.getContentPane().getComponent(0);
+      this.disableSouthButton("Brew");
+      this.disableSouthButton("Get Carafe");
+      this.disableSouthButton("Return Carafe");
+      this.disableSouthButton("Fill Reservoir");
+      top.getComponent(readyLabelNumber).setEnabled(false);
+      top.getComponent(brewingLabelNumber).setEnabled(false);
+      this.reflectPowerOffInCarafe();
+      this.reflectPowerOffInReservoir();
    }
 
    /**/
-   private void powerOn(){
-      this.reflectStateString("ON");
+   private void powerOn(String carafeState){
+      //Get rid of everything related to this...
+      //this.reflectStateString("ON");
+      System.out.println("Power On\n"+carafeState);
    }
 
    /**/
@@ -351,14 +364,6 @@ implements Subscriber{
       }
       //This is "almost" a Meta-State
       else if(state.toUpperCase().equals("OFF")){
-         this.disableSouthButton("Brew");
-         this.disableSouthButton("Get Carafe");
-         this.disableSouthButton("Return Carafe");
-         this.disableSouthButton("Fill Reservoir");
-         top.getComponent(readyLabelNumber).setEnabled(false);
-         top.getComponent(brewingLabelNumber).setEnabled(false);
-         this.reflectPowerOffInCarafe();
-         this.reflectPowerOffInReservoir();
       }
       //This is "almost" a Meta-State
       else if(state.toUpperCase().equals("ON")){
@@ -774,11 +779,6 @@ implements Subscriber{
          this.handleMessage(message);
       }
       catch(ClassCastException cce){}
-      try{
-         JRadioButton jb = (JRadioButton)o;
-         this.handleJRadioButton(jb);
-      }
-      catch(ClassCastException cce){}
    }
 
    /**/
@@ -791,9 +791,11 @@ implements Subscriber{
       }
       else if(s.toUpperCase().contains("MUG")){}
       else if(s.toUpperCase().contains("POWER")){
-      //Test Print for the time being
-         System.out.println(o);
-         System.out.println(s);
+         try{
+            String carafeState = (String)o;
+            this.handlePowerOnOff(carafeState,s);
+         }
+         catch(ClassCastException cce){}
       }
    }
 
