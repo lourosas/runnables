@@ -244,9 +244,19 @@ implements Subscriber{
 
    /**/
    private void powerOn(String carafeState){
-      //Get rid of everything related to this...
-      //this.reflectStateString("ON");
-      System.out.println("Power On\n"+carafeState);
+      int powerOnNumber      = 0;
+      int powerOffNumber     = 1;
+      int readyLabelNumber   = 2;
+      int brewingLabelNumber = 3;
+      JPanel top = (JPanel)this.getContentPane().getComponent(0);
+      this.enableSouthButton("Brew");
+      this.enableSouthButton("Get Carafe");
+      this.disableSouthButton("Return Carafe");
+      this.enableSouthButton("Fill Reservoir");
+      top.getComponent(readyLabelNumber).setEnabled(true);
+      top.getComponent(brewingLabelNumber).setEnabled(false);
+      this.reflectPowerOnInCarafe(carafeState);
+      this.reflectPowerOnInReservoir();
    }
 
    /**/
@@ -279,7 +289,19 @@ implements Subscriber{
    }
 
    /**/
-   private void reflectPowerOnInCarafe(){
+   private void reflectPowerOnInCarafe(String carafeState){
+      String state = null;
+      if(carafeState.toUpperCase().contains("HOME")){
+         state = new String("HOME");
+      }
+      else if(carafeState.toUpperCase().contains("PULLED")){
+         state = new String("PULLED");
+      }
+      else if(carafeState.toUpperCase().contains("POURING")){
+         state = new String("POURING");
+      }
+      this.setCarafeState(state);
+      /*
       JPanel panel = (JPanel)this.getContentPane().getComponent(1);
       JPanel leftPanel = (JPanel)panel.getComponent(0);
       JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
@@ -308,6 +330,7 @@ implements Subscriber{
       amountLabel.setEnabled(true);
       capacityLabel.setEnabled(true);
       in.setEnabled(true);
+      */
    }
 
    /**/
@@ -361,20 +384,6 @@ implements Subscriber{
          top.getComponent(powerOffNumber).setEnabled(false);
          top.getComponent(readyLabelNumber).setEnabled(false);
          top.getComponent(brewingLabelNumber).setEnabled(true);
-      }
-      //This is "almost" a Meta-State
-      else if(state.toUpperCase().equals("OFF")){
-      }
-      //This is "almost" a Meta-State
-      else if(state.toUpperCase().equals("ON")){
-         this.enableSouthButton("Brew");
-         this.enableSouthButton("Get Carafe");
-         this.disableSouthButton("Return Carafe");
-         this.enableSouthButton("Fill Reservoir");
-         top.getComponent(readyLabelNumber).setEnabled(true);
-         top.getComponent(brewingLabelNumber).setEnabled(false);
-         this.reflectPowerOnInCarafe();
-         this.reflectPowerOnInReservoir();
       }
    }
 
