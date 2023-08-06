@@ -179,7 +179,8 @@ implements ActionListener, KeyListener, ItemListener{
       try{
          JRadioButton jb = (JRadioButton)ie.getSource();
          if(ie.getStateChange() == ItemEvent.SELECTED){
-	    this._subscriber.update(jb);
+            //This will eventually need to go away...
+            this._subscriber.update(jb);
             String command = jb.getActionCommand().toUpperCase();
             if(command.equals("OFF")){
                Maker.instance().power(false);

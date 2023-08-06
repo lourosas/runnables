@@ -91,18 +91,30 @@ public class Maker implements Runnable{
    //
    //
    //
-   public void power(boolean power){
+   public void power(boolean powerOn){
+      //Need to grab the Carafe State, in addition...
       String carafeState = new String("Carafe:  ");
+      String powerState  = new String("Power: ");
       //Always set the System to ready...
       //Power on/off will determine what is next..
       this.setReady();
       //Need to get the Carafe and check on the state...
       if(Carafe.instance().isHome()){
-         carafeState = carafeState.append("Home");
+         carafeState = carafeState.concat("Home");
       }
-      else if(Carafe.instance().isPouring()){}
-      if(power){}
-      else{}
+      else if(Carafe.instance().isPouring()){
+         carafeState = carafeState.concat("Pouring");
+      }
+      else if(Carafe.instance().isPulled()){
+         carafeState = carafeState.concat("Pulled");
+      }
+      if(powerOn){
+         powerState = powerState.concat("On");
+      }
+      else{
+         powerState = powerState.concat("Off");
+      }
+      this.notify(carafeState, powerState);
    }
 
    //

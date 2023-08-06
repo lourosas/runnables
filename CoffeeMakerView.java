@@ -790,6 +790,11 @@ implements Subscriber{
          this.handleReservoirUpdates(o, s);
       }
       else if(s.toUpperCase().contains("MUG")){}
+      else if(s.toUpperCase().contains("POWER")){
+      //Test Print for the time being
+         System.out.println(o);
+         System.out.println(s);
+      }
    }
 
    /**/
