@@ -301,36 +301,6 @@ implements Subscriber{
          state = new String("POURING");
       }
       this.setCarafeState(state);
-      /*
-      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
-      JPanel leftPanel = (JPanel)panel.getComponent(0);
-      JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
-      JPanel statePanel = (JPanel)centerPanel.getComponent(0);
-      JPanel amountPanel = (JPanel)statePanel.getComponent(0);
-      JPanel indicatorPanel = (JPanel)statePanel.getComponent(1);
-      JPanel buttonPanel = (JPanel)statePanel.getComponent(2);
-   
-      JLabel amountLabel = (JLabel)amountPanel.getComponent(0);
-      JLabel capacityLabel=(JLabel)amountPanel.getComponent(1);
-      JLabel in   = (JLabel)indicatorPanel.getComponent(0);
-      JLabel out  = (JLabel)indicatorPanel.getComponent(1);
-      JLabel pour = (JLabel)indicatorPanel.getComponent(2);
-      
-      JButton pouring = (JButton)buttonPanel.getComponent(0);
-      JButton stop    = (JButton)buttonPanel.getComponent(2);
-
-      amountLabel.setEnabled(false);
-      capacityLabel.setEnabled(false);
-      in.setEnabled(false);
-      out.setEnabled(false);
-      pour.setEnabled(false);
-      pouring.setEnabled(false);
-      stop.setEnabled(false);
-
-      amountLabel.setEnabled(true);
-      capacityLabel.setEnabled(true);
-      in.setEnabled(true);
-      */
    }
 
    /**/
@@ -432,9 +402,12 @@ implements Subscriber{
       JPanel leftPanel = (JPanel)panel.getComponent(0);
       JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
       JPanel statePanel  = (JPanel)centerPanel.getComponent(0);
+      JPanel amountPanel = (JPanel)statePanel.getComponent(0);
       JPanel indicatorPanel = (JPanel)statePanel.getComponent(1);
       JPanel buttonPanel = (JPanel)statePanel.getComponent(2);
 
+      JLabel amountLabel = (JLabel)amountPanel.getComponent(0);
+      JLabel capacityLabel=(JLabel)amountPanel.getComponent(1);
       JLabel in   = (JLabel)indicatorPanel.getComponent(0);
       JLabel out  = (JLabel)indicatorPanel.getComponent(1);
       JLabel pour = (JLabel)indicatorPanel.getComponent(2);
@@ -442,12 +415,16 @@ implements Subscriber{
       JButton pouring = (JButton)buttonPanel.getComponent(0);
       JButton stop = (JButton)buttonPanel.getComponent(2);
 
+      amountLabel.setEnabled(false);
+      capacityLabel.setEnabled(false);
       in.setEnabled(false);
       out.setEnabled(false);
       pour.setEnabled(false);
       pouring.setEnabled(false);
       stop.setEnabled(false);
       if(state.trim().toUpperCase().equals("HOME")){
+         amountLabel.setEnabled(true);
+         capacityLabel.setEnabled(true);
          in.setEnabled(true);
          this.enableSouthButton("Brew");
          this.enableSouthButton("Get Carafe");
@@ -455,6 +432,8 @@ implements Subscriber{
          this.disableSouthButton("Return Carafe");
       }
       else if(state.trim().toUpperCase().equals("PULLED")){
+         amountLabel.setEnabled(true);
+         capacityLabel.setEnabled(true);
          out.setEnabled(true);
          //Enable the Pour Button
          pouring.setEnabled(true);
@@ -464,6 +443,8 @@ implements Subscriber{
          this.enableSouthButton("Fill Reservoir");
       }
       else if(state.trim().toUpperCase().equals("POURING")){
+         amountLabel.setEnabled(true);
+         capacityLabel.setEnabled(true);
          pour.setEnabled(true);
          //Enable the Stop Pouring Button
          stop.setEnabled(true);
