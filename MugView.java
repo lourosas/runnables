@@ -31,8 +31,9 @@ public class MugView extends GenericJInteractionFrame{
    //
    //
    //
-   public MugView(int capacity){
+   public MugView(int capacity, WindowListener wl){
       super("Mug");
+      this.addWindowListener(wl);
       this.capacity(capacity);
       this.setGUI();
    }

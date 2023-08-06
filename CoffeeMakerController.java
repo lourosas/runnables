@@ -12,7 +12,7 @@ import rosas.lou.runnables.*;
 
 /**/
 public class CoffeeMakerController
-implements ActionListener, KeyListener, ItemListener{
+implements ActionListener, KeyListener, ItemListener, WindowListener{
    private Subscriber _subscriber;
 
    {
@@ -118,7 +118,7 @@ implements ActionListener, KeyListener, ItemListener{
                    "Enter The Mug Size",
                    JOptionPane.QUESTION_MESSAGE);
             double amount = Double.parseDouble(s);
-            mug = new Mug((int)amount);
+            mug = new Mug((int)amount,this);
             toLoop = false;
          }
          catch(HeadlessException he){
@@ -186,9 +186,33 @@ implements ActionListener, KeyListener, ItemListener{
             else if(command.equals("POWER")){
                Maker.instance().power(true);
             }
-	 }
+         }
       }
       catch(ClassCastException cce){}
    }
+
+   ////////////////////////Window Listener////////////////////////////
+   /**/
+   public void windowActivated(WindowEvent e){}
+
+   /**/
+   public void windowClosed(WindowEvent e){}
+
+   /**/
+   public void windowClosing(WindowEvent e){
+      Carafe.instance().stopPour();
+   }
+
+   /**/
+   public void windowDeactivated(WindowEvent e){}
+
+   /**/
+   public void windowDeiconified(WindowEvent e){}
+
+   /**/
+   public void windowIconified(WindowEvent e){}
+
+   /**/
+   public void windowOpened(WindowEvent e){}
 }
 //////////////////////////////////////////////////////////////////////

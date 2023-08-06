@@ -5,6 +5,7 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
+import java.awt.event.*;
 import rosas.lou.runnables.*;
 
 public class Mug implements Runnable{
@@ -24,17 +25,17 @@ public class Mug implements Runnable{
    //
    //
    //
-   public Mug(){
-      this._view = new MugView(SIZE);
+   public Mug(WindowListener wl){
+      this._view = new MugView(SIZE,wl);
       this._view.setVisible(true);
    }
 
    //
    //
    //
-   public Mug(int size){
+   public Mug(int size, WindowListener wl){
       this._size = size;
-      this._view = new MugView(this._size);
+      this._view = new MugView(this._size, wl);
       this._view.setVisible(true);
    }
 
