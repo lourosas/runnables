@@ -235,10 +235,9 @@ implements Subscriber{
       this.disableSouthButton("Brew");
       this.disableSouthButton("Get Carafe");
       this.disableSouthButton("Return Carafe");
-      this.disableSouthButton("Fill Reservoir");
-      //Possibly...remove...below
-      /*
+      //this.disableSouthButton("Fill Reservoir");
       this.enableSouthButton("Fill Reservoir");
+      //Possibly...remove...below
       if(carafeState.toUpperCase().contains("HOME")){
          this.enableSouthButton("Get Carafe");
       }
@@ -246,7 +245,6 @@ implements Subscriber{
          this.enableSouthButton("Return Carafe");
       }
       else if(carafeState.toUpperCase().contains("POURING")){}
-      */
       //Possibly...remove above...
       top.getComponent(readyLabelNumber).setEnabled(false);
       top.getComponent(brewingLabelNumber).setEnabled(false);
@@ -273,7 +271,6 @@ implements Subscriber{
 
    /**/
    private void reflectPowerOffInCarafe(String carafeState){
-      String state = null;
       JPanel panel = (JPanel)this.getContentPane().getComponent(1);
       JPanel leftPanel = (JPanel)panel.getComponent(0);
       JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
@@ -291,7 +288,6 @@ implements Subscriber{
       JButton pouring = (JButton)buttonPanel.getComponent(0);
       JButton stop    = (JButton)buttonPanel.getComponent(2);
 
-
       amountLabel.setEnabled(false);
       capacityLabel.setEnabled(false);
       in.setEnabled(false);
@@ -299,6 +295,17 @@ implements Subscriber{
       pour.setEnabled(false);
       pouring.setEnabled(false);
       stop.setEnabled(false);
+
+      //Possibly remove below
+      if(carafeState.toUpperCase().contains("HOME")){}
+      else if(carafeState.toUpperCase().contains("PULLED")){
+         pouring.setEnabled(true);
+      }
+      else if(carafeState.toUpperCase().contains("POURING")){
+         stop.setEnabled(true);
+      }
+      //Possibly remove above
+
    }
 
    /**/
@@ -602,7 +609,7 @@ implements Subscriber{
       //This will need to be updated (upper and lower limits) based on
       //the initialization of the Model (Coffee Maker)...
       JProgressBar carafeAmount =
-                new JProgressBar(SwingConstants.VERTICAL, 0, 32);
+                    new JProgressBar(SwingConstants.VERTICAL, 0, 32);
       carafeAmount.setValue(carafeAmount.getMinimum());
       carafeAmount.setStringPainted(true);
       panel.add(carafeAmount, BorderLayout.CENTER);
@@ -766,7 +773,7 @@ implements Subscriber{
 
       return panel;
    }
-   
+
    ////////////////////////Interface Methods//////////////////////////
    /**/
    public void update(Object o){
