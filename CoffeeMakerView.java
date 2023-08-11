@@ -236,11 +236,21 @@ implements Subscriber{
       this.disableSouthButton("Get Carafe");
       this.disableSouthButton("Return Carafe");
       this.disableSouthButton("Fill Reservoir");
-      //Possibly...possibly remove...
+      //Possibly...remove...below
+      /*
       this.enableSouthButton("Fill Reservoir");
+      if(carafeState.toUpperCase().contains("HOME")){
+         this.enableSouthButton("Get Carafe");
+      }
+      else if(carafeState.toUpperCase().contains("PULLED")){
+         this.enableSouthButton("Return Carafe");
+      }
+      else if(carafeState.toUpperCase().contains("POURING")){}
+      */
+      //Possibly...remove above...
       top.getComponent(readyLabelNumber).setEnabled(false);
       top.getComponent(brewingLabelNumber).setEnabled(false);
-      this.reflectPowerOffInCarafe();
+      this.reflectPowerOffInCarafe(carafeState);
       this.reflectPowerOffInReservoir();
    }
 
@@ -262,7 +272,8 @@ implements Subscriber{
    }
 
    /**/
-   private void reflectPowerOffInCarafe(){
+   private void reflectPowerOffInCarafe(String carafeState){
+      String state = null;
       JPanel panel = (JPanel)this.getContentPane().getComponent(1);
       JPanel leftPanel = (JPanel)panel.getComponent(0);
       JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
