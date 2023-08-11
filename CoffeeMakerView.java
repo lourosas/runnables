@@ -236,6 +236,8 @@ implements Subscriber{
       this.disableSouthButton("Get Carafe");
       this.disableSouthButton("Return Carafe");
       this.disableSouthButton("Fill Reservoir");
+      //Possibly...possibly remove...
+      this.enableSouthButton("Fill Reservoir");
       top.getComponent(readyLabelNumber).setEnabled(false);
       top.getComponent(brewingLabelNumber).setEnabled(false);
       this.reflectPowerOffInCarafe();
@@ -312,10 +314,11 @@ implements Subscriber{
       JPanel amountPanel = (JPanel)statePanel.getComponent(0);
 
       JLabel amount   = (JLabel)amountPanel.getComponent(0);
-      JLabel capacity = (JLabel)amountPanel.getComponent(1);
+      //Keep Capacity Label enabled???
+      //JLabel capacity = (JLabel)amountPanel.getComponent(1);
 
       amount.setEnabled(false);
-      capacity.setEnabled(false);
+      //capacity.setEnabled(false);
    }
 
    /**/
