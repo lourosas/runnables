@@ -235,17 +235,7 @@ implements Subscriber{
       this.disableSouthButton("Brew");
       this.disableSouthButton("Get Carafe");
       this.disableSouthButton("Return Carafe");
-      //this.disableSouthButton("Fill Reservoir");
-      this.enableSouthButton("Fill Reservoir");
-      //Possibly...remove...below
-      if(carafeState.toUpperCase().contains("HOME")){
-         this.enableSouthButton("Get Carafe");
-      }
-      else if(carafeState.toUpperCase().contains("PULLED")){
-         this.enableSouthButton("Return Carafe");
-      }
-      else if(carafeState.toUpperCase().contains("POURING")){}
-      //Possibly...remove above...
+      this.disableSouthButton("Fill Reservoir");
       top.getComponent(readyLabelNumber).setEnabled(false);
       top.getComponent(brewingLabelNumber).setEnabled(false);
       this.reflectPowerOffInCarafe(carafeState);
@@ -295,17 +285,6 @@ implements Subscriber{
       pour.setEnabled(false);
       pouring.setEnabled(false);
       stop.setEnabled(false);
-
-      //Possibly remove below
-      if(carafeState.toUpperCase().contains("HOME")){}
-      else if(carafeState.toUpperCase().contains("PULLED")){
-         pouring.setEnabled(true);
-      }
-      else if(carafeState.toUpperCase().contains("POURING")){
-         stop.setEnabled(true);
-      }
-      //Possibly remove above
-
    }
 
    /**/
@@ -332,11 +311,10 @@ implements Subscriber{
       JPanel amountPanel = (JPanel)statePanel.getComponent(0);
 
       JLabel amount   = (JLabel)amountPanel.getComponent(0);
-      //Keep Capacity Label enabled???
-      //JLabel capacity = (JLabel)amountPanel.getComponent(1);
+      JLabel capacity = (JLabel)amountPanel.getComponent(1);
 
       amount.setEnabled(false);
-      //capacity.setEnabled(false);
+      capacity.setEnabled(false);
    }
 
    /**/
