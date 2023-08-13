@@ -1,0 +1,44 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\begin{document}
+\noindent
+\textbf{Manage Power:}\\
+\textbf{Scencario:  }\textit{Power Coffee Maker Off}\\
+\textit{Main Success Scenario:}\\
+\begin{enumerate}
+\item Coffee Drinker turns Coffe Maker off
+\item Coffee Maker indicates power is off
+\item Coffee Maker accepts
+\begin{enumerate}
+\item Pull Carafe
+\item Fill Reservoir
+\end{enumerate}
+as Coffee Drinker input
+\item Coffee Maker indicates the amount of water in the Reservoir
+\item Coffee Maker indicates the amount of brewed coffee in the
+ Carafe
+\end{enumerate}
+\textit{Alternative Scenarios:}
+\begin{enumerate}
+\item[3a.]If the Carafe is in the Pulled State, then the Coffee Maker
+accepts
+\begin{enumerate}
+\item Return Carafe
+\item Fill Reservoir
+\item Pour
+\end{enumerate}
+as Coffee Drinker Input
+\item[3b.]If the Carafe is in the Pouring State, then the Coffee Maker
+accepts
+\begin{enumerate}
+\item Stop Pouring
+\item Fill Reservoir
+\end{enumerate}
+as Coffee Drinker Input
+\end{enumerate}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

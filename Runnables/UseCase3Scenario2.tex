@@ -1,0 +1,74 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\begin{document}
+\noindent
+\textbf{Use Case 3: Manage Power}\\
+\textbf{Scope:  }Coffee Maker\\
+\textbf{Level:  }Coffee Drinker Goal\\
+\textbf{Primary Actor:  }Coffee Drinker\\
+\textbf{Scenario:  }\textit{Power Coffee Maker Off}\\
+\textbf{Related Use Cases:  }None\\
+\textbf{Stakeholders \& Interrests:  }
+\begin{itemize}
+\item Coffee Drinker:  who wants to turn the Coffee Maker off
+\end{itemize}
+\textbf{Preconditions:  }Coffee Maker is powered on.\\
+\textbf{Postconditions:  }Coffee Maker is power off.  Coffee Maker is
+reflecting the Current State of its components.\\
+\textbf{Success Guarantees:  }The Coffee maker is off (no power is
+applied)\\\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+\textbf{Coffee Drinker} & \textbf{Coffee Maker}\\\hline
+1.  Removes Power to the Coffee Maker (turns Coffee Maker off) &
+    \\\hline
+& 2.  Indicates Power is off\\\hline
+& 3.  Sets up to accept Coffee Drinker input: 
+\begin{enumerate}
+\item Pull Carafe
+\item Fill Reservoir
+\end{enumerate}
+\\\hline
+& 4.  Indicates the amount of water in the Reservoir\\\hline
+& 5.  Indicates the amount of coffee in the Carafe\\\hline
+\end{tabular}\\\\
+\textbf{Extensions (Alternative Flows):}
+\begin{itemize}
+\item[3a.]If the Carafe is in the \textit{Pulled} State, then the
+Coffee Maker Accepts
+\begin{enumerate}
+\item Return Carafe
+\item Fill Reservoir
+\item Pour
+\end{enumerate}
+as Coffee Drinker input.
+\item[3b.]If the Carafe is in the \textit{Pouring} State, then the
+Coffee Maker Accepts
+\begin{enumerate}
+\item Stop Pouring
+\item Fill Reservoir
+\end{enumerate}
+as Coffee Drinker input.
+\end{itemize}
+\textbf{Special Requirements:  }
+\begin{itemize}
+\item The Power to the Coffee Maker Must be one
+\item Regardless of Carafe State, the Coffee Maker does not have the
+ options to Brew coffee when the Coffee Maker has no power.
+\item The State of the Carafe must be known.
+\item The Amount in the Reservoir must be known.
+\item The Amount in the Carafe must be known.
+\end{itemize}
+\textbf{Technology \& Variations List:}
+\begin{itemize}
+\item none
+\end{itemize}
+\textbf{Open Issues:}
+\begin{itemize}
+\item none
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
