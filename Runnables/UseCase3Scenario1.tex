@@ -1,0 +1,58 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case 3: Manage Power}\\
+\textbf{Scope:  }Coffee Maker\\
+\textbf{Level:  }Coffee Drinker Goal\\
+\textbf{Primary Actor:  }Coffee Drinker\\
+\textbf{Scenario: }\textit{Power Coffee Maker On}\\
+\textbf{Related Use Cases:  }None\\
+\textbf{Stakeholders \& Interrests:  }
+\begin{itemize}
+\item Coffee Drinker:  who wants to brew coffee
+\end{itemize}
+\textbf{Preconditions:  }Coffee Maker is powered off\\
+\textbf{Postconditions:  }Coffee Makeer is powered on.  Coffee Maker
+is reflecting the current State of the Coffee Maker and its
+components.\\
+\textbf{Success Guarantees:  }Power is applied to the Coffee Maker\\\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+\textbf{Coffee Drinker} & \textbf{Coffee Maker}\\\hline
+1.  Applies Power to the Coffee Maker & \\\hline
+2. & Indicates Power is Applied\\\hline
+3. & Indicates in the Brewing State\\\hline
+4. & Indicates the Carafe State
+\begin{enumerate}
+\item Home--in the Coffee Maker
+\item Pulled--away from the Coffee Maker
+\item Pouring--pouring out the Carafe's contents
+\end{enumerate}
+\\\hline
+5. & Indicates the Current State of the Reservoir (the amount of
+water in the Reservoir)\\\hline
+6. & Indicates the amount of coffee in the Carafe\\\hline
+7. & Sets up to accept Coffee Drinker input:
+\begin{enumerate}
+\item To Brew Coffee
+\item To Get the Carafe
+\item To Fill the Reservoir
+\end{enumerate}
+\\\hline
+\end{tabular}\\\\
+\textbf{Extensions (Alternative Flows):}
+\begin{itemize}
+\item[7a.]If the Carafe is currently in the Pulled State, then the
+Coffee Maker accepts
+\begin{enumerate}
+\item Brew Coffee
+\item Return Carafe
+\item Fill Reservoir
+\item Pour
+\end{enumerate}
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

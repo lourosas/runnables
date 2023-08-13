@@ -1,0 +1,54 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\begin{document}
+\noindent
+\textbf{Manage Power: }\\
+\textbf{Scenario:  }
+\textit{Power Coffee Maker On}\\
+\textit{Main Success Scenario:}
+\begin{enumerate}
+\item Coffee Drinker turns the Coffee Maker on
+\item Coffee Maker indicates power is on
+\item Coffee Maker indicates the System is ready for Brewing
+\item Coffee Maker indicates the Current State of the Carafe
+\begin{enumerate}
+\item Home--in the Coffee Maker
+\item Pulled--away from the Coffee Maker
+\item Pouring--Pouring out the Carafe's contents
+\end{enumerate}
+\item Coffee Maker indicates the current amount of Water in the Reservoir
+\item Coffee Maker indicates the current amount of brewed coffee in
+the Carafe
+\item Coffee Maker accepts Coffee Drinker Input
+\begin{enumerate}
+\item To Brew Coffee
+\item For Getting the Carafe
+\item For Filling the Reservoir
+\end{enumerate} 
+\end{enumerate}
+\textit{Alternate Scenarios:}
+\begin{enumerate}
+\item[7a.] If the Carafe is currently in the Pulled State, then the
+Coffee Maker accepts
+\begin{enumerate}
+\item Brew Coffee
+\item Return Carafe
+\item Fill Reservoir
+\item Pour
+\end{enumerate}
+as Coffee Drinker Input
+\item[7b.] If the Carafe is currently in the Pouring (emptying its 
+contents) State, then the Coffee Maker accepts
+\begin{enumerate}
+\item Brew Coffee
+\item Fill Reservoir
+\item Stop Pouring
+\end{enumerate}
+as Coffee Drinker Input
+\end{enumerate}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
