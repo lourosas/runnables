@@ -20,6 +20,7 @@
 is reflecting the current State of the Coffee Maker and its
 components.\\
 \textbf{Success Guarantees:  }Power is applied to the Coffee Maker\\\\
+\textbf{Main Success Scenario:  }\\
 \begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
 \textbf{Coffee Drinker} & \textbf{Coffee Maker}\\\hline
 1.  Applies Power to the Coffee Maker & \\\hline
@@ -53,6 +54,29 @@ Coffee Maker accepts
 \item Fill Reservoir
 \item Pour
 \end{enumerate}
+as Coffee Drinker input.
+\item[7b.]If the Carafe is currently in the Pouring (emptying its
+contents) State, the Coffee Maker accepts
+\begin{enumerate}
+\item Brew Coffee
+\item Fill Reservoir
+\item Stop Pouring
+\end{enumerate}
+as Coffee Drinker input.
+\end{itemize}
+\textbf{Special Requirements: }
+\begin{itemize}
+\item Power to the Coffee Maker must be off
+\item The State of the Carafe must be known
+\item The amount of the Reservoir must be known
+\end{itemize}
+\textbf{Technology \& Variations List:}
+\begin{itemize}
+\item none
+\end{itemize}
+\textbf{Open Issues:}
+\begin{itemize}
+\item none
 \end{itemize}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
