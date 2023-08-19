@@ -11,6 +11,7 @@ public class Maker implements Runnable{
    private static Maker _instance;
 
    private enum State{READY,BREWING};
+   private enum Power{OFF, ON};
    private List<Subscriber> _subscribers;
    private Reservoir        _reservoir;
    private Thread           _t;
