@@ -96,7 +96,7 @@ bg=orange</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>520</x>
-      <y>170</y>
+      <y>160</y>
       <w>240</w>
       <h>50</h>
     </coordinates>
@@ -284,7 +284,7 @@ bg=blue</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>320</x>
-      <y>150</y>
+      <y>130</y>
       <w>230</w>
       <h>40</h>
     </coordinates>
@@ -414,7 +414,7 @@ bg=gray</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>80</x>
-      <y>130</y>
+      <y>120</y>
       <w>270</w>
       <h>40</h>
     </coordinates>
@@ -474,9 +474,9 @@ stopPour()</panel_attributes>
     <id>UMLFrame</id>
     <coordinates>
       <x>30</x>
-      <y>180</y>
+      <y>200</y>
       <w>1040</w>
-      <h>190</h>
+      <h>170</h>
     </coordinates>
     <panel_attributes>home = true</panel_attributes>
     <additional_attributes/>

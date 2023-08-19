@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="15.1">
+<diagram program="umlet" version="15.0.0">
   <zoom_level>10</zoom_level>
   <element>
     <id>UMLInterface</id>
@@ -80,7 +80,7 @@ m2=*</panel_attributes>
       <x>320</x>
       <y>370</y>
       <w>230</w>
-      <h>200</h>
+      <h>330</h>
     </coordinates>
     <panel_attributes>Maker
 bg=gray
@@ -92,8 +92,13 @@ bg=gray
 +power(power:boolean)
 +returnCarafe()
 -brew()
+-isPowerOn():boolean
+-isPowerOff():boolean
 -isBrewing():boolean
+-notifyPowerState()
 -setBrewing()
+-setPowerOff()
+-setPowerOn
 -setReady()</panel_attributes>
     <additional_attributes/>
   </element>
@@ -236,7 +241,7 @@ r1=-mug</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>240</x>
-      <y>750</y>
+      <y>860</y>
       <w>250</w>
       <h>110</h>
     </coordinates>
@@ -253,14 +258,14 @@ r1=-mug</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>330</x>
-      <y>560</y>
+      <y>690</y>
       <w>40</w>
-      <h>210</h>
+      <h>190</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
 m2=1</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;190.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;170.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -286,7 +291,7 @@ BREWING</panel_attributes>
       <h>70</h>
     </coordinates>
     <panel_attributes>lt=-
-r2=-state</panel_attributes>
+r2=-_state</panel_attributes>
     <additional_attributes>10.0;50.0;10.0;20.0;180.0;20.0</additional_attributes>
   </element>
   <element>
@@ -310,12 +315,12 @@ bg=orange</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>500</x>
-      <y>560</y>
+      <y>690</y>
       <w>80</w>
-      <h>440</h>
+      <h>310</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;60.0;420.0</additional_attributes>
+    <additional_attributes>10.0;10.0;60.0;290.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -360,9 +365,9 @@ __+instance():Carafe__
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>1370</x>
+      <x>1360</x>
       <y>50</y>
-      <w>120</w>
+      <w>140</w>
       <h>120</h>
     </coordinates>
     <panel_attributes>CarafeInterface
@@ -599,5 +604,32 @@ POURING</panel_attributes>
     <panel_attributes>lt=-
 r1=-state</panel_attributes>
     <additional_attributes>10.0;20.0;90.0;20.0;90.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>650</y>
+      <w>120</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+Power
+--
+OFF
+ON</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>160</x>
+      <y>600</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=-
+r2=-_power</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;20.0;160.0;20.0</additional_attributes>
   </element>
 </diagram>
