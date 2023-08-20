@@ -16,6 +16,7 @@ public class Maker implements Runnable{
    private Reservoir        _reservoir;
    private Thread           _t;
    private State            _state;
+   private Power            _power;
    //Temporary for the moment
    private Object           _o;
 
@@ -25,6 +26,7 @@ public class Maker implements Runnable{
       _reservoir   = null;
       _t           = null;
       _state       = State.READY;
+      _power       = Power.OFF;
       _o           = null;
    };
    
@@ -56,7 +58,7 @@ public class Maker implements Runnable{
       //subject to change...
       if(!this.isBrewing()){
          //Set the State to State.BREWING
-         this.setBrewing();
+         this.setBrewing(true);
       }
       else{
          this.notifyError(new AlreadyBrewingException());
@@ -98,7 +100,7 @@ public class Maker implements Runnable{
       String powerState  = new String("Power: ");
       //Always set the System to ready...
       //Power on/off will determine what is next..
-      this.setReady();
+      this.setReady(false);
       //Need to get the Carafe and check on the state...
       if(Carafe.instance().isHome()){
          carafeState = carafeState.concat("Home");
@@ -209,19 +211,23 @@ public class Maker implements Runnable{
    //
    //
    //
-   private void setBrewing(){
+   private void setBrewing(boolean toNotify){
       this._state = State.BREWING;
       //Notify Observers of State Change
-      this.notifyOfState();
+      if(toNotify){
+         this.notifyOfState();
+      }
    }
 
    //
    //
    //
-   private void setReady(){
+   private void setReady(boolean toNotify){
       this._state = State.READY;
-      //Notfiy Observers of State Change
-      this.notifyOfState();
+      if(toNotify){
+         //Notfiy Observers of State Change
+         this.notifyOfState();
+      }
    }
 
    //////////////////////Interface Methods////////////////////////////
@@ -255,7 +261,7 @@ public class Maker implements Runnable{
                             this._reservoir.empty(reservoirSleepTime);
                   }
                }
-               this.setReady();
+               this.setReady(true);
             }
             Thread.sleep(sleepTime);
          }
