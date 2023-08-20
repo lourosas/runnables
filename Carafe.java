@@ -59,9 +59,6 @@ public class Carafe implements Runnable, CarafeInterface{
       }
       finally{
          //notify the initialized values...
-         //this.notifyState();
-         //this.notifyCapacity();
-         //this.notifyQuantity();
          this.notifySubscribersOfState();
       }
    }

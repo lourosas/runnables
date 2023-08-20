@@ -45,9 +45,6 @@ public class Reservoir implements ReservoirInterface{
          this._subscribers.add(subscriber);
       }
       finally{
-         //this.notifyState();
-         //this.notifyCapacity();
-         //this.notifyQuantity();
          this.notifySubscribersOfState();
       }
    }
