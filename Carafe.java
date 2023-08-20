@@ -59,9 +59,10 @@ public class Carafe implements Runnable, CarafeInterface{
       }
       finally{
          //notify the initialized values...
-         this.notifyState();
-         this.notifyCapacity();
-         this.notifyQuantity();
+         //this.notifyState();
+         //this.notifyCapacity();
+         //this.notifyQuantity();
+         this.notifySubscribersOfState();
       }
    }
 
@@ -80,6 +81,16 @@ public class Carafe implements Runnable, CarafeInterface{
          _instance = new Carafe();
       }
       return _instance;
+   }
+
+   //
+   //
+   //
+   //
+   public void notifySubscribersOfState(){
+      this.notifyState();
+      this.notifyCapacity();
+      this.notifyQuantity();
    }
 
    //
@@ -210,11 +221,14 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    private void notify(Object object, String message){
-      Iterator<Subscriber> it = this._subscribers.iterator();
-      while(it.hasNext()){
-         Subscriber s = it.next();
-         s.update(object,message);
+      try{
+         Iterator<Subscriber> it = this._subscribers.iterator();
+         while(it.hasNext()){
+            Subscriber s = it.next();
+            s.update(object,message);
+         }
       }
+      catch(NullPointerException npe){}
    }
 
    //
@@ -236,11 +250,14 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    private void notifyError(String error){
-      Iterator<Subscriber> it = this._subscribers.iterator();
-      while(it.hasNext()){
-         Subscriber s = it.next();
-         s.error(error);
+      try{
+         Iterator<Subscriber> it = this._subscribers.iterator();
+         while(it.hasNext()){
+            Subscriber s = it.next();
+            s.error(error);
+         }
       }
+      catch(NullPointerException npe){}
    }
 
    //

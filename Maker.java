@@ -44,6 +44,7 @@ public class Maker implements Runnable{
       }
       finally{
          this._reservoir.addSubscriber(subscriber);
+         this.notifyOfPower();
          this.notifyOfState();
       }
    }
@@ -95,6 +96,17 @@ public class Maker implements Runnable{
    //
    //
    public void power(boolean powerOn){
+      //Set up power
+      if(powerOn && this.isPowerOff()){
+         this.setPowerOn(true);
+         this.setReady(true);
+         Carafe.instance().notifySubscribersOfState();
+         this._reservoir.notifySubscribersOfState();
+      }
+      else if(!powerOn && this.isPowerOn()){
+         this.setPowerOff(true);
+      }
+      /*
       //Need to grab the Carafe State, in addition...
       String carafeState = new String("Carafe:  ");
       String powerState  = new String("Power: ");
@@ -118,6 +130,7 @@ public class Maker implements Runnable{
          powerState = powerState.concat("Off");
       }
       this.notify(carafeState, powerState);
+      */
    }
 
    //
@@ -136,8 +149,9 @@ public class Maker implements Runnable{
       this._o         = new Object();
       Carafe.instance().setObject(this._o);
       this._t = new Thread(this);
+      //Turn the power on
+      this.power(true);
       //since power is on, go ahead and start the thread...
-      //this is the POWERON (super)state
       this._t.start();
    }
 
@@ -151,23 +165,43 @@ public class Maker implements Runnable{
    //
    //
    //
+   private boolean isPowerOff(){
+      return(this._power == Power.OFF);
+   }
+
+   //
+   //
+   //
+   private boolean isPowerOn(){
+      return(this._power == Power.ON);
+   }
+
+   //
+   //
+   //
    private void notify(Object o){
-      Iterator<Subscriber> it = this._subscribers.iterator();
-      while(it.hasNext()){
-         Subscriber s = it.next();
-         s.update(o);
+      try{
+         Iterator<Subscriber> it = this._subscribers.iterator();
+         while(it.hasNext()){
+            Subscriber s = it.next();
+            s.update(o);
+         }
       }
+      catch(NullPointerException npe){}
    }
 
    //
    //
    //
    private void notify(Object object, String string){
-      Iterator<Subscriber> it = this._subscribers.iterator();
-      while(it.hasNext()){
-         Subscriber s = it.next();
-         s.update(object, string);
+      try{
+         Iterator<Subscriber> it = this._subscribers.iterator();
+         while(it.hasNext()){
+            Subscriber s = it.next();
+            s.update(object, string);
+         }
       }
+      catch(NullPointerException npe){}
    }
 
    //
@@ -193,11 +227,22 @@ public class Maker implements Runnable{
    //
    //
    private void notifyError(String error){
-      Iterator<Subscriber> it = this._subscribers.iterator();
-      while(it.hasNext()){
-         Subscriber s = it.next();
-         s.error(error);
+      try{
+         Iterator<Subscriber> it = this._subscribers.iterator();
+         while(it.hasNext()){
+            Subscriber s = it.next();
+            s.error(error);
+         }
       }
+      catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
+   private void notifyOfPower(){
+      String power = new String("Power: ") + this._power;
+      this.notify(power);
    }
 
    //
@@ -216,6 +261,29 @@ public class Maker implements Runnable{
       //Notify Observers of State Change
       if(toNotify){
          this.notifyOfState();
+      }
+   }
+
+   //
+   //
+   //
+   private void setPowerOff(boolean toNotify){
+      this._power = Power.OFF;
+      //Notify Observers of Power State Change
+      if(toNotify){
+         this.notifyOfPower();
+      }
+   }
+
+
+   //
+   //
+   //
+   private void setPowerOn(boolean toNotify){
+      this._power = Power.ON;
+      //Notify the Observers of Power State Change
+      if(toNotify){
+         this.notifyOfPower();
       }
    }
 

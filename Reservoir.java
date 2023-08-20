@@ -45,9 +45,10 @@ public class Reservoir implements ReservoirInterface{
          this._subscribers.add(subscriber);
       }
       finally{
-         this.notifyState();
-         this.notifyCapacity();
-         this.notifyQuantity();
+         //this.notifyState();
+         //this.notifyCapacity();
+         //this.notifyQuantity();
+         this.notifySubscribersOfState();
       }
    }
 
@@ -73,6 +74,14 @@ public class Reservoir implements ReservoirInterface{
    */
    public boolean isStartup(){
       return (this._state == State.STARTUP);
+   }
+
+   /*
+   */
+   public void notifySubscribersOfState(){
+      this.notifyState();
+      this.notifyCapacity();
+      this.notifyQuantity();
    }
 
    /*
@@ -149,11 +158,14 @@ public class Reservoir implements ReservoirInterface{
    //
    //
    private void notify(Object object, String message){
-      Iterator<Subscriber> it = this._subscribers.iterator();
-      while(it.hasNext()){
-         Subscriber s = it.next();
-         s.update(object, message);
+      try{
+         Iterator<Subscriber> it = this._subscribers.iterator();
+         while(it.hasNext()){
+            Subscriber s = it.next();
+            s.update(object, message);
+         }
       }
+      catch(NullPointerException npe){}
    }
 
    //
@@ -175,11 +187,14 @@ public class Reservoir implements ReservoirInterface{
    //
    //
    private void notifyError(String error){
-      Iterator<Subscriber> it = this._subscribers.iterator();
-      while(it.hasNext()){
-         Subscriber s = it.next();
-         s.error(error);
+      try{
+         Iterator<Subscriber> it = this._subscribers.iterator();
+         while(it.hasNext()){
+            Subscriber s = it.next();
+            s.error(error);
+         }
       }
+      catch(NullPointerException npe){}
    }
 
    //
