@@ -100,8 +100,8 @@ public class Maker implements Runnable{
       if(powerOn && this.isPowerOff()){
          this.setPowerOn(true);
          this.setReady(true);
-         Carafe.instance().notifySubscribersOfState();
-         this._reservoir.notifySubscribersOfState();
+         Carafe.instance().systemPowerOn();
+         this._reservoir.systemPowerOn();
       }
       else if(!powerOn && this.isPowerOn()){
          this.setPowerOff(true);

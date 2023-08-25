@@ -83,16 +83,6 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    //
-   //
-   public void notifySubscribersOfState(){
-      this.notifyState();
-      this.notifyCapacity();
-      this.notifyQuantity();
-   }
-
-   //
-   //
-   //
    public void fill(double amount) throws NotHomeException{
       if(this.isHome()){
          this._quantity += amount;
@@ -165,6 +155,20 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    public void setObject(Object o){
       this._o = o;
+   }
+
+   //
+   //
+   //
+   //
+   public void systemPowerOff(){}
+
+   //
+   //
+   //
+   //
+   public void systemPowerOn(){
+      this.notifySubscribersOfState();
    }
 
    //
@@ -271,6 +275,16 @@ public class Carafe implements Runnable, CarafeInterface{
    private void notifyState(){
       String state = "" + this._state;
       this.notify(state, new String("Carafe State"));
+   }
+
+   //
+   //
+   //
+   //
+   private void notifySubscribersOfState(){
+      this.notifyState();
+      this.notifyCapacity();
+      this.notifyQuantity();
    }
 
    //

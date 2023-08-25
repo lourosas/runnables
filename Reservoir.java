@@ -75,14 +75,6 @@ public class Reservoir implements ReservoirInterface{
 
    /*
    */
-   public void notifySubscribersOfState(){
-      this.notifyState();
-      this.notifyCapacity();
-      this.notifyQuantity();
-   }
-
-   /*
-   */
    public boolean wasFilled(){
       return (this._state == State.WASFILLED);
    }
@@ -142,6 +134,20 @@ public class Reservoir implements ReservoirInterface{
       this.notifyQuantity();
       //6.  Return the amount "pummped" (emptied) from the reservoir
       return amount;
+   }
+
+   //
+   //
+   //
+   //
+   public void systemPowerOff(){}
+
+   //
+   //
+   //
+   //
+   public void systemPowerOn(){
+      this.notifySubscribersOfState();
    }
 
    ////////////////////////Private Methods////////////////////////////
@@ -206,6 +212,14 @@ public class Reservoir implements ReservoirInterface{
    //
    //
    private void notifyState(){}
+
+   /*
+   */
+   private void notifySubscribersOfState(){
+      this.notifyState();
+      this.notifyCapacity();
+      this.notifyQuantity();
+   }
 
    /*
    */

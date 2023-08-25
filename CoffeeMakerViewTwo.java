@@ -60,15 +60,125 @@ implements Subscriber{
    //
    //
    //
+   //
+   private JPanel setUpCenterPanel(){
+      JPanel panel = new JPanel();
+      panel.setBorder(BorderFactory.createEtchedBorder());
+      panel.setLayout(new GridLayout(1,2,10,10));
+      panel.add(this.setUpCarafePanel());
+      panel.add(this.setUpReservoirPanel());
+      return panel;
+   }
+
+   //
+   //
+   //
+   //
+   private JPanel setUpCarafePanel(){
+      JPanel panel = new JPanel();
+      panel.setLayout(new BorderLayout());
+      panel.setBorder(BorderFactory.createEtchedBorder());
+      //Set Up North Part
+      JPanel northPanel = new JPanel();
+      northPanel.setBorder(BorderFactory.createEtchedBorder());
+      JLabel northLabel = new JLabel("Carafe",SwingConstants.CENTER);
+      northPanel.add(northLabel);
+      panel.add(northPanel, BorderLayout.NORTH);
+      //Set up Center Part
+      JPanel centerPanel = new JPanel();
+      centerPanel.setLayout(new GridLayout(1,2));
+      JPanel centerLeft  = this.setUpCarafeCenterLeftPanel();
+      centerPanel.add(centerLeft);
+      JPanel centerRight = this.setUpCarafeCenterRightPanel();
+      centerPanel.add(centerRight);
+      panel.add(centerPanel, BorderLayout.CENTER);
+      return panel;
+   }
+
+   //
+   //
+   //
+   //
+   private JPanel setUpCarafeCenterLeftPanel(){
+      JPanel panel = new JPanel();
+      panel.setLayout(new GridLayout(3,1));
+
+      JPanel topPanel = new JPanel();
+      topPanel.setBorder(BorderFactory.createEtchedBorder());
+      topPanel.setLayout(new GridLayout(2,1));
+      JLabel amount = new JLabel("Amount: ");
+      amount.setEnabled(false);
+      topPanel.add(amount);
+      JLabel capacity = new JLabel("Capacity: ");
+      capacity.setEnabled(false);
+      topPanel.add(capacity);
+      panel.add(topPanel);
+
+      JPanel centerPanel = new JPanel();
+      centerPanel.setBorder(BorderFactory.createEtchedBorder());
+      centerPanel.setLayout(new GridLayout(3,1));
+      JLabel in = new JLabel("In");
+      in.setForeground(Color.blue);
+      in.setEnabled(false);
+      centerPanel.add(in);
+      JLabel out = new JLabel("Out");
+      out.setForeground(Color.magenta);
+      out.setEnabled(false);
+      centerPanel.add(out);
+      JLabel pouring = new JLabel("Pouring");
+      pouring.setForeground(Color.red);
+      pouring.setEnabled(false);
+      centerPanel.add(pouring);
+      panel.add(centerPanel);
+
+      JPanel southPanel = new JPanel();
+      southPanel.setBorder(BorderFactory.createEtchedBorder());
+      southPanel.setLayout(new GridLayout(3,1));
+      JButton pour = new JButton("Pour");
+      pour.setActionCommand("POUR");
+      pour.addActionListener(this._controller);
+      pour.setEnabled(false);
+      southPanel.add(pour);
+      panel.add(southPanel);
+
+      return panel;
+   }
+
+   //
+   //
+   //
+   //
+   private JPanel setUpCarafeCenterRightPanel(){
+      JPanel panel = new JPanel();
+      panel.setLayout(new BorderLayout());
+      panel.setBorder(BorderFactory.createEtchedBorder());
+
+      return panel;
+   }
+
+   //
+   //
+   //
+   //
+   private JPanel setUpReservoirPanel(){
+      JPanel panel = new JPanel();
+      panel.setLayout(new BorderLayout());
+      panel.setBorder(BorderFactory.createEtchedBorder());
+      return panel;
+   }
+
+   //
+   //
+   //
    private void setUpGUI(){
       this.setLayout(new BorderLayout());
       this.setSize(WIDTH,HEIGHT);
-      this.setRisizable(false);
-      //JPanel centerPanel = this.setUpCenterPanel();
+      this.setResizable(false);
+      JPanel centerPanel = this.setUpCenterPanel();
       //JPanel northPanel  = this.setUpNorthPanel();
       //JPanel southPanel  = this.setUpSouthPanel();
       //this.getContentPane().add(northPanel, BorderLayout.NORTH);
-      //this.getContentPane().add(centerPanel,BorderLayout.CENTER);
+      this.getContentPane().add(centerPanel,BorderLayout.CENTER);
       //this.getContentPane().add(southPanel, BorderLayout.SOUTH);
       this.setVisible(true);
    }
