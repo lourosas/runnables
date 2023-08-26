@@ -137,8 +137,18 @@ implements Subscriber{
       JButton pour = new JButton("Pour");
       pour.setActionCommand("POUR");
       pour.addActionListener(this._controller);
+      pour.addKeyListener(this._controller);
       pour.setEnabled(false);
       southPanel.add(pour);
+      JButton empty = new JButton(" ");
+      empty.setEnabled(false);
+      southPanel.add(empty);
+      JButton stop = new JButton("Stop Pouring");
+      stop.setActionCommand("STOPPOURING");
+      stop.addActionListener(this._controller);
+      stop.addKeyListener(this._controller);
+      stop.setEnabled(false);
+      southPanel.add(stop);
       panel.add(southPanel);
 
       return panel;
@@ -153,17 +163,19 @@ implements Subscriber{
       panel.setLayout(new BorderLayout());
       panel.setBorder(BorderFactory.createEtchedBorder());
 
-      return panel;
-   }
+      JPanel northPanel = new JPanel();
+      JLabel amountLabel = new JLabel(" ");
+      northPanel.add(amountLabel);
+      panel.add(northPanel, BorderLayout.NORTH);
 
-   //
-   //
-   //
-   //
-   private JPanel setUpReservoirPanel(){
-      JPanel panel = new JPanel();
-      panel.setLayout(new BorderLayout());
-      panel.setBorder(BorderFactory.createEtchedBorder());
+      JProgressBar carafeAmount = null;
+      //This will need to be updated based on the initialization
+      //the Coffee Maker...
+      carafeAmount = new JProgressBar(SwingConstants.VERTICAL, 0, 32);
+      carafeAmount.setValue(carafeAmount.getMinimum());
+      carafeAmount.setStringPainted(true);
+      panel.add(carafeAmount, BorderLayout.CENTER);
+
       return panel;
    }
 
@@ -183,6 +195,77 @@ implements Subscriber{
       this.setVisible(true);
    }
 
+   //
+   //
+   //
+   //
+   private JPanel setUpReservoirPanel(){
+      JPanel panel = new JPanel();
+      panel.setLayout(new BorderLayout());
+      panel.setBorder(BorderFactory.createEtchedBorder());
+      //North Panel
+      JPanel northPanel = new JPanel();
+      northPanel.setBorder(BorderFactory.createEtchedBorder());
+      JLabel northLabel=new JLabel("Reservoir",SwingConstants.CENTER);
+      northPanel.add(northLabel);
+      panel.add(northPanel, BorderLayout.NORTH);
+      //Center Panel
+      JPanel centerPanel = new JPanel();
+      centerPanel.setLayout(new GridLayout(1,2));
+      JPanel centerLeft = this.setUpReservoirCenterLeftPanel();
+      centerPanel.add(centerLeft);
+      JPanel centerRight = this.setUpReservoirCenterRightPanel();
+      centerPanel.add(centerRight);
+      panel.add(centerPanel, BorderLayout.CENTER);
+      return panel;
+   }
+
+   //
+   //
+   //
+   //
+   private JPanel setUpReservoirCenterLeftPanel(){
+      JPanel panel = new JPanel();
+      panel.setLayout(new GridLayout(3,1));
+
+      JPanel topPanel = new JPanel();
+      topPanel.setBorder(BorderFactory.createEtchedBorder());
+      topPanel.setLayout(new GridLayout(2,1));
+      JLabel amount = new JLabel("Amount: ");
+      amount.setEnabled(false);
+      topPanel.add(amount);
+      JLabel capacity = new JLabel("Capacity: ");
+      capacity.setEnabled(false);
+      topPanel.add(capacity);
+      panel.add(topPanel);
+
+      panel.add(new JPanel());
+      panel.add(new JPanel());
+      return panel;
+   }
+
+   //
+   //
+   //
+   //
+   private JPanel setUpReservoirCenterRightPanel(){
+      JPanel panel = new JPanel();
+      panel.setLayout(new BorderLayout());
+      panel.setBorder(BorderFactory.createEtchedBorder());
+
+      JPanel northPanel = new JPanel();
+      JLabel northLabel = new JLabel(" ");
+      northPanel.add(northLabel);
+      panel.add(northPanel, BorderLayout.NORTH);
+      
+      JProgressBar bar = null;
+      bar = new JProgressBar(SwingConstants.VERTICAL, 0, 32);
+      bar.setValue(bar.getMinimum());
+      bar.setStringPainted(true);
+      panel.add(bar, BorderLayout.CENTER);
+
+      return panel;
+   }
    ////////////////////Interface Methods//////////////////////////////
    //
    //
