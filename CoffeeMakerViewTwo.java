@@ -61,8 +61,34 @@ implements Subscriber{
    //
    //
    //
+   private void handleCoffeeMakerPowerState(String powerState){
+      if(powerState.contains("ON")){
+         this._powerString = new String("ON");
+      }
+      else if(powerState.contains("OFF")){
+         this._powerString = new String("OFF");
+      }
+   }
+
+   //
+   //
+   //
+   //
+   private void handleCoffeeMakerState(String state){
+      System.out.println(state);
+   }
+
+   //
+   //
+   //
+   //
    private void handleCoffeeMakerUpdates(String update){
-      System.out.println(update);
+      if(update.contains("POWER")){
+         this.handleCoffeeMakerPowerState(update);
+      }
+      else if(update.contains("STATE")){
+         this.handleCoffeeMakerState(update);
+      }
    }
 
    //
