@@ -241,7 +241,7 @@ public class Maker implements Runnable{
    //
    //
    private void notifyOfPower(){
-      String power = new String("Power: ") + this._power;
+      String power = new String("Coffee Maker Power: ") + this._power;
       this.notify(power);
    }
 
@@ -249,7 +249,7 @@ public class Maker implements Runnable{
    //Notify the Subscribers of all the State information
    //
    private void notifyOfState(){
-      String state = new String("State: ") + this._state;
+      String state = new String("Coffee Maker State: ") + this._state;
       this.notify(state);
    }
 

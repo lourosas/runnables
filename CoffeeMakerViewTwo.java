@@ -61,6 +61,14 @@ implements Subscriber{
    //
    //
    //
+   private void handleCoffeeMakerUpdates(String update){
+      System.out.println(update);
+   }
+
+   //
+   //
+   //
+   //
    private JPanel setUpCenterPanel(){
       JPanel panel = new JPanel();
       panel.setBorder(BorderFactory.createEtchedBorder());
@@ -187,12 +195,47 @@ implements Subscriber{
       this.setSize(WIDTH,HEIGHT);
       this.setResizable(false);
       JPanel centerPanel = this.setUpCenterPanel();
-      //JPanel northPanel  = this.setUpNorthPanel();
-      //JPanel southPanel  = this.setUpSouthPanel();
-      //this.getContentPane().add(northPanel, BorderLayout.NORTH);
+      JPanel northPanel  = this.setUpNorthPanel();
+      JPanel southPanel  = this.setUpSouthPanel();
+      this.getContentPane().add(northPanel, BorderLayout.NORTH);
       this.getContentPane().add(centerPanel,BorderLayout.CENTER);
-      //this.getContentPane().add(southPanel, BorderLayout.SOUTH);
+      this.getContentPane().add(southPanel, BorderLayout.SOUTH);
       this.setVisible(true);
+   }
+
+   //
+   //
+   //
+   //
+   //
+   private JPanel setUpNorthPanel(){
+      JPanel panel = new JPanel();
+      panel.setBorder(BorderFactory.createEtchedBorder());
+      this._powerGroup = new ButtonGroup();
+
+      JRadioButton power = new JRadioButton("Power", true);
+      power.setActionCommand("POWER");
+      this._powerGroup.add(power);
+      power.addItemListener(this._controller);
+      panel.add(power);
+
+      JRadioButton off = new JRadioButton("Power Off");
+      off.setActionCommand("OFF");
+      this._powerGroup.add(off);
+      panel.add(off);
+
+      //What is below reflects the state of the Maker
+      JLabel ready = new JLabel("Ready");
+      ready.setForeground(Color.blue);
+      ready.setEnabled(false);
+      panel.add(ready);
+
+      JLabel brewing = new JLabel("Brewing");
+      brewing.setForeground(Color.red);
+      brewing.setEnabled(false);
+      panel.add(brewing);
+
+      return panel;
    }
 
    //
@@ -266,16 +309,71 @@ implements Subscriber{
 
       return panel;
    }
-   ////////////////////Interface Methods//////////////////////////////
-   //
-   //
-   //
-   public void update(Object o){}
 
    //
    //
    //
-   public void update(Object o, String s){}
+   //
+   private JPanel setUpSouthPanel(){
+      JPanel panel = new JPanel();
+      panel.setBorder(BorderFactory.createEtchedBorder());
+
+      JButton brew = new JButton("Brew");
+      brew.setActionCommand("BREW");
+      brew.setMnemonic(KeyEvent.VK_B);
+      brew.setEnabled(false);
+      brew.addActionListener(this._controller);
+      brew.addKeyListener(this._controller);
+      panel.add(brew);
+
+      JButton carafe = new JButton("Get Carafe");
+      carafe.setActionCommand("GET");
+      carafe.setMnemonic(KeyEvent.VK_G);
+      carafe.setEnabled(false);
+      carafe.addActionListener(this._controller);
+      carafe.addKeyListener(this._controller);
+      panel.add(carafe);
+      
+      JButton returnCarafe = new JButton("Return Carafe");
+      returnCarafe.setActionCommand("RETURN");
+      returnCarafe.setMnemonic(KeyEvent.VK_R);
+      returnCarafe.setEnabled(false);
+      returnCarafe.addActionListener(this._controller);
+      returnCarafe.addKeyListener(this._controller);
+      panel.add(returnCarafe);
+
+      JButton fill = new JButton("Fill Reservoir");
+      fill.setActionCommand("RESERVOIR FILL");
+      fill.setMnemonic(KeyEvent.VK_F);
+      fill.setEnabled(false);
+      fill.addActionListener(this._controller);
+      fill.addKeyListener(this._controller);
+      panel.add(fill);
+
+      return panel;
+   }
+
+   ////////////////////Interface Methods//////////////////////////////
+   //
+   //
+   //
+   public void update(Object o){
+      try{
+         String string = ((String)o).toUpperCase();
+         if(string.contains("COFFEE MAKER")){
+            this.handleCoffeeMakerUpdates(string);
+         }
+      }
+      catch(ClassCastException cce){}
+   }
+
+   //
+   //
+   //
+   public void update(Object o, String s){
+      System.out.println(o);
+      System.out.println(s);
+   }
 
    //
    //
