@@ -6,16 +6,16 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public class TestCoffeeMaker3{
+public class TestCoffeeMaker4{
    public static void main(String [] args){
-      new TestCoffeeMaker3();
+      new TestCoffeeMaker4();
    }
 
-   public TestCoffeeMaker3(){
+   public TestCoffeeMaker4(){
       System.out.println("Hello World");
       CoffeeMakerController controller = new CoffeeMakerController();
-      CoffeeMakerView view =
-                    new CoffeeMakerView("A Coffee Maker",controller);
+      CoffeeMakerViewTwo view =
+                 new CoffeeMakerViewTwo("A Coffee Maker",controller);
       controller.addSubscriber(view);
    }
 }
