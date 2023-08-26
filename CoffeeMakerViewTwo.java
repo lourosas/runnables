@@ -101,6 +101,26 @@ implements Subscriber{
    //
    //
    //
+   private void handleReservoirUpdates(Object o, String s){
+      Double amount = null;
+      try{
+         amount = (Double)o;
+      }
+      catch(ClassCastException cce){
+         amount = null;
+      }
+      if(s.contains("CAPACITY")){
+         this.setReservoirCapacity(amount);
+      }
+      else if(s.contains("QUANTITY")){
+         this.setReservoirQuantity(amount);
+      }
+   }
+
+   //
+   //
+   //
+   //
    private void reflectCoffeeMakerState(){
       int powerOnIndex      = 0;
       int powerOffIndex     = 1;
@@ -123,6 +143,25 @@ implements Subscriber{
          top.getComponent(readyLabelIndex).setEnabled(false);
          top.getComponent(brewingLabelIndex).setEnabled(true);
       }
+   }
+
+   //
+   //
+   //
+   //
+   private void setReservoirCapacity(Double amount){
+      try{
+      }
+      catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
+   //
+   private void setReservoirQuantity(Double amount){
+      try{}
+      catch(NullPointerException npe){}
    }
 
    //
@@ -431,8 +470,11 @@ implements Subscriber{
    //
    //
    public void update(Object o, String s){
-      System.out.println(o);
-      System.out.println(s);
+      String string = s.toUpperCase();
+      if(string.contains("RESERVOIR")){
+         this.handleReservoirUpdates(o,string);
+      }
+      else if(string.contains("CARAFE")){}
    }
 
    //
