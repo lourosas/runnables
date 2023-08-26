@@ -75,7 +75,13 @@ implements Subscriber{
    //
    //
    private void handleCoffeeMakerState(String state){
-      System.out.println(state);
+      if(state.contains("READY")){
+         this._stateString = new String("READY");
+      }
+      else if(state.contains("BREWING")){
+         this._stateString = new String("BREWING");
+      }
+      this.reflectCoffeeMakerState();
    }
 
    //
@@ -88,6 +94,34 @@ implements Subscriber{
       }
       else if(update.contains("STATE")){
          this.handleCoffeeMakerState(update);
+      }
+   }
+
+   //
+   //
+   //
+   //
+   private void reflectCoffeeMakerState(){
+      int powerOnIndex      = 0;
+      int powerOffIndex     = 1;
+      int readyLabelIndex   = 2;
+      int brewingLabelIndex = 3;
+      JPanel top = (JPanel)this.getContentPane().getComponent(0);
+      if(this._stateString.equals("READY")){
+         top.getComponent(powerOnIndex).setEnabled(true);
+         top.getComponent(powerOffIndex).setEnabled(true);
+         top.getComponent(readyLabelIndex).setEnabled(true);
+         //Turn Off Brewing
+         top.getComponent(brewingLabelIndex).setEnabled(false);
+      }
+      //For current redition, when the Coffee Maker is brewing,
+      //turn off the ability to remove power--it would be easier in
+      //that context...
+      else if(this._stateString.equals("BREWING")){
+         top.getComponent(powerOnIndex).setEnabled(false);
+         top.getComponent(powerOffIndex).setEnabled(false);
+         top.getComponent(readyLabelIndex).setEnabled(false);
+         top.getComponent(brewingLabelIndex).setEnabled(true);
       }
    }
 
