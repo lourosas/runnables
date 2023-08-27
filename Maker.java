@@ -149,8 +149,8 @@ public class Maker implements Runnable{
       this._o         = new Object();
       Carafe.instance().setObject(this._o);
       this._t = new Thread(this);
-      //Turn the power on
-      this.power(true);
+      //Try not turning on the power, at first...
+      //this.power(true);
       //since power is on, go ahead and start the thread...
       this._t.start();
    }
