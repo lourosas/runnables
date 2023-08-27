@@ -61,6 +61,16 @@ implements Subscriber{
    //
    //
    //
+   private void handleCarafeUpdates(Object o, String s){
+      if(s.contains("STATE")){}
+      else if(s.contains("CAPCITY")){}
+      else if(s.contains("QUANTITY")){}
+   }
+
+   //
+   //
+   //
+   //
    private void handleCoffeeMakerPowerState(String powerState){
       if(powerState.contains("ON")){
          this._powerString = new String("ON");
@@ -102,19 +112,16 @@ implements Subscriber{
    //
    //
    private void handleReservoirUpdates(Object o, String s){
-      Double amount = null;
       try{
-         amount = (Double)o;
+         Double amount = (Double)o;
+         if(s.contains("CAPACITY")){
+            this.setReservoirCapacity(amount);
+         }
+         else if(s.contains("QUANTITY")){
+            this.setReservoirQuantity(amount);
+         }
       }
-      catch(ClassCastException cce){
-         amount = null;
-      }
-      if(s.contains("CAPACITY")){
-         this.setReservoirCapacity(amount);
-      }
-      else if(s.contains("QUANTITY")){
-         this.setReservoirQuantity(amount);
-      }
+      catch(ClassCastException cce){}
    }
 
    //
@@ -151,6 +158,21 @@ implements Subscriber{
    //
    private void setReservoirCapacity(Double amount){
       try{
+         JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+         JPanel rightPanel = (JPanel)panel.getComponent(1);
+         JPanel centerPanel = (JPanel)rightPanel.getComponent(1);
+         JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+         JPanel capPanel = (JPanel)statePanel.getComponent(0);
+         JLabel capacity = (JLabel)capPanel.getComponent(1);
+         String cap = capacity.getText().substring(0,9);
+         capacity.setText(cap + " " + amount.doubleValue());
+         capacity.setEnabled(true);
+         //Set the Right side
+         JPanel resPanel = (JPanel)centerPanel.getComponent(1);
+         JProgressBar bar = (JProgressBar)resPanel.getComponent(1);
+         bar.setMaximum(amount.intValue());
+         this.getContentPane().validate();
+         this.getContentPane().repaint();
       }
       catch(NullPointerException npe){}
    }
@@ -160,8 +182,24 @@ implements Subscriber{
    //
    //
    private void setReservoirQuantity(Double amount){
-      try{}
-      catch(NullPointerException npe){}
+      try{
+         JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+         JPanel rightPanel = (JPanel)panel.getComponent(1);
+         JPanel centerPanel = (JPanel)rightPanel.getComponent(1);
+         JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+         JPanel amountPanel = (JPanel)statePanel.getComponent(0);
+         JLabel amountLabel = (JLabel)amountPanel.getComponent(0);
+         String amnt = amountLabel.getText().substring(0,7);
+         amountLabel.setText(amnt + " " + amount.doubleValue());
+         amountLabel.setEnabled(true);
+         //Set up Right Side
+         JPanel resPanel = (JPanel)centerPanel.getComponent(1);
+         JProgressBar bar = (JProgressBar)resPanel.getComponent(1);
+         bar.setValue(amount.intValue());
+         this.getContentPane().validate();
+         this.getContentPane().repaint();
+      }
+      catch(NullPointerException npe){ npe.printStackTrace(); }
    }
 
    //
@@ -474,7 +512,9 @@ implements Subscriber{
       if(string.contains("RESERVOIR")){
          this.handleReservoirUpdates(o,string);
       }
-      else if(string.contains("CARAFE")){}
+      else if(string.contains("CARAFE")){
+         this.handleCarafeUpdates(o,string);
+      }
    }
 
    //
