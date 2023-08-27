@@ -61,10 +61,53 @@ implements Subscriber{
    //
    //
    //
+   private void disableSouthButton(String buttonName){
+      String name = buttonName.trim().toUpperCase();
+      JPanel panel = (JPanel)this.getContentPane().getComponent(2);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         JButton b = (JButton)panel.getComponent(i);
+         String bname = b.getText().trim().toUpperCase();
+         if(bname.equals(name)){
+            b.setEnabled(false);
+         }
+      }
+   }
+
+   //
+   //
+   //
+   //
+   private void enableSouthButton(String buttonName){
+      String name = buttonName.trim().toUpperCase();
+      JPanel panel = (JPanel)this.getContentPane().getComponent(2);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         JButton b = (JButton)panel.getComponent(i);
+         String bname = b.getText().trim().toUpperCase();
+         if(bname.equals(name)){
+            b.setEnabled(true);
+         }
+      }
+   }
+
+   //
+   //
+   //
+   //
    private void handleCarafeUpdates(Object o, String s){
-      if(s.contains("STATE")){}
-      else if(s.contains("CAPCITY")){}
-      else if(s.contains("QUANTITY")){}
+      if(s.contains("STATE")){
+         this.setCarafeState(o);
+      }
+      else{
+         try{
+            Double amount = (Double)o;
+            if(s.contains("CAPACITY")){
+               this.setCarafeCapacity(amount);
+            }
+            else if(s.contains("QUANTITY")){
+            }
+         }
+         catch(ClassCastException cce){}
+      }
    }
 
    //
@@ -150,6 +193,110 @@ implements Subscriber{
          top.getComponent(readyLabelIndex).setEnabled(false);
          top.getComponent(brewingLabelIndex).setEnabled(true);
       }
+   }
+
+   //
+   //
+   //
+   //
+   private void setCarafeCapacity(Double amount){
+      try{
+         JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+         JPanel leftPanel = (JPanel)panel.getComponent(0);
+         JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
+         JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+         JPanel capPanel = (JPanel)statePanel.getComponent(0);
+         JLabel capacity = (JLabel)capPanel.getComponent(1);
+         String cap = capacity.getText().substring(0,9);
+         capacity.setText(cap + " " + amount.doubleValue());
+         capacity.setEnabled(true);
+         //Set the Right Side
+         JPanel resPanel = (JPanel)centerPanel.getComponent(1);
+         JProgressBar bar = (JProgressBar)resPanel.getComponent(1);
+         bar.setMaximum(amount.intValue());
+         this.getContentPane().validate();
+         this.getContentPane().repaint();
+      }
+      catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
+   //
+   private void setCarafeState(Object o){
+      try{
+         String state = (String)o;
+         this._carafeStateString = state.toUpperCase();
+         //Now, set up the panel...
+         JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+         JPanel leftPanel = (JPanel)panel.getComponent(0);
+         JPanel centerPanel=(JPanel)leftPanel.getComponent(1);
+         JPanel statePanel=(JPanel)centerPanel.getComponent(0);
+         JPanel indPanel=(JPanel)statePanel.getComponent(1);
+         JPanel buttonPanel=(JPanel)statePanel.getComponent(2);
+
+         JLabel in   = (JLabel)indPanel.getComponent(0);
+         JLabel out  = (JLabel)indPanel.getComponent(1);
+         JLabel pour = (JLabel)indPanel.getComponent(2);
+
+         JButton pouring = (JButton)buttonPanel.getComponent(0);
+         JButton stop = (JButton)buttonPanel.getComponent(2);
+
+         in.setEnabled(false);
+         out.setEnabled(false);
+         pour.setEnabled(false);
+         pouring.setEnabled(false);
+         stop.setEnabled(false);
+         if(this._carafeStateString.trim().equals("HOME")){
+            in.setEnabled(true);
+         }
+         else if(this._carafeStateString.trim().equals("PULLED")){
+            out.setEnabled(true);
+            pouring.setEnabled(true);
+         }
+         else if(this._carafeStateString.trim().equals("POURING")){
+            pour.setEnabled(true);
+            stop.setEnabled(true);
+         }
+         //Now set up the inputs the Coffee Maker can accept based on
+         //the Carafe State
+         this.setCoffeeMakerInput();
+      }
+      catch(ClassCastException cce){}
+   }
+
+   //
+   //
+   //
+   //
+   private void setCoffeeMakerInput(){
+      String carafeState=this._carafeStateString.trim().toUpperCase();
+      String makerState =this._stateString.trim().toUpperCase();
+      String powerState =this._powerString.trim().toUpperCase();
+
+      this.disableSouthButton("BREW");
+      this.disableSouthButton("GET CARAFE");
+      this.disableSouthButton("RETURN CARAFE");
+      this.disableSouthButton("FILL RESERVOIR");
+
+      if(powerState.equals("ON")){
+         if(carafeState.equals("HOME")){
+            this.enableSouthButton("BREW");
+            this.enableSouthButton("GET CARAFE");
+            this.enableSouthButton("FILL RESERVOIR");
+         }
+         else if(carafeState.equals("PULLED")){
+            this.enableSouthButton("BREW");
+            this.enableSouthButton("RETURN CARAFE");
+            this.enableSouthButton("FILL RESERVOIR");
+         }
+         else if(carafeState.equals("POURING")){
+            this.enableSouthButton("BREW");
+            this.enableSouthButton("FILL RESERVOIR");
+         }
+      }
+      else if(powerState.equals("OFF")){}
    }
 
    //
