@@ -104,6 +104,7 @@ implements Subscriber{
                this.setCarafeCapacity(amount);
             }
             else if(s.contains("QUANTITY")){
+               this.setCarafeQuantity(amount);
             }
          }
          catch(ClassCastException cce){}
@@ -184,7 +185,7 @@ implements Subscriber{
          //Turn Off Brewing
          top.getComponent(brewingLabelIndex).setEnabled(false);
       }
-      //For current redition, when the Coffee Maker is brewing,
+      //For current rendition, when the Coffee Maker is brewing,
       //turn off the ability to remove power--it would be easier in
       //that context...
       else if(this._stateString.equals("BREWING")){
@@ -214,6 +215,31 @@ implements Subscriber{
          JPanel resPanel = (JPanel)centerPanel.getComponent(1);
          JProgressBar bar = (JProgressBar)resPanel.getComponent(1);
          bar.setMaximum(amount.intValue());
+         this.getContentPane().validate();
+         this.getContentPane().repaint();
+      }
+      catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
+   //
+   private void setCarafeQuantity(Double amount){
+      try{
+         JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+         JPanel leftPanel = (JPanel)panel.getComponent(0);
+         JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
+         JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+         JPanel amountPanel = (JPanel)statePanel.getComponent(0);
+         JLabel amountLabel = (JLabel)amountPanel.getComponent(0);
+         String amnt = amountLabel.getText().substring(0,7);
+         amountLabel.setText(amnt + " " + amount.doubleValue());
+         amountLabel.setEnabled(true);
+         //Set up the Right Side
+         JPanel quantPanel = (JPanel)centerPanel.getComponent(1);
+         JProgressBar bar = (JProgressBar)quantPanel.getComponent(1);
+         bar.setValue(amount.intValue());
          this.getContentPane().validate();
          this.getContentPane().repaint();
       }
