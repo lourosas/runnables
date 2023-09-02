@@ -123,7 +123,6 @@ implements Subscriber{
          this._powerString = new String("OFF");
          //Will need to first, turn everything off on the
          //Display...then, South panel buttons...
-         System.out.println(this._powerString);
       }
       this.reflectCoffeeMakerPowerState();
    }
@@ -182,7 +181,7 @@ implements Subscriber{
       int readyLabelIndex   = 2;
       int brewingLabelIndex = 3;
       JPanel top = (JPanel)this.getContentPane().getComponent(0);
-      if(this._powerString.equals("ON")){
+      if(this._powerString.toUpperCase().equals("ON")){
          if(this._stateString.equals("READY")){
             top.getComponent(powerOnIndex).setEnabled(true);
             top.getComponent(powerOffIndex).setEnabled(true);
@@ -207,6 +206,18 @@ implements Subscriber{
    //
    //
    private void reflectCoffeeMakerPowerState(){
+      int powerOnIndex      = 0;
+      int powerOffIndex     = 1;
+      int readyLabelIndex   = 2;
+      int brewingLabelIndex = 3;
+      JPanel top = (JPanel)this.getContentPane().getComponent(0);
+      top.getComponent(powerOnIndex).setEnabled(true);
+      top.getComponent(powerOffIndex).setEnabled(true);
+      if(this._powerString.toUpperCase().equals("ON")){}
+      else if(this._powerString.toUpperCase().equals("OFF")){
+         top.getComponent(readyLabelIndex).setEnabled(false);
+         top.getComponent(brewingLabelIndex).setEnabled(false);
+      }
    }
 
    //
