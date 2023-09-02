@@ -121,7 +121,11 @@ implements Subscriber{
       }
       else if(powerState.contains("OFF")){
          this._powerString = new String("OFF");
+         //Will need to first, turn everything off on the
+         //Display...then, South panel buttons...
+         System.out.println(this._powerString);
       }
+      this.reflectCoffeeMakerPowerState();
    }
 
    //
@@ -178,22 +182,31 @@ implements Subscriber{
       int readyLabelIndex   = 2;
       int brewingLabelIndex = 3;
       JPanel top = (JPanel)this.getContentPane().getComponent(0);
-      if(this._stateString.equals("READY")){
-         top.getComponent(powerOnIndex).setEnabled(true);
-         top.getComponent(powerOffIndex).setEnabled(true);
-         top.getComponent(readyLabelIndex).setEnabled(true);
-         //Turn Off Brewing
-         top.getComponent(brewingLabelIndex).setEnabled(false);
+      if(this._powerString.equals("ON")){
+         if(this._stateString.equals("READY")){
+            top.getComponent(powerOnIndex).setEnabled(true);
+            top.getComponent(powerOffIndex).setEnabled(true);
+            top.getComponent(readyLabelIndex).setEnabled(true);
+            //Turn Off Brewing
+            top.getComponent(brewingLabelIndex).setEnabled(false);
+         }
+         //For current rendition, when the Coffee Maker is brewing,
+         //turn off the ability to remove power--it would be easier in
+         //that context...
+         else if(this._stateString.equals("BREWING")){
+            top.getComponent(powerOnIndex).setEnabled(false);
+            top.getComponent(powerOffIndex).setEnabled(false);
+            top.getComponent(readyLabelIndex).setEnabled(false);
+            top.getComponent(brewingLabelIndex).setEnabled(true);
+         }
       }
-      //For current rendition, when the Coffee Maker is brewing,
-      //turn off the ability to remove power--it would be easier in
-      //that context...
-      else if(this._stateString.equals("BREWING")){
-         top.getComponent(powerOnIndex).setEnabled(false);
-         top.getComponent(powerOffIndex).setEnabled(false);
-         top.getComponent(readyLabelIndex).setEnabled(false);
-         top.getComponent(brewingLabelIndex).setEnabled(true);
-      }
+   }
+
+   //
+   //
+   //
+   //
+   private void reflectCoffeeMakerPowerState(){
    }
 
    //
@@ -532,6 +545,7 @@ implements Subscriber{
       JRadioButton off = new JRadioButton("Power Off");
       off.setActionCommand("OFF");
       this._powerGroup.add(off);
+      off.addItemListener(this._controller);
       panel.add(off);
 
       //What is below reflects the state of the Maker
