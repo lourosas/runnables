@@ -101,9 +101,11 @@ implements Subscriber{
          try{
             Double amount = (Double)o;
             if(s.contains("CAPACITY")){
+               //turn on and off based on POWER
                this.setCarafeCapacity(amount);
             }
             else if(s.contains("QUANTITY")){
+               //turn on and off based on POWER
                this.setCarafeQuantity(amount);
             }
          }
@@ -167,7 +169,10 @@ implements Subscriber{
          else if(s.contains("QUANTITY")){
             this.setReservoirQuantity(amount);
          }
-         this.reflectCoffeeMakerPowerStateInReservoir();
+	 //DON'T DO THIS!!!  JUST SET IT IN THE SETTING OF THE
+	 //CAPACITY AND QUANTITY!!! DON'T FUCKING OVER COMPLICATE
+	 //IT!!!!!!!!!!!!!!!!!!!!!!!
+         //this.reflectCoffeeMakerPowerStateInReservoir();
       }
       catch(ClassCastException cce){}
    }
@@ -301,7 +306,9 @@ implements Subscriber{
    private void setCarafeState(Object o){
       try{
          String state = (String)o;
-         this._carafeStateString = state.toUpperCase();
+         this._carafeStateString = state.trim().toUpperCase();
+         String powerState = this._powerString.trim().toUpperCase();
+
          //Now, set up the panel...
          JPanel panel = (JPanel)this.getContentPane().getComponent(1);
          JPanel leftPanel = (JPanel)panel.getComponent(0);
@@ -309,30 +316,33 @@ implements Subscriber{
          JPanel statePanel=(JPanel)centerPanel.getComponent(0);
          JPanel indPanel=(JPanel)statePanel.getComponent(1);
          JPanel buttonPanel=(JPanel)statePanel.getComponent(2);
-
-         JLabel in   = (JLabel)indPanel.getComponent(0);
-         JLabel out  = (JLabel)indPanel.getComponent(1);
-         JLabel pour = (JLabel)indPanel.getComponent(2);
+         JLabel in       = (JLabel)indPanel.getComponent(0);
+         JLabel out      = (JLabel)indPanel.getComponent(1);
+         JLabel pour     = (JLabel)indPanel.getComponent(2);
 
          JButton pouring = (JButton)buttonPanel.getComponent(0);
          JButton stop = (JButton)buttonPanel.getComponent(2);
 
+         capacity.setEnabled(false);
          in.setEnabled(false);
          out.setEnabled(false);
          pour.setEnabled(false);
          pouring.setEnabled(false);
          stop.setEnabled(false);
-         if(this._carafeStateString.trim().equals("HOME")){
-            in.setEnabled(true);
-         }
-         else if(this._carafeStateString.trim().equals("PULLED")){
-            out.setEnabled(true);
-            pouring.setEnabled(true);
-         }
-         else if(this._carafeStateString.trim().equals("POURING")){
-            pour.setEnabled(true);
-            stop.setEnabled(true);
-         }
+         if(powerState.equals("ON")){
+            capacity.setEnabled(true);
+            if(this._carafeStateString.equals("HOME")){
+               in.setEnabled(true);
+            }
+            else if(this._carafeStateString.equals("PULLED")){
+               out.setEnabled(true);
+               pouring.setEnabled(true);
+            }
+            else if(this._carafeStateString.equals("POURING")){
+               pour.setEnabled(true);
+               stop.setEnabled(true);
+            }
+	 }
          //Now set up the inputs the Coffee Maker can accept based on
          //the Carafe State
          this.setCoffeeMakerInput();
@@ -370,7 +380,19 @@ implements Subscriber{
             this.enableSouthButton("FILL RESERVOIR");
          }
       }
-      else if(powerState.equals("OFF")){}
+      else if(powerState.equals("OFF")){
+         if(carafeState.equals("HOME")){
+            this.enableSouthButton("GET CARAFE");
+            this.enableSouthButton("FILL RESERVOIR");
+         }
+         else if(carafeState.equals("PULLED")){
+            this.enableSouthButton("RETURN CARAFE");
+            this.enableSouthButton("FILL RESERVOIR");
+         }
+	 else if(carafeState.equals("POURING")){
+            this.enableSouthButton("FILL RESERVOIR");
+         }
+      }
    }
 
    //
@@ -379,6 +401,7 @@ implements Subscriber{
    //
    private void setReservoirCapacity(Double amount){
       try{
+         String powerState = this._powerString.trim().toUpperCase();
          JPanel panel = (JPanel)this.getContentPane().getComponent(1);
          JPanel rightPanel = (JPanel)panel.getComponent(1);
          JPanel centerPanel = (JPanel)rightPanel.getComponent(1);
@@ -386,8 +409,14 @@ implements Subscriber{
          JPanel capPanel = (JPanel)statePanel.getComponent(0);
          JLabel capacity = (JLabel)capPanel.getComponent(1);
          String cap = capacity.getText().substring(0,9);
-         capacity.setText(cap + " " + amount.doubleValue());
-         capacity.setEnabled(true);
+         if(powerState.equals("ON"){
+            capacity.setEnabled(true);
+            capacity.setText(cap + " " + amount.doubleValue());
+         }
+         else if(powerState.equals("OFF"){
+            capacity.setEnabled(false);
+            capacity.setText(cap);
+         }
          //Set the Right side
          JPanel resPanel = (JPanel)centerPanel.getComponent(1);
          JProgressBar bar = (JProgressBar)resPanel.getComponent(1);
