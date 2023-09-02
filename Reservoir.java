@@ -140,7 +140,9 @@ public class Reservoir implements ReservoirInterface{
    //
    //
    //
-   public void systemPowerOff(){}
+   public void systemPowerOff(){
+      this.notifySubscribersOfState();
+   }
 
    //
    //

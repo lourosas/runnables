@@ -161,7 +161,9 @@ public class Carafe implements Runnable, CarafeInterface{
    //
    //
    //
-   public void systemPowerOff(){}
+   public void systemPowerOff(){
+      this.notifySubscribersOfState();
+   }
 
    //
    //

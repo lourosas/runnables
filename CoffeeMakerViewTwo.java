@@ -29,7 +29,7 @@ implements Subscriber{
       _stateString       = null;
       _carafeStateString = null;
       _controller        = null;
-      _powerGroup        = null;   
+      _powerGroup        = null;
    };
 
    //////////////////////////Constructors/////////////////////////////
@@ -167,6 +167,7 @@ implements Subscriber{
          else if(s.contains("QUANTITY")){
             this.setReservoirQuantity(amount);
          }
+         this.reflectCoffeeMakerPowerStateInReservoir();
       }
       catch(ClassCastException cce){}
    }
@@ -217,6 +218,29 @@ implements Subscriber{
       else if(this._powerString.toUpperCase().equals("OFF")){
          top.getComponent(readyLabelIndex).setEnabled(false);
          top.getComponent(brewingLabelIndex).setEnabled(false);
+      }
+   }
+
+   //
+   //
+   //
+   //
+   private void reflectCoffeeMakerPowerStateInReservoir(){
+      String powerState = this._powerString.trim().toUpperCase();
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel rightPanel = (JPanel)panel.getComponent(1);
+      JPanel centerPanel = (JPanel)rightPanel.getComponent(1);
+      JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+      JPanel quantPanel = (JPanel)statePanel.getComponent(0);
+      JLabel amount = (JLabel)quantPanel.getComponent(0);
+      JLabel capacity = (JLabel)quantPanel.getComponent(1);
+      if(powerState.equals("ON")){
+         amount.setEnabled(true);
+	 capacity.setEnabled(true);
+      }
+      else if(powerState.equals("OFF")){
+         amount.setEnabled(false);
+	 capacity.setEnabled(false);
       }
    }
 
@@ -635,7 +659,7 @@ implements Subscriber{
       JLabel northLabel = new JLabel(" ");
       northPanel.add(northLabel);
       panel.add(northPanel, BorderLayout.NORTH);
-      
+
       JProgressBar bar = null;
       bar = new JProgressBar(SwingConstants.VERTICAL, 0, 32);
       bar.setValue(bar.getMinimum());
@@ -668,7 +692,7 @@ implements Subscriber{
       carafe.addActionListener(this._controller);
       carafe.addKeyListener(this._controller);
       panel.add(carafe);
-      
+
       JButton returnCarafe = new JButton("Return Carafe");
       returnCarafe.setActionCommand("RETURN");
       returnCarafe.setMnemonic(KeyEvent.VK_R);
