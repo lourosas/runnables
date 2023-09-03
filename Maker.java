@@ -43,9 +43,9 @@ public class Maker implements Runnable{
          this._subscribers.add(subscriber);
       }
       finally{
-         this._reservoir.addSubscriber(subscriber);
          this.notifyOfPower();
          this.notifyOfState();
+         this._reservoir.addSubscriber(subscriber);
       }
    }
 
