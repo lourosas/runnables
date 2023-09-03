@@ -203,6 +203,7 @@ implements Subscriber{
             top.getComponent(readyLabelIndex).setEnabled(false);
             top.getComponent(brewingLabelIndex).setEnabled(true);
          }
+	 //this.setCoffeeMakerInput();
       }
    }
 
@@ -352,7 +353,7 @@ implements Subscriber{
       this.disableSouthButton("RETURN CARAFE");
       this.disableSouthButton("FILL RESERVOIR");
 
-      if(powerState.equals("ON")){
+      if(powerState.contains("ON")){
          if(carafeState.equals("HOME")){
             this.enableSouthButton("BREW");
             this.enableSouthButton("GET CARAFE");
