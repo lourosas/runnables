@@ -183,9 +183,11 @@ implements Subscriber{
       int powerOffIndex     = 1;
       int readyLabelIndex   = 2;
       int brewingLabelIndex = 3;
+      String powerString = this._powerString.trim().toUpperCase();
       JPanel top = (JPanel)this.getContentPane().getComponent(0);
-      if(this._powerString.toUpperCase().equals("ON")){
-         if(this._stateString.equals("READY")){
+      if(powerString.contains("ON")){
+         String stateString = this._stateString.trim().toUpperCase();
+         if(stateString.contains("READY")){
             top.getComponent(powerOnIndex).setEnabled(true);
             top.getComponent(powerOffIndex).setEnabled(true);
             top.getComponent(readyLabelIndex).setEnabled(true);
@@ -195,7 +197,7 @@ implements Subscriber{
          //For current rendition, when the Coffee Maker is brewing,
          //turn off the ability to remove power--it would be easier in
          //that context...
-         else if(this._stateString.equals("BREWING")){
+         else if(stateString.contains("BREWING")){
             top.getComponent(powerOnIndex).setEnabled(false);
             top.getComponent(powerOffIndex).setEnabled(false);
             top.getComponent(readyLabelIndex).setEnabled(false);

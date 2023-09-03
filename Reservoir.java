@@ -114,7 +114,6 @@ public class Reservoir implements ReservoirInterface{
             this.notifyError("Reservoir Empty!!");
          }
          //Alert the User if the Reservoir was intially filled
-         //throw new EmptyReservoirException();
          amount = 0.;
       }
       else{
