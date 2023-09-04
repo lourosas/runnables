@@ -203,7 +203,7 @@ implements Subscriber{
             top.getComponent(readyLabelIndex).setEnabled(false);
             top.getComponent(brewingLabelIndex).setEnabled(true);
          }
-	 //this.setCoffeeMakerInput();
+         this.setCoffeeMakerInput();
       }
    }
 
@@ -353,33 +353,44 @@ implements Subscriber{
       this.disableSouthButton("RETURN CARAFE");
       this.disableSouthButton("FILL RESERVOIR");
 
-      if(powerState.contains("ON")){
+      if(powerState.contains("ON") && makerState.contains("READY")){
          if(carafeState.equals("HOME")){
             this.enableSouthButton("BREW");
             this.enableSouthButton("GET CARAFE");
             this.enableSouthButton("FILL RESERVOIR");
          }
          else if(carafeState.equals("PULLED")){
-            this.enableSouthButton("BREW");
+            //this.enableSouthButton("BREW");
             this.enableSouthButton("RETURN CARAFE");
-            this.enableSouthButton("FILL RESERVOIR");
+            //this.enableSouthButton("FILL RESERVOIR");
          }
          else if(carafeState.equals("POURING")){
-            this.enableSouthButton("BREW");
-            this.enableSouthButton("FILL RESERVOIR");
+            //this.enableSouthButton("BREW");
+            //this.enableSouthButton("FILL RESERVOIR");
          }
       }
-      else if(powerState.equals("OFF")){
+      else if(powerState.contains("ON") &&
+              makerState.contains("BREWING")){
+         if(carafeState.contains("HOME")){
+            this.enableSouthButton("GET CARAFE");
+            this.enableSouthButton("FILL RESERVOIR");
+         }
+         else if(carafeState.contains("PULLED")){
+            this.enableSouthButton("RETURN CARAFE");
+         }
+         else if(carafeState.contains("POURING")){}
+      }
+      else if(powerState.contains("OFF")){
          if(carafeState.equals("HOME")){
             this.enableSouthButton("GET CARAFE");
             this.enableSouthButton("FILL RESERVOIR");
          }
-         else if(carafeState.equals("PULLED")){
+         else if(carafeState.contains("PULLED")){
             this.enableSouthButton("RETURN CARAFE");
             this.enableSouthButton("FILL RESERVOIR");
          }
-         else if(carafeState.equals("POURING")){
-            this.enableSouthButton("FILL RESERVOIR");
+         else if(carafeState.contains("POURING")){
+            //this.enableSouthButton("FILL RESERVOIR");
          }
       }
    }

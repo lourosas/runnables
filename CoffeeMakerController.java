@@ -27,8 +27,9 @@ implements ActionListener, KeyListener, ItemListener, WindowListener{
 
    /**/
    public CoffeeMakerController(Subscriber sub){
-      Maker.instance().power(true);
+      //Maker.instance().power(true);
       this.addSubscriber(sub);
+      Maker.instance().power(true);
    }
 
 
@@ -36,7 +37,6 @@ implements ActionListener, KeyListener, ItemListener, WindowListener{
    /**/
    public void addSubscriber(Subscriber subscriber){
       this._subscriber = subscriber;
-      
       Maker.instance().addSubscriber(subscriber);
       Carafe.instance().addSubscriber(subscriber);
    }

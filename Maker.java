@@ -189,7 +189,7 @@ public class Maker implements Runnable{
             s.update(o);
          }
       }
-      catch(NullPointerException npe){}
+      catch(NullPointerException npe){ npe.printStackTrace(); }
    }
 
    //
@@ -203,7 +203,7 @@ public class Maker implements Runnable{
             s.update(object, string);
          }
       }
-      catch(NullPointerException npe){}
+      catch(NullPointerException npe){ npe.printStackTrace(); }
    }
 
    //

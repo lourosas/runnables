@@ -216,6 +216,10 @@ public class Carafe implements Runnable, CarafeInterface{
       return amount;
    }
 
+   //
+   //
+   //
+   //
    private double emptyRate(){
       return this._emptyRate;
    }
@@ -231,7 +235,7 @@ public class Carafe implements Runnable, CarafeInterface{
             s.update(object,message);
          }
       }
-      catch(NullPointerException npe){}
+      catch(NullPointerException npe){ npe.printStackTrace(); }
    }
 
    //
