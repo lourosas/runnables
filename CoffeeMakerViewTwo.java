@@ -93,6 +93,21 @@ implements Subscriber{
    //
    //
    //
+   private void handleCarafeErrors(String carafeError){
+      if(carafeError.contains("OVERFLOWING")){
+         String error = "Carafe Overflowing!";
+	 JOptionPane.showMessageDialog(this,
+                                       error,
+                                       carafeError,
+                                       JOptionPane.WARNING_MESSAGE);
+         System.out.println(carafeError);
+      }
+   }
+
+   //
+   //
+   //
+   //
    private void handleCarafeUpdates(Object o, String s){
       if(s.contains("STATE")){
          this.setCarafeState(o);
@@ -822,6 +837,9 @@ implements Subscriber{
       String capsError = error.trim().toUpperCase();
       if(capsError.contains("RESERVOIR")){
          this.handleReservoirErrors(capsError);
+      }
+      else if(capsError.contains("CARAFE")){
+         this.handleCarafeErrors(capsError);
       }
    }
 }
