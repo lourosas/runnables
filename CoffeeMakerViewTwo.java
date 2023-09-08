@@ -161,6 +161,31 @@ implements Subscriber{
    //
    //
    //
+   private void handleReservoirErrors(String reservoirError){
+      if(reservoirError.contains("EMPTY")){
+         String message = "Please fill the Reservoir\nBy pressing ";
+         message+="the \"Fill Reservoir\"\nButton in the Button ";
+         message+="in the Button Panel";
+         JOptionPane.showMessageDialog(this,
+                                    message,
+                                    reservoirError,
+                                    JOptionPane.INFORMATION_MESSAGE);
+      }
+      else if(reservoirError.contains("OVERFLOWING")){
+         System.out.println(reservoirError);
+         String ovfl = "Reservoir is OVERFLOWING!!\nPossible mess ";
+         ovfl += "needing\nclean up...";
+         JOptionPane.showMessageDialog(this,
+                                       ovfl,
+                                       reservoirError,
+                                       JOptionPane.WARNING_MESSAGE);
+      }
+   }
+
+   //
+   //
+   //
+   //
    private void handleReservoirUpdates(Object o, String s){
       try{
          Double amount = (Double)o;
@@ -396,7 +421,7 @@ implements Subscriber{
          }
       }
       //Put this in as a "stop gap" for the time being...
-      catch(NullPointerException npe){}
+      catch(NullPointerException npe){ /*npe.printStackTrace();*/ }
    }
 
    //
@@ -792,6 +817,12 @@ implements Subscriber{
    //
    //
    //
-   public void error(String error){}
+   public void error(String error){
+      //Capitalize the error for ease of discernment
+      String capsError = error.trim().toUpperCase();
+      if(capsError.contains("RESERVOIR")){
+         this.handleReservoirErrors(capsError);
+      }
+   }
 }
 //////////////////////////////////////////////////////////////////////
