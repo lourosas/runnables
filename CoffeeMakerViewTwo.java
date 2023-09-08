@@ -344,55 +344,59 @@ implements Subscriber{
    //
    //
    private void setCoffeeMakerInput(){
-      String carafeState=this._carafeStateString.trim().toUpperCase();
-      String makerState =this._stateString.trim().toUpperCase();
-      String powerState =this._powerString.trim().toUpperCase();
-
       this.disableSouthButton("BREW");
       this.disableSouthButton("GET CARAFE");
       this.disableSouthButton("RETURN CARAFE");
       this.disableSouthButton("FILL RESERVOIR");
+      try{
+         String carafeState=
+                         this._carafeStateString.trim().toUpperCase();
+         String makerState =this._stateString.trim().toUpperCase();
+         String powerState =this._powerString.trim().toUpperCase();
 
-      if(powerState.contains("ON") && makerState.contains("READY")){
-         if(carafeState.equals("HOME")){
-            this.enableSouthButton("BREW");
-            this.enableSouthButton("GET CARAFE");
-            this.enableSouthButton("FILL RESERVOIR");
+         if(powerState.contains("ON")&&makerState.contains("READY")){
+            if(carafeState.equals("HOME")){
+               this.enableSouthButton("BREW");
+               this.enableSouthButton("GET CARAFE");
+               this.enableSouthButton("FILL RESERVOIR");
+            }
+            else if(carafeState.equals("PULLED")){
+               //this.enableSouthButton("BREW");
+               this.enableSouthButton("RETURN CARAFE");
+               //this.enableSouthButton("FILL RESERVOIR");
+            }
+            else if(carafeState.equals("POURING")){
+               //this.enableSouthButton("BREW");
+               //this.enableSouthButton("FILL RESERVOIR");
+            }
          }
-         else if(carafeState.equals("PULLED")){
-            //this.enableSouthButton("BREW");
-            this.enableSouthButton("RETURN CARAFE");
-            //this.enableSouthButton("FILL RESERVOIR");
+         else if(powerState.contains("ON") &&
+                 makerState.contains("BREWING")){
+            if(carafeState.contains("HOME")){
+               this.enableSouthButton("GET CARAFE");
+               this.enableSouthButton("FILL RESERVOIR");
+            }
+            else if(carafeState.contains("PULLED")){
+               this.enableSouthButton("RETURN CARAFE");
+            }
+            else if(carafeState.contains("POURING")){}
          }
-         else if(carafeState.equals("POURING")){
-            //this.enableSouthButton("BREW");
-            //this.enableSouthButton("FILL RESERVOIR");
+         else if(powerState.contains("OFF")){
+            if(carafeState.equals("HOME")){
+               this.enableSouthButton("GET CARAFE");
+               this.enableSouthButton("FILL RESERVOIR");
+            }
+            else if(carafeState.contains("PULLED")){
+               this.enableSouthButton("RETURN CARAFE");
+               this.enableSouthButton("FILL RESERVOIR");
+            }
+            else if(carafeState.contains("POURING")){
+               //this.enableSouthButton("FILL RESERVOIR");
+            }
          }
       }
-      else if(powerState.contains("ON") &&
-              makerState.contains("BREWING")){
-         if(carafeState.contains("HOME")){
-            this.enableSouthButton("GET CARAFE");
-            this.enableSouthButton("FILL RESERVOIR");
-         }
-         else if(carafeState.contains("PULLED")){
-            this.enableSouthButton("RETURN CARAFE");
-         }
-         else if(carafeState.contains("POURING")){}
-      }
-      else if(powerState.contains("OFF")){
-         if(carafeState.equals("HOME")){
-            this.enableSouthButton("GET CARAFE");
-            this.enableSouthButton("FILL RESERVOIR");
-         }
-         else if(carafeState.contains("PULLED")){
-            this.enableSouthButton("RETURN CARAFE");
-            this.enableSouthButton("FILL RESERVOIR");
-         }
-         else if(carafeState.contains("POURING")){
-            //this.enableSouthButton("FILL RESERVOIR");
-         }
-      }
+      //Put this in as a "stop gap" for the time being...
+      catch(NullPointerException npe){}
    }
 
    //

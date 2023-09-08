@@ -235,7 +235,7 @@ public class Carafe implements Runnable, CarafeInterface{
             s.update(object,message);
          }
       }
-      catch(NullPointerException npe){ npe.printStackTrace(); }
+      catch(NullPointerException npe){}
    }
 
    //
