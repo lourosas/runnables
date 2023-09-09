@@ -96,12 +96,25 @@ implements Subscriber{
    private void handleCarafeErrors(String carafeError){
       if(carafeError.contains("OVERFLOWING")){
          String error = "Carafe Overflowing!";
-	 JOptionPane.showMessageDialog(this,
+         JOptionPane.showMessageDialog(this,
                                        error,
                                        carafeError,
                                        JOptionPane.WARNING_MESSAGE);
-         System.out.println(carafeError);
       }
+      else if(carafeError.contains("NOT HOME")){
+         String title = "Carafe not Home";
+         String error = "Carafe Not Home\nPlease wait until Carafe";
+         error += "\nis returned";
+         JOptionPane.showMessageDialog(this,
+                                    error,
+                                    title,
+                                    JOptionPane.INFORMATION_MESSAGE);
+      }
+      else if(carafeError.contains("EMPTY")){
+         
+      }
+      else if(carafeError.contains("NOT POURING")){}
+      else if(carafeError.contains("ALREADY POURING")){}
    }
 
    //
@@ -180,7 +193,7 @@ implements Subscriber{
       if(reservoirError.contains("EMPTY")){
          String message = "Please fill the Reservoir\nBy pressing ";
          message+="the \"Fill Reservoir\"\nButton in the Button ";
-         message+="in the Button Panel";
+         message+="Panel";
          JOptionPane.showMessageDialog(this,
                                     message,
                                     reservoirError,
