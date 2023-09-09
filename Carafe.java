@@ -368,8 +368,8 @@ public class Carafe implements Runnable, CarafeInterface{
          }
          else if(this.isHome()){
             //Notify of issues
-            String error = new String("Carafe not pouring because ");
-            error = error.concat("it is on the Coffee Maker (Home)");
+            String error=new String("Carafe not pouring because\n");
+            error=error.concat("it is on the Coffee Maker (Home)");
             this.notifyError(error);
             this._mug.noLongerNeeded();
             this._mug = null;

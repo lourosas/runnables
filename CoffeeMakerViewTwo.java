@@ -111,10 +111,39 @@ implements Subscriber{
                                     JOptionPane.INFORMATION_MESSAGE);
       }
       else if(carafeError.contains("EMPTY")){
+         String title = "Carafe Empty";
+         String error = "Carafe Empty.  Please Refill";
+	 JOptionPane.showMessageDialog(this,
+                                       error,
+                                       title,
+                                       JOptionPane.WARNING_MESSAGE);
          
       }
-      else if(carafeError.contains("NOT POURING")){}
-      else if(carafeError.contains("ALREADY POURING")){}
+      else if(carafeError.contains("NOT POURING")){
+         String error = carafeError.toLowerCase();
+         String title = "Carafe Not Pouring";
+         JOptionPane.showMessageDialog(this,
+                                    error,
+                                    title,
+                                    JOptionPane.INFORMATION_MESSAGE);
+      }
+      else if(carafeError.contains("ALREADY POURING")){
+         String title = "Carafe Already Pouring";
+         String error = "Carafe Already Pouring\nPlease either get";
+         error+=" the Carafe\nor wait until the Carafe is\nreturned";
+         JOptionPane.showMessageDialog(this,
+                                    error,
+                                    title,
+                                    JOptionPane.INFORMATION_MESSAGE);
+      }
+      else{
+         String title = "Carafe Issue";
+         String error = carafeError.toLowerCase();
+         JOptionPane.showMessageDialog(this,
+                                   error,
+                                   title,
+                                   JOptionPane.INFORMATION_MESSAGE);
+      }
    }
 
    //
@@ -441,7 +470,7 @@ implements Subscriber{
             }
             else if(carafeState.contains("PULLED")){
                this.enableSouthButton("RETURN CARAFE");
-               this.enableSouthButton("FILL RESERVOIR");
+               //this.enableSouthButton("FILL RESERVOIR");
             }
             else if(carafeState.contains("POURING")){
                //this.enableSouthButton("FILL RESERVOIR");
