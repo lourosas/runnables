@@ -243,7 +243,6 @@ implements Subscriber{
                                     JOptionPane.INFORMATION_MESSAGE);
       }
       else if(reservoirError.contains("OVERFLOWING")){
-         System.out.println(reservoirError);
          String ovfl = "Reservoir is OVERFLOWING!!\nPossible mess ";
          ovfl += "needing\nclean up...";
          JOptionPane.showMessageDialog(this,
