@@ -51,6 +51,7 @@ implements ActionListener, KeyListener, ItemListener, WindowListener{
    /**/
    public void addSubscriber(Subscriber subscriber){
       this._subscriber = subscriber;
+      //get rid of these in the next rendition...
       Maker.instance().addSubscriber(subscriber);
       Carafe.instance().addSubscriber(subscriber);
    }
