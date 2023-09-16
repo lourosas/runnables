@@ -22,7 +22,7 @@ import java.lang.*;
 import rosas.lou.runnables.*;
 
 public class MakerV1_2 extends Maker,
-implements Runnable, Subscriber{
+implements Runnable/*, Subscriber*/{
    private static MakerV1_2 _instance;
 
    private enum   State{READY, BREWING};
@@ -61,8 +61,11 @@ implements Runnable, Subscriber{
       finally{
          this.notifyOfPower();
          this.notifyOfState();
-         this._reservoir.addSubscriber(this);
-         Carafe.instance().addSubscriber(this);
+         //Not sure I need these--may just catch exceptions...
+         //I think catching exceptions would be better...
+         //That means I would do something different from this
+         //this._reservoir.addSubscriber(this);
+         //Carafe.instance().addSubscriber(this);
       }
    }
 
@@ -85,6 +88,7 @@ implements Runnable, Subscriber{
    //
    //
    public void run(){}
+   /*
    ////////////////////////////Subscriber/////////////////////////////
    //
    //
@@ -113,6 +117,7 @@ implements Runnable, Subscriber{
    //
    //
    //
-   public void error(String error){}   
+   public void error(String error){}
+   */
 }
 //////////////////////////////////////////////////////////////////////

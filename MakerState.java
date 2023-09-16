@@ -26,24 +26,15 @@ import rosas.lou.runnables.*;
 //
 //
 public class MakerState{
-   public static enum MASK{NONE              = 0x0,
-                           CARAFECAPACITY    = 0x1,
-                           CARAFEQUANTITY    = 0X2,
-                           CARAFESTATE       = 0X4,
-                           MAKERSTATE        = 0X8,
-                           MAKERPOWERSTATE   = 0X10,
-                           RESERVOIRCAPACITY = 0X20,
-                           RESERVOIRQUANTITY = 0X40,
-                           RESERVOIRSTATE    = 0X80,
-                           ALL               = 0XFF};
-   private double  _carafeCapacity;
-   private double  _carafeQuantity;
-   private String  _carafeState;
-   private double  _reservoirCapacity;
-   private double  _reservoirQuantity;
-   private String  _reservoirState;
-   private String  _coffeeMakerState;
-   private String  _coffeeMakerPowerState;
+   private MakerStateMask _mask; //May not need...
+   private double         _carafeCapacity;
+   private double         _carafeQuantity;
+   private String         _carafeState;
+   private double         _reservoirCapacity;
+   private double         _reservoirQuantity;
+   private String         _reservoirState;
+   private String         _coffeeMakerState;
+   private String         _coffeeMakerPowerState;
 
    {
       _carafeCapacity        = -1.;
@@ -54,6 +45,16 @@ public class MakerState{
       _reservoirState        = null;
       _coffeeMakerState      = null;
       _coffeeMakerPowerState = null;
+      _mask                  = null;
    };
+   
+   ///////////////////////////Constructors////////////////////////////
+   public MakerState
+   (
+   ){}
+
+
+
+
 }
 //////////////////////////////////////////////////////////////////////
