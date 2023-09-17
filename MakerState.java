@@ -26,35 +26,76 @@ import rosas.lou.runnables.*;
 //
 //
 public class MakerState{
-   private MakerStateMask _mask; //May not need...
-   private double         _carafeCapacity;
-   private double         _carafeQuantity;
-   private String         _carafeState;
-   private double         _reservoirCapacity;
-   private double         _reservoirQuantity;
-   private String         _reservoirState;
-   private String         _coffeeMakerState;
-   private String         _coffeeMakerPowerState;
+   private int    _mask;
+   private String _power;
+   private String _state;
 
    {
-      _carafeCapacity        = -1.;
-      _carafeQuantity        = -1.;
-      _carafeState           = null;
-      _reservoirCapacity     = -1.;
-      _reservoirQuantity     = -1.;
-      _reservoirState        = null;
-      _coffeeMakerState      = null;
-      _coffeeMakerPowerState = null;
-      _mask                  = null;
+      _mask  = MakerStateMask.NONE;
+      _power = null;
+      _state = null;
    };
    
    ///////////////////////////Constructors////////////////////////////
-   public MakerState
-   (
-   ){}
+   public MakerState(String power, String state){
+      if(power != null){
+         this.setPower(power);
+      }
+      if(state != null){
+         this.setState(state);
+      }
+   }
 
 
+   /////////////////////////Public Methods////////////////////////////
+   //
+   //
+   //
+   public int mask(){
+      return this._mask;
+   }
 
+   //
+   //
+   //
+   public String power(){
+      return this._power;
+   }
 
+   //
+   //
+   //
+   public String state(){
+      return this._state;
+   }
+
+   ////////////////////////Private Methods////////////////////////////
+   //
+   //
+   //
+   private void setPower(String power){
+      this._power = null;
+      if(power != null){
+         String test = power.toUpperCase();
+         if(test.equals("OFF") || test.equals("ON")){
+            this._power = power;
+            this._mask += MakerStateMask.POWER;
+         }
+      }
+   }
+
+   //
+   //
+   //
+   private void setState(String state){
+      this._state = null;
+      if(state != null){
+         String test = state.toUpperCase();
+         if(test.equals("READY") || test.equals("BREWING")){
+            this._state = state;
+            this._mask += MakerStateMask.STATE;
+         }
+      }
+   }
 }
 //////////////////////////////////////////////////////////////////////

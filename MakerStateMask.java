@@ -18,16 +18,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 package rosas.lou.runnables;
 
 public class MakerStateMask{
-   public static final int NONE           = 0x0;
-   public static final int CARAFECAPACITY = 0x1;
-   public static final int CARAFEQUANTITY = 0X2;
-   public static final int CARAFESTATE    = 0X4;
-   public static final int MAKERSTATE     = 0X8;
-   public static final int MAKERPOWERSTATE = 0X10;
-   public static final int RESERVOIRCAPACITY = 0X20;
-   public static final int RESERVOIRQUANTITY = 0X40;
-   public static final int RESERVOIRSTATE = 0X80;
-   public static final int ALL = 0XFF;
+   public static final int NONE  = 0x0;
+   public static final int POWER = 0x1;
+   public static final int STATE = 0x2;
+   public static final int ALL   = 0X3;
 }
 
 //////////////////////////////////////////////////////////////////////
