@@ -59,13 +59,7 @@ implements Runnable/*, Subscriber*/{
          this._subscriber.add(subscriber);
       }
       finally{
-         this.notifyOfPower();
          this.notifyOfState();
-         //Not sure I need these--may just catch exceptions...
-         //I think catching exceptions would be better...
-         //That means I would do something different from this
-         //this._reservoir.addSubscriber(this);
-         //Carafe.instance().addSubscriber(this);
       }
    }
 
@@ -74,13 +68,11 @@ implements Runnable/*, Subscriber*/{
    //
    //
    //
-   private void notifyOfPower(){}
-
-   //
-   //
-   //
-   //
-   private void notifyOfState(){}
+   private void notifyOfState(){
+      //This will inlcude Notify of Power and of state, as well as
+      //request the states of the components--the Carafe and the
+      //reservoir...
+   }
 
    /////////////////////////Interface Methods/////////////////////////
    /////////////////////////////Runnable//////////////////////////////
@@ -88,36 +80,5 @@ implements Runnable/*, Subscriber*/{
    //
    //
    public void run(){}
-   /*
-   ////////////////////////////Subscriber/////////////////////////////
-   //
-   //
-   //
-   public void update(Object o){}
-
-   //
-   //
-   //
-   //
-   public void update(Object o, String s){}
-
-   //
-   //
-   //
-   //
-   public void error(RuntimeException re){}
-
-   //
-   //
-   //
-   //
-   public void error(RuntimeException re, Object o){}
-
-   //
-   //
-   //
-   //
-   public void error(String error){}
-   */
 }
 //////////////////////////////////////////////////////////////////////

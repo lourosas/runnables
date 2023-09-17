@@ -69,6 +69,14 @@ public class MakerState{
       return this._state;
    }
 
+   //
+   //
+   //
+   public String toString(){
+      return new String(this.mask()+", " +this.power()+", "+
+                                                        this.state());
+   }
+
    ////////////////////////Private Methods////////////////////////////
    //
    //

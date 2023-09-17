@@ -15,18 +15,21 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-
 package rosas.lou.runnables;
 
-import java.lang.*;
 import java.util.*;
+import java.lang.*;
 import rosas.lou.runnables.*;
 
-public interface ContainerState{
-   public double capacity();
-   public double quantity();
-   public String state();
-   public int    mask();
-   public String toString();
+public class ReservoirV1_2 extends Reservoir{
+   public static final double EMPTY = 0.25;
+
+   private enum State{STARTUP,EMPTY,FILLED,WASFILLED};
+   
+   private final double CAPACITY = 32.;
+
+   private double _emptyRate;
+   private double _quantity;
+   private Staet  _state;
 }
 //////////////////////////////////////////////////////////////////////

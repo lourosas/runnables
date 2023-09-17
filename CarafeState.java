@@ -114,6 +114,14 @@ public class CarafeState implements ContainerState{
    public String state(){
       return this._state;
    }
+
+   //
+   //
+   //
+   public String toString(){
+      return new String(this.mask()+", "+this.quantity()+", "+
+                        this.capacity()+", "+this.state());
+   }
 }
 
 //////////////////////////////////////////////////////////////////////
