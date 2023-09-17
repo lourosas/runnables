@@ -22,7 +22,7 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public class CarafeState implements ContainerState{
+public class ReservoirState implements ContainerState{
    private int    _mask;
    private double _capacity;
    private double _quantity;
@@ -30,13 +30,18 @@ public class CarafeState implements ContainerState{
 
    {
       _mask     = ContainerStateMask.NONE;
-      _capacity =   0.;
-      _quantity =   0.;
-      _state    = null;      
+      _capacity = 0.;
+      _quantity = 0.;
+      _state    = null;
    };
 
-   ////////////////////////Constructors///////////////////////////////
-   public CarafeState(String state, double capacity, double quantity){
+   /////////////////////////Constructors//////////////////////////////
+   public ReservoirState
+   (
+      String state,
+      double capacity,
+      double quantity
+   ){
       if(state != null){
          this.state(state);
       }
@@ -48,7 +53,7 @@ public class CarafeState implements ContainerState{
       }
    }
 
-   ////////////////////////////Private Methods////////////////////////
+   ///////////////////////////Private Methods/////////////////////////
    //
    //
    //
@@ -78,9 +83,8 @@ public class CarafeState implements ContainerState{
       this._state = null;
       if(state != null){
          String test = state.toUpperCase();
-         if(test.equals("HOME")   ||
-            test.equals("PULLED") ||
-            test.equals("POURING")){
+         if(test.equals("STARTUP") || test.equals("EMPTY") ||
+            test.equals("FILLED")  || test.equals("WASFILLED")){
             this._state = state;
             this._mask += ContainerStateMask.STATE;
          }
