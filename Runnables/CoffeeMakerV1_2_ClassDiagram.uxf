@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>50</y>
+      <w>210</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>MakerState
+-
+-_mask:int
+-_power:String
+-_state:String
+-
++power():String
++state():String
++mask():int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>450</x>
+      <y>250</y>
+      <w>140</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>CarafeState
+-
+-_mask:int
+-_capacity:double
+-_quantity:double
+-_state:String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>620</x>
+      <y>250</y>
+      <w>140</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>ReservoirState
+-
+-_mask:int
+-_capacity:double
+-_quantity:double
+-_state:String
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>290</y>
+      <w>210</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>MakerStateMask
+-
+_+NONE:int_=0x0{const}_
+_+POWER:int=0x1{const}_
+_+STATE:int=0x2{const}_
+_+ALL:int=0x3{const}_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>180</x>
+      <y>180</y>
+      <w>30</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;110.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>480</x>
+      <y>530</y>
+      <w>210</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>ContainerStateMask
+-
+_+NONE:int_=0x0{const}_
+_+STATE:int=0x1{const}_
+_+CAPCITY:int=0x2{const}_
+_+QUANTITY:int=0x4{const}_
+_+ALL:int=0x7{const}_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>520</x>
+      <y>430</y>
+      <w>60</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>40.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>530</x>
+      <y>50</y>
+      <w>140</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>ContainerState
+--
+capacity():double
+quantity():double
+state():String
+mask():int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>590</x>
+      <y>50</y>
+      <w>120</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>510</x>
+      <y>50</y>
+      <w>110</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>640</x>
+      <y>430</y>
+      <w>50</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;100.0;30.0;10.0</additional_attributes>
+  </element>
+</diagram>
