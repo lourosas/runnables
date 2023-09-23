@@ -30,6 +30,6 @@ public class ReservoirV1_2 extends Reservoir{
 
    private double _emptyRate;
    private double _quantity;
-   private Staet  _state;
+   private State  _state;
 }
 //////////////////////////////////////////////////////////////////////

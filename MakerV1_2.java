@@ -30,13 +30,14 @@ implements Runnable/*, Subscriber*/{
 
    private List<Subscriber> _subscribers;
 
-   private Reservoir  _reservoir;
-   private Thread     _t;
-   private PowerState _powerState;
-   private State      _state;
-   private Object     _o;
+   private ReservoirV1_2  _reservoir;
+   private Thread         _t;
+   private PowerState     _powerState;
+   private State          _state;
+   private Object         _o;
 
    {
+      _subscribers= null;
       _instance   = null;
       _reservoir  = null;
       _t          = null;
@@ -79,6 +80,32 @@ implements Runnable/*, Subscriber*/{
    //
    //
    //
-   public void run(){}
+   public void run(){
+      int sleepTime          = 100;
+      int reservoirSleepTime = 1000;
+      double amount          = -1.;
+      try{
+         while(true){
+            if(isPowerOn() && isBrewing()){
+               try{
+                  amount = this._reservoir.empty(reservoirSleepTime);
+                  while(true){//Something else to go here...
+                     try{}
+                     catch(NotHomeException nhe){}
+                     catch(OverflowException oe){}
+                  }
+               }
+               catch(EmptyReservoirException ere){
+                  //TBD--grab the current state, et. al.
+                  //Transition out of Brewing state
+               }
+            }
+            Thread.sleep(sleepTime);
+         }
+      }
+      catch(InterruptedException ie){
+         ie.printStackTrace();
+      }
+   }
 }
 //////////////////////////////////////////////////////////////////////
