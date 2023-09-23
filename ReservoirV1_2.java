@@ -22,6 +22,7 @@ import java.lang.*;
 import rosas.lou.runnables.*;
 
 public class ReservoirV1_2 extends Reservoir{
+   /*
    public static final double EMPTY = 0.25;
 
    private enum State{STARTUP,EMPTY,FILLED,WASFILLED};
@@ -31,5 +32,52 @@ public class ReservoirV1_2 extends Reservoir{
    private double _emptyRate;
    private double _quantity;
    private State  _state;
+
+   {
+      _quantity  = 0.;
+      _emptyRate = 1.; //Oz/sec (whatever)
+      _state     = State.STARTUP;
+   };
+   */
+   ////////////////////////Constructors///////////////////////////////
+   //
+   //
+   //
+   public ReservoirV1_2(){}
+
+   ////////////////////////Public Methods/////////////////////////////
+   //
+   //
+   //
+   public double empty(int elapsedMilles)
+   throws EmptyReservoirException{
+      final double ZERO          = 0.;
+      final double SECSPERMILLIS = 0.001;      
+      double amount = 0.;
+      if(this.quantity() > this.emptyCheck()){
+         amount = elapsedTime*SECSPERMILLIES*this.emptyRate();
+         if(this.quantity() - amount <= ZERO){
+            amount = this.quantity();
+         }
+         this.quantity(this.quantity() - amount);
+         this.setState();
+      }
+      else{
+         if(this.isFilled()){
+            this.setWasFilled();
+         }
+         else if(this.isWasFilled()){
+            this.setEmpty();
+         }
+      }
+      return amount;
+   }
+
+   ///////////////////////Private Methods/////////////////////////////
+   //
+   //
+   //
+   private void setState(){}
 }
+
 //////////////////////////////////////////////////////////////////////

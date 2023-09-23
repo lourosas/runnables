@@ -21,7 +21,7 @@ import java.util.*;
 import java.lang.*;
 
 public class Reservoir implements ReservoirInterface{
-   public static final double EMPTY = 0.25;
+   private static final double EMPTY = 0.25;
 
    private enum State{STARTUP,EMPTY,FILLED, WASFILLED};
 
@@ -165,13 +165,63 @@ public class Reservoir implements ReservoirInterface{
       this.notifySubscribersOfState();
    }
 
-   ////////////////////////Private Methods////////////////////////////
+   //////////////////////Protected Methods////////////////////////////
    /*
    */
-   private double emptyRate(){
+   protected double emptyCheck(){
+      return EMPTY;
+   }
+
+   /*
+   */
+   protected double emptyRate(){
       return this._emptyRate;
    }
 
+   /**/
+   protected boolean isEmpty(){
+      return(this._state == State.EMPTY);
+   }
+
+   /**/
+   protected boolean isFilled(){
+      return(this._state == State.FILLED);
+   }
+
+   /**/
+   protected boolean isStartup(){
+      return(this._state == State.STARTUP);
+   }
+
+   /**/
+   protected boolean isWasFilled(){
+      return(this._state == State.WASFILLED);
+   }
+
+   /*
+   */
+   protected void quantity(double quant){
+      this._quantity = quant;
+   }
+
+   /*
+   */
+   protected void setEmpty(){
+      this._state = State.EMPTY;
+   }
+
+   /*
+   */
+   protected void setFilled(){
+      this._state = State.FILLED;
+   }
+
+   /*
+   */
+   protected void setWasFilled(){
+      this._state = State.WASFILLED;
+   }
+   ////////////////////////Private Methods////////////////////////////
    //
    //
    //
@@ -236,29 +286,6 @@ public class Reservoir implements ReservoirInterface{
       this.notifyQuantity();
    }
 
-   /*
-   */
-   private void quantity(double quant){
-      this._quantity = quant;
-   }
-
-   /*
-   */
-   private void setEmpty(){
-      this._state = State.EMPTY;
-   }
-
-   /*
-   */
-   private void setFilled(){
-      this._state = State.FILLED;
-   }
-
-   /*
-   */
-   private void setWasFilled(){
-      this._state = State.WASFILLED;
-   }
    ///////////////////////Interface Methods///////////////////////////
    /*
    */
