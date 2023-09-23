@@ -320,7 +320,7 @@ bg=blue</panel_attributes>
       <w>1330</w>
       <h>360</h>
     </coordinates>
-    <panel_attributes>loop amount &gt; EMPTY
+    <panel_attributes>loop
 --
 
 
@@ -335,9 +335,6 @@ bg=blue</panel_attributes>
 [NotHomeException]
 
 
-
--.
-[EmptyReservoirException]
 
 
 -.
