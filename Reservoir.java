@@ -21,7 +21,7 @@ import java.util.*;
 import java.lang.*;
 
 public class Reservoir implements ReservoirInterface{
-   private static final double EMPTY = 0.25;
+   public static final double EMPTY = 0.25;
 
    private enum State{STARTUP,EMPTY,FILLED, WASFILLED};
 
@@ -176,21 +176,6 @@ public class Reservoir implements ReservoirInterface{
    */
    protected double emptyRate(){
       return this._emptyRate;
-   }
-
-   /**/
-   protected boolean isEmpty(){
-      return(this._state == State.EMPTY);
-   }
-
-   /**/
-   protected boolean isFilled(){
-      return(this._state == State.FILLED);
-   }
-
-   /**/
-   protected boolean isStartup(){
-      return(this._state == State.STARTUP);
    }
 
    /**/

@@ -21,8 +21,7 @@ import java.util.*;
 import java.lang.*;
 import rosas.lou.runnables.*;
 
-public class MakerV1_2 extends Maker,
-implements Runnable/*, Subscriber*/{
+public class MakerV1_2 implements Runnable/*, Subscriber*/{
    private static MakerV1_2 _instance;
 
    private enum   State{READY, BREWING};
@@ -56,15 +55,57 @@ implements Runnable/*, Subscriber*/{
          this._subscribers.add(subscriber);
       }
       catch(NullPointerException npe){
-         this._subscribers = new LikedList<Subscriber>();
-         this._subscriber.add(subscriber);
+         this._subscribers = new LinkedList<Subscriber>();
+         this._subscribers.add(subscriber);
       }
       finally{
          this.notifyOfState();
       }
    }
 
+   //
+   //
+   //
+   //
+   static public MakerV1_2 instance(){
+      if(_instance == null){
+         _instance = new MakerV1_2();
+      }
+      return _instance;
+   }
+
    ///////////////////////////Private Methods/////////////////////////
+   //////////////////////////////Constructor//////////////////////////
+   //
+   //
+   //
+   private MakerV1_2(){
+      this._reservoir = new ReservoirV1_2();
+      this._o         = new Object();
+      Carafe.instance().setObject(this._o);
+      //Will need to indicate how to set the default power
+      //setting at some point...
+      this._t = new Thread(this);
+      this._t.start();
+   }
+
+   //
+   //
+   //
+   //
+   private boolean isBrewing(){
+      //return(this._state == State.BREWING); Stub this out for now
+      return false;
+   }
+
+   //
+   //
+   //
+   private boolean isPowerOn(){
+      //return(this._power == Power.ON); Comment out for now
+      return false; //stub this for now
+   }
+
    //
    //
    //
@@ -75,29 +116,54 @@ implements Runnable/*, Subscriber*/{
       //reservoir...
    }
 
+   //
+   //
+   //
+   private void setState(){}
+
    /////////////////////////Interface Methods/////////////////////////
    /////////////////////////////Runnable//////////////////////////////
    //
    //
    //
    public void run(){
-      int sleepTime          = 100;
+      //int sleepTime          = 100;
+      int sleepTime          = 1000;
       int reservoirSleepTime = 1000;
       double amount          = -1.;
       try{
          while(true){
+            //Test Prints!!!
+            System.out.println(this);
             if(isPowerOn() && isBrewing()){
                try{
                   amount = this._reservoir.empty(reservoirSleepTime);
                   while(true){//Something else to go here...
                      try{
+                        Carafe.instance().fill(amount);
+                        Thread.sleep(reservoirSleepTime);
                      }
-                     catch(NotHomeException nhe){}
-                     catch(OverflowException oe){}
-                     finally{}
+                     catch(NotHomeException nhe){
+                        synchronized(this._o){
+                           this._o.wait();
+                        }
+                        Carafe.instance().fill(amount);
+                     }
+                     catch(OverflowException oe){
+                        //Alert of the Exception
+                     }
+                     finally{
+                        int rst = reservoirSleepTime;
+                        this.setState();
+                        //Notify the suscribers...
+                        amount = this._reservoir.empty(rst);
+                     }
                   }
                }
                catch(EmptyReservoirException ere){
+                  this.setState();
+		  //this.setReady(true);
+		  //Notify the Suscbribers...
                   //TBD--grab the current state, et. al.
                   //Transition out of Brewing state
                }

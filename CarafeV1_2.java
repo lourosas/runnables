@@ -99,6 +99,13 @@ public class CarafeV1_2 extends Carafe implements Runnable{
       return this._quantity;
    }
 
+   //
+   //
+   //
+   public void setObject(Object o){
+      this._o = o;
+   }
+
    ////////////////////////Private Methods////////////////////////////
    //
    //

@@ -49,13 +49,13 @@ public class ReservoirV1_2 extends Reservoir{
    //
    //
    //
-   public double empty(int elapsedMilles)
+   public double empty(int elapsedMillis)
    throws EmptyReservoirException{
       final double ZERO          = 0.;
       final double SECSPERMILLIS = 0.001;      
       double amount = 0.;
       if(this.quantity() > this.emptyCheck()){
-         amount = elapsedTime*SECSPERMILLIES*this.emptyRate();
+         amount = elapsedMillis*SECSPERMILLIS*this.emptyRate();
          if(this.quantity() - amount <= ZERO){
             amount = this.quantity();
          }
