@@ -93,6 +93,7 @@ implements Runnable/*, Subscriber*/{
                      try{}
                      catch(NotHomeException nhe){}
                      catch(OverflowException oe){}
+                     finally{}
                   }
                }
                catch(EmptyReservoirException ere){

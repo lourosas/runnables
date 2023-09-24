@@ -63,12 +63,17 @@ public class ReservoirV1_2 extends Reservoir{
          this.setState();
       }
       else{
+         String mpty = new String("Empty Reservoir Exception ");
          if(this.isFilled()){
             this.setWasFilled();
+            mpty += "WASFILLED State";
          }
          else if(this.isWasFilled()){
             this.setEmpty();
+            mpty += "EMPTY State";
          }
+         this.setState();
+         throw new EmptyReservoirException(mpty);
       }
       return amount;
    }
