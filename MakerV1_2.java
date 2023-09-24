@@ -90,7 +90,8 @@ implements Runnable/*, Subscriber*/{
                try{
                   amount = this._reservoir.empty(reservoirSleepTime);
                   while(true){//Something else to go here...
-                     try{}
+                     try{
+                     }
                      catch(NotHomeException nhe){}
                      catch(OverflowException oe){}
                      finally{}

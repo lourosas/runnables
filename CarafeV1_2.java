@@ -1,0 +1,138 @@
+//////////////////////////////////////////////////////////////////////
+/*
+Copyright 2023 Lou Rosas
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+package rosas.lou.runnables;
+
+import java.util.*;
+import java.lang.*;
+import java.util.concurrent.*;
+import java.util.concurrent.locks.*;
+import rosas.lou.runnables.Mug;
+
+//
+//Implements the Singleton
+//
+
+public class CarafeV1_2 extends Carafe implements Runnable{
+   private static final double EMPTY = 0.05;
+   private static Lock  lock         = new ReentrantLock();
+
+   private static CarafeV1_2 _instance;
+
+   private enum State{HOME,PULLED,POURING};
+
+   private final double CAPACITY = 32.;//Initial Setting
+
+   private double   _quantity;
+   private double   _emptyRate;
+   private State    _state;
+   private Mug      _mug;
+   private Thread   _t;
+   private Object   _o;
+
+   {
+      _quantity   = 0.;
+      _emptyRate  = 0.25; //Volume Units/sec
+      _state      = State.HOME; //Initialize it
+      _mug        = null;  //Carafe fills a Mug
+      _t          = null;
+      _o          = null;
+      _instance   = null;
+   };
+
+   ////////////////////////Public Methods/////////////////////////////
+   //
+   //
+   //
+   public void capacity(){
+      return this.CAPACITY;
+   }
+
+   //
+   //
+   //
+   public void fill(double amount)throws NotHomeException,
+   OverflowException{
+      if(this.isHome()){
+         double quant = amount + this.quantity();
+         this.quantity(quant);
+         this.setState();
+         if(quant > this.capacity()){
+            this.quantity(this.capacity();
+            this.setState();
+            throw new OverflowException("Overflow Exception: Carafe");
+         }
+      }
+      else{
+         throw new NotHomeException("Carafe Not Home");
+      }
+   }
+
+   //
+   //
+   //
+   static public CarafeV1_2 instance(){
+      if(instance == null){
+         _instance = new CarafeV1_2();
+      }
+      return _instance;
+   }
+
+   //
+   //
+   //
+   public double quantity(){
+      return this._quantity;
+   }
+
+   ////////////////////////Private Methods////////////////////////////
+   //
+   //
+   //
+   private CarafeV1_2(){
+      this._t = new Thread(this);
+      this._t.start();
+   }
+
+   //
+   //
+   //
+   private void quantity(double amount){
+      this._quantity = amount;
+   }
+
+   //
+   //
+   //
+   private void setState(){}
+
+   /////////////////////Interface Implementations/////////////////////
+   //
+   //
+   //
+   public void run(){
+      int sleepTime      =    50;
+      int pourSleepTime  =   500;
+      boolean toContinue = false;
+      try{
+         while(true){
+            Thread.sleep(sleepTime);
+         }
+      }
+      catch(InterruptedException ie){}
+   }
+}
