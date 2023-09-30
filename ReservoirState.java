@@ -58,8 +58,7 @@ public class ReservoirState implements ContainerState{
    //
    //
    private void capacity(double capacity){
-      this._capacity = 0.;
-      if(capacity > this._capacity){
+      if(capacity != this._capacity){
          this._capacity = capacity;
          this._mask    += ContainerStateMask.CAPACITY;
       }
@@ -69,8 +68,7 @@ public class ReservoirState implements ContainerState{
    //
    //
    private void quantity(double quantity){
-      this._quantity = 0.;
-      if(quantity > this._quantity){
+      if(quantity != this._quantity){
          this._quantity = quantity;
          this._mask    += ContainerStateMask.QUANTITY;
       }

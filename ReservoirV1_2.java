@@ -22,6 +22,10 @@ import java.lang.*;
 import rosas.lou.runnables.*;
 
 public class ReservoirV1_2 extends Reservoir{
+   ContainerState _reservoirState;
+   {
+      _reservoirState = null;
+   };
    /*
    public static final double EMPTY = 0.25;
 
@@ -60,7 +64,7 @@ public class ReservoirV1_2 extends Reservoir{
             amount = this.quantity();
          }
          this.quantity(this.quantity() - amount);
-         this.setState();
+         this.setState(ContainerStateMask.QUANTITY);
       }
       else{
          String mpty = new String("Empty Reservoir Exception ");
@@ -72,7 +76,9 @@ public class ReservoirV1_2 extends Reservoir{
             this.setEmpty();
             mpty += "EMPTY State";
          }
-         this.setState();
+         int state = ContainerStateMask.STATE;
+         int quant = ContainerStateMask.QUANTITY;
+         this.setState(state + quant);
          throw new EmptyReservoirException(mpty);
       }
       return amount;
@@ -82,7 +88,34 @@ public class ReservoirV1_2 extends Reservoir{
    //
    //
    //
-   private void setState(){}
+   private void setState(int mask){
+      //Tell the Model what has changed...
+      String state    = null;
+      double capacity = -1.;
+      double quantity = -1.;
+      if(mask == ContainerStateMask.NONE){}
+      if((mask & ContainerStateMask.STATE) != 0){
+         if(this.isStartup()){
+            state = new String("STARTUP");
+         }
+         else if(this.isEmpty()){
+            state = new String("EMPTY");
+         }
+         else if(this.isFilled()){
+            state = new String("FILLED");
+         }
+         else if(this.wasFilled()){
+            state = new String("WASFILLED");
+         }
+      }
+      if((mask & ContainerStateMask.CAPACITY) != 0){
+         capacity = this.capacity();
+      }
+      if((mask & ContainerStateMask.QUANTITY) != 0){
+         quantity = this.quantity();
+      }
+      this._reservoirState=new ReservoirState(state,capacity,quantity);
+   }
 }
 
 //////////////////////////////////////////////////////////////////////
