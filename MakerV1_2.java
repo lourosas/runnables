@@ -95,7 +95,7 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    private boolean isBrewing(){
       //return(this._state == State.BREWING); Stub this out for now
-      return false;
+      return true; //stub this for the time being...
    }
 
    //
@@ -103,7 +103,7 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    private boolean isPowerOn(){
       //return(this._power == Power.ON); Comment out for now
-      return false; //stub this for now
+      return true; //stub this for now--change back to false
    }
 
    //
@@ -133,24 +133,33 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
       double amount          = -1.;
       try{
          while(true){
-            //Test Prints!!!
-            System.out.println(this);
             if(isPowerOn() && isBrewing()){
                try{
                   amount = this._reservoir.empty(reservoirSleepTime);
                   while(true){//Something else to go here...
                      try{
-                        Carafe.instance().fill(amount);
+                        //Put this here, for now...
                         Thread.sleep(reservoirSleepTime);
+                        CarafeV1_2.instance().fill(amount);
+                        //Thread.sleep(reservoirSleepTime);
                      }
                      catch(NotHomeException nhe){
                         synchronized(this._o){
                            this._o.wait();
                         }
-                        Carafe.instance().fill(amount);
+                        CarafeV1_2.instance().fill(amount);
                      }
                      catch(OverflowException oe){
                         //Alert of the Exception
+                        try{
+                           Iterator<Subscriber> it =
+                                         this._subscribers.iterator();
+                           while(it.hasNext()){
+                              //Try this for the moment...
+                              (it.next()).error(oe);
+                           }
+                        }
+                        catch(NullPointerException npe){}
                      }
                      finally{
                         int rst = reservoirSleepTime;
@@ -161,9 +170,10 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
                   }
                }
                catch(EmptyReservoirException ere){
+                  ere.printStackTrace();
                   this.setState();
-		  //this.setReady(true);
-		  //Notify the Suscbribers...
+                  //this.setReady(true);
+                  //Notify the Suscbribers...
                   //TBD--grab the current state, et. al.
                   //Transition out of Brewing state
                }

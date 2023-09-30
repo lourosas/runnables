@@ -27,7 +27,7 @@ import rosas.lou.runnables.Mug;
 //Implements the Singleton
 //
 
-public class CarafeV1_2 extends Carafe implements Runnable{
+public class CarafeV1_2 implements Runnable{
    private static final double EMPTY = 0.05;
    private static Lock  lock         = new ReentrantLock();
 
@@ -58,7 +58,7 @@ public class CarafeV1_2 extends Carafe implements Runnable{
    //
    //
    //
-   public void capacity(){
+   public double capacity(){
       return this.CAPACITY;
    }
 
@@ -72,7 +72,7 @@ public class CarafeV1_2 extends Carafe implements Runnable{
          this.quantity(quant);
          this.setState();
          if(quant > this.capacity()){
-            this.quantity(this.capacity();
+            this.quantity(this.capacity());
             this.setState();
             throw new OverflowException("Overflow Exception: Carafe");
          }
@@ -86,10 +86,46 @@ public class CarafeV1_2 extends Carafe implements Runnable{
    //
    //
    static public CarafeV1_2 instance(){
-      if(instance == null){
+      if(_instance == null){
          _instance = new CarafeV1_2();
       }
       return _instance;
+   }
+
+   //
+   //
+   //
+   public boolean isHome(){
+      return(this._state == State.HOME);
+   }
+
+   //
+   //
+   //
+   public boolean isPouring(){
+      return(this._state == State.POURING);
+   }
+
+   //
+   //
+   //
+   public boolean isPulled(){
+      return(this._state == State.PULLED);
+   }
+
+   //
+   //
+   //
+   //
+   public void putback(){
+      //Only return when instance is in the PULLED State, not the
+      //HOME nor POURING States
+      if(this.isPulled()){
+         this.setHome();
+         synchronized(this._o){
+            this._o.notify();
+         }
+      }
    }
 
    //
@@ -120,6 +156,27 @@ public class CarafeV1_2 extends Carafe implements Runnable{
    //
    private void quantity(double amount){
       this._quantity = amount;
+   }
+
+   //
+   //
+   //
+   private void setHome(){
+      this._state = State.HOME;
+   }
+
+   //
+   //
+   //
+   private void setPouring(){
+      this._state = State.POURING;
+   }
+
+   //
+   //
+   //
+   private void setPulled(){
+      this._state = State.PULLED;
    }
 
    //
