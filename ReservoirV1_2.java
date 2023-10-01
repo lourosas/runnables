@@ -22,7 +22,8 @@ import java.lang.*;
 import rosas.lou.runnables.*;
 
 public class ReservoirV1_2 extends Reservoir{
-   ContainerState _reservoirState;
+   private ContainerState _reservoirState;
+
    {
       _reservoirState = null;
    };
@@ -114,7 +115,8 @@ public class ReservoirV1_2 extends Reservoir{
       if((mask & ContainerStateMask.QUANTITY) != 0){
          quantity = this.quantity();
       }
-      this._reservoirState=new ReservoirState(state,capacity,quantity);
+      this._reservoirState =
+                          new ReservoirState(state,capacity,quantity);
    }
 }
 

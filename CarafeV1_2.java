@@ -37,21 +37,23 @@ public class CarafeV1_2 implements Runnable{
 
    private final double CAPACITY = 32.;//Initial Setting
 
-   private double   _quantity;
-   private double   _emptyRate;
-   private State    _state;
-   private Mug      _mug;
-   private Thread   _t;
-   private Object   _o;
+   private ContainerState _carafeState;
+   private double         _quantity;
+   private double         _emptyRate;
+   private State          _state;
+   private Mug            _mug;
+   private Thread         _t;
+   private Object         _o;
 
    {
-      _quantity   = 0.;
-      _emptyRate  = 0.25; //Volume Units/sec
-      _state      = State.HOME; //Initialize it
-      _mug        = null;  //Carafe fills a Mug
-      _t          = null;
-      _o          = null;
-      _instance   = null;
+      _quantity       = 0.;
+      _emptyRate      = 0.25; //Volume Units/sec
+      _state          = State.HOME; //Initialize it
+      _mug            = null;  //Carafe fills a Mug
+      _t              = null;
+      _o              = null;
+      _instance       = null;
+      _containerState = null;
    };
 
    ////////////////////////Public Methods/////////////////////////////
@@ -182,7 +184,7 @@ public class CarafeV1_2 implements Runnable{
    //
    //
    //
-   private void setState(){}
+   private void setState(int mask){}
 
    /////////////////////Interface Implementations/////////////////////
    //
