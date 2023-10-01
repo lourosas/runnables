@@ -31,6 +31,7 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
 
    private ReservoirV1_2  _reservoir;
    private Thread         _t;
+   private MakerState     _makerState;
    private PowerState     _powerState;
    private State          _state;
    private Object         _o;
@@ -40,6 +41,7 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
       _instance   = null;
       _reservoir  = null;
       _t          = null;
+      _makerState = null;
       _powerState = null;
       _state      = null;
       _o          = null;
@@ -119,7 +121,9 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    //
    //
-   private void setState(){}
+   private void setState(){
+      
+   }
 
    /////////////////////////Interface Methods/////////////////////////
    /////////////////////////////Runnable//////////////////////////////

@@ -46,14 +46,14 @@ public class CarafeV1_2 implements Runnable{
    private Object         _o;
 
    {
-      _quantity       = 0.;
-      _emptyRate      = 0.25; //Volume Units/sec
-      _state          = State.HOME; //Initialize it
-      _mug            = null;  //Carafe fills a Mug
-      _t              = null;
-      _o              = null;
-      _instance       = null;
-      _containerState = null;
+      _quantity    = 0.;
+      _emptyRate   = 0.25; //Volume Units/sec
+      _state       = State.HOME; //Initialize it
+      _mug         = null;  //Carafe fills a Mug
+      _t           = null;
+      _o           = null;
+      _instance    = null;
+      _carafeState = null;
    };
 
    ////////////////////////Public Methods/////////////////////////////
@@ -72,10 +72,11 @@ public class CarafeV1_2 implements Runnable{
       if(this.isHome()){
          double quant = amount + this.quantity();
          this.quantity(quant);
-         this.setState();
+         this.setState(ContainerStateMask.QUANTITY);
          if(quant > this.capacity()){
             this.quantity(this.capacity());
-            this.setState();
+            //May not need this...
+            this.setState(ContainerStateMask.QUANTITY);
             throw new OverflowException("Overflow Exception: Carafe");
          }
       }
@@ -151,6 +152,8 @@ public class CarafeV1_2 implements Runnable{
    private CarafeV1_2(){
       this._t = new Thread(this);
       this._t.start();
+      //Wait until the PowerOn Use Case Realization before setting
+      //the initial State
    }
 
    //
@@ -184,7 +187,24 @@ public class CarafeV1_2 implements Runnable{
    //
    //
    //
-   private void setState(int mask){}
+   private void setState(int mask){
+      //Tell the Model what changed...
+      String state     = null;
+      double capacity  = -1.;
+      double quantity  = -1.;
+      if(mask == ContainerStateMask.NONE){}
+      if((mask & ContainerStateMask.STATE)    != 0){
+         state = new String("" + this._state);
+         state = state.toUpperCase();
+      }
+      if((mask & ContainerStateMask.CAPACITY) != 0){
+         capacity = this.capacity();
+      }
+      if((mask & ContainerStateMask.QUANTITY) != 0){
+         quantity = this.quantity();
+      }
+      this._carafeState = new CarafeState(state,capacity,quantity);
+   }
 
    /////////////////////Interface Implementations/////////////////////
    //
