@@ -76,6 +76,13 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
       return _instance;
    }
 
+   //
+   //
+   //
+   public MakerState state(){
+      return this._makerState;
+   }
+
    ///////////////////////////Private Methods/////////////////////////
    //////////////////////////////Constructor//////////////////////////
    //
@@ -91,7 +98,25 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
       this._t.start();
    }
 
+   //Might consider using the Maker State, instead...
    //
+   //
+   private boolean isReady(){
+      String state = null;
+      try{
+         state = this._makerState.state();
+      }
+      catch(NullPointerException npe){
+         this.state(MakerStateMask.POWER + MakerStateMask.STATE);
+         state = this._makerState.state();
+      }
+      return(state.toUpperCase().equals("READY"));
+      /*
+      return(this._state == State.READY);
+      */
+   }
+
+
    //
    //
    //
@@ -134,12 +159,32 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    //
    //
-   private void notifySubscribersOfException(RuntimeException re){}
+   private void notifySubscribersOfException(RuntimeException re){
+      try{
+         Iterator<Subscriber> it = this._subscribers.iterator();
+         while(it.hasNext()){
+            (it.next()).error(re);
+         }
+      }
+      catch(NullPointerException npe){}
+   }
 
    //
    //
    //
-   private void setState(int mask){
+   private void ready(boolean toNotify){
+      this._state = State.READY;
+      if(toNotify){
+         //Indicate tHe State changed
+         this.state(MakerStateMask.STATE);
+         this.notifySubscribers();
+      }
+   }
+
+   //
+   //
+   //
+   private void state(int mask){
       String state      = null;
       String powerState = null;
       if(mask == MakerStateMask.NONE){}
@@ -184,33 +229,30 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
                         CarafeV1_2.instance().fill(amount);
                      }
                      catch(OverflowException oe){
-                        //Alert of the Exception
+                        //Alert the Subscribers of the Exception
                         this.notifySubscribersOfException(oe);
-                        try{
-                           Iterator<Subscriber> it =
-                                         this._subscribers.iterator();
-                           while(it.hasNext()){
-                              //Try this for the moment...
-                              (it.next()).error(oe);
-                           }
-                        }
-                        catch(NullPointerException npe){}
                      }
                      finally{
                         int rst = reservoirSleepTime;
-                        this.setState(MakerStateMask.NONE);
+                        this.state(MakerStateMask.NONE);
                         //Notify the suscribers...
+                        this.notifySubscribers();
                         amount = this._reservoir.empty(rst);
                      }
                   }
                }
                catch(EmptyReservoirException ere){
-                  ere.printStackTrace();
-                  //this.setReady(true);//set the state as well
-                  //this.setState();
+                  String state = this._reservoir.state().state();
+                  //If the Carafe is in the Empty state...notify the
+                  //the Subscribers the Reservoir is Empty and needs
+                  //filling...
+                  if(state.toUpperCase().equals("EMPTY")){
+                     this.notifySubscribersOfException(ere);
+                  }
                   //Notify the Suscbribers...
                   //TBD--grab the current state, et. al.
                   //Transition out of Brewing state
+                  this.ready(true);//set the state as well
                }
             }
             Thread.sleep(sleepTime);
