@@ -68,7 +68,7 @@ public class ReservoirV1_2 extends Reservoir{
             amount = this.quantity();
          }
          this.quantity(this.quantity() - amount);
-         this.setState(ContainerStateMask.QUANTITY);
+         this.state(ContainerStateMask.QUANTITY);
       }
       else{
          String mpty = new String("Empty Reservoir Exception ");
@@ -82,17 +82,24 @@ public class ReservoirV1_2 extends Reservoir{
          }
          int state = ContainerStateMask.STATE;
          int quant = ContainerStateMask.QUANTITY;
-         this.setState(state + quant);
+         this.state(state + quant);
          throw new EmptyReservoirException(mpty);
       }
       return amount;
+   }
+   
+   //
+   //
+   //
+   public ContainerState state(){
+      return this._reservoirState;
    }
 
    ///////////////////////Private Methods/////////////////////////////
    //
    //
    //
-   private void setState(int mask){
+   private void state(int mask){
       //Tell the Model what has changed...
       String state    = null;
       double capacity = -1.;

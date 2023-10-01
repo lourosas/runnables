@@ -72,11 +72,11 @@ public class CarafeV1_2 implements Runnable{
       if(this.isHome()){
          double quant = amount + this.quantity();
          this.quantity(quant);
-         this.setState(ContainerStateMask.QUANTITY);
+         this.state(ContainerStateMask.QUANTITY);
          if(quant > this.capacity()){
             this.quantity(this.capacity());
             //May not need this...
-            this.setState(ContainerStateMask.QUANTITY);
+            this.state(ContainerStateMask.QUANTITY);
             throw new OverflowException("Overflow Exception: Carafe");
          }
       }
@@ -145,6 +145,13 @@ public class CarafeV1_2 implements Runnable{
       this._o = o;
    }
 
+   //
+   //
+   //
+   public ContainerState state(){
+      return this._carafeState;
+   }
+
    ////////////////////////Private Methods////////////////////////////
    //
    //
@@ -187,7 +194,7 @@ public class CarafeV1_2 implements Runnable{
    //
    //
    //
-   private void setState(int mask){
+   private void state(int mask){
       //Tell the Model what changed...
       String state     = null;
       double capacity  = -1.;

@@ -105,7 +105,7 @@ public class TotalState{
    private void reservoirState(ContainerState reservoirState){
       this._reservoirState = null;
       if(reservoirState != null){
-         this._reservoirStaet = reservoirState;
+         this._reservoirState = reservoirState;
       }
    }
 }

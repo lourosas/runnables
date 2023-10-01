@@ -113,10 +113,28 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    //
    private void notifySubscribers(){
+      //CarafeState
+      ContainerState cState = CarafeV1_2.instance().state();
+      //ReservoirState
+      ContainerState rState = this._reservoir.state();
+      TotalState totalState =
+                      new TotalState(this._makerState,cState,rState);
       //This will inlcude Notify of Power and of state, as well as
       //request the states of the components--the Carafe and the
       //reservoir...
+      try{
+         Iterator<Subscriber> it = this._subscribers.iterator();
+         while(it.hasNext()){
+            (it.next()).update(totalState);
+         }
+      }
+      catch(NullPointerException npe){}
    }
+
+   //
+   //
+   //
+   private void notifySubscribersOfException(RuntimeException re){}
 
    //
    //
@@ -167,6 +185,7 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
                      }
                      catch(OverflowException oe){
                         //Alert of the Exception
+                        this.notifySubscribersOfException(oe);
                         try{
                            Iterator<Subscriber> it =
                                          this._subscribers.iterator();
