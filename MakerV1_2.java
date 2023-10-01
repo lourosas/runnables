@@ -61,7 +61,7 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
          this._subscribers.add(subscriber);
       }
       finally{
-         this.notifyOfState();
+         this.notifySubscribers();
       }
    }
 
@@ -112,7 +112,7 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    //
    //
-   private void notifyOfState(){
+   private void notifySubscribers(){
       //This will inlcude Notify of Power and of state, as well as
       //request the states of the components--the Carafe and the
       //reservoir...
@@ -121,8 +121,20 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    //
    //
-   private void setState(){
-      
+   private void setState(int mask){
+      String state      = null;
+      String powerState = null;
+      if(mask == MakerStateMask.NONE){}
+      //If the Power State Changes, indicate that...
+      if((mask & MakerStateMask.POWER) != 0){
+         powerState = new String("" + this._powerState);
+      }
+      //If the System State changes, indicate that...
+      if((mask & MakerStateMask.STATE) != 0){
+         state = new String("" + this._state);
+      }
+      //Just set up the MakerState...
+      this._makerState = new MakerState(powerState, state);
    }
 
    /////////////////////////Interface Methods/////////////////////////
@@ -167,7 +179,7 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
                      }
                      finally{
                         int rst = reservoirSleepTime;
-                        this.setState();
+                        this.setState(MakerStateMask.NONE);
                         //Notify the suscribers...
                         amount = this._reservoir.empty(rst);
                      }
@@ -175,8 +187,8 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
                }
                catch(EmptyReservoirException ere){
                   ere.printStackTrace();
-                  this.setState();
-                  //this.setReady(true);
+                  //this.setReady(true);//set the state as well
+                  //this.setState();
                   //Notify the Suscbribers...
                   //TBD--grab the current state, et. al.
                   //Transition out of Brewing state
