@@ -76,7 +76,7 @@ public class ReservoirV1_2 extends Reservoir{
             this.setWasFilled();
             mpty += "WASFILLED State";
          }
-         else if(this.isWasFilled()){
+         else{
             this.setEmpty();
             mpty += "EMPTY State";
          }

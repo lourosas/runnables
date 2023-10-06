@@ -69,6 +69,20 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    //
    //
+   public void brew(){
+      if(!this.isBrewing()){
+         this.brewing(true);
+      }
+      else{
+         AlreadyBrewingException abe = new AlreadyBrewingException();
+         this.notifySubscribersOfException(abe);
+      }
+   }
+
+   //
+   //
+   //
+   //
    static public MakerV1_2 instance(){
       if(_instance == null){
          _instance = new MakerV1_2();
@@ -121,16 +135,49 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    //
    private boolean isBrewing(){
-      //return(this._state == State.BREWING); Stub this out for now
-      return true; //stub this for the time being...
+      String state = null;
+      try{
+         state = this._makerState.state();
+      }
+      catch(NullPointerException npe){
+         this.state(MakerStateMask.POWER + MakerStateMask.STATE);
+         state = this._makerState.state();
+      }
+      return(state.toUpperCase().equals("BREWING"));
+      //return(this._state == State.BREWING);
+   }
+
+   //
+   //
+   //
+   //
+   private boolean isPowerOff(){
+      String power = null;
+      try{
+         power = this._makerState.power();
+      }
+      catch(NullPointerException npe){
+         this.state(MakerStateMask.POWER + MakerStateMask.STATE);
+         power = this._makerState.power();
+      }
+      return(power.toUpperCase().equals("OFF"));
+      //return(this._powerState == PowerState.OFF);
    }
 
    //
    //
    //
    private boolean isPowerOn(){
-      //return(this._power == Power.ON); Comment out for now
-      return true; //stub this for now--change back to false
+      String power = null;
+      try{
+         power = this._makerState.power();
+      }
+      catch(NullPointerException npe){
+         this.state(MakerStateMask.POWER + MakerStateMask.STATE);
+         power = this._makerState.power();
+      }
+      return(power.toUpperCase().equals("ON"));
+      //return(this._powerState == PowerState.ON);
    }
 
    //
@@ -167,6 +214,18 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
          }
       }
       catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
+   private void brewing(boolean toNotify){
+      this._state = State.BREWING;
+      if(toNotify){
+         //Indicate the State Changed
+         this.state(MakerStateMask.STATE);
+         this.notifySubscribers();
+      }
    }
 
    //
