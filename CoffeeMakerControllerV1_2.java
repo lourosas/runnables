@@ -26,10 +26,10 @@ import rosas.lou.runnables.*;
 
 public class CoffeeMakerControllerV1_2 implements ActionListener,
 KeyListener, ItemListener, WindowListener{
-   private Suscriber _subscriber;
+   private Subscriber _subscriber;
 
    {
-      _suscriber = null;
+      _subscriber = null;
    };
 
    ///////////////////////Constructors////////////////////////////////
@@ -45,10 +45,19 @@ KeyListener, ItemListener, WindowListener{
    //
    public CoffeeMakerControllerV1_2(Subscriber sub){
       this._subscriber = sub;
-      MakerV1_2.instance().addSuscriber(sub);
+      MakerV1_2.instance().addSubscriber(sub);
       //MakerV1_2.instance().power(false);
    }
    
+   ////////////////////////Public Methods/////////////////////////////
+   //
+   //
+   //
+   public void addSubscriber(Subscriber subscriber){
+      this._subscriber = subscriber;
+      MakerV1_2.instance().addSubscriber(this._subscriber);
+   }
+
    //////////////////Interface Implementation/////////////////////////
    ///////////////////////Action Listener/////////////////////////////
    //
@@ -70,9 +79,52 @@ KeyListener, ItemListener, WindowListener{
    //
    //
    //
-   public voide keyTyped(KeyEvent ke){}
+   public void keyTyped(KeyEvent ke){}
 
+   ////////////////////////////Item Listener//////////////////////////
+   //
+   //
+   //
+   public void itemStateChanged(ItemEvent ie){}
 
+   /////////////////////////Window Listener///////////////////////////
+   //
+   //
+   //
+   public void windowActivated(WindowEvent e){}
+
+   //
+   //
+   //
+   public void windowClosed(WindowEvent e){}
+
+   //
+   //
+   //
+   public void windowClosing(WindowEvent e){
+      //Alert the Model to stop pouring the Carafe if such a thing is
+      //occuring
+   }
+
+   //
+   //
+   //
+   public void windowDeactivated(WindowEvent e){}
+
+   //
+   //
+   //
+   public void windowDeiconified(WindowEvent e){}
+
+   //
+   //
+   //
+   public void windowIconified(WindowEvent e){}
+
+   //
+   //
+   //
+   public void windowOpened(WindowEvent e){}
 }
 
 //////////////////////////////////////////////////////////////////////

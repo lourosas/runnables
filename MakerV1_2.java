@@ -108,6 +108,8 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
       Carafe.instance().setObject(this._o);
       //Will need to indicate how to set the default power
       //setting at some point...
+      this.ready(false);
+      this.off(false);
       this._t = new Thread(this);
       this._t.start();
    }
@@ -231,6 +233,30 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    //
    //
+   private void off(boolean toNotify){
+      this._powerState = PowerState.OFF;
+      if(toNotify){
+         //Indicate the Power Changed...
+         this.state(MakerStateMask.POWER);
+         this.notifySubscribers();
+      }
+   }
+
+   //
+   //
+   //
+   private void on(boolean toNotify){
+      this._powerState = PowerState.ON;
+      if(toNotify){
+         //Indicate the Power Changed...
+         this.state(MakerStateMask.POWER);
+         this.notifySubscribers();
+      }
+   }
+
+   //
+   //
+   //
    private void ready(boolean toNotify){
       this._state = State.READY;
       if(toNotify){
@@ -265,8 +291,7 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    //
    public void run(){
-      //int sleepTime          = 100;
-      int sleepTime          = 1000;
+      int sleepTime          = 100;
       int reservoirSleepTime = 1000;
       double amount          = -1.;
       try{
