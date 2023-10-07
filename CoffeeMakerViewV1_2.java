@@ -168,7 +168,11 @@ implements Subscriber{
    //
    //
    public void update(Object o){
-      System.out.println(o);
+      try{
+         TotalState ts = (TotalState)o;
+         System.out.println(ts);
+      }
+      catch(ClassCastException cce){}
    }
 
    //

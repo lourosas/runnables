@@ -63,13 +63,28 @@ KeyListener, ItemListener, WindowListener{
    //
    //
    //
-   public void actionPerformed(ActionEvent e){}
+   public void actionPerformed(ActionEvent e){
+      try{
+         JButton button = (JButton)e.getSource();
+         String command = button.getActionCommand().toUpperCase();
+         System.out.println(command);
+      }
+      catch(ClassCastException cce){}
+   }
 
    //////////////////////////Key Listener/////////////////////////////
    //
    //
    //
-   public void keyPressed(KeyEvent ke){}
+   public void keyPressed(KeyEvent ke){
+      if(ke.getKeyCode() == KeyEvent.VK_ENTER){
+         try{
+            JButton b = (JButton)ke.getSource();
+            b.doClick(130);
+         }
+         catch(ClassCastException cce){}
+      }
+   }
 
    //
    //
@@ -85,7 +100,20 @@ KeyListener, ItemListener, WindowListener{
    //
    //
    //
-   public void itemStateChanged(ItemEvent ie){}
+   public void itemStateChanged(ItemEvent ie){
+      try{
+         JRadioButton radioButton = (JRadioButton)ie.getSource();
+         //if(ie.getStateChange() == ItemEvent.SELECTED){
+         //   System.out.println(radioButton.getActionCommand());
+         //}
+         if(radioButton.isSelected()){
+            String command = radioButton.getActionCommand();
+            command = command.toUpperCase();
+            //Now, need to go ahead and check the command...
+         }
+      }
+      catch(ClassCastException cce){}
+   }
 
    /////////////////////////Window Listener///////////////////////////
    //

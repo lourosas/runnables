@@ -93,7 +93,7 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    //
    //
-   public MakerState state(){
+   public MakerState getState(){
       return this._makerState;
    }
 
@@ -123,7 +123,7 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
          state = this._makerState.state();
       }
       catch(NullPointerException npe){
-         this.state(MakerStateMask.POWER + MakerStateMask.STATE);
+         this.setState();
          state = this._makerState.state();
       }
       return(state.toUpperCase().equals("READY"));
@@ -142,7 +142,7 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
          state = this._makerState.state();
       }
       catch(NullPointerException npe){
-         this.state(MakerStateMask.POWER + MakerStateMask.STATE);
+         this.setState();
          state = this._makerState.state();
       }
       return(state.toUpperCase().equals("BREWING"));
@@ -159,7 +159,7 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
          power = this._makerState.power();
       }
       catch(NullPointerException npe){
-         this.state(MakerStateMask.POWER + MakerStateMask.STATE);
+         this.setState();
          power = this._makerState.power();
       }
       return(power.toUpperCase().equals("OFF"));
@@ -175,7 +175,7 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
          power = this._makerState.power();
       }
       catch(NullPointerException npe){
-         this.state(MakerStateMask.POWER + MakerStateMask.STATE);
+         this.setState();
          power = this._makerState.power();
       }
       return(power.toUpperCase().equals("ON"));
@@ -223,9 +223,9 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    private void brewing(boolean toNotify){
       this._state = State.BREWING;
+      //Indicate the State Changed
+      this.setState();
       if(toNotify){
-         //Indicate the State Changed
-         this.state(MakerStateMask.STATE);
          this.notifySubscribers();
       }
    }
@@ -235,9 +235,9 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    private void off(boolean toNotify){
       this._powerState = PowerState.OFF;
+      //Indicate the Power Changed...
+      this.setState();
       if(toNotify){
-         //Indicate the Power Changed...
-         this.state(MakerStateMask.POWER);
          this.notifySubscribers();
       }
    }
@@ -247,9 +247,9 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    private void on(boolean toNotify){
       this._powerState = PowerState.ON;
+      //Indicate the Power Changed...
+      this.setState();
       if(toNotify){
-         //Indicate the Power Changed...
-         this.state(MakerStateMask.POWER);
          this.notifySubscribers();
       }
    }
@@ -259,9 +259,9 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    private void ready(boolean toNotify){
       this._state = State.READY;
+      //Indicate tHe State changed
+      this.setState();
       if(toNotify){
-         //Indicate tHe State changed
-         this.state(MakerStateMask.STATE);
          this.notifySubscribers();
       }
    }
@@ -269,18 +269,11 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    //
    //
-   private void state(int mask){
+   private void setState(){
       String state      = null;
       String powerState = null;
-      if(mask == MakerStateMask.NONE){}
-      //If the Power State Changes, indicate that...
-      if((mask & MakerStateMask.POWER) != 0){
-         powerState = new String("" + this._powerState);
-      }
-      //If the System State changes, indicate that...
-      if((mask & MakerStateMask.STATE) != 0){
-         state = new String("" + this._state);
-      }
+      powerState = new String("" + this._powerState);
+      state = new String("" + this._state);
       //Just set up the MakerState...
       this._makerState = new MakerState(powerState, state);
    }
@@ -318,7 +311,7 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
                      }
                      finally{
                         int rst = reservoirSleepTime;
-                        this.state(MakerStateMask.NONE);
+                        this.setState();
                         //Notify the suscribers...
                         this.notifySubscribers();
                         amount = this._reservoir.empty(rst);
