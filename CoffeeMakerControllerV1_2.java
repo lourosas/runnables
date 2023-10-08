@@ -67,7 +67,10 @@ KeyListener, ItemListener, WindowListener{
       try{
          JButton button = (JButton)e.getSource();
          String command = button.getActionCommand().toUpperCase();
-         System.out.println(command);
+         if(command.equals("BREW")){
+            System.out.println(command);
+            MakerV1_2.instance().brew();
+         }
       }
       catch(ClassCastException cce){}
    }
