@@ -157,6 +157,8 @@ public class CarafeV1_2 implements Runnable{
    //
    //
    private CarafeV1_2(){
+      //Set up the State
+      this.state(ContainerStateMask.ALL);
       this._t = new Thread(this);
       this._t.start();
       //Wait until the PowerOn Use Case Realization before setting

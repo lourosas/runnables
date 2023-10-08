@@ -64,6 +64,131 @@ implements Subscriber{
    //
    //
    //
+   private void disableSouthButton(String buttonName){
+      String name  = buttonName.trim().toUpperCase();
+      JPanel panel = (JPanel)this.getContentPane().getComponent(2);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         JButton b    = (JButton)panel.getComponent(i);
+         String bname = b.getText().trim().toUpperCase();
+         if(bname.equals(name)){
+            b.setEnabled(false);
+	 }
+      }
+   }
+
+   //
+   //
+   //
+   private void enableSouthButton(String buttonName){
+      String name  = buttonName.trim().toUpperCase();
+      JPanel panel = (JPanel)this.getContentPane().getComponent(2);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         JButton b    = (JButton)panel.getComponent(i);
+         String bname = b.getText().trim().toUpperCase();
+         if(bname.equals(name)){
+            b.setEnabled(true);
+         }
+      }
+   }
+
+   //
+   //
+   //
+   private void reflectStateInButtonPanel(TotalState ts){
+      this.disableSouthButton("BREW");
+      this.disableSouthButton("GET CARAFE");
+      this.disableSouthButton("RETURN CARAFE");
+      this.disableSouthButton("FILL RESERVOIR");
+      try{
+         MakerState ms = ts.makerState();
+         if(ms.power().toUpperCase().equals("OFF")){
+            try{
+               ContainerState cs = ts.carafeState();
+               if(cs.state().toUpperCase().equals("HOME")){
+                  this.enableSouthButton("GET CARAFE");
+                  this.enableSouthButton("FILL RESERVOIR");
+	       }
+               else if(cs.state().toUpperCase().equals("PULLED")){
+                  this.enableSouthButton("RETURN CARAFE");
+                  this.enableSouthButton("FILL RESERVOIR");
+               }
+               else if(cs.state().toUpperCase().equals("POURING")){}
+            }
+            catch(NullPointerException npe){
+               npe.printStackTrace();
+	    }
+         }
+         else{
+            if(ms.state().toUpperCase().equals("READY")){
+               ContainerState cs = ts.carafeState();
+               if(cs.state().toUpperCase().equals("HOME")){
+                  this.enableSouthButton("BREW");
+                  this.enableSouthButton("GET CARAFE");
+                  this.enableSouthButton("FILL RESERVOIR");
+	       }
+               else if(cs.state().toUpperCase().equals("PULLED")){
+                  this.enableSouthButton("RETURN CARAFE");
+                  this.enableSouthButton("FILL RESERVOIR");
+	       }
+            }
+            else if(ms.state().toUpperCase().equals("BREWING")){
+            }
+            catch(NullPointerException npe){
+               npe.printStackTrace();
+	    }
+         }
+      }
+      catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
+   private void reflectStateInCarafePanel(TotalState ts){}
+
+   //
+   //
+   //
+   private void reflectStateInReservoirPanel(TotalState ts){}
+
+   //
+   //
+   //
+   private void reflectStateInTopPanel(TotalState ts){
+      int powerOnIndex        = 0;
+      int powerOffIndex       = 1;
+      int readyLabelIndex     = 2;
+      int brewingLabelIndex   = 3;
+      JPanel top = (JPanel)this.getContentPane().getComponent(0);
+      try{
+         MakerState ms = ts.makerState();
+         if(ms.power().toUpperCase().equals("OFF")){
+            top.getComponent(powerOnIndex).setEnabled(true);
+            top.getComponent(powerOffIndex).setEnabled(true);
+            top.getComponent(readyLabelIndex).setEnabled(false);
+            top.getComponent(brewingLabelIndex).setEnabled(false);
+	 }
+         else{
+            if(ms.state().toUpperCase().equals("READY")){
+               top.getComponent(powerOnIndex).setEnabled(true);
+               top.getComponent(powerOffIndex).setEnabled(true);
+               top.getComponent(readyLabelIndex).setEnabled(true);
+               top.getComponent(brewingLabelIndex).setEnabled(false);
+            }
+            else if(ms.state().toUpperCase().equals("BREWING")){
+               top.getComponent(powerOnIndex).setEnabled(false);
+               top.getComponent(powerOffIndex).setEnabled(false);
+               top.getComponent(readyLabelIndex).setEnabled(false);
+               top.getComponent(brewingLabelIndex).setEnabled(true);
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
    private JPanel setUpCarafeCenterLeftPanel(){
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(3,1));
@@ -204,13 +329,13 @@ implements Subscriber{
       panel.setBorder(BorderFactory.createEtchedBorder());
       this._powerGroup = new ButtonGroup();
 
-      JRadioButton power = new JRadioButton("Power", true);
+      JRadioButton power = new JRadioButton("Power");
       power.setActionCommand("POWER");
       this._powerGroup.add(power);
       power.addItemListener(this._controller);
       panel.add(power);
 
-      JRadioButton off = new JRadioButton("Power Off");
+      JRadioButton off = new JRadioButton("Power Off", true);
       off.setActionCommand("OFF");
       this._powerGroup.add(off);
       off.addItemListener(this._controller);
@@ -349,9 +474,13 @@ implements Subscriber{
    public void update(Object o){
       try{
          TotalState ts = (TotalState)o;
-         System.out.println(ts);
+         this.reflectStateInTopPanel(ts);
+         this.reflectStateInCarafePanel(ts);
+         this.reflectStateInReservoirPanel(ts);
+         this.reflectStateInButtonPanel(ts);
       }
       catch(ClassCastException cce){}
+      catch(NullPointerException npe){}
    }
 
    //
