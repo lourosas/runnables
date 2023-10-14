@@ -107,7 +107,7 @@ implements Subscriber{
                if(cs.state().toUpperCase().equals("HOME")){
                   this.enableSouthButton("GET CARAFE");
                   this.enableSouthButton("FILL RESERVOIR");
-	       }
+               }
                else if(cs.state().toUpperCase().equals("PULLED")){
                   this.enableSouthButton("RETURN CARAFE");
                   this.enableSouthButton("FILL RESERVOIR");
@@ -116,26 +116,40 @@ implements Subscriber{
             }
             catch(NullPointerException npe){
                npe.printStackTrace();
-	    }
+            }
          }
          else{
-            if(ms.state().toUpperCase().equals("READY")){
+            try{
                ContainerState cs = ts.carafeState();
-               if(cs.state().toUpperCase().equals("HOME")){
-                  this.enableSouthButton("BREW");
-                  this.enableSouthButton("GET CARAFE");
-                  this.enableSouthButton("FILL RESERVOIR");
-	       }
-               else if(cs.state().toUpperCase().equals("PULLED")){
-                  this.enableSouthButton("RETURN CARAFE");
-                  this.enableSouthButton("FILL RESERVOIR");
-	       }
-            }
-            else if(ms.state().toUpperCase().equals("BREWING")){
+               if(ms.state().toUpperCase().equals("READY")){
+                  String csString = cs.state().toUpperCase();
+                  if(csString.equals("HOME")){
+                     this.enableSouthButton("BREW");
+                     this.enableSouthButton("GET CARAFE");
+                     this.enableSouthButton("FILL RESERVOIR");
+                  }
+                  else if(csString.equals("PULLED")){
+                     this.enableSouthButton("RETURN CARAFE");
+                     this.enableSouthButton("FILL RESERVOIR");
+                  }
+                  else if(csString.equals("POURING")){
+                  }
+               }
+               else if(ms.state().toUpperCase().equals("BREWING")){
+                  String csString = cs.state().toUpperCase();
+                  if(csString.equals("HOME")){
+                     this.enableSouthButton("GET CARAFE");
+                     this.enableSouthButton("FILL RESERVOIR");
+                  }
+                  else if(csString.equals("PULLED")){
+                     this.enableSouthButton("RETURN CARAFE");
+                  }
+                  else if(csString.equals("POURING")){}
+               }
             }
             catch(NullPointerException npe){
                npe.printStackTrace();
-	    }
+            }
          }
       }
       catch(NullPointerException npe){}
@@ -147,9 +161,48 @@ implements Subscriber{
    private void reflectStateInCarafePanel(TotalState ts){}
 
    //
+   //Set the entire Reservoir State here...
    //
-   //
-   private void reflectStateInReservoirPanel(TotalState ts){}
+   private void reflectStateInReservoirPanel(TotalState ts){
+      MakerState ms = ts.makerState();
+      try{
+         //Set up the Left Side
+         JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+         JPanel rightPanel  = (JPanel)panel.getComponent(1);
+         JPanel centerPanel = (JPanel)rightPanel.getComponent(1);
+         JPanel statePanel  = (JPanel)centerPanel.getComponent(0);
+         JPanel resPanel    = (JPanel)centerPanel.getComponent(1);
+         JProgressBar bar   = (JProgressBar)resPanel.getComponent(1);
+         JPanel amountPanel = (JPanel)statePanel.getComponent(0);
+         JLabel amountLabel = (JLabel)amountPanel.getComponent(0);
+         JLabel capacityLabel=(JLabel)amountPanel.getComponent(1);
+         String amnt = amountLabel.getText().substring(0,7);
+         String cap  = capacityLabel.getText().substring(0,9);
+         ContainerState rs  = ts.reservoirState();
+         double capacity    = rs.capacity();
+         double quantity    = rs.quantity();
+         try{
+            String power = ms.power().toUpperCase();
+            if(power.equals("ON")){}
+            else if(power.equals("OFF")){
+               capacityLabel.setEnabled(false);
+               amountLabel.setEnabled(false);
+               amountLabel.setText(amnt);
+               capacityLabel.setText(cap);
+            }
+            if(capacity > 0.){
+               bar.setMaximum((int)capacity);
+            }
+            bar.setValue((int)quantity);
+            this.getContentPane().validate();
+            this.getContentPane().repaint();
+         }
+         catch(NullPointerException npe){
+            npe.printStackTrace();
+         }
+      }
+      catch(NullPointerException npe){}
+   }
 
    //
    //

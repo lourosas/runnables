@@ -49,8 +49,8 @@ public class ReservoirV1_2 extends Reservoir{
    //
    //
    public ReservoirV1_2(){
-      //Set up the State
-      this.state(ContainerStateMask.ALL);
+      //Wait until the PowerOn Use Case Realization before setting
+      //the initial State
    }
 
    ////////////////////////Public Methods/////////////////////////////
