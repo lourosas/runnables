@@ -100,6 +100,7 @@ implements Subscriber{
       this.disableSouthButton("RETURN CARAFE");
       this.disableSouthButton("FILL RESERVOIR");
       try{
+         System.out.println(ts);
          MakerState ms = ts.makerState();
          if(ms.power().toUpperCase().equals("OFF")){
             try{
@@ -158,7 +159,46 @@ implements Subscriber{
    //
    //
    //
-   private void reflectStateInCarafePanel(TotalState ts){}
+   private void reflectStateInCarafePanel(TotalState ts){
+      MakerState ms = ts.makerState();
+      try{
+         System.out.println(ts);
+         JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+         JPanel leftPanel = (JPanel)panel.getComponent(0);
+         JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
+         JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+         JPanel resPanel = (JPanel)centerPanel.getComponent(1);
+         JProgressBar bar= (JProgressBar)resPanel.getComponent(1);
+         JPanel amountPanel= (JPanel)statePanel.getComponent(0);
+         JLabel amountLabel= (JLabel)amountPanel.getComponent(0);
+         JLabel capacityLabel=(JLabel)amountPanel.getComponent(1);
+         String amnt = amountLabel.getText().substring(0,7);
+         String cap  = capacityLabel.getText().substring(0,9);
+         ContainerState cs = ts.carafeState();
+         double capacity   = cs.capacity();
+         double quantity   = cs.quantity();
+         try{
+            String power = ms.power().toUpperCase();
+            if(power.equals("ON")){}
+            else if(power.equals("OFF")){
+               amountLabel.setEnabled(false);
+               capacityLabel.setEnabled(false);
+               amountLabel.setText(amnt);
+               capacityLabel.setText(cap);
+	    }
+            if(capacity > 0.){
+               bar.setMaximum((int)capacity);
+            }
+            bar.setValue((int)quantity);
+            this.getContentPane().validate();
+            this.getContentPane().repaint();
+         }
+         catch(NullPointerException npe){
+            npe.printStackTrace();
+         }
+      }
+      catch(NullPointerException npe){}
+   }
 
    //
    //Set the entire Reservoir State here...
@@ -166,6 +206,7 @@ implements Subscriber{
    private void reflectStateInReservoirPanel(TotalState ts){
       MakerState ms = ts.makerState();
       try{
+         System.out.println(ts);
          //Set up the Left Side
          JPanel panel = (JPanel)this.getContentPane().getComponent(1);
          JPanel rightPanel  = (JPanel)panel.getComponent(1);
@@ -214,6 +255,8 @@ implements Subscriber{
       int brewingLabelIndex   = 3;
       JPanel top = (JPanel)this.getContentPane().getComponent(0);
       try{
+         //Test Prints
+	 System.out.println(ts);
          MakerState ms = ts.makerState();
          if(ms.power().toUpperCase().equals("OFF")){
             top.getComponent(powerOnIndex).setEnabled(true);

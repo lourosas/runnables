@@ -105,15 +105,19 @@ KeyListener, ItemListener, WindowListener{
    //
    public void itemStateChanged(ItemEvent ie){
       try{
-         JRadioButton radioButton = (JRadioButton)ie.getSource();
+         JRadioButton jrb = (JRadioButton)ie.getSource();
          //if(ie.getStateChange() == ItemEvent.SELECTED){
          //   System.out.println(radioButton.getActionCommand());
          //}
-         if(radioButton.isSelected()){
-            String command = radioButton.getActionCommand();
-            command = command.toUpperCase();
-            //Now, need to go ahead and check the command...
-         }
+         if(jrb.isSelected()){
+            String command = jrb.getActionCommand().toUpperCase();
+            if(command.equals("POWER")){
+               MakerV1_2.instance().power(true);
+            }
+            else if(command.equals("OFF")){
+               MakerV1_2.instance().power(false);
+            }
+	 }
       }
       catch(ClassCastException cce){}
    }
