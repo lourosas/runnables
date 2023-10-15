@@ -97,9 +97,13 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
       return this._makerState;
    }
 
+   //
+   //
+   //
    public void power(boolean turnOn){
-      System.out.println(turnOn);
-      if(turnOn && isPowerOff()){}
+      if(turnOn && isPowerOff()){
+         this.on(true);
+      }
       else if(!turnOn && isPowerOn()){}
    }
 
