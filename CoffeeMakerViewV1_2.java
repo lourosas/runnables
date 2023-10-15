@@ -172,6 +172,15 @@ implements Subscriber{
          JPanel amountPanel= (JPanel)statePanel.getComponent(0);
          JLabel amountLabel= (JLabel)amountPanel.getComponent(0);
          JLabel capacityLabel=(JLabel)amountPanel.getComponent(1);
+         JPanel carafePanel = (JPanel)statePanel.getComponent(1);
+         JLabel in          = (JLabel)carafePanel.getComponent(0);
+         JLabel out         = (JLabel)carafePanel.getComponent(1);
+         JLabel pouring     = (JLabel)carafePanel.getComponent(2);
+         amountLabel.setEnabled(false);
+         capacityLabel.setEnabled(false);
+         in.setEnabled(false);
+         out.setEnabled(false);
+         pouring.setEnabled(false);
          String amnt = amountLabel.getText().substring(0,7);
          String cap  = capacityLabel.getText().substring(0,9);
          ContainerState cs = ts.carafeState();
@@ -179,10 +188,24 @@ implements Subscriber{
          double quantity   = cs.quantity();
          try{
             String power = ms.power().toUpperCase();
-            if(power.equals("ON")){}
+            if(power.equals("ON")){
+               amountLabel.setEnabled(true);
+               capacityLabel.setEnabled(true);
+               amountLabel.setText(amnt + " " + quantity);
+               capacityLabel.setText(cap + " " + capacity);
+               System.out.println(cs.state().toUpperCase());
+               String carafeState = cs.state().toUpperCase();
+               if(carafeState.equals("HOME")){
+                  in.setEnabled(true);
+               }
+               else if(carafeState.equals("PULLED")){
+                  out.setEnabled(true);
+               }
+               else if(carafeState.equals("POURING")){
+                  pouring.setEnabled(true);
+               }
+            }
             else if(power.equals("OFF")){
-               amountLabel.setEnabled(false);
-               capacityLabel.setEnabled(false);
                amountLabel.setText(amnt);
                capacityLabel.setText(cap);
 	    }
@@ -224,7 +247,12 @@ implements Subscriber{
          double quantity    = rs.quantity();
          try{
             String power = ms.power().toUpperCase();
-            if(power.equals("ON")){}
+            if(power.equals("ON")){
+               amountLabel.setEnabled(true);
+               capacityLabel.setEnabled(true);
+               amountLabel.setText(amnt + " " + quantity);
+               capacityLabel.setText(cap + " " + capacity);
+            }
             else if(power.equals("OFF")){
                capacityLabel.setEnabled(false);
                amountLabel.setEnabled(false);
