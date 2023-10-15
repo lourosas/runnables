@@ -110,6 +110,19 @@ implements Subscriber{
    //
    //
    //
+   private void handleOverflowException(OverflowException oe){
+      String message = new String("Reservoir is OVERFLOWING!!\n");
+      message += "Possible mess needing\n";
+      message += "clean up...";
+      JOptionPane.showMessageDialog(this,
+                                    message,
+                                    "RESERVOIR OVERFLOWING!!",
+                                    JOptionPane.WARNING_MESSAGE);
+   }
+
+   //
+   //
+   //
    private void reflectStateInButtonPanel(TotalState ts){
       this.disableSouthButton("BREW");
       this.disableSouthButton("GET CARAFE");
@@ -631,6 +644,11 @@ implements Subscriber{
       try{
           EmptyReservoirException ere = (EmptyReservoirException)re;
           this.handleEmptyReservoirException(ere);
+      }
+      catch(ClassCastException cce){}
+      try{
+         OverflowException oe = (OverflowException)re;
+         this.handleOverflowException(oe);
       }
       catch(ClassCastException cce){}
    }

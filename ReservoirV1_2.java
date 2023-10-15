@@ -86,6 +86,22 @@ public class ReservoirV1_2 extends Reservoir{
       }
       return amount;
    }
+
+   //
+   //
+   //
+   public void fill(double amount) throws OverflowException{
+      if(amount > EMPTY){
+         this.quantity(this.quantity() + amount);
+         this.setFilled();
+         this.state(ContainerStateMask.ALL);//Best to do this!!
+         if(this.quantity() > this.capacity()){
+            this.quantity(this.capacity());
+            this.state(ContainerStateMask.ALL);//Best to do this!!
+            throw new OverflowException("Reservoir Overflowing");
+         }
+      }
+   }
    
    //
    //

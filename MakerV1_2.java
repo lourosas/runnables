@@ -94,7 +94,22 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    //
    public void fillReservoir(double amount){
-      System.out.println(amount);
+      try{
+         try{
+            this._reservoir.fill(amount);
+         }
+         catch(OverflowException oe){
+            this.notifySubscribersOfException(oe);
+            //this.notifySubscribers();-->send in the Carafe State,
+            //as well...
+         }
+         finally{
+            this.notifySubscribers();
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
    }
 
    //
