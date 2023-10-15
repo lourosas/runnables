@@ -93,6 +93,13 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    //
    //
+   public void fillReservoir(double amount){
+      System.out.println(amount);
+   }
+
+   //
+   //
+   //
    public MakerState getState(){
       return this._makerState;
    }
@@ -104,7 +111,9 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
       if(turnOn && isPowerOff()){
          this.on(true);
       }
-      else if(!turnOn && isPowerOn()){}
+      else if(!turnOn && isPowerOn()){
+         this.off(true);
+      }
    }
 
    ///////////////////////////Private Methods/////////////////////////

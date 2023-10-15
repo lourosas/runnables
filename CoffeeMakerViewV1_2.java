@@ -94,13 +94,28 @@ implements Subscriber{
    //
    //
    //
+   private void handleEmptyReservoirException
+   (
+      EmptyReservoirException ere 
+   ){
+      String message = new String("Please Fill the Reservoir\n");
+      message += "By Pressing the \"Fill Reservoir\"\n";
+      message += "Button in the Button Panel";
+      JOptionPane.showMessageDialog(this,
+                                    message,
+                                    "EMPTY RESERVOIR!!!",
+                                    JOptionPane.WARNING_MESSAGE);
+   }
+
+   //
+   //
+   //
    private void reflectStateInButtonPanel(TotalState ts){
       this.disableSouthButton("BREW");
       this.disableSouthButton("GET CARAFE");
       this.disableSouthButton("RETURN CARAFE");
       this.disableSouthButton("FILL RESERVOIR");
       try{
-         System.out.println(ts);
          MakerState ms = ts.makerState();
          if(ms.power().toUpperCase().equals("OFF")){
             try{
@@ -162,7 +177,6 @@ implements Subscriber{
    private void reflectStateInCarafePanel(TotalState ts){
       MakerState ms = ts.makerState();
       try{
-         System.out.println(ts);
          JPanel panel = (JPanel)this.getContentPane().getComponent(1);
          JPanel leftPanel = (JPanel)panel.getComponent(0);
          JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
@@ -193,7 +207,6 @@ implements Subscriber{
                capacityLabel.setEnabled(true);
                amountLabel.setText(amnt + " " + quantity);
                capacityLabel.setText(cap + " " + capacity);
-               System.out.println(cs.state().toUpperCase());
                String carafeState = cs.state().toUpperCase();
                if(carafeState.equals("HOME")){
                   in.setEnabled(true);
@@ -229,7 +242,6 @@ implements Subscriber{
    private void reflectStateInReservoirPanel(TotalState ts){
       MakerState ms = ts.makerState();
       try{
-         System.out.println(ts);
          //Set up the Left Side
          JPanel panel = (JPanel)this.getContentPane().getComponent(1);
          JPanel rightPanel  = (JPanel)panel.getComponent(1);
@@ -284,7 +296,6 @@ implements Subscriber{
       JPanel top = (JPanel)this.getContentPane().getComponent(0);
       try{
          //Test Prints
-	 System.out.println(ts);
          MakerState ms = ts.makerState();
          if(ms.power().toUpperCase().equals("OFF")){
             top.getComponent(powerOnIndex).setEnabled(true);
@@ -617,7 +628,11 @@ implements Subscriber{
    //
    //
    public void error(RuntimeException re){
-      System.out.println(re.getMessage());
+      try{
+          EmptyReservoirException ere = (EmptyReservoirException)re;
+          this.handleEmptyReservoirException(ere);
+      }
+      catch(ClassCastException cce){}
    }
 
    //

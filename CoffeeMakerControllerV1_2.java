@@ -58,6 +58,47 @@ KeyListener, ItemListener, WindowListener{
       MakerV1_2.instance().addSubscriber(this._subscriber);
    }
 
+   ///////////////////////Private Methods/////////////////////////////
+   //
+   //
+   //
+   public void reservoirFill(){
+      Double amount  = null;
+      String s       = null;
+      boolean toLoop = true;
+      do{
+         try{
+            s = JOptionPane.showInputDialog(
+                   (JFrame)this._subscriber,
+                   "Fill Amount",
+                   "Filling the Reservoir for Brewing",
+                   JOptionPane.QUESTION_MESSAGE);
+            MakerV1_2.instance().fillReservoir(Double.parseDouble(s));
+            toLoop = false;
+         }
+         catch(HeadlessException he){
+            he.printStackTrace();
+         }
+         catch(NullPointerException npe){
+            toLoop = false;
+         }
+         catch(NumberFormatException nfe){
+            //alert the user to input a number
+            //Show an error dialog
+            if(s.length() > 0){
+               JOptionPane.showMessageDialog(
+                  (JFrame)this._subscriber,
+                  "Please Enter a Number",
+                  "Error",
+                  JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+               toLoop = false;
+            }
+         }
+      }while(toLoop);
+   }
+
    //////////////////Interface Implementation/////////////////////////
    ///////////////////////Action Listener/////////////////////////////
    //
@@ -68,8 +109,10 @@ KeyListener, ItemListener, WindowListener{
          JButton button = (JButton)e.getSource();
          String command = button.getActionCommand().toUpperCase();
          if(command.equals("BREW")){
-            System.out.println(command);
             MakerV1_2.instance().brew();
+         }
+         else if(command.equals("RESERVOIR FILL")){
+            this.reservoirFill();
          }
       }
       catch(ClassCastException cce){}
