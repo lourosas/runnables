@@ -72,7 +72,7 @@ implements Subscriber{
          String bname = b.getText().trim().toUpperCase();
          if(bname.equals(name)){
             b.setEnabled(false);
-	 }
+         }
       }
    }
 

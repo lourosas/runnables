@@ -114,6 +114,9 @@ KeyListener, ItemListener, WindowListener{
          else if(command.equals("RESERVOIR FILL")){
             this.reservoirFill();
          }
+         else{
+            System.out.println(command);
+         }
       }
       catch(ClassCastException cce){}
    }
