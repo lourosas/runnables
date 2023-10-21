@@ -218,8 +218,12 @@ implements Subscriber{
             if(power.equals("ON")){
                amountLabel.setEnabled(true);
                capacityLabel.setEnabled(true);
-               amountLabel.setText(amnt + " " + quantity);
-               capacityLabel.setText(cap + " " + capacity);
+               if(!Double.isNaN(quantity)){
+                  amountLabel.setText(amnt + " " + quantity);
+               }
+               if(!Double.isNaN(capacity)){
+                  capacityLabel.setText(cap + " " + capacity);
+               }
                String carafeState = cs.state().toUpperCase();
                if(carafeState.equals("HOME")){
                   in.setEnabled(true);
@@ -234,11 +238,13 @@ implements Subscriber{
             else if(power.equals("OFF")){
                amountLabel.setText(amnt);
                capacityLabel.setText(cap);
-	    }
-            if(capacity > 0.){
+            }
+            if(!Double.isNaN(capacity)){
                bar.setMaximum((int)capacity);
             }
-            bar.setValue((int)quantity);
+            if(!Double.isNaN(quantity)){
+               bar.setValue((int)quantity);
+            }
             this.getContentPane().validate();
             this.getContentPane().repaint();
          }
@@ -275,8 +281,12 @@ implements Subscriber{
             if(power.equals("ON")){
                amountLabel.setEnabled(true);
                capacityLabel.setEnabled(true);
-               amountLabel.setText(amnt + " " + quantity);
-               capacityLabel.setText(cap + " " + capacity);
+               if(!Double.isNaN(quantity)){
+                  amountLabel.setText(amnt + " " + quantity);
+               }
+               if(!Double.isNaN(capacity)){
+                  capacityLabel.setText(cap + " " + capacity);
+               }
             }
             else if(power.equals("OFF")){
                capacityLabel.setEnabled(false);
@@ -284,10 +294,12 @@ implements Subscriber{
                amountLabel.setText(amnt);
                capacityLabel.setText(cap);
             }
-            if(capacity > 0.){
+            if(!Double.isNaN(capacity)){
                bar.setMaximum((int)capacity);
             }
-            bar.setValue((int)quantity);
+            if(!Double.isNaN(quantity)){
+               bar.setValue((int)quantity);
+            }
             this.getContentPane().validate();
             this.getContentPane().repaint();
          }

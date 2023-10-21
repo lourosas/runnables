@@ -30,8 +30,8 @@ public class CarafeState implements ContainerState{
 
    {
       _mask     = ContainerStateMask.NONE;
-      _capacity =   0.;
-      _quantity =   0.;
+      _capacity =   Double.NaN;
+      _quantity =   Double.NaN;
       _state    = null;      
    };
 
@@ -40,10 +40,10 @@ public class CarafeState implements ContainerState{
       if(state != null){
          this.state(state);
       }
-      if(capacity > 0.){
+      if(!Double.isNaN(capacity)){
          this.capacity(capacity);
       }
-      if(quantity > 0.){
+      if(!Double.isNaN(quantity)){
          this.quantity(quantity);
       }
    }

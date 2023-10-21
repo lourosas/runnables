@@ -117,8 +117,8 @@ public class ReservoirV1_2 extends Reservoir{
    private void state(int mask){
       //Tell the Model what has changed...
       String state    = null;
-      double capacity = -1.;
-      double quantity = -1.;
+      double capacity = Double.NaN;
+      double quantity = Double.NaN;
       if(mask == ContainerStateMask.NONE){}
       if((mask & ContainerStateMask.STATE) != 0){
          if(this.isStartup()){

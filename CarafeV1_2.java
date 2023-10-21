@@ -198,8 +198,8 @@ public class CarafeV1_2 implements Runnable{
    private void state(int mask){
       //Tell the Model what changed...
       String state     = null;
-      double capacity  = -1.;
-      double quantity  = -1.;
+      double capacity  = Double.NaN;
+      double quantity  = Double.NaN;
       if(mask == ContainerStateMask.NONE){}
       if((mask & ContainerStateMask.STATE)    != 0){
          state = new String("" + this._state);
