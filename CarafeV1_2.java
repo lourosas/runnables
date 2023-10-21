@@ -70,13 +70,15 @@ public class CarafeV1_2 implements Runnable{
    public void fill(double amount)throws NotHomeException,
    OverflowException{
       if(this.isHome()){
+         int mask = ContainerStateMask.STATE;
+         mask += ContainerStateMask.QUANTITY;
          double quant = amount + this.quantity();
          this.quantity(quant);
-         this.state(ContainerStateMask.QUANTITY);
+         this.state(mask);
          if(quant > this.capacity()){
             this.quantity(this.capacity());
             //May not need this...
-            this.state(ContainerStateMask.QUANTITY);
+            this.state(mask);
             throw new OverflowException("Overflow Exception: Carafe");
          }
       }

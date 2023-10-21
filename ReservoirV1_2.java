@@ -63,7 +63,7 @@ public class ReservoirV1_2 extends Reservoir{
       double amount = 0.;
       if(this.quantity() > this.emptyCheck()){
          amount = elapsedMillis*SECSPERMILLIS*this.emptyRate();
-         if(this.quantity() - amount <= ZERO){
+         if((this.quantity() - amount <= ZERO)){
             amount = this.quantity();
          }
          this.quantity(this.quantity() - amount);
