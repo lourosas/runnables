@@ -111,12 +111,22 @@ implements Subscriber{
    //
    //
    private void handleOverflowException(OverflowException oe){
-      String message = new String("Reservoir is OVERFLOWING!!\n");
-      message += "Possible mess needing\n";
-      message += "clean up...";
+      String message   = null;
+      String error     = null;
+      String exception = oe.getMessage().toUpperCase();
+      if(exception.contains("CARAFE")){
+         error   = new String("CARAFE OVERFLOWING!!");
+         message = new String("Carafe is OVERFLOWING!!\n");
+      }
+      else if(exception.contains("RESERVOIR")){
+         error   = new String("RESERVOIR OVERFLOWING!!");
+         message = new String("Reservoir is OVERFLOWING!!\n");
+         message += "Possible mess needing\n";
+         message += "clean up...";
+      }
       JOptionPane.showMessageDialog(this,
                                     message,
-                                    "RESERVOIR OVERFLOWING!!",
+                                    error,
                                     JOptionPane.WARNING_MESSAGE);
    }
 
@@ -660,6 +670,7 @@ implements Subscriber{
       catch(ClassCastException cce){}
       try{
          OverflowException oe = (OverflowException)re;
+         String message = oe.getMessage().toUpperCase();
          this.handleOverflowException(oe);
       }
       catch(ClassCastException cce){}

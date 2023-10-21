@@ -98,7 +98,8 @@ public class ReservoirV1_2 extends Reservoir{
          if(this.quantity() > this.capacity()){
             this.quantity(this.capacity());
             this.state(ContainerStateMask.ALL);//Best to do this!!
-            throw new OverflowException("Reservoir Overflowing");
+            String exc = "Overflow Exception: Reservoir";
+            throw new OverflowException(exc);
          }
       }
    }
