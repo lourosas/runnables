@@ -122,6 +122,11 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    //
    //
+   public void pourCoffeeIntoMug(Mug mug){}
+
+   //
+   //
+   //
    public void power(boolean turnOn){
       if(turnOn && isPowerOff()){
          this.on(true);

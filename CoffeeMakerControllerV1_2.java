@@ -62,7 +62,49 @@ KeyListener, ItemListener, WindowListener{
    //
    //
    //
-   public void reservoirFill(){
+   private Mug setUpMug(){
+      Mug     mug    = null;
+      String  s      = null;
+      boolean toLoop = true;
+      do{
+         try{
+            s = JOptionPane.showInputDialog(
+                   (JFrame)this._subscriber,
+                   "Mug Size",
+                   "Enter the Mug Size",
+                   JOptionPane.QUESTION_MESSAGE);
+            double amount = Double.parseDouble(s);
+            mug           = new Mug((int)amount, this);
+            toLoop        = false;
+         }
+         catch(HeadlessException he){
+            he.printStackTrace();
+         }
+         catch(NullPointerException npe){
+            toLoop = false;
+         }
+         catch(NumberFormatException nfe){
+            //alert the User to input a number
+            //show the error dialog
+            if(s.length() > 0){
+               JOptionPane.showMessageDialog(
+                                      (JFrame)this._subscriber,
+                                      "Please Enter a Number",
+                                      "Error",
+                                      JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+               toLoop = false;
+            }
+         }
+      }while(toLoop);
+      return mug;
+   }
+
+   //
+   //
+   //
+   private void reservoirFill(){
       Double amount  = null;
       String s       = null;
       boolean toLoop = true;
@@ -121,9 +163,9 @@ KeyListener, ItemListener, WindowListener{
             MakerV1_2.instance().returnCarafe();
          }
          else if(command.equals("POUR")){
-         
+            Mug mug = this.setUpMug();
+            MakerV1_2.instance().pourCoffeeIntoMug(mug);
          }
-         else{ System.out.println(command); }
       }
       catch(ClassCastException cce){}
    }
@@ -190,8 +232,7 @@ KeyListener, ItemListener, WindowListener{
    //
    //
    public void windowClosing(WindowEvent e){
-      //Alert the Model to stop pouring the Carafe if such a thing is
-      //occuring
+      //MakerV1_2.instance().stopPour();
    }
 
    //
