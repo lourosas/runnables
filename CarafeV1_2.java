@@ -70,8 +70,7 @@ public class CarafeV1_2 implements Runnable{
    public void fill(double amount)throws NotHomeException,
    OverflowException{
       if(this.isHome()){
-         int mask = ContainerStateMask.STATE;
-         mask += ContainerStateMask.QUANTITY;
+         int mask = ContainerStateMask.ALL;
          double quant = amount + this.quantity();
          this.quantity(quant);
          this.state(mask);
