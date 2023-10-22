@@ -117,6 +117,13 @@ KeyListener, ItemListener, WindowListener{
          else if(command.equals("GET")){
             MakerV1_2.instance().pullCarafe();
          }
+         else if(command.equals("RETURN")){
+            MakerV1_2.instance().returnCarafe();
+         }
+         else if(command.equals("POUR")){
+         
+         }
+         else{ System.out.println(command); }
       }
       catch(ClassCastException cce){}
    }

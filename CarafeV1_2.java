@@ -122,7 +122,7 @@ public class CarafeV1_2 implements Runnable{
    //
    //
    public void pull()throws NotHomeException{
-      int mask = ContainerStateMask.STATE;
+      int mask = ContainerStateMask.ALL;
       if(!this.isHome()){
          throw new NotHomeException("Not Home Exception: Carafe");
       }
@@ -137,7 +137,10 @@ public class CarafeV1_2 implements Runnable{
       //Only return when instance is in the PULLED State, not the
       //HOME nor POURING States
       if(this.isPulled()){
+         //Just keep it like this...
+         int mask = ContainerStateMask.ALL;
          this.setHome();
+         this.state(mask);
          synchronized(this._o){
             this._o.notify();
          }

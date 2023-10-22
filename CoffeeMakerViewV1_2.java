@@ -213,11 +213,16 @@ implements Subscriber{
          JLabel in          = (JLabel)carafePanel.getComponent(0);
          JLabel out         = (JLabel)carafePanel.getComponent(1);
          JLabel pouring     = (JLabel)carafePanel.getComponent(2);
+         JPanel buttonPanel = (JPanel)statePanel.getComponent(2);
+         JButton pour       = (JButton)buttonPanel.getComponent(0);
+         JButton stop       = (JButton)buttonPanel.getComponent(2);
          amountLabel.setEnabled(false);
          capacityLabel.setEnabled(false);
          in.setEnabled(false);
          out.setEnabled(false);
          pouring.setEnabled(false);
+         pour.setEnabled(false);
+         stop.setEnabled(false);
          String amnt = amountLabel.getText().substring(0,7);
          String cap  = capacityLabel.getText().substring(0,9);
          ContainerState cs = ts.carafeState();
@@ -240,9 +245,11 @@ implements Subscriber{
                }
                else if(carafeState.equals("PULLED")){
                   out.setEnabled(true);
+                  pour.setEnabled(true);
                }
                else if(carafeState.equals("POURING")){
                   pouring.setEnabled(true);
+                  stop.setEnabled(true);
                }
             }
             else if(power.equals("OFF")){

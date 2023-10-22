@@ -147,6 +147,15 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
       }
    }
 
+   //
+   //
+   //
+   public void returnCarafe(){
+      CarafeV1_2.instance().putback();
+      this.setState();
+      this.notifySubscribers();
+   }
+
    ///////////////////////////Private Methods/////////////////////////
    //////////////////////////////Constructor//////////////////////////
    //
@@ -155,7 +164,7 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    private MakerV1_2(){
       this._reservoir = new ReservoirV1_2();
       this._o         = new Object();
-      Carafe.instance().setObject(this._o);
+      CarafeV1_2.instance().setObject(this._o);
       //Will need to indicate how to set the default power
       //setting at some point...
       this.ready(false);
