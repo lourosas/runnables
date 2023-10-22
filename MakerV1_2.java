@@ -131,6 +131,22 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
       }
    }
 
+   //
+   //
+   //
+   public void pullCarafe(){
+      try{
+         CarafeV1_2.instance().pull();
+      }
+      catch(NotHomeException nhe){
+         this.notifySubscribersOfException(nhe);
+      }
+      finally{
+         this.setState();
+         this.notifySubscribers();
+      }
+   }
+
    ///////////////////////////Private Methods/////////////////////////
    //////////////////////////////Constructor//////////////////////////
    //

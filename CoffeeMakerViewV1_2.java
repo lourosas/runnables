@@ -674,6 +674,12 @@ implements Subscriber{
          this.handleOverflowException(oe);
       }
       catch(ClassCastException cce){}
+      try{
+         NotHomeException nhe = (NotHomeException)re;
+         //Test Print, remove post testing...
+         System.out.println(nhe.getMessage());
+      }
+      catch(ClassCastException cce){}
    }
 
    //

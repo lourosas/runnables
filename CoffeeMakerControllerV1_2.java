@@ -114,8 +114,8 @@ KeyListener, ItemListener, WindowListener{
          else if(command.equals("RESERVOIR FILL")){
             this.reservoirFill();
          }
-         else{
-            System.out.println(command);
+         else if(command.equals("GET")){
+            MakerV1_2.instance().pullCarafe();
          }
       }
       catch(ClassCastException cce){}

@@ -83,7 +83,7 @@ public class CarafeV1_2 implements Runnable{
          }
       }
       else{
-         throw new NotHomeException("Carafe Not Home");
+         throw new NotHomeException("Not Home Exception: Carafe");
       }
    }
 
@@ -119,6 +119,17 @@ public class CarafeV1_2 implements Runnable{
    }
 
    //
+   //
+   //
+   public void pull()throws NotHomeException{
+      int mask = ContainerStateMask.STATE;
+      if(!this.isHome()){
+         throw new NotHomeException("Not Home Exception: Carafe");
+      }
+      this.setPulled();
+      this.state(mask);
+   }
+
    //
    //
    //
