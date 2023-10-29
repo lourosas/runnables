@@ -204,6 +204,35 @@ public class CarafeV1_2 implements Runnable{
    //
    //
    //
+   private double empty(int elapsedMillis)throws EmptyCarafeException{
+      final double SECSPERMILLIS = 0.001;
+      double amount = 0.;
+      if(this.quantity() > this.EMPTY){
+         amount = elapsedMillis*SECSPERMILLIS*this.emptyRate();
+         if(this.quantity() - amount <= 0){
+            amount = this.quantity();
+         }
+         this.quantity(this.quantity() - amount);
+         this.state(ContainerStateMask.ALL);
+      }
+      else{
+         String empty = new String("Carafe Empty");
+         this.state(ContainerStateMask.ALL);
+         throw new EmptyCarafeException(empty);
+      }
+      return amount;
+   }
+
+   //
+   //
+   //
+   private double emptyRate(){
+      return this._emptyRate;
+   }
+
+   //
+   //
+   //
    private void quantity(double amount){
       this._quantity = amount;
    }
@@ -261,7 +290,24 @@ public class CarafeV1_2 implements Runnable{
       boolean toContinue = false;
       try{
          while(true){
-            if(this.isPouring()){}
+            /*
+            toContinue = true;
+            while(this.isPouring()){
+               try{
+                  if(toContinue){
+                     double amount = this.empty(pourSleepTime);
+                     System.out.println(amount);
+                     Thread.sleep(pourSleepTime);
+                  }
+                  else{
+                     Thread.sleep(sleepTime);
+                  }
+               }
+               catch(EmptyCarafeException ece){
+                  toContinue = false;
+               }
+	    }
+            */
             Thread.sleep(sleepTime);
          }
       }
