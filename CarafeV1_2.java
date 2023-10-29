@@ -124,15 +124,15 @@ public class CarafeV1_2 implements Runnable{
       int mask = ContainerStateMask.ALL;
       if(!this.isPulled()){
          String error = new String("Not Pulled Exception: Carafe ");
-         this._mug    = null;
+         this._mug.noLongerNeeded();
+         this._mug = null;
          if(this.isHome()){
             error += "Home";
          }
          else{
-            error += "Pouring";
+            error += "Already Pouring";
          }
-         
-         throw new NotPulledException("Not Pulled Exception: Carafe");
+         throw new NotPulledException(error);
       }
       this._mug = mug;
       this.setPouring();
