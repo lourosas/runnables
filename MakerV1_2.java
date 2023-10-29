@@ -122,7 +122,18 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    //
    //
-   public void pourCoffeeIntoMug(Mug mug){}
+   public void pourCoffeeIntoMug(Mug mug){
+      try{
+         CarafeV1_2.instance().pour(mug);
+      }
+      catch(NotPulledException npe){
+         this.notifySubscribersOfException(npe);
+      }
+      finally{
+         this.setState();
+         this.notifySubscribers();
+      }
+   }
 
    //
    //
