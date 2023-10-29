@@ -407,6 +407,35 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
                   this.ready(true);//set the state as well
                }
             }
+            /*
+            Could do something like this...
+            else if(CarafeV1_2.instance().isPouring()){
+               Mug mug = new Mug();
+               boolean toContinue = true;
+               while(CarafeV1_2.instance().isPouring()){
+                  try{
+                     if(toContinue){
+                        amount = 
+                           CarafeV1_2.instance().empty(
+                                                 SomeFillupSleepTime);
+                        mug.fill(amount);
+                        Thread.sleep(SomeFillupSleepTime);
+                     }
+                     else{
+                        Thread.sleep(SomeOtherTime);
+                     }
+                  }
+                  catch(EmptyCarafeException ece){
+                     toContinue = false;
+                     this.notifySubscribersOfException(ece);
+                  }
+                  finally{
+                     this.setState();
+                     this.notifySubscribers();
+                  }
+               }
+            }
+            */
             Thread.sleep(sleepTime);
          }
       }
