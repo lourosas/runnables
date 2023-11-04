@@ -166,6 +166,7 @@ KeyListener, ItemListener, WindowListener{
             Mug mug = this.setUpMug();
             MakerV1_2.instance().pourCoffeeIntoMug(mug);
          }
+         else{ System.out.println(command); }
       }
       catch(ClassCastException cce){}
    }

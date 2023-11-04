@@ -36,6 +36,8 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    private State          _state;
    private Object         _o;
 
+   private Mug            _mug;
+
    {
       _subscribers= null;
       _instance   = null;
@@ -45,6 +47,8 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
       _powerState = null;
       _state      = null;
       _o          = null;
+
+      _mug        = null;
    };
 
    ///////////////////////////Public Methods//////////////////////////
@@ -124,10 +128,12 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    public void pourCoffeeIntoMug(Mug mug){
       try{
+         this._mug = mug;
          CarafeV1_2.instance().pour(mug);
       }
       catch(NotPulledException npe){
          this.notifySubscribersOfException(npe);
+         this._mug.noLongerNeeded();
       }
       finally{
          this.setState();
@@ -361,6 +367,7 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    public void run(){
       int sleepTime          = 100;
       int reservoirSleepTime = 1000;
+      int carafeSleepTime    = 500;
       double amount          = -1.;
       try{
          while(true){
@@ -407,36 +414,6 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
                   this.ready(true);//set the state as well
                }
             }
-            /*
-            Could do something like this...
-            else if(CarafeV1_2.instance().isPouring()){
-               Mug mug = new Mug();
-               boolean toContinue = true;
-               while(CarafeV1_2.instance().isPouring()){
-                  try{
-                     if(toContinue){
-                        amount = 
-                           CarafeV1_2.instance().empty(
-                                                 SomeFillupSleepTime);
-                        mug.fill(amount);
-                        Thread.sleep(SomeFillupSleepTime);
-                     }
-                     else{
-                        Thread.sleep(SomeOtherTime);
-                     }
-                  }
-                  catch(EmptyCarafeException ece){
-                     toContinue = false;
-                     this.notifySubscribersOfException(ece);
-                  }
-                  finally{
-                     this.setState();
-                     this.notifySubscribers();
-                  }
-               }
-            }
-            */
-            Thread.sleep(sleepTime);
          }
       }
       catch(InterruptedException ie){
