@@ -21,7 +21,7 @@ import java.util.*;
 import java.lang.*;
 import rosas.lou.runnables.*;
 
-public class MakerV1_2 implements Runnable/*, Subscriber*/{
+public class MakerV1_2 implements Runnable, Subscriber{
    private static MakerV1_2 _instance;
 
    private enum   State{READY, BREWING};
@@ -178,7 +178,6 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
       this.notifySubscribers();
    }
 
-   ///////////////////////////Private Methods/////////////////////////
    //////////////////////////////Constructor//////////////////////////
    //
    //
@@ -187,6 +186,8 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
       this._reservoir = new ReservoirV1_2();
       this._o         = new Object();
       CarafeV1_2.instance().setObject(this._o);
+      CarafeV1_2.instance().addSubscriber(this);
+      this._reservoir.addSubscriber(this);
       //Will need to indicate how to set the default power
       //setting at some point...
       this.ready(false);
@@ -195,24 +196,18 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
       this._t.start();
    }
 
-   //Might consider using the Maker State, instead...
+   ///////////////////////////Private Methods/////////////////////////
    //
    //
-   private boolean isReady(){
-      String state = null;
-      try{
-         state = this._makerState.state();
+   //
+   private void brewing(boolean toNotify){
+      this._state = State.BREWING;
+      //Indicate the State Changed
+      this.setState();
+      if(toNotify){
+         this.notifySubscribers();
       }
-      catch(NullPointerException npe){
-         this.setState();
-         state = this._makerState.state();
-      }
-      return(state.toUpperCase().equals("READY"));
-      /*
-      return(this._state == State.READY);
-      */
    }
-
 
    //
    //
@@ -233,6 +228,22 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
    //
    //
    //
+   private boolean isPowerOn(){
+      String power = null;
+      try{
+         power = this._makerState.power();
+      }
+      catch(NullPointerException npe){
+         this.setState();
+         power = this._makerState.power();
+      }
+      return(power.toUpperCase().equals("ON"));
+      //return(this._powerState == PowerState.ON);
+   }
+
+   //
+   //
+   //
    //
    private boolean isPowerOff(){
       String power = null;
@@ -247,20 +258,24 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
       //return(this._powerState == PowerState.OFF);
    }
 
+
+
+   //Might consider using the Maker State, instead...
    //
    //
-   //
-   private boolean isPowerOn(){
-      String power = null;
+   private boolean isReady(){
+      String state = null;
       try{
-         power = this._makerState.power();
+         state = this._makerState.state();
       }
       catch(NullPointerException npe){
          this.setState();
-         power = this._makerState.power();
+         state = this._makerState.state();
       }
-      return(power.toUpperCase().equals("ON"));
-      //return(this._powerState == PowerState.ON);
+      return(state.toUpperCase().equals("READY"));
+      /*
+      return(this._state == State.READY);
+      */
    }
 
    //
@@ -297,18 +312,6 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
          }
       }
       catch(NullPointerException npe){}
-   }
-
-   //
-   //
-   //
-   private void brewing(boolean toNotify){
-      this._state = State.BREWING;
-      //Indicate the State Changed
-      this.setState();
-      if(toNotify){
-         this.notifySubscribers();
-      }
    }
 
    //
@@ -371,6 +374,27 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
       double amount          = -1.;
       try{
          while(true){
+            if(this.isPowerOn() && this.isBrewing()){
+               amount = this._reservoir.empty(reservoirSleepTime);
+               Thread.sleep(reservoirSleepTime);
+               if(!CarafeV1_2.instance().isHome()){
+                  synchronized(this._o){
+                     this._o.wait();
+                  }
+               }
+               CarafeV1_2.instance().fill(amount);
+            }
+            else{
+               Thread.sleep(sleepTime);
+            }
+         }
+      }
+      catch(InterruptedException ie){
+         ie.printStackTrace();
+      }
+      /*
+      try{
+         while(true){
             if(isPowerOn() && isBrewing()){
                try{
                   amount = this._reservoir.empty(reservoirSleepTime);
@@ -419,6 +443,32 @@ public class MakerV1_2 implements Runnable/*, Subscriber*/{
       catch(InterruptedException ie){
          ie.printStackTrace();
       }
+      */
    }
+   //////////////////////////Subscriber///////////////////////////////
+   //
+   //
+   //
+   public void update(Object o){}
+
+   //
+   //
+   //
+   public void update(Object o, String s){}
+
+   //
+   //
+   //
+   public void error(RuntimeException re){}
+
+   //
+   //
+   //
+   public void error(RuntimeException re, Object o){}
+
+   //
+   //
+   //
+   public void error(String error){}
 }
 //////////////////////////////////////////////////////////////////////

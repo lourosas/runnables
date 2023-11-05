@@ -44,6 +44,7 @@ public class CarafeV1_2 implements Runnable{
    private Mug            _mug;
    private Thread         _t;
    private Object         _o;
+   private Subscriber     _subscriber;
 
    {
       _quantity    = 0.;
@@ -57,6 +58,13 @@ public class CarafeV1_2 implements Runnable{
    };
 
    ////////////////////////Public Methods/////////////////////////////
+   //
+   //
+   //
+   public void addSubscriber(Subscriber subscriber){
+      this._subscriber = subscriber;
+   }
+
    //
    //
    //

@@ -23,9 +23,11 @@ import rosas.lou.runnables.*;
 
 public class ReservoirV1_2 extends Reservoir{
    private ContainerState _reservoirState;
+   private Subscriber     _subscriber;
 
    {
       _reservoirState = null;
+      _subscriber     = null;
    };
    /*
    public static final double EMPTY = 0.25;
@@ -53,6 +55,13 @@ public class ReservoirV1_2 extends Reservoir{
    }
 
    ////////////////////////Public Methods/////////////////////////////
+   //
+   //
+   //
+   public void addSubscriber(Subscriber subscriber){
+      this._subscriber = subscriber;
+   }
+
    //
    //
    //
