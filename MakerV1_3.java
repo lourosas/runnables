@@ -59,7 +59,13 @@ public class MakerV1_3 implements Runnable{
          this._subscribers.add(subscriber);
       }
       finally{
-         this.notifySubscribers();
+         String state = this._state + " Maker State";
+         String power = this._powerState + " Maker Power State";
+         this.notify(state,power);
+         double cap   = this._reservoir.capacity();
+         double quant = this._reservoir.quantity();
+         this.notify(Double.valueOf(cap),"Reservoir Capacity");
+         this.notify(Double.valueOf(quant),"Reservoir Quantity");
       }
    }
 
@@ -178,6 +184,32 @@ public class MakerV1_3 implements Runnable{
    //
    private boolean isReady(){
       return(this._state == State.READY);
+   }
+
+   //
+   //
+   //
+   private void notify(Object object){
+      try{
+         Iterator<Subscriber> it = this._subscribers.iterator();
+         while(it.hasNext()){
+            it.next().update(object);
+         }
+      }
+      catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
+   private void notify(Object object, String message){
+      try{
+         Iterator<Subscriber> it = this._subscribers.iterator();
+         while(it.hasNext()){
+            it.next().update(object, message);
+         }
+      }
+      catch(NullPointerException npe){}
    }
 
    //

@@ -110,6 +110,13 @@ implements Subscriber{
    //
    //
    //
+   private void handleMakerUpdates(String update, String message){
+      this.reflectMakerStateInTopPanel(update, message);
+   }
+
+   //
+   //
+   //
    private void handleOverflowException(OverflowException oe){
       String message   = null;
       String error     = null;
@@ -128,6 +135,31 @@ implements Subscriber{
                                     message,
                                     error,
                                     JOptionPane.WARNING_MESSAGE);
+   }
+
+   //
+   //
+   //
+   private void reflectMakerStateInTopPanel
+   (
+      String update, 
+      String message
+   ){
+      String upd = update.toUpperCase();
+      String msg = message.toUpperCase();
+      int powerOnIndex      = 0;
+      int powerOffIndex     = 1;
+      int readyLabelIndex   = 2;
+      int brewingLabelIndex = 3;
+      JPanel top = (JPanel)this.getContentPane().getComponent(0);
+      if(upd.contains("POWER") || msg.contains("POWER")){
+         if(upd.contains("OFF") || msg.contains("OFF")){
+            top.getComponent(powerOnIndex).setEnabled(true);
+            top.getComponent(powerOffIndex).setEnabled(true);
+            top.getComponent(readyLabelIndex).setEnabled(false);
+            top.getComponent(brewingLabelIndex).setEnabled(false);
+         }
+      }
    }
 
    //
@@ -420,7 +452,25 @@ implements Subscriber{
    //
    //
    //
-   public void update(Object o, String s){}
+   public void update(Object o, String s){
+      try{
+         String update = ((String)o).toUpperCase();
+         String message = s.toUpperCase();
+         if(update.contains("MAKER") || message.contains("MAKER")){
+            this.handleMakerUpdates(update,message);
+         }
+         else{
+            System.out.println(update);
+            System.out.println(message);
+         }
+      }
+      catch(ClassCastException cce){}
+      try{
+         Double value   = (Double)o;
+         String message = s.toUpperCase();
+      }
+      catch(ClassCastException cce){}
+   }
 
    //
    //
