@@ -21,7 +21,7 @@ import java.util.*;
 import java.lang.*;
 import rosas.lou.runnables.*;
 
-public class MakerV1_2 implements Runnable{
+public class MakerV1_3 implements Runnable{
    private static MakerV1_3 _instance;
 
    private enum   State{READY, BREWING};
@@ -113,24 +113,6 @@ public class MakerV1_2 implements Runnable{
    //
    //
    //
-   public void pourCoffeeIntoMug(Mug mug){
-      try{
-         this._mug = mug;
-         CarafeV1_2.instance().pour(mug);
-      }
-      catch(NotPulledException npe){
-         this.notifySubscribersOfException(npe);
-         this._mug.noLongerNeeded();
-      }
-      finally{
-         this.setState();
-         this.notifySubscribers();
-      }
-   }
-
-   //
-   //
-   //
    public void power(boolean turnOn){
       if(turnOn && isPowerOff()){
          this.on(true);
@@ -147,7 +129,7 @@ public class MakerV1_2 implements Runnable{
    private MakerV1_3(){
       this._reservoir = new ReservoirV1_3();
       this._o         = new Object();
-      CarafeV1_2.instance().setObject(this._o);
+      CarafeV1_3.instance().setObject(this._o);
       //Will need to indicate how to set the default power
       //setting at some point...
       this.ready(false);
@@ -230,7 +212,6 @@ public class MakerV1_2 implements Runnable{
    private void off(boolean toNotify){
       this._powerState = PowerState.OFF;
       //Indicate the Power Changed...
-      this.setState();
       if(toNotify){
          this.notifySubscribers();
       }
@@ -242,7 +223,6 @@ public class MakerV1_2 implements Runnable{
    private void on(boolean toNotify){
       this._powerState = PowerState.ON;
       //Indicate the Power Changed...
-      this.setState();
       if(toNotify){
          this.notifySubscribers();
       }
@@ -254,7 +234,6 @@ public class MakerV1_2 implements Runnable{
    private void ready(boolean toNotify){
       this._state = State.READY;
       //Indicate tHe State changed
-      this.setState();
       if(toNotify){
          this.notifySubscribers();
       }

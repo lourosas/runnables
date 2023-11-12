@@ -24,7 +24,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import rosas.lou.runnables.*;
 
-public class CoffeeMakerControllerV1_2 implements ActionListener,
+public class CoffeeMakerControllerV1_3 implements ActionListener,
 KeyListener, ItemListener, WindowListener{
    private Subscriber _subscriber;
 
@@ -37,7 +37,7 @@ KeyListener, ItemListener, WindowListener{
    //
    //
    public CoffeeMakerControllerV1_3(){
-      //MakerV1_2.instance().power(false);
+      //MakerV1_3.instance().power(false);
    }
 
    //
@@ -45,8 +45,8 @@ KeyListener, ItemListener, WindowListener{
    //
    public CoffeeMakerControllerV1_3(Subscriber sub){
       this._subscriber = sub;
-      MakerV1_2.instance().addSubscriber(sub);
-      //MakerV1_2.instance().power(false);
+      MakerV1_3.instance().addSubscriber(sub);
+      //MakerV1_3.instance().power(false);
    }
    
    ////////////////////////Public Methods/////////////////////////////
@@ -55,7 +55,8 @@ KeyListener, ItemListener, WindowListener{
    //
    public void addSubscriber(Subscriber subscriber){
       this._subscriber = subscriber;
-      MakerV1_2.instance().addSubscriber(this._subscriber);
+      MakerV1_3.instance().addSubscriber(this._subscriber);
+      CarafeV1_3.instance().addSubscriber(this._subscriber);
    }
 
    ///////////////////////Private Methods/////////////////////////////
@@ -115,7 +116,7 @@ KeyListener, ItemListener, WindowListener{
                    "Fill Amount",
                    "Filling the Reservoir for Brewing",
                    JOptionPane.QUESTION_MESSAGE);
-            MakerV1_2.instance().fillReservoir(Double.parseDouble(s));
+            MakerV1_3.instance().fillReservoir(Double.parseDouble(s));
             toLoop = false;
          }
          catch(HeadlessException he){

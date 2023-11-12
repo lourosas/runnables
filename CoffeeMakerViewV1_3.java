@@ -31,7 +31,7 @@ implements Subscriber{
    private static final int HEIGHT = 700;
    private static final int WIDTH  = 700;
 
-   private CoffeeMakerControllerV1_2  _controller;
+   private CoffeeMakerControllerV1_3  _controller;
    private ButtonGroup                _powerGroup;
 
    {
