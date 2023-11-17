@@ -344,7 +344,7 @@ implements Subscriber{
             top.getComponent(powerOffIndex).setEnabled(true);
             top.getComponent(readyLabelIndex).setEnabled(false);
             top.getComponent(brewingLabelIndex).setEnabled(false);
-	 }
+         }
          else{
             if(ms.state().toUpperCase().equals("READY")){
                top.getComponent(powerOnIndex).setEnabled(true);

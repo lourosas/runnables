@@ -110,6 +110,24 @@ implements Subscriber{
    //
    //
    //
+   private void handleCarafeUpdates(Double value, String message){
+      String msg = message.toUpperCase();
+      this.reflectCarafeData(value, msg);
+   }
+
+   //
+   //
+   //
+   private void handleCarafeUpdates(String update, String message){
+      String upd = update.toUpperCase();
+      String msg = message.toUpperCase();
+      this.reflectCarafeStateInCarafePanel(update,message);
+      this.reflectCarafeStateInButtonPanel(update,message);
+   }
+
+   //
+   //
+   //
    private void handleMakerUpdates(String update, String message){
       this.reflectMakerStateInTopPanel(update, message);
    }
@@ -140,6 +158,127 @@ implements Subscriber{
    //
    //
    //
+   private void handleReservoirUpdates(Double value, String message){
+      String msg = message.toUpperCase();
+      this.reflectReservoirData(value, msg);
+   }
+
+   //
+   //
+   //
+   private void reflectCarafeData(Double value, String message){
+      String msg = message.toUpperCase();
+      int powerOnIndex  = 0;
+      int powerOffIndex = 1;
+      JPanel top = (JPanel)this.getContentPane().getComponent(0);
+      JRadioButton on = (JRadioButton)top.getComponent(powerOnIndex);
+      JRadioButton off=(JRadioButton)top.getComponent(powerOffIndex);
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel leftPanel = (JPanel)panel.getComponent(0);
+      JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
+      JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+      JPanel amountPanel = (JPanel)statePanel.getComponent(0);
+      JLabel amountLabel = (JLabel)amountPanel.getComponent(0);
+      JLabel capacityLabel=(JLabel)amountPanel.getComponent(1);
+      JPanel carPanel = (JPanel)centerPanel.getComponent(1);
+      JProgressBar bar = (JProgressBar)carPanel.getComponent(1);
+      String amt = amountLabel.getText().substring(0,7);
+      String cap = capacityLabel.getText().substring(0,9);
+      try{
+         if(on.isSelected()){
+            
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+   }
+
+   //
+   //
+   //
+   private void reflectCarafeStateInButtonPanel
+   (
+      String update,
+      String message
+   ){
+      String upd        = update.toUpperCase();
+      String msg        = message.toUpperCase();
+      int powerOnIndex  = 0;
+      int powerOffIndex = 1;
+      JPanel top = (JPanel)this.getContentPane().getComponent(0);
+      JRadioButton off=(JRadioButton)top.getComponent(powerOffIndex);
+      JRadioButton on =(JRadioButton)top.getComponent(powerOnIndex);
+      this.disableSouthButton("BREW");
+      this.disableSouthButton("GET CARAFE");
+      this.disableSouthButton("RETURN CARAFE");
+      this.disableSouthButton("FILL RESERVOIR");
+      //If the Coffee Maker is Off, we do one thing...
+      if(off.isSelected()){
+         if(upd.contains("HOME") || msg.contains("HOME")){
+            this.enableSouthButton("GET CARAFE");
+            this.enableSouthButton("FILL RESERVOIR");
+         }
+      }
+      //Otherwise, we do something else...
+      else if(on.isSelected()){}
+   }
+
+   //
+   //
+   //
+   private void reflectCarafeStateInCarafePanel
+   (
+      String update,
+      String message
+   ){
+      String upd = update.toUpperCase();
+      String msg = message.toUpperCase();
+      int powerOnIndex  = 0;
+      int powerOffIndex = 1;
+      JPanel top = (JPanel)this.getContentPane().getComponent(0);
+      JRadioButton on = (JRadioButton)top.getComponent(powerOnIndex);
+      JRadioButton off=(JRadioButton)top.getComponent(powerOffIndex);
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel leftPanel = (JPanel)panel.getComponent(0);
+      JPanel centerPanel=(JPanel)leftPanel.getComponent(1);
+      JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+      JPanel resPanel = (JPanel)centerPanel.getComponent(1);
+      JProgressBar bar = (JProgressBar)resPanel.getComponent(1);
+      JPanel amountPanel = (JPanel)statePanel.getComponent(0);
+      JLabel amountLabel = (JLabel)amountPanel.getComponent(0);
+      JLabel capacityLabel=(JLabel)amountPanel.getComponent(1);
+      JPanel carafePanel=(JPanel)statePanel.getComponent(1);
+      JLabel in      = (JLabel)carafePanel.getComponent(0);
+      JLabel out     = (JLabel)carafePanel.getComponent(1);
+      JLabel pouring = (JLabel)carafePanel.getComponent(2);
+      JPanel buttonPanel=(JPanel)statePanel.getComponent(2);
+      JButton pour = (JButton)buttonPanel.getComponent(0);
+      JButton stop = (JButton)buttonPanel.getComponent(1);
+      amountLabel.setEnabled(false);
+      capacityLabel.setEnabled(false);
+      in.setEnabled(false);
+      out.setEnabled(false);
+      pouring.setEnabled(false);
+      pour.setEnabled(false);
+      stop.setEnabled(false);
+      String amnt = amountLabel.getText().substring(0,7);
+      String cap  = capacityLabel.getText().substring(0,9);
+      try{
+         if(on.isSelected()){}
+         else if(off.isSelected()){
+            amountLabel.setText(amnt);
+            capacityLabel.setText(cap);
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+   }
+
+   //
+   //
+   //
    private void reflectMakerStateInTopPanel
    (
       String update, 
@@ -159,7 +298,28 @@ implements Subscriber{
             top.getComponent(readyLabelIndex).setEnabled(false);
             top.getComponent(brewingLabelIndex).setEnabled(false);
          }
+         else if(upd.contains("ON") || msg.contains("ON")){
+            if(upd.contains("READY") || msg.contains("READY")){
+               top.getComponent(powerOnIndex).setEnabled(true);
+               top.getComponent(powerOffIndex).setEnabled(true);
+               top.getComponent(readyLabelIndex).setEnabled(true);
+               top.getComponent(brewingLabelIndex).setEnabled(false);
+            }
+            else if(upd.contains("BREWING")||msg.contains("BREWING")){
+               top.getComponent(powerOnIndex).setEnabled(false);
+               top.getComponent(powerOffIndex).setEnabled(false);
+               top.getComponent(readyLabelIndex).setEnabled(false);
+               top.getComponent(brewingLabelIndex).setEnabled(true);
+            }
+         }
       }
+   }
+
+   //
+   //
+   //
+   private void reflectReservoirData(Double value, String message){
+      System.out.println(value + " " + message);
    }
 
    //
@@ -459,15 +619,21 @@ implements Subscriber{
          if(update.contains("MAKER") || message.contains("MAKER")){
             this.handleMakerUpdates(update,message);
          }
-         else{
-            System.out.println(update);
-            System.out.println(message);
+         else if(update.contains("CARAFE") ||
+                 message.contains("CARAFE")){
+            this.handleCarafeUpdates(update,message);
          }
       }
       catch(ClassCastException cce){}
       try{
          Double value   = (Double)o;
          String message = s.toUpperCase();
+         if(message.contains("CARAFE")){
+            this.handleCarafeUpdates(value,message);
+         }
+         else if(message.contains("RESERVOIR")){
+            this.handleReservoirUpdates(value,message);
+         }
       }
       catch(ClassCastException cce){}
    }
