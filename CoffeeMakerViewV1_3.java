@@ -311,6 +311,7 @@ implements Subscriber{
       String update, 
       String message
    ){
+      /*  NEEDS TO CHANGE!!!!
       String upd = update.toUpperCase();
       String msg = message.toUpperCase();
       int powerOnIndex      = 0;
@@ -340,6 +341,7 @@ implements Subscriber{
             }
          }
       }
+      */
    }
 
    //
@@ -688,7 +690,7 @@ implements Subscriber{
    public void update(Object o){}
 
    //
-   //
+   //THIS WILL NEED TO CHANGE!!!!
    //
    public void update(Object o, String s){
       try{

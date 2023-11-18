@@ -59,13 +59,11 @@ public class MakerV1_3 implements Runnable{
          this._subscribers.add(subscriber);
       }
       finally{
-         String state = this._state + " Maker State";
-         String power = this._powerState + " Maker Power State";
-         this.notify(state,power);
-         double cap   = this._reservoir.capacity();
-         double quant = this._reservoir.quantity();
-         this.notify(Double.valueOf(cap),"Reservoir Capacity");
-         this.notify(Double.valueOf(quant),"Reservoir Quantity");
+         this.notifyState();
+         this.notifyPowerState();
+         //WILL NEED TO NOTIFY THE COMPLETE STATE!!!!
+         //this.notifyOfPowerAndState();
+         //this.notifyOfReservoir("Capacity + Quantity");
       }
    }
 
@@ -211,6 +209,26 @@ public class MakerV1_3 implements Runnable{
       }
       catch(NullPointerException npe){}
    }
+
+   //
+   //
+   //
+   private void notifyPowerState(){}
+
+   //
+   //
+   //
+   private void notifyReservoirCapacity(){}
+
+   //
+   //
+   //
+   private void notifyReservoirQuantity(){}
+
+   //
+   //
+   //
+   private void notifyState(){}
 
    //
    //
