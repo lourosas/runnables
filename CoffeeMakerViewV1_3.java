@@ -185,9 +185,36 @@ implements Subscriber{
       String amt = amountLabel.getText().substring(0,7);
       String cap = capacityLabel.getText().substring(0,9);
       try{
-         if(on.isSelected()){
-            
+         double val = Double.NaN;
+         if(!Double.isNaN(value)){
+            val = value.doubleValue();
          }
+         //The power is on
+         if(on.isSelected()){
+            if(!Double.isNaN(val)){
+               if(msg.contains("CAPACITY")){
+                  capacityLabel.setText(cap+" "+val);
+               }
+               else if(msg.contains("QUANTITY")){
+                  amountLabel.setText(amt+" "+val);
+               }
+            }
+         }
+         //The power is off
+         else if(off.isSelected()){
+            amountLabel.setText(amt);
+            capacityLabel.setText(cap);
+         }
+         if(!Double.isNaN(val)){
+            if(msg.contains("CAPACITY")){
+               bar.setMaximum((int)val);
+            }
+            else if(msg.contains("QUANTITY")){
+               bar.setValue((int)val);
+            }
+         }
+         this.getContentPane().validate();
+         this.getContentPane().repaint();
       }
       catch(NullPointerException npe){
          npe.printStackTrace();
@@ -319,7 +346,58 @@ implements Subscriber{
    //
    //
    private void reflectReservoirData(Double value, String message){
-      System.out.println(value + " " + message);
+      String msg = message.toUpperCase();
+      int pOnIdx  = 0;
+      int pOffIdx = 1;
+      JPanel top = (JPanel)this.getContentPane().getComponent(0);
+      JRadioButton on  = (JRadioButton)top.getComponent(pOnIdx);
+      JRadioButton off = (JRadioButton)top.getComponent(pOffIdx);
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel rightPanel = (JPanel)panel.getComponent(1);
+      JPanel centerPanel = (JPanel)rightPanel.getComponent(1);
+      JPanel statePanel = (JPanel)centerPanel.getComponent(0);
+      JPanel resPanel = (JPanel)centerPanel.getComponent(1);
+      JProgressBar bar = (JProgressBar)resPanel.getComponent(1);
+      JPanel amountPanel = (JPanel)statePanel.getComponent(0);
+      JLabel amountLabel = (JLabel)amountPanel.getComponent(0);
+      JLabel capacityLabel=(JLabel)amountPanel.getComponent(1);
+      String amt = amountLabel.getText().substring(0,7);
+      String cap = capacityLabel.getText().substring(0,9);
+      try{
+         double val = Double.NaN;
+         if(!Double.isNaN(value)){
+            val = value.doubleValue();
+         }
+         //The Power is on
+         if(on.isSelected()){
+            if(!Double.isNaN(val)){
+               if(msg.contains("CAPACITY")){
+                  capacityLabel.setText(cap+" "+val);
+               }
+               else if(msg.contains("QUANTITY")){
+                  amountLabel.setText(amt+" "+val);
+               }
+            }
+         }
+         //The Power is off
+         else if(off.isSelected()){
+            amountLabel.setText(amt);
+            capacityLabel.setText(cap);
+         }
+         if(!Double.isNaN(val)){
+            if(msg.contains("CAPACITY")){
+               bar.setMaximum((int)val);
+            }
+            else if(msg.contains("QUANTITY")){
+               bar.setValue((int)val);
+            }
+         }
+         this.getContentPane().validate();
+         this.getContentPane().repaint();
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
    }
 
    //
