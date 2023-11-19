@@ -60,10 +60,8 @@ public class MakerV1_3 implements Runnable{
       }
       finally{
          this.notifyState();
-         this.notifyPowerState();
-         //WILL NEED TO NOTIFY THE COMPLETE STATE!!!!
-         //this.notifyOfPowerAndState();
-         //this.notifyOfReservoir("Capacity + Quantity");
+         this.notifyReservoirQuantity();
+         this.notifyReservoirCapacity();
       }
    }
 
@@ -213,11 +211,6 @@ public class MakerV1_3 implements Runnable{
    //
    //
    //
-   private void notifyPowerState(){}
-
-   //
-   //
-   //
    private void notifyReservoirCapacity(){}
 
    //
@@ -225,10 +218,14 @@ public class MakerV1_3 implements Runnable{
    //
    private void notifyReservoirQuantity(){}
 
+   //Send in the whole fucking thing...
    //
    //
-   //
-   private void notifyState(){}
+   private void notifyState(){
+      String state      = "Maker State "+this._state;
+      String powerState = "Maker Power "+this._powerState;
+      this.notify(state, powerState);
+   }
 
    //
    //

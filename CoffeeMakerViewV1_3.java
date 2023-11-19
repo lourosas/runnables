@@ -31,12 +31,17 @@ implements Subscriber{
    private static final int HEIGHT = 700;
    private static final int WIDTH  = 700;
 
+   private String _state;
+   private String _power;
+
    private CoffeeMakerControllerV1_3  _controller;
    private ButtonGroup                _powerGroup;
 
    {
       _controller = null;
       _powerGroup = null;
+      _state      = null;
+      _power      = null;
    };
 
    ///////////////////////Constructors////////////////////////////////
@@ -58,6 +63,22 @@ implements Subscriber{
       super(title);
       this._controller = controller;
       this.setUpGUI();
+   }
+
+
+   ////////////////////////Public Methods/////////////////////////////
+   //
+   //
+   //
+   public String power(){
+      return this._power;
+   }
+
+   //
+   //
+   //
+   public String state(){
+      return this._state;
    }
 
    ///////////////////////Private Methods/////////////////////////////
@@ -129,6 +150,9 @@ implements Subscriber{
    //
    //
    private void handleMakerUpdates(String update, String message){
+      //Figure out which one it is...
+      this.power(update,message);
+      this.state(update,message);
       this.reflectMakerStateInTopPanel(update, message);
    }
 
@@ -261,11 +285,6 @@ implements Subscriber{
    ){
       String upd = update.toUpperCase();
       String msg = message.toUpperCase();
-      int powerOnIndex  = 0;
-      int powerOffIndex = 1;
-      JPanel top = (JPanel)this.getContentPane().getComponent(0);
-      JRadioButton on = (JRadioButton)top.getComponent(powerOnIndex);
-      JRadioButton off=(JRadioButton)top.getComponent(powerOffIndex);
       JPanel panel = (JPanel)this.getContentPane().getComponent(1);
       JPanel leftPanel = (JPanel)panel.getComponent(0);
       JPanel centerPanel=(JPanel)leftPanel.getComponent(1);
@@ -292,10 +311,9 @@ implements Subscriber{
       String amnt = amountLabel.getText().substring(0,7);
       String cap  = capacityLabel.getText().substring(0,9);
       try{
-         if(on.isSelected()){}
-         else if(off.isSelected()){
-            amountLabel.setText(amnt);
-            capacityLabel.setText(cap);
+         if(this.power().equals("ON")){}
+         else if(this.power().equals("OFF")){
+            System.out.println(upd);System.out.println(msg);
          }
       }
       catch(NullPointerException npe){
@@ -311,37 +329,31 @@ implements Subscriber{
       String update, 
       String message
    ){
-      /*  NEEDS TO CHANGE!!!!
-      String upd = update.toUpperCase();
-      String msg = message.toUpperCase();
       int powerOnIndex      = 0;
       int powerOffIndex     = 1;
       int readyLabelIndex   = 2;
       int brewingLabelIndex = 3;
       JPanel top = (JPanel)this.getContentPane().getComponent(0);
-      if(upd.contains("POWER") || msg.contains("POWER")){
-         if(upd.contains("OFF") || msg.contains("OFF")){
+      if(this.power().equals("OFF")){
+         top.getComponent(powerOnIndex).setEnabled(true);
+         top.getComponent(powerOffIndex).setEnabled(true);
+         top.getComponent(readyLabelIndex).setEnabled(false);
+         top.getComponent(brewingLabelIndex).setEnabled(false);
+      }
+      else if(this.power().equals("ON")){
+         if(this.state().equals("READY")){
             top.getComponent(powerOnIndex).setEnabled(true);
             top.getComponent(powerOffIndex).setEnabled(true);
-            top.getComponent(readyLabelIndex).setEnabled(false);
+            top.getComponent(readyLabelIndex).setEnabled(true);
             top.getComponent(brewingLabelIndex).setEnabled(false);
          }
-         else if(upd.contains("ON") || msg.contains("ON")){
-            if(upd.contains("READY") || msg.contains("READY")){
-               top.getComponent(powerOnIndex).setEnabled(true);
-               top.getComponent(powerOffIndex).setEnabled(true);
-               top.getComponent(readyLabelIndex).setEnabled(true);
-               top.getComponent(brewingLabelIndex).setEnabled(false);
-            }
-            else if(upd.contains("BREWING")||msg.contains("BREWING")){
-               top.getComponent(powerOnIndex).setEnabled(false);
-               top.getComponent(powerOffIndex).setEnabled(false);
-               top.getComponent(readyLabelIndex).setEnabled(false);
-               top.getComponent(brewingLabelIndex).setEnabled(true);
-            }
+         else if(this.state().equals("BREWING")){
+            top.getComponent(powerOnIndex).setEnabled(false);
+            top.getComponent(powerOffIndex).setEnabled(false);
+            top.getComponent(readyLabelIndex).setEnabled(false);
+            top.getComponent(brewingLabelIndex).setEnabled(true);
          }
       }
-      */
    }
 
    //
@@ -401,6 +413,44 @@ implements Subscriber{
          npe.printStackTrace();
       }
    }
+
+
+   //
+   //
+   //
+   private void power(String update, String message){
+      String upd = update.toUpperCase();
+      String msg = message.toUpperCase();
+      if(upd.contains("POWER") || msg.contains("POWER")){
+         if(upd.contains("ON") || msg.contains("ON")){
+            this._power = new String("ON");
+         }
+         else if(upd.contains("OFF") || msg.contains("OFF")){
+            this._power = new String("OFF");
+         }
+      }
+   }
+
+   //
+   //
+   //
+   private void state(String update, String message){
+      String upd = update.toUpperCase();
+      String msg = update.toUpperCase();
+      if(upd.contains("STATE") || msg.contains("STATE")){
+         if(upd.contains("READY") || msg.contains("READY")){
+            this._state = new String("READY");
+         }
+         else if(upd.contains("BREWING") || msg.contains("BREWING")){
+            this._state = new String("BREWING");
+         }
+      }
+   }
+
+   //
+   //
+   //
+   private void setState(String update, String message){}
 
    //
    //
@@ -690,7 +740,7 @@ implements Subscriber{
    public void update(Object o){}
 
    //
-   //THIS WILL NEED TO CHANGE!!!!
+   //
    //
    public void update(Object o, String s){
       try{
