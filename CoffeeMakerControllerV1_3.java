@@ -207,7 +207,7 @@ KeyListener, ItemListener, WindowListener{
             String command = jrb.getActionCommand().toUpperCase();
             if(command.equals("POWER")){
                System.out.println(command);
-               //MakerV1_2.instance().power(true);
+               MakerV1_3.instance().power(true);
             }
             else if(command.equals("OFF")){
                System.out.println(command);

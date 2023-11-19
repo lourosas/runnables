@@ -211,12 +211,18 @@ public class MakerV1_3 implements Runnable{
    //
    //
    //
-   private void notifyReservoirCapacity(){}
+   private void notifyReservoirCapacity(){
+      Double cap = Double.valueOf(this._reservoir.capacity());
+      this.notify(cap, new String(" Reservoir Capacity"));
+   }
 
    //
    //
    //
-   private void notifyReservoirQuantity(){}
+   private void notifyReservoirQuantity(){
+      Double quant = Double.valueOf(this._reservoir.quantity());
+      this.notify(quant,new String(" Reservoir Quantity"));
+   }
 
    //Send in the whole fucking thing...
    //
@@ -271,7 +277,11 @@ public class MakerV1_3 implements Runnable{
       this._powerState = PowerState.ON;
       //Indicate the Power Changed...
       if(toNotify){
-         this.notifySubscribers();
+         //As always, have to alert all three states
+         this.notifyState();
+         this.notifyReservoirQuantity();
+         this.notifyReservoirCapacity();
+         CarafeV1_3.instance().systemPowerOn();
       }
    }
 

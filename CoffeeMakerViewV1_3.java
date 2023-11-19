@@ -209,7 +209,11 @@ implements Subscriber{
             val = value.doubleValue();
          }
          //The power is on
-         if(on.isSelected()){
+         if(this.power().equals("ON")){
+            System.out.println(value+" "+message);
+            //May need to enable these here...
+            //amountLabel.setEnabled(true);
+            //capacityLabel.setEnabled(true);
             if(!Double.isNaN(val)){
                if(msg.contains("CAPACITY")){
                   capacityLabel.setText(cap+" "+val);
@@ -220,7 +224,9 @@ implements Subscriber{
             }
          }
          //The power is off
-         else if(off.isSelected()){
+         else if(this.power().equals("OFF")){
+            //amountLabel.setEnabled(false);
+            //capacityLabel.setEnabled(false);
             amountLabel.setText(amt);
             capacityLabel.setText(cap);
          }
@@ -317,6 +323,8 @@ implements Subscriber{
       String cap  = capacityLabel.getText().substring(0,9);
       try{
          if(this.power().equals("ON")){
+            amountLabel.setEnabled(true);
+            capacityLabel.setEnabled(true);
             if(upd.equals("HOME")||msg.equals("HOME")){
                in.setEnabled(true);
             }
@@ -379,11 +387,6 @@ implements Subscriber{
    //
    private void reflectReservoirData(Double value, String message){
       String msg = message.toUpperCase();
-      int pOnIdx  = 0;
-      int pOffIdx = 1;
-      JPanel top = (JPanel)this.getContentPane().getComponent(0);
-      JRadioButton on  = (JRadioButton)top.getComponent(pOnIdx);
-      JRadioButton off = (JRadioButton)top.getComponent(pOffIdx);
       JPanel panel = (JPanel)this.getContentPane().getComponent(1);
       JPanel rightPanel = (JPanel)panel.getComponent(1);
       JPanel centerPanel = (JPanel)rightPanel.getComponent(1);
@@ -401,7 +404,10 @@ implements Subscriber{
             val = value.doubleValue();
          }
          //The Power is on
-         if(on.isSelected()){
+         if(this.power().equals("ON")){
+            System.out.println(value+" "+msg);
+            amountLabel.setEnabled(true);
+            capacityLabel.setEnabled(true);
             if(!Double.isNaN(val)){
                if(msg.contains("CAPACITY")){
                   capacityLabel.setText(cap+" "+val);
@@ -412,7 +418,9 @@ implements Subscriber{
             }
          }
          //The Power is off
-         else if(off.isSelected()){
+         else if(this.power().equals("OFF")){
+	    amountLabel.setEnabled(false);
+	    capacityLabel.setEnabled(false);
             amountLabel.setText(amt);
             capacityLabel.setText(cap);
          }
