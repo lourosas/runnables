@@ -192,11 +192,6 @@ implements Subscriber{
    //
    private void reflectCarafeData(Double value, String message){
       String msg = message.toUpperCase();
-      int powerOnIndex  = 0;
-      int powerOffIndex = 1;
-      JPanel top = (JPanel)this.getContentPane().getComponent(0);
-      JRadioButton on = (JRadioButton)top.getComponent(powerOnIndex);
-      JRadioButton off=(JRadioButton)top.getComponent(powerOffIndex);
       JPanel panel = (JPanel)this.getContentPane().getComponent(1);
       JPanel leftPanel = (JPanel)panel.getComponent(0);
       JPanel centerPanel = (JPanel)leftPanel.getComponent(1);
@@ -255,24 +250,34 @@ implements Subscriber{
    ){
       String upd        = update.toUpperCase();
       String msg        = message.toUpperCase();
-      int powerOnIndex  = 0;
-      int powerOffIndex = 1;
-      JPanel top = (JPanel)this.getContentPane().getComponent(0);
-      JRadioButton off=(JRadioButton)top.getComponent(powerOffIndex);
-      JRadioButton on =(JRadioButton)top.getComponent(powerOnIndex);
       this.disableSouthButton("BREW");
       this.disableSouthButton("GET CARAFE");
       this.disableSouthButton("RETURN CARAFE");
       this.disableSouthButton("FILL RESERVOIR");
       //If the Coffee Maker is Off, we do one thing...
-      if(off.isSelected()){
+      if(this.power().equals("OFF")){
          if(upd.contains("HOME") || msg.contains("HOME")){
             this.enableSouthButton("GET CARAFE");
             this.enableSouthButton("FILL RESERVOIR");
          }
+         else if(upd.contains("PULLED")||msg.contains("PULLED")){
+            this.enableSouthButton("RETURN CARAFE");
+            this.enableSouthButton("FILL RESERVOIR");
+         }
+         else if(upd.contains("POURING")||msg.contains("POURING")){}
       }
-      //Otherwise, we do something else...
-      else if(on.isSelected()){}
+      else if(this.state().equals("READY")){
+         if(upd.contains("HOME")||msg.contains("HOME")){
+            this.enableSouthButton("BREW");
+            this.enableSouthButton("GET CARAFE");
+            this.enableSouthButton("FILL RESERVOIR");
+         }
+         else if(upd.contains("PULLED")||msg.contains("PULLED")){
+            this.enableSouthButton("RETURN CARAFE");
+            this.enableSouthButton("FILL RESERVOIR");
+         }
+         else if(upd.contains("POURING")||msg.contains("POURING")){}
+      }
    }
 
    //
@@ -311,9 +316,22 @@ implements Subscriber{
       String amnt = amountLabel.getText().substring(0,7);
       String cap  = capacityLabel.getText().substring(0,9);
       try{
-         if(this.power().equals("ON")){}
+         if(this.power().equals("ON")){
+            if(upd.equals("HOME")||msg.equals("HOME")){
+               in.setEnabled(true);
+            }
+            else if(upd.equals("PULLED")||msg.equals("PULLED")){
+               out.setEnabled(true);
+               pour.setEnabled(true);
+            }
+            else if(upd.equals("POURING")||msg.equals("POURING")){
+               pouring.setEnabled(true);
+               stop.setEnabled(true);
+            }
+	 }
          else if(this.power().equals("OFF")){
-            System.out.println(upd);System.out.println(msg);
+            amountLabel.setText(amnt);
+            capacityLabel.setText(cap);
          }
       }
       catch(NullPointerException npe){
