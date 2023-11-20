@@ -283,6 +283,7 @@ implements Subscriber{
          }
          else if(upd.contains("POURING")||msg.contains("POURING")){}
       }
+      else if(this.state().equals("BREWING")){}
    }
 
    //
