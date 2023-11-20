@@ -309,13 +309,41 @@ public class MakerV1_3 implements Runnable{
       int sleepTime          = 100;
       int reservoirSleepTime = 1000;
       int carafeSleepTime    = 500;
-      double amount          = -1.;
+      double amount          = Double.NaN;
       try{
          while(true){
-            if(this.isPowerOn() && this.isBrewing()){}
+            if(this.isPowerOne() && this.isBrewing()){
+               try{
+                  int rst = reservoirSleepTime;
+                  amount = this._reservoir.empty(rst);
+               }
+               catch(EmptyReservoirException ere){
+                  System.out.println(ere.getMessage());
+                  this.ready(true);
+               }
+            }
+            /*
+            if(this.isPowerOn() && this.isBrewing()){
+               try{
+                  amount = this._reservoir.empty(reservoirSleepTime);
+                  Thread.sleep(reservoirSleepTime);
+                  CarafeV1_3.instance().fill(amount);
+               }
+               catch(NotHomeException nhe){}
+               finally{
+                  //this.notifyState();
+                  //this.notiryReservoirQuantity();
+                  this.notifySubscribers();
+               }
+            }
             else{
                Thread.sleep(sleepTime);
             }
+            catch(EmptyReservoirException ere){
+               System.out.println(ere.getMessage());
+               this.ready(true);
+            }
+            */
          }
       }
       catch(InterruptedException ie){

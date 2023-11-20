@@ -213,7 +213,7 @@ KeyListener, ItemListener, WindowListener{
                System.out.println(command);
                MakerV1_3.instance().power(false);
             }
-	 }
+         }
       }
       catch(ClassCastException cce){}
    }

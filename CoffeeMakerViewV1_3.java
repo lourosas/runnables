@@ -210,7 +210,6 @@ implements Subscriber{
          }
          //The power is on
          if(this.power().equals("ON")){
-            System.out.println(value+" "+message);
             //May need to enable these here...
             //amountLabel.setEnabled(true);
             //capacityLabel.setEnabled(true);
@@ -405,7 +404,6 @@ implements Subscriber{
          }
          //The Power is on
          if(this.power().equals("ON")){
-            System.out.println(value+" "+msg);
             amountLabel.setEnabled(true);
             capacityLabel.setEnabled(true);
             if(!Double.isNaN(val)){
