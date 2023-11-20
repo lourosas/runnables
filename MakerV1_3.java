@@ -266,7 +266,11 @@ public class MakerV1_3 implements Runnable{
       this._powerState = PowerState.OFF;
       //Indicate the Power Changed...
       if(toNotify){
-         this.notifySubscribers();
+         //As Always, have to alert all three states...
+         this.notifyState();
+         this.notifyReservoirQuantity();
+         this.notifyReservoirCapacity();
+         CarafeV1_3.instance().systemPowerOff();
       }
    }
 
