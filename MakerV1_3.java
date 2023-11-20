@@ -147,7 +147,8 @@ public class MakerV1_3 implements Runnable{
    private void brewing(boolean toNotify){
       this._state = State.BREWING;
       if(toNotify){
-         this.notifySubscribers();
+         this.notifyState();
+         this.notifyReservoirQuantity();
       }
    }
 
@@ -296,7 +297,8 @@ public class MakerV1_3 implements Runnable{
       this._state = State.READY;
       //Indicate tHe State changed
       if(toNotify){
-         this.notifySubscribers();
+         this.notifyState();
+         this.notifyReservoirQuantity();
       }
    }
 
@@ -312,38 +314,33 @@ public class MakerV1_3 implements Runnable{
       double amount          = Double.NaN;
       try{
          while(true){
-            if(this.isPowerOne() && this.isBrewing()){
+            if(this.isPowerOn() && this.isBrewing()){
                try{
                   int rst = reservoirSleepTime;
                   amount = this._reservoir.empty(rst);
+                  while(true){
+                     try{
+                        Thread.sleep(rst);
+                        CarafeV1_3.instance().fill(amount);
+                     }
+                     catch(NotHomeException nhe){}
+                     finally{
+                        //this.notifyState();
+                        //this.notifyReservoirQuantity();
+                        this.notifySubscribers();
+                        amount = this._reservoir.empty(rst);
+                     }
+                  }
                }
                catch(EmptyReservoirException ere){
-                  System.out.println(ere.getMessage());
+                  String message = ere.getMessage();
+                  if(message.toUpperCase().contains("EMPTY")){
+                     this.notifySubscribersOfException(ere);
+                  }
                   this.ready(true);
                }
             }
-            /*
-            if(this.isPowerOn() && this.isBrewing()){
-               try{
-                  amount = this._reservoir.empty(reservoirSleepTime);
-                  Thread.sleep(reservoirSleepTime);
-                  CarafeV1_3.instance().fill(amount);
-               }
-               catch(NotHomeException nhe){}
-               finally{
-                  //this.notifyState();
-                  //this.notiryReservoirQuantity();
-                  this.notifySubscribers();
-               }
-            }
-            else{
-               Thread.sleep(sleepTime);
-            }
-            catch(EmptyReservoirException ere){
-               System.out.println(ere.getMessage());
-               this.ready(true);
-            }
-            */
+            Thread.sleep(sleepTime);
          }
       }
       catch(InterruptedException ie){

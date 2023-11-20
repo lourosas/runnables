@@ -152,8 +152,7 @@ KeyListener, ItemListener, WindowListener{
          JButton button = (JButton)e.getSource();
          String command = button.getActionCommand().toUpperCase();
          if(command.equals("BREW")){
-            System.out.println(command);
-            //MakerV1_3.instance().brew();
+            MakerV1_3.instance().brew();
          }
          else if(command.equals("RESERVOIR FILL")){
             System.out.println(command);
@@ -206,7 +205,6 @@ KeyListener, ItemListener, WindowListener{
          if(jrb.isSelected()){
             String command = jrb.getActionCommand().toUpperCase();
             if(command.equals("POWER")){
-               System.out.println(command);
                MakerV1_3.instance().power(true);
             }
             else if(command.equals("OFF")){
