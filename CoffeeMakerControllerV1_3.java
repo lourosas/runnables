@@ -155,8 +155,8 @@ KeyListener, ItemListener, WindowListener{
             MakerV1_3.instance().brew();
          }
          else if(command.equals("RESERVOIR FILL")){
-            System.out.println(command);
-            //this.reservoirFill();
+            //System.out.println(command);
+            this.reservoirFill();
          }
          else if(command.equals("GET")){}
          else if(command.equals("RETURN")){}

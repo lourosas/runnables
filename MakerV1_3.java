@@ -104,7 +104,7 @@ public class MakerV1_3 implements Runnable{
             //as well...
          }
          finally{
-            this.notifySubscribers();
+            this.notifyReservoirQuantity();
          }
       }
       catch(NullPointerException npe){

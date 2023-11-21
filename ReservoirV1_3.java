@@ -43,8 +43,7 @@ public class ReservoirV1_3 extends Reservoir{
    //
    //
    //
-   public ReservoirV1_3(){
-   }
+   public ReservoirV1_3(){}
 
    ////////////////////////Public Methods/////////////////////////////
    //

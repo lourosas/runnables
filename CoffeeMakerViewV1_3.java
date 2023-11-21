@@ -427,8 +427,8 @@ implements Subscriber{
          }
          //The Power is off
          else if(this.power().equals("OFF")){
-	    amountLabel.setEnabled(false);
-	    capacityLabel.setEnabled(false);
+            amountLabel.setEnabled(false);
+            capacityLabel.setEnabled(false);
             amountLabel.setText(amt);
             capacityLabel.setText(cap);
          }
