@@ -171,6 +171,13 @@ public class CarafeV1_3 implements Runnable, CarafeInterface{
    //
    //
    //
+   public void requestState(){
+      this.notifySubscribersOfState();
+   }
+
+   //
+   //
+   //
    public void setObject(Object o){
       this._o = o;
    }

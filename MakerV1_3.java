@@ -149,6 +149,7 @@ public class MakerV1_3 implements Runnable{
       if(toNotify){
          this.notifyState();
          this.notifyReservoirQuantity();
+         CarafeV1_3.instance().requestState();
       }
    }
 
@@ -299,6 +300,7 @@ public class MakerV1_3 implements Runnable{
       if(toNotify){
          this.notifyState();
          this.notifyReservoirQuantity();
+         CarafeV1_3.instance().requestState();
       }
    }
 

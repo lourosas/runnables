@@ -208,7 +208,6 @@ KeyListener, ItemListener, WindowListener{
                MakerV1_3.instance().power(true);
             }
             else if(command.equals("OFF")){
-               System.out.println(command);
                MakerV1_3.instance().power(false);
             }
          }

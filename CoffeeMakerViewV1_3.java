@@ -283,7 +283,16 @@ implements Subscriber{
          }
          else if(upd.contains("POURING")||msg.contains("POURING")){}
       }
-      else if(this.state().equals("BREWING")){}
+      else if(this.state().equals("BREWING")){
+         if(upd.contains("HOME")||msg.contains("HOME")){
+            this.enableSouthButton("GET CARAFE");
+            this.enableSouthButton("FILL RESERVOIR");
+         }
+         else if(upd.contains("PULLED")||msg.contains("PULLED")){
+            this.enableSouthButton("RETURN CARAFE");
+         }
+         else if(upd.contains("POURING")||msg.contains("POURING")){}
+      }
    }
 
    //
