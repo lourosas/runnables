@@ -325,18 +325,23 @@ public class MakerV1_3 implements Runnable{
                         Thread.sleep(rst);
                         CarafeV1_3.instance().fill(amount);
                      }
-                     catch(NotHomeException nhe){}
+                     catch(NotHomeException nhe){
+                        synchronized(this._o){
+                           this._o.wait();
+                        }
+                        CarafeV1_3.instance().fill(amount);
+                     }
                      finally{
                         //this.notifyState();
-                        //this.notifyReservoirQuantity();
-                        this.notifySubscribers();
+                        this.notifyReservoirQuantity();
                         amount = this._reservoir.empty(rst);
                      }
                   }
                }
                catch(EmptyReservoirException ere){
                   String message = ere.getMessage();
-                  if(message.toUpperCase().contains("EMPTY")){
+                  //Indicate the State of the Reservoir...
+                  if(message.toUpperCase().contains("EMPTY STATE")){
                      this.notifySubscribersOfException(ere);
                   }
                   this.ready(true);
