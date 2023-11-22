@@ -275,7 +275,15 @@ public class CarafeV1_3 implements Runnable, CarafeInterface{
    //
    //
    private void notifyError(RuntimeException re){
-      this.notifyError("Carafe " + re.getMessage());
+      //this.notifyError("Carafe " + re.getMessage());
+      try{
+         Iterator<Subscriber> it = this._subscribers.iterator();
+         while(it.hasNext()){
+            Subscriber s = it.nect();
+            s.error(re);
+         }
+      }
+      catch(NullPointerException npe){}
    }
 
    //
