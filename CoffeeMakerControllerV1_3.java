@@ -155,15 +155,20 @@ KeyListener, ItemListener, WindowListener{
             MakerV1_3.instance().brew();
          }
          else if(command.equals("RESERVOIR FILL")){
-            //System.out.println(command);
             this.reservoirFill();
          }
-         else if(command.equals("GET")){}
-         else if(command.equals("RETURN")){}
+         else if(command.equals("GET")){
+            Carafe.instance().pull();
+         }
+         else if(command.equals("RETURN")){
+            System.out.println(command);
+         }
          else if(command.equals("POUR")){
             Mug mug = this.setUpMug();
          }
-         else{ System.out.println(command); }
+         else if(command.equals("STOPPOURING")){
+            System.out.println(command);
+         }
       }
       catch(ClassCastException cce){}
    }

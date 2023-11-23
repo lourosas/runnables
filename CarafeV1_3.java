@@ -279,7 +279,7 @@ public class CarafeV1_3 implements Runnable, CarafeInterface{
       try{
          Iterator<Subscriber> it = this._subscribers.iterator();
          while(it.hasNext()){
-            Subscriber s = it.nect();
+            Subscriber s = it.next();
             s.error(re);
          }
       }
