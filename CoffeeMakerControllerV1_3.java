@@ -164,11 +164,10 @@ KeyListener, ItemListener, WindowListener{
             CarafeV1_3.instance().putback();
          }
          else if(command.equals("POUR")){
-            //Mug mug = this.setUpMug();
             CarafeV1_3.instance().pour(this.setUpMug());
          }
          else if(command.equals("STOPPOURING")){
-            System.out.println(command);
+            CarafeV1_3.instance().stopPour();
          }
       }
       catch(ClassCastException cce){}
@@ -236,8 +235,7 @@ KeyListener, ItemListener, WindowListener{
    //
    //
    public void windowClosing(WindowEvent e){
-      //TBD--something like below...
-      //CarafeV1_3.instance().stopPour();
+      CarafeV1_3.instance().stopPour();
    }
 
    //
