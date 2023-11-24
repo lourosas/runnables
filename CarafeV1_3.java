@@ -102,8 +102,6 @@ public class CarafeV1_3 implements Runnable, CarafeInterface{
          this._quantity += amount;
          if(this._quantity > this.CAPACITY){
             this._quantity = this.CAPACITY;
-            //throw new OverflowException("Carafe Overflowing!!");
-            //this.notifyError(new String("Carafe Overflowing!!"));
             String overflow = new String("Overflow Exception: ");
             overflow += "Carafe Overflowing!";
             OverflowException oe = new OverflowException(overflow);
@@ -219,7 +217,7 @@ public class CarafeV1_3 implements Runnable, CarafeInterface{
    //
    //
    //
-   private double empty(int pourTime){
+   private double empty(int pourTime) throws EmptyCarafeException{
       final double SECSPERMILLIS = 0.001;
 
       double amount = 0.;
@@ -227,8 +225,7 @@ public class CarafeV1_3 implements Runnable, CarafeInterface{
       double quant  = this.quantity();
       if(quant <= EMPTY){
          amount = 0;
-         this.notifyError("Carafe Empty");
-         this.notifyQuantity();
+         throw new EmptyCarafeException();
       }
       else{
          amount = this.emptyRate()*(pourTime*SECSPERMILLIS);
@@ -275,7 +272,6 @@ public class CarafeV1_3 implements Runnable, CarafeInterface{
    //
    //
    private void notifyError(RuntimeException re){
-      //this.notifyError("Carafe " + re.getMessage());
       try{
          Iterator<Subscriber> it = this._subscribers.iterator();
          while(it.hasNext()){
@@ -368,14 +364,12 @@ public class CarafeV1_3 implements Runnable, CarafeInterface{
             toContinue = true;
             while(this.isPouring()){
                if(toContinue){
-                  double amount = this.empty(pourSleepTime);
-                  if(amount > EMPTY){
+                  try{
+                     double amount = this.empty(pourSleepTime);
                      this._mug.fill(amount);
                      Thread.sleep(pourSleepTime);
                   }
-                  else{
-                     EmptyCarafeException ece =
-                                           new EmptyCarafeException();
+                  catch(EmptyCarafeException ece){
                      this.notifyError(ece);
                      toContinue = false;
                   }
