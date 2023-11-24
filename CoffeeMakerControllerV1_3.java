@@ -158,13 +158,14 @@ KeyListener, ItemListener, WindowListener{
             this.reservoirFill();
          }
          else if(command.equals("GET")){
-            Carafe.instance().pull();
+            CarafeV1_3.instance().pull();
          }
          else if(command.equals("RETURN")){
-            System.out.println(command);
+            CarafeV1_3.instance().putback();
          }
          else if(command.equals("POUR")){
-            Mug mug = this.setUpMug();
+            //Mug mug = this.setUpMug();
+            CarafeV1_3.instance().pour(this.setUpMug());
          }
          else if(command.equals("STOPPOURING")){
             System.out.println(command);

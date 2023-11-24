@@ -374,6 +374,9 @@ public class CarafeV1_3 implements Runnable, CarafeInterface{
                      Thread.sleep(pourSleepTime);
                   }
                   else{
+                     EmptyCarafeException ece =
+                                           new EmptyCarafeException();
+                     this.notifyError(ece);
                      toContinue = false;
                   }
                }

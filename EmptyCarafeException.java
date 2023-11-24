@@ -9,7 +9,7 @@ import java.util.*;
 public class EmptyCarafeException extends RuntimeException{
    /**/
    public EmptyCarafeException(){
-      this("Empty Reservoir Excption");
+      this("Empty Carafe Excption");
    }
 
    /**/

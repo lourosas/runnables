@@ -115,6 +115,18 @@ implements Subscriber{
    //
    //
    //
+   private void handleEmptyCarafeException(EmptyCarafeException ece){
+      String message = new String("Carafe Empty!\nPlease return ");
+      message += "the Carafe\nand brew more coffee";
+      JOptionPane.showMessageDialog(this,
+                                    message,
+                                    "EMPTY CARAFE!!",
+                                    JOptionPane.WARNING_MESSAGE);
+   }
+
+   //
+   //
+   //
    private void handleEmptyReservoirException
    (
       EmptyReservoirException ere 
@@ -320,7 +332,7 @@ implements Subscriber{
       JLabel pouring = (JLabel)carafePanel.getComponent(2);
       JPanel buttonPanel=(JPanel)statePanel.getComponent(2);
       JButton pour = (JButton)buttonPanel.getComponent(0);
-      JButton stop = (JButton)buttonPanel.getComponent(1);
+      JButton stop = (JButton)buttonPanel.getComponent(2);
       amountLabel.setEnabled(false);
       capacityLabel.setEnabled(false);
       in.setEnabled(false);
@@ -813,12 +825,16 @@ implements Subscriber{
       catch(ClassCastException cce){}
       try{
          OverflowException oe = (OverflowException)re;
-         String message = oe.getMessage().toUpperCase();
          this.handleOverflowException(oe);
       }
       catch(ClassCastException cce){}
       try{
          NotHomeException nhe = (NotHomeException)re;
+      }
+      catch(ClassCastException cce){}
+      try{
+         EmptyCarafeException ece = (EmptyCarafeException)re;
+         this.handleEmptyCarafeException(ece);
       }
       catch(ClassCastException cce){}
    }
