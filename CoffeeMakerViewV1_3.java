@@ -171,6 +171,33 @@ implements Subscriber{
    //
    //
    //
+   private void handleNotHomeException(NotHomeException nhe){
+      String error = nhe.getMessage().toUpperCase();
+      if(error.contains("CARAFE") && error.contains("POURING")){
+         String message = new String("Carafe already pouring!\n");
+         message += "Please find the Carafe to\nfill your mug";
+         JOptionPane.showMessageDialog(this,
+                                       message,
+                                       error,
+                                       JOptionPane.WARNING_MESSAGE);
+      }
+   }
+
+   //
+   //
+   //
+   private void handleNotPulledException(NotPulledException npe){
+      String message = new String("Carafe Not Pulled\nPlease pull ");
+      message += "the carafe to\n pour coffee";
+      JOptionPane.showMessageDialog(this,
+                                    message,
+                                    "Carafe Not Pulled!!",
+                                    JOptionPane.WARNING_MESSAGE);
+   }
+
+   //
+   //
+   //
    private void handleOverflowException(OverflowException oe){
       String message   = null;
       String error     = null;
@@ -830,11 +857,17 @@ implements Subscriber{
       catch(ClassCastException cce){}
       try{
          NotHomeException nhe = (NotHomeException)re;
+         this.handleNotHomeException(nhe);
       }
       catch(ClassCastException cce){}
       try{
          EmptyCarafeException ece = (EmptyCarafeException)re;
          this.handleEmptyCarafeException(ece);
+      }
+      catch(ClassCastException cce){}
+      try{
+         NotPulledException npe = (NotPulledException)re;
+	 this.handleNotPulledException(npe);
       }
       catch(ClassCastException cce){}
    }
