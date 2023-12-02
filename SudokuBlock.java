@@ -23,31 +23,42 @@ import rosas.lou.runnables.*;
 
 public class SudokuBlock{
    private Integer _value;
+   private Object  _o;
 
    {
       _value = null;
+      _o     = null;
    };
    ///////////////////////////Constructor/////////////////////////////
    //
    //
    //
    public SudokuBlock(){
-      this._value = new Integer(Integer.MIN_VALUE);
+      this._value = Integer.valueOf(Integer.MIN_VALUE);
+      this._o     = new Object();
    }
 
    /////////////////////////Public Methods////////////////////////////
    //
    //
-   //THIS WILL NEED TO SYNCHRONIZE!!!
+   //
    public void value(int value){
-      this._value = new Integer(value);
+      if(this._value.intValue() <= 0){
+         //avoid a race condition...
+         synchronized(this._o){
+            this._value = new Integer(value);
+         }
+      }
    }
 
    //
    //
-   //THIS WILL NEED TO SYCHRONIZE!!!!
+   //
    public Integer value(){
-      return this._value;
+      //avoid a race condition...
+      synchronized(this._o){
+         return this._value;
+      }
    }
 
 }

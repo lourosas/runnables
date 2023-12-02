@@ -24,7 +24,6 @@ import rosas.lou.runnables.*;
 public abstract class SudokuGroup{
    protected static final int TOTAL = 9;
 
-   protected SudokuBlock blocks[];
    protected int         indices[];
    
    //////////////////////////Constructor//////////////////////////////
@@ -32,7 +31,6 @@ public abstract class SudokuGroup{
    //
    //
    public SudokuGroup(){
-      this.blocks  = new SudokuBlock[TOTAL];
       this.indices = new int[TOTAL];
    }
 
@@ -40,8 +38,20 @@ public abstract class SudokuGroup{
    //
    //
    //
-   public void values(Block[] block){}
+   public void indices(int ind[]){
+      try{
+         for(int i = 0; i < TOTAL; ++i){
+            this.indices[i] = ind[i];
+        }
+      }
+      catch(ArrayIndexOutOfBoundsException obe){
+         obe.printStackTrace();
+      }
+   }
 
    //
+   //
+   //
+   public void index(int value, int index){}
 }
 //////////////////////////////////////////////////////////////////////
