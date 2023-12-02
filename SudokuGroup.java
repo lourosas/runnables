@@ -21,34 +21,27 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public class SudokuBlock{
-   private Integer _value;
+public abstract class SudokuGroup{
+   protected static final int TOTAL = 9;
 
-   {
-      _value = null;
-   };
-   ///////////////////////////Constructor/////////////////////////////
+   protected SudokuBlock blocks[];
+   protected int         indices[];
+   
+   //////////////////////////Constructor//////////////////////////////
    //
    //
    //
-   public SudokuBlock(){
-      this._value = new Integer(Integer.MIN_VALUE);
+   public SudokuGroup(){
+      this.blocks  = new SudokuBlock[TOTAL];
+      this.indices = new int[TOTAL];
    }
 
-   /////////////////////////Public Methods////////////////////////////
+   //////////////////////////Public Methods///////////////////////////
    //
    //
-   //THIS WILL NEED TO SYNCHRONIZE!!!
-   public void value(int value){
-      this._value = new Integer(value);
-   }
+   //
+   public void values(Block[] block){}
 
    //
-   //
-   //THIS WILL NEED TO SYCHRONIZE!!!!
-   public Integer value(){
-      return this._value;
-   }
-
 }
 //////////////////////////////////////////////////////////////////////
