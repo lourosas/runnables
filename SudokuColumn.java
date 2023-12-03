@@ -21,40 +21,32 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public abstract class SudokuGroup{
-   protected static final int TOTAL = 9;
-
-   protected int         indices[];
-   protected SudokuBlock block[];
-   protected boolean     solveIt;
-   
-   //////////////////////////Public Methods///////////////////////////
+public class SudokuColumn extends SudokuGroup implements Runnable{
+   ///////////////////////////Constructor/////////////////////////////
    //
    //
    //
-   public void block(SudokuBlock blk[]){
-      this.block = blk;
+   public SudokuColumn(){
+      this.indices = new int[TOTAL];
+      this.solveIt = false;
    }
 
+   /////////////////Runnable Interface Implementation/////////////////
    //
    //
    //
-   public void indices(int idxs[]){
-      try{
-         for(int i = 0; i < TOTAL; ++i){
-            this.indices[i] = idx[i];
+   public void run(){
+      int sleepTime = 50;
+      boolean toRun = true;
+      while(toRun){
+         try{
+            if(this.solveIt){}
+            Thread.sleep(sleepTime);
+         }
+         catch(InterfaceException ie){
+            toRun = false;
          }
       }
-      catch(ArrayIndexOutOfBoundException obe){
-         obe.printStackTrace();
-      }
-   }
-
-   //
-   //
-   //
-   public void solve(boolean toSolve){
-      this.solveIt = toSolve;
    }
 }
 //////////////////////////////////////////////////////////////////////
