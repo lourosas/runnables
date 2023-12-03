@@ -46,7 +46,7 @@ public class SudokuBlock{
       if(this._value.intValue() <= 0){
          //avoid a race condition...
          synchronized(this._o){
-            this._value = new Integer(value);
+            this._value = Integer.valueOf(value);
          }
       }
    }

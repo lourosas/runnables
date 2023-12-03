@@ -26,11 +26,11 @@ import rosas.lou.runnables.*;
 
 public class SudokuController implements ActionListener, KeyListener{
    private Subscriber _subscriber;
-   //private Sudoku     _sudoku;
+   private Sudoku     _sudoku;
 
    {
       _subscriber = null;
-      //_sudoku     = null;
+      _sudoku     = null;
    };
 
    //////////////////////////Constructor//////////////////////////////
@@ -50,12 +50,10 @@ public class SudokuController implements ActionListener, KeyListener{
    //
    //
    //
-   /*
    public void addModel(Sudoku sudoku){
       this._sudoku = sudoku;
       this._sudoku.addSubscriber(this._subscriber);
    }
-   */
 
    /////////////////Interface Implementation//////////////////////////
    ////////////////////////Action Listener////////////////////////////

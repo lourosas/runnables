@@ -43,7 +43,7 @@ public class SudokuColumn extends SudokuGroup implements Runnable{
             if(this.solveIt){}
             Thread.sleep(sleepTime);
          }
-         catch(InterfaceException ie){
+         catch(InterruptedException ie){
             toRun = false;
          }
       }

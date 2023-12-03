@@ -119,12 +119,37 @@ public class SudokuView extends GenericJFrame implements Subscriber{
       return panel;
    }
 
+   //
+   //
+   //
+   private void updateValues(SudokuBlock block[]){
+      try{
+         for(int i = 0; i < this._buttonArray.length; ++i){
+            int val = block[i].value().intValue();
+            if(val > 0){
+               this._buttonArray[i].setText(""+val);
+               this._buttonArray[i].setFont(
+                                   new Font("Serif", Font.BOLD,36));
+            }
+         }
+      }
+      catch(ArrayIndexOutOfBoundsException oob){
+         oob.printStackTrace();
+      }
+   }
+
 
    ///////////////////////Interface Methods///////////////////////////
    //
    //
    //
-   public void update(Object o){}
+   public void update(Object o){
+      try{
+         SudokuBlock block[] = (SudokuBlock[])o;
+         this.updateValues(block);
+      }
+      catch(ClassCastException cce){}
+   }
 
    //
    //

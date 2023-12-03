@@ -31,6 +31,17 @@ public class SudokuCube extends SudokuGroup implements Runnable{
       this.solveIt = false;
    }
 
+   //
+   //
+   //
+   public void print(){
+      for(int i = 0; i < TOTAL; ++i){
+         System.out.println(this.indices[i]);
+      }
+      for(int i = 0; i < TOTAL; ++i){
+          System.out.println(this.block[indices[i]].value());
+      }
+   }
 
    /////////////////Runnable Interface Implementation/////////////////
    //

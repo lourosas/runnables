@@ -21,7 +21,7 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public abstract class SudokuGroup{
+public abstract class SudokuGroup implements Runnable{
    protected static final int TOTAL = 9;
 
    protected int         indices[];
@@ -42,10 +42,10 @@ public abstract class SudokuGroup{
    public void indices(int idxs[]){
       try{
          for(int i = 0; i < TOTAL; ++i){
-            this.indices[i] = idx[i];
+            this.indices[i] = idxs[i];
          }
       }
-      catch(ArrayIndexOutOfBoundException obe){
+      catch(ArrayIndexOutOfBoundsException obe){
          obe.printStackTrace();
       }
    }
@@ -53,8 +53,19 @@ public abstract class SudokuGroup{
    //
    //
    //
+   public void print(){}
+
+   //
+   //
+   //
    public void solve(boolean toSolve){
       this.solveIt = toSolve;
    }
+
+   /////////////////Runnable Interface Implementation/////////////////
+   //
+   //
+   //
+   public void run(){}
 }
 //////////////////////////////////////////////////////////////////////
