@@ -31,6 +31,7 @@ public class SudokuCube extends SudokuGroup implements Runnable{
       this.solveIt = false;
    }
 
+   ///////////////////////SudokuGroup Overrides///////////////////////
    //
    //
    //
@@ -39,7 +40,7 @@ public class SudokuCube extends SudokuGroup implements Runnable{
          System.out.println(this.indices[i]);
       }
       for(int i = 0; i < TOTAL; ++i){
-          System.out.println(this.block[indices[i]].value());
+          System.out.println(this.block[this.indices[i]].value());
       }
    }
 

@@ -31,6 +31,19 @@ public class SudokuRow extends SudokuGroup implements Runnable{
       this.solveIt = false;
    }
 
+   ///////////////////////SudokuGroup Overrides///////////////////////
+   //
+   //
+   //
+   public void print(){
+      for(int i = 0; i < TOTAL; ++i){
+         System.out.println(this.indices[i]);
+      }
+      for(int i = 0; i < TOTAL; ++i){
+         System.out.println(this.block[this.indices[i]].value());
+      }
+   }
+
    ////////////////Runnable Interface Implementation//////////////////
    //
    //

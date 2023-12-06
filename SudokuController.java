@@ -60,13 +60,39 @@ public class SudokuController implements ActionListener, KeyListener{
    //
    //
    //
-   public void actionPerformed(ActionEvent e){}
+   public void actionPerformed(ActionEvent e){
+      try{
+         JButton b = (JButton)e.getSource();
+         String command = b.getActionCommand().toUpperCase();
+         if(command.equals("SOLVE")){
+            this._sudoku.solve();
+         }
+         else if(command.equals("CLEAR")){
+            System.out.println(command);
+         }
+         else if(command.equals("NEWGAME")){
+            System.out.println(command);
+         }
+      }
+      catch(ClassCastException cce){}
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+   }
 
    //////////////////////////Key Listener/////////////////////////////
    //
    //
    //
-   public void keyPressed(KeyEvent k){}
+   public void keyPressed(KeyEvent k){
+      if(k.getKeyCode() == KeyEvent.VK_ENTER){
+         try{
+            JButton b = (JButton)k.getSource();
+            b.doClick(150);
+         }
+         catch(ClassCastException cce){}
+      }
+   }
 
    //
    //

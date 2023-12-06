@@ -77,6 +77,17 @@ public class Sudoku{
       }
    }
 
+   //
+   //
+   //
+   public void solve(){
+      this._cube.block(this._block);
+      this._row.block(this._block);
+      this._column.block(this._block);
+
+      //Iteratate through all 9 columns, 9 rows and 9 cubes...
+   }
+
    /////////////////////////Private Methods///////////////////////////
    //
    //
@@ -86,7 +97,7 @@ public class Sudoku{
       Iterator it = this._subscribers.iterator();
       while(it.hasNext()){
          Subscriber s = (Subscriber)it.next();
-	 s.update(this._block);
+         s.update(this._block);
       }
    }
 
@@ -135,20 +146,23 @@ public class Sudoku{
    //
    private void tempTestLoad(){
       this._cube.block(this._block);
+      this._row.block(this._block);
+      this._column.block(this._block);
       //Load the Cube, first...
       int[] indices;
       indices = new int[9];
-      indices[0] =  0;
-      indices[1] =  1;
-      indices[2] =  2;
-      indices[3] =  9;
-      indices[4] = 10;
-      indices[5] = 11;
-      indices[6] = 18;
-      indices[7] = 19;
-      indices[8] = 20;
+      indices[0] =  0; indices[1] =  1; indices[2] =  2;
+      indices[3] =  9; indices[4] = 10; indices[5] = 11;
+      indices[6] = 18; indices[7] = 19; indices[8] = 20;
       this._cube.indices(indices);
-      this._cube.print();
+      indices[0] =  0; indices[1] =  1; indices[2] =  2;
+      indices[3] =  3; indices[4] =  4; indices[5] =  5;
+      indices[6] =  6; indices[7] =  7; indices[8] =  8;
+      this._row.indices(indices);
+      indices[0] =  0; indices[1] =  9; indices[2] = 18;
+      indices[3] = 27; indices[4] = 36; indices[5] = 45;
+      indices[6] = 54; indices[7] = 63; indices[8] = 72;
+      this._column.indices(indices);
    }
 }
 //////////////////////////////////////////////////////////////////////
