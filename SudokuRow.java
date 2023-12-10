@@ -62,7 +62,26 @@ public class SudokuRow extends SudokuGroup implements Runnable{
       boolean toRun = true;
       while(toRun){
          try{
-            if(this.solveIt){}
+            if(this.solveIt){
+               for(int i = 0; i < this.indices.length; ++i){
+                  int idx = this.indices[i];
+                  int val = this.block[idx].value().intValue();
+                  if(val < 0){
+                     int j = 1;
+                     boolean toContinue = true;
+                     while(toContinue && j < 10){
+                        if(!this.values.contains(Integer.valueOf(j))){
+                           this.block[idx].value(j);
+                           this.values.add(Integer.valueOf(j));
+                           toContinue = false;
+                        }
+                        ++j;
+                     }
+                  }
+               }
+               this.solve(false);
+               this.solved(true);
+            }
             Thread.sleep(sleepTime);
          }
          catch(InterruptedException ie){

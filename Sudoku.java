@@ -105,8 +105,11 @@ public class Sudoku{
       //Start with the Cube ONLY first...
       this._cube.solve(true);
       this._column.solve(true);
+      this._row.solve(true);
       try{
-         while(!this._cube.solved()){
+         while((!this._cube.solved())   || 
+               (!this._column.solved()) ||
+               (!this._row.solved())){
             //Just a test print, remove as needed...
             System.out.println("Solving");
             Thread.sleep(50);

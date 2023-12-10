@@ -69,12 +69,13 @@ public class SudokuCube extends SudokuGroup implements Runnable{
                   if(val < 0){
                      int j = 1;
                      boolean toContinue = true;
-                     while(toContinue && j++ < 10){
+                     while(toContinue && j < 10){
                         if(!this.values.contains(Integer.valueOf(j))){
                            this.block[idx].value(j);
                            this.values.add(Integer.valueOf(j));
                            toContinue = false;
                         }
+                        ++j;
                      }
                   }
                }
