@@ -83,6 +83,9 @@ public class Sudoku{
       //A temporary place to put this for the moment...will need
       //to eventually move...
       //Load the Cube, first...
+      /*
+      NEED TO USE THE getCubeIndices(...), getRowIndices(...),
+      getColumnIndices(...)!!!!
       int[] indices;
       indices = new int[9];
       indices[0] =  0; indices[1] =  1; indices[2] =  2;
@@ -119,9 +122,54 @@ public class Sudoku{
       catch(InterruptedException ie){
          ie.printStackTrace();
       }
+      */
    }
 
    /////////////////////////Private Methods///////////////////////////
+   //
+   //
+   //
+   private int[] getColumnIndices(int columnNumber){
+      int[] indices = new int[9];
+
+      if(columnNumber > -1 && columnNumber < 9){
+         for(int i = 0; i < 9; ++i){
+	    indices[i] = columnNumber + 9*i;   
+	 }
+      }
+      return indices;
+   }
+
+   //
+   //
+   //
+   private int[] getCubeIndices(int cubeNumber){
+      int[] indices = new int[9];
+
+      if(cubeNumber > -1 && cubeNumber < 9){
+         for(int i = 0; i < 3; ++i){}
+         for(int i = 3; i < 6; ++i){}
+         for(int i = 6; i < 9; ++i){}
+      }
+
+      return indices; 
+   }
+
+   //
+   //
+   //
+   private int[] getRowIndices(int rowNumber){
+      int[] indices = new int[9];
+
+      if(rowNumber > -1 && rowNumber < 9){
+         for(int i = 0; i < 9; ++i){
+            indices[i] = rowNumber*9 +i;
+         }
+      }
+
+      return indices;
+   }
+
    //
    //
    //
