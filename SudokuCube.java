@@ -24,10 +24,11 @@ import rosas.lou.runnables.*;
 public class SudokuCube extends SudokuGroup implements Runnable{
 
    {
-      indices = null;
-      block   = null;
-      solveIt = false;
-      values  = null;
+      indices  = null;
+      block    = null;
+      isSolved = false;
+      solveIt  = false;
+      values   = null;
    };
 
    ///////////////////////////Constructor/////////////////////////////
@@ -61,7 +62,27 @@ public class SudokuCube extends SudokuGroup implements Runnable{
       boolean toRun = true;
       while(toRun){
          try{
-            if(this.solveIt){}
+            if(this.solveIt){
+               for(int i = 0; i < this.indices.length; ++i){
+                  int idx = this.indices[i];
+                  int val = this.block[idx].value().intValue();
+                  if(val < 0){
+                     int j = 1;
+                     boolean toContinue = true;
+                     while(toContinue && j++ < 10){
+                        if(!this.values.contains(Integer.valueOf(j))){
+                           this.block[idx].value(j);
+                           this.values.add(Integer.valueOf(j));
+                           toContinue = false;
+                        }
+                     }
+                  }
+               }
+               this.solve(false);
+               //For the time being, once here, the block is solved
+               //this MAY NEED to change...
+               this.solved(true);
+            }
             Thread.sleep(sleepTime);
          }
          catch(InterruptedException ie){

@@ -24,10 +24,11 @@ import rosas.lou.runnables.*;
 public class SudokuColumn extends SudokuGroup implements Runnable{
 
    {
-      indices = null;
-      block   = null;
-      solveIt = false;
-      values  = null;
+      indices  = null;
+      block    = null;
+      isSolved = false;
+      solveIt  = false;
+      values   = null;
    };
 
    ///////////////////////////Constructor/////////////////////////////

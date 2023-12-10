@@ -26,6 +26,7 @@ public abstract class SudokuGroup implements Runnable{
 
    protected int           indices[];
    protected SudokuBlock   block[];
+   protected boolean       isSolved;
    protected boolean       solveIt;
    protected List<Integer> values;
    
@@ -36,6 +37,7 @@ public abstract class SudokuGroup implements Runnable{
    public void block(SudokuBlock blk[]){
       this.block = blk;
       this.setValues();
+      this.solved(false);
    }
 
    //
@@ -50,6 +52,7 @@ public abstract class SudokuGroup implements Runnable{
       catch(ArrayIndexOutOfBoundsException obe){
          obe.printStackTrace();
       }
+      this.solved(false);
    }
 
    //
@@ -62,6 +65,21 @@ public abstract class SudokuGroup implements Runnable{
    //
    public void solve(boolean toSolve){
       this.solveIt = toSolve;
+   }
+
+   //
+   //
+   //
+   public boolean solved(){
+      return this.isSolved;
+   }
+
+   ////////////////////////Protected Methods//////////////////////////
+   //
+   //
+   //
+   protected void solved(boolean didSolve){
+      this.isSolved = didSolve;
    }
 
    //////////////////////////Private Methods//////////////////////////
