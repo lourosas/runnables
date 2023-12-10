@@ -22,6 +22,14 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public class SudokuCube extends SudokuGroup implements Runnable{
+
+   {
+      indices = null;
+      block   = null;
+      solveIt = false;
+      values  = null;
+   };
+
    ///////////////////////////Constructor/////////////////////////////
    //
    //

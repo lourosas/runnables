@@ -85,7 +85,8 @@ public class Sudoku{
       this._row.block(this._block);
       this._column.block(this._block);
 
-      //Iteratate through all 9 columns, 9 rows and 9 cubes...
+      //Start with the Cube ONLY first...
+      this._cube.solve();
    }
 
    /////////////////////////Private Methods///////////////////////////
@@ -145,9 +146,6 @@ public class Sudoku{
    //TEMPORARY...for TESTING ONLY
    //
    private void tempTestLoad(){
-      this._cube.block(this._block);
-      this._row.block(this._block);
-      this._column.block(this._block);
       //Load the Cube, first...
       int[] indices;
       indices = new int[9];
@@ -163,6 +161,9 @@ public class Sudoku{
       indices[3] = 27; indices[4] = 36; indices[5] = 45;
       indices[6] = 54; indices[7] = 63; indices[8] = 72;
       this._column.indices(indices);
+      this._cube.block(this._block);
+      this._row.block(this._block);
+      this._column.block(this._block);
    }
 }
 //////////////////////////////////////////////////////////////////////
