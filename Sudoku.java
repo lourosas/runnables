@@ -123,6 +123,9 @@ public class Sudoku{
          ie.printStackTrace();
       }
       */
+      for(int i = 0; i < 9; ++i){
+         this.getCubeIndices(i);
+      }
    }
 
    /////////////////////////Private Methods///////////////////////////
@@ -134,8 +137,8 @@ public class Sudoku{
 
       if(columnNumber > -1 && columnNumber < 9){
          for(int i = 0; i < 9; ++i){
-	    indices[i] = columnNumber + 9*i;   
-	 }
+            indices[i] = columnNumber + 9*i;   
+         }
       }
       return indices;
    }
@@ -147,9 +150,21 @@ public class Sudoku{
       int[] indices = new int[9];
 
       if(cubeNumber > -1 && cubeNumber < 9){
-         for(int i = 0; i < 3; ++i){}
-         for(int i = 3; i < 6; ++i){}
-         for(int i = 6; i < 9; ++i){}
+         int cubeRow  = cubeNumber/3;
+         int startRow = 9*cubeRow*3;
+         System.out.println(startRow);
+         for(int i = 0; i < 3; ++i){
+            int idx = startRow + (cubeNumber%3)*3 + i;
+            System.out.println("idx: "+idx);
+         }
+         for(int i = 3; i < 6; ++i){
+            int idx = startRow + (cubeNumber%3)*3 + i + 6;
+            System.out.println("idx: "+idx);
+         }
+         for(int i = 6; i < 9; ++i){
+            int idx = startRow + (cubeNumber%3)*3 + i + 12;
+            System.out.println("idx: "+idx);
+         }
       }
 
       return indices; 
