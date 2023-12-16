@@ -122,9 +122,33 @@ public class Sudoku{
       catch(InterruptedException ie){
          ie.printStackTrace();
       }
-      */
       for(int i = 0; i < 9; ++i){
          this.getCubeIndices(i);
+      }
+      */
+      int[] indices = new int[9];
+      try{
+         for(int i = 0; i < 9; ++i){
+            this._cube.indices(this.getCubeIndices(i));
+            this._column.indices(this.getColumnIndices(i));
+            this._row.indices(this.getRowIndices(i));
+            this._cube.block(this._block);
+            this._column.block(this._block);
+            this._row.block(this._block);
+            this._cube.solve(true);
+            this._column.solve(true);
+            this._row.solve(true);
+            while((!this._cube.solved())   || 
+                  (!this._column.solved()) ||
+                  (!this._row.solved())){
+               System.out.println("Solving");
+               Thread.sleep(50);
+            }
+            this.notifySubscribers();
+         }
+      }
+      catch(InterruptedException ie){
+         ie.printStackTrace();
       }
    }
 
@@ -152,18 +176,17 @@ public class Sudoku{
       if(cubeNumber > -1 && cubeNumber < 9){
          int cubeRow  = cubeNumber/3;
          int startRow = 9*cubeRow*3;
-         System.out.println(startRow);
          for(int i = 0; i < 3; ++i){
             int idx = startRow + (cubeNumber%3)*3 + i;
-            System.out.println("idx: "+idx);
+            indices[i] = idx;
          }
          for(int i = 3; i < 6; ++i){
             int idx = startRow + (cubeNumber%3)*3 + i + 6;
-            System.out.println("idx: "+idx);
+            indices[i] = idx;
          }
          for(int i = 6; i < 9; ++i){
             int idx = startRow + (cubeNumber%3)*3 + i + 12;
-            System.out.println("idx: "+idx);
+            indices[i] = idx;
          }
       }
 
