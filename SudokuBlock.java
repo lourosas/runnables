@@ -43,9 +43,12 @@ public class SudokuBlock{
    //
    //
    public void value(int value){
-      if(this._value.intValue() <= 0){
+      synchronized(this._o){
          //avoid a race condition...
-         synchronized(this._o){
+         if(this._value.intValue() <= 0){
+            System.out.println(Thread.currentThread().getId());
+            System.out.println("Value: "+value);
+            System.out.println(this);
             this._value = Integer.valueOf(value);
          }
       }
