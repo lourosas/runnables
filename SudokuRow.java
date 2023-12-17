@@ -24,11 +24,12 @@ import rosas.lou.runnables.*;
 public class SudokuRow extends SudokuGroup implements Runnable{
    
    {
-      indices  = null;
-      block    = null;
-      isSolved = false;
-      solveIt  = false;
-      values   = null;
+      indices    = null;
+      block      = null;
+      isSolved   = false;
+      solveIt    = false;
+      values     = null;
+      tempValues = null;
    };
 
    //////////////////////Constructor//////////////////////////////////
@@ -41,6 +42,17 @@ public class SudokuRow extends SudokuGroup implements Runnable{
    }
 
    ///////////////////////SudokuGroup Overrides///////////////////////
+   //
+   //
+   //
+   public void indices(int index){
+      if(index > -1 && index < TOTAL){
+         for(int i = 0; i < TOTAL; ++i){
+            this.indices[i] = index*TOTAL + i;
+         }
+      }
+   }
+
    //
    //
    //

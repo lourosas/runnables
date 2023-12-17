@@ -24,11 +24,12 @@ import rosas.lou.runnables.*;
 public class SudokuCube extends SudokuGroup implements Runnable{
 
    {
-      indices  = null;
-      block    = null;
-      isSolved = false;
-      solveIt  = false;
-      values   = null;
+      indices    = null;
+      block      = null;
+      isSolved   = false;
+      solveIt    = false;
+      values     = null;
+      tempValues = null;
    };
 
    ///////////////////////////Constructor/////////////////////////////
@@ -44,12 +45,74 @@ public class SudokuCube extends SudokuGroup implements Runnable{
    //
    //
    //
+   public void indices(int index){
+      if(index > -1 && index < 9){
+         int cubeRow  = index/3;
+         int startRow = 9*cubeRow*3;
+         for(int i = 0; i < 3; ++i){
+            int idx = startRow + (index%3)*3 + i;
+            this.indices[i] = idx;
+         }
+         for(int i = 3; i < 6; ++i){
+            int idx = startRow + (index%3)*3 + i + 6;
+            this.indices[i] = idx;
+         }
+         for(int i = 6; i < 9; ++i){
+            int idx = startRow + (index%3)*3 + i + 12;
+            this.indices[i] = idx;
+         }
+      }
+   }
+
+   //
+   //
+   //
    public void print(){
       for(int i = 0; i < TOTAL; ++i){
          System.out.println(this.indices[i]);
       }
       for(int i = 0; i < TOTAL; ++i){
           System.out.println(this.block[this.indices[i]].value());
+      }
+   }
+
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void setTempValues(int index){
+      System.out.println("setTempValues(): "+index);
+      try{
+         this.tempValues.clear();
+      }
+      catch(NullPointerException npe){
+         this.tempValues = new LinkedList<Integer>();
+      }
+      try{
+         //Essentially, save all the values in the respective
+         //Row and Column to compare the current value...
+         int row = index/TOTAL;
+         int col = index % TOTAL;
+         for(int i = 0; i < TOTAL; ++i){
+            //First, the Row
+            int idx = row*TOTAL + i;
+            int val = this.block[idx].value().intValue();
+            if(val > 0){
+               this.tempValues.add(Integer.valueOf(val));
+            }
+            //Next, the Column
+            idx = col + TOTAL*i;
+            val = this.block[idx].value().intValue();
+            if(val > 0){
+               this.tempValues.add(Integer.valueOf(val));
+            }
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+      catch(IndexOutOfBoundsException oob){
+         oob.printStackTrace();
       }
    }
 
@@ -67,10 +130,16 @@ public class SudokuCube extends SudokuGroup implements Runnable{
                   int idx = this.indices[i];
                   int val = this.block[idx].value().intValue();
                   if(val < 0){
+                     this.setTempValues(idx);
                      int j = 1;
                      boolean toContinue = true;
                      while(toContinue && j < 10){
-                        if(!this.values.contains(Integer.valueOf(j))){
+                        //will need to add tempValues check...
+                        Integer current = Integer.valueOf(j);
+                        if(!this.values.contains(current) &&
+                           !this.tempValues.contains(current)){
+                           //Test Prints
+                           System.out.println("Cube Current: "+current);
                            this.block[idx].value(j);
                            this.values.add(Integer.valueOf(j));
                            toContinue = false;

@@ -29,6 +29,7 @@ public abstract class SudokuGroup implements Runnable{
    protected boolean       isSolved;
    protected boolean       solveIt;
    protected List<Integer> values;
+   protected List<Integer> tempValues;
    
    //////////////////////////Public Methods///////////////////////////
    //
@@ -39,6 +40,11 @@ public abstract class SudokuGroup implements Runnable{
       this.setValues();
       this.solved(false);
    }
+
+   //
+   //
+   //
+   public void indices(int index){}
 
    //
    //

@@ -22,7 +22,8 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public class Sudoku{
-   private static final int TOTAL = 81;//Total number of values
+   private static final int TOTAL  = 81;//Total number of values
+   private static final int GROUPS = 9;
    private List<Subscriber> _subscribers;
    private SudokuBlock      _block[]; //All 81 numbers!!!
    private SudokuGroup      _cube;
@@ -80,58 +81,12 @@ public class Sudoku{
    //
    //
    public void solve(){
-      //A temporary place to put this for the moment...will need
-      //to eventually move...
-      //Load the Cube, first...
-      /*
-      NEED TO USE THE getCubeIndices(...), getRowIndices(...),
-      getColumnIndices(...)!!!!
-      int[] indices;
-      indices = new int[9];
-      indices[0] =  0; indices[1] =  1; indices[2] =  2;
-      indices[3] =  9; indices[4] = 10; indices[5] = 11;
-      indices[6] = 18; indices[7] = 19; indices[8] = 20;
-      this._cube.indices(indices);
-      indices[0] =  0; indices[1] =  1; indices[2] =  2;
-      indices[3] =  3; indices[4] =  4; indices[5] =  5;
-      indices[6] =  6; indices[7] =  7; indices[8] =  8;
-      this._row.indices(indices);
-      indices[0] =  0; indices[1] =  9; indices[2] = 18;
-      indices[3] = 27; indices[4] = 36; indices[5] = 45;
-      indices[6] = 54; indices[7] = 63; indices[8] = 72;
-      this._column.indices(indices);
-
-      this._cube.block(this._block);
-      this._row.block(this._block);
-      this._column.block(this._block);
-
-      //Start with the Cube ONLY first...
-      this._cube.solve(true);
-      this._column.solve(true);
-      this._row.solve(true);
-      try{
-         while((!this._cube.solved())   || 
-               (!this._column.solved()) ||
-               (!this._row.solved())){
-            //Just a test print, remove as needed...
-            System.out.println("Solving");
-            Thread.sleep(50);
-         }
-         this.notifySubscribers();
-      }
-      catch(InterruptedException ie){
-         ie.printStackTrace();
-      }
-      for(int i = 0; i < 9; ++i){
-         this.getCubeIndices(i);
-      }
-      */
       int[] indices = new int[9];
       try{
          for(int i = 0; i < 9; ++i){
-            this._cube.indices(this.getCubeIndices(i));
-            this._column.indices(this.getColumnIndices(i));
-            this._row.indices(this.getRowIndices(i));
+            this._cube.indices(i);
+            this._column.indices(i);
+            this._row.indices(i);
             this._cube.block(this._block);
             this._column.block(this._block);
             this._row.block(this._block);
@@ -142,7 +97,7 @@ public class Sudoku{
                   (!this._column.solved()) ||
                   (!this._row.solved())){
                System.out.println("Solving");
-               Thread.sleep(50);
+               Thread.sleep(500);
             }
             this.notifySubscribers();
          }
@@ -204,7 +159,6 @@ public class Sudoku{
             indices[i] = rowNumber*9 +i;
          }
       }
-
       return indices;
    }
 
