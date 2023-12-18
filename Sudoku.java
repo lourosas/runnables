@@ -97,7 +97,7 @@ public class Sudoku{
                   (!this._column.solved()) ||
                   (!this._row.solved())){
                System.out.println("Solving");
-               Thread.sleep(500);
+               Thread.sleep(50);
             }
             this.notifySubscribers();
          }

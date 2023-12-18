@@ -81,7 +81,6 @@ public class SudokuCube extends SudokuGroup implements Runnable{
    //
    //
    private void setTempValues(int index){
-      System.out.println("setTempValues(): "+index);
       try{
          this.tempValues.clear();
       }
@@ -93,20 +92,25 @@ public class SudokuCube extends SudokuGroup implements Runnable{
          //Row and Column to compare the current value...
          int row = index/TOTAL;
          int col = index % TOTAL;
+         //Row
          for(int i = 0; i < TOTAL; ++i){
-            //First, the Row
             int idx = row*TOTAL + i;
             int val = this.block[idx].value().intValue();
             if(val > 0){
                this.tempValues.add(Integer.valueOf(val));
-            }
-            //Next, the Column
-            idx = col + TOTAL*i;
-            val = this.block[idx].value().intValue();
-            if(val > 0){
-               this.tempValues.add(Integer.valueOf(val));
+               //System.out.println("Row: "+val);
             }
          }
+         //Column
+         for(int i = 0; i < TOTAL; ++i){
+            int idx = col + TOTAL*i;
+            int val = this.block[idx].value().intValue();
+            if(val > 0){
+               this.tempValues.add(Integer.valueOf(val));
+               //System.out.println("Col: "+val);
+            }
+         }
+         System.out.println();
       }
       catch(NullPointerException npe){
          npe.printStackTrace();
@@ -138,8 +142,6 @@ public class SudokuCube extends SudokuGroup implements Runnable{
                         Integer current = Integer.valueOf(j);
                         if(!this.values.contains(current) &&
                            !this.tempValues.contains(current)){
-                           //Test Prints
-                           System.out.println("Cube Current: "+current);
                            this.block[idx].value(j);
                            this.values.add(Integer.valueOf(j));
                            toContinue = false;
