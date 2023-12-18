@@ -110,7 +110,6 @@ public class SudokuCube extends SudokuGroup implements Runnable{
                //System.out.println("Col: "+val);
             }
          }
-         System.out.println();
       }
       catch(NullPointerException npe){
          npe.printStackTrace();

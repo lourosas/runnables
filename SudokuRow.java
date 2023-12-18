@@ -41,6 +41,54 @@ public class SudokuRow extends SudokuGroup implements Runnable{
       this.solveIt = false;
    }
 
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   public void setTempValues(int index){
+      try{
+         this.tempValues.clear();
+      }
+      catch(NullPointerException npe){
+         this.tempValues = new LinkedList<Integer>();
+      }
+      //Step 1:  Calculate the Cube Number
+      int row        = index/(TOTAL*3);
+      //row /= 3;
+      int col        = index % TOTAL;
+      int offset     = col/3;
+      int cubeNumber = row*3 + offset;
+      //Step 2:  Get the Cube Number Indices, set the temp values
+      int cubeRow  = cubeNumber/3;
+      int startRow = cubeRow*27;
+      try{
+         for(int i = 0; i < 3; ++i){
+            int idx = startRow + (cubeNumber%3)*3 + i;
+            int val = this.block[idx].value().intValue();
+            this.tempValues.add(Integer.valueOf(val));
+         }
+         for(int i = 3; i < 6; ++i){
+            int idx = startRow + (cubeNumber%3)*3 + i + 6;
+            int val = this.block[idx].value().intValue();
+            this.tempValues.add(Integer.valueOf(val));
+         }
+         for(int i = 6; i < 9; ++i){
+            int idx = startRow + (cubeNumber%3)*3 + i + 12;
+            int val = this.block[idx].value().intValue();
+            this.tempValues.add(Integer.valueOf(val));
+         }
+         //Step 3:  Caculate the Column Number
+         //Step 4:  Get the Column Number Indices, set the temp values
+
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+      catch(IndexOutOfBoundsException ooe){
+         ooe.printStackTrace();
+      }
+   }
+
    ///////////////////////SudokuGroup Overrides///////////////////////
    //
    //
@@ -79,9 +127,11 @@ public class SudokuRow extends SudokuGroup implements Runnable{
                   int idx = this.indices[i];
                   int val = this.block[idx].value().intValue();
                   if(val < 0){
+                     this.setTempValues(idx);
                      int j = 1;
                      boolean toContinue = true;
                      while(toContinue && j < 10){
+                        //This will need to change...
                         if(!this.values.contains(Integer.valueOf(j))){
                            this.block[idx].value(j);
                            this.values.add(Integer.valueOf(j));
