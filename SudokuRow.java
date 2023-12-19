@@ -55,30 +55,44 @@ public class SudokuRow extends SudokuGroup implements Runnable{
       //Step 1:  Calculate the Cube Number
       int row        = index/(TOTAL*3);
       //row /= 3;
+      //Step 2:  Caculate the Column Number
       int col        = index % TOTAL;
       int offset     = col/3;
       int cubeNumber = row*3 + offset;
-      //Step 2:  Get the Cube Number Indices, set the temp values
+      //Step 3:  Get the Cube Number Indices, set the temp values
       int cubeRow  = cubeNumber/3;
       int startRow = cubeRow*27;
       try{
          for(int i = 0; i < 3; ++i){
             int idx = startRow + (cubeNumber%3)*3 + i;
             int val = this.block[idx].value().intValue();
-            this.tempValues.add(Integer.valueOf(val));
+            if(val > 0){
+               this.tempValues.add(Integer.valueOf(val));
+            }
          }
          for(int i = 3; i < 6; ++i){
             int idx = startRow + (cubeNumber%3)*3 + i + 6;
             int val = this.block[idx].value().intValue();
-            this.tempValues.add(Integer.valueOf(val));
+            if(val > 0){
+               this.tempValues.add(Integer.valueOf(val));
+            }
          }
          for(int i = 6; i < 9; ++i){
             int idx = startRow + (cubeNumber%3)*3 + i + 12;
             int val = this.block[idx].value().intValue();
-            this.tempValues.add(Integer.valueOf(val));
+            if(val > 0){
+               this.tempValues.add(Integer.valueOf(val));
+            }
          }
-         //Step 3:  Caculate the Column Number
-         //Step 4:  Get the Column Number Indices, set the temp values
+         for(int i = 0; i < TOTAL; ++i){
+            //Step 4:  Get the Column Number Indices, set the 
+            //temp values
+            int idx = col + TOTAL*i;
+            int val = this.block[idx].value().intValue();
+            if(val > 0){
+               this.tempValues.add(Integer.valueOf(val));
+            }
+         }
 
       }
       catch(NullPointerException npe){
@@ -132,7 +146,9 @@ public class SudokuRow extends SudokuGroup implements Runnable{
                      boolean toContinue = true;
                      while(toContinue && j < 10){
                         //This will need to change...
-                        if(!this.values.contains(Integer.valueOf(j))){
+                        Integer current = Integer.valueOf(j);
+                        if(!this.values.contains(current) &&
+                           !this.tempValues.contains(current)){
                            this.block[idx].value(j);
                            this.values.add(Integer.valueOf(j));
                            toContinue = false;
