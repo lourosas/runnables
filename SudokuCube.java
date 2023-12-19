@@ -98,7 +98,6 @@ public class SudokuCube extends SudokuGroup implements Runnable{
             int val = this.block[idx].value().intValue();
             if(val > 0){
                this.tempValues.add(Integer.valueOf(val));
-               //System.out.println("Row: "+val);
             }
          }
          //Column
@@ -107,7 +106,6 @@ public class SudokuCube extends SudokuGroup implements Runnable{
             int val = this.block[idx].value().intValue();
             if(val > 0){
                this.tempValues.add(Integer.valueOf(val));
-               //System.out.println("Col: "+val);
             }
          }
       }

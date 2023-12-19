@@ -65,6 +65,67 @@ public class SudokuColumn extends SudokuGroup implements Runnable{
       }
    }
 
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void setTempValues(int index){
+      try{
+         this.tempValues.clear();
+      }
+      catch(NullPointerException npe){
+         this.tempValues = new LinkedList<Integer>();
+      }
+      //Step 1:  Calculate the Cube Number
+      int row = index/(TOTAL*3);
+      //Step 2:  Calculate the Column Number
+      int col        = index % TOTAL;
+      int offset     = col/3;
+      //Step 3:  Get the Cube Number Indices, set the temp values
+      int cubeNumber = row*3 + offset;
+      int cubeRow    = cubeNumber/3;
+      int startRow   = cubeRow*27;
+      try{
+         for(int i = 0; i < 3; ++i){
+            int idx = startRow + (cubeNumber%3)*3 + i;
+            int val = this.block[idx].value().intValue();
+            if(val > 0){
+               this.tempValues.add(Integer.valueOf(val));
+            }
+         }
+         for(int i = 3; i < 6; ++i){
+            int idx = startRow + (cubeNumber%3)*3 + i + 6;
+            int val = this.block[idx].value().intValue();
+            if(val > 0){
+               this.tempValues.add(Integer.valueOf(val));
+            }
+         }
+         for(int i = 6; i < TOTAL; ++i){
+            int idx = startRow + (cubeNumber%3)*3  + i + 12;
+            int val = this.block[idx].value().intValue();
+            if(val > 0){
+               this.tempValues.add(Integer.valueOf(val));
+            }
+         }
+         row = index/TOTAL;
+         for(int i = 0; i < TOTAL; ++i){
+            //Step 4: Get the Row Number Indices, set the
+            //temp values
+            int idx = row*TOTAL + i;
+            int val = this.block[idx].value().intValue();
+            if(val > 0){
+               this.tempValues.add(Integer.valueOf(val));
+            }
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+      catch(IndexOutOfBoundsException obe){
+         obe.printStackTrace();
+      }
+   }
+
    /////////////////Runnable Interface Implementation/////////////////
    //
    //
@@ -79,11 +140,14 @@ public class SudokuColumn extends SudokuGroup implements Runnable{
                   int idx = this.indices[i];
                   int val = this.block[idx].value().intValue();
                   if(val < 0){
+                     this.setTempValues(idx);
                      //See if there is a race condition at the moment
                      int j = 1;
                      boolean toContinue = true;
                      while(toContinue && j < 10){
-                        if(!this.values.contains(Integer.valueOf(j))){
+                        Integer current = Integer.valueOf(j);
+                        if(!this.values.contains(current) &&
+                           !this.tempValues.contains(current)){
                            this.block[idx].value(j);
                            this.values.add(Integer.valueOf(j));
                            toContinue = false;

@@ -55,6 +55,7 @@ public class Sudoku{
       t2.start();
       for(int i = 0; i < TOTAL; ++i){
          this._block[i] = new SudokuBlock();
+         this._block[i].setIndex(i);
       }
       this.setUpBlock();
    }

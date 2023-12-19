@@ -45,7 +45,7 @@ public class SudokuRow extends SudokuGroup implements Runnable{
    //
    //
    //
-   public void setTempValues(int index){
+   private void setTempValues(int index){
       try{
          this.tempValues.clear();
       }
@@ -55,7 +55,7 @@ public class SudokuRow extends SudokuGroup implements Runnable{
       //Step 1:  Calculate the Cube Number
       int row        = index/(TOTAL*3);
       //row /= 3;
-      //Step 2:  Caculate the Column Number
+      //Step 2:  Calculate the Column Number
       int col        = index % TOTAL;
       int offset     = col/3;
       int cubeNumber = row*3 + offset;
@@ -145,7 +145,6 @@ public class SudokuRow extends SudokuGroup implements Runnable{
                      int j = 1;
                      boolean toContinue = true;
                      while(toContinue && j < 10){
-                        //This will need to change...
                         Integer current = Integer.valueOf(j);
                         if(!this.values.contains(current) &&
                            !this.tempValues.contains(current)){

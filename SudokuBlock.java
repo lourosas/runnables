@@ -24,10 +24,12 @@ import rosas.lou.runnables.*;
 public class SudokuBlock{
    private Integer _value;
    private Object  _o;
+   private int     _index;
 
    {
       _value = null;
       _o     = null;
+      _index = -1;
    };
    ///////////////////////////Constructor/////////////////////////////
    //
@@ -43,9 +45,19 @@ public class SudokuBlock{
    //
    //
    public void value(int value){
+      if(this._index == 2 || this._index == 6){
+         System.out.println("Index: "+this._index);
+         System.out.println("Thread: "+Thread.currentThread().getId());
+         System.out.println("_value: "+this._value);
+         System.out.println("value: "+value);
+      }
       synchronized(this._o){
          //avoid a race condition...
-         if(this._value.intValue() <= 0){
+         if(this._value.intValue() <= 0 && value > 0){
+            if(this._index == 2){
+               System.out.println("Thread Inside: "+Thread.currentThread().getId());
+               System.out.println("value Inside: "+value);
+            }
             this._value = Integer.valueOf(value);
          }
       }
@@ -58,6 +70,17 @@ public class SudokuBlock{
       //avoid a race condition...
       synchronized(this._o){
          return this._value;
+      }
+   }
+
+   //
+   //
+   //
+   public void setIndex(int idx){
+      synchronized(this._o){
+         if(idx > 0){
+            this._index = idx;
+         }
       }
    }
 
