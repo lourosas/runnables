@@ -131,6 +131,7 @@ public class SudokuCube extends SudokuGroup implements Runnable{
                   int idx = this.indices[i];
                   int val = this.block[idx].value().intValue();
                   if(val < 0){
+                     this.setValues();
                      this.setTempValues(idx);
                      int j = 1;
                      boolean toContinue = true;

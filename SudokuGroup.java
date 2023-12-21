@@ -23,6 +23,7 @@ import rosas.lou.runnables.*;
 
 public abstract class SudokuGroup implements Runnable{
    protected static final int TOTAL = 9;
+   protected static Object _o = new Object();
 
    protected int           indices[];
    protected SudokuBlock   block[];
@@ -88,11 +89,10 @@ public abstract class SudokuGroup implements Runnable{
       this.isSolved = didSolve;
    }
 
-   //////////////////////////Private Methods//////////////////////////
    //
    //
    //
-   private void setValues(){
+   protected void setValues(){
       try{
          this.values.clear();
       }
@@ -101,9 +101,12 @@ public abstract class SudokuGroup implements Runnable{
       }
       try{
          for(int i = 0; i < TOTAL; ++i){
-            int val = this.block[this.indices[i]].value().intValue();
-            if(val > 0){
-               this.values.add(this.block[this.indices[i]].value());
+            synchronized(this._o){
+               Integer value = this.block[this.indices[i]].value();
+               int val = value.intValue();
+               if(val > 0){
+                  this.values.add(value);
+               }
             }
          }
       }
@@ -111,6 +114,8 @@ public abstract class SudokuGroup implements Runnable{
          npe.printStackTrace();
       }
    }
+
+   //////////////////////////Private Methods//////////////////////////
 
    /////////////////Runnable Interface Implementation/////////////////
    //
