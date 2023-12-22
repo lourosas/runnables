@@ -179,40 +179,40 @@ public class Sudoku{
    //
    //
    private void setUpBlock(){
-      this._block[0].value(8);
-      this._block[1].value(7);
-      this._block[5].value(1);
-      this._block[8].value(5);
-      this._block[10].value(5);
-      this._block[12].value(3);
-      this._block[13].value(8);
-      this._block[18].value(9);
-      this._block[19].value(1);
-      this._block[22].value(5);
-      this._block[25].value(6);
-      this._block[28].value(3);
-      this._block[30].value(6);
-      this._block[31].value(2);
-      this._block[33].value(5);
-      this._block[36].value(5);
-      this._block[38].value(2);
-      this._block[42].value(7);
-      this._block[44].value(6);
-      this._block[47].value(7);
-      this._block[49].value(4);
-      this._block[50].value(8);
-      this._block[52].value(3);
-      this._block[55].value(8);
-      this._block[58].value(6);
-      this._block[61].value(9);
-      this._block[62].value(3);
-      this._block[67].value(7);
-      this._block[68].value(3);
-      this._block[70].value(5);
-      this._block[72].value(3);
-      this._block[75].value(8);
-      this._block[79].value(7);
-      this._block[80].value(4);
+      this._block[0].value(8, false);
+      this._block[1].value(7, false);
+      this._block[5].value(1, false);
+      this._block[8].value(5, false);
+      this._block[10].value(5,false);
+      this._block[12].value(3,false);
+      this._block[13].value(8,false);
+      this._block[18].value(9,false);
+      this._block[19].value(1,false);
+      this._block[22].value(5,false);
+      this._block[25].value(6,false);
+      this._block[28].value(3,false);
+      this._block[30].value(6,false);
+      this._block[31].value(2,false);
+      this._block[33].value(5,false);
+      this._block[36].value(5,false);
+      this._block[38].value(2,false);
+      this._block[42].value(7,false);
+      this._block[44].value(6,false);
+      this._block[47].value(7,false);
+      this._block[49].value(4,false);
+      this._block[50].value(8,false);
+      this._block[52].value(3,false);
+      this._block[55].value(8,false);
+      this._block[58].value(6,false);
+      this._block[61].value(9,false);
+      this._block[62].value(3,false);
+      this._block[67].value(7,false);
+      this._block[68].value(3,false);
+      this._block[70].value(5,false);
+      this._block[72].value(3,false);
+      this._block[75].value(8,false);
+      this._block[79].value(7,false);
+      this._block[80].value(4,false);
    }
 }
 //////////////////////////////////////////////////////////////////////

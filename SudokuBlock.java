@@ -25,11 +25,13 @@ public class SudokuBlock{
    private Integer _value;
    private Object  _o;
    private int     _index;
+   private boolean _isMutable;
 
    {
-      _value = null;
-      _o     = null;
-      _index = -1;
+      _value     = null;
+      _o         = null;
+      _index     = -1;
+      _isMutable = true;
    };
    ///////////////////////////Constructor/////////////////////////////
    //
@@ -45,12 +47,36 @@ public class SudokuBlock{
    //
    //
    public void value(int value){
-      synchronized(this._o){
+      if(this._isMutable){
          //avoid a race condition...
-         if(this._value.intValue() <= 0 && value > 0){
-            this._value = Integer.valueOf(value);
+         synchronized(this._o){
+            if(this._value.intValue() <= 0 && value > 0){
+               this._value = Integer.valueOf(value);
+            }
          }
       }
+   }
+
+   //
+   //
+   //
+   public void value(int value, boolean mutable){
+      /*
+       * This logic in English:  If currently not Mutable, and
+       * want to make Mutable, change the state first, so as to set
+       * the value...the other cases make the attempt to set the
+       * value (value(...) method will check its mutability before
+       * changing, regardless, and then set the state (might be
+       * redundant if the first statement is true, but insignificant
+       * to 'double set')...regardless, if need to change the value
+       * and the state from immutable to mutable, this method can
+       * handle it properly
+      */
+      if(!this._isMutable && mutable){
+         this._isMutable = mutable;
+      }
+      this.value(value);
+      this._isMutable = mutable;
    }
 
    //
