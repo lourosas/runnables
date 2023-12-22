@@ -85,6 +85,32 @@ public abstract class SudokuGroup implements Runnable{
    //
    //
    //
+   protected boolean checkIfSolvedCorrect(){
+      boolean isCorrect = true;
+      try{
+         for(int i = 0; i < TOTAL & isCorrect; ++i){
+            int idx = indices[i];
+            if(this.block[idx].value() < 1){
+               isCorrect &= false;
+            }
+         }
+      }
+      catch(ArrayIndexOutOfBoundsException obe){
+         obe.printStackTrace();
+      }
+      return isCorrect;
+   }
+
+   //
+   //
+   //
+   protected void reset(){
+      System.out.println("Poop");
+   }
+
+   //
+   //
+   //
    protected void solved(boolean didSolve){
       this.isSolved = didSolve;
    }

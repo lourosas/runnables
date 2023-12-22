@@ -22,12 +22,14 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public class SudokuBlock{
-   private Integer _value;
-   private Object  _o;
-   private int     _index;
-   private boolean _isMutable;
+   private List<Integer>  _doNotUse;
+   private Integer        _value;
+   private Object         _o;
+   private int            _index;
+   private boolean        _isMutable;
 
    {
+      _doNotUse  = null;
       _value     = null;
       _o         = null;
       _index     = -1;
@@ -47,14 +49,30 @@ public class SudokuBlock{
    //
    //
    public void value(int value){
+      boolean isSet = false;
       if(this._isMutable){
          //avoid a race condition...
          synchronized(this._o){
             if(this._value.intValue() <= 0 && value > 0){
-               this._value = Integer.valueOf(value);
+               Integer temp = Integer.valueOf(value);
+               try{
+                  if(!this._doNotUse.contains(temp)){ isSet = true; }
+               }
+               catch(NullPointerException npe){ isSet = true; }
+               if(isSet){
+                  this._value = temp;
+               }
             }
          }
       }
+   }
+
+   //
+   //
+   //
+   //
+   public void value(Integer value){
+      this.value(value.intValue());
    }
 
    //

@@ -157,8 +157,21 @@ public class SudokuRow extends SudokuGroup implements Runnable{
                      }
                   }
                }
-               this.solve(false);
-               this.solved(true);
+               if(this.checkIfSolvedCorrect()){
+                  this.solve(false);
+                  this.solved(true);
+               }
+               else{
+                  //Reset the Block to the original values...
+                  this.reset();
+                  //stop gap...remove these and comment out the other
+                  //two below...
+                  this.solve(false);
+                  this.solved(true);
+                  //Set to re-solve the Block
+                  //this.solve(true);
+                  //this.solved(false);
+               }
             }
             Thread.sleep(sleepTime);
          }
