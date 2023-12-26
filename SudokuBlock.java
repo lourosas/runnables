@@ -22,14 +22,14 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public class SudokuBlock{
-   private List<Integer>  _doNotUse;
+   private List<Integer>  _attempted;
    private Integer        _value;
    private Object         _o;
    private int            _index;
    private boolean        _isMutable;
 
    {
-      _doNotUse  = null;
+      _attempted = null;
       _value     = null;
       _o         = null;
       _index     = -1;
@@ -48,20 +48,41 @@ public class SudokuBlock{
    //
    //
    //
+   public boolean mutable(){
+      return this._isMutable;
+   }
+
+   //
+   //
+   //
+   public void reset(boolean toKeep){}
+
+   //
+   //
+   //
+   public void setIndex(int idx){
+      synchronized(this._o){
+         if(idx > -1){
+            this._index = idx;
+         }
+      }
+   }
+
+   //
+   //
+   //
    public void value(int value){
       boolean isSet = false;
-      if(this._isMutable){
-         //avoid a race condition...
-         synchronized(this._o){
-            if(this._value.intValue() <= 0 && value > 0){
-               Integer temp = Integer.valueOf(value);
-               try{
-                  if(!this._doNotUse.contains(temp)){ isSet = true; }
-               }
-               catch(NullPointerException npe){ isSet = true; }
-               if(isSet){
-                  this._value = temp;
-               }
+      //In this case, the _value is only set once...
+      synchronized(this._o){
+         if(this._value.intValue() <= 0 && value > 0){
+            Integer temp = Integer.valueOf(value);
+            try{
+               if(!this._attempted.contains(temp)){ isSet = true; }
+            }
+            catch(NullPointerException npe){ isSet = true; }
+            if(isSet){
+               this._value = temp;
             }
          }
       }
@@ -79,20 +100,6 @@ public class SudokuBlock{
    //
    //
    public void value(int value, boolean mutable){
-      /*
-       * This logic in English:  If currently not Mutable, and
-       * want to make Mutable, change the state first, so as to set
-       * the value...the other cases make the attempt to set the
-       * value (value(...) method will check its mutability before
-       * changing, regardless, and then set the state (might be
-       * redundant if the first statement is true, but insignificant
-       * to 'double set')...regardless, if need to change the value
-       * and the state from immutable to mutable, this method can
-       * handle it properly
-      */
-      if(!this._isMutable && mutable){
-         this._isMutable = mutable;
-      }
       this.value(value);
       this._isMutable = mutable;
    }
@@ -106,17 +113,5 @@ public class SudokuBlock{
          return this._value;
       }
    }
-
-   //
-   //
-   //
-   public void setIndex(int idx){
-      synchronized(this._o){
-         if(idx > -1){
-            this._index = idx;
-         }
-      }
-   }
-
 }
 //////////////////////////////////////////////////////////////////////

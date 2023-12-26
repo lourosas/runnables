@@ -24,12 +24,13 @@ import rosas.lou.runnables.*;
 public class SudokuColumn extends SudokuGroup implements Runnable{
 
    {
-      indices    = null;
-      block      = null;
-      isSolved   = false;
-      solveIt    = false;
-      values     = null;
-      tempValues = null;
+      indices      = null;
+      block        = null;
+      isSolved     = false;
+      solveIt      = false;
+      values       = null;
+      tempValues   = null;
+      unUsedValues = null;
    };
 
    ///////////////////////////Constructor/////////////////////////////
@@ -136,23 +137,26 @@ public class SudokuColumn extends SudokuGroup implements Runnable{
       while(toRun){
          try{
             if(this.solveIt){
+               this.setUnusedValues();
                for(int i = 0; i < this.indices.length; ++i){
-                  int idx = this.indices[i];
-                  int val = this.block[idx].value().intValue();
+                  int idx     = this.indices[i];
+                  Integer val = this.block[idx].value();
                   if(val < 0){
                      this.setValues();
                      this.setTempValues(idx);
-                     int j = 1;
-                     boolean toContinue = true;
-                     while(toContinue && j < 10){
-                        Integer current = Integer.valueOf(j);
-                        if(!this.values.contains(current) &&
-                           !this.tempValues.contains(current)){
-                           this.block[idx].value(j);
-                           this.values.add(Integer.valueOf(j));
-                           toContinue = false;
+                     Integer cur   = null;
+                     boolean found = false;
+                     Iterator<Integer>it=this.unUsedValues.iterator();
+                     while(!found && it.hasNext()){
+                        cur = it.next();
+                        boolean inVal = this.values.contains(cur);
+                        boolean inTemp= this.tempValues.contains(cur);
+                        if(!inVal && !inTemp){
+                           this.block[idx].value(cur);
+                           //Might need to review this idea...
+                           this.values.add(cur);
+                           found = true;
                         }
-                        ++j;
                      }
                   }
                }

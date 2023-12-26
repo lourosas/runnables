@@ -30,7 +30,7 @@ public abstract class SudokuGroup implements Runnable{
    protected boolean       isSolved;
    protected boolean       solveIt;
    protected List<Integer> values;
-   protected List<Integer> tempValues;
+   protected List<Integer> unUsedValues;
    
    //////////////////////////Public Methods///////////////////////////
    //
@@ -85,7 +85,7 @@ public abstract class SudokuGroup implements Runnable{
    //
    //
    //
-   protected boolean checkIfSolvedCorrect(){
+   protected boolean isSolvedCorrect(){
       boolean isCorrect = true;
       try{
          for(int i = 0; i < TOTAL & isCorrect; ++i){
@@ -105,14 +105,13 @@ public abstract class SudokuGroup implements Runnable{
    //
    //
    protected void reset(){
-      System.out.println("Poop");
-   }
-
-   //
-   //
-   //
-   protected void solved(boolean didSolve){
-      this.isSolved = didSolve;
+      for(int i = 0; i < TOTAL; ++i){
+         //indicate the Block currently has a bad value 
+         //reset the Block Value...
+         int idx = indices[i];
+         //indicate not to use the value in it again...
+         this.block[idx].reset(true);
+      }
    }
 
    //
@@ -129,8 +128,7 @@ public abstract class SudokuGroup implements Runnable{
          for(int i = 0; i < TOTAL; ++i){
             synchronized(this._o){
                Integer value = this.block[this.indices[i]].value();
-               int val = value.intValue();
-               if(val > 0){
+               if(value > 0){
                   this.values.add(value);
                }
             }
@@ -139,6 +137,42 @@ public abstract class SudokuGroup implements Runnable{
       catch(NullPointerException npe){
          npe.printStackTrace();
       }
+   }
+
+   //
+   //
+   //
+   protected void setUnusedValues(){
+      List<Integer> temp = new LinkedList<Integer>();
+      try{
+         this.unUsedValues.clear();
+      }
+      catch(NullPointerException npe){
+         this.unUsedValues = new LinkedList<Integer>();
+      }
+      for(int i = 0; i < TOTAL; ++i){
+         synchronized(this._o){
+            int idx = this.indices[i];
+            if(!this.block[idx].mutable()){
+               temp.add(this.block[idx].value());
+            }
+         }
+      }
+      for(int i = 1; i < TOTAL+1; ++i){
+         synchronized(this._o){
+            Integer value = Integer.valueOf(i);
+            if(!temp.contains(value)){
+               this.unUsedValues.add(value);
+            }
+         }
+      }
+   }
+
+   //
+   //
+   //
+   protected void solved(boolean didSolve){
+      this.isSolved = didSolve;
    }
 
    //////////////////////////Private Methods//////////////////////////

@@ -162,6 +162,13 @@ public class Sudoku{
       }
       return indices;
    }
+   
+   //
+   //
+   //
+   private boolean isSolvedCorrect(){
+      return false;
+   }
 
    //
    //
@@ -174,6 +181,11 @@ public class Sudoku{
          s.update(this._block);
       }
    }
+
+   //
+   //
+   //
+   private void reset(){}
 
    //
    //
