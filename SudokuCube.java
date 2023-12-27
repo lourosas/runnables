@@ -148,11 +148,37 @@ public class SudokuCube extends SudokuGroup implements Runnable{
                            found = true;
                         }
                      }
+                     if(!found){
+                        boolean complete = false;
+                        while(--i > -1 && !complete){
+                           idx = this.indices[i];
+                           complete = this.block[idx].mutable();
+                           if(complete){
+                              this.block[idx].reset(true);
+                           }
+                        }
+                        System.out.println(i);
+                        /*
+                        try{
+                           --i;
+                           idx = indices[i];
+                           System.out.println(idx);
+                           System.out.println(block[idx].value());
+                        }
+                        catch(ArrayIndexOutOfBoundsException oob){
+                           //Already at the top of the array...
+                           i = 0;
+                           idx = indices[i];
+                           System.out.println(idx);
+                           System.out.println(block[idx].value());
+                        }
+                        */
+                        //get rid of this...
+                        break;
+                     }
                   }
                }
                this.solve(false);
-               //For the time being, once here, the block is solved
-               //this MAY NEED to change...
                this.solved(true);
             }
             Thread.sleep(sleepTime);

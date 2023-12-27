@@ -158,6 +158,8 @@ public class SudokuColumn extends SudokuGroup implements Runnable{
                            found = true;
                         }
                      }
+                     if(!found){
+                     }
                   }
                }
                this.solve(false);

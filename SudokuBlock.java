@@ -27,6 +27,7 @@ public class SudokuBlock{
    private Object         _o;
    private int            _index;
    private boolean        _isMutable;
+   private boolean        _reset;
 
    {
       _attempted = null;
@@ -34,6 +35,7 @@ public class SudokuBlock{
       _o         = null;
       _index     = -1;
       _isMutable = true;
+      _reset     = false;
    };
    ///////////////////////////Constructor/////////////////////////////
    //
@@ -55,7 +57,19 @@ public class SudokuBlock{
    //
    //
    //
-   public void reset(boolean toKeep){}
+   public void reset(boolean toKeep){
+      if(toKeep){
+         try{
+            this._attempted.add(this._value);
+         }
+         catch(NullPointerException npe){
+            this._attempted = new LinkedList<Integer>();
+            this._attempted.add(this._value);
+         }
+      }
+      this._reset = true;
+      this.value(Integer.valueOf(Integer.MIN_VALUE));
+   }
 
    //
    //
@@ -74,6 +88,8 @@ public class SudokuBlock{
    public void value(int value){
       boolean isSet = false;
       //In this case, the _value is only set once...
+      //May need to do something related to reset and mutable check
+      //here, but the logic for the time being seems sound...
       synchronized(this._o){
          if(this._value.intValue() <= 0 && value > 0){
             Integer temp = Integer.valueOf(value);
@@ -93,7 +109,14 @@ public class SudokuBlock{
    //
    //
    public void value(Integer value){
-      this.value(value.intValue());
+      if(this._reset && this.mutable()){
+         //Only reset those that are not "Clues"...
+         this._value = Integer.valueOf(Integer.MIN_VALUE);
+         this._reset = false;
+      }
+      else{
+         this.value(value.intValue());
+      }
    }
 
    //

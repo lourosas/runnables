@@ -158,11 +158,33 @@ public class SudokuRow extends SudokuGroup implements Runnable{
                            found = true;
                         }
                      }
+                     if(!found){
+                     }
                   }
                }
-               //Temporary stop gap for the moment!!!
-               this.solve(false);
-               this.solved(true);
+               /*
+               if(!this.isSolvedCorrect()){
+                  System.out.println(this.isSolvedCorrect());
+                  int i = this.findFirstBlankIndex();
+                  System.out.println("First Blank: "+i);
+                  System.out.println("Last Number: "+(i-1));
+                  try{
+                     System.out.println("Last Number Index: "+indices[i-1]);
+                  }
+                  catch(ArrayIndexOutOfBoundsException oob){
+                     i = 0;
+                     System.out.println("Last Number Index: "+indices[i]);
+                  }
+                  //the oposite if not solved...
+                  //this.solve(true); 
+                  //this.solved(false);
+               }
+               */
+               //else{
+                  //Temporary stop gap for the moment!!!
+                  this.solve(false);
+                  this.solved(true);
+               //}
             }
             Thread.sleep(sleepTime);
          }

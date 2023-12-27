@@ -30,6 +30,7 @@ public abstract class SudokuGroup implements Runnable{
    protected boolean       isSolved;
    protected boolean       solveIt;
    protected List<Integer> values;
+   protected List<Integer> tempValues;
    protected List<Integer> unUsedValues;
    
    //////////////////////////Public Methods///////////////////////////
@@ -85,11 +86,37 @@ public abstract class SudokuGroup implements Runnable{
    //
    //
    //
+   protected int findFirstBlankIndex(){
+      int first     = -1;
+      boolean found = false;
+      try{
+         for(int i = 0; i < TOTAL && !found; ++i){
+            int idx = indices[i];
+            //Might consider a synchronization...
+            if(this.block[idx].value() < 1){
+               first = i;
+               found = true;
+            }
+         }
+      }
+      catch(ArrayIndexOutOfBoundsException obe){
+         obe.printStackTrace();
+         first = -1;
+      }
+      finally{
+         return first;
+      }
+   }
+
+   //
+   //
+   //
    protected boolean isSolvedCorrect(){
       boolean isCorrect = true;
       try{
          for(int i = 0; i < TOTAL & isCorrect; ++i){
             int idx = indices[i];
+            //Might consider a synchronization...
             if(this.block[idx].value() < 1){
                isCorrect &= false;
             }
