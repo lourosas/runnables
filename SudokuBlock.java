@@ -109,13 +109,15 @@ public class SudokuBlock{
    //
    //
    public void value(Integer value){
-      if(this._reset && this.mutable()){
-         //Only reset those that are not "Clues"...
-         this._value = Integer.valueOf(Integer.MIN_VALUE);
-         this._reset = false;
-      }
-      else{
-         this.value(value.intValue());
+      synchronized(this._o){
+         if(this._reset && this.mutable()){
+            //Only reset those that are not "Clues"...
+            this._value = Integer.valueOf(Integer.MIN_VALUE);
+            this._reset = false;
+         }
+         else{
+            this.value(value.intValue());
+         }
       }
    }
 

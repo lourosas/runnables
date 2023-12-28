@@ -130,6 +130,7 @@ public class SudokuCube extends SudokuGroup implements Runnable{
             if(this.solveIt){
                this.setUnusedValues();
                for(int i = 0; i < this.indices.length; ++i){
+                  System.out.println("-1. i: "+i);
                   int idx     = this.indices[i];
                   Integer val = this.block[idx].value();
                   if(val < 0){
@@ -154,27 +155,18 @@ public class SudokuCube extends SudokuGroup implements Runnable{
                            idx = this.indices[i];
                            complete = this.block[idx].mutable();
                            if(complete){
+                              System.out.println("0. idx: "+idx);
+                              System.out.println(block[idx].value());
                               this.block[idx].reset(true);
+                              //Should NOT have to do these once up...
+                              this.setValues();
+                              this.setTempValues(idx);
                            }
                         }
-                        System.out.println(i);
-                        /*
-                        try{
-                           --i;
-                           idx = indices[i];
-                           System.out.println(idx);
-                           System.out.println(block[idx].value());
-                        }
-                        catch(ArrayIndexOutOfBoundsException oob){
-                           //Already at the top of the array...
-                           i = 0;
-                           idx = indices[i];
-                           System.out.println(idx);
-                           System.out.println(block[idx].value());
-                        }
-                        */
+                        System.out.println("1. idx: "+idx);
+                        System.out.println(block[idx].value());
                         //get rid of this...
-                        break;
+                        //break;
                      }
                   }
                }
