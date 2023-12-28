@@ -145,20 +145,16 @@ public class SudokuRow extends SudokuGroup implements Runnable{
                   if(val < 0){
                      this.setValues();
                      this.setTempValues(idx);
-                     boolean found  = false;
                      Integer cur    = null;
                      Iterator<Integer>it=this.unUsedValues.iterator();
-                     while(!found && it.hasNext()){
+                     while(it.hasNext()){
                         cur = it.next();
                         boolean inVal = this.values.contains(cur);
                         boolean inTemp= this.tempValues.contains(cur);
                         if(!inVal && !inTemp){
                            this.block[idx].value(cur);
                            this.values.add(cur);
-                           found = true;
                         }
-                     }
-                     if(!found){
                      }
                   }
                }

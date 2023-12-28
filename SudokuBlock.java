@@ -72,8 +72,8 @@ public class SudokuBlock{
    }
 
    //
-   //
-   //
+   //Not sure WTF I am going to use this for, just yet!!!
+   //MAYBE REMOVE???
    public void setIndex(int idx){
       synchronized(this._o){
          if(idx > -1){
@@ -85,58 +85,48 @@ public class SudokuBlock{
    //
    //
    //
-   public void value(int value){
-      boolean isSet = false;
-      //In this case, the _value is only set once...
-      //May need to do something related to reset and mutable check
-      //here, but the logic for the time being seems sound...
-      synchronized(this._o){
-         if(this._value.intValue() <= 0 && value > 0){
-            Integer temp = Integer.valueOf(value);
-            try{
-               if(!this._attempted.contains(temp)){ isSet = true; }
-            }
-            catch(NullPointerException npe){ isSet = true; }
-            if(isSet){
-               this._value = temp;
-            }
-         }
-      }
-   }
-
-   //
-   //
-   //
-   //
-   public void value(Integer value){
-      synchronized(this._o){
-         if(this._reset && this.mutable()){
-            //Only reset those that are not "Clues"...
-            this._value = Integer.valueOf(Integer.MIN_VALUE);
-            this._reset = false;
-         }
-         else{
-            this.value(value.intValue());
-         }
-      }
-   }
-
-   //
-   //
-   //
-   public void value(int value, boolean mutable){
-      this.value(value);
-      this._isMutable = mutable;
-   }
-
-   //
-   //
-   //
    public Integer value(){
       //avoid a race condition...
       synchronized(this._o){
          return this._value;
       }
+   }
+
+   //
+   //
+   //
+   public boolean value(Integer value){
+      boolean isSet = false;
+      //In this case, the _value is only set once...
+      //May need to do something related to reset and mutable check
+      //here, but the logic for the time being seems sound...
+      synchronized(this._o){
+         if(this._value <= 0 && value > 0){
+            try{
+               if(!this._attempted.contains(value)){
+                  this._value = value;
+                  isSet = true;
+               }
+            }
+            catch(NullPointerException npe){
+               this._value = value;
+               isSet = true;
+            }
+         }
+         else if(this._reset && this.mutable()){
+            this._value = value;
+         }
+      }
+      return isSet;
+   }
+
+   //
+   //
+   //
+   public boolean value(Integer value, boolean mutable){
+      boolean isSet   = this.value(value);
+      this._isMutable = mutable;
+      return  isSet;
    }
 }
 //////////////////////////////////////////////////////////////////////

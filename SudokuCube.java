@@ -130,43 +130,21 @@ public class SudokuCube extends SudokuGroup implements Runnable{
             if(this.solveIt){
                this.setUnusedValues();
                for(int i = 0; i < this.indices.length; ++i){
-                  System.out.println("-1. i: "+i);
                   int idx     = this.indices[i];
                   Integer val = this.block[idx].value();
                   if(val < 0){
                      this.setValues();
                      this.setTempValues(idx);
-                     boolean found = false;
-                     Integer cur   = null;
+                     Integer cur        = null;
                      Iterator<Integer>it=this.unUsedValues.iterator();
-                     while(!found && it.hasNext()){
+                     while(it.hasNext()){
                         cur = it.next();
                         boolean inVal = this.values.contains(cur);
                         boolean inTemp= this.tempValues.contains(cur);
                         if(!inVal && !inTemp){
                            this.block[idx].value(cur);
                            this.values.add(cur);
-                           found = true;
                         }
-                     }
-                     if(!found){
-                        boolean complete = false;
-                        while(--i > -1 && !complete){
-                           idx = this.indices[i];
-                           complete = this.block[idx].mutable();
-                           if(complete){
-                              System.out.println("0. idx: "+idx);
-                              System.out.println(block[idx].value());
-                              this.block[idx].reset(true);
-                              //Should NOT have to do these once up...
-                              this.setValues();
-                              this.setTempValues(idx);
-                           }
-                        }
-                        System.out.println("1. idx: "+idx);
-                        System.out.println(block[idx].value());
-                        //get rid of this...
-                        //break;
                      }
                   }
                }
