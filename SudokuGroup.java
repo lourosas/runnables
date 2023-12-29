@@ -29,6 +29,7 @@ public abstract class SudokuGroup implements Runnable{
    protected SudokuBlock   block[];
    protected boolean       isSolved;
    protected boolean       solveIt;
+   protected int           unUsedCombos;
    protected List<Integer> values;
    protected List<Integer> tempValues;
    protected List<Integer> unUsedValues;
@@ -131,13 +132,16 @@ public abstract class SudokuGroup implements Runnable{
    //
    //
    //
-   protected void reset(){
+   protected void reset(boolean keepPrevious){
       for(int i = 0; i < TOTAL; ++i){
          //indicate the Block currently has a bad value 
          //reset the Block Value...
          int idx = indices[i];
          //indicate not to use the value in it again...
-         this.block[idx].reset(true);
+         this.block[idx].reset(keepPrevious);
+         if(!keepPrevious){
+            this.block[idx].clearAttempts();
+         }
       }
    }
 
@@ -193,6 +197,7 @@ public abstract class SudokuGroup implements Runnable{
             }
          }
       }
+      this.unUsedCombos = this.factorial(this.unUsedValues.size());
    }
 
    //
@@ -203,6 +208,17 @@ public abstract class SudokuGroup implements Runnable{
    }
 
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private int factorial(int x){
+      if(x == 0)
+         return 0;
+      else if(x < 2)
+         return 1;
+      else
+         return x*factorial(x-1);
+   }
 
    /////////////////Runnable Interface Implementation/////////////////
    //

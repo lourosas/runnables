@@ -28,6 +28,7 @@ public class SudokuCube extends SudokuGroup implements Runnable{
       block        = null;
       isSolved     = false;
       solveIt      = false;
+      unUsedCombos = 0;
       values       = null;
       tempValues   = null;
       unUsedValues = null;
@@ -129,6 +130,7 @@ public class SudokuCube extends SudokuGroup implements Runnable{
          try{
             if(this.solveIt){
                this.setUnusedValues();
+               /*
                for(int i = 0; i < this.indices.length; ++i){
                   int idx     = this.indices[i];
                   Integer val = this.block[idx].value();
@@ -137,16 +139,30 @@ public class SudokuCube extends SudokuGroup implements Runnable{
                      this.setTempValues(idx);
                      Integer cur        = null;
                      Iterator<Integer>it=this.unUsedValues.iterator();
-                     while(it.hasNext()){
+                     boolean toContinue = true;
+                     while(it.hasNext() && toContinue){
                         cur = it.next();
                         boolean inVal = this.values.contains(cur);
                         boolean inTemp= this.tempValues.contains(cur);
                         if(!inVal && !inTemp){
                            this.block[idx].value(cur);
                            this.values.add(cur);
+                           toContinue = false;
                         }
                      }
                   }
+               }
+               if(!this.isSolvedCorrect()){
+                  System.out.println("Cube: "+this.findFirstBlankIndex());
+                  System.out.println(this.unUsedValues.size());
+               }
+               */
+               while(!this.isSolvedCorrect()){
+                  System.out.println("Cube");
+                  //at some point, this will need to be
+                  //discerned...
+                  this.reset(true);
+                  break;//put this here, for now REMOVE!!!
                }
                this.solve(false);
                this.solved(true);

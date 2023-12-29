@@ -28,6 +28,7 @@ public class SudokuColumn extends SudokuGroup implements Runnable{
       block        = null;
       isSolved     = false;
       solveIt      = false;
+      unUsedCombos = 0;
       values       = null;
       tempValues   = null;
       unUsedValues = null;
@@ -157,6 +158,10 @@ public class SudokuColumn extends SudokuGroup implements Runnable{
                         }
                      }
                   }
+               }
+               if(!this.isSolvedCorrect()){
+                  System.out.println("Col: "+this.findFirstBlankIndex());
+                  System.out.println(this.unUsedValues.size());
                }
                this.solve(false);
                this.solved(true);

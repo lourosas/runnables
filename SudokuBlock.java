@@ -50,6 +50,16 @@ public class SudokuBlock{
    //
    //
    //
+   public void clearAttempts(){
+      try{
+         this._attempted.clear();
+      }
+      catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
    public boolean mutable(){
       return this._isMutable;
    }
@@ -60,11 +70,15 @@ public class SudokuBlock{
    public void reset(boolean toKeep){
       if(toKeep){
          try{
-            this._attempted.add(this._value);
+            if(this._value > 0){
+               this._attempted.add(this._value);
+            }
          }
          catch(NullPointerException npe){
             this._attempted = new LinkedList<Integer>();
-            this._attempted.add(this._value);
+            if(this._value > 0){
+               this._attempted.add(this._value);
+            }
          }
       }
       this._reset = true;
