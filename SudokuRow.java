@@ -160,8 +160,8 @@ public class SudokuRow extends SudokuGroup implements Runnable{
                   }
                }
                if(!this.isSolvedCorrect()){
-                  System.out.println("Row: "+this.findFirstBlankIndex());
-                  System.out.println(this.unUsedValues.size());
+                  //System.out.println("Row: "+this.findFirstBlankIndex());
+                  //System.out.println(this.unUsedValues.size());
                }
                this.solve(false);
                this.solved(true);

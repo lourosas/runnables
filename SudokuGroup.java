@@ -112,6 +112,31 @@ public abstract class SudokuGroup implements Runnable{
    //
    //
    //
+   protected int findLastBlankIndex(){
+      int last      = -1;
+      boolean found = false;
+      try{
+         for(int i = (TOTAL-1); i > -1 && !found; --i){
+            int idx = indices[i];
+            //Might consider a synchronization...
+            if(this.block[idx].value() < 1){
+               last  = i;
+               found = true;
+            }
+         }
+      }
+      catch(ArrayIndexOutOfBoundsException obe){
+         obe.printStackTrace();
+         last = -1;
+      }
+      finally{
+         return last;
+      }
+   }
+
+   //
+   //
+   //
    protected boolean isSolvedCorrect(){
       boolean isCorrect = true;
       try{

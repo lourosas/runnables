@@ -157,11 +157,15 @@ public class SudokuCube extends SudokuGroup implements Runnable{
                   System.out.println(this.unUsedValues.size());
                }
                */
+               int attemptedCombos = 0;
                while(!this.isSolvedCorrect()){
                   System.out.println("Cube");
-                  //at some point, this will need to be
-                  //discerned...
                   this.reset(true);
+                  //Going to need to put up a counter based on
+                  //when to break...
+                  ++attemptedCombos;
+                  System.out.println(attemptedCombos);
+                  System.out.println(unUsedCombos);
                   break;//put this here, for now REMOVE!!!
                }
                this.solve(false);
