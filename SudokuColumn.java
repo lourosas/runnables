@@ -67,11 +67,11 @@ public class SudokuColumn extends SudokuGroup implements Runnable{
       }
    }
 
-   //////////////////////////Private Methods//////////////////////////
+   ////////////////////////Protected Methods//////////////////////////
    //
    //
    //
-   private void setTempValues(int index){
+   protected void setTempValues(int index){
       try{
          this.tempValues.clear();
       }

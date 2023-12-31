@@ -43,11 +43,11 @@ public class SudokuRow extends SudokuGroup implements Runnable{
       this.solveIt = false;
    }
 
-   //////////////////////////Private Methods//////////////////////////
+   ////////////////////////Protected Methods//////////////////////////
    //
    //
    //
-   private void setTempValues(int index){
+   protected void setTempValues(int index){
       try{
          this.tempValues.clear();
       }

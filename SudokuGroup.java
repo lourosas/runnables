@@ -201,6 +201,11 @@ public abstract class SudokuGroup implements Runnable{
    //
    //
    //
+   protected void setTempValues(int index){}
+
+   //
+   //
+   //
    protected void setValues(){
       try{
          this.values.clear();
@@ -267,10 +272,6 @@ public abstract class SudokuGroup implements Runnable{
          return x*factorial(x-1);
    }
 
-   //
-   //
-   //
-   private void setTempValues(int index){}
 
    /////////////////Runnable Interface Implementation/////////////////
    //
