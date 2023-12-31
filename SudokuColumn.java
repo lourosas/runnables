@@ -146,15 +146,17 @@ public class SudokuColumn extends SudokuGroup implements Runnable{
                      this.setValues();
                      this.setTempValues(idx);
                      Integer cur   = null;
+                     boolean found = false;
                      Iterator<Integer>it=this.unUsedValues.iterator();
-                     while(it.hasNext()){
+                     while(!found && it.hasNext()){
                         cur = it.next();
                         boolean inVal = this.values.contains(cur);
                         boolean inTemp= this.tempValues.contains(cur);
                         if(!inVal && !inTemp){
                            this.block[idx].value(cur);
-                           //Might need to review this idea...
                            this.values.add(cur);
+                           this.setValues();
+                           found = true;
                         }
                      }
                   }

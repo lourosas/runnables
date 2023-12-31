@@ -173,6 +173,34 @@ public abstract class SudokuGroup implements Runnable{
    //
    //
    //
+   protected void setGroupValues(){
+      for(int i = 0; i < this.indices.length; ++i){
+         int idx     = this.indices[i];
+         Integer val = this.block[idx].value();
+         if(val < 0){
+            this.setValues();
+            this.setTempValues(idx);
+            Integer cur    = null;
+            boolean found  = false;
+            Iterator<Integer>it = this.unUsedValues.iterator();
+            while(!found && it.hasNext()){
+               cur = it.next();
+               boolean inVal  = this.values.contains(cur);
+               boolean inTemp = this.tempValues.contains(cur);
+               if(!inVal && !inTemp){
+                  this.block[idx].value(cur);
+                  this.values.add(cur);
+                  this.setValues();
+                  found = true;
+               }
+            }
+         }
+      }
+   }
+
+   //
+   //
+   //
    protected void setValues(){
       try{
          this.values.clear();
@@ -182,11 +210,9 @@ public abstract class SudokuGroup implements Runnable{
       }
       try{
          for(int i = 0; i < TOTAL; ++i){
-            synchronized(this._o){
-               Integer value = this.block[this.indices[i]].value();
-               if(value > 0){
-                  this.values.add(value);
-               }
+            Integer value = this.block[this.indices[i]].value();
+            if(value > 0){
+               this.values.add(value);
             }
          }
       }
@@ -207,19 +233,15 @@ public abstract class SudokuGroup implements Runnable{
          this.unUsedValues = new LinkedList<Integer>();
       }
       for(int i = 0; i < TOTAL; ++i){
-         synchronized(this._o){
-            int idx = this.indices[i];
-            if(!this.block[idx].mutable()){
-               temp.add(this.block[idx].value());
-            }
+         int idx = this.indices[i];
+         if(!this.block[idx].mutable()){
+            temp.add(this.block[idx].value());
          }
       }
       for(int i = 1; i < TOTAL+1; ++i){
-         synchronized(this._o){
-            Integer value = Integer.valueOf(i);
-            if(!temp.contains(value)){
-               this.unUsedValues.add(value);
-            }
+         Integer value = Integer.valueOf(i);
+         if(!temp.contains(value)){
+            this.unUsedValues.add(value);
          }
       }
       this.unUsedCombos = this.factorial(this.unUsedValues.size());
@@ -244,6 +266,11 @@ public abstract class SudokuGroup implements Runnable{
       else
          return x*factorial(x-1);
    }
+
+   //
+   //
+   //
+   private void setTempValues(int index){}
 
    /////////////////Runnable Interface Implementation/////////////////
    //
