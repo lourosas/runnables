@@ -156,7 +156,6 @@ public class SudokuRow extends SudokuGroup implements Runnable{
                         if(!inVal && !inTemp){
                            this.block[idx].value(cur);
                            this.values.add(cur);
-                           this.setValues();
                            found = true;
                         }
                      }
