@@ -171,7 +171,7 @@ public abstract class SudokuGroup implements Runnable{
    }
 
    //
-   //
+   //Set the values for the entire group
    //
    protected void setGroupValues(){
       for(int i = 0; i < this.indices.length; ++i){
