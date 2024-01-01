@@ -154,10 +154,10 @@ public abstract class SudokuGroup implements Runnable{
       return isCorrect;
    }
 
+   //Reset the entire Group
    //
    //
-   //
-   protected void reset(boolean keepPrevious){
+   protected void resetAll(boolean keepPrevious){
       for(int i = 0; i < TOTAL; ++i){
          //indicate the Block currently has a bad value 
          //reset the Block Value...
@@ -168,6 +168,37 @@ public abstract class SudokuGroup implements Runnable{
             this.block[idx].clearAttempts();
          }
       }
+   }
+
+   //
+   //
+   //
+   protected void resetAtAboveFirstBlank(){
+      int i   = this.findLastBlankIndex();
+      //System.out.println(i);
+      if(i > -1){
+         i = (i > 0) ? i - 1: i;
+         int idx = this.indices[i];
+         while(!this.block[idx].mutable() && i > 0){
+            --i;
+            idx = this.indices[i];
+         }
+         //If the last value to check is immutable, start with the
+         //last blank index...
+         if(i == 0 && !this.block[idx].mutable()){
+            System.out.println("SHIT!!!");
+            i = this.findLastBlankIndex();
+         }
+         /*
+         System.out.println(i);
+         System.out.println(idx);
+         System.out.println(this.block[idx].mutable());
+         */
+         //see what happens
+         this.block[idx].reset(false);
+         //System.out.println(this.block[idx].value());
+      }
+
    }
 
    //

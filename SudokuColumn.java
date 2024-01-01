@@ -138,6 +138,7 @@ public class SudokuColumn extends SudokuGroup implements Runnable{
       while(toRun){
          try{
             if(this.solveIt){
+               System.out.println("Column");
                this.setUnusedValues();
                for(int i = 0; i < this.indices.length; ++i){
                   int idx     = this.indices[i];

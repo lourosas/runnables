@@ -129,6 +129,8 @@ public class SudokuBlock{
          }
          else if(this._reset && this.mutable()){
             this._value = value;
+            //Clear the reset value
+            this._reset = false;
          }
       }
       return isSet;

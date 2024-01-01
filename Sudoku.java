@@ -92,12 +92,13 @@ public class Sudoku{
             this._column.block(this._block);
             this._row.block(this._block);
             this._cube.solve(true);
-            this._column.solve(true);
-            this._row.solve(true);
-            while((!this._cube.solved())   || 
+            //this._column.solve(true);
+            //this._row.solve(true);
+            /*while((!this._cube.solved())   || 
                   (!this._column.solved()) ||
-                  (!this._row.solved())){
-               System.out.println("Solving");
+                  (!this._row.solved())){*/
+            while(!this._cube.solved()){
+               //System.out.println("Solving");
                Thread.sleep(50);
             }
             this.notifySubscribers();
