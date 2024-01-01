@@ -189,11 +189,9 @@ public abstract class SudokuGroup implements Runnable{
             System.out.println("SHIT!!!");
             i = this.findLastBlankIndex();
          }
-         /*
          System.out.println(i);
          System.out.println(idx);
          System.out.println(this.block[idx].mutable());
-         */
          //see what happens
          this.block[idx].reset(false);
          //System.out.println(this.block[idx].value());
