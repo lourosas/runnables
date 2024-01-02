@@ -173,7 +173,7 @@ public abstract class SudokuGroup implements Runnable{
    //
    //
    //
-   protected void resetAtAboveFirstBlank(){
+   protected void resetAtAboveLastBlank(){
       int i   = this.findLastBlankIndex();
       //System.out.println(i);
       if(i > -1){
@@ -187,13 +187,13 @@ public abstract class SudokuGroup implements Runnable{
          //last blank index...
          if(i == 0 && !this.block[idx].mutable()){
             System.out.println("SHIT!!!");
-            i = this.findLastBlankIndex();
+            i = this.findFirstBlankIndex();
          }
          System.out.println(i);
          System.out.println(idx);
          System.out.println(this.block[idx].mutable());
          //see what happens
-         this.block[idx].reset(false);
+         this.block[idx].reset(true);
          //System.out.println(this.block[idx].value());
       }
 
@@ -217,10 +217,13 @@ public abstract class SudokuGroup implements Runnable{
                boolean inVal  = this.values.contains(cur);
                boolean inTemp = this.tempValues.contains(cur);
                if(!inVal && !inTemp){
-                  this.block[idx].value(cur);
-                  this.values.add(cur);
-                  this.setValues();
-                  found = true;
+                  found = this.block[idx].value(cur);
+                  System.out.println("Group found: "+found+", "+idx+", "+cur);
+                  if(found){
+                     this.values.add(cur);
+                  }
+                  //this.setValues();
+                  //found = true;
                }
             }
          }
