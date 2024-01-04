@@ -24,14 +24,16 @@ import rosas.lou.runnables.*;
 public class SudokuCube extends SudokuGroup implements Runnable{
 
    {
-      indices      = null;
-      block        = null;
-      isSolved     = false;
-      solveIt      = false;
-      unUsedCombos = 0;
-      values       = null;
-      tempValues   = null;
-      unUsedValues = null;
+      indices        = null;
+      block          = null;
+      isSolved       = false;
+      solveIt        = false;
+      unUsedCombos   = 0;
+      values         = null;
+      tempValues     = null;
+      unUsedValues   = null;
+      unUsedIndices  = null;
+      unUsedIndicesList = null;
    };
 
    ///////////////////////////Constructor/////////////////////////////
@@ -156,7 +158,6 @@ public class SudokuCube extends SudokuGroup implements Runnable{
                   System.out.println("Cube: "+this.findFirstBlankIndex());
                   System.out.println(this.unUsedValues.size());
                }
-               */
                int attemptedCombos = 0;
                while(!this.isSolvedCorrect()){
                   System.out.println("Cube");
@@ -176,6 +177,7 @@ public class SudokuCube extends SudokuGroup implements Runnable{
                      break;//put this here, for now REMOVE!!!
                   }
                }
+               */
                this.solve(false);
                this.solved(true);
             }

@@ -32,6 +32,8 @@ public class SudokuColumn extends SudokuGroup implements Runnable{
       values       = null;
       tempValues   = null;
       unUsedValues = null;
+      unUsedIndices= null;
+      unUsedIndicesList = null; 
    };
 
    ///////////////////////////Constructor/////////////////////////////

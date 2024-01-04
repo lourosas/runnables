@@ -31,8 +31,11 @@ public abstract class SudokuGroup implements Runnable{
    protected boolean       solveIt;
    protected int           unUsedCombos;
    protected List<Integer> values;
-   protected List<Integer> tempValues;
+   protected List<Integer> tempValues; //Values outside of the Group
    protected List<Integer> unUsedValues;
+   protected List<Integer> unUsedIndices; //[1...9] (possiblities)
+   //Stores all the above
+   protected List<List<Integer>> unUsedIndicesList;
    
    //////////////////////////Public Methods///////////////////////////
    //
@@ -85,7 +88,7 @@ public abstract class SudokuGroup implements Runnable{
 
    ////////////////////////Protected Methods//////////////////////////
    //
-   //
+   //PROBABLY NO LONGER NEED!!!
    //
    protected int findFirstBlankIndex(){
       int first     = -1;
@@ -110,7 +113,7 @@ public abstract class SudokuGroup implements Runnable{
    }
 
    //
-   //
+   //PROBABLY NO LONGER NEED!!!
    //
    protected int findLastBlankIndex(){
       int last      = -1;
@@ -171,7 +174,7 @@ public abstract class SudokuGroup implements Runnable{
    }
 
    //
-   //
+   //PROBABLY NO LONGER NEED!!
    //
    protected void resetAtAboveLastBlank(){
       int i   = this.findLastBlankIndex();
@@ -194,14 +197,14 @@ public abstract class SudokuGroup implements Runnable{
          System.out.println(this.block[idx].mutable());
          //see what happens
          this.block[idx].reset(true);
-         //System.out.println(this.block[idx].value());
       }
 
    }
 
    //
    //Set the values for the entire group
-   //
+   //THIS WILL NEED TO CHANGE!!!
+   //Can definitely try all the combos until we get one!!
    protected void setGroupValues(){
       for(int i = 0; i < this.indices.length; ++i){
          int idx     = this.indices[i];
@@ -238,6 +241,48 @@ public abstract class SudokuGroup implements Runnable{
    //
    //
    //
+   protected void setUnusedValues(){
+      List<Integer> temp = new LinkedList<Integer>();
+      try{
+         this.unUsedValues.clear();
+      }
+      catch(NullPointerException npe){
+         this.unUsedValues = new LinkedList<Integer>();
+      }
+      try{
+         this.unUsedIndices.clear();
+      }
+      catch(NullPointerException npe){
+         this.unUsedIndices = new LinkedList<Integer>();
+      }
+      try{
+         this.unUsedIndicesList.clear();
+      }
+      catch(NullPointerException npe){
+         this.unUsedIndicesList = new LinkedList<List<Integer>>();
+      }
+      for(int i = 0; i < TOTAL; ++i){
+         int idx = this.indices[i];
+         if(!this.block[idx].mutable()){
+            temp.add(this.block[idx].value());
+         }
+      }
+      for(int i = 1; i < TOTAL+1; ++i){
+         Integer value = Integer.valueOf(i);
+         if(!temp.contains(value)){
+            this.unUsedValues.add(value);
+         }
+      }
+      for(int i = 0; i < unUsedValues.size(); ++i){
+         this.unUsedIndices.add(Integer.valueOf(i));
+      }
+      //CONTINUE HERE
+      this.unUsedCombos = this.factorial(this.unUsedValues.size());
+   }
+
+   //
+   //
+   //
    protected void setValues(){
       try{
          this.values.clear();
@@ -256,32 +301,6 @@ public abstract class SudokuGroup implements Runnable{
       catch(NullPointerException npe){
          npe.printStackTrace();
       }
-   }
-
-   //
-   //
-   //
-   protected void setUnusedValues(){
-      List<Integer> temp = new LinkedList<Integer>();
-      try{
-         this.unUsedValues.clear();
-      }
-      catch(NullPointerException npe){
-         this.unUsedValues = new LinkedList<Integer>();
-      }
-      for(int i = 0; i < TOTAL; ++i){
-         int idx = this.indices[i];
-         if(!this.block[idx].mutable()){
-            temp.add(this.block[idx].value());
-         }
-      }
-      for(int i = 1; i < TOTAL+1; ++i){
-         Integer value = Integer.valueOf(i);
-         if(!temp.contains(value)){
-            this.unUsedValues.add(value);
-         }
-      }
-      this.unUsedCombos = this.factorial(this.unUsedValues.size());
    }
 
    //
