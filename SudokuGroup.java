@@ -206,6 +206,42 @@ public abstract class SudokuGroup implements Runnable{
    //THIS WILL NEED TO CHANGE!!!
    //Can definitely try all the combos until we get one!!
    protected void setGroupValues(){
+      LinkedList<List<Integer>> ll = null;
+      try{
+         ll=(LinkedList<List<Integer>>)this.unUsedPositionsList;
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+      }
+      //this can be removed...
+      List<Integer> list   = ll.pop();
+      Iterator<Integer> it = list.iterator();
+      System.out.println(list);
+      //this above can be removed...
+      int listCount = 0;
+      for(int i = 0; i < this.indices.length; ++i){
+         int idx     = this.indices[i];
+         Integer val = this.block[idx].value();
+         if(val < 0){
+            this.setValues();
+            this.setTempValues(idx);
+            boolean found = false;
+            if(it.hasNext()){
+               int index   = it.next().intValue();
+               Integer cur = this.unUsedValues.get(index);
+               found  = this.values.contains(cur);
+               found |= this.tempValues.contains(cur);
+               if(!found){
+                  found = this.block[idx].value(cur);
+                  System.out.println(found+" "+cur);
+                  if(found){
+                     this.values.add(cur);
+                  }
+               }
+            }
+         }
+      }
+      /*
       for(int i = 0; i < this.indices.length; ++i){
          int idx     = this.indices[i];
          Integer val = this.block[idx].value();
@@ -231,6 +267,7 @@ public abstract class SudokuGroup implements Runnable{
             }
          }
       }
+      */
    }
 
    //

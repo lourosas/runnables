@@ -159,25 +159,16 @@ public class SudokuCube extends SudokuGroup implements Runnable{
                   System.out.println(this.unUsedValues.size());
                }
                int attemptedCombos = 0;
+               */
+               int attempts = 0;
                while(!this.isSolvedCorrect()){
                   System.out.println("Cube");
-                  System.out.println("Attempts: "+attemptedCombos);
-                  if(attemptedCombos == 0){
-                     this.resetAll(false);
-                     this.setGroupValues();
-                  }
-                  else{
-                     this.resetAtAboveLastBlank();
-                     this.setGroupValues();
-                  }
-                  //Going to need to put up a counter based on
-                  //when to break...
-                  ++attemptedCombos;
-                  if(attemptedCombos > 4){
-                     break;//put this here, for now REMOVE!!!
-                  }
+                  System.out.println("Attempts: "+attempts);
+                  this.resetAll(false);
+                  this.setGroupValues();
+                  ++attempts;
+                  if(attempts > 24) break;
                }
-               */
                this.solve(false);
                this.solved(true);
             }
