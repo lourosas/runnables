@@ -33,9 +33,9 @@ public abstract class SudokuGroup implements Runnable{
    protected List<Integer> values;
    protected List<Integer> tempValues; //Values outside of the Group
    protected List<Integer> unUsedValues;
-   protected List<Integer> unUsedIndices; //[1...9] (possiblities)
+   protected List<Integer> unUsedPositions; //[1...9] (possiblities)
    //Stores all the above
-   protected List<List<Integer>> unUsedIndicesList;
+   protected List<List<Integer>> unUsedPositionsList;
    
    //////////////////////////Public Methods///////////////////////////
    //
@@ -250,16 +250,16 @@ public abstract class SudokuGroup implements Runnable{
          this.unUsedValues = new LinkedList<Integer>();
       }
       try{
-         this.unUsedIndices.clear();
+         this.unUsedPositions.clear();
       }
       catch(NullPointerException npe){
-         this.unUsedIndices = new LinkedList<Integer>();
+         this.unUsedPositions = new LinkedList<Integer>();
       }
       try{
-         this.unUsedIndicesList.clear();
+         this.unUsedPositionsList.clear();
       }
       catch(NullPointerException npe){
-         this.unUsedIndicesList = new LinkedList<List<Integer>>();
+         this.unUsedPositionsList = new LinkedList<List<Integer>>();
       }
       for(int i = 0; i < TOTAL; ++i){
          int idx = this.indices[i];
@@ -274,10 +274,12 @@ public abstract class SudokuGroup implements Runnable{
          }
       }
       for(int i = 0; i < unUsedValues.size(); ++i){
-         this.unUsedIndices.add(Integer.valueOf(i));
+         this.unUsedPositions.add(Integer.valueOf(i));
       }
       //CONTINUE HERE
       this.unUsedCombos = this.factorial(this.unUsedValues.size());
+      //Now, got to find all the permutations
+      this.permute();
    }
 
    //
@@ -321,6 +323,44 @@ public abstract class SudokuGroup implements Runnable{
          return 1;
       else
          return x*factorial(x-1);
+   }
+
+   //
+   //
+   //
+   private void permute(){
+      int x = this.unUsedPositions.size() - 1;
+      this.permutations(0,x);
+   }
+
+   //
+   //
+   //
+   private void permutations(int l, int h){
+      if(l == h){
+         List<Integer> list = new LinkedList<Integer>();
+         for(int i = 0; i < unUsedPositions.size(); ++i){
+            list.add(this.unUsedPositions.get(i));
+         }
+         //this.unUsedPositionsList.add(this.unUsedPositions);
+         this.unUsedPositionsList.add(list);
+      }
+      else{
+         for(int i = l; i <= h; ++i){
+            this.swap(l,i);
+            this.permutations(l+1,h);
+            this.swap(l,i);
+         }
+      }
+   }
+
+   //
+   //
+   //
+   private void swap(int x, int y){
+      Integer temp = this.unUsedPositions.get(x);
+      this.unUsedPositions.set(x,this.unUsedPositions.get(y));
+      this.unUsedPositions.set(y,temp);
    }
 
 
