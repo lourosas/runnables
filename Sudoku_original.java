@@ -22,11 +22,20 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public class Sudoku{
-   private static final int SIZE = 9;
+   private static final int TOTAL  = 81;//Total number of values
+   private static final int GROUPS = 9;
    private List<Subscriber> _subscribers;
+   private SudokuBlock      _block[]; //All 81 numbers!!!
+   private SudokuGroup      _cube;
+   private SudokuGroup      _row;
+   private SudokuGroup      _column;
 
    {
       _subscribers = null;
+      _block       = new SudokuBlock[TOTAL];
+      _cube        = null;
+      _row         = null;
+      _column      = null;
    };
 
    //////////////////////////Constructor//////////////////////////////
@@ -34,6 +43,21 @@ public class Sudoku{
    //
    //
    public Sudoku(){
+      //For the time being, just create three...
+      this._cube   = new SudokuCube();
+      this._row    = new SudokuRow();
+      this._column = new SudokuColumn();
+      Thread t0    = new Thread(this._cube);
+      Thread t1    = new Thread(this._row);
+      Thread t2    = new Thread(this._column);
+      t0.start();
+      t1.start();
+      t2.start();
+      for(int i = 0; i < TOTAL; ++i){
+         this._block[i] = new SudokuBlock();
+         this._block[i].setIndex(i);
+      }
+      this.setUpBlock();
    }
 
 
@@ -58,10 +82,96 @@ public class Sudoku{
    //
    //
    public void solve(){
+      int[] indices = new int[9];
+      try{
+         for(int i = 0; i < 9; ++i){
+            this._cube.indices(i);
+            this._column.indices(i);
+            this._row.indices(i);
+            this._cube.block(this._block);
+            this._column.block(this._block);
+            this._row.block(this._block);
+            this._cube.solve(true);
+            this._column.solve(true);
+            this._row.solve(true);
+            while((!this._cube.solved())   && 
+                  (!this._column.solved()) &&
+                  (!this._row.solved())){
+            //while(!this._cube.solved()){
+               //System.out.println("Solving");
+               Thread.sleep(50);
+            }
+            this.notifySubscribers();
+         }
+      }
+      catch(InterruptedException ie){
+         ie.printStackTrace();
+      }
    }
 
    /////////////////////////Private Methods///////////////////////////
+   //
+   //
+   //
+   private int[] getColumnIndices(int columnNumber){
+      int[] indices = new int[9];
 
+      if(columnNumber > -1 && columnNumber < 9){
+         for(int i = 0; i < 9; ++i){
+            indices[i] = columnNumber + 9*i;   
+         }
+      }
+      return indices;
+   }
+
+   //
+   //
+   //
+   private int[] getCubeIndices(int cubeNumber){
+      int[] indices = new int[9];
+
+      if(cubeNumber > -1 && cubeNumber < 9){
+         int cubeRow  = cubeNumber/3;
+         int startRow = 9*cubeRow*3;
+         for(int i = 0; i < 3; ++i){
+            int idx = startRow + (cubeNumber%3)*3 + i;
+            indices[i] = idx;
+         }
+         for(int i = 3; i < 6; ++i){
+            int idx = startRow + (cubeNumber%3)*3 + i + 6;
+            indices[i] = idx;
+         }
+         for(int i = 6; i < 9; ++i){
+            int idx = startRow + (cubeNumber%3)*3 + i + 12;
+            indices[i] = idx;
+         }
+      }
+
+      return indices; 
+   }
+
+   //
+   //
+   //
+   private int[] getRowIndices(int rowNumber){
+      int[] indices = new int[9];
+
+      if(rowNumber > -1 && rowNumber < 9){
+         for(int i = 0; i < 9; ++i){
+            indices[i] = rowNumber*9 +i;
+         }
+      }
+      return indices;
+   }
+   
+   //
+   //
+   //
+   private boolean isSolvedCorrect(){
+      return false;
+   }
+
+   //
    //
    //
    private void notifySubscribers(){
@@ -72,10 +182,15 @@ public class Sudoku{
          s.update(this._block);
       }
    }
+
    //
-   //This may be used at another time...
    //
-   /*
+   //
+   private void reset(){}
+
+   //
+   //
+   //
    private void setUpBlock(){
       this._block[0].value(8, false);
       this._block[1].value(7, false);
@@ -112,6 +227,5 @@ public class Sudoku{
       this._block[79].value(7,false);
       this._block[80].value(4,false);
    }
-   */
 }
 //////////////////////////////////////////////////////////////////////
