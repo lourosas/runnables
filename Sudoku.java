@@ -201,12 +201,10 @@ public class Sudoku{
          else{
             for(int i = 1; (i < (SIZE+1) && !isSolved); ++i){
                if(this.isSafe(grid,row,col,i)){
-                  /*
-                  if(row == 0 && col == 4){
+                  if(row == 0 && col == 7){
                      System.out.println(
                                    "Row: "+row+" Col: "+col+" i: "+i);
                   }
-                  */
                   grid[row][col] = i;
                   isSolved = solveSudoku(grid, row, col+1);
                }
