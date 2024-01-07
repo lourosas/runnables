@@ -141,32 +141,16 @@ public class SudokuRow extends SudokuGroup implements Runnable{
       while(toRun){
          try{
             if(this.solveIt){
-               System.out.println("Row");
                this.setUnusedValues();
-               for(int i = 0; i < this.indices.length; ++i){
-                  int idx     = this.indices[i];
-                  Integer val = this.block[idx].value();
-                  if(val < 0){
-                     this.setValues();
-                     this.setTempValues(idx);
-                     Integer cur    = null;
-                     boolean found  = false;
-                     Iterator<Integer>it=this.unUsedValues.iterator();
-                     while(!found && it.hasNext()){
-                        cur = it.next();
-                        boolean inVal = this.values.contains(cur);
-                        boolean inTemp= this.tempValues.contains(cur);
-                        if(!inVal && !inTemp){
-                           this.block[idx].value(cur);
-                           this.values.add(cur);
-                           found = true;
-                        }
-                     }
-                  }
-               }
-               if(!this.isSolvedCorrect()){
-                  //System.out.println("Row: "+this.findFirstBlankIndex());
-                  //System.out.println(this.unUsedValues.size());
+               int attempts = 0;
+               int combos   = this.unUsedCombos;
+               System.out.println("Row Combos: "+combos);
+               while(!this.isSolvedCorrect()&&(attempts < combos)){
+                  //System.out.println("Row");
+                  //System.out.println("Attempts: "+attempts);
+                  this.resetAll(false);
+                  this.setGroupValues();
+                  ++attempts;
                }
                this.solve(false);
                this.solved(true);

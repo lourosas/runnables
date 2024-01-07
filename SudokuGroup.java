@@ -216,24 +216,24 @@ public abstract class SudokuGroup implements Runnable{
       //this can be removed...
       List<Integer> list   = ll.pop();
       Iterator<Integer> it = list.iterator();
-      System.out.println(list);
+      //System.out.println(list);
       //this above can be removed...
       int listCount = 0;
       for(int i = 0; i < this.indices.length; ++i){
          int idx     = this.indices[i];
          Integer val = this.block[idx].value();
          if(val < 0){
-            this.setValues();
-            this.setTempValues(idx);
             boolean found = false;
             if(it.hasNext()){
-               int index   = it.next().intValue();
+               int index = it.next().intValue();
                Integer cur = this.unUsedValues.get(index);
+               this.setValues();
+               this.setTempValues(idx);
                found  = this.values.contains(cur);
                found |= this.tempValues.contains(cur);
                if(!found){
                   found = this.block[idx].value(cur);
-                  System.out.println(found+" "+cur);
+                  //System.out.println(found+" "+cur);
                   if(found){
                      this.values.add(cur);
                   }
@@ -241,33 +241,6 @@ public abstract class SudokuGroup implements Runnable{
             }
          }
       }
-      /*
-      for(int i = 0; i < this.indices.length; ++i){
-         int idx     = this.indices[i];
-         Integer val = this.block[idx].value();
-         if(val < 0){
-            this.setValues();
-            this.setTempValues(idx);
-            Integer cur    = null;
-            boolean found  = false;
-            Iterator<Integer>it = this.unUsedValues.iterator();
-            while(!found && it.hasNext()){
-               cur = it.next();
-               boolean inVal  = this.values.contains(cur);
-               boolean inTemp = this.tempValues.contains(cur);
-               if(!inVal && !inTemp){
-                  found = this.block[idx].value(cur);
-                  System.out.println("Group found: "+found+", "+idx+", "+cur);
-                  if(found){
-                     this.values.add(cur);
-                  }
-                  //this.setValues();
-                  //found = true;
-               }
-            }
-         }
-      }
-      */
    }
 
    //
