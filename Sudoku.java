@@ -22,11 +22,14 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public class Sudoku{
-   private static final int SIZE = 9;
+   private static final int TOTAL = 81;
+   private static final int SIZE  = 9;
    private List<Subscriber> _subscribers;
+   private SudokuBlock      _block[];//for now, all 81 numbers!
 
    {
       _subscribers = null;
+      _block       = new SudokuBlock[TOTAL];
    };
 
    //////////////////////////Constructor//////////////////////////////
@@ -34,6 +37,11 @@ public class Sudoku{
    //
    //
    public Sudoku(){
+      for(int i = 0; i < TOTAL; ++i){
+         this._block[i] = new SudokuBlock();
+         this._block[i].setIndex(i);
+      }
+      this.setUpBlock();
    }
 
 
@@ -58,10 +66,58 @@ public class Sudoku{
    //
    //
    public void solve(){
+      //For the time being, all of this is temporary...
+      int grid[][] = { { 3, 0, 6, 5, 0, 8, 4, 0, 0 },
+                       { 5, 2, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 8, 7, 0, 0, 0, 0, 3, 1 },
+                       { 0, 0, 3, 0, 1, 0, 0, 8, 0 },
+                       { 9, 0, 0, 8, 6, 3, 0, 0, 5 },
+                       { 0, 5, 0, 0, 9, 0, 6, 0, 0 },
+                       { 1, 3, 0, 0, 0, 0, 2, 5, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 7, 4 },
+                       { 0, 0, 5, 2, 0, 6, 3, 0, 0 } };
+
+      this.print(grid);
+      if(this.solveSudoku(grid, 0, 0)){
+         this.print(grid);
+      }
+      else{
+         System.out.println("No Solution Exists");
+      }
    }
 
    /////////////////////////Private Methods///////////////////////////
+   //
+   //
+   //
+   private boolean isSafe(int[][] grid,int row,int col,int num){
+      boolean safe = true;
+      //Check the Row
+      for(int i = 0;((i < SIZE) && safe); ++i){
+         if(grid[row][i] == num){
+            safe = false;
+         }
+      }
+      //Check the Column
+      for(int i = 0;((i < SIZE) && safe); ++i){
+         if(grid[i][col] == num){
+            safe = false;
+         }
+      }
+      //Check the Cube
+      int startRow = row - (row % 3);
+      int startCol = col - (col % 3);
+      for(int i = 0; ((i < 3) && safe); ++i){
+         for(int j = 0; ((j < 3) && safe); ++j){
+            if(grid[i + startRow][j + startCol] == num){
+               safe = false;
+            }
+         }
+      }
+      return  safe;
+   }
 
+   //
    //
    //
    private void notifySubscribers(){
@@ -72,10 +128,23 @@ public class Sudoku{
          s.update(this._block);
       }
    }
+
+   //
+   //
+   //
+   private void print(int [][] grid){
+      for(int i = 0; i < SIZE; ++i){
+         for(int j = 0; j < SIZE; ++j){
+            System.out.print(grid[i][j]+" ");
+         }
+         System.out.println();
+      }
+      System.out.println();
+   }
+
    //
    //This may be used at another time...
    //
-   /*
    private void setUpBlock(){
       this._block[0].value(8, false);
       this._block[1].value(7, false);
@@ -112,6 +181,48 @@ public class Sudoku{
       this._block[79].value(7,false);
       this._block[80].value(4,false);
    }
-   */
+
+   //Solve via the Naive Approach...the first attempt at a solution
+   //
+   //
+   private boolean solveSudoku(int[][] grid, int row, int col){
+      boolean isSolved = false;
+      if((row == SIZE - 1) && (col == SIZE)){
+         isSolved = true;
+      }
+      else{
+         if(col == SIZE){
+            ++row;
+            col = 0;
+         }
+         if(grid[row][col] > 0){
+            isSolved = this.solveSudoku(grid, row, col+1);
+         }
+         else{
+            for(int i = 1; (i < (SIZE+1) && !isSolved); ++i){
+               if(this.isSafe(grid,row,col,i)){
+                  /*
+                  if(row == 0 && col == 4){
+                     System.out.println(
+                                   "Row: "+row+" Col: "+col+" i: "+i);
+                  }
+                  */
+                  grid[row][col] = i;
+                  isSolved = solveSudoku(grid, row, col+1);
+               }
+               //Essentially, a backtrack by removing/clearing out a
+               //number set (number > 0)
+               if(!isSolved){
+                  //if(row == 0 && col ==4){
+                     System.out.println(
+                           "!Solved Row: "+row+" Col: "+col+" i: "+i);
+                  //}
+                  grid[row][col] = 0;
+               }
+            }
+         }
+      }
+      return isSolved;
+   }
 }
 //////////////////////////////////////////////////////////////////////
