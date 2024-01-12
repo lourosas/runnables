@@ -31,6 +31,8 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    private static final int HEIGHT = 700;
    private static final int WIDTH  = 700;
    private static final int TOTAL  = 81;
+   private static final int ROWS   = 9;
+   private static final int COLS   = 9;
 
    private JButton[]        _buttonArray;
    private SudokuController _controller;
@@ -122,14 +124,45 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    //
    //
-   private void updateValues(SudokuBlock block[]){
+   private void updateValues(SudokuBlock[] block){
       try{
          for(int i = 0; i < this._buttonArray.length; ++i){
+            /*
             int val = block[i].value().intValue();
             if(val > 0){
                this._buttonArray[i].setText(""+val);
                this._buttonArray[i].setFont(
                                    new Font("Serif", Font.BOLD,36));
+            }
+            */
+            Integer val = block[i].value();
+            if(val > 0){
+               this._buttonArray[i].setText(""+val);
+               Font f = new Font("Serif",Font.BOLD,36);
+               this._buttonArray[i].setFont(f);
+            }
+         }
+      }
+      catch(ArrayIndexOutOfBoundsException oob){
+         oob.printStackTrace();
+      }
+   }
+
+   //
+   //
+   //
+   private void updateValues(SudokuBlock[][] block){
+      //Row, Col
+      try{
+         int idx = 0;
+         for(int i = 0; i < ROWS; ++i){
+            for(int j = 0; j < COLS; ++j){
+               Integer val = block[i][j].value();
+               if(val > 0){
+                  this._buttonArray[ROWS*i+j].setText(val.toString());
+                  Font f = new Font("Serif",Font.BOLD,36);
+                  this._buttonArray[ROWS*i+j].setFont(f);
+               }
             }
          }
       }
@@ -154,7 +187,15 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    //
    //
-   public void update(Object o, String s){}
+   public void update(Object o, String s){
+      if(s.toUpperCase().contains("SINGLE")){
+         this.update(o);
+      }
+      else if(s.toUpperCase().contains("DOUBLE")){
+         SudokuBlock[][] block = (SudokuBlock[][])o;
+         this.updateValues(block);
+      }
+   }
 
    //
    //

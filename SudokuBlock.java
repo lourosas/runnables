@@ -26,6 +26,8 @@ public class SudokuBlock{
    private Integer        _value;
    private Object         _o;
    private int            _index;
+   private int            _row;
+   private int            _col;
    private boolean        _isMutable;
    private boolean        _reset;
 
@@ -34,6 +36,8 @@ public class SudokuBlock{
       _value     = null;
       _o         = null;
       _index     = -1;
+      _row       = -1;
+      _col       = -1;
       _isMutable = true;
       _reset     = false;
    };
@@ -92,6 +96,19 @@ public class SudokuBlock{
       synchronized(this._o){
          if(idx > -1){
             this._index = idx;
+         }
+      }
+   }
+
+   //
+   //
+   //
+   public void setIndex(int row, int col){
+      synchronized(this._o){
+         if(row > -1 && col > -1){
+            this._row = row;
+            this._col = col;
+            this.setIndex(9*this._row + this._col);
          }
       }
    }
