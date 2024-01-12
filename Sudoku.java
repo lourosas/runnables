@@ -21,7 +21,7 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public class Sudoku{
+public class Sudoku implements SudokuInterface{
    private static final int TOTAL = 81;
    private static final int SIZE  = 9;
    private List<Subscriber> _subscribers;
