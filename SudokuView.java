@@ -210,6 +210,8 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    //
    //
-   public void error(String error){}
+   public void error(String error){
+      System.out.println(error);
+   }
 }
 //////////////////////////////////////////////////////////////////////
