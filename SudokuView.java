@@ -64,6 +64,18 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    //
    //
+   private void handleNoSolutionError(String error){
+      String message = new String("Sudoku Unsolvable!\n");
+      message += "Please enter another puzzle";
+      JOptionPane.showMessageDialog(this,
+                                     message,
+                                     "NO SOLUTION!",
+                                     JOptionPane.ERROR_MESSAGE);
+   }
+
+   //
+   //
+   //
    private JPanel setUpCenterPanel(){
       JPanel panel = new JPanel();
       panel.setBorder(BorderFactory.createEtchedBorder());
@@ -208,10 +220,12 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    public void error(RuntimeException re, Object o){}
 
    //
-   //
+   //I can keep it real simple
    //
    public void error(String error){
-      System.out.println(error);
+      if(error.toUpperCase().contains("NO SOLUTION")){
+         this.handleNoSolutionError(error.toUpperCase());
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////

@@ -53,6 +53,38 @@ public class Sudoku0 implements SudokuInterface{
    //
    //
    //
+   private boolean isSafe(int[][] grid, int row, int col, int num){
+      boolean safe = true;
+      //Check the Row
+      for(int i = 0;((i < COLS) && safe); ++i){
+         if(grid[row][i] == num){
+            safe = false;
+         }
+      }
+
+      //Check the Column
+      for(int i = 0; ((i < ROWS) && safe); ++i){
+         if(grid[i][col] == num){
+            safe = false;
+         }
+      }
+
+      //Check the Cube
+      int startRow = row - (row % 3);
+      int startCol = col - (col % 3);
+      for(int i = 0; ((i < 3) && safe); ++i){
+         for(int j = 0; ((j < 3) && safe); ++j){
+            if(grid[i + startRow][j+startCol] == num){
+               safe = false;
+            }
+         }
+      }
+      return safe;
+   }
+
+   //
+   //
+   //
    private void notifyErrors(String error){
       Iterator<Subscriber> it = this._subscribers.iterator();
       while(it.hasNext()){
@@ -101,7 +133,33 @@ public class Sudoku0 implements SudokuInterface{
    //
    private boolean solveSudoku(int[][] grid, int row, int col){
       boolean isSolved = false;
-      
+
+      if((row == ROWS-1) && col == COLS){
+         isSolved = true;
+      }
+      else{
+         if(col == COLS){
+            ++row;
+            col = 0;
+         }
+         if(grid[row][col] > 0){
+            isSolved = this.solveSudoku(grid, row, col+1);
+         }
+         else{
+            for(int i = 1; (i < (COLS+1) && !isSolved); ++i){
+               if(this.isSafe(grid,row,col,i)){
+                  grid[row][col] = i;
+                  isSolved = this.solveSudoku(grid, row, col+1);
+               }
+            
+               //Esseuntially backtrack and clearing out the current
+               //value
+               if(!isSolved){
+                  grid[row][col] = 0;
+               }
+            }
+         }
+      }
       return  isSolved;
    }
 
