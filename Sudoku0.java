@@ -27,8 +27,8 @@ public class Sudoku0 implements SudokuInterface{
    private static final int ROWS  = 9;
    private static final int SIZE  = 9;
 
-   private List<Subscribers> _subscribers;
-   private SudukoBlock[][]   _block;
+   private List<Subscriber> _subscribers;
+   private SudokuBlock[][]   _block;
 
    {
       _subscribers = null;
@@ -39,7 +39,7 @@ public class Sudoku0 implements SudokuInterface{
    //
    //
    //
-   public Sudoku0{
+   public Sudoku0(){
       for(int i = 0; i < ROWS; ++i){
          for(int j = 0; j< COLS; ++j){
             this._block[i][j] = new SudokuBlock();
@@ -50,6 +50,18 @@ public class Sudoku0 implements SudokuInterface{
    }
 
    ///////////////////////////Private Methods/////////////////////////
+   //
+   //
+   //
+   private void notifySubscribers(){
+      System.out.println("Notify Subscribes");
+      Iterator<Subscriber> it = this._subscribers.iterator();
+      while(it.hasNext()){
+         //Need to inform the Subscribers it is a 2-D array
+         it.next().update(this._block, "double");
+      }
+   }
+
    //
    //
    //
@@ -77,7 +89,18 @@ public class Sudoku0 implements SudokuInterface{
    //
    //
    //
-   public void addSubscriber(Subscriber subscriber){}
+   public void addSubscriber(Subscriber subscriber){
+      try{
+         this._subscribers.add(subscriber);
+      }
+      catch(NullPointerException npe){
+         this._subscribers = new LinkedList<Subscriber>();
+         this._subscribers.add(subscriber);
+      }
+      finally{
+         this.notifySubscribers();
+      }
+   }
 
    //
    //
