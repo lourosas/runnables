@@ -29,10 +29,16 @@ public class Sudoku1 implements SudokuInterface{
 
    private List<Subscriber> _subscribers;
    private SudokuBlock[][]  _block;
+   private SudokuGroup      _column;
+   private SudokuGroup      _cube;
+   private SudokuGroup      _row;
 
    {
       _subscribers = null;
       _block       = new SudokuBlock[ROWS][COLS];
+      _column      = null;
+      _cube        = null;
+      _row         = null;
    };
 
    /////////////////////////Constructor///////////////////////////////
@@ -40,6 +46,9 @@ public class Sudoku1 implements SudokuInterface{
    //
    //
    public Sudoku1(){
+      this._column = new SudokuColumn();
+      this._cube   = new SudokuCube();
+      this._row    = new SudokuRow();
       for(int i = 0; i < ROWS; ++i){
          for(int j = 0; j < COLS; ++j){
             this._block[i][j] = new SudokuBlock();
@@ -50,6 +59,22 @@ public class Sudoku1 implements SudokuInterface{
    }
 
    //////////////////////Private Methods//////////////////////////////
+   //
+   //
+   //
+   private void notifyErrors(String error){}
+
+   //
+   //
+   //
+   private void notifySubscribers(){
+      Iterator<Subscriber> it = this._subscribers.iterator();
+      while(it.hasNext()){
+         //Inform the Subscribers of the 2-D array
+         it.next().update(this._block, "double");
+      }
+   }
+
    //
    //
    //
@@ -70,13 +95,27 @@ public class Sudoku1 implements SudokuInterface{
             this._block[i][j].value(grid[i][j], mutable);
          }
       }
+      this._column.block(this._block);
+      this._cube.block(this._block);
+      this._row.block(this._block);
    }
 
    ////////////////////Interface Implementation///////////////////////
    //
    //
    //
-   public void addSubscriber(Subscriber subscriber){}
+   public void addSubscriber(Subscriber subscriber){
+      try{
+         this._subscribers.add(subscriber);
+      }
+      catch(NullPointerException npe){
+         this._subscribers = new LinkedList<Subscriber>();
+         this._subscribers.add(subscriber);
+      }
+      finally{
+         this.notifySubscribers();
+      }
+   }
 
    //
    //

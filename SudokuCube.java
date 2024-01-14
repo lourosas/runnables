@@ -72,12 +72,14 @@ public class SudokuCube extends SudokuGroup implements Runnable{
    //
    //
    public void print(){
+      /*
       for(int i = 0; i < TOTAL; ++i){
          System.out.println(this.indices[i]);
       }
       for(int i = 0; i < TOTAL; ++i){
           System.out.println(this.block[this.indices[i]].value());
       }
+      */
    }
 
    ////////////////////////Protected Methods//////////////////////////
@@ -85,6 +87,7 @@ public class SudokuCube extends SudokuGroup implements Runnable{
    //
    //
    protected void setTempValues(int index){
+      /*
       try{
          this.tempValues.clear();
       }
@@ -119,6 +122,7 @@ public class SudokuCube extends SudokuGroup implements Runnable{
       catch(IndexOutOfBoundsException oob){
          oob.printStackTrace();
       }
+      */
    }
 
    /////////////////Runnable Interface Implementation/////////////////

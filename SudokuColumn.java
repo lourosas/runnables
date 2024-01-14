@@ -61,12 +61,14 @@ public class SudokuColumn extends SudokuGroup implements Runnable{
    //
    //
    public void print(){
+      /*
       for(int i = 0; i < TOTAL; ++i){
          System.out.println(this.indices[i]);
       }
       for(int i = 0; i < TOTAL; ++i){
           System.out.println(this.block[this.indices[i]].value());
       }
+      */
    }
 
    ////////////////////////Protected Methods//////////////////////////
@@ -74,6 +76,7 @@ public class SudokuColumn extends SudokuGroup implements Runnable{
    //
    //
    protected void setTempValues(int index){
+      /*
       try{
          this.tempValues.clear();
       }
@@ -128,6 +131,7 @@ public class SudokuColumn extends SudokuGroup implements Runnable{
       catch(IndexOutOfBoundsException obe){
          obe.printStackTrace();
       }
+      */
    }
 
    /////////////////Runnable Interface Implementation/////////////////

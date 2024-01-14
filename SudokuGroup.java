@@ -25,15 +25,17 @@ public abstract class SudokuGroup implements Runnable{
    protected static final int TOTAL = 9;
    protected static Object _o = new Object();
 
-   protected int           indices[];
-   protected SudokuBlock   block[];
-   protected boolean       isSolved;
-   protected boolean       solveIt;
-   protected int           unUsedCombos;
-   protected List<Integer> values;
-   protected List<Integer> tempValues; //Values outside of the Group
-   protected List<Integer> unUsedValues;
-   protected List<Integer> unUsedPositions; //[1...9] (possiblities)
+   protected int[]           indices;
+   protected SudokuBlock[][] block;
+   protected boolean         isSolved;
+   protected boolean         solveIt;
+   protected int             unUsedCombos;
+   protected List<Integer>   values;
+   //Values outside of the Group
+   protected List<Integer>   tempValues;
+   protected List<Integer>   unUsedValues;
+   //1...9 Possibilities
+   protected List<Integer>   unUsedPositions;
    //Stores all the above
    protected List<List<Integer>> unUsedPositionsList;
    
@@ -41,7 +43,7 @@ public abstract class SudokuGroup implements Runnable{
    //
    //
    //
-   public void block(SudokuBlock blk[]){
+   public void block(SudokuBlock[][] blk){
       this.block = blk;
       this.setValues();
       this.solved(false);
@@ -90,6 +92,7 @@ public abstract class SudokuGroup implements Runnable{
    //
    //PROBABLY NO LONGER NEED!!!
    //
+   /*
    protected int findFirstBlankIndex(){
       int first     = -1;
       boolean found = false;
@@ -111,10 +114,12 @@ public abstract class SudokuGroup implements Runnable{
          return first;
       }
    }
+   */
 
    //
    //PROBABLY NO LONGER NEED!!!
    //
+   /*
    protected int findLastBlankIndex(){
       int last      = -1;
       boolean found = false;
@@ -136,12 +141,14 @@ public abstract class SudokuGroup implements Runnable{
          return last;
       }
    }
+   */
 
    //
    //
    //
    protected boolean isSolvedCorrect(){
       boolean isCorrect = true;
+   /*
       try{
          for(int i = 0; i < TOTAL & isCorrect; ++i){
             int idx = indices[i];
@@ -154,6 +161,7 @@ public abstract class SudokuGroup implements Runnable{
       catch(ArrayIndexOutOfBoundsException obe){
          obe.printStackTrace();
       }
+   */
       return isCorrect;
    }
 
@@ -161,6 +169,7 @@ public abstract class SudokuGroup implements Runnable{
    //
    //
    protected void resetAll(boolean keepPrevious){
+   /*
       for(int i = 0; i < TOTAL; ++i){
          //indicate the Block currently has a bad value 
          //reset the Block Value...
@@ -171,11 +180,13 @@ public abstract class SudokuGroup implements Runnable{
             this.block[idx].clearAttempts();
          }
       }
+   */
    }
 
    //
    //PROBABLY NO LONGER NEED!!
    //
+   /*
    protected void resetAtAboveLastBlank(){
       int i   = this.findLastBlankIndex();
       //System.out.println(i);
@@ -200,12 +211,14 @@ public abstract class SudokuGroup implements Runnable{
       }
 
    }
+   */
 
    //
    //Set the values for the entire group
    //THIS WILL NEED TO CHANGE!!!
    //Can definitely try all the combos until we get one!!
    protected void setGroupValues(){
+   /*
       LinkedList<List<Integer>> ll = null;
       try{
          ll=(LinkedList<List<Integer>>)this.unUsedPositionsList;
@@ -222,7 +235,7 @@ public abstract class SudokuGroup implements Runnable{
       for(int i = 0; i < this.indices.length; ++i){
          int idx     = this.indices[i];
          Integer val = this.block[idx].value();
-         if(val < 0){
+         if(val <= 0){
             boolean found = false;
             if(it.hasNext()){
                int index = it.next().intValue();
@@ -241,6 +254,7 @@ public abstract class SudokuGroup implements Runnable{
             }
          }
       }
+   */
    }
 
    //
@@ -252,6 +266,7 @@ public abstract class SudokuGroup implements Runnable{
    //
    //
    protected void setUnusedValues(){
+   /*
       List<Integer> temp = new LinkedList<Integer>();
       try{
          this.unUsedValues.clear();
@@ -290,12 +305,14 @@ public abstract class SudokuGroup implements Runnable{
       this.unUsedCombos = this.factorial(this.unUsedValues.size());
       //Now, got to find all the permutations
       this.permute();
+   */
    }
 
    //
    //
    //
    protected void setValues(){
+   /*
       try{
          this.values.clear();
       }
@@ -313,6 +330,7 @@ public abstract class SudokuGroup implements Runnable{
       catch(NullPointerException npe){
          npe.printStackTrace();
       }
+   */
    }
 
    //
@@ -372,7 +390,6 @@ public abstract class SudokuGroup implements Runnable{
       this.unUsedPositions.set(x,this.unUsedPositions.get(y));
       this.unUsedPositions.set(y,temp);
    }
-
 
    /////////////////Runnable Interface Implementation/////////////////
    //
