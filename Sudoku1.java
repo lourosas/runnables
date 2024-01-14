@@ -62,6 +62,24 @@ public class Sudoku1 implements SudokuInterface{
    //
    //
    //
+   private boolean isSafe(int row, int col, int num){
+      boolean safe = true;
+      //Check the Row
+      safe = !this._row.contains(row, col, num);
+      //Check the Column
+      if(safe){
+         safe = !this._column.contains(row, col, num);
+      }
+      //Check the Cube
+      if(safe){
+         safe = !this._cube.contains(row, col, num);
+      }
+      return safe;
+   }
+
+   //
+   //
+   //
    private void notifyErrors(String error){
       Iterator<Subscriber> it = this._subscribers.iterator();
       while(it.hasNext()){
@@ -112,7 +130,34 @@ public class Sudoku1 implements SudokuInterface{
    private boolean solveSudoku(int row, int col){
       boolean isSolved = false;
 
-
+      if((row == ROWS -1) && (col == COLS)){
+         isSolved = true;
+      }
+      else{
+         if(col == COLS){
+            ++row;
+            col = 0;
+         }
+         if(this._block[row][col].value() > 0){
+            isSolved = this.solveSudoku(row, col + 1);
+         }
+         else{
+            for(int i = 1; (i < (SIZE + 1) && !isSolved); ++i){
+               if(this.isSafe(row,col,i)){
+                  //Set the current block to the attempt
+                  this._block[row][col].value(i);
+                  System.out.println("Safe: "+i+" row: "+row+" col: "+col);
+                  isSolved = this.solveSudoku(row,col+1);
+               }
+               //Essentually, backtrack and clear out (reset) the
+               //value
+               if(!isSolved){
+                  //reset, but do not store the value in the BLOCK
+                  this._block[row][col].reset(false);
+               }
+            }
+         }
+      }
       return isSolved;
    }
 

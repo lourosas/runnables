@@ -110,6 +110,18 @@ public class SudokuRow extends SudokuGroup implements Runnable{
    }
 
    ///////////////////////SudokuGroup Overrides///////////////////////
+   //Check the Row for the value...
+   //
+   //
+   public boolean contains(int row, int col, int num){
+      boolean isIn = false;
+
+      for(int i = 0; (i < TOTAL && !isIn); ++i){
+         isIn = (this.block[row][i].value() == num);
+      }
+      return isIn;
+   }
+
    //
    //
    //

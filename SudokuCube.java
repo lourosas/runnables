@@ -46,6 +46,23 @@ public class SudokuCube extends SudokuGroup implements Runnable{
    }
 
    ///////////////////////SudokuGroup Overrides///////////////////////
+   //Check the Current Cube for the value...
+   //
+   //
+   public boolean contains(int row, int col, int num){
+      boolean isIn = false;
+
+      int startRow = row - (row % 3);
+      int startCol = col - (col % 3);
+
+      for(int i = 0; (i < 3 && !isIn); ++i){
+         for(int j = 0; (j < 3 && !isIn); ++j){
+            isIn = (this.block[i][j].value() == num);
+         }
+      }
+      return isIn;
+   }
+
    //
    //
    //
@@ -66,6 +83,12 @@ public class SudokuCube extends SudokuGroup implements Runnable{
             this.indices[i] = idx;
          }
       }
+   }
+
+   //
+   //
+   //
+   public void indices(int row, int col){
    }
 
    //

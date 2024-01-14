@@ -46,6 +46,18 @@ public class SudokuColumn extends SudokuGroup implements Runnable{
    }
 
    ///////////////////////SudokuGroup Overrides///////////////////////
+   //Check the Column for the value...
+   //
+   //
+   public boolean contains(int row, int col, int num){
+      boolean isIn = false;
+
+      for(int i = 0; (i < TOTAL && !isIn); ++i){
+         isIn = (this.block[i][col].value() == num );
+      }
+      return isIn;
+   }
+
    //
    //
    //

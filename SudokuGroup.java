@@ -52,7 +52,19 @@ public abstract class SudokuGroup implements Runnable{
    //
    //
    //
+   public boolean contains(int row, int col, int num){
+      return false;
+   }
+
+   //
+   //
+   //
    public void indices(int index){}
+
+   //
+   //
+   //
+   public void indices(int row, int col){}
 
    //
    //
