@@ -62,7 +62,13 @@ public class Sudoku1 implements SudokuInterface{
    //
    //
    //
-   private void notifyErrors(String error){}
+   private void notifyErrors(String error){
+      Iterator<Subscriber> it = this._subscribers.iterator();
+      while(it.hasNext()){
+         //Inform the Subscribers of the Error
+         it.next().error(error);
+      }
+   }
 
    //
    //
@@ -100,6 +106,16 @@ public class Sudoku1 implements SudokuInterface{
       this._row.block(this._block);
    }
 
+   //
+   //
+   //
+   private boolean solveSudoku(int row, int col){
+      boolean isSolved = false;
+
+
+      return isSolved;
+   }
+
    ////////////////////Interface Implementation///////////////////////
    //
    //
@@ -120,5 +136,12 @@ public class Sudoku1 implements SudokuInterface{
    //
    //
    //
-   public void solve(){}
+   public void solve(){
+      if(this.solveSudoku(0,0)){
+         this.notifySubscribers();
+      }
+      else{
+         this.notifyErrors("No Solution Exists");
+      }
+   }
 }
