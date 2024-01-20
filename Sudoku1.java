@@ -146,7 +146,7 @@ public class Sudoku1 implements SudokuInterface{
                if(this.isSafe(row,col,i)){
                   //Set the current block to the attempt
                   this._block[row][col].value(i);
-                  System.out.println("Safe: "+i+" row: "+row+" col: "+col);
+                  //System.out.println("Safe: "+i+" row: "+row+" col: "+col);
                   isSolved = this.solveSudoku(row,col+1);
                }
                //Essentually, backtrack and clear out (reset) the

@@ -57,7 +57,7 @@ public class SudokuCube extends SudokuGroup implements Runnable{
 
       for(int i = 0; (i < 3 && !isIn); ++i){
          for(int j = 0; (j < 3 && !isIn); ++j){
-            isIn = (this.block[i][j].value() == num);
+            isIn = (this.block[i+startRow][j+startCol].value()==num);
          }
       }
       return isIn;
