@@ -42,7 +42,7 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    //
-   private void notifyError(String error){
+   private void notifyErrors(String error){
       try{
          Iterator<Subscriber> it = this._subscribers.iterator();
          while(it.hasNext()){
@@ -100,11 +100,19 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    public void set(SudokuBlock[][] grid){
+      this._engine.setBlock(grid);
+      this.notifySubscribers();
    }
 
    //
    //
    //
    public void solve(){
+      if(this._engine.solve()){
+         this.notifySubscribers();
+      }
+      else{
+         this.notifyErrors("No Solution Exists");
+      }
    }
 }

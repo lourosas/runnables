@@ -125,7 +125,7 @@ public class SudokuEngine{
    //
    public boolean solve(int[][] block){
       this.setBlock(block);
-      return false;
+      return this.solve();
    }
 
    //
@@ -133,7 +133,7 @@ public class SudokuEngine{
    //
    public boolean solve(SudokuBlock[][] block){
       this.setBlock(block);
-      return false;
+      return this.solve();
    }
 
 
@@ -142,7 +142,18 @@ public class SudokuEngine{
    //
    //
    private boolean isSafe(int row, int col, int num){
-      return false;
+      boolean safe = true;
+      //Check the Row
+      safe = !(this._row.contains(row, col, num));
+      //Check the Column
+      if(safe){
+         safe = !(this._column.contains(row, col, num));
+      }
+      //Check the Cube
+      if(safe){
+         safe = !(this._cube.contains(row, col, num));
+      }
+      return safe;
    }
 
    //
@@ -150,6 +161,34 @@ public class SudokuEngine{
    //
    private boolean solveSudoku(int row, int col){
       boolean isSolved = false;
+
+      if((row == ROWS - 1) && (col == COLS)){
+         isSolved = true;
+      }
+      else{
+         if(col == COLS){
+            ++row;
+            col = 0;
+         }
+         if(this._block[row][col].value() > 0){
+            isSolved = this.solveSudoku(row, col + 1);
+         }
+         else{
+            for(int i = 1; (i < (SIZE + 1) && !isSolved); ++i){
+               if(this.isSafe(row,col,i)){
+                  //Set the current block to the attempt
+                  this._block[row][col].value(i);
+                  isSolved = this.solveSudoku(row, col+1);
+               }
+               //Essentially, backtrack and clear out (reset) the
+               //value
+               if(!isSolved){
+                  //reset, but do not store the value in the Block
+                  this._block[row][col].reset(false);
+               }
+            }
+         }
+      }
       return isSolved;
    }
 }
