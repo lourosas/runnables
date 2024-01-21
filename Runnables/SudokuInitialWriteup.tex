@@ -1,0 +1,49 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\begin{document}
+\title{The Sudoku Solver Initial Write-Up}
+\author{Lou Rosas}
+\maketitle
+
+\section{History}
+In my continued pursuit of concurrency understanding, I continue to
+develop applications to leverage the process.  I checked on
+programming sites on the web that concurrency would be required.  A
+Sudoku Solver was suggested as one such application.
+
+\section{Abstract}
+A Sudoku Solver Application is an intriguing problem.  It is an
+application that I have always wanted to make.  There are two types of
+solutions that can be approached:  the ``Brute-Force” and the 
+``Deductive Reasoning Type Algorithm”.
+
+\section{Concept}
+Create a Sudoku Solver Application.  That uses a ``Brute-Force”
+Algorithm to find a solution to the Puzzle.  The puzzle is set either
+with direct User input or via a text file.  The User should be able to
+input the puzzle directly via some type of User entry.  If the User
+chooses to input the puzzle via a text field, the application needs to
+be able to put the values in the correct spots.  When reading in a
+text file, any number less than 1 is to be considered an ``open spot”,
+and shown as ``empty”, or no value in the Sudoku--this would be a
+square that is solved.  The User shall have the ability to clear the
+puzzle (same initial values, clear out the solution squares).  The
+User shall have the ability to start a new game--a new puzzle with
+different initial values in different locations in the Puzzle.  If a
+solution is not attainable, the Application shall indicate that to the
+User.
+
+\section{Intent}
+To create a Sudoku Solver as a way of practicing different ``Brute
+Force” Algorithms and re-familiarizing recursion via the Sudoku 
+``Engine”--different solution Engines for different ``Brute Force
+Algorithms".
+
+\section{Stakeholder \& Interests}
+Sudoku Players who want to see a solution.
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
