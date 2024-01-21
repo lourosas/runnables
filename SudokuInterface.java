@@ -23,5 +23,7 @@ import rosas.lou.runnables.*;
 
 public interface SudokuInterface{
    public void addSubscriber(Subscriber subscriber);
+   public void set(int[][] block);
+   public void set(SudokuBlock[][] block);
    public void solve();
 }

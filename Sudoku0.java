@@ -183,6 +183,16 @@ public class Sudoku0 implements SudokuInterface{
    //
    //
    //
+   public void set(int[][] block){}
+
+   //
+   //
+   //
+   public void set(SudokuBlock[][] block){}
+
+   //
+   //
+   //
    public void solve(){
       //SOON TO REMOVE!!!
       int grid[][] = { { 3, 0, 6, 5, 0, 8, 4, 0, 0 },

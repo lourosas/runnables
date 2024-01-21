@@ -181,6 +181,16 @@ public class Sudoku1 implements SudokuInterface{
    //
    //
    //
+   public void set(int[][] block){}
+
+   //
+   //
+   //
+   public void set(SudokuBlock[][] block){}
+
+   //
+   //
+   //
    public void solve(){
       if(this.solveSudoku(0,0)){
          this.notifySubscribers();
