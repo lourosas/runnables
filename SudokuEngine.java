@@ -47,36 +47,84 @@ public class SudokuEngine{
       this._column = new SudokuColumn();
       this._cube   = new SudokuCube();
       this._row    = new SudokuRow();
+      this._block  = new SudokuBlock[ROWS][COLS];
       for(int i = 0; i < ROWS; ++i){
          for(int j = 0; j < COLS; ++j){
             this._block[i][j] = new SudokuBlock();
             this._block[i][j].setIndex(i,j);
          }
       }
+      //For the time being, all of this is temporary...
+      int grid[][] = { { 3, 0, 6, 5, 0, 8, 4, 0, 0 },
+                       { 5, 2, 0, 0, 0, 0, 0, 0, 0 },
+                       { 0, 8, 7, 0, 0, 0, 0, 3, 1 },
+                       { 0, 0, 3, 0, 1, 0, 0, 8, 0 },
+                       { 9, 0, 0, 8, 6, 3, 0, 0, 5 },
+                       { 0, 5, 0, 0, 9, 0, 6, 0, 0 },
+                       { 1, 3, 0, 0, 0, 0, 2, 5, 0 },
+                       { 0, 0, 0, 0, 0, 0, 0, 7, 4 },
+                       { 0, 0, 5, 2, 0, 6, 3, 0, 0 } };
+      this.setBlock(grid);
    }
 
    //////////////////////Public Methods///////////////////////////////
    //
    //
    //
-   public void setBlock(int[][] block){}
+   public SudokuBlock[][] getBlock(){
+      SudokuBlock[][] blk = new SudokuBlock[ROWS][COLS];
+      for(int i = 0; i < ROWS; ++i){
+         for(int j = 0; j < COLS; ++j){
+            blk[i][j] = new SudokuBlock();
+            blk[i][j].value(this._block[i][j].value());
+         }
+      }
+      return blk;
+   }
 
    //
    //
    //
-   public void setBlock(SudokuBlock[][] block){}
+   public void setBlock(int[][] grid){
+      for(int i = 0; i < ROWS; ++i){
+         for(int j = 0; j < COLS; ++j){
+            boolean mutable = !(grid[i][j] > 0);
+            this._block[i][j].value(grid[i][j], mutable);
+         }
+      }
+      this._column.block(this._block);
+      this._cube.block(this._block);
+      this._row.block(this._block);
+   }
+
+   //
+   //
+   //
+   public void setBlock(SudokuBlock[][] grid){
+      for(int i = 0; i < ROWS; ++i){
+         for(int j = 0; j < COLS; ++j){
+            boolean mutable = grid[i][j].mutable();
+            Integer val = grid[i][j].value();
+            this._block[i][j].value(val, mutable);
+         }
+      }
+      this._column.block(this._block);
+      this._cube.block(this._block);
+      this._row.block(this._block);
+   }
 
    //
    //
    //
    public boolean solve(){
-      return false;
+      return this.solveSudoku(0,0);
    }
 
    //
    //
    //
    public boolean solve(int[][] block){
+      this.setBlock(block);
       return false;
    }
 
@@ -84,6 +132,7 @@ public class SudokuEngine{
    //
    //
    public boolean solve(SudokuBlock[][] block){
+      this.setBlock(block);
       return false;
    }
 
@@ -100,6 +149,7 @@ public class SudokuEngine{
    //
    //
    private boolean solveSudoku(int row, int col){
-      return false;
+      boolean isSolved = false;
+      return isSolved;
    }
 }
