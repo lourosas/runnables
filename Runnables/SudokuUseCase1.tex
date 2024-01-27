@@ -5,47 +5,35 @@
 \usepackage{graphicx}
 \begin{document}
 \noindent
-\textbf{Use Case 1:  Play Game--NEEDS TO CHANGE!!!!!!!!!!!!!!}\\
+\textbf{Use Case 1:  Play Game}\\
 \textbf{Scope:  }Sudoku Solver\\
 \textbf{Level:  }Player Goal\\
 \textbf{Primary Actor:  }Player\\
 \textbf{Scenario:  }N/A\\
-\textbf{Related Use Cases:  }\textit{The Player Shall Start a
-New Game}\\
+\textbf{Related Use Cases:  }\textit{Use Case 3:  The Player Shall
+Start a New Game}\\
 \textbf{Stakeholders \& Interests:}
 \begin{itemize}
 \item  Player:  Wants a solution to the puzzle
 \end{itemize}
-\textbf{Preconditions:  }Game is started\\
+\textbf{Preconditions:  }Game is started, a new puzzle is loaded into
+the Solver and displayed to the Player (See: \textit{Use Case 3:  The
+Player Shall Start a New Game)}\\
 \textbf{Postconditions:  }Sudoku Puzzle completely solved\\
 \textbf{Success Guarantees:  }A Solution to the initial Sudoku Puzzle
 found and displayed to the Player\\\\
 \textbf{Main Success Scenario:  }\\
 \begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
 \textbf{Player} & \textbf{Sudoku Solver}\\\hline
-1.  Play A Game (Solve a new puzzle) & \\\hline
-& 2.  Request Player to enter a new puzzle\\\hline
-3.  Enters a new puzzle via:
-\begin{enumerate}
-\item Text File
-\item Manual Entry (Player Input)
-\end{enumerate} & \\\hline
-& 4.  Displays Unsolved Puzzle\\\hline
-5.  Play the Game (Solve the Puzzle) &\\\hline
-& 6. Solve the Puzzle\\\hline
-& 7. Displays the ``evolving" solution\\\hline
-& 8. Stops when solution completely solved\\\hline
-& 9. Display completed solution\\\hline
+1.  Play the Game (Solve the Puzzle) &\\\hline
+& 2. Solve the Puzzle\\\hline
+& 3. Displays the ``evolving" solution\\\hline
+& 4. Stops when solution completely solved\\\hline
+& 5. Displays the completed solution\\\hline
 \end{tabular}\\\\
 \textbf{Extensions (Alternative Flows):}
 \begin{itemize}
-\item[3.1a.]If the text file cannot be opened then the System
-indicates that to the Player, giving the player the choice to:
-\begin{enumerate}
-\item Open a different unsolved puzzle in a different text file
-\item Perform 3.2 and Manually enter an unsolved puzzle
-\end{enumerate}
-\item[6a.]If there is no solution to the puzzle, then the System
+\item[2a.,3a.]If there is no solution to the puzzle, then the System
 alerts the Player
 \end{itemize}
 \textbf{Special Requirements:}
