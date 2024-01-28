@@ -130,6 +130,14 @@ public class SudokuView extends GenericJFrame implements Subscriber{
       newGame.addKeyListener(this._controller);
       panel.add(newGame);
 
+      JButton save = new JButton("Save");
+      save.setActionCommand("SAVE");
+      save.setMnemonic(KeyEvent.VK_A);
+      save.addActionListener(this._controller);
+      save.addKeyListener(this._controller);
+      save.setEnabled(false);
+      panel.add(save);
+
       return panel;
    }
 
