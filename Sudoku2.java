@@ -91,6 +91,13 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    //
+   public void open(String pathAndFile){
+      System.out.println(pathAndFile);
+   }
+
+   //
+   //
+   //
    public void set(int[][] grid){
       this._engine.setBlock(grid);
       this.notifySubscribers();

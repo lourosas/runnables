@@ -20,6 +20,7 @@ package rosas.lou.runnables;
 import java.lang.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.filechooser.*;
 import java.awt.*;
 import java.awt.event.*;
 import rosas.lou.runnables.*;
@@ -64,6 +65,32 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    //
    //
+   private void getNewGameInfo(){
+      int n = JOptionPane.showConfirmDialog(
+                 this,
+                 "Enter A Text File Puzzle?",
+                 "Text File or Manual Entry?",
+                 JOptionPane.YES_NO_OPTION);
+      if(n == 0){
+         JButton yes = new JButton("Yes");
+         //Yes...indicates to enter a text file as the puzzle
+         yes.setActionCommand("OPENTEXTFILE");
+         yes.addActionListener(this._controller);
+         yes.doClick();
+      }
+      else if(n == 1){
+         JButton no = new JButton("No");
+         //No...means to manually enter the puzzle
+         no.setActionCommand("MANUALENTER");
+         no.addActionListener(this._controller);
+         no.doClick();
+      }
+      //any other values are ignored...
+   }
+
+   //
+   //
+   //
    private void handleNoSolutionError(String error){
       String message = new String("Sudoku Unsolvable!\n");
       message += "Please enter another puzzle";
@@ -71,6 +98,24 @@ public class SudokuView extends GenericJFrame implements Subscriber{
                                      message,
                                      "NO SOLUTION!",
                                      JOptionPane.ERROR_MESSAGE);
+   }
+
+   //
+   //
+   //
+   private void openSudokuTextFile(){
+      JFileChooser chooser = new JFileChooser();
+      FileNameExtensionFilter f=new FileNameExtensionFilter(
+                                         "*.txt,*.text","txt","text");
+      chooser.setFileFilter(f);
+      int value = chooser.showOpenDialog(this);
+      if(value == 0){
+         String path = chooser.getSelectedFile().getPath();
+         JButton b = new JButton(path);
+         b.setActionCommand("TEXTFILEPATH");
+         b.addActionListener(this._controller);
+	 b.doClick();
+      }
    }
 
    //
@@ -214,6 +259,12 @@ public class SudokuView extends GenericJFrame implements Subscriber{
       else if(s.toUpperCase().contains("DOUBLE")){
          SudokuBlock[][] block = (SudokuBlock[][])o;
          this.updateValues(block);
+      }
+      else if(s.toUpperCase().contains("NEWGAME")){
+         this.getNewGameInfo();
+      }
+      else if(s.toUpperCase().contains("OPENTEXTFILE")){
+         this.openSudokuTextFile();
       }
    }
 

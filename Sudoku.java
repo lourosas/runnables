@@ -65,6 +65,11 @@ public class Sudoku implements SudokuInterface{
    //
    //
    //
+   public void open(String pathAndFile){}
+
+   //
+   //
+   //
    public void set(int[][] grid){}
 
    //

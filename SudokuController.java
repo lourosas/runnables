@@ -80,16 +80,20 @@ public class SudokuController implements ActionListener, KeyListener{
             System.out.println(command);
          }
          else if(command.equals("NEWGAME")){
-            System.out.println(command);
-            int n = JOptionPane.showConfirmDialog(
-                    null,
-                    "Enter A Text File Puzzle?",
-                    "Text File or Manual Entry?",
-                    JOptionPane.YES_NO_OPTION);
-            System.out.println(n);
+            this._subscriber.update(this,command);
          }
          else if(command.equals("SAVE")){
             System.out.println(command);
+         }
+         else if(command.equals("OPENTEXTFILE")){
+            this._subscriber.update(this,command); 
+         }
+	 else if(command.equals("MANUALENTER")){
+            System.out.println(command);
+         }
+         else if(command.equals("TEXTFILEPATH")){
+            //The Path to the text file to open
+            this._sudoku.open(b.getText());
          }
       }
       catch(ClassCastException cce){}
