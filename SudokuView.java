@@ -69,7 +69,7 @@ public class SudokuView extends GenericJFrame implements Subscriber{
       int n = JOptionPane.showConfirmDialog(
                  this,
                  "Enter A Text File Puzzle?",
-                 "Text File or Manual Entry?",
+                 "Text File for Manual Entry?",
                  JOptionPane.YES_NO_OPTION);
       if(n == 0){
          JButton yes = new JButton("Yes");
@@ -114,7 +114,7 @@ public class SudokuView extends GenericJFrame implements Subscriber{
          JButton b = new JButton(path);
          b.setActionCommand("TEXTFILEPATH");
          b.addActionListener(this._controller);
-	 b.doClick();
+         b.doClick();
       }
    }
 

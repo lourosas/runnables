@@ -88,7 +88,7 @@ public class SudokuController implements ActionListener, KeyListener{
          else if(command.equals("OPENTEXTFILE")){
             this._subscriber.update(this,command); 
          }
-	 else if(command.equals("MANUALENTER")){
+         else if(command.equals("MANUALENTER")){
             System.out.println(command);
          }
          else if(command.equals("TEXTFILEPATH")){
