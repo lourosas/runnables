@@ -55,6 +55,7 @@ public class SudokuEngine{
          }
       }
       //For the time being, all of this is temporary...
+      /*
       int grid[][] = { { 3, 0, 6, 5, 0, 8, 4, 0, 0 },
                        { 5, 2, 0, 0, 0, 0, 0, 0, 0 },
                        { 0, 8, 7, 0, 0, 0, 0, 3, 1 },
@@ -65,6 +66,7 @@ public class SudokuEngine{
                        { 0, 0, 0, 0, 0, 0, 0, 7, 4 },
                        { 0, 0, 5, 2, 0, 6, 3, 0, 0 } };
       this.setBlock(grid);
+      */
    }
 
    //////////////////////Public Methods///////////////////////////////

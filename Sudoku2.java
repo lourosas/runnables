@@ -79,13 +79,7 @@ public class Sudoku2 implements SudokuInterface{
       try{
          SudokuFileReader sfr = new SudokuFileReader(pathAndFile);
          int[][] array = sfr.returnSudoku();
-         for(int i = 0; i < 9; ++i){
-            for(int j = 0; j < 9; ++j){
-               System.out.print(array[i][j]+" ");
-            }
-            System.out.println();
-         }
-
+         this.set(array);
       }
       catch(FileNotFoundException fnfe){
          String message = fnfe.getMessage();

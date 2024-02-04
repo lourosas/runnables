@@ -159,6 +159,7 @@ public class SudokuView extends GenericJFrame implements Subscriber{
       solve.setMnemonic(KeyEvent.VK_S);
       solve.addActionListener(this._controller);
       solve.addKeyListener(this._controller);
+      solve.setEnabled(false);
       panel.add(solve);
 
       JButton clear = new JButton("Clear");
@@ -166,6 +167,7 @@ public class SudokuView extends GenericJFrame implements Subscriber{
       clear.setMnemonic(KeyEvent.VK_C);
       clear.addActionListener(this._controller);
       clear.addKeyListener(this._controller);
+      clear.setEnabled(false);
       panel.add(clear);
 
       JButton newGame = new JButton("New Game");
