@@ -76,47 +76,26 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    private void setPuzzle(String pathAndFile){
-      FileReader fr     = null;
-      BufferedReader br = null;
       try{
-         fr          = new FileReader(pathAndFile);
-         br          = new BufferedReader(fr);
-         String line = new String();
-         while((line = br.readLine()) != null){
-            String[] current = line.split(",");
-            for(int i = 0; i < current.length; ++ i){
-               String temp;
-               current[i] = current[i].trim();
-               if(current[i].length() > 1){
-                  for(int i = 0; i < current[i].length(); ++i){
-                     char val = current[i].charAt(i);
-                     if((val >= '0' && val <= '9' || val=='-'){}
-                  }
-               }
+         SudokuFileReader sfr = new SudokuFileReader(pathAndFile);
+         int[][] array = sfr.returnSudoku();
+         for(int i = 0; i < 9; ++i){
+            for(int j = 0; j < 9; ++j){
+               System.out.print(array[i][j]+" ");
             }
             System.out.println();
          }
-         /*
-         int val;
-         while((val = br.read()) != -1){
-            if((val >= '0' && val <= '9')){
-               int num = val - 0x30;
-               //System.out.print(num+" ");
-               System.out.printf("%d ",val-0x30);
-            }
-         }
-         br.close();
-         */
+
       }
       catch(FileNotFoundException fnfe){
-         try{ br.close(); }
-         catch(IOException ioe){}
-         this.notifyErrors(fnfe.getMessage());
+         String message = fnfe.getMessage();
+         this.notifyErrors("File Not Found Exception: "+message);
       }
       catch(IOException ioe){
-         try{ br.close(); }
-         catch(IOException io){}
-         this.notifyErrors(ioe.getMessage());
+         this.notifyErrors("IO Exception: "+ioe.getMessage());
+      }
+      catch(RuntimeException re){
+         this.notifyErrors("Runtime Exception: " + re.getMessage()); 
       }
    }
 
