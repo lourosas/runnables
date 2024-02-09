@@ -249,6 +249,11 @@ public class SudokuView extends GenericJFrame implements Subscriber{
          this.updateValues(block);
       }
       catch(ClassCastException cce){}
+      try{
+         SudokuState state = (SudokuState)o;
+         System.out.println(state);
+      }
+      catch(ClassCastException cce){}
    }
 
    //

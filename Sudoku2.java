@@ -23,13 +23,13 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class Sudoku2 implements SudokuInterface{
-   private enum State{NEWGAME,CLEARED,SOLVED,ERROR};
+   private enum State{STARTUP,NEWGAME,CLEARED,SOLVED,ERROR};
    private State        _state;
    private SudokuEngine _engine;
    List<Subscriber>     _subscribers;
 
    {
-      _state       = State.NEWGAME;
+      _state       = State.STARTUP;
       _engine      = null;
       _subscribers = null;
    };
@@ -66,21 +66,24 @@ public class Sudoku2 implements SudokuInterface{
       try{
          String message = new String("double");
          String state   = new String("No State");
-         if(this._state == State.NEWGAME){
-            state = new String("NEWGAME");
-         }
-         else if(this._state == State.CLEARED){
-            state = new String("Cleared");
-         }
-         else if(this._state == State.SOLVED){
-            state = new String("Solved");
-         }
-         SudokuBlock[][] block = this._engine.getBlock();
-         SudokuState ss = new SudokuState(message,state,block);
-         Iterator<Subscriber> it = this._subscribers.iterator();
-         while(it.hasNext()){
-            //Inform the Subscribers of a 2-D array
-            it.next().update(this._engine.getBlock(), "double");
+         if(this._state != State.STARTUP){
+            if(this._state == State.NEWGAME){
+               state = new String("NEWGAME");
+            }
+            else if(this._state == State.CLEARED){
+               state = new String("Cleared");
+            }
+            else if(this._state == State.SOLVED){
+               state = new String("Solved");
+            }
+            SudokuBlock[][] block = this._engine.getBlock();
+            SudokuState ss = new SudokuState(message,state,block);
+            Iterator<Subscriber> it = this._subscribers.iterator();
+            while(it.hasNext()){
+               //Inform the Subscribers of a 2-D array
+               //it.next().update(this._engine.getBlock(), "double");
+               it.next().update(ss);
+            }
          }
       }
       catch(NullPointerException npe){

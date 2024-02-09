@@ -41,17 +41,31 @@ public class SudokuState{
    //
    //
    SudokuState(String message, String state, SudokuBlock[][] block){
+      this._message = new String(message);
+      this._state   = new String(state);
+      //This may change at a later date
+      this._block   = block;
    }
 
    //
    //
    //
-   SudokuState(String message, String state, SudokuBlock[] block){}
+   SudokuState(String message, String state, SudokuBlock[] block){
+      this._message = new String(message);
+      this._state   = new String(state);
+      //This may change at a later date
+      this._singleBlock = block;
+   }
 
    //
    //
    //
-   SudokuState(String message, String state, int[][] block){}
+   SudokuState(String message, String state, int[][] block){
+      this._message = new String(message);
+      this._state   = new String(state);
+      //This may change at a later data
+      this._intBlock = block;
+   }
  
    ///////////////////////////Public Methods//////////////////////////
    //
