@@ -21,5 +21,72 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public class SudokuState{}
+public class SudokuState{
+   private String _message;
+   private String _state;
+   private SudokuBlock[][] _block;
+   private SudokuBlock[] _singleBlock;
+   private int[][] _intBlock;
+
+   {
+      _message     = null;
+      _state       = null;
+      _block       = null;
+      _singleBlock = null;
+      _intBlock    = null;
+   };
+
+   /////////////////////////////Constructors//////////////////////////
+   //
+   //
+   //
+   SudokuState(String message, String state, SudokuBlock[][] block){
+   }
+
+   //
+   //
+   //
+   SudokuState(String message, String state, SudokuBlock[] block){}
+
+   //
+   //
+   //
+   SudokuState(String message, String state, int[][] block){}
+ 
+   ///////////////////////////Public Methods//////////////////////////
+   //
+   //
+   //
+   public String message(){
+      return null;
+   }
+
+   //
+   //
+   //
+   public String state(){
+      return null;
+   }
+
+   //
+   //
+   //
+   public SudokuBlock[][] block(){
+      return this._block;
+   }
+
+   //
+   //
+   //
+   public SudokuBlock[] singleBlock(){
+      return this._singleBlock;
+   }
+
+   //
+   //
+   //
+   public int[][] intBlock(){
+      return this._intBlock;
+   }
+}
 //////////////////////////////////////////////////////////////////////

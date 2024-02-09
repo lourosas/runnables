@@ -23,10 +23,13 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class Sudoku2 implements SudokuInterface{
+   private enum State{NEWGAME,CLEARED,SOLVED,ERROR};
+   private State        _state;
    private SudokuEngine _engine;
    List<Subscriber>     _subscribers;
 
    {
+      _state       = State.NEWGAME;
       _engine      = null;
       _subscribers = null;
    };
@@ -61,6 +64,19 @@ public class Sudoku2 implements SudokuInterface{
    //
    private void notifySubscribers(){
       try{
+         String message = new String("double");
+         String state   = new String("No State");
+         if(this._state == State.NEWGAME){
+            state = new String("NEWGAME");
+         }
+         else if(this._state == State.CLEARED){
+            state = new String("Cleared");
+         }
+         else if(this._state == State.SOLVED){
+            state = new String("Solved");
+         }
+         SudokuBlock[][] block = this._engine.getBlock();
+         SudokuState ss = new SudokuState(message,state,block);
          Iterator<Subscriber> it = this._subscribers.iterator();
          while(it.hasNext()){
             //Inform the Subscribers of a 2-D array
@@ -79,16 +95,20 @@ public class Sudoku2 implements SudokuInterface{
       try{
          SudokuFileReader sfr = new SudokuFileReader(pathAndFile);
          int[][] array = sfr.returnSudoku();
+         this._state = State.NEWGAME;
          this.set(array);
       }
       catch(FileNotFoundException fnfe){
          String message = fnfe.getMessage();
+         this._state = State.ERROR;
          this.notifyErrors("File Not Found Exception: "+message);
       }
       catch(IOException ioe){
+         this._state = State.ERROR;
          this.notifyErrors("IO Exception: "+ioe.getMessage());
       }
       catch(RuntimeException re){
+         this._state = State.ERROR;
          this.notifyErrors("Runtime Exception: " + re.getMessage()); 
       }
    }
