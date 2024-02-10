@@ -72,14 +72,14 @@ public class SudokuState{
    //
    //
    public String message(){
-      return null;
+      return this._message;
    }
 
    //
    //
    //
    public String state(){
-      return null;
+      return this._state;
    }
 
    //

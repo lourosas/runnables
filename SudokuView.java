@@ -236,6 +236,9 @@ public class SudokuView extends GenericJFrame implements Subscriber{
       catch(ArrayIndexOutOfBoundsException oob){
          oob.printStackTrace();
       }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
    }
 
 
@@ -251,7 +254,17 @@ public class SudokuView extends GenericJFrame implements Subscriber{
       catch(ClassCastException cce){}
       try{
          SudokuState state = (SudokuState)o;
-         System.out.println(state);
+         String sState = state.state().toUpperCase();
+         if(sState.equals("NEWGAME")){
+            if(state.block() != null){
+               this.updateValues(state.block());
+            }
+            else if(state.singleBlock() != null){
+               this.updateValues(state.singleBlock());
+            }
+            else if(state.intBlock() != null){}
+            //Indicate the State of the System
+         }
       }
       catch(ClassCastException cce){}
    }
