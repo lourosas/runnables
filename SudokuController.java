@@ -89,7 +89,7 @@ public class SudokuController implements ActionListener, KeyListener{
             this._subscriber.update(this,command); 
          }
          else if(command.equals("MANUALENTER")){
-            System.out.println(command);
+            this._subscriber.update(this,command);
          }
          else if(command.equals("TEXTFILEPATH")){
             //The Path to the text file to open

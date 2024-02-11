@@ -91,6 +91,15 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    //
    //
+   private void handleManualEntry(){
+     System.out.println("What the FuCK!!!");
+     //JPanel panel = (JPanel)this.getContentPane().getComponent(0);
+     //System.out.println(panel);
+   }
+
+   //
+   //
+   //
    private void handleNoSolutionError(String error){
       String message = new String("Sudoku Unsolvable!\n");
       message += "Please enter another puzzle";
@@ -115,6 +124,43 @@ public class SudokuView extends GenericJFrame implements Subscriber{
          b.setActionCommand("TEXTFILEPATH");
          b.addActionListener(this._controller);
          b.doClick();
+      }
+   }
+
+   //
+   //
+   //
+   private void reflectStateInButtonPanel(String state){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         ((JButton)panel.getComponent(i)).setEnabled(false);
+      }
+      if(state.toUpperCase().equals("STARTUP")){
+         for(int i = 0; i < panel.getComponentCount(); ++i){
+            JButton b = (JButton)panel.getComponent(i);
+            if(b.getActionCommand().toUpperCase().equals("NEWGAME")){
+               b.setEnabled(true);
+            }
+         }
+      }
+      else if(state.toUpperCase().equals("NEWGAME")){
+         for(int i = 0; i < panel.getComponentCount(); ++i){
+            JButton b  = (JButton)panel.getComponent(i);
+            String act = b.getActionCommand().toUpperCase();
+            if(act.equals("SOLVE") || 
+               act.equals("CLEAR")){
+               b.setEnabled(true);
+            }
+         }
+      }
+      else if(state.toUpperCase().equals("SOLVED")){
+         for(int i = 0; i < panel.getComponentCount(); ++i){
+            JButton b  = (JButton)panel.getComponent(i);
+            String act = b.getActionCommand().toUpperCase();
+            if(act.equals("CLEAR")||act.equals("SAVE")){
+               b.setEnabled(true);
+            }
+         }
       }
    }
 
@@ -194,14 +240,6 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    private void updateValues(SudokuBlock[] block){
       try{
          for(int i = 0; i < this._buttonArray.length; ++i){
-            /*
-            int val = block[i].value().intValue();
-            if(val > 0){
-               this._buttonArray[i].setText(""+val);
-               this._buttonArray[i].setFont(
-                                   new Font("Serif", Font.BOLD,36));
-            }
-            */
             Integer val = block[i].value();
             if(val > 0){
                this._buttonArray[i].setText(""+val);
@@ -263,8 +301,18 @@ public class SudokuView extends GenericJFrame implements Subscriber{
                this.updateValues(state.singleBlock());
             }
             else if(state.intBlock() != null){}
-            //Indicate the State of the System
          }
+         else if(sState.equals("SOLVED")){
+            if(state.block() != null){
+               this.updateValues(state.block());
+            }
+            else if(state.singleBlock() != null){
+               this.updateValues(state.singleBlock());
+            }
+            else if(state.intBlock() != null){}
+         }
+         //Indicate the State of the System
+         this.reflectStateInButtonPanel(sState);
       }
       catch(ClassCastException cce){}
    }
@@ -285,6 +333,10 @@ public class SudokuView extends GenericJFrame implements Subscriber{
       }
       else if(s.toUpperCase().contains("OPENTEXTFILE")){
          this.openSudokuTextFile();
+      }
+      else if(s.toUpperCase().contains("MANUALENTER")){
+         this.handleManualEntry();
+         System.out.println(s);
       }
    }
 

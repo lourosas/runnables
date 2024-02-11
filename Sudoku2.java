@@ -66,24 +66,25 @@ public class Sudoku2 implements SudokuInterface{
       try{
          String message = new String("double");
          String state   = new String("No State");
-         if(this._state != State.STARTUP){
-            if(this._state == State.NEWGAME){
-               state = new String("NEWGAME");
-            }
-            else if(this._state == State.CLEARED){
-               state = new String("Cleared");
-            }
-            else if(this._state == State.SOLVED){
-               state = new String("Solved");
-            }
-            SudokuBlock[][] block = this._engine.getBlock();
-            SudokuState ss = new SudokuState(message,state,block);
-            Iterator<Subscriber> it = this._subscribers.iterator();
-            while(it.hasNext()){
-               //Inform the Subscribers of a 2-D array
-               //it.next().update(this._engine.getBlock(), "double");
-               it.next().update(ss);
-            }
+         if(this._state == State.NEWGAME){
+            state = new String("NEWGAME");
+         }
+         else if(this._state == State.CLEARED){
+            state = new String("Cleared");
+         }
+         else if(this._state == State.SOLVED){
+            state = new String("Solved");
+         }
+         else if(this._state == State.STARTUP){
+            state = new String("Startup");
+         }
+         SudokuBlock[][] block = this._engine.getBlock();
+         SudokuState ss = new SudokuState(message,state,block);
+         Iterator<Subscriber> it = this._subscribers.iterator();
+         while(it.hasNext()){
+            //Inform the Subscribers of a 2-D array
+            //it.next().update(this._engine.getBlock(), "double");
+            it.next().update(ss);
          }
       }
       catch(NullPointerException npe){
@@ -161,9 +162,14 @@ public class Sudoku2 implements SudokuInterface{
    //
    public void solve(){
       if(this._engine.solve()){
+         this._state = State.SOLVED;
          this.notifySubscribers();
       }
       else{
+         //If the Sudoku is not solvable, New Game, or Startup?
+         this._state = State.NEWGAME;
+         //this methoed will need to change...will need to think
+         //about that...
          this.notifyErrors("No Solution Exists");
       }
    }
