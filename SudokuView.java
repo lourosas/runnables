@@ -93,8 +93,11 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    private void handleManualEntry(){
      System.out.println("What the FuCK!!!");
-     //JPanel panel = (JPanel)this.getContentPane().getComponent(0);
-     //System.out.println(panel);
+     JPanel panel = (JPanel)this.getContentPane().getComponent(0);
+     for(int i = 0; i < panel.getComponentCount(); ++i){
+        JButton b = (JButton)panel.getComponent(i);
+        b.setEnabled(true);
+     }
    }
 
    //
