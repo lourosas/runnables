@@ -91,18 +91,6 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    //
    //
-   private void handleManualEntry(){
-     System.out.println("What the FuCK!!!");
-     JPanel panel = (JPanel)this.getContentPane().getComponent(0);
-     for(int i = 0; i < panel.getComponentCount(); ++i){
-        JButton b = (JButton)panel.getComponent(i);
-        b.setEnabled(true);
-     }
-   }
-
-   //
-   //
-   //
    private void handleNoSolutionError(String error){
       String message = new String("Sudoku Unsolvable!\n");
       message += "Please enter another puzzle";
@@ -338,7 +326,6 @@ public class SudokuView extends GenericJFrame implements Subscriber{
          this.openSudokuTextFile();
       }
       else if(s.toUpperCase().contains("MANUALENTER")){
-         this.handleManualEntry();
          System.out.println(s);
       }
    }
