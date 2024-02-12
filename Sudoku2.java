@@ -24,12 +24,15 @@ import rosas.lou.runnables.*;
 
 public class Sudoku2 implements SudokuInterface{
    private enum State{STARTUP,NEWGAME,CLEARED,SOLVED,ERROR};
+   private enum SubState{NONE,MANUALENTER};
    private State        _state;
+   private SubState     _substate;
    private SudokuEngine _engine;
    List<Subscriber>     _subscribers;
 
    {
       _state       = State.STARTUP;
+      _substate    = SubState.NONE; //This could be rather trickey
       _engine      = null;
       _subscribers = null;
    };
@@ -71,12 +74,18 @@ public class Sudoku2 implements SudokuInterface{
          }
          else if(this._state == State.CLEARED){
             state = new String("Cleared");
+            if(this._substate == SubState.MANUALENTER){
+               state += " ManualEnter";
+            }
          }
          else if(this._state == State.SOLVED){
             state = new String("Solved");
          }
          else if(this._state == State.STARTUP){
             state = new String("Startup");
+            if(this._substate == SubState.MANUALENTER){
+               state += " ManualEnter";
+            }
          }
          SudokuBlock[][] block = this._engine.getBlock();
          SudokuState ss = new SudokuState(message,state,block);
@@ -89,6 +98,19 @@ public class Sudoku2 implements SudokuInterface{
       }
       catch(NullPointerException npe){
          npe.printStackTrace();
+      }
+   }
+
+   //
+   //
+   //
+   private void setPuzzle(){
+      if(this._state == State.STARTUP||this._state == State.CLEARED){
+         this._substate = SubState.MANUALENTER;
+         this.notifySubscribers();
+      }
+      else{
+         this._substate = SubState.NONE;
       }
    }
 
@@ -138,7 +160,12 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    public void open(String pathAndFile){
-      this.setPuzzle(pathAndFile);
+      if(pathAndFile != null){
+         this.setPuzzle(pathAndFile);
+      }
+      else{
+         this.setPuzzle();
+      }
    }
 
    //

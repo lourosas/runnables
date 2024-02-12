@@ -302,6 +302,11 @@ public class SudokuView extends GenericJFrame implements Subscriber{
             }
             else if(state.intBlock() != null){}
          }
+	 else if(sState.contains("STARTUP")){
+            if(sState.contains("MANUALENTER")){
+	       System.out.println(sState);
+            }
+	 }
          //Indicate the State of the System
          this.reflectStateInButtonPanel(sState);
       }
