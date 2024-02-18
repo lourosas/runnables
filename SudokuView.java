@@ -35,12 +35,14 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    private static final int ROWS   = 9;
    private static final int COLS   = 9;
 
-   private JButton[]        _buttonArray;
-   private SudokuController _controller;
+   private JButton[]             _buttonArray;
+   private SudokuController      _controller;
+   private SudokuManualEntryView _manualEntryView;
 
    {
-      _buttonArray = new JButton[TOTAL];
-      _controller  = null;
+      _buttonArray     = new JButton[TOTAL];
+      _controller      = null;
+      _manualEntryView = null;
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -67,7 +69,7 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    private void displayManualSudokuEntry(){
       System.out.println("Manual Enter");
-      SudokuManualEntryView v =
+      _manualEntryView =
                  new SudokuManualEntryView("WTF?!", this._controller);
    }
 
@@ -340,7 +342,7 @@ public class SudokuView extends GenericJFrame implements Subscriber{
       else if(s.toUpperCase().contains("OPENTEXTFILE")){
          this.openSudokuTextFile();
       }
-      else if(s.toUpperCase().contains("MANUALENTER")){
+      else if(s.toUpperCase().contains("MANUAL_SET")){
          System.out.println(s);
       }
    }

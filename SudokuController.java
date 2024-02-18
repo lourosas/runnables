@@ -89,7 +89,6 @@ public class SudokuController implements ActionListener, KeyListener{
             this._subscriber.update(this,command);
          }
          else if(command.equals("MANUALENTER")){
-            //this._subscriber.update(this,command);
             //Nothing to open...
             this._sudoku.open(null);
          }
@@ -97,8 +96,8 @@ public class SudokuController implements ActionListener, KeyListener{
             //The Path to the text file to open
             this._sudoku.open(b.getText());
          }
-         else{
-            System.out.println(command);
+         else if(command.contains("MANUAL_SET")){
+            this._subscriber.update(this,command);
          }
       }
       catch(ClassCastException cce){}
