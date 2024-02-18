@@ -66,7 +66,17 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
       panel.setLayout(new GridLayout(9,9,2,2));
       for(int i = 0; i < 81; ++i){
          JTextField tf = new JTextField();
-         tf.addKeyListener(this._controller);
+         tf.addKeyListener(new KeyAdapter(){
+            //this is the easiest way to do when want to keep the
+            //Text field editable!!!
+            public void keyTyped(KeyEvent k){
+               char c = k.getKeyChar();
+               if(c < '0' || c > '9'){
+                  k.consume();
+               }
+            }
+         });
+         //tf.addKeyListener(this._controller);
          panel.add(tf);
       }
       return panel;
