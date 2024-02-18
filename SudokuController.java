@@ -97,6 +97,9 @@ public class SudokuController implements ActionListener, KeyListener{
             //The Path to the text file to open
             this._sudoku.open(b.getText());
          }
+         else{
+            System.out.println(command);
+         }
       }
       catch(ClassCastException cce){}
       catch(NullPointerException npe){

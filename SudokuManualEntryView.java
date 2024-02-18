@@ -51,12 +51,28 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
    //
    public SudokuManualEntryView(String title, SudokuController contr){
       super(title);
+      this.addWindowListener(new WindowAdapter(){
+         public void windowClosing(WindowEvent w){
+            clearOutTheEntries();
+            setVisible(false);
+	 }
+      });
       this._controller = contr;
       this.setUpGUI();
    }
 
 
    ////////////////////////Private Methods////////////////////////////
+   //
+   //
+   //
+   private void clearOutTheEntries(){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(0);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         ((JTextField)panel.getComponent(i)).setText("");
+      }
+   }
+
    //
    //
    //
@@ -71,12 +87,12 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
             //Text field editable!!!
             public void keyTyped(KeyEvent k){
                char c = k.getKeyChar();
-               if(c < '0' || c > '9'){
+               String text = tf.getText();
+               if(c < '0' || c > '9' || !text.isEmpty()){
                   k.consume();
                }
             }
          });
-         //tf.addKeyListener(this._controller);
          panel.add(tf);
       }
       return panel;
@@ -103,22 +119,33 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
       JPanel panel = new JPanel();
       panel.setBorder(BorderFactory.createEtchedBorder());
       
-      JButton save = new JButton("Save");
-      save.setActionCommand("MANUAL_SAVE");
+      JButton save = new JButton("Set");
+      save.setActionCommand("MANUAL_SET");
       save.addActionListener(this._controller);
       save.addKeyListener(this._controller);
       panel.add(save);
 
       JButton clear = new JButton("Clear");
+      clear.addActionListener(new ActionListener(){
+         public void actionPerformed(ActionEvent e){
+            clearOutTheEntries();
+         }
+      });
       clear.setActionCommand("MANUAL_CLEAR");
-      clear.addActionListener(this._controller);
-      clear.addKeyListener(this._controller);
+      //clear.addActionListener(this._controller);
+      //clear.addKeyListener(this._controller);
       panel.add(clear);
 
       JButton cancel = new JButton("Cancel");
+      cancel.addActionListener(new ActionListener(){
+         public void actionPerformed(ActionEvent e){
+            clearOutTheEntries();
+            setVisible(false);
+         }
+      });
       cancel.setActionCommand("MANUAL_CANCEL");
-      cancel.addActionListener(this._controller);
-      cancel.addKeyListener(this._controller);
+      //cancel.addActionListener(this._controller);
+      //cancel.addKeyListener(this._controller);
       panel.add(cancel);
 
       return panel;
