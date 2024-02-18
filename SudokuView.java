@@ -65,6 +65,15 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    //
    //
+   private void displayManualSudokuEntry(){
+      System.out.println("Manual Enter");
+      SudokuManualEntryView v =
+                 new SudokuManualEntryView("WTF?!", this._controller);
+   }
+
+   //
+   //
+   //
    private void getNewGameInfo(){
       int n = JOptionPane.showConfirmDialog(
                  this,
@@ -302,11 +311,12 @@ public class SudokuView extends GenericJFrame implements Subscriber{
             }
             else if(state.intBlock() != null){}
          }
-	 else if(sState.contains("STARTUP")){
+         else if(sState.contains("STARTUP")){
             if(sState.contains("MANUALENTER")){
-	       System.out.println(sState);
+               System.out.println(sState);
+               this.displayManualSudokuEntry();
             }
-	 }
+         }
          //Indicate the State of the System
          this.reflectStateInButtonPanel(sState);
       }

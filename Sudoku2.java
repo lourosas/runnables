@@ -73,18 +73,18 @@ public class Sudoku2 implements SudokuInterface{
             state = new String("NEWGAME");
          }
          else if(this._state == State.CLEARED){
-            state = new String("Cleared");
+            state = new String("CLEARED");
             if(this._substate == SubState.MANUALENTER){
-               state += " ManualEnter";
+               state += " MANUALENTER";
             }
          }
          else if(this._state == State.SOLVED){
-            state = new String("Solved");
+            state = new String("SOLVED");
          }
          else if(this._state == State.STARTUP){
-            state = new String("Startup");
+            state = new String("STARTUP");
             if(this._substate == SubState.MANUALENTER){
-               state += " ManualEnter";
+               state += " MANUALENTER";
             }
          }
          SudokuBlock[][] block = this._engine.getBlock();
