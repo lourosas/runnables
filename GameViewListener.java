@@ -25,7 +25,7 @@ import rosas.lou.runnables.*;
 //
 //
 public interface GameViewListener{
-   public void gameData(Object o);
-   public void gameData(int[][] data);
+   public void setGameData(Object o);
+   public void setGameData(int[][] data);
 }
 //////////////////////////////////////////////////////////////////////

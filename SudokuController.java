@@ -149,11 +149,17 @@ GameViewListener{
    //
    //
    //
-   public void gameData(Object o){}
+   public void setGameData(Object o){
+      try{
+         //Cast it right away...
+         String fileName = (String)o;
+      }
+      catch(ClassCastException cce){}
+   }
 
    //
    //
    //
-   public void gameData(int[][] data){}
+   public void setGameData(int[][] data){}
 }
 //////////////////////////////////////////////////////////////////////

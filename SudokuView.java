@@ -104,6 +104,10 @@ GameViewInterface{
          yes.addActionListener(this._controller);
          yes.doClick();
          */
+         //this.openSudokuTextFile();
+         JFileChooser chooser = new JFileChooser();
+         FileNameExtensionFilter f=new FileNameExtensionFilter(
+                                       "*.txt","*.text","txt","text");
       }
       else if(n == 1){
          /*  This all needs to change
@@ -113,6 +117,8 @@ GameViewInterface{
          no.addActionListener(this._controller);
          no.doClick();
          */
+         //Something to this effect will be the best way
+         this.displayManualSudokuEntry();
       }
       //any other values are ignored...
    }
@@ -358,9 +364,12 @@ GameViewInterface{
          this.updateValues(block);
       }
       //This will need to be removed...
+      /*
       else if(s.toUpperCase().contains("NEWGAME")){
          this.getNewGameInfo();
       }
+      */
+      //This will need to be removed...
       else if(s.toUpperCase().contains("OPENTEXTFILE")){
          this.openSudokuTextFile();
       }
@@ -393,7 +402,7 @@ GameViewInterface{
    //
    //
    public void newGame(){
-      System.out.println("Did the Interface Fucking work?!");
+      this.getNewGameInfo();
    }
 
    //
