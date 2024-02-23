@@ -32,35 +32,26 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
    private static final int HEIGHT = 400;
    private static final int WIDTH  = 400;
    
-   private SudokuController _controller;
-
-   {
-      _controller = null;
-   };
-
    ///////////////////////////Constructors////////////////////////////
    //
    //
    //
    public SudokuManualEntryView(){
-      this("Sudoku Manual Entry", null);
+      this("Sudoku Manual Entry");
    }
 
    //
    //
    //
-   public SudokuManualEntryView(String title, SudokuController contr){
+   public SudokuManualEntryView(String title){
       super(title);
       this.addWindowListener(new WindowAdapter(){
          public void windowClosing(WindowEvent w){
             clearOutTheEntries();
             setVisible(false);
-	 }
+         }
       });
-      this._controller = contr;
-      this.setUpGUI();
    }
-
 
    ////////////////////////Private Methods////////////////////////////
    //
@@ -120,9 +111,6 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
       panel.setBorder(BorderFactory.createEtchedBorder());
       
       JButton save = new JButton("Set");
-      save.setActionCommand("MANUAL_SET");
-      save.addActionListener(this._controller);
-      save.addKeyListener(this._controller);
       panel.add(save);
 
       JButton clear = new JButton("Clear");
@@ -131,9 +119,6 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
             clearOutTheEntries();
          }
       });
-      clear.setActionCommand("MANUAL_CLEAR");
-      //clear.addActionListener(this._controller);
-      //clear.addKeyListener(this._controller);
       panel.add(clear);
 
       JButton cancel = new JButton("Cancel");
@@ -143,13 +128,9 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
             setVisible(false);
          }
       });
-      cancel.setActionCommand("MANUAL_CANCEL");
-      //cancel.addActionListener(this._controller);
-      //cancel.addKeyListener(this._controller);
       panel.add(cancel);
 
       return panel;
    }
-
 }
 //////////////////////////////////////////////////////////////////////

@@ -28,7 +28,8 @@ import myclasses.*;
 import rosas.lou.lgraphics.*;
 
 /**/
-public class SudokuView extends GenericJFrame implements Subscriber{
+public class SudokuView extends GenericJFrame implements Subscriber,
+GameViewInterface{
    private static final int HEIGHT = 700;
    private static final int WIDTH  = 700;
    private static final int TOTAL  = 81;
@@ -36,12 +37,17 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    private static final int COLS   = 9;
 
    private JButton[]             _buttonArray;
-   private SudokuController      _controller;
+   //private SudokuController      _controller;
+   private ActionListener        _actionListener;
+   private KeyListener           _keyListener; 
+   private GameViewListener      _gameViewListener;
    private SudokuManualEntryView _manualEntryView;
 
    {
       _buttonArray     = new JButton[TOTAL];
-      _controller      = null;
+      //_controller      = null;
+      _actionListener  = null;
+      _keyListener     = null;
       _manualEntryView = null;
    };
 
@@ -50,15 +56,24 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    //
    public SudokuView(SudokuController controller){
-      this("", controller);
+      //this("", controller);
+      this("");
    }
+
+   //
+   //
+   //
+   public SudokuView(String title){}
 
    //
    //
    //
    public SudokuView(String title, SudokuController controller){
       super(title);
-      this._controller = controller;
+      //this._controller = controller;
+      this._actionListener   = (ActionListener)controller;
+      this._keyListener      = (KeyListener)controller;
+      this._gameViewListener = (GameViewListener)controller;
       this._buttonArray = new JButton[TOTAL];
       this.setUpGui();
    }
@@ -69,8 +84,7 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    private void displayManualSudokuEntry(){
       System.out.println("Manual Enter");
-      _manualEntryView =
-                 new SudokuManualEntryView("WTF?!", this._controller);
+      this._manualEntryView = new SudokuManualEntryView("WTF?!");
    }
 
    //
@@ -83,18 +97,22 @@ public class SudokuView extends GenericJFrame implements Subscriber{
                  "Text File for Manual Entry?",
                  JOptionPane.YES_NO_OPTION);
       if(n == 0){
+         /*  This all needs to change
          JButton yes = new JButton("Yes");
          //Yes...indicates to enter a text file as the puzzle
          yes.setActionCommand("OPENTEXTFILE");
          yes.addActionListener(this._controller);
          yes.doClick();
+         */
       }
       else if(n == 1){
+         /*  This all needs to change
          JButton no = new JButton("No");
          //No...means to manually enter the puzzle
          no.setActionCommand("MANUALENTER");
          no.addActionListener(this._controller);
          no.doClick();
+         */
       }
       //any other values are ignored...
    }
@@ -121,11 +139,13 @@ public class SudokuView extends GenericJFrame implements Subscriber{
       chooser.setFileFilter(f);
       int value = chooser.showOpenDialog(this);
       if(value == 0){
+         /*  This all needs to change...
          String path = chooser.getSelectedFile().getPath();
          JButton b = new JButton(path);
          b.setActionCommand("TEXTFILEPATH");
          b.addActionListener(this._controller);
          b.doClick();
+         */
       }
    }
 
@@ -205,31 +225,31 @@ public class SudokuView extends GenericJFrame implements Subscriber{
       JButton solve = new JButton("Solve");
       solve.setActionCommand("SOLVE");
       solve.setMnemonic(KeyEvent.VK_S);
-      solve.addActionListener(this._controller);
-      solve.addKeyListener(this._controller);
+      solve.addActionListener(this._actionListener);
+      solve.addKeyListener(this._keyListener);
       solve.setEnabled(false);
       panel.add(solve);
 
       JButton clear = new JButton("Clear");
       clear.setActionCommand("CLEAR");
       clear.setMnemonic(KeyEvent.VK_C);
-      clear.addActionListener(this._controller);
-      clear.addKeyListener(this._controller);
+      clear.addActionListener(this._actionListener);
+      clear.addKeyListener(this._keyListener);
       clear.setEnabled(false);
       panel.add(clear);
 
       JButton newGame = new JButton("New Game");
       newGame.setActionCommand("NEWGAME");
       newGame.setMnemonic(KeyEvent.VK_N);
-      newGame.addActionListener(this._controller);
-      newGame.addKeyListener(this._controller);
+      newGame.addActionListener(this._actionListener);
+      newGame.addKeyListener(this._keyListener);
       panel.add(newGame);
 
       JButton save = new JButton("Save");
       save.setActionCommand("SAVE");
       save.setMnemonic(KeyEvent.VK_A);
-      save.addActionListener(this._controller);
-      save.addKeyListener(this._controller);
+      save.addActionListener(this._actionListener);
+      save.addKeyListener(this._keyListener);
       save.setEnabled(false);
       panel.add(save);
 
@@ -283,6 +303,7 @@ public class SudokuView extends GenericJFrame implements Subscriber{
 
 
    ///////////////////////Interface Methods///////////////////////////
+   ///////////////////////Subscriber Interface////////////////////////
    //
    //
    //
@@ -336,6 +357,7 @@ public class SudokuView extends GenericJFrame implements Subscriber{
          SudokuBlock[][] block = (SudokuBlock[][])o;
          this.updateValues(block);
       }
+      //This will need to be removed...
       else if(s.toUpperCase().contains("NEWGAME")){
          this.getNewGameInfo();
       }
@@ -365,5 +387,28 @@ public class SudokuView extends GenericJFrame implements Subscriber{
          this.handleNoSolutionError(error.toUpperCase());
       }
    }
+
+   /////////////////////GameViewInterface Interface///////////////////
+   //
+   //
+   //
+   public void newGame(){
+      System.out.println("Did the Interface Fucking work?!");
+   }
+
+   //
+   //
+   //
+   public void playGame(){}
+
+   //
+   //
+   //
+   public void saveGame(){}
+
+   //
+   //
+   //
+   public void resetGame(){}
 }
 //////////////////////////////////////////////////////////////////////
