@@ -22,6 +22,7 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.filechooser.*;
 import rosas.lou.runnables.*;
 
 public class SudokuController implements ActionListener, KeyListener{
@@ -72,6 +73,37 @@ public class SudokuController implements ActionListener, KeyListener{
       this._sudoku.addSubscriber(this._subscriber);
    }
 
+   ////////////////////////Private Methods////////////////////////////
+   //
+   //
+   //
+   private void getNewGameInfo(){
+      int n = JOptionPane.showConfirmDialog(
+                 this._frame,
+                 "Enter A Text File Puzzle?",
+                 "Text File for Manual Entry?",
+                 JOptionPane.YES_NO_OPTION);
+      if(n == 0){
+         this.inputSudokuTextFile();
+      }
+      else if(n == 1){}
+   }
+
+   //
+   //
+   //
+   private void inputSudokuTextFile(){
+      JFileChooser chooser = new JFileChooser();
+      FileNameExtensionFilter f=new FileNameExtensionFilter(
+                                         "*.txt,*.text","txt","text");
+      chooser.setFileFilter(f);
+      int value = chooser.showOpenDialog(this._frame);
+      if(value == 0){
+         String path = chooser.getSelectedFile().getPath();
+         this._sudoku.open(path);
+      }
+   }
+
    /////////////////Interface Implementation//////////////////////////
    ////////////////////////Action Listener////////////////////////////
    //
@@ -90,7 +122,7 @@ public class SudokuController implements ActionListener, KeyListener{
          else if(command.equals("NEWGAME")){
             //this._subscriber.update(this,command);
             //Set up date for a New Game
-            System.out.println(command);
+            this.getNewGameInfo();
          }
          else if(command.equals("SAVE")){
             System.out.println(command);
