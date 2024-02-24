@@ -86,7 +86,17 @@ public class SudokuController implements ActionListener, KeyListener{
       if(n == 0){
          this.inputSudokuTextFile();
       }
-      else if(n == 1){}
+      else if(n == 1){
+         this.inputSudokuManually();
+      }
+   }
+
+   //
+   //
+   //
+   private void inputSudokuManually(){
+      SudokuManualEntryView view =
+                              new SudokuManualEntryView("View", this);
    }
 
    //

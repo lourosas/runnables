@@ -29,21 +29,32 @@ import rosas.lou.lgraphics.*;
 
 /**/
 public class SudokuManualEntryView extends GenericJInteractionFrame{
-   private static final int HEIGHT = 400;
-   private static final int WIDTH  = 400;
+   private static final int HEIGHT            = 400;
+   private static final int WIDTH             = 400;
+   private static int       _choice           =  -1;
+   private ActionListener _actionListener     = null;
+  
    
    ///////////////////////////Constructors////////////////////////////
    //
    //
    //
    public SudokuManualEntryView(){
-      this("Sudoku Manual Entry");
+      this("Sudoku Manual Entry",null);
    }
 
    //
    //
    //
    public SudokuManualEntryView(String title){
+      this(title,null);
+   }
+
+
+   //
+   //
+   //
+   public SudokuManualEntryView(String title, ActionListener al){
       super(title);
       this.addWindowListener(new WindowAdapter(){
          public void windowClosing(WindowEvent w){
@@ -51,6 +62,15 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
             setVisible(false);
          }
       });
+      this.addActionListener(al);
+      this.setUpGUI();
+   }
+
+   //
+   //
+   //
+   public void addActionListener(ActionListener al){
+      this._actionListener = al;
    }
 
    ////////////////////////Private Methods////////////////////////////
@@ -111,6 +131,11 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
       panel.setBorder(BorderFactory.createEtchedBorder());
       
       JButton save = new JButton("Set");
+      save.addActionListener(new ActionListener(){
+         public void actionPerformed(ActionEvent e){
+            //much more to come...checking to see if this works...
+         }
+      });
       panel.add(save);
 
       JButton clear = new JButton("Clear");
