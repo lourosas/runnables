@@ -24,17 +24,15 @@ import java.awt.event.*;
 import javax.swing.*;
 import rosas.lou.runnables.*;
 
-public class SudokuController implements ActionListener, KeyListener,
-GameViewListener{
+public class SudokuController implements ActionListener, KeyListener{
    private Subscriber      _subscriber;
-   //private Sudoku     _sudoku;
-   private SudokuInterface   _sudoku;
-   private GameViewInterface _gvi;
+   private SudokuInterface _sudoku;
+   private JFrame          _frame; 
 
    {
       _subscriber = null;
       _sudoku     = null;
-      _gvi        = null;
+      _frame      = null;
    };
 
    //////////////////////////Constructor//////////////////////////////
@@ -47,8 +45,8 @@ GameViewListener{
    //
    //
    //
-   public void addGameViewInterface(GameViewInterface gvi){
-      this._gvi = gvi;
+   public void addFrame(JFrame frame){
+      this._frame = frame;
    }
 
    //
@@ -92,7 +90,7 @@ GameViewListener{
          else if(command.equals("NEWGAME")){
             //this._subscriber.update(this,command);
             //Set up date for a New Game
-            this._gvi.newGame();
+            System.out.println(command);
          }
          else if(command.equals("SAVE")){
             System.out.println(command);
@@ -141,25 +139,5 @@ GameViewListener{
    //
    //
    public void keyTyped(KeyEvent k){}
-
-   //
-   //
-   //
-   ////////////////////////GameViewListener///////////////////////////
-   //
-   //
-   //
-   public void setGameData(Object o){
-      try{
-         //Cast it right away...
-         String fileName = (String)o;
-      }
-      catch(ClassCastException cce){}
-   }
-
-   //
-   //
-   //
-   public void setGameData(int[][] data){}
 }
 //////////////////////////////////////////////////////////////////////

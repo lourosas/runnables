@@ -120,8 +120,8 @@ public class Sudoku2 implements SudokuInterface{
    private void setPuzzle(String pathAndFile){
       try{
          SudokuFileReader sfr = new SudokuFileReader(pathAndFile);
-         int[][] array = sfr.returnSudoku();
-         this._state = State.NEWGAME;
+         int[][] array        = sfr.returnSudoku();
+         this._state          = State.NEWGAME;
          this.set(array);
       }
       catch(FileNotFoundException fnfe){

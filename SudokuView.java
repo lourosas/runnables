@@ -28,8 +28,7 @@ import myclasses.*;
 import rosas.lou.lgraphics.*;
 
 /**/
-public class SudokuView extends GenericJFrame implements Subscriber,
-GameViewInterface{
+public class SudokuView extends GenericJFrame implements Subscriber{
    private static final int HEIGHT = 700;
    private static final int WIDTH  = 700;
    private static final int TOTAL  = 81;
@@ -40,7 +39,6 @@ GameViewInterface{
    //private SudokuController      _controller;
    private ActionListener        _actionListener;
    private KeyListener           _keyListener; 
-   private GameViewListener      _gameViewListener;
    private SudokuManualEntryView _manualEntryView;
 
    {
@@ -71,10 +69,9 @@ GameViewInterface{
    public SudokuView(String title, SudokuController controller){
       super(title);
       //this._controller = controller;
-      this._actionListener   = (ActionListener)controller;
-      this._keyListener      = (KeyListener)controller;
-      this._gameViewListener = (GameViewListener)controller;
-      this._buttonArray = new JButton[TOTAL];
+      this._actionListener = (ActionListener)controller;
+      this._keyListener    = (KeyListener)controller;
+      this._buttonArray    = new JButton[TOTAL];
       this.setUpGui();
    }
 
@@ -396,28 +393,5 @@ GameViewInterface{
          this.handleNoSolutionError(error.toUpperCase());
       }
    }
-
-   /////////////////////GameViewInterface Interface///////////////////
-   //
-   //
-   //
-   public void newGame(){
-      this.getNewGameInfo();
-   }
-
-   //
-   //
-   //
-   public void playGame(){}
-
-   //
-   //
-   //
-   public void saveGame(){}
-
-   //
-   //
-   //
-   public void resetGame(){}
 }
 //////////////////////////////////////////////////////////////////////
