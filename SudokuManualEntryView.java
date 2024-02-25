@@ -63,6 +63,19 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
       return _instance;
    }
 
+   //
+   //
+   //
+   public String[] returnSudokuInput(){
+      String[] sudoku = new String[81];
+      JPanel panel = (JPanel)this.getContentPane().getComponent(0);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         String s = ((JTextField)panel.getComponent(i)).getText();
+         sudoku[i] = s;
+      }
+      return sudoku;
+   }
+
    ////////////////////////Private Methods////////////////////////////
    //
    //

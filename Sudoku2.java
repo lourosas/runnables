@@ -187,6 +187,11 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    //
+   public void set(String[] input){}
+
+   //
+   //
+   //
    public void solve(){
       if(this._engine.solve()){
          this._state = State.SOLVED;

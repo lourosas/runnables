@@ -150,6 +150,16 @@ public class SudokuController implements ActionListener, KeyListener{
          else if(command.contains("MANUAL_SET")){
             //this._subscriber.update(this,command);
             System.out.println(command);
+            try{
+               SudokuManualEntryView instance =
+                                     SudokuManualEntryView.instance();
+               String[] s = instance.returnSudokuInput();
+               System.out.println(s.length);
+               for(int i = 0; i < s.length; ++i){
+                  System.out.print(s[i]+", ");
+               }
+            }
+            catch(NullPointerException npe){}
          }
       }
       catch(ClassCastException cce){}
