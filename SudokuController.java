@@ -96,7 +96,6 @@ public class SudokuController implements ActionListener, KeyListener{
    //
    private void inputSudokuManually(){
       SudokuManualEntryView.instance("Manual Input",this,this._frame);
-
    }
 
    //
@@ -149,7 +148,8 @@ public class SudokuController implements ActionListener, KeyListener{
             this._sudoku.open(b.getText());
          }
          else if(command.contains("MANUAL_SET")){
-            this._subscriber.update(this,command);
+            //this._subscriber.update(this,command);
+            System.out.println(command);
          }
       }
       catch(ClassCastException cce){}

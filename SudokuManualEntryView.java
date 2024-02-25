@@ -41,13 +41,6 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
    //
    //
    //
-   public void addActionListener(ActionListener al){
-      this._actionListener = al;
-   }
-
-   //
-   //
-   //
    static public SudokuManualEntryView instance(){
       return _instance;
    }
@@ -71,6 +64,13 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
    }
 
    ////////////////////////Private Methods////////////////////////////
+   //
+   //
+   //
+   private void addActionListener(ActionListener al){
+      this._actionListener = al;
+   }
+
    //
    //
    //
@@ -139,11 +139,13 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
       panel.setBorder(BorderFactory.createEtchedBorder());
       
       JButton save = new JButton("Set");
+      save.setActionCommand("MANUAL_SET");
       save.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
             //much more to come...checking to see if this works...
          }
       });
+      save.addActionListener(this._actionListener);
       panel.add(save);
 
       JButton clear = new JButton("Clear");
