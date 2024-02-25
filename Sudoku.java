@@ -80,6 +80,11 @@ public class Sudoku implements SudokuInterface{
    //
    //
    //
+   public void set(String[] input){}
+
+   //
+   //
+   //
    public void solve(){
       //For the time being, all of this is temporary...
       int grid[][] = { { 3, 0, 6, 5, 0, 8, 4, 0, 0 },

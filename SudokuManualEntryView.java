@@ -73,6 +73,12 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
          String s = ((JTextField)panel.getComponent(i)).getText();
          sudoku[i] = s;
       }
+      /*  Comment out temporarily
+      this.clearOutTheEntries();
+      if(this.isVisible()){
+         this.setVisible(false);
+      }
+      */
       return sudoku;
    }
 

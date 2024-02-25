@@ -151,13 +151,10 @@ public class SudokuController implements ActionListener, KeyListener{
             //this._subscriber.update(this,command);
             System.out.println(command);
             try{
-               SudokuManualEntryView instance =
-                                     SudokuManualEntryView.instance();
+               SudokuManualEntryView instance = null;
+               instance = SudokuManualEntryView.instance();
                String[] s = instance.returnSudokuInput();
-               System.out.println(s.length);
-               for(int i = 0; i < s.length; ++i){
-                  System.out.print(s[i]+", ");
-               }
+               this._sudoku.set(s);
             }
             catch(NullPointerException npe){}
          }
