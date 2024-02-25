@@ -55,6 +55,18 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
    //
    //
    public SudokuManualEntryView(String title, ActionListener al){
+      this(title,al,null);
+   }
+
+   //
+   //
+   //
+   public SudokuManualEntryView
+   (
+      String title,
+      ActionListener al,
+      JFrame frame
+   ){
       super(title);
       this.addWindowListener(new WindowAdapter(){
          public void windowClosing(WindowEvent w){
@@ -63,6 +75,7 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
          }
       });
       this.addActionListener(al);
+      this.setUpFrame(frame);
       this.setUpGUI();
    }
 
@@ -71,6 +84,15 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
    //
    public void addActionListener(ActionListener al){
       this._actionListener = al;
+   }
+
+   //
+   //
+   //
+   public void showEntryInput(JFrame frame){
+      this.setVisible(false);
+      this.setUpFrame(frame);
+      this.setVisible(true);
    }
 
    ////////////////////////Private Methods////////////////////////////
@@ -82,6 +104,7 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
       for(int i = 0; i < panel.getComponentCount(); ++i){
          ((JTextField)panel.getComponent(i)).setText("");
       }
+      ((JTextField)panel.getComponent(0)).requestFocus();
    }
 
    //
@@ -107,6 +130,16 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
          panel.add(tf);
       }
       return panel;
+   }
+
+   //
+   //
+   //
+   private void setUpFrame(JFrame frame){
+      try{
+         this.setLocation(frame.getLocation());
+      }
+      catch(NullPointerException npe){}
    }
 
    //
