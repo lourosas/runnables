@@ -73,12 +73,10 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
          String s = ((JTextField)panel.getComponent(i)).getText();
          sudoku[i] = s;
       }
-      /*  Comment out temporarily
       this.clearOutTheEntries();
       if(this.isVisible()){
          this.setVisible(false);
       }
-      */
       return sudoku;
    }
 
@@ -109,7 +107,8 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
       panel.setBorder(BorderFactory.createEtchedBorder());
       panel.setLayout(new GridLayout(9,9,2,2));
       for(int i = 0; i < 81; ++i){
-         JTextField tf = new JTextField();
+         JTextField tf = new JTextField(2);
+	 tf.setHorizontalAlignment(JTextField.CENTER);
          tf.addKeyListener(new KeyAdapter(){
             //this is the easiest way to do when want to keep the
             //Text field editable!!!

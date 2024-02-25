@@ -80,7 +80,7 @@ public class Sudoku implements SudokuInterface{
    //
    //
    //
-   public void set(String[] input){}
+   public void input(String[] input){}
 
    //
    //

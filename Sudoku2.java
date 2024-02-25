@@ -139,6 +139,31 @@ public class Sudoku2 implements SudokuInterface{
       }
    }
 
+   //
+   //
+   //
+   private void setPuzzle(String[] input){
+      int[][] grid = new int[9][9];
+      int count    = 0;
+      this._state  = State.NEWGAME;
+      for(int row = 0; row < 9; ++row){
+         for(int col = 0; col < 9; ++col){
+            int val = -1;
+            try{
+               val = Integer.parseInt(input[count]);
+            }
+            catch(NumberFormatException nfe){
+               val = 0;
+            }
+            finally{
+               ++count;
+               grid[row][col] = val;
+            }
+         }
+      }
+      this.set(grid);
+   }
+
    /////////////////////Interface Implementations/////////////////////
    //
    //
@@ -159,13 +184,22 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    //
+   public void input(String[] input){
+      this.setPuzzle(input);
+   }
+
+   //
+   //
+   //
    public void open(String pathAndFile){
       if(pathAndFile != null){
          this.setPuzzle(pathAndFile);
       }
+      /*
       else{
          this.setPuzzle();
       }
+      */
    }
 
    //
@@ -182,30 +216,6 @@ public class Sudoku2 implements SudokuInterface{
    public void set(SudokuBlock[][] grid){
       this._engine.setBlock(grid);
       this.notifySubscribers();
-   }
-
-   //
-   //
-   //
-   public void set(String[] input){
-      int[][] grid = new int[9][9];
-      int count = 0;
-      for(int row = 0; row < 9; ++row){
-         for(int col = 0; col < 9; ++col){
-            int val = -1;
-            try{
-               val = Integer.parseInt(input[count]);
-            }
-            catch(NumberFormatException nfe){
-               val = 0;
-            }
-            finally{
-               ++count;
-               grid[row][col] = val;
-            }
-         }
-      }
-      this.set(grid);
    }
 
    //
