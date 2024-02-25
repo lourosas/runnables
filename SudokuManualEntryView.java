@@ -29,56 +29,15 @@ import rosas.lou.lgraphics.*;
 
 /**/
 public class SudokuManualEntryView extends GenericJInteractionFrame{
-   private static final int HEIGHT            = 400;
-   private static final int WIDTH             = 400;
-   private static int       _choice           =  -1;
-   private ActionListener _actionListener     = null;
+   private static final int HEIGHT          = 400;
+   private static final int WIDTH           = 400;
+   private static int       _choice         =  -1;
+   private ActionListener   _actionListener = null;
+
+   private static SudokuManualEntryView _instance = null;
   
    
-   ///////////////////////////Constructors////////////////////////////
-   //
-   //
-   //
-   public SudokuManualEntryView(){
-      this("Sudoku Manual Entry",null);
-   }
-
-   //
-   //
-   //
-   public SudokuManualEntryView(String title){
-      this(title,null);
-   }
-
-
-   //
-   //
-   //
-   public SudokuManualEntryView(String title, ActionListener al){
-      this(title,al,null);
-   }
-
-   //
-   //
-   //
-   public SudokuManualEntryView
-   (
-      String title,
-      ActionListener al,
-      JFrame frame
-   ){
-      super(title);
-      this.addWindowListener(new WindowAdapter(){
-         public void windowClosing(WindowEvent w){
-            clearOutTheEntries();
-            setVisible(false);
-         }
-      });
-      this.addActionListener(al);
-      this.setUpFrame(frame);
-      this.setUpGUI();
-   }
-
+   ///////////////////////Public Methods//////////////////////////////
    //
    //
    //
@@ -89,10 +48,26 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
    //
    //
    //
-   public void showEntryInput(JFrame frame){
-      this.setVisible(false);
-      this.setUpFrame(frame);
-      this.setVisible(true);
+   static public SudokuManualEntryView instance(){
+      return _instance;
+   }
+
+   //
+   //
+   //
+   static public SudokuManualEntryView instance
+   (
+      String         title,
+      ActionListener    al,
+      JFrame         frame
+   ){
+      if(_instance == null){
+         _instance = new SudokuManualEntryView(title,al,frame);
+      }
+      else{
+         _instance.setVisible(true);
+      }
+      return _instance;
    }
 
    ////////////////////////Private Methods////////////////////////////
@@ -190,5 +165,28 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
 
       return panel;
    }
+
+   ///////////////////////////Constructors////////////////////////////
+   //
+   //
+   //
+   private SudokuManualEntryView
+   (
+      String title,
+      ActionListener al,
+      JFrame frame
+   ){
+      super(title);
+      this.addWindowListener(new WindowAdapter(){
+         public void windowClosing(WindowEvent w){
+            clearOutTheEntries();
+            setVisible(false);
+         }
+      });
+      this.addActionListener(al);
+      this.setUpFrame(frame);
+      this.setUpGUI();
+   }
+
 }
 //////////////////////////////////////////////////////////////////////

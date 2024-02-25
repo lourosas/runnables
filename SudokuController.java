@@ -95,10 +95,7 @@ public class SudokuController implements ActionListener, KeyListener{
    //
    //
    private void inputSudokuManually(){
-      SudokuManualEntryView view = new SudokuManualEntryView(
-                                               "Manual Input",
-                                                this,
-                                                this._frame);
+      SudokuManualEntryView.instance("Manual Input",this,this._frame);
 
    }
 

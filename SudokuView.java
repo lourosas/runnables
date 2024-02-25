@@ -80,8 +80,8 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    //
    private void displayManualSudokuEntry(){
-      System.out.println("Manual Enter");
-      this._manualEntryView = new SudokuManualEntryView("WTF?!");
+      //System.out.println("Manual Enter");
+      //this._manualEntryView = new SudokuManualEntryView("WTF?!");
    }
 
    //
