@@ -144,7 +144,7 @@ public class SudokuController implements ActionListener, KeyListener{
                SudokuManualEntryView instance = null;
                instance = SudokuManualEntryView.instance();
                String[] s = instance.returnSudokuInput();
-               this._sudoku.input(s);
+               this._sudoku.set(s);
             }
             catch(NullPointerException npe){}
          }

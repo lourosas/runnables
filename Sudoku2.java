@@ -24,15 +24,12 @@ import rosas.lou.runnables.*;
 
 public class Sudoku2 implements SudokuInterface{
    private enum State{STARTUP,NEWGAME,CLEARED,SOLVED,ERROR};
-   private enum SubState{NONE,MANUALENTER};
    private State        _state;
-   private SubState     _substate;
    private SudokuEngine _engine;
    List<Subscriber>     _subscribers;
 
    {
       _state       = State.STARTUP;
-      _substate    = SubState.NONE; //This could be rather trickey
       _engine      = null;
       _subscribers = null;
    };
@@ -72,20 +69,12 @@ public class Sudoku2 implements SudokuInterface{
          if(this._state == State.NEWGAME){
             state = new String("NEWGAME");
          }
-         else if(this._state == State.CLEARED){
-            state = new String("CLEARED");
-            if(this._substate == SubState.MANUALENTER){
-               state += " MANUALENTER";
-            }
-         }
+         else if(this._state == State.CLEARED){}
          else if(this._state == State.SOLVED){
             state = new String("SOLVED");
          }
          else if(this._state == State.STARTUP){
             state = new String("STARTUP");
-            if(this._substate == SubState.MANUALENTER){
-               state += " MANUALENTER";
-            }
          }
          SudokuBlock[][] block = this._engine.getBlock();
          SudokuState ss = new SudokuState(message,state,block);
@@ -98,19 +87,6 @@ public class Sudoku2 implements SudokuInterface{
       }
       catch(NullPointerException npe){
          npe.printStackTrace();
-      }
-   }
-
-   //
-   //
-   //
-   private void setPuzzle(){
-      if(this._state == State.STARTUP||this._state == State.CLEARED){
-         this._substate = SubState.MANUALENTER;
-         this.notifySubscribers();
-      }
-      else{
-         this._substate = SubState.NONE;
       }
    }
 
@@ -184,7 +160,7 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    //
-   public void input(String[] input){
+   public void set(String[] input){
       this.setPuzzle(input);
    }
 
@@ -195,11 +171,6 @@ public class Sudoku2 implements SudokuInterface{
       if(pathAndFile != null){
          this.setPuzzle(pathAndFile);
       }
-      /*
-      else{
-         this.setPuzzle();
-      }
-      */
    }
 
    //
