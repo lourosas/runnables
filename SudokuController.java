@@ -119,6 +119,7 @@ public class SudokuController implements ActionListener, KeyListener{
          }
          else if(command.equals("CLEAR")){
             System.out.println(command);
+            //this._sudoku.clear();
          }
          else if(command.equals("NEWGAME")){
             //this._subscriber.update(this,command);

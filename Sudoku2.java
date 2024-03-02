@@ -116,7 +116,7 @@ public class Sudoku2 implements SudokuInterface{
       try{
          SudokuFileReader sfr = new SudokuFileReader(pathAndFile);
          int[][] array        = sfr.returnSudoku();
-         this._state          = State.NEWGAME;
+         //this._state          = State.NEWGAME;
          this.set(array);
       }
       catch(FileNotFoundException fnfe){
@@ -140,7 +140,7 @@ public class Sudoku2 implements SudokuInterface{
    private void setPuzzle(String[] input){
       int[][] grid = new int[9][9];
       int count    = 0;
-      this._state  = State.NEWGAME;
+      //this._state  = State.NEWGAME;
       for(int row = 0; row < 9; ++row){
          for(int col = 0; col < 9; ++col){
             int val = -1;
@@ -180,6 +180,9 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    public void open(String pathAndFile){
+      if(this._state == State.ERROR||this._state == State.SOLVED){
+         //this.clear();
+      }
       if(pathAndFile != null){
          this.setPuzzle(pathAndFile);
       }
@@ -189,7 +192,13 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    public void set(int[][] grid){
+      if(this._state == State.ERROR||this._state == State.SOLVED){
+         //this.clear();
+      }
       this._engine.setBlock(grid);
+      if(this._state != State.NEWGAME){
+         this._state = State.NEWGAME;
+      }
       this.notifySubscribers();
    }
 
@@ -197,7 +206,13 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    public void set(SudokuBlock[][] grid){
+      if(this._state == State.ERROR||this._state == State.SOLVED){
+         //this.clear();
+      }
       this._engine.setBlock(grid);
+      if(this._state != State.NEWGAME){
+         this._state = State.NEWGAME;
+      }
       this.notifySubscribers();
    }
 
@@ -205,6 +220,9 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    public void set(String[] input){
+      if(this._state == State.ERROR||this._state == State.SOLVED){
+         //this.clear();
+      }
       this.setPuzzle(input);
    }
 
