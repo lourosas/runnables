@@ -54,14 +54,8 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    //
    public SudokuView(SudokuController controller){
-      //this("", controller);
-      this("");
+      this("", controller);
    }
-
-   //
-   //
-   //
-   public SudokuView(String title){}
 
    //
    //
@@ -94,26 +88,12 @@ public class SudokuView extends GenericJFrame implements Subscriber{
                  "Text File for Manual Entry?",
                  JOptionPane.YES_NO_OPTION);
       if(n == 0){
-         /*  This all needs to change
-         JButton yes = new JButton("Yes");
-         //Yes...indicates to enter a text file as the puzzle
-         yes.setActionCommand("OPENTEXTFILE");
-         yes.addActionListener(this._controller);
-         yes.doClick();
-         */
          //this.openSudokuTextFile();
          JFileChooser chooser = new JFileChooser();
          FileNameExtensionFilter f=new FileNameExtensionFilter(
                                        "*.txt","*.text","txt","text");
       }
       else if(n == 1){
-         /*  This all needs to change
-         JButton no = new JButton("No");
-         //No...means to manually enter the puzzle
-         no.setActionCommand("MANUALENTER");
-         no.addActionListener(this._controller);
-         no.doClick();
-         */
          //Something to this effect will be the best way
          this.displayManualSudokuEntry();
       }
@@ -141,15 +121,7 @@ public class SudokuView extends GenericJFrame implements Subscriber{
                                          "*.txt,*.text","txt","text");
       chooser.setFileFilter(f);
       int value = chooser.showOpenDialog(this);
-      if(value == 0){
-         /*  This all needs to change...
-         String path = chooser.getSelectedFile().getPath();
-         JButton b = new JButton(path);
-         b.setActionCommand("TEXTFILEPATH");
-         b.addActionListener(this._controller);
-         b.doClick();
-         */
-      }
+      if(value == 0){}
    }
 
    //
@@ -383,7 +355,13 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    //
    //
-   public void error(RuntimeException re, Object o){}
+   public void error(RuntimeException re, Object o){
+      try{
+         SudokuState state = (SudokuState)o;
+         String sState     = state.state().toUpperCase();
+      }
+      catch(ClassCastException cce){}
+   }
 
    //
    //I can keep it real simple

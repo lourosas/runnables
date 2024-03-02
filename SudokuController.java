@@ -60,14 +60,6 @@ public class SudokuController implements ActionListener, KeyListener{
    //
    //
    //
-   public void addModel(Sudoku sudoku){
-      this._sudoku = sudoku;
-      this._sudoku.addSubscriber(this._subscriber);
-   }
-
-   //
-   //
-   //
    public void addModel(SudokuInterface sudoku){
       this._sudoku = sudoku;
       this._sudoku.addSubscriber(this._subscriber);
