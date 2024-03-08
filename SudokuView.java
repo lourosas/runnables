@@ -117,6 +117,16 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    //
    //
+   private void handleGenericRuntimeExceptionError(String error){
+      JOptionPane.showMessageDialog(this,
+                                    error,
+                                    "GENERIC ERROR",
+                                    JOptionPane.ERROR_MESSAGE);
+   }
+
+   //
+   //
+   //
    private void handleIOExceptionError(String error){
       String message = new String("IO Error!\n");
       message += "IO Error in reading Puzzle File\n";
@@ -381,7 +391,10 @@ public class SudokuView extends GenericJFrame implements Subscriber{
             this.handleFileNotFoundError(state.message());
          }
          else if(error.contains("IO EXCEPTION")){
-            this.handleIOExceptionError(error);
+            this.handleIOExceptionError(state.message());
+         }
+         else if(error.contains("RUNTIME")){
+            this.handleGenericRuntimeExceptionError(state.message());
          }
          //Put this here for now...
          this.reflectStateInButtonPanel(sState);
