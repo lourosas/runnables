@@ -103,6 +103,33 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    //
    //
+   private void handleFileNotFoundError(String error){
+      String parts[] = error.split(" ");
+      String nofile  = parts[4];
+      String message = new String("File: "+nofile+"\nNot Found!\n");
+      message       += "Please enter another puzzle";
+      JOptionPane.showMessageDialog(this,
+                                    message,
+                                    "FILE NOT FOUND!",
+                                    JOptionPane.ERROR_MESSAGE);
+   }
+
+   //
+   //
+   //
+   private void handleIOExceptionError(String error){
+      String message = new String("IO Error!\n");
+      message += "IO Error in reading Puzzle File\n";
+      message += "Please enter another puzzle";
+      JOptionPane.showMessageDialog(this,
+                                    message,
+                                    "IO ERROR",
+                                    JOptionPane.ERROR_MESSAGE);
+   }
+
+   //
+   //
+   //
    private void handleNoSolutionError(String error){
       String message = new String("Sudoku Unsolvable!\n");
       message += "Please enter another puzzle";
@@ -349,6 +376,12 @@ public class SudokuView extends GenericJFrame implements Subscriber{
          String error      = state.message().toUpperCase();
          if(error.contains("NO SOLUTION")){
             this.handleNoSolutionError(error);
+         }
+         else if(error.contains("FILE NOT FOUND")){
+            this.handleFileNotFoundError(state.message());
+         }
+         else if(error.contains("IO EXCEPTION")){
+            this.handleIOExceptionError(error);
          }
          //Put this here for now...
          this.reflectStateInButtonPanel(sState);

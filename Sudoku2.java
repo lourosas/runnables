@@ -47,18 +47,6 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    private void notifyErrors(String error){
-      /*
-      try{
-         Iterator<Subscriber> it = this._subscribers.iterator();
-         while(it.hasNext()){
-            //Inform the subscribers of the error
-            it.next().error(error);
-         }
-      }
-      catch(NullPointerException npe){
-         npe.printStackTrace();
-      }
-      */
       RuntimeException re = new RuntimeException(error);
       try{
          String message      = new String(error);
