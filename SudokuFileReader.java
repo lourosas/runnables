@@ -68,34 +68,33 @@ public class SudokuFileReader{
       while((line = br.readLine()) != null){
          String[] current = line.split(",");
          for(int i = 0; i < current.length; ++i){
-            String temp = current[i].trim();
-            try{
-               if(temp.length() > 1){
-                  String[] arr = temp.split(" ");
-                  for(int j = 0; j < arr.length; ++j){
-                     char c = arr[j].charAt(0);
-                     if((c >= '0' && c <= '9') || c == '-'){
-                        Integer val = Integer.valueOf(arr[j]);
-                        block[row][col] = val.intValue();
-                        ++col;
-                     }
-                  }
-               }
-               else{
-                  Integer val = Integer.valueOf(temp);
+            String temp  = current[i].trim();
+            String[] arr = temp.split(" ");
+            String cur   = null;
+            for(int j = 0; j < arr.length; ++j){
+               try{
+                  Integer val = Integer.valueOf(arr[j]);
                   block[row][col] = val.intValue();
                   ++col;
                }
-            }
-            catch(NumberFormatException nfe){
-               String message = new String(" Non-number entry in ");
-               message += "puzzle";
-               throw new RuntimeException(nfe.getMessage() + message);
-            }
-            catch(ArrayIndexOutOfBoundsException oobe){
-               String message = new String(" Too many entries for ");
-               message += "Sudoku ";
-               throw new RuntimeException(oobe.getMessage()+message);
+               catch(NumberFormatException nfe){
+                  if(!(arr[j].contains("{") || 
+                       arr[j].contains("}") ||
+                       arr[j].contains(";"))){
+                     String message =
+                                  new String(" Non-number entry in ");
+                     message += "puzzle";
+                     throw new RuntimeException(
+                                          nfe.getMessage() + message);
+               
+                  }
+               }
+               catch(ArrayIndexOutOfBoundsException oobe){
+                  String message=new String(" Too many entries for ");
+                  message += "Sudoku ";
+                  throw new RuntimeException(
+                                           oobe.getMessage()+message);
+               }
             }
          }
          //Let me see if this will simply do the trick...

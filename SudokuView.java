@@ -88,7 +88,6 @@ public class SudokuView extends GenericJFrame implements Subscriber{
                  "Text File for Manual Entry?",
                  JOptionPane.YES_NO_OPTION);
       if(n == 0){
-         //this.openSudokuTextFile();
          JFileChooser chooser = new JFileChooser();
          FileNameExtensionFilter f=new FileNameExtensionFilter(
                                        "*.txt","*.text","txt","text");
