@@ -1,0 +1,59 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case 2:  Clear Current Puzzle}\\
+\textbf{Scope:  }Sudoku Solver\\
+\textbf{Level:  }Player Goal\\
+\textbf{Primary Actor:  }Player\\
+\textbf{Scenario:  }N/A\\
+\textbf{Related Use Cases:  }None\\
+\textbf{Stakeholders \& Interests:}
+\begin{itemize}
+\item Player:  Wants to clear out the current diplayed Puzzle
+\end{itemize}
+\textbf{Preconditions:  }A puzzled is loaded in the System and
+displayed to the Player\\
+\textbf{Postconditions:  }The System completely resets the Puzzle and
+displays all blank boxes to the Player\\
+\textbf{Success Guarantees:  }A completely blank Puzzle is displayed
+to the Player, the Puzzle is completely reset (there are no 1-9 values
+stored in the Puzzle)\\\\
+\textbf{Main Success Scenrio:  }\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+\textbf{Player} & \textbf{Sudoku Solver}\\\hline
+1.  Clear the Puzzle &\\\hline
+& 2.  Remove any \& all values ranging from 1-9 in the puzzle\\\hline
+& 3.  Display a completely cleared Puzzle\\\hline 
+\end{tabular}\\\\
+\textbf{Alternative Flows:}
+\begin{itemize}
+\item[2a. 3a. ]If the Display is already blank, the System takes no
+action
+\end{itemize}
+\textbf{Extensions}
+\begin{itemize}
+\item[2b. 3b. ]If a Player Desires to play a New Game, and the System
+is currently displaying a Game, (see \textit{Use Case 3:  The Player
+Shall Start a New Game}, then the System first clears the current
+Game \textbf{prior} to loading a New Game (see \textit{Main Success
+Scenario Steps 1-3 in this current Use Case}).
+\item[2c. 3c. ]If a Player Desires to play a New Game, and the System
+is currently displaying an Unsolvable puzzle (see \textit{Use Case 3:  
+The Player Shall Start a New Game},  then the System first clears the
+current Puzzle \textbf{prior} to loading a New Game (see 
+\textit{Main Success Scenario Steps 1-3 in this current Use Case}).
+\end{itemize}
+\textbf{Special Requirements:}
+\begin{itemize}
+\item None
+\end{itemize}
+\textbf{Technology \& Variations List:}
+\begin{itemize}
+\item None
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
