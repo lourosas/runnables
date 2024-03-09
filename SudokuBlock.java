@@ -90,6 +90,14 @@ public class SudokuBlock{
    }
 
    //
+   //
+   //
+   public void reset(boolean toKeep, boolean makeMutable){
+      this._isMutable = makeMutable;
+      this.reset(toKeep); 
+   }
+
+   //
    //Not sure WTF I am going to use this for, just yet!!!
    //MAYBE REMOVE???
    public void setIndex(int idx){

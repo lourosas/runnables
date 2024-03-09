@@ -65,6 +65,13 @@ public class Sudoku implements SudokuInterface{
    //
    //
    //
+   public void clear(){
+      System.out.println("CLEAR");
+   }
+
+   //
+   //
+   //
    public void open(String pathAndFile){}
 
    //

@@ -167,6 +167,13 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    //
+   public void clear(){
+      System.out.println("CLEAR");
+   }
+
+   //
+   //
+   //
    public void open(String pathAndFile){
       if(this._state == State.ERROR||this._state == State.SOLVED){
          //this.clear();
