@@ -176,6 +176,7 @@ public class Sudoku2 implements SudokuInterface{
       }
       else{
          this._state = State.ERROR;
+         this.notifyErrors("Could Not Clear the Puzzle");
       }
    }
 
@@ -183,9 +184,6 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    public void open(String pathAndFile){
-      if(this._state == State.ERROR||this._state == State.SOLVED){
-         //this.clear();
-      }
       if(pathAndFile != null){
          this.setPuzzle(pathAndFile);
       }
@@ -196,7 +194,7 @@ public class Sudoku2 implements SudokuInterface{
    //
    public void set(int[][] grid){
       if(this._state == State.ERROR||this._state == State.SOLVED){
-         //this.clear();
+         this.clear();
       }
       this._engine.setBlock(grid);
       if(this._state != State.NEWGAME){
@@ -210,7 +208,7 @@ public class Sudoku2 implements SudokuInterface{
    //
    public void set(SudokuBlock[][] grid){
       if(this._state == State.ERROR||this._state == State.SOLVED){
-         //this.clear();
+         this.clear();
       }
       this._engine.setBlock(grid);
       if(this._state != State.NEWGAME){
@@ -223,9 +221,6 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    public void set(String[] input){
-      if(this._state == State.ERROR||this._state == State.SOLVED){
-         //this.clear();
-      }
       this.setPuzzle(input);
    }
 

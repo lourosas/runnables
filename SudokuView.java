@@ -150,6 +150,18 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    //
    //
+   private void handleNoClearError(String error){
+      String message = new String("Puzzle not cleared!\n");
+      message += "Please restart the App";
+      JOptionPane.showMessageDialog(this,
+                                    message,
+                                    "CLEAR ERROR",
+                                    JOptionPane.ERROR_MESSAGE);
+   }
+
+   //
+   //
+   //
    private void handleNoSolutionError(String error){
       String message = new String("Sudoku Unsolvable!\n");
       message += "Please enter another puzzle";
@@ -200,7 +212,6 @@ public class SudokuView extends GenericJFrame implements Subscriber{
       else if(state.toUpperCase().equals("CLEARED")){
          //What will eventually happen...
          newGame.setEnabled(true);
-         System.out.println(state);
       }
    }
 
@@ -417,6 +428,9 @@ public class SudokuView extends GenericJFrame implements Subscriber{
          String error      = state.message().toUpperCase();
          if(error.contains("NO SOLUTION")){
             this.handleNoSolutionError(error);
+         }
+         else if(error.contains("NOT CLEAR THE PUZZLE")){
+            this.handleNoClearError(state.message());
          }
          else if(error.contains("FILE NOT FOUND")){
             this.handleFileNotFoundError(state.message());
