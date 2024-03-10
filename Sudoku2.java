@@ -76,7 +76,9 @@ public class Sudoku2 implements SudokuInterface{
          if(this._state == State.NEWGAME){
             state = new String("NEWGAME");
          }
-         else if(this._state == State.CLEARED){}
+         else if(this._state == State.CLEARED){
+            state = new String("CLEARED");
+         }
          else if(this._state == State.SOLVED){
             state = new String("SOLVED");
          }
@@ -168,7 +170,13 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    public void clear(){
-      System.out.println("CLEAR");
+      if(this._engine.clearSudoku()){
+         this._state = State.CLEARED;
+         this.notifySubscribers();
+      }
+      else{
+         this._state = State.ERROR;
+      }
    }
 
    //

@@ -73,6 +73,17 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    //
    //
+   private void clearPuzzleDisplay(){
+      for(int i = 0; i < TOTAL; ++i){
+         this._buttonArray[i].setText("");
+         Font f = new Font("Serif",Font.BOLD, 36);
+         this._buttonArray[i].setFont(f);
+      }
+   }
+
+   //
+   //
+   //
    private void displayManualSudokuEntry(){
       //System.out.println("Manual Enter");
       //this._manualEntryView = new SudokuManualEntryView("WTF?!");
@@ -185,6 +196,11 @@ public class SudokuView extends GenericJFrame implements Subscriber{
       }
       else if(state.toUpperCase().equals("ERROR")){
          clear.setEnabled(true); newGame.setEnabled(true);
+      }
+      else if(state.toUpperCase().equals("CLEARED")){
+         //What will eventually happen...
+         newGame.setEnabled(true);
+         System.out.println(state);
       }
    }
 
@@ -303,6 +319,11 @@ public class SudokuView extends GenericJFrame implements Subscriber{
       }
    }
 
+   //
+   //
+   //
+   private void updateValues(int[][] block){}
+
 
    ///////////////////////Interface Methods///////////////////////////
    ///////////////////////Subscriber Interface////////////////////////
@@ -318,7 +339,18 @@ public class SudokuView extends GenericJFrame implements Subscriber{
       try{
          SudokuState state = (SudokuState)o;
          String sState = state.state().toUpperCase();
-         if(sState.equals("NEWGAME")){
+         if(sState.equals("CLEARED")){
+            //First, need to clear out the entries...
+            this.clearPuzzleDisplay();
+            if(state.block() != null){
+               this.updateValues(state.block());
+            }
+            else if(state.singleBlock() != null){
+               this.updateValues(state.singleBlock());
+            }
+            else if(state.singleBlock() != null){}
+         }
+         else if(sState.equals("NEWGAME")){
             if(state.block() != null){
                this.updateValues(state.block());
             }

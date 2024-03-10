@@ -73,6 +73,23 @@ public class SudokuEngine{
    //
    //
    //
+   public boolean clearSudoku(){
+      boolean clearedWorked = true;
+      this._block = null;
+      this._block = new SudokuBlock[ROWS][COLS];
+      for(int i = 0; i < ROWS; ++i){
+         for(int j = 0; j < COLS; ++j){
+            this._block[i][j] = new SudokuBlock();
+            this._block[i][j].setIndex(i,j);
+            clearedWorked &= (this._block[i][j] != null);
+         }
+      }
+      return clearedWorked;
+   }
+
+   //
+   //
+   //
    public SudokuBlock[][] getBlock(){
       SudokuBlock[][] blk = new SudokuBlock[ROWS][COLS];
       for(int i = 0; i < ROWS; ++i){
@@ -194,3 +211,4 @@ public class SudokuEngine{
       return isSolved;
    }
 }
+//////////////////////////////////////////////////////////////////////
