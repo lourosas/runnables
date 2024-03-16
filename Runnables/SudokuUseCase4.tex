@@ -1,0 +1,59 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case 4:  Save Solved Puzzle}\\
+\textbf{Scope:  }Sudoku Solver\\
+\textbf{Level:  }Player Goal\\
+\textbf{Primary Actor:  }Player\\
+\textbf{Scenario:  }N/A\\
+\textbf{Related Use Cases:  }\textit{Use Case 1:  The Player Shall
+Play a Game}\\
+\textbf{Stakeholders \& Interests:}
+\begin{itemize}
+\item Player:  Wants to save off a Solved Puzzle
+\end{itemize}
+\textbf{Preconditions:  }A solved puzzle is diplayed to the Player\\
+\textbf{Postconditions: }The solved puzzed saved off to a named file
+and location dictated as dictated by the Player\\
+\textbf{Success Gurantees:  }The solved Puzzle is saved off to a file
+named by the Player at a location dicated by the Player\\\\
+\textbf{Main Success Scenario:}\\\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+\textbf{Player} & \textbf{Sodoku Solver}\\\hline
+1.  Save the Solved Puzzle & \\\hline
+& 2.  Request Location \& Filename\\\hline
+3.  Enter Location and Filename to save solved Puzzle &\\\hline
+& 4.  Goes to location, creates file based on the name dicated by
+player\\\hline
+& 5.  Saves solved Puzzle to file\\\hline
+& 6.  Closes file\\\hline
+\end{tabular}\\\\
+\textbf{Alternative Flows:  }
+\begin{itemize}
+\item[1a.]If the Puzzle is not Solvable, then the System does not save
+the unsolvable Puzzle (\textit{See Extenstions 2a, 3a in Use Case 1:
+Play Game})
+\item[4a. 5a.]If the file aready exists, then the System alerts the
+Player the file already exists and asks for overwrite permision:
+System only overwrites file upon Player Permission
+\item[4b.]If file creation is not possible, then the System alerts the
+Player of the issue
+\item[5b.]If saving the file is not possible, then the System alerts
+the Player of the issue
+\item[6a.]If closing the file is not possible, then the System alerts
+the Player of the issue
+\end{itemize}
+\textbf{Special Requirements:}
+\begin{itemize}
+\item None
+\end{itemize}
+\textbf{Technology \& Variations List:}
+\begin{itemize}
+\item None
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
