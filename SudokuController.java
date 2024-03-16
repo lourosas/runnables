@@ -86,6 +86,18 @@ public class SudokuController implements ActionListener, KeyListener{
    //
    //
    //
+   private void getSaveSolutionToFileInfo(){
+      JFileChooser chooser = new JFileChooser();
+      FileNameExtensionFilter f=new FileNameExtensionFilter(
+                             "*.txt,*.text,*.sln","txt","text","sln");
+      chooser.setFileFilter(f);
+      int value = chooser.showSaveDialog(this._frame);
+      System.out.println(value + "");
+   }
+
+   //
+   //
+   //
    private void inputSudokuManually(){
       SudokuManualEntryView.instance("Manual Input",this,this._frame);
    }
@@ -121,12 +133,11 @@ public class SudokuController implements ActionListener, KeyListener{
             this._sudoku.clear();
          }
          else if(command.equals("NEWGAME")){
-            //this._subscriber.update(this,command);
-            //Set up date for a New Game
             this.getNewGameInfo();
          }
          else if(command.equals("SAVE")){
             System.out.println(command);
+            this.getSaveSolutionToFileInfo();
          }
          else if(command.equals("OPENTEXTFILE")){
             this._subscriber.update(this,command);
