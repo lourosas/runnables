@@ -102,6 +102,21 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    //
+   private void saveSolution(String pathAndFile){
+      String paf = pathAndFile;
+      try{
+         System.out.println(paf);
+         FileOutputStream fos   = new FileOutputStream(paf, false);
+         OutputStreamWriter osw = new OutputStreamWriter(fos);
+         PrintWriter pw = new PrintWriter(osw,true);
+         pw.close();
+      }
+      catch(IOException ioe){}
+   }
+
+   //
+   //
+   //
    private void setPuzzle(String pathAndFile){
       try{
          SudokuFileReader sfr = new SudokuFileReader(pathAndFile);
@@ -193,7 +208,7 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    public void save(String pathAndFile){
-      System.out.println(pathAndFile);
+      this.saveSolution(pathAndFile);
    }
 
    //
