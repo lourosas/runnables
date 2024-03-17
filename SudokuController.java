@@ -87,12 +87,40 @@ public class SudokuController implements ActionListener, KeyListener{
    //
    //
    private void getSaveSolutionToFileInfo(){
+      java.io.File file = null;
+      String path       = null;
+      boolean toShow    = true;
       JFileChooser chooser = new JFileChooser();
       FileNameExtensionFilter f=new FileNameExtensionFilter(
                              "*.txt,*.text,*.sln","txt","text","sln");
       chooser.setFileFilter(f);
-      int value = chooser.showSaveDialog(this._frame);
-      System.out.println(value + "");
+      while(toShow){
+         //This is not very elegant, but it works!!
+         //Possibly remove and follow the logic below...
+         toShow = false;
+         int value = chooser.showSaveDialog(this._frame);
+         if(value == JFileChooser.APPROVE_OPTION){
+            //Do Something here...
+            file = chooser.getSelectedFile();
+            path = file.getPath();
+            if(file.exists()){
+               String error   = new String("FILE EXISTS!");
+               String message = new String("File: " + path);
+               message += "\nalready exists!\nOverwrite the file?";
+               int ans = JOptionPane.showConfirmDialog(
+                         this._frame, message, error,
+                         JOptionPane.YES_NO_OPTION);
+               
+               toShow = !(ans == JOptionPane.YES_OPTION);
+            }
+            //else{
+            //   toShow = false;
+            //}
+            if(!toShow){
+               this._sudoku.save(file.getPath());
+            }
+         }
+      }
    }
 
    //

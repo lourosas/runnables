@@ -192,6 +192,13 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    //
+   public void save(String pathAndFile){
+      System.out.println(pathAndFile);
+   }
+
+   //
+   //
+   //
    public void set(int[][] grid){
       if(this._state == State.ERROR||this._state == State.SOLVED){
          this.clear();

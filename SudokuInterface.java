@@ -25,6 +25,7 @@ public interface SudokuInterface{
    public void addSubscriber(Subscriber subscriber);
    public void clear();
    public void open(String pathAndFile);
+   public void save(String pathAndFile);
    public void set(int[][] block);
    public void set(SudokuBlock[][] block);
    public void set(String[] input);
