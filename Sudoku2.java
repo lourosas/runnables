@@ -89,12 +89,9 @@ public class Sudoku2 implements SudokuInterface{
    //
    private void saveSolution(String pathAndFile){
       try{
-         //ONLY Temporary!!
-         System.out.println(this._state);
-         throw new RuntimeException("Test Error");
-         //SudokuFileWriter sfw = new SudokuFileWriter(pathAndFile);
-         //SudokuBlock[][] block= this._engine.getBlock();
-         //sfw.saveSolution(block);
+         SudokuFileWriter sfw = new SudokuFileWriter(pathAndFile);
+         SudokuBlock[][] block= this._engine.getBlock();
+         sfw.saveSolution(block);
       }
       catch(RuntimeException re){
          //Do not set to ERROR State (just yet)

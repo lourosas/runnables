@@ -164,7 +164,6 @@ public class SudokuController implements ActionListener, KeyListener{
             this.getNewGameInfo();
          }
          else if(command.equals("SAVE")){
-            System.out.println(command);
             this.getSaveSolutionToFileInfo();
          }
          else if(command.equals("OPENTEXTFILE")){
