@@ -148,10 +148,8 @@ public class SudokuView extends GenericJFrame implements Subscriber{
                                     JOptionPane.ERROR_MESSAGE);
       }
       else if(error.toUpperCase().contains("IO WRITE")){
-         String message = new String("IO Write Error!\n");
-         message += "Error Writing out the Solution!";
          JOptionPane.showMessageDialog(this,
-                                     message,
+                                     error,
                                      "IO WRITE ERROR",
                                      JOptionPane.ERROR_MESSAGE);
       }
@@ -359,7 +357,7 @@ public class SudokuView extends GenericJFrame implements Subscriber{
       catch(ClassCastException cce){}
       try{
          SudokuState state = (SudokuState)o;
-         String sState = state.state().toUpperCase();
+         String sState = state.stringState().toUpperCase();
          if(sState.equals("CLEARED")){
             //First, need to clear out the entries...
             this.clearPuzzleDisplay();
@@ -369,7 +367,7 @@ public class SudokuView extends GenericJFrame implements Subscriber{
             else if(state.singleBlock() != null){
                this.updateValues(state.singleBlock());
             }
-            else if(state.singleBlock() != null){}
+            else if(state.intBlock() != null){}
          }
          else if(sState.equals("NEWGAME")){
             if(state.block() != null){
@@ -389,8 +387,7 @@ public class SudokuView extends GenericJFrame implements Subscriber{
             }
             else if(state.intBlock() != null){}
          }
-         else if(sState.contains("STARTUP")){
-         }
+         else if(sState.contains("STARTUP")){}
          //Indicate the State of the System
          this.reflectStateInButtonPanel(sState);
       }
@@ -427,7 +424,7 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    public void error(RuntimeException re, Object o){
       try{
          SudokuState state = (SudokuState)o;
-         String sState     = state.state().toUpperCase();
+         String sState     = state.stringState().toUpperCase();
          String error      = state.message().toUpperCase();
          if(error.contains("NO SOLUTION")){
             this.handleNoSolutionError(error);

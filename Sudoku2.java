@@ -23,13 +23,13 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class Sudoku2 implements SudokuInterface{
-   private enum State{STARTUP,NEWGAME,CLEARED,SOLVED,ERROR};
-   private State        _state;
-   private SudokuEngine _engine;
-   List<Subscriber>     _subscribers;
+   //private enum State{STARTUP,NEWGAME,CLEARED,SOLVED,ERROR};
+   private SudokuState.State _state;
+   private SudokuEngine      _engine;
+   List<Subscriber>          _subscribers;
 
    {
-      _state       = State.STARTUP;
+      _state       = SudokuState.State.STARTUP;
       _engine      = null;
       _subscribers = null;
    };
@@ -49,13 +49,10 @@ public class Sudoku2 implements SudokuInterface{
    private void notifyErrors(String error){
       RuntimeException re = new RuntimeException(error);
       try{
-         String message      = new String(error);
-         String state        = new String("No State");
-         if(this._state == State.ERROR){
-            state = new String("ERROR");
-         }
-         SudokuBlock[][] block = this._engine.getBlock();
-         SudokuState ss        = new SudokuState(message,state,block);
+         String message          = new String(error);
+         SudokuState.State state = this._state;
+         SudokuBlock[][] block   = this._engine.getBlock();
+         SudokuState ss = new SudokuState(message,state,block);
          Iterator<Subscriber> it = this._subscribers.iterator();
          while(it.hasNext()){
             it.next().error(re,ss);
@@ -71,22 +68,10 @@ public class Sudoku2 implements SudokuInterface{
    //
    private void notifySubscribers(){
       try{
-         String message = new String("double");
-         String state   = new String("No State");
-         if(this._state == State.NEWGAME){
-            state = new String("NEWGAME");
-         }
-         else if(this._state == State.CLEARED){
-            state = new String("CLEARED");
-         }
-         else if(this._state == State.SOLVED){
-            state = new String("SOLVED");
-         }
-         else if(this._state == State.STARTUP){
-            state = new String("STARTUP");
-         }
-         SudokuBlock[][] block = this._engine.getBlock();
-         SudokuState ss        = new SudokuState(message,state,block);
+         String message          = new String("double");
+         SudokuState.State state = this._state;
+         SudokuBlock[][] block   = this._engine.getBlock();
+         SudokuState ss = new SudokuState(message,state,block);
          Iterator<Subscriber> it = this._subscribers.iterator();
          while(it.hasNext()){
             //Inform the Subscribers of a 2-D array
@@ -129,15 +114,15 @@ public class Sudoku2 implements SudokuInterface{
       }
       catch(FileNotFoundException fnfe){
          String message = fnfe.getMessage();
-         this._state = State.ERROR;
+         this._state = SudokuState.State.ERROR;
          this.notifyErrors("File Not Found Exception: "+message);
       }
       catch(IOException ioe){
-         this._state = State.ERROR;
+         this._state = SudokuState.State.ERROR;
          this.notifyErrors("IO Exception: "+ioe.getMessage());
       }
       catch(RuntimeException re){
-         this._state = State.ERROR;
+         this._state = SudokuState.State.ERROR;
          this.notifyErrors("Runtime Exception: " + re.getMessage()); 
       }
    }
@@ -189,11 +174,11 @@ public class Sudoku2 implements SudokuInterface{
    //
    public void clear(){
       if(this._engine.clearSudoku()){
-         this._state = State.CLEARED;
+         this._state = SudokuState.State.CLEARED;
          this.notifySubscribers();
       }
       else{
-         this._state = State.ERROR;
+         this._state = SudokuState.State.ERROR;
          this.notifyErrors("Could Not Clear the Puzzle");
       }
    }
@@ -218,12 +203,13 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    public void set(int[][] grid){
-      if(this._state == State.ERROR||this._state == State.SOLVED){
+      if(this._state == SudokuState.State.ERROR ||
+         this._state == SudokuState.State.SOLVED){
          this.clear();
       }
       this._engine.setBlock(grid);
-      if(this._state != State.NEWGAME){
-         this._state = State.NEWGAME;
+      if(this._state != SudokuState.State.NEWGAME){
+         this._state = SudokuState.State.NEWGAME;
       }
       this.notifySubscribers();
    }
@@ -232,12 +218,13 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    public void set(SudokuBlock[][] grid){
-      if(this._state == State.ERROR||this._state == State.SOLVED){
+      if(this._state == SudokuState.State.ERROR ||
+         this._state == SudokuState.State.SOLVED){
          this.clear();
       }
       this._engine.setBlock(grid);
-      if(this._state != State.NEWGAME){
-         this._state = State.NEWGAME;
+      if(this._state != SudokuState.State.NEWGAME){
+         this._state = SudokuState.State.NEWGAME;
       }
       this.notifySubscribers();
    }
@@ -254,12 +241,12 @@ public class Sudoku2 implements SudokuInterface{
    //
    public void solve(){
       if(this._engine.solve()){
-         this._state = State.SOLVED;
+         this._state = SudokuState.State.SOLVED;
          this.notifySubscribers();
       }
       else{
          //If the Sudoku is not solvable, New Game, or Startup?
-         this._state = State.ERROR;
+         this._state = SudokuState.State.ERROR;
          //this methoed will need to change...will need to think
          //about that...
          this.notifyErrors("No Solution Exists");

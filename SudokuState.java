@@ -22,15 +22,18 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public class SudokuState{
+   static public enum State{STARTUP,NEWGAME,CLEARED,SOLVED,ERROR};
+   private State  _state;
    private String _message;
-   private String _state;
+   private String _sstate;
    private SudokuBlock[][] _block;
    private SudokuBlock[] _singleBlock;
    private int[][] _intBlock;
 
    {
+      _state       = State.STARTUP;
       _message     = null;
-      _state       = null;
+      _sstate      = null;
       _block       = null;
       _singleBlock = null;
       _intBlock    = null;
@@ -40,9 +43,29 @@ public class SudokuState{
    //
    //
    //
+   SudokuState(String message, State state, SudokuBlock[][] block){
+      this._message = new String(message);
+      this._state   = state;
+      this._block   = block;
+      this.setStringState(this._state);
+   }
+
+   //
+   //
+   //
+   SudokuState(String message, State state, SudokuBlock[] block){
+      this._message     = new String(message);
+      this._state       = state;
+      this._singleBlock = block;
+      this.setStringState(this._state);
+   }
+
+   //
+   //
+   //
    SudokuState(String message, String state, SudokuBlock[][] block){
       this._message = new String(message);
-      this._state   = new String(state);
+      this._sstate  = new String(state);
       //This may change at a later date
       this._block   = block;
    }
@@ -51,8 +74,8 @@ public class SudokuState{
    //
    //
    SudokuState(String message, String state, SudokuBlock[] block){
-      this._message = new String(message);
-      this._state   = new String(state);
+      this._message     = new String(message);
+      this._sstate      = new String(state);
       //This may change at a later date
       this._singleBlock = block;
    }
@@ -62,7 +85,7 @@ public class SudokuState{
    //
    SudokuState(String message, String state, int[][] block){
       this._message = new String(message);
-      this._state   = new String(state);
+      this._sstate  = new String(state);
       //This may change at a later data
       this._intBlock = block;
    }
@@ -78,8 +101,15 @@ public class SudokuState{
    //
    //
    //
-   public String state(){
+   public State state(){
       return this._state;
+   }
+
+   //
+   //
+   //
+   public String stringState(){
+      return this._sstate;
    }
 
    //
@@ -101,6 +131,28 @@ public class SudokuState{
    //
    public int[][] intBlock(){
       return this._intBlock;
+   }
+
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void setStringState(State state){
+      if(state == State.STARTUP){
+         this._sstate = new String("STARTUP");
+      }
+      else if(state == State.NEWGAME){
+         this._sstate = new String("NEWGAME");
+      }
+      else if(state == State.CLEARED){
+         this._sstate = new String("CLEARED");
+      }
+      else if(state == State.SOLVED){
+         this._sstate = new String("SOLVED");
+      }
+      else if(state == State.ERROR){
+         this._sstate = new String("ERROR");
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////
