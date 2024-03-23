@@ -62,8 +62,8 @@ public class SudokuFileReader{
       int     row   = 0;
       int     col   = 0;
       int[][] block = new int[9][9];
-      fr            = new FileReader(this.pathAndFile);
-      br            = new BufferedReader(fr);
+      this.fr       = new FileReader(this.pathAndFile);
+      this.br       = new BufferedReader(fr);
       String line   = new String();
       while((line = br.readLine()) != null){
          String[] current = line.split(",");

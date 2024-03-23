@@ -103,15 +103,18 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    private void saveSolution(String pathAndFile){
-      String paf = pathAndFile;
       try{
-         System.out.println(paf);
-         FileOutputStream fos   = new FileOutputStream(paf, false);
-         OutputStreamWriter osw = new OutputStreamWriter(fos);
-         PrintWriter pw = new PrintWriter(osw,true);
-         pw.close();
+         //ONLY Temporary!!
+         System.out.println(this._state);
+         throw new RuntimeException("Test Error");
+         //SudokuFileWriter sfw = new SudokuFileWriter(pathAndFile);
+         //SudokuBlock[][] block= this._engine.getBlock();
+         //sfw.saveSolution(block);
       }
-      catch(IOException ioe){}
+      catch(RuntimeException re){
+         //Do not set to ERROR State (just yet)
+         this.notifyErrors("IO Write Error: "+re.getMessage());
+      }
    }
 
    //

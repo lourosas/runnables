@@ -34,6 +34,66 @@ public class SudokuFileWriter{
       pw          = null;
       pathAndFile = null;
    };
+
+   ////////////////////////Constructors///////////////////////////////
+   //
+   //
+   //
+   public SudokuFileWriter(){}
+
+   //
+   //
+   //
+   public SudokuFileWriter(String fileAndPath){
+      this.setPathAndFile(fileAndPath);
+   }
+
+   /////////////////////////Public Methods////////////////////////////
+   //
+   //
+   //
+   public void saveSolution(SudokuBlock[][] block)
+   throws RuntimeException{
+      final int ROWS = 9;
+      final int COLS = 9;
+      int row = 0;
+      int col = 0;
+      try{
+         fos = new FileOutputStream(pathAndFile, false);
+         osw = new OutputStreamWriter(fos);
+         pw  = new PrintWriter(osw,true);
+         for(int i = 0; i < ROWS; ++i){
+            for(int j = 0; j < COLS; ++j){
+               pw.print(block[i][j].value());
+               if(j < COLS - 1){
+                  pw.print(", ");
+               }
+            }
+            pw.println();
+         }
+      }
+      catch(IOException ioe){
+         throw new RuntimeException(ioe.getMessage());
+      }
+      catch(SecurityException se){
+         throw new RuntimeException(se.getMessage());
+      }
+      finally{
+         try{
+            fos.close();
+            pw.close();
+         }
+         catch(IOException ioe){}
+      }
+   }
+
+   ///////////////////////Private Methods/////////////////////////////
+   //
+   //
+   //
+   private void setPathAndFile(String fileAndPath){
+      this.pathAndFile = new String(fileAndPath);
+   }
 }
 
 //////////////////////////////////////////////////////////////////////

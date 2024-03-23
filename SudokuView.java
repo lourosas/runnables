@@ -138,13 +138,23 @@ public class SudokuView extends GenericJFrame implements Subscriber{
    //
    //
    private void handleIOExceptionError(String error){
-      String message = new String("IO Error!\n");
-      message += "IO Error in reading Puzzle File\n";
-      message += "Please enter another puzzle";
-      JOptionPane.showMessageDialog(this,
+      if(error.toUpperCase().contains("IO EXCEPTION")){
+         String message = new String("IO Read Error!\n");
+         message += "Error in reading Puzzle File\n";
+         message += "Please enter another puzzle";
+         JOptionPane.showMessageDialog(this,
                                     message,
-                                    "IO ERROR",
+                                    "IO READ ERROR",
                                     JOptionPane.ERROR_MESSAGE);
+      }
+      else if(error.toUpperCase().contains("IO WRITE")){
+         String message = new String("IO Write Error!\n");
+         message += "Error Writing out the Solution!";
+         JOptionPane.showMessageDialog(this,
+                                     message,
+                                     "IO WRITE ERROR",
+                                     JOptionPane.ERROR_MESSAGE);
+      }
    }
 
    //
@@ -398,13 +408,6 @@ public class SudokuView extends GenericJFrame implements Subscriber{
          SudokuBlock[][] block = (SudokuBlock[][])o;
          this.updateValues(block);
       }
-      //This will need to be removed...
-      /*
-      else if(s.toUpperCase().contains("NEWGAME")){
-         this.getNewGameInfo();
-      }
-      */
-      //This will need to be removed...
       else if(s.toUpperCase().contains("OPENTEXTFILE")){
          this.openSudokuTextFile();
       }
@@ -436,6 +439,9 @@ public class SudokuView extends GenericJFrame implements Subscriber{
             this.handleFileNotFoundError(state.message());
          }
          else if(error.contains("IO EXCEPTION")){
+            this.handleIOExceptionError(state.message());
+         }
+         else if(error.contains("IO WRITE")){
             this.handleIOExceptionError(state.message());
          }
          else if(error.contains("RUNTIME")){
