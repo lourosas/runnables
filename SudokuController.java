@@ -178,6 +178,9 @@ public class SudokuController implements ActionListener, KeyListener{
             }
             catch(NullPointerException npe){}
          }
+         else if(command.contains("MANUAL_SAVE")){
+            System.out.println(command);
+         }
       }
       catch(ClassCastException cce){}
       catch(NullPointerException npe){

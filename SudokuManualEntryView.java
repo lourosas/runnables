@@ -108,7 +108,7 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
       panel.setLayout(new GridLayout(9,9,2,2));
       for(int i = 0; i < 81; ++i){
          JTextField tf = new JTextField(2);
-	 tf.setHorizontalAlignment(JTextField.CENTER);
+         tf.setHorizontalAlignment(JTextField.CENTER);
          tf.addKeyListener(new KeyAdapter(){
             //this is the easiest way to do when want to keep the
             //Text field editable!!!
@@ -156,15 +156,15 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
       JPanel panel = new JPanel();
       panel.setBorder(BorderFactory.createEtchedBorder());
       
-      JButton save = new JButton("Set");
-      save.setActionCommand("MANUAL_SET");
-      save.addActionListener(new ActionListener(){
+      JButton set = new JButton("Set");
+      set.setActionCommand("MANUAL_SET");
+      set.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
             //much more to come...checking to see if this works...
          }
       });
-      save.addActionListener(this._actionListener);
-      panel.add(save);
+      set.addActionListener(this._actionListener);
+      panel.add(set);
 
       JButton clear = new JButton("Clear");
       clear.addActionListener(new ActionListener(){
@@ -182,6 +182,15 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
          }
       });
       panel.add(cancel);
+
+      JButton save = new JButton("Save");
+      save.setActionCommand("MANUAL_SAVE");
+      save.addActionListener(new ActionListener(){
+         public void actionPerformed(ActionEvent e){
+         }
+      });
+      save.addActionListener(this._actionListener);
+      panel.add(save);
 
       return panel;
    }
