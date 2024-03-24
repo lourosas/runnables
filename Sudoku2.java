@@ -87,7 +87,7 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    //
-   private void saveSolution(String pathAndFile){
+   private void saveTheSolution(String pathAndFile){
       try{
          SudokuFileWriter sfw = new SudokuFileWriter(pathAndFile);
          SudokuBlock[][] block= this._engine.getBlock();
@@ -193,7 +193,22 @@ public class Sudoku2 implements SudokuInterface{
    //
    //
    public void save(String pathAndFile){
-      this.saveSolution(pathAndFile);
+      this.saveTheSolution(pathAndFile);
+   }
+
+   //
+   //
+   //
+   public void savePuzzle(String pathAndFile, String[] input){
+      System.out.println(pathAndFile);
+      //this.saveThePuzzle(pathaAndFile, input);
+   }
+
+   //
+   //
+   //
+   public void saveSolution(String pathAndFile){
+      this.saveTheSolution(pathAndFile);
    }
 
    //

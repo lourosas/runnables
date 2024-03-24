@@ -26,6 +26,8 @@ public interface SudokuInterface{
    public void clear();
    public void open(String pathAndFile);
    public void save(String pathAndFile);
+   public void saveSolution(String pathAndFile); //future
+   public void savePuzzle(String pathAndFile, String[] input);
    public void set(int[][] block);
    public void set(SudokuBlock[][] block);
    public void set(String[] input);
