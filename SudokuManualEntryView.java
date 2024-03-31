@@ -88,7 +88,7 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
       JPanel panel = (JPanel)this.getContentPane().getComponent(0);
       for(int i = 0; i < panel.getComponentCount(); ++i){
          String s = ((JTextField)panel.getComponent(i)).getText();
-	 sudoku[i] = s;
+         sudoku[i] = s;
       }
       if(!keepVisible){
          this.clearOutTheEntries();
@@ -205,8 +205,7 @@ public class SudokuManualEntryView extends GenericJInteractionFrame{
       JButton save = new JButton("Save");
       save.setActionCommand("MANUAL_SAVE");
       save.addActionListener(new ActionListener(){
-         public void actionPerformed(ActionEvent e){
-         }
+         public void actionPerformed(ActionEvent e){}
       });
       save.addActionListener(this._actionListener);
       panel.add(save);

@@ -190,7 +190,7 @@ public class Sudoku2 implements SudokuInterface{
    }
 
    //
-   //
+   //Should be Depricated...
    //
    public void save(String pathAndFile){
       this.saveTheSolution(pathAndFile);
@@ -205,7 +205,7 @@ public class Sudoku2 implements SudokuInterface{
    }
 
    //
-   //
+   //Should be used as oppoesed to save(String )...
    //
    public void saveSolution(String pathAndFile){
       this.saveTheSolution(pathAndFile);

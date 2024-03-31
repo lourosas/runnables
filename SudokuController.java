@@ -79,6 +79,7 @@ public class SudokuController implements ActionListener, KeyListener{
       chooser.setFileFilter(f);
       while(toShow){
          toShow    = false;
+         path      = null;
          int value = chooser.showSaveDialog(this._frame);
          if(value == JFileChooser.APPROVE_OPTION){
             file = chooser.getSelectedFile();
@@ -90,15 +91,17 @@ public class SudokuController implements ActionListener, KeyListener{
                int ans = JOptionPane.showConfirmDialog(this._frame,
                              message,error,JOptionPane.YES_NO_OPTION);   
                toShow = (ans != JOptionPane.YES_OPTION);
-   	    }
-	 }
+   	      }
+         }
       }
       try{
+         if(path == null){
+            throw new NullPointerException();
+         }
          SudokuManualEntryView instance = null;
          instance   = SudokuManualEntryView.instance();
          String[] s = instance.returnSudokuInput(true);
-         //Do Some more stuff here
-         this._sudoku.savePuzzle(file.getPath(), s);
+         this._sudoku.savePuzzle(path, s);
       }
       catch(NullPointerException npe){}
    }
@@ -216,7 +219,7 @@ public class SudokuController implements ActionListener, KeyListener{
          }
          else if(command.contains("MANUAL_SAVE")){
             this.getManualSaveToFileInfo();
-   	 }
+         }
       }
       catch(ClassCastException cce){}
       catch(NullPointerException npe){
