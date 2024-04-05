@@ -92,8 +92,18 @@ public class SudokuController implements ActionListener, KeyListener{
                              message,error,JOptionPane.YES_NO_OPTION);   
                toShow = (ans != JOptionPane.YES_OPTION);
    	      }
+            if(!toShow){
+               SudokuManualEntryView instance = null;
+               instance   = SudokuManualEntryView.instance();
+               //May not need to do this->Save and Display...
+               //String[] s = instance.returnSudokuInput(true);
+               String[] s = instance.returnSudokuInput(false);
+               //Try this for now...
+               this._sudoku.savePuzzle(file.getPath(),s);
+            }
          }
       }
+      /* This part is over complex bull shit
       try{
          if(path == null){
             throw new NullPointerException();
@@ -104,6 +114,7 @@ public class SudokuController implements ActionListener, KeyListener{
          this._sudoku.savePuzzle(path, s);
       }
       catch(NullPointerException npe){}
+      */
    }
 
    //

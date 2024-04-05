@@ -52,6 +52,55 @@ public class SudokuFileWriter{
    //
    //
    //
+   public void savePuzzle(SudokuBlock[][] block)
+   throws RuntimeException{
+      final int ROWS = 9;
+      final int COLS = 9;
+      int row = 0;
+      int col = 0;
+      FileOutputStream fos   = null;
+      OutputStreamWriter osw = null;
+      PrintWriter pw         = null;
+      try{
+         fos = new FileOutputStream(this.pathAndFile, false);
+         osw = new OutputStreamWriter(fos);
+         pw  = new PrintWriter(osw, true);
+         pw.print("{ { ");
+         for(int i = 0; i < ROWS; ++i){
+            for(int j = 0; j < COLS; ++j){
+               pw.print(block[i][j]);
+               if(j < COLS - 1){
+                  pw.print(", ");
+               }
+            }
+            if(i < ROWS - 1){
+               pw.print(" },\n  { ");
+            }
+            else{
+               pw.print(" } ");
+            }
+         }
+         pw.println("};");
+      }
+      catch(IOException ioe){
+         throw new RuntimeException(ioe.getMessage());
+      }
+      catch(SecurityException se){
+         throw new RuntimeException(se.getMessage());
+      }
+      finally{
+         try{
+            fos.close();
+            pw.close();
+         }
+         catch(IOException ioe){}
+         catch(NullPointerException npe){}
+      }
+   }
+
+   //
+   //
+   //
    public void saveSolution(SudokuBlock[][] block)
    throws RuntimeException{
       final int ROWS = 9;
@@ -59,12 +108,13 @@ public class SudokuFileWriter{
       int row = 0;
       int col = 0;
       try{
-         fos = new FileOutputStream(pathAndFile, false);
+         fos = new FileOutputStream(this.pathAndFile, false);
          osw = new OutputStreamWriter(fos);
          pw  = new PrintWriter(osw,true);
          for(int i = 0; i < ROWS; ++i){
             for(int j = 0; j < COLS; ++j){
-               pw.print(block[i][j].value());
+               //pw.print(block[i][j].value());
+               pw.print(block[i][j]);
                if(j < COLS - 1){
                   pw.print(", ");
                }

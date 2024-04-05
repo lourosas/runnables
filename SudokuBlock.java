@@ -124,6 +124,17 @@ public class SudokuBlock{
    //
    //
    //
+   public String toString(){
+      String val = this.value().toString();
+      if(this.value() < 1){
+         val = "0";
+      }
+      return val;
+   } 
+
+   //
+   //
+   //
    public Integer value(){
       //avoid a race condition...
       synchronized(this._o){
