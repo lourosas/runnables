@@ -20,6 +20,7 @@ package rosas.lou.runnables;
 import java.lang.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.border.*;
 import javax.swing.filechooser.*;
 import java.awt.*;
 import java.awt.event.*;
