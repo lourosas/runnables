@@ -35,13 +35,13 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
    private static final int ROWS   =   9;
    private static final int COLS   =   9;
 
-   private JButton[]             _buttonArray;
+   private JButton[][]           _buttonArray;
    private ActionListener        _aListener;
    private KeyListener           _kListener;
    private SudokuManualEntryView _mEntryView;
 
    {
-      _buttonArray = new JButton[TOTAL];
+      _buttonArray = new JButton[ROWS][COLS];
       _aListener   = null;
       _kListener   = null;
       _mEntryView  = null;
@@ -70,14 +70,26 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
    //
    //
    private JPanel setUpCenterPanel(){
+      int tw;  //Top  Width
+      int lw;  //Left Width
       JPanel panel = new JPanel();
       Border border = BorderFactory.createLineBorder(Color.BLACK,5);
       panel.setBorder(border);
-      panel.setLayout(new GridLayout(ROWS,COLS,5,5));
-      for(int i = 0; i < TOTAL; ++ i){
-         this._buttonArray[i] = new JButton();
-         this._buttonArray[i].setEnabled(false);
-         panel.add(this._buttonArray[i]);
+      //panel.setLayout(new GridLayout(ROWS,COLS,5,5));
+      panel.setLayout(new GridLayout(ROWS,COLS,0,0));
+      for(int i = 0; i < ROWS; ++i){
+         for(int j = 0; j < COLS; ++j){
+            tw = 1; lw = 1;
+            if((i%3==0)&&i!=0){ tw = 5; }
+            if((j%3==0)&&j!=0){ lw = 5; }
+            Color c = Color.BLUE;
+            //Border b=BorderFactory.createMatteBorder(tw,lw,1,1,c);
+            Border b=BorderFactory.createMatteBorder(tw,lw,0,0,c);
+            this._buttonArray[i][j] = new JButton();
+            this._buttonArray[i][j].setBorder(b);
+            this._buttonArray[i][j].setEnabled(false);
+            panel.add(this._buttonArray[i][j]);
+         }
       }
       return panel;
    }
