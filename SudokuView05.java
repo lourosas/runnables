@@ -69,6 +69,11 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
    //
    //
    //
+   private void reflectStateInButtonPanel(String state){}
+
+   //
+   //
+   //
    private JPanel setUpCenterPanel(){
       int tw;  //Top  Width
       int lw;  //Left Width
@@ -80,10 +85,13 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
       for(int i = 0; i < ROWS; ++i){
          for(int j = 0; j < COLS; ++j){
             tw = 1; lw = 1;
-            if((i%3==0)&&i!=0){ tw = 5; }
-            if((j%3==0)&&j!=0){ lw = 5; }
+            if((i%3==0) && i != 0){
+               tw = 5;
+            }
+            if((j%3==0) && j != 0){
+               lw = 5;
+            }
             Color c = Color.BLUE;
-            //Border b=BorderFactory.createMatteBorder(tw,lw,1,1,c);
             Border b=BorderFactory.createMatteBorder(tw,lw,0,0,c);
             this._buttonArray[i][j] = new JButton();
             this._buttonArray[i][j].setBorder(b);
@@ -149,6 +157,55 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
       return panel;
    }
 
+   //
+   //
+   //
+   private void updateValues(int[][] block){}
+
+   //
+   //
+   //
+   private void updateValues(SudokuBlock[] block){
+      try{
+         for(int i = 0; i < ROWS; ++i){
+            for(int j = 0; j < COLS; ++j){
+               Integer val = block[ROWS*i+j].value();
+               if(val > 0){
+                  this._buttonArray[i][j].setText(val.toString());
+                  Font f = new Font("Serif",Font.BOLD,36);
+                  this._buttonArray[i][j].setFont(f);
+               }
+            }
+         }
+      }
+      catch(ArrayIndexOutOfBoundsException oob){
+         oob.printStackTrace();
+      }
+      catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
+   private void updateValues(SudokuBlock[][] block){
+      try{
+         for(int i =  0; i < ROWS; ++i){
+            for(int j = 0; j < COLS; ++j){
+               Integer val = block[i][j].value();
+               if(val > 0){
+                  this._buttonArray[i][j].setText(val.toString());
+                  Font f = new Font("Serif",Font.BOLD,36);
+                  this._buttonArray[i][j].setFont(f);
+               }
+            }
+         }
+      }
+      catch(ArrayIndexOutOfBoundsException oob){
+         oob.printStackTrace();
+      }
+      catch(NullPointerException npe){}
+   }
+
    ///////////////////Interface Implementation////////////////////////
    //
    //
@@ -168,7 +225,22 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
    //
    //
    //
-   public void update(Object o){}
+   public void update(Object o){
+      try{
+         SudokuState ss = (SudokuState)o;
+         if(ss.stringState().toUpperCase().equals("NEWGAME")){
+            this.updateValues(ss.block());
+            this.updateValues(ss.singleBlock());
+	    this.updateValues(ss.intBlock());
+         }
+         else if(ss.stringState().toUpperCase().equals("CLEARED")){}
+         else if(ss.stringState().toUpperCase().equals("SOLVED")){}
+         else if(ss.stringState().toUpperCase().equals("STARTUP")){}
+         this.reflectStateInButtonPanel(
+                                      ss.stringState().toUpperCase());
+      }
+      catch(ClassCastException cce){}
+   }
 
    //
    //

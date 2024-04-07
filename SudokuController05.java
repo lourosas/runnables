@@ -62,16 +62,87 @@ public class SudokuController05 implements ActionListener,KeyListener{
    //
    public void addSubscriber(Subscriber subscriber){
       this._subscriber = subscriber;
+      try{
+         this._sudoku.addSubscriber(this._subscriber);
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
    }
 
    //////////////////////Private Methods//////////////////////////////
    //
    //
    //
+   private void getNewGameInfo(){
+      String input = "Type \"Yes\" to open a Sudoku Puzzle\n";
+      input += "Type \"No\" to input a Puzzle Manually";
+      String title = "Open File or Input Manually?";
+      int n = JOptionPane.showConfirmDialog(
+                 this._frame,
+                 input,
+                 title,
+                 JOptionPane.YES_NO_OPTION);
+      if(n == 0){
+         this.inputSudokuTextFile();
+      }
+      else if(n == 1){
+         this.inputSudokuManually();
+      }
+   }
+
+   //
+   //
+   //
+   private void getSaveSolutionToFileInfo(){}
+
+   //
+   //
+   //
+   private void inputSudokuManually(){}
+
+   //
+   //
+   //
+   private void inputSudokuTextFile(){
+      String t = "*.txt,*.text";
+      JFileChooser chooser      = new JFileChooser();
+      FileNameExtensionFilter f =
+                          new FileNameExtensionFilter(t,"txt","text");
+      chooser.setFileFilter(f);
+      int value = chooser.showOpenDialog(this._frame);
+      if(value == 0){
+         String path = chooser.getSelectedFile().getPath();
+         this._sudoku.open(path);
+      }
+   }
 
    ////////////////////////Interface Implementation///////////////////
    ////////////////////////////Action Listener////////////////////////
-   public void actionPerformed(ActionEvent e){}
+   public void actionPerformed(ActionEvent e){
+      try{
+         JButton b      = (JButton)e.getSource();
+         String command = b.getActionCommand().toUpperCase();
+         if(command.equals("SOLVE")){
+            this._sudoku.solve();
+         }
+         else if(command.equals("CLEAR")){
+            this._sudoku.clear();
+         }
+         else if(command.equals("NEWGAME")){
+            this.getNewGameInfo();
+         }
+         else if(command.equals("SAVE")){
+            this.getSaveSolutionToFileInfo();
+         }
+	 else if(command.equals("MANUAL_SET")){}
+	 else if(command.equals("MANUAL_SAVE")){}
+      }
+      catch(ClassCastException cce){}
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+   }
 
    /////////////////////////////Key Listener//////////////////////////
    public void keyPressed(KeyEvent k){}
