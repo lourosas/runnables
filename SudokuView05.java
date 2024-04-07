@@ -69,7 +69,34 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
    //
    //
    //
-   private void reflectStateInButtonPanel(String state){}
+   private void reflectStateInButtonPanel(String state){
+      JPanel panel   = (JPanel)this.getContentPane().getComponent(1);
+      JButton solve  = (JButton)panel.getComponent(0);
+      JButton clear  = (JButton)panel.getComponent(1);
+      JButton newGame= (JButton)panel.getComponent(2);
+      JButton save   = (JButton)panel.getComponent(3);
+
+      solve.setEnabled(false);   clear.setEnabled(false);
+      newGame.setEnabled(false); save.setEnabled(false);
+
+      if(state.toUpperCase().equals("STARTUP")){
+         newGame.setEnabled(true);
+      }
+      else if(state.toUpperCase().equals("NEWGAME")){
+         solve.setEnabled(true); clear.setEnabled(true);
+      }
+      else if(state.toUpperCase().equals("SOLVED")){
+         clear.setEnabled(true); save.setEnabled(true);
+         newGame.setEnabled(true);
+      }
+      else if(state.toUpperCase().equals("ERROR")){
+         clear.setEnabled(true); newGame.setEnabled(true);
+      }
+      else if(state.toUpperCase().equals("CLEARED")){
+         newGame.setEnabled(true);
+      }
+
+   }
 
    //
    //

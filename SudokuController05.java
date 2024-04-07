@@ -75,7 +75,7 @@ public class SudokuController05 implements ActionListener,KeyListener{
    //
    //
    private void getNewGameInfo(){
-      String input = "Type \"Yes\" to open a Sudoku Puzzle\n";
+      String input = "Press \"Yes\" to open a Sudoku Puzzle\n";
       input += "Type \"No\" to input a Puzzle Manually";
       String title = "Open File or Input Manually?";
       int n = JOptionPane.showConfirmDialog(
@@ -99,7 +99,10 @@ public class SudokuController05 implements ActionListener,KeyListener{
    //
    //
    //
-   private void inputSudokuManually(){}
+   private void inputSudokuManually(){
+      SudokuManualEntryView2.instance(
+                                   "Manual Input", this, this._frame);
+   }
 
    //
    //
