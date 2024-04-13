@@ -69,6 +69,19 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
    //
    //
    //
+   private void handleNoSolution(SudokuState state){
+      String error   = state.message().toUpperCase() + "!";
+      String message = "Sudoku Unsolvable!\nPlease enter another";
+      message += " puzzle";
+      JOptionPane.showMessageDialog(this,
+                                    message,
+                                    error,
+                                    JOptionPane.ERROR_MESSAGE);   
+   }
+
+   //
+   //
+   //
    private void reflectStateInButtonPanel(String state){
       JPanel panel   = (JPanel)this.getContentPane().getComponent(1);
       JButton solve  = (JButton)panel.getComponent(0);
@@ -252,7 +265,17 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
    //
    //
    //
-   public void error(RuntimeException re, Object o){}
+   public void error(RuntimeException re, Object o){
+      try{
+         SudokuState  state = (SudokuState)o;
+         String stringState = state.stringState().toUpperCase();
+         String error       = state.message().toUpperCase();
+         if(error.contains("NO SOLUTION")){
+            this.handleNoSolution(state);
+         }
+      }
+      catch(ClassCastException cce){}
+   }
 
    //
    //
