@@ -69,6 +69,42 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
    //
    //
    //
+   private void handleFileNotFoundError(SudokuState state){
+      String[] parts   = state.message().split(" ");
+      String   nofile  = parts[4];
+      String   message = "File: "+nofile+" not found!\n";
+      message         += "Please enter another puzzle";
+      String   error   = state.message();
+      JOptionPane.showMessageDialog(this,
+                                    message,
+                                    "FILE NOT FOUND",
+                                    JOptionPane.ERROR_MESSAGE);
+   }
+
+   //
+   //
+   //
+   private void handleIOException(SudokuState state){
+      String error   = null;
+      String message = null;
+      if(state.message().toUpperCase().contains("IO EXCEPTION")){
+         error    = "IO Read Error!";
+         message  = "Error in reading Puzzle File\n";
+         message += "Please enter another puzzle";
+      }
+      else if(state.message().toUpperCase().contains("IO WRITE")){
+         error    = "IO Write Error!";
+         message  = "Error in writing Puzzle File\n";
+      }
+      JOptionPane.showMessageDialog(this,
+                                    message,
+                                    error,
+                                    JOptionPane.ERROR_MESSAGE);
+   }
+
+   //
+   //
+   //
    private void handleNoSolution(SudokuState state){
       String error   = state.message().toUpperCase() + "!";
       String message = "Sudoku Unsolvable!\nPlease enter another";
@@ -77,6 +113,19 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
                                     message,
                                     error,
                                     JOptionPane.ERROR_MESSAGE);   
+   }
+
+   //
+   //
+   //
+   private void handlePuzzleNoClearError(SudokuState state){
+      String error   = state.message().toUpperCase()+"!";
+      String message = state.message()+"\nPlease restart";
+      JOptionPane.showMessageDialog(this,
+                                    message,
+                                    error,
+                                    JOptionPane.ERROR_MESSAGE);
+   
    }
 
    //
@@ -272,6 +321,16 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
          String error       = state.message().toUpperCase();
          if(error.contains("NO SOLUTION")){
             this.handleNoSolution(state);
+         }
+         else if(error.contains("NOT CLEAR THE PUZZLE")){
+            this.handlePuzzleNoClearError(state);
+         }
+         else if(error.contains("FILE NOT FOUND")){
+            this.handleFileNotFoundError(state);
+         }
+         else if(error.contains("IO EXCEPTION") ||
+                 error.contains("IO WRITE")){
+            this.handleIOException(state);
          }
       }
       catch(ClassCastException cce){}
