@@ -258,7 +258,7 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
          if(ss.stringState().toUpperCase().equals("NEWGAME")){
             this.updateValues(ss.block());
             this.updateValues(ss.singleBlock());
-	    this.updateValues(ss.intBlock());
+            this.updateValues(ss.intBlock());
          }
          else if(ss.stringState().toUpperCase().equals("CLEARED")){}
          else if(ss.stringState().toUpperCase().equals("SOLVED")){}
