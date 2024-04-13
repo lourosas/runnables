@@ -265,17 +265,13 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
    public void update(Object o){
       try{
          SudokuState ss = (SudokuState)o;
-         if(ss.stringState().toUpperCase().equals("NEWGAME")){
+         if(ss.stringState().toUpperCase().equals("NEWGAME") ||
+            ss.stringState().toUpperCase().equals("CLEARED") ||
+            ss.stringState().toUpperCase().equals("SOLVED")){
             this.updateValues(ss.block());
             this.updateValues(ss.singleBlock());
             this.updateValues(ss.intBlock());
          }
-         else if(ss.stringState().toUpperCase().equals("CLEARED")){
-            this.updateValues(ss.block());
-            this.updateValues(ss.singleBlock());
-            this.updateValues(ss.intBlock());
-         }
-         else if(ss.stringState().toUpperCase().equals("SOLVED")){}
          else if(ss.stringState().toUpperCase().equals("STARTUP")){}
          this.reflectStateInButtonPanel(
                                       ss.stringState().toUpperCase());
