@@ -202,6 +202,11 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
                   Font f = new Font("Serif",Font.BOLD,36);
                   this._buttonArray[i][j].setFont(f);
                }
+               else{
+                  this._buttonArray[i][j].setText("");
+                  Font f = new Font("Serif",Font.BOLD,36);
+                  this._buttonArray[i][j].setFont(f);
+               }
             }
          }
       }
@@ -221,6 +226,11 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
                Integer val = block[i][j].value();
                if(val > 0){
                   this._buttonArray[i][j].setText(val.toString());
+                  Font f = new Font("Serif",Font.BOLD,36);
+                  this._buttonArray[i][j].setFont(f);
+               }
+               else{
+                  this._buttonArray[i][j].setText("");
                   Font f = new Font("Serif",Font.BOLD,36);
                   this._buttonArray[i][j].setFont(f);
                }
@@ -260,7 +270,11 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
             this.updateValues(ss.singleBlock());
             this.updateValues(ss.intBlock());
          }
-         else if(ss.stringState().toUpperCase().equals("CLEARED")){}
+         else if(ss.stringState().toUpperCase().equals("CLEARED")){
+            this.updateValues(ss.block());
+            this.updateValues(ss.singleBlock());
+            this.updateValues(ss.intBlock());
+         }
          else if(ss.stringState().toUpperCase().equals("SOLVED")){}
          else if(ss.stringState().toUpperCase().equals("STARTUP")){}
          this.reflectStateInButtonPanel(
