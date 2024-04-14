@@ -148,7 +148,40 @@ public class SudokuController05 implements ActionListener,KeyListener{
    //
    //
    //
-   private void getSaveSolutionToFileInfo(){}
+   private void getSaveSolutionToFileInfo(){
+      java.io.File file         = null;
+      boolean toShow            = false;
+      JFileChooser chooser      = new JFileChooser();
+      FileNameExtensionFilter f = new FileNameExtensionFilter(
+                                                 "*.txt,*.text,*.sln",
+                                                 "txt",
+                                                 "text",
+                                                 "sln");
+      chooser.setFileFilter(f);
+      do{
+         int value = chooser.showSaveDialog(this._frame);
+         if(value == JFileChooser.APPROVE_OPTION){
+            file = chooser.getSelectedFile();
+            if(file.exists()){
+               String error   = "FILE EXISTS!";
+               String message = "File: "+file.getPath();
+               message += "\nalready exists!\nOverwrite the file?";
+               int ans = JOptionPane.showConfirmDialog(
+                                         this._frame,
+                                         message,
+                                         error,
+                                         JOptionPane.YES_NO_OPTION);
+               toShow = (ans != JOptionPane.YES_OPTION);
+            }
+            else{
+               toShow = false;
+            }
+            if(!toShow){
+               this._sudoku.saveSolution(file.getPath());
+            }
+         }
+      }while(toShow);
+   }
 
    //
    //

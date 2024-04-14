@@ -84,6 +84,18 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
    //
    //
    //
+   private void handleGenericRuntimeExceptionError(SudokuState state){
+      String message = state.message();
+      String error   = "RUNTIME EXEPTION!";
+      JOptionPane.showMessageDialog(this,
+                                    message,
+                                    error,
+                                    JOptionPane.ERROR_MESSAGE);
+   }
+
+   //
+   //
+   //
    private void handleIOException(SudokuState state){
       String error   = null;
       String message = null;
@@ -331,6 +343,9 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
          else if(error.contains("IO EXCEPTION") ||
                  error.contains("IO WRITE")){
             this.handleIOException(state);
+         }
+         else if(error.contains("RUNTIME")){
+            this.handleGenericRuntimeExceptionError(state);
          }
       }
       catch(ClassCastException cce){}
