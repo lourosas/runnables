@@ -74,63 +74,9 @@ public class SudokuController05 implements ActionListener,KeyListener{
    //
    //
    //
-   private void getManualSaveToFileInfo(){
-      java.io.File file         = null;
-      String path               = null;
-      boolean toShow            = false;
-      JFileChooser chooser      = new JFileChooser();
-      FileNameExtensionFilter f = new FileNameExtensionFilter(
-                                                       "*.txt,*.text",
-                                                       "txt",
-                                                       "text");
-      chooser.setFileFilter(f);
-      do{
-         int value = chooser.showSaveDialog(this._frame);
-         if(value == JFileChooser.APPROVE_OPTION){
-            file = chooser.getSelectedFile();
-            if(file.exists()){
-               String error   = "FILE EXISTS!";
-               String message = new String("File: "+file.getPath());
-               message += "\nalready exists!\nOverwrite the file?";
-               int ans  = JOptionPane.showConfirmDialog(
-                                           this._frame,
-                                           message,
-                                           error,
-                                           JOptionPane.YES_NO_OPTION);
-               toShow = (ans != JOptionPane.YES_OPTION);
-            }
-            else{
-               toShow = false;
-            }
-            if(!toShow){
-               SudokuManualEntryView2 instance = null;
-               instance   = SudokuManualEntryView2.instance();
-               String[] s = instance.returnSudokuInput(false);
-               this._sudoku.savePuzzle(file.getPath(),s);
-            }
-         }
-      }while(toShow);
-   }
-
-   //
-   //
-   //
-   private void getManualSetInfo(){
-      try{
-         SudokuManualEntryView2 instance = null;
-         instance = SudokuManualEntryView2.instance();
-         String[] s = instance.returnSudokuInput(false);
-         this._sudoku.set(s);
-      }
-      catch(NullPointerException npe){}
-   }
-
-   //
-   //
-   //
    private void getNewGameInfo(){
       String input = "Press \"Yes\" to open a Sudoku Puzzle\n";
-      input += "Press \"No\" to input a Puzzle Manually";
+      input += "Type \"No\" to input a Puzzle Manually";
       String title = "Open File or Input Manually?";
       int n = JOptionPane.showConfirmDialog(
                  this._frame,
@@ -148,48 +94,14 @@ public class SudokuController05 implements ActionListener,KeyListener{
    //
    //
    //
-   private void getSaveSolutionToFileInfo(){
-      java.io.File file         = null;
-      boolean toShow            = false;
-      JFileChooser chooser      = new JFileChooser();
-      FileNameExtensionFilter f = new FileNameExtensionFilter(
-                                                 "*.txt,*.text,*.sln",
-                                                 "txt",
-                                                 "text",
-                                                 "sln");
-      chooser.setFileFilter(f);
-      do{
-         int value = chooser.showSaveDialog(this._frame);
-         if(value == JFileChooser.APPROVE_OPTION){
-            file = chooser.getSelectedFile();
-            if(file.exists()){
-               String error   = "FILE EXISTS!";
-               String message = "File: "+file.getPath();
-               message += "\nalready exists!\nOverwrite the file?";
-               int ans = JOptionPane.showConfirmDialog(
-                                         this._frame,
-                                         message,
-                                         error,
-                                         JOptionPane.YES_NO_OPTION);
-               toShow = (ans != JOptionPane.YES_OPTION);
-            }
-            else{
-               toShow = false;
-            }
-            if(!toShow){
-               this._sudoku.saveSolution(file.getPath());
-            }
-         }
-      }while(toShow);
-   }
+   private void getSaveSolutionToFileInfo(){}
 
    //
    //
    //
    private void inputSudokuManually(){
-      SudokuManualEntryView2.instance("Manual Input",
-                                      this,
-                                      this._frame);
+      SudokuManualEntryView2.instance(
+                                   "Manual Input", this, this._frame);
    }
 
    //
@@ -226,12 +138,8 @@ public class SudokuController05 implements ActionListener,KeyListener{
          else if(command.equals("SAVE")){
             this.getSaveSolutionToFileInfo();
          }
-         else if(command.equals("MANUAL_SET")){
-            this.getManualSetInfo();
-         }
-         else if(command.equals("MANUAL_SAVE")){
-            this.getManualSaveToFileInfo();
-         }
+	 else if(command.equals("MANUAL_SET")){}
+	 else if(command.equals("MANUAL_SAVE")){}
       }
       catch(ClassCastException cce){}
       catch(NullPointerException npe){

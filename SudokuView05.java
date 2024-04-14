@@ -69,80 +69,6 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
    //
    //
    //
-   private void handleFileNotFoundError(SudokuState state){
-      String[] parts   = state.message().split(" ");
-      String   nofile  = parts[4];
-      String   message = "File: "+nofile+" not found!\n";
-      message         += "Please enter another puzzle";
-      String   error   = state.message();
-      JOptionPane.showMessageDialog(this,
-                                    message,
-                                    "FILE NOT FOUND",
-                                    JOptionPane.ERROR_MESSAGE);
-   }
-
-   //
-   //
-   //
-   private void handleGenericRuntimeExceptionError(SudokuState state){
-      String message = state.message();
-      String error   = "RUNTIME EXEPTION!";
-      JOptionPane.showMessageDialog(this,
-                                    message,
-                                    error,
-                                    JOptionPane.ERROR_MESSAGE);
-   }
-
-   //
-   //
-   //
-   private void handleIOException(SudokuState state){
-      String error   = null;
-      String message = null;
-      if(state.message().toUpperCase().contains("IO EXCEPTION")){
-         error    = "IO Read Error!";
-         message  = "Error in reading Puzzle File\n";
-         message += "Please enter another puzzle";
-      }
-      else if(state.message().toUpperCase().contains("IO WRITE")){
-         error    = "IO Write Error!";
-         message  = "Error in writing Puzzle File\n";
-      }
-      JOptionPane.showMessageDialog(this,
-                                    message,
-                                    error,
-                                    JOptionPane.ERROR_MESSAGE);
-   }
-
-   //
-   //
-   //
-   private void handleNoSolution(SudokuState state){
-      String error   = state.message().toUpperCase() + "!";
-      String message = "Sudoku Unsolvable!\nPlease enter another";
-      message += " puzzle";
-      JOptionPane.showMessageDialog(this,
-                                    message,
-                                    error,
-                                    JOptionPane.ERROR_MESSAGE);   
-   }
-
-   //
-   //
-   //
-   private void handlePuzzleNoClearError(SudokuState state){
-      String error   = state.message().toUpperCase()+"!";
-      String message = state.message()+"\nPlease restart";
-      JOptionPane.showMessageDialog(this,
-                                    message,
-                                    error,
-                                    JOptionPane.ERROR_MESSAGE);
-   
-   }
-
-   //
-   //
-   //
    private void reflectStateInButtonPanel(String state){
       JPanel panel   = (JPanel)this.getContentPane().getComponent(1);
       JButton solve  = (JButton)panel.getComponent(0);
@@ -276,11 +202,6 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
                   Font f = new Font("Serif",Font.BOLD,36);
                   this._buttonArray[i][j].setFont(f);
                }
-               else{
-                  this._buttonArray[i][j].setText("");
-                  Font f = new Font("Serif",Font.BOLD,36);
-                  this._buttonArray[i][j].setFont(f);
-               }
             }
          }
       }
@@ -303,11 +224,6 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
                   Font f = new Font("Serif",Font.BOLD,36);
                   this._buttonArray[i][j].setFont(f);
                }
-               else{
-                  this._buttonArray[i][j].setText("");
-                  Font f = new Font("Serif",Font.BOLD,36);
-                  this._buttonArray[i][j].setFont(f);
-               }
             }
          }
       }
@@ -326,30 +242,7 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
    //
    //
    //
-   public void error(RuntimeException re, Object o){
-      try{
-         SudokuState  state = (SudokuState)o;
-         String stringState = state.stringState().toUpperCase();
-         String error       = state.message().toUpperCase();
-         if(error.contains("NO SOLUTION")){
-            this.handleNoSolution(state);
-         }
-         else if(error.contains("NOT CLEAR THE PUZZLE")){
-            this.handlePuzzleNoClearError(state);
-         }
-         else if(error.contains("FILE NOT FOUND")){
-            this.handleFileNotFoundError(state);
-         }
-         else if(error.contains("IO EXCEPTION") ||
-                 error.contains("IO WRITE")){
-            this.handleIOException(state);
-         }
-         else if(error.contains("RUNTIME")){
-            this.handleGenericRuntimeExceptionError(state);
-         }
-      }
-      catch(ClassCastException cce){}
-   }
+   public void error(RuntimeException re, Object o){}
 
    //
    //
@@ -362,13 +255,13 @@ public class SudokuView05 extends GenericJFrame implements Subscriber{
    public void update(Object o){
       try{
          SudokuState ss = (SudokuState)o;
-         if(ss.stringState().toUpperCase().equals("NEWGAME") ||
-            ss.stringState().toUpperCase().equals("CLEARED") ||
-            ss.stringState().toUpperCase().equals("SOLVED")){
+         if(ss.stringState().toUpperCase().equals("NEWGAME")){
             this.updateValues(ss.block());
             this.updateValues(ss.singleBlock());
-            this.updateValues(ss.intBlock());
+	    this.updateValues(ss.intBlock());
          }
+         else if(ss.stringState().toUpperCase().equals("CLEARED")){}
+         else if(ss.stringState().toUpperCase().equals("SOLVED")){}
          else if(ss.stringState().toUpperCase().equals("STARTUP")){}
          this.reflectStateInButtonPanel(
                                       ss.stringState().toUpperCase());
