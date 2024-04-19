@@ -23,8 +23,8 @@ import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 import rosas.lou.runnables.*;
 
-public class SimModal_5 implements Runnable{
-   private Lock lock       = new RentrantLock();
+public class SimModual_5 implements Runnable{
+   private Lock lock       = new ReentrantLock();
    private boolean _toRun  = true;
    private boolean _toKill = false;
    private int     _val    = 0;
@@ -64,6 +64,13 @@ public class SimModal_5 implements Runnable{
       if(id == 12){ this._val += 1; }
       else if(id == 13){}
       else if(id == 14){ this._val -= 1; }
+      System.out.println("_val = "+this._val);
+      try{
+         Thread.sleep(3000);
+      }
+      catch(InterruptedException ie){
+         ie.printStackTrace();
+      }
    }
 
    /////////////////////Interface Implementations/////////////////////
@@ -80,13 +87,11 @@ public class SimModal_5 implements Runnable{
                this.printOut();
                lock.unlock();
             }
+            Thread.sleep(1);
          }
       }
       catch(InterruptedException ie){
          ie.printStackTrace();
-      }
-      finally{
-         lock.unlock();
       }
    }
 }
