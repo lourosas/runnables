@@ -66,6 +66,7 @@ public class SimModual_0 implements Runnable{
                Thread.sleep(sleepTime);
                System.out.println(Thread.currentThread().getName());
             }
+            Thread.sleep(1);
          }
       }
       catch(InterruptedException ie){
