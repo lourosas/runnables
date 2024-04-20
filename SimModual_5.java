@@ -59,12 +59,13 @@ public class SimModual_5 implements Runnable{
    //
    private void printOut(){
       long id = Thread.currentThread().getId();
+      System.out.print("printOut() ");
       System.out.print(Thread.currentThread().getName()+":");
-      System.out.println(id);
+      System.out.print(id);
       if(id == 12){ this._val += 1; }
       else if(id == 13){}
       else if(id == 14){ this._val -= 1; }
-      System.out.println("_val = "+this._val);
+      System.out.println(" _val = "+this._val);
       try{
          Thread.sleep(3000);
       }
@@ -83,6 +84,9 @@ public class SimModual_5 implements Runnable{
       try{
          while(!this._toKill){
             if(this._toRun){
+               long id = Thread.currentThread().getId();
+               System.out.print(Thread.currentThread().getName()+":");
+               System.out.println(id);
                lock.lock();
                this.printOut();
                lock.unlock();
