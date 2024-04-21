@@ -89,26 +89,25 @@ public class SimModual_6 implements Runnable{
             this._o.notify();
          }
       }
-   
    }
 
    //
    //
    //
    private void go(){
-      try{
-         if(this._toWait){
+      if(this._toWait){
+         try{
             //Wait until notified...
             synchronized(this._o){
                this._o.wait();
             }
          }
-         System.out.print("SimModel_6.go(): ");
-         System.out.println(Thread.getCurrentThread().getName());
+         catch(InterruptedException ie){
+            ie.printStackTrace();
+         }
       }
-      catch(InterruptedException ie){
-         ie.printStackTrace();
-      }
+      System.out.print("SimModel_6.go(): ");
+      System.out.println(Thread.currentThread().getName());
    }
 
    ///////////////////Interface Implementations///////////////////////
@@ -121,19 +120,19 @@ public class SimModual_6 implements Runnable{
          while(!this._toKill){
             if(this._toRun){
                try{
-                  lock.lock();   //Probably not needed
+                  this._lock.lock();   //Probably not needed
                   this.go();
                }
                finally{
-                  lock.unlock(); //Probably not needed
+                  this._lock.unlock(); //Probably not needed
                }
                Thread.sleep(sleepTime);
                try{
-                  lock.lock();   //Probably not needed
+                  this._lock.lock();   //Probably not needed
                   this.alert();
                }
                finally{
-                  lock.unlock(); //Probably not needed
+                  this._lock.unlock(); //Probably not needed
                }
             }
             Thread.sleep(1);

@@ -23,7 +23,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 import rosas.lou.runnables.*;
 
-public class SimModual_7 implements Runnable{
+public class SimModual_8 implements Runnable{
    private Lock     _lock;
    private Object   _o;
    private boolean  _toRun;
@@ -42,15 +42,15 @@ public class SimModual_7 implements Runnable{
       _o            = null;
    };
 
-   ////////////////////////////Constructor////////////////////////////
+   /////////////////////////Constructor///////////////////////////////
    //
    //
    //
-   public SimModual_7(Object o){
+   public SimModual_8(Object o){
       this._o = o;
    }
 
-   ///////////////////////////Public Methods//////////////////////////
+   /////////////////////////Publci Methods////////////////////////////
    //
    //
    //
@@ -79,47 +79,26 @@ public class SimModual_7 implements Runnable{
       this._toWait = toWait;
    }
 
-   ////////////////////////Private Methods////////////////////////////
+   /////////////////////////Publci Methods////////////////////////////
    //
    //
    //
-   private void alert(){
-      if(this._toNotify){
-         synchronized(this._o){
-            this._o.notify();
-         }
-      }
-   }
+   private void alert(){}
 
    //
    //
    //
-   private void go(){
-      if(this._toWait){
-         try{
-            //Wati until notified...
-            synchronized(this._o){
-               this._o.wait();
-            }
-         }
-         catch(InterruptedException ie){
-            ie.printStackTrace();
-         }
-      }
-      System.out.print("SimModual_7.go(): ");
-      System.out.println(Thread.currentThread().getName());
-   }
+   private void go(){}
 
-   ///////////////////Interface Implementations///////////////////////
+   //////////////////Interface Implementation/////////////////////////
    //
    //
    //
    public void run(){
-      int sleepTime = 3000;
+      int sleepTime = 5000;
       try{
          while(!this._toKill){
             if(this._toRun){
-               //No locks for this one...try this out...
                this.go();
                Thread.sleep(sleepTime);
                this.alert();
@@ -127,11 +106,7 @@ public class SimModual_7 implements Runnable{
             Thread.sleep(1);
          }
       }
-      catch(InterruptedException ie){
-         ie.printStackTrace();
-      }
+      catch(InterruptedException ie){}
    }
-
 }
-
 //////////////////////////////////////////////////////////////////////
