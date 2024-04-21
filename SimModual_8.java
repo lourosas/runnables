@@ -50,11 +50,13 @@ public class SimModual_8 implements Runnable{
       this._o = o;
    }
 
-   /////////////////////////Publci Methods////////////////////////////
+   /////////////////////////Public Methods////////////////////////////
    //
    //
    //
-   public void alert(){}
+   public void alert(){
+      this._toNotify = true;
+   }
 
    //
    //
@@ -66,7 +68,9 @@ public class SimModual_8 implements Runnable{
    //
    //
    //
-   public void pause(){}
+   public void pause(){
+      this._toWait = true;
+   }
 
    //
    //
@@ -76,11 +80,36 @@ public class SimModual_8 implements Runnable{
    }
 
 
-   /////////////////////////Public Methods////////////////////////////
+   /////////////////////////Private Methods///////////////////////////
+   //
+   //
+   //
+   private void check(){
+      if(this._toNotify){
+         synchronized(this._o){
+            this._o.notify();
+         }
+         this._toNotify = false;
+      }
+   }
+
    //
    //
    //
    private void go(){
+      if(this._toWait){
+         try{
+            synchronized(this._o){
+               this._o.wait();
+            }
+         }
+         catch(InterruptedException ie){
+            ie.printStackTrace();
+         }
+         finally{
+            this._toWait = false;
+         }
+      }
       System.out.print("SimModual_8.go(): ");
       System.out.println(Thread.currentThread().getName());
    }
@@ -96,6 +125,7 @@ public class SimModual_8 implements Runnable{
             if(this._toRun){
                this.go();
                Thread.sleep(sleepTime);
+               this.check();
             }
             Thread.sleep(1);
          }
