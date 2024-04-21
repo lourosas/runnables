@@ -54,8 +54,28 @@ public class SimModual_6 implements Runnable{
    //
    //
    //
+   public void alert(){
+      this._o.notify();
+   }
+
+   //
+   //
+   //
    public void kill(){
       this._toKill = true;
+   }
+
+   //
+   //
+   //
+   public void pause(){
+      try{
+         this._o.wait();
+      }
+      catch(InterruptedException ie){
+         ie.printStackTrace();
+      }
+   
    }
 
    //
@@ -65,47 +85,11 @@ public class SimModual_6 implements Runnable{
       this._toRun = run;
    }
 
-   //
-   //
-   //
-   public void setToNotify(boolean toNotify){
-      this._toNotify = toNotify;
-   }
-
-   //
-   //
-   //
-   public void setToWait(boolean toWait){
-      this._toWait = toWait;
-   }
-
    ////////////////////Private Methods////////////////////////////////
    //
    //
    //
-   private void alert(){
-      if(this._toNotify){
-         synchronized(this._o){
-            this._o.notify();
-         }
-      }
-   }
-
-   //
-   //
-   //
    private void go(){
-      if(this._toWait){
-         try{
-            //Wait until notified...
-            synchronized(this._o){
-               this._o.wait();
-            }
-         }
-         catch(InterruptedException ie){
-            ie.printStackTrace();
-         }
-      }
       System.out.print("SimModel_6.go(): ");
       System.out.println(Thread.currentThread().getName());
    }
@@ -119,21 +103,8 @@ public class SimModual_6 implements Runnable{
       try{
          while(!this._toKill){
             if(this._toRun){
-               try{
-                  this._lock.lock();   //Probably not needed
-                  this.go();
-               }
-               finally{
-                  this._lock.unlock(); //Probably not needed
-               }
+               this.go();
                Thread.sleep(sleepTime);
-               try{
-                  this._lock.lock();   //Probably not needed
-                  this.alert();
-               }
-               finally{
-                  this._lock.unlock(); //Probably not needed
-               }
             }
             Thread.sleep(1);
          }
