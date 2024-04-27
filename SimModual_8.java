@@ -100,7 +100,9 @@ public class SimModual_8 implements Runnable{
       if(this._toWait){
          try{
             synchronized(this._o){
+               System.out.println("SimModual_8--wait");
                this._o.wait();
+               System.out.println("SimModual_8--out of wait");
             }
          }
          catch(InterruptedException ie){

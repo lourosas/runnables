@@ -99,7 +99,9 @@ public class SimModual_6 implements Runnable{
       if(this._toWait){
          try{
             synchronized(this._o){
+               System.out.println("SimModual_6--wait");
                this._o.wait();
+               System.out.println("SimModual_6--out of wait");
             }
          }
          catch(InterruptedException ie){
@@ -109,7 +111,7 @@ public class SimModual_6 implements Runnable{
             this._toWait = false;
          }
       }
-      System.out.print("SimModel_6.go(): ");
+      System.out.print("SimModual_6.go(): ");
       System.out.println(Thread.currentThread().getName());
    }
 
