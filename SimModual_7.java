@@ -69,7 +69,9 @@ public class SimModual_7 implements Runnable{
    //
    //
    public void pause(){
+      this._lock.lock();
       this._toWait = true;
+      this._lock.unlock();
    }
 
    //
@@ -108,7 +110,9 @@ public class SimModual_7 implements Runnable{
             ie.printStackTrace();
          }
          finally{
+            this._lock.lock();
             this._toWait = false;
+            this._lock.unlock();
          }
       }
       System.out.print("SimModual_7.go(): ");
