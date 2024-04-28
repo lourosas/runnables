@@ -99,6 +99,7 @@ public class SimModual_8 implements Runnable{
    //
    //
    private void go(){
+      this._lock.lock();
       if(this._toWait){
          try{
             synchronized(this._o){
@@ -111,11 +112,10 @@ public class SimModual_8 implements Runnable{
             ie.printStackTrace();
          }
          finally{
-            this._lock.lock();
             this._toWait = false;
-            this._lock.unlock();
          }
       }
+      this._lock.unlock();
       System.out.print("SimModual_8.go(): ");
       System.out.println(Thread.currentThread().getName());
    }

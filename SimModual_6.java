@@ -71,6 +71,7 @@ public class SimModual_6 implements Runnable{
    public void pause(){
       this._lock.lock();
       this._toWait = true;
+      System.out.println("1: "+this._toWait);
       this._lock.unlock();
    }
 
@@ -98,6 +99,7 @@ public class SimModual_6 implements Runnable{
    //
    //
    private void go(){
+      this._lock.lock();
       if(this._toWait){
          try{
             synchronized(this._o){
@@ -110,11 +112,11 @@ public class SimModual_6 implements Runnable{
             ie.printStackTrace();
          }
          finally{
-            this._lock.lock();
             this._toWait = false;
-            this._lock.unlock();
+            System.out.println("0: "+this._toWait);
          }
       }
+      this._lock.unlock();
       System.out.print("SimModual_6.go(): ");
       System.out.println(Thread.currentThread().getName());
    }
