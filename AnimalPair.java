@@ -23,36 +23,39 @@ import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 import rosas.lou.runnables.*;
 
-public class Animal{
-   String name        = null;
-   String classType   = null;
-   boolean vertibrate = false;
-   int    legs        = 0;
-   int    sex         = -1;
+public class AnimalPair{
+   private Amimal male;
+   private Animal female;
 
-   /////////////////////Constructor///////////////////////////////////
+   ////////////////////////Constructor////////////////////////////////
    //
    //
    //
-   Animal(int sex){
-      if(sex == 0 || sex = 1)}{
-         this.sex = sex;
+   public AnimalPair(Animal one, Animal two){
+      if(one.sex() == 0){
+         this.female = two;
+         this.male   = one;
+      }
+      else{
+         this.female = one;
+         this.male   = two
       }
    }
 
-   //////////////////////////Public Methods///////////////////////////
+   /////////////////////Public Methods////////////////////////////////
    //
    //
    //
-   public boolean isPotentialMate(Animal a){
-      return ((this.sex() + a.sex()) == 1);
+   public Animal female(){
+      return this.female;
    }
 
    //
    //
    //
-   int sex(){
-      return this.sex;
+   public Animal male(){
+      return this.male;
    }
 }
+
 //////////////////////////////////////////////////////////////////////

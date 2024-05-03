@@ -20,39 +20,23 @@ package rosas.lou.runnables;
 import java.lang.*;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.*;
 import rosas.lou.runnables.*;
 
-public class Animal{
-   String name        = null;
-   String classType   = null;
-   boolean vertibrate = false;
-   int    legs        = 0;
-   int    sex         = -1;
+public class ThreadId{
+   private static final AtomicInteger nextId = new AtomicInteger(0);
 
-   /////////////////////Constructor///////////////////////////////////
-   //
-   //
-   //
-   Animal(int sex){
-      if(sex == 0 || sex = 1)}{
-         this.sex = sex;
-      }
-   }
+   private static final ThreadLocal<Integer> threadId =
+      new ThreadLocal<Integer>(){
+         @Override
+         protected Integer initialValue(){
+            return nextId.getAndIncrement();
+         }
+      };
 
-   //////////////////////////Public Methods///////////////////////////
-   //
-   //
-   //
-   public boolean isPotentialMate(Animal a){
-      return ((this.sex() + a.sex()) == 1);
-   }
-
-   //
-   //
-   //
-   int sex(){
-      return this.sex;
+   public static Integer get(){
+      return threadId.get();
    }
 }
 //////////////////////////////////////////////////////////////////////

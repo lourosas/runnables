@@ -24,15 +24,16 @@ import java.util.concurrent.locks.*;
 import rosas.lou.runnables.*;
 
 public class Ark{
-   private int              numPairs = 0;
-   private SortedSet<Animal> animals = null;
-   private Animal          candidate = null;
+   List<AnimalPair> pairs = null;
+   private int numPairs = 0;
 
    /////////////////////////Constructor///////////////////////////////
    //
    //
    //
-   public class Ark(){}
+   public class Ark(){
+      this.pairs = new LinkedList<AnimalPair>();
+   }
 
    /////////////////////Public Methods////////////////////////////////
    //
@@ -44,11 +45,41 @@ public class Ark{
    //
    //
    public int load(Collection<Animal> candidates){
-      this.animals = new TreeSet<Animal>();
+      SortedSet<Animal> animals = null;
+      Animal          candidate = null;
+      animals                   = new TreeSet<Animal>();
+      animals.addAll(candidate);
+      Iterator<Animal> it = animals.iterator();
+      while(it.hasNext()){
+         Animal a = it.next();
+         if(candidate == null ||  !candidate.isPotentialMate(a)){
+            candidate = a;
+         }
+         else{
+            this.load(new AnimalPair(candidate, a));
+            ++this.numPairs;
+            candidate = null;
+         }
+      }
+      return this.numPairs;
    }
+
    //
    //
    //
-   public Collection<Animal> unload(){}
+   public void load(AnimalPair pair){
+      try{
+         this.pairs.add(pair);
+      }
+      catch(NullPointerException npe){
+         this.pairs = new LinkedList<AnimalPair>();
+         this.pairs.add(pair);
+      } 
+   }
+
+   //
+   //
+   //
+   public void  unload(){}
 }
 //////////////////////////////////////////////////////////////////////
