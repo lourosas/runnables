@@ -8,8 +8,7 @@ import java.util.concurrent.*;
 import rosas.lou.runnables.*;
 
 public class Preloader{
-   private final FutureTask<ProductInfo> future =
-      new FutureTask<ProductInfo>(
+   private FutureTask<ProductInfo> future=new FutureTask<ProductInfo>(
                        new ACallable<ProductInfo>(new ProductInfo()));
    private final Thread thread = new Thread(future);
 

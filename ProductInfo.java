@@ -1,3 +1,4 @@
+//////////////////////////////////////////////////////////////////////
 /*
 */
 package rosas.lou.runnables;
@@ -10,11 +11,11 @@ import rosas.lou.runnables.*;
 public class ProductInfo{
    private double product = 0.;
    private long   key     = -1;
-   private String name    = "A Prodcut";
+   private String name    = "A Product";
 
    public ProductInfo(){
       this.product = Math.random() * 1000;
-      this.key = Math.round(product) + Math.round(Math.random()*2000);
+      this.key=Math.round(product)+Math.round(Math.random()*2000);
    }
 
    public ProductInfo(double product_, long key_){
@@ -25,7 +26,7 @@ public class ProductInfo{
    public void makeTheComputation(){}
 
    public String toString(){
-      String _return = this.product+","+this.key+":"+this.name;
+      String _return = this.product+", "+this.key+" : "+this.name;
       return _return;
    }
 
@@ -33,3 +34,4 @@ public class ProductInfo{
       return new ProductInfo(this.product,this.key);
    }
 }
+//////////////////////////////////////////////////////////////////////
