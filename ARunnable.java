@@ -36,7 +36,7 @@ public class ARunnable implements Runnable{
    //
    //
    public void run(){
-      int sleepTime = 2000;
+      int sleepTime = (int)(Math.random()*1000);
       System.out.println(Thread.currentThread().getName()+" start");
       try{
          Thread.sleep(sleepTime);
