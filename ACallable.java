@@ -13,16 +13,13 @@ public class ACallable<ProductInfo> implements Callable<ProductInfo>{
 
    /**/
    public ACallable(ProductInfo pi_){ 
-      try{
-         Thread.sleep(1);
-         this.pi = pi_;
-      }
-      catch(InterruptedException ie){}
+      this.pi = pi_;
    }
    ///////////////////////////////////////////////////////////////////
    /**/
    public ProductInfo call() throws Exception{
       System.out.println("call()");
+      System.out.println(Thread.currentThread().getName());
       return this.loadType();
    }
 

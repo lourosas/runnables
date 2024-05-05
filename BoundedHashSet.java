@@ -1,3 +1,4 @@
+//////////////////////////////////////////////////////////////////////
 /*
 */
 package rosas.lou.runnables;
@@ -5,6 +6,8 @@ package rosas.lou.runnables;
 import java.lang.*;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.*;
+import rosas.lou.runnables.*;
 
 public class BoundedHashSet<T>{
    private Set<T>    set;
@@ -31,6 +34,7 @@ public class BoundedHashSet<T>{
          System.out.println("add(...) remaining permits "+this.sem.availablePermits()+" "+Thread.currentThread().getName());
          wasAdded = this.set.add(t);
          System.out.println("add(...) value "+t+" "+Thread.currentThread().getName());
+         System.out.println(wasAdded+" "+Thread.currentThread().getName());
       }
       catch(InterruptedException ie){
          ie.printStackTrace();
@@ -54,3 +58,4 @@ public class BoundedHashSet<T>{
       return wasRemoved;
    }
 }
+//////////////////////////////////////////////////////////////////////

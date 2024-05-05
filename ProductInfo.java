@@ -16,6 +16,7 @@ public class ProductInfo{
    public ProductInfo(){
       this.product = Math.random() * 1000;
       this.key=Math.round(product)+Math.round(Math.random()*2000);
+      this.makeTheComputation();
    }
 
    public ProductInfo(double product_, long key_){
@@ -23,7 +24,17 @@ public class ProductInfo{
       this.key     = key_;
    }
 
-   public void makeTheComputation(){}
+   public void makeTheComputation(){
+      System.out.println("ProductInfo.makeTheComputation()");
+      for(int i = 0; i < 1000000; ++i){
+         for(int j = 0; j < 1000000; ++j){
+            for(int k = 0; k < 1000000; ++k){
+            //   for(int l = 0; i < 1000000; ++i){;}
+               ;
+            }
+         }
+      }
+   }
 
    public String toString(){
       String _return = this.product+", "+this.key+" : "+this.name;
