@@ -35,7 +35,9 @@ public class SampleBoundHashSet implements Runnable{
             if(i > 499 && i < 600){
                try{
                   Integer integer = this.stack.pop();
+                  System.out.println("POOP! 0");
                   this.set.remove(integer);
+                  System.out.println("POOP! 1");
                }
                catch(EmptyStackException ese){}
             }
@@ -85,6 +87,7 @@ public class SampleBoundHashSet implements Runnable{
          }
          catch(EmptyStackException ese){}
          catch(InterruptedException ie){
+            ie.printStackTrace();
             run = false;
          }
       }

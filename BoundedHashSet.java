@@ -34,7 +34,7 @@ public class BoundedHashSet<T>{
          System.out.println("add(...) remaining permits "+this.sem.availablePermits()+" "+Thread.currentThread().getName());
          wasAdded = this.set.add(t);
          System.out.println("add(...) value "+t+" "+Thread.currentThread().getName());
-         System.out.println(wasAdded+" "+Thread.currentThread().getName());
+         System.out.println("add(...) "+wasAdded+" "+Thread.currentThread().getName());
       }
       catch(InterruptedException ie){
          ie.printStackTrace();
@@ -47,9 +47,9 @@ public class BoundedHashSet<T>{
 
    /**/
    public boolean remove(T t){
+      System.out.println("remove(...) pre-release "+Thread.currentThread().getName());
       boolean wasRemoved = this.set.remove(t);
       if(wasRemoved){
-         System.out.println("remove(...) pre-release "+Thread.currentThread().getName());
          this.sem.release();
          System.out.println("remove(...) value "+t+" "+Thread.currentThread().getName());
          //System.out.println("remove(...) Thread Name "+Thread.currentThread().getName());
