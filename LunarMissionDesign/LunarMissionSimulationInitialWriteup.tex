@@ -1,0 +1,61 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\begin{document}
+\title{The Lunar Mission Simulator Initial Writeup}
+\author{Lou Rosas}
+\maketitle
+
+\section{History}
+The great challenge of coming up with a real time Lunar Simulator.
+This challenge was completed in the late 1960's via the Apollo Space
+program.  Simulation of the entire mission (Lunar) with modern
+computer hardware, and software design is the great challenge.
+
+\section{Abstract}
+With modern computation, a lunar simulation is now possible
+for a typical home computer (or, even single board computer, like a
+RaspberryPi).  This is the attempt:  to create such a simulation.
+
+\section{Concept}
+To gain understanding of developing a full simulation using
+modern software design and techniques.  This includes leveraging
+modern concurrency concepts and developments.
+
+\section{Intent}
+Develop a Lunar Simulator.  This is broken up into several separate
+Simulations.
+\begin{enumerate}
+\item Launch Simulator
+\item Orbital Simulator
+\item Injection Simulator
+\begin{enumerate}
+\item Trans-Lunar Injection
+\item Trans-Earth Injection
+\end{enumerate}
+\item Lunar Lander/Landing Simulator
+\item Re-Entry Sequence
+\end{enumerate}
+Each one of these will need their own Initial Writeup.
+
+\section{Stakeholders \& Interrests}
+Anyone interrested in Using the Simulator.
+\begin{itemize}
+\item Space Crews--who want to simulate a complete Lunar Mission
+\item Mission Planners--who want to ensure a complete and successful
+mission.
+\item Mission Planners--who want to simulate possible incidents
+and/or accidents in that could happen durring a typical Lunar
+Mission.
+\item Engineers/Technicians--who want to view/assess mission data in
+realtime in the Mission decision making process.
+\end{itemize}
+
+\section{Typical Success Scenario}
+For a Lunar Mission, each sequence via each Simulator/Simulation is
+complete with out indident.
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
