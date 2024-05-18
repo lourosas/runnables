@@ -31,7 +31,59 @@ physics and real-time monitoring of:
 \end{enumerate}
 All of these pose particular issues as related to accurately
 simulating a launch.
+
 \section{Abstract}
-Part of the entire
+Part of the entire Mission Simulation is the Launch.  The Launch is a
+sequence computer simulated.  Modeling the launch sequence is
+symbiotic to an actual launch of a rocket sent on an actual space
+mission.
+
+\section{Concept}
+To gain understanding in all aspects of development of a Mission
+Launch Simulator.\\
+Including:
+\begin{enumerate}
+\item Physics
+\item Software Development Life Cycle
+   \begin{enumerate}
+      \item Analysis
+      \item Design
+      \item Development
+      \item Deployment
+      \item Continuous Development
+      \item Iterative Development
+   \end{enumerate}
+\item Software Concurrency
+   \begin{enumerate}
+      \item Mainly centered around the multple software modeling
+      objects aggregate to the simulator
+   \end{enumerate}
+\end{enumerate}
+
+\section{Intent}
+Develop the Launch Simulator as part of the Lunar Mission Simulator.
+
+\section{Stakeholders \& Interests}
+Anyone interested in using the Launch Simulator.
+\begin{itemize}
+   \item Space Crews--who want to monitor the launch
+   \item Mission Planners--who want a successful Launch Simulator
+   \item Engineers/Technicians--who want to view/assess the launch in
+   real-time as part of the overall Mission.
+\end{itemize}
+
+\section{Typical Success Scenario}
+The capsule(s)/payload successfully delivered into space.  A
+successful launch is considered:
+\begin{enumerate}
+   \item Successful ignition of the Launch Vehicle
+   \item Successful and complete staging of all the stages of the 
+      Launch Vehicle
+   \item Obtaining the correct Orbital Altitude
+   \item Obtaining the correct Orbital Trajectory
+   \item Obtaining the correct Orbital Velocity
+   \item Successful separation of the last stage of the Launch Vehicle
+      from the capsule(s)/payload
+\end{enumerate}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
