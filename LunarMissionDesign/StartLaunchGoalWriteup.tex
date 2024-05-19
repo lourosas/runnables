@@ -6,7 +6,7 @@
 
 \begin{document}
 \noindent
-\textbf{Start the Launch Goal Writeup}\\
+\textbf{Start the Launch Goal Writeup}\\\\
 \textbf{Actor:  }Flight Control Director\\
 At the end of Countdown, Flight Controller Starts the Launch.  The
 System responds by ingniting the engines.
@@ -17,5 +17,26 @@ System responds by ingniting the engines.
 \item System releases Vehicle once engines are at full power and
 reporting consistent thrust
 \end{enumerate}
+What happens if the System reports an issue with the rockect?\\
+The Flight Controller (Flight Control Director) holds the countdown,
+with the option to scrub the Launch.  If the Launch is Scrubbed,
+another attempt at a Launch is determined (outside the scope of this
+Sysetem).  If the Launch is on hold, the Flight Controller resumes the
+countdown once the hold issues are fixed.\\\\
+Can the Countdown be automated?\\
+Yes.  The Flight Controller monitors the Countdown to ensure the
+viablilty and safety of the launch.\\\\
+Is the Flight Controller able to view all the viable mission data?\\
+Yes.  The Flight Controller choses the mission data to focus.  All the
+Mission data is available, the Flight Controller choses what mission
+data to focus.\\\\
+Can the Flight Director view all the Mission Data at once?\\
+Yes--all the Mission Data available.\\\\
+In addition, the Flight Director can select Mission Data to focus
+their attention.\\\\
+Can the whole Launch Startup Sequence be automated?\\
+Yes:  Including the decision to start.  Up until the ignition, the
+Flight Controller ultimately has the authority to abort/delay the
+Launch (and thus, Start of Launch) at any point.
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
