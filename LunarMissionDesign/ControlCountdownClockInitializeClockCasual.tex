@@ -1,0 +1,27 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Control Countdown Clock--Initiializer Countdown Clock}\\
+\textit{Main Success Scenario}
+\begin{enumerate}
+\item Flight Controller Instructs the System to set a countdown time
+\item System requests Flight Controller to enter a time
+\item Flight Controller enter a new countdown time
+\item System sets the new time
+\item System displays the new countdown time to all observers
+\end{enumerate}
+\textit{Alternate Scenrios:}
+\begin{itemize}
+\item[3a.]If the Flight Controller Enters a Negative Countdown time,
+then the System Indicates an error:  instructing the Flight Controller
+to reenter a non-negative time
+\item[3b.]If the Flight Controller Enters a non-numerci time, then the
+System Indicates an error:  instructing the Flight Controller to
+reenter an all numerirc value
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
