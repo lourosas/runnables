@@ -16,7 +16,7 @@ monitors the Launch Activities.
 \item Monitor Launch Activities
 \end{enumerate}
 What does it mean to ``Monitor Pre-Launch Activities"?\\
-Up, util the Launch Initialization (countdown reaches 0):
+Up until the Launch Initialization (countdown reaches 0):
 \begin{enumerate}
 \item Monitor the Countdown
 \item Monitor the Data Important to a launch
@@ -30,15 +30,57 @@ Fuel Delivery, etc.)?\\
 The Flight Controller can chose to
 \begin{enumerate}
 \item Hold the Countdown--The Flight Controller can chose to resume
-the countdown.  The Flight Controller can chose not to resume the
-countdown.  If the Flight Controller choose to resume the countdown,
+the countdown.  If the Flight Controller choses to resume the
+countdown,
 the countdown continues at the place it was stopped.
 \item Scrub the Launch--The Pre-requisite of this is \textbf{Hold the
 Countdown}.  Once the Flight Controller holds the Countdown, the
 Flight Controller can chose to Scrub the Launch:  At which point the
 Countdown is eliminated.
 \end{enumerate}
+Is the Countdown automated?\\
+The Countdown must be initialized by the Flight Controller and only the
+Flight Controller,  the Launch Initializatoin can be automated.\\\\
+Can the Flight Controller view all the Mission Data simultaneously?\\
+Yes\\\\
+Can the Flight Controller chose which Mission Data to view?\\
+Yes, the Flight Controller can chose Mission Data to focus their
+attention.  The Flight Controller can change that during the Pre-Launch
+Activities\\\\
 What does it mean to ``Initiate Launch" or ``Monitor Launch
-Initiation"?
+Initiation"?\\
+Once the Countdown reaches 0, the Launch is initialized.  This means
+the Countdown cannot be aborted (only the Launch) and the engine
+ignition is complete.  Once Started, the engines cannot be stopped.
+The System monitors the mission data, and once the System determines
+\begin{enumerate}
+\item The Engine thrust is stable
+\item The Engine thrust is high enough to lift the Rocket and Payload
+\item The Fuel Delivery System is stable
+\end{enumerate}
+The System Lauches the Rocket (or advises the Flight Controller to
+release the Rocket) by releasing the holds on the Rocket preventing it
+from thrusting up.  The Initiate Launch Activities are completed once
+the Rocket is launched.\\\\
+If the System determines the Rocket is not in
+a stable state for lauch, the System will advise the Flight Controller
+to abort the Launch--or abort the Lauch automatically (depending
+on it control of the System).\\\\
+What does it mean to ``Monitor Launch Activities"?\\
+Monitoring the Data pertaining to the Launch.  
+\begin{enumerate}
+\item Monitor Data important to the Launch
+\item Communicate with the flight engineers about the laucnch data
+\item Select which launch data is important enough to view for more
+scrutiny
+\end{enumerate}
+This is all similar to the \textbf{Monitor Pre-Launch Activities}.
+Once the capsules/payload
+separates from the final stage, the Launch is complete.\\\\
+The System advises the Filght Controller on the Stability of the
+launch:  advising the the Filght Controller to abort the Launch, and/or
+aborting the Launch themselves based on the control offered the System
+if the Launch is unstable (as similar to \textbf{Monitor Pre-Launch
+Activities}).
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
