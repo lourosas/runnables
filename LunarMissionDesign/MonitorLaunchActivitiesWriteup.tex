@@ -1,0 +1,44 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Monitor Launch Activities Goal Writeup}\\\\
+\textbf{Actor:  }Flight Control Director\\
+Starting with the Launch Countdown, and continuing through the final
+stage separation, the Flight Control Director (Flight Controller)
+monitors the Launch Activities.
+\begin{enumerate}
+\item Monitor Pre-Launch Activities
+\item Initiate Launch (at least monitor Launch Initiation)
+\item Monitor Launch Activities
+\end{enumerate}
+What does it mean to ``Monitor Pre-Launch Activities"?\\
+Up, util the Launch Initialization (countdown reaches 0):
+\begin{enumerate}
+\item Monitor the Countdown
+\item Monitor the Data Important to a launch
+\item Communicate with flight engineers about launch data
+\item Communicate with Astronauts about the launch data
+\item Select which launch data is important enough to view for more
+scutiny
+\end{enumerate}
+What happens if the System Reports a problem (Capsule, Rocket,
+Fuel Delivery, etc.)?\\
+The Flight Controller can chose to
+\begin{enumerate}
+\item Hold the Countdown--The Flight Controller can chose to resume
+the countdown.  The Flight Controller can chose not to resume the
+countdown.  If the Flight Controller choose to resume the countdown,
+the countdown continues at the place it was stopped.
+\item Scrub the Launch--The Pre-requisite of this is \textbf{Hold the
+Countdown}.  Once the Flight Controller holds the Countdown, the
+Flight Controller can chose to Scrub the Launch:  At which point the
+Countdown is eliminated.
+\end{enumerate}
+What does it mean to ``Initiate Launch" or ``Monitor Launch
+Initiation"?
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
