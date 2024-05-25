@@ -1,0 +1,43 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Monitor Pre-launch Activities}\\
+\textit{Main Success Scenario}
+\begin{enumerate}
+\item The Flight Controller Starts the Pre-Launch Sequence
+\item The System requests the Countdown Time
+\item The Flight Controller enters the Countdown Time
+\item System displays the Countdown Time
+\item Flight Controller Starts the Countdown
+\item System continuously displays the Countdown Time
+\item System periodically monitors Pre-Launch Data
+\item System returns Pre-Launch Data to the Flight Controller
+\item System alerts the Flight Controller when the countdown reaches 0
+\item Flight Controller Initiates the Launch Sequence
+\end{enumerate}
+\textit{Alternate Scenarios}
+\begin{itemize}
+\item[7a.]  If the System detects an anomaly in the Pre-Launch
+Data, then the System alerts the Flight Controller of the anomaly
+\item[8a.]  If the System alerts the Flight Controller of a Pre-Launch
+anomaly (see \textit{Alternative Scenario 7a.}) then the Flight
+Controller can chose to hold the Countdown
+\item[8b.]  If there is a hold in the Countdown and the anomaly is
+resolved, then the Flight Controller can chose to resume the
+Countdown, the Countdown continues at the time stopped
+\item[8c.]  If there is a hold in the Countdown, then the Flight
+Controller can chose to abort the launch the System indicates an
+aborted launch
+\item[7b. 8d.]  If the System is automated at countdown, and the
+System detects an anomaly, then the System can hold the Countdown of
+which the Flight Controller can override
+\item[9a. 10a.] If the System is automated at countdown then the
+System will initiate the Launch Sequence (per the Flight
+Controller's setting) 
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
