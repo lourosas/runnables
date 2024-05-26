@@ -1,0 +1,40 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Monitor Launch Activities}\\
+\textit{Main Success Scenario}
+\begin{enumerate}
+\item System starts the Flight Time Clock
+\item System periodically returns the Flight Time Clock to the
+Flight Controller, Engineers, Astronauts (Users)
+\item System periodically monitors Launch data
+\item System periodically returns Launch data to the Users
+\item Users monitor Launch Data
+\item System transitions out of Launch (Lauch is complete) once the
+final stage separates from the Capsule/Payload
+\item System alerts the Users of transition out of Launch
+\end{enumerate}
+\textit{Alternative Scenarios}
+\begin{itemize}
+\item[*.a]  At anytime in the Launch, the Flight Controller can Abort
+the Launch,
+the System will abort the Launch, returning Status to other Users
+\item[*.b]  At anytme in the Launch, the (Commanding) Astronaut can Abort
+the Launch, the System will abort the Launch, returning Status to other
+Users
+\item[5c.]  Individual Users can choose to
+\begin{enumerate}
+\item Monitor all Launch Data, the System returns all the current
+Launch Data
+\item Monitor selected Launch Data, the System returns the requested
+Launch Data
+\end{enumerate}
+\item[5d.] If the Individual User chosses Launch Data that is not
+available, then the System Messages the User of the Data unavailability
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
