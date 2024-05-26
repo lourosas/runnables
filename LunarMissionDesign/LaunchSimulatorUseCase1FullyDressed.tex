@@ -1,0 +1,62 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case 1:  Monitor Pre-Launch Activities}\\
+\textbf{Scope:  }Launch Simulator\\
+\textbf{Level:  }Flight Director Goal\\
+\textbf{Primary Actor:  }Flight Director\\
+\textbf{Secondary Actor:  }Astronaut, Engineer/Technician\\
+\textbf{Related Use Cases:  }None\\
+\textbf{Stakeholders \& Interrests:  }
+\begin{itemize}
+\item Flight Controller:  wants to monitor the Pre-Launch Data
+\item Flight Controller:  wants to monitor the Countdown Time
+\item Flight Controller:  wants to asses the validity of the Countdown
+\begin{itemize}
+\item Continue the Countdown
+\item Hold the Countdown
+\item Abort the Countdown
+\end{itemize}
+\item Engineer/Technician:  wants to montior selected Pre-Launch data
+to ensure the System is working properly and advise the Flight
+Controller
+\item Astronaut:  wants to monitor Countdown Time
+\item Astronaut:  wants to monitor Pre-Launch Data for System
+awareness
+\end{itemize}
+\textbf{Pre-Conditions:  }All the parts of the System are ready to
+begin the Countdown, the Launch Simulator is running\\
+\textbf{Post-Conditions:  }The Countdown is at zero, the System
+transitioned from Pre-Launch to Initiate Launch\\\\
+\textbf{Main Success Scenario:  }\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+\textbf{Flight Director} & \textbf{System}\\\hline
+1.  Start the Pre-Launch Sequence & \\\hline
+& 2. Request Countdown Time Entry\\\hline
+3.  Enters the Countdown Time & \\\hline
+& 4.  Returns Countdown Time\\\hline
+5.  Starts the Countdown  & \\\hline
+& 6.  Displays Countdown Time to all actors\\\hline
+& 7.  Repeats 6 for the entire countdown\\\hline
+& 8.  Monitors Pre-Launch Data\\\hline
+& 9. Returns Pre-Launch Data to all the actors\\\hline
+& 10.  Repeats 7,8 for the entire Countdown\\\hline
+& 11.  Alerts actors when Countdown reaches zero\\\hline
+12.  Initiate Launch Sequence & \\\hline
+& 13.  Transitions out of Pre-Launch into Intiate Launch\\\hline
+& 14.  Informs the actors of the transition\\\hline
+\end{tabular}\\\\
+\textbf{Alternative Flows:  }
+\begin{itemize}
+\item[*.a]  At anytime, the Flight Director can hold the Countdown
+if conditions arise that warant that.
+\item[*.b] At anytime, if the Countdown is on hold, the Filight
+Director can resume the Countdown if the State of the System warants
+such a transition;  the Countdown continues at the time stopped
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
