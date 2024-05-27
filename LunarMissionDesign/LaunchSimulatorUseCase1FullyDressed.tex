@@ -57,6 +57,13 @@ if conditions arise that warant that.
 \item[*.b] At anytime, if the Countdown is on hold, the Flight
 Director can resume the Countdown if the State of the System warants
 such a transition;  the Countdown continues at the time stopped
+\item[*] If the Countdown is on Hold, the Flight Director can chose to
+abort the Countdown.  The System responds by abandoning the Countdown,
+alerting the Actors of the Abort
+\item[5c.] The flight director can change the Countdown Time as
+desired prior to starting the Countdown.  The System changes the
+Countdown time, reflects the change to the Filght Controller.  The
+Flight Controller Starts the Countdown as typical
 \item[9c.]  If the System detects an anomaly in the
 Pre-Launch Data, then the System alerts the Users of the anomaly for
 the Flight Director to determine if the anomaly warants a hold in the
@@ -82,15 +89,38 @@ Countdown
 will initiate the Launch Sequence at the discretion of the Flight
 Controller
 \end{itemize}
-\textbf{Special Requirements: }\\\\
+\textbf{Special Requirements: }
+\begin{itemize}
+\item There is only one point of Decision for the Countdown Hold/
+Countdown Abort.  That currently rests with the Flight Controller.  The
+Engineers/Technicians and Astronaut can advise the Flight Director, in
+addition to the System:  all based on Pre-Launch Data.
+\end{itemize}
 \textbf{Technology \& Variations List: }
 \begin{itemize}
+\item[*] All actors can chose to view all the Pre-Launch data at once,
+or chose to view selected pre-launch data.  This is very useful for the
+Engineers/Technicians for monitoring Their individual System
+responsibilities
 \item [6c-14c]If the System is automated, once the Flight Director
 inputs the Countdown Time, the System could Initiate the Launch, 
 hold the Countdown, abort the Countdown.  The Flight Director would
 have final authority.
 \end{itemize}
-\textbf{Frequency of Occurence:  }\\\\
+\textbf{Frequency of Occurence:  }  Almost continuously:  dependent
+upon the Countdown time set and the frequency to run the Launch
+simulation and how much time the Launch Simulation takes\\\\
 \textbf{Open Issues:  }
+\begin{itemize}
+\item What about a fully automated System?
+\begin{itemize}
+\item The Flight Controller would need to maintain ultimate control?
+\end{itemize}
+\item Can the Countdown be Aborted without the Hold?
+\begin{itemize}
+\item Currently goes Countdown-Hold-Abort for a Countdown Abort
+\end{itemize}
+\item What happens if the Countdown Timer fails?
+\end{itemize}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
