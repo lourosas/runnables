@@ -1,0 +1,36 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case 2:  Iniate Launch}\\
+\textbf{Scope:  }Launch Simulator\\
+\textbf{Level:  }Flight Director Goal\\
+\textbf{Primary Actor:  }Flight Director\\
+\textbf{Related Use Cases:  }\textit{Use Case 1:  The Users shall
+monitor Pre-Launch Activities}\\
+\textbf{Stakeholders \& Interrests:  }
+\begin{itemize}
+\item Flight Controller:  wants to initiate Launch
+\item Astronaut:  wants successful Launch
+\item Flight Director:  wants a successful Launch
+\item Administrator:  wants a successful Launch
+\item Local and Federal Politicians:  want a successful Launch for
+campaign, re-election and other political purposes
+\end{itemize}
+\textbf{Pre-Conditions:  }All Pre-Launch Activities are complete:  the
+Countdown is at Zero, there is no hold nor abort on the Countdown, the
+System indicates no errors in the Pre-Launch Data\\
+\textbf{Post-Conditions:  }The Trasistion to Launch successful\\\\
+\textbf{Main Success Scenario:  }\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+\textbf{Flight Director} & \textbf{System}\\\hline
+& 1. System indicates Countdown at zero and ready to launch\\\hline
+2. Flight Controller intiates Lauch & \\\hline
+& 3.  System directs Engines to ignite\\\hline
+& 4.  System returns confirmation of the engine ignition\\\hline
+\end{tabular}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
