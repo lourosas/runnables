@@ -27,10 +27,87 @@ System indicates no errors in the Pre-Launch Data\\
 \textbf{Main Success Scenario:  }\\
 \begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
 \textbf{Flight Director} & \textbf{System}\\\hline
-& 1. System indicates Countdown at zero and ready to launch\\\hline
-2. Flight Controller intiates Lauch & \\\hline
-& 3.  System directs Engines to ignite\\\hline
-& 4.  System returns confirmation of the engine ignition\\\hline
+&1.  Indicates Countdown at zero and ready to launch\\\hline
+2. Intiates Lauch & \\\hline
+& 3.  Directs Engines to ignite\\\hline
+& 4.  Returns confirmation of the engine ignition\\\hline
+& 5.  Monitors Launch Data\\\hline
+& 6.  Returns Launch Data\\\hline
+& 7.  Repeat 5 \& 6 Until Transition out of Launch Initialization\\\hline
+& 8.  Rocket ready to Launch\\\hline
+9. Launch Rocket &\\\hline
+& 10.   Execute the Launching Mechanism (Launches Rocket)\\\hline
+& 11.  Monitors Rocket for Clearing the Launch Tower\\\hline
+& 12.  Returns Rocket's current height\\\hline
+& 13.  Repeats 11 \& 12 until Rocket Clears Launch Tower\\\hline
+& 14.  Returns Rocket Cleared Tower\\\hline
+& 15.  Transitions to Launch upon Rocket Clearing the Launch
+Tower\\\hline
+& 16.  Informs of Transition\\\hline 
 \end{tabular}
+\textbf{Alternative Flows:}
+\begin{itemize}
+\item[*]  If the System is Fully Automated, then the System initiates
+the Launch, asses if/when to launch the Rocket and commands the
+mechanisms responsible for launching the Rocket.  The Flight Controller
+has the ability to perform an manual override as needed
+\item[1a.]Based on the data provided, the System advises the Flight
+Director on Launch Viability
+\item[2a.]The Flight Controller can chose when to Initiate the Launch 
+(it
+does not have to be imediately after the Countdown at zero)
+\item[2b.]The Flight Controller can chose not to Initiate the Launch
+\item[4a]If the Engines do not ignite, then the System Alerts the
+Flight Controller of the issue, the Flight Controller aborts the
+laumch and all the actors follow their repsective Launch Abort
+Procedures
+\item[5a-8a]If the System communicates an error/issue in the Launch
+Data, then the System alerts the Flight Controller of the error/issue,
+with recomendation (abort/not abort Launch).
+\item[9a.]At anytime, the Flight Controller can abort the Launch, the
+System will not activate the Launch Mechinism, all the actors are to
+follow their respective Launch Abort Procedures.
+\item[16a.]In the event of a Launch Abort, the System will not
+transition to Launch
+\end{itemize}
+\textbf{Special Requirements:}
+\begin{itemize}
+\item The Launch Initialization is from when the Flight Director
+Initiates the Launch Sequence to when the Rocket Clears the Launch
+Tower.  The Flight Director has the ability to Abort the Lauch
+Initialization.  Special Abort Procedures must be developed and
+followed by the Flight Controller, and the Astronauts.
+\item Several factors and data points are required to determine
+if/when the Rocket is ready to Launch.  The System will monitor all
+of these factors.  All of these factors must be in a stable and
+exprected state before the System will advise on launching the Rocket.
+\item There is only one point of Decision for the Abort.  That decision
+rests with the Flight Controller.  Currently, the Flight Controller
+takes no advisement other than System Data.
+\end{itemize}
+\textbf{Technology \& Variations List}
+\begin{itemize}
+\item[*] The Launch Initialization data can be viewed simultaneously,
+or chose to view selected Pre-Launch data, at the discretion of the Flight
+Director.
+\item[*]  If the System is automated, then the System would determine
+when to ignite the engines, when  to execute the Launching
+Mechanism, and make the decision to abort the Launch Sequence.  The
+Flight Director would have final authority.
+\end{itemize}
+\textbf{Frequency of Occurrence:  }Almost continuoulsy.  Based on the
+Frequency of desired Launches.\\\\
+\textbf{Open Issues:  }
+\begin{itemize}
+\item Need to create a list of the Lauch Data to monitor:  needed for
+the decision for when to launch the Rocket
+\item What are the abort procedures?
+\item Consider shutting down the Rocket engines as part of the abort
+procedures
+\item If the Rocket engines are not capable of shutdown, consider
+other possible abort procedures
+\item Should the Astronauts have the ability to abort the Launch
+initialization?
+\end{itemize}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
