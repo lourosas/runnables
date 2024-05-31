@@ -29,12 +29,12 @@ bg=blue</panel_attributes>
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>40</x>
+      <x>20</x>
       <y>60</y>
-      <w>100</w>
+      <w>140</w>
       <h>110</h>
     </coordinates>
-    <panel_attributes>Flight Director</panel_attributes>
+    <panel_attributes>Flight Controller</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -51,9 +51,9 @@ bg=blue</panel_attributes>
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>680</x>
+      <x>670</x>
       <y>370</y>
-      <w>140</w>
+      <w>160</w>
       <h>110</h>
     </coordinates>
     <panel_attributes>Engineer/Technician</panel_attributes>

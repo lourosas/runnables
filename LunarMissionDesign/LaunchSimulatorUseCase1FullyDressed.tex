@@ -7,8 +7,8 @@
 \noindent
 \textbf{Use Case 1:  Monitor Pre-Launch Activities}\\
 \textbf{Scope:  }Launch Simulator\\
-\textbf{Level:  }Flight Director Goal\\
-\textbf{Primary Actor:  }Flight Director\\
+\textbf{Level:  }Flight Controller Goal\\
+\textbf{Primary Actor:  }Flight Controller\\
 \textbf{Secondary Actor:  }Astronaut, Engineer/Technician\\
 \textbf{Related Use Cases:  }None\\
 \textbf{Stakeholders \& Interrests:  }
@@ -34,7 +34,7 @@ begin the Countdown, the Launch Simulator is running\\
 transitioned from Pre-Launch to Initiate Launch\\\\
 \textbf{Main Success Scenario:  }\\
 \begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
-\textbf{Flight Director} & \textbf{System}\\\hline
+\textbf{Flight Controller} & \textbf{System}\\\hline
 1.  Start the Pre-Launch Sequence & \\\hline
 & 2. Request Countdown Time Entry\\\hline
 3.  Enters the Countdown Time & \\\hline
@@ -52,31 +52,33 @@ transitioned from Pre-Launch to Initiate Launch\\\\
 \end{tabular}\\\\
 \textbf{Alternative Flows:  }
 \begin{itemize}
-\item[*.a]  At anytime, the Flight Director can hold the Countdown
+\item[*]  At anytime, the Flight Controller can hold the Countdown
 if conditions arise that warant that.
-\item[*.b] At anytime, if the Countdown is on hold, the Flight
-Director can resume the Countdown if the State of the System warants
+\item[*] At anytime, if the Countdown is on hold, the Flight
+Controller can resume the Countdown if the State of the System warants
 such a transition;  the Countdown continues at the time stopped
-\item[*] If the Countdown is on Hold, the Flight Director can chose to
+\item[*] If the Countdown is on Hold, the Flight Controller can chose
+to
 abort the Countdown.  The System responds by abandoning the Countdown,
 alerting the Actors of the Abort
-\item[5c.] The flight director can change the Countdown Time as
+\item[5c.] The Flight Controller can change the Countdown Time as
 desired prior to starting the Countdown.  The System changes the
 Countdown time, reflects the change to the Filght Controller.  The
 Flight Controller Starts the Countdown as typical
 \item[9c.]  If the System detects an anomaly in the
 Pre-Launch Data, then the System alerts the Users of the anomaly for
-the Flight Director to determine if the anomaly warants a hold in the
+the Flight Controller to determine if the anomaly warants a hold in
+the
 Countdown
 \item[9d.]  If there is a Countdown hold, and the System continues to
 detect an anomaly in the Pre-Launch Data sent to the Users, then the
-Flight Directorcan chose to abort the Launch, the System indicates the
-Aborted Launch
-\item[9e.]  If there is a Countdown hold, the Flight Director will
+Flight Controller can chose to abort the Launch, the System indicates
+the Aborted Launch
+\item[9e.]  If there is a Countdown hold, the Flight Controller will
 resume the countdown if
 \begin{enumerate}
 \item The Anomaly is fixed and there are no other anomalies
-\item The Flight Director determines the Anomaly is not a threat
+\item The Flight Controller determines the Anomaly is not a threat
 to the mission integrity
 \item The Anomaly is determined to be errant
 \end{enumerate}
@@ -93,8 +95,8 @@ Controller
 \begin{itemize}
 \item There is only one point of Decision for the Countdown Hold/
 Countdown Abort.  That currently rests with the Flight Controller.  The
-Engineers/Technicians and Astronaut can advise the Flight Director, in
-addition to the System:  all based on Pre-Launch Data.
+Engineers/Technicians and Astronaut can advise the Flight Controller,
+in addition to the System:  all based on Pre-Launch Data.
 \end{itemize}
 \textbf{Technology \& Variations List: }
 \begin{itemize}
@@ -102,9 +104,9 @@ addition to the System:  all based on Pre-Launch Data.
 or chose to view selected pre-launch data.  This is very useful for the
 Engineers/Technicians for monitoring Their individual System
 responsibilities
-\item [6c-14c]If the System is automated, once the Flight Director
+\item [6c-14c]If the System is automated, once the Flight Controller 
 inputs the Countdown Time, the System could Initiate the Launch, 
-hold the Countdown, abort the Countdown.  The Flight Director would
+hold the Countdown, abort the Countdown.  The Flight Controller would
 have final authority.
 \end{itemize}
 \textbf{Frequency of Occurence:  }  Almost continuously:  based on the
