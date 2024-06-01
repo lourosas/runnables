@@ -1,0 +1,104 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case 3:  Monitor Launch Activities}\\
+\textbf{Scope:  }Launch Simulator\\
+\textbf{Level:  }Flight Controller Goal, Astronaut Goal\\
+\textbf{Primary Actor:  }Flight Controller, Astronaut\\
+\textbf{Secondary Actor:  }Engineer/Technician\\
+\textbf{Related Use Cases:  }\textit{Use Case 2:  The Flight Director
+shall Initiate Launch}\\
+\textbf{Stakeholders \& Interrests:  }
+\begin{itemize}
+\item Flight Controller:  Wants to
+\begin{itemize}
+\item Monitor launch data to
+\begin{itemize}
+\item Continue the launch
+\item Abort the launch
+\end{itemize}
+\end{itemize}
+\item Astronaut:  Wants to 
+\begin{itemize}
+\item Monitor launch data to
+\begin{itemize}
+\item Continue the launch
+\item Abort the launch
+\end{itemize}
+\end{itemize}
+\item Engineer/Technician:  Wants to monitor launch data
+of there responsibility for launch integrity assessment:  to advise
+the Flight Controller
+\item Administrator:  wants a successful launch
+\item Politician:  wants a successful launch for policy assessment:
+to determine program funding/continuation
+\item Politician:  wants tecnical success for local and national pride
+\end{itemize}
+\textbf{Pre-Conditions:  }The Launch Intiation Activities are
+complete.  See \textit{Use Case 2:  Flight Controller shall
+Initiate Launch}\\
+\textbf{Post-Conditions:  }The launch vehicle separation from
+payload/capsule--the launch is complete\\\\
+\textbf{Main Success Scenario:  }\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+\textbf{Flight Controller/Astronaut}&\textbf{System}\\\hline
+&1. Starts the Flight Time Clock\\\hline
+&2. Periodically returns the Flight Time Clock to the Actors through
+the duration of the launch\\\hline
+&3. Periodically monitors/returns launch data to the Actors through
+the duration of the launch\\\hline
+4.  Monitors launch data &\\\hline
+&5. Final Stage Separation from the payload/capsule, transitions out
+of launch (launch is complete)\\\hline
+&6. Alerts of transition\\\hline
+\end{tabular}\\\\
+\textbf{Alternative Flows:}
+\begin{itemize}
+\item[3a.]Throughout the launch, the Flight Controller has the 
+ability to abort the launch.  System reflects the abort status.
+\item[3b.]Throughout the launch, the (commanding) astronaut has
+the ability to abort the launch.  System reflects the abort status.
+\item[3c.]Throughout the launch, the System alerts the primary actors
+and the responsible secondary actors of any anomalous Launch Data.
+If the System assess any of the anomalous launch data poses a threat
+to the launch and/or lives of the mission crew, the System advises the
+primary actors to abort the launch.  Primary Actors have final
+authority on launch abort.
+\item[5a.]If the final stage fails to separate from the
+payload/capsule, then the System alerts the issue, the System does not
+transition out of launch.  The lauch is aborted
+(which can be initiated via either of the primary actors).  The
+System reflects the abort status.
+\end{itemize}
+\textbf{Special Requirements:}
+\begin{itemize}
+\item Both primary actors have the ability to abort the Launch. The
+System cannot abort the launch.
+\item The abort can be in response to launch anomalies/issues
+reported by the System, or at the order of the Flight Controller or
+the (Commanding) Astronaut.
+\end{itemize}
+\textbf{Technology \& Variations List}
+\begin{itemize}
+\item[3a.]Stage separations during launch are part of the Launch
+Data
+\item[5a.]Final stage separation is part of the Lauch Data:
+once the final stage separates from the capsule/payload, the
+transition out of Launch occurs
+\end{itemize}
+\textbf{Open Issues}
+\begin{itemize}
+\item What if the Flight Time Clock fails (stops working, reports
+erronious time, etc...)?
+\item Coming back to the Fully Automated System question when was
+discussed (and continues to be discussed) in previous Use Cases.  For
+the time being, this System is not fully automated.  In the case
+of a fully automated System, one of the open issues is manual override
+in the event of an abort.
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

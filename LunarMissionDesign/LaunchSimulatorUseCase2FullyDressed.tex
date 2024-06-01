@@ -7,15 +7,15 @@
 \noindent
 \textbf{Use Case 2:  Iniate Launch}\\
 \textbf{Scope:  }Launch Simulator\\
-\textbf{Level:  }Flight Director Goal\\
-\textbf{Primary Actor:  }Flight Director\\
+\textbf{Level:  }Flight Controller Goal\\
+\textbf{Primary Actor:  }Flight Controller\\
 \textbf{Related Use Cases:  }\textit{Use Case 1:  The Users shall
 monitor Pre-Launch Activities}\\
 \textbf{Stakeholders \& Interrests:  }
 \begin{itemize}
 \item Flight Controller:  wants to initiate Launch
 \item Astronaut:  wants successful Launch
-\item Flight Director:  wants a successful Launch
+\item Flight Controller:  wants a successful Launch
 \item Administrator:  wants a successful Launch
 \item Local and Federal Politicians:  want a successful Launch for
 campaign, re-election and other political purposes
@@ -26,14 +26,15 @@ System indicates no errors in the Pre-Launch Data\\
 \textbf{Post-Conditions:  }The Trasistion to Launch successful\\\\
 \textbf{Main Success Scenario:  }\\
 \begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
-\textbf{Flight Director} & \textbf{System}\\\hline
+\textbf{Flight Controller} & \textbf{System}\\\hline
 &1.  Indicates Countdown at zero and ready to launch\\\hline
 2. Intiates Lauch & \\\hline
 & 3.  Directs Engines to ignite\\\hline
 & 4.  Returns confirmation of the engine ignition\\\hline
 & 5.  Monitors Launch Data\\\hline
 & 6.  Returns Launch Data\\\hline
-& 7.  Repeat 5 \& 6 Until Transition out of Launch Initialization\\\hline
+& 7.  Repeat 5 \& 6 Until Transition out of Launch
+Initialization\\\hline
 & 8.  Rocket ready to Launch\\\hline
 9. Launch Rocket &\\\hline
 & 10.   Execute the Launching Mechanism (Launches Rocket)\\\hline
@@ -49,8 +50,8 @@ Tower\\\hline
 \begin{itemize}
 \item[*]  If the System is Fully Automated, then the System initiates
 the Launch, asses if/when to launch the Rocket and commands the
-mechanisms responsible for launching the Rocket.  The Flight Controller
-has the ability to perform an manual override as needed
+mechanisms responsible for launching the Rocket.  The Flight
+Controller has the ability to perform an manual override as needed
 \item[1a.]Based on the data provided, the System advises the Flight
 Director on Launch Viability
 \item[2a.]The Flight Controller can chose when to Initiate the Launch 
