@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>60</x>
+      <y>70</y>
+      <w>180</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Launch Monitor
+bg=dark_gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>330</x>
+      <y>80</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Rocket
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>130</x>
+      <y>170</y>
+      <w>180</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Countdown Timer
+bg=magenta</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>350</x>
+      <y>170</y>
+      <w>160</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Pre-Launch Data</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>500</x>
+      <y>80</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Launch Tower
+bg=gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>870</x>
+      <y>60</y>
+      <w>140</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Possible Real World
+Objects
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
