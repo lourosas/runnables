@@ -48,16 +48,7 @@ Tower\\\hline
 \end{tabular}
 \textbf{Alternative Flows:}
 \begin{itemize}
-\item[*]  If the System is Fully Automated, then the System initiates
-the Launch, asses if/when to launch the Rocket and commands the
-mechanisms responsible for launching the Rocket.  The Flight
-Controller has the ability to perform an manual override as needed
-\item[1a.]Based on the data provided, the System advises the Flight
-Director on Launch Viability
-\item[2a.]The Flight Controller can chose when to Initiate the Launch 
-(it
-does not have to be imediately after the Countdown at zero)
-\item[2b.]The Flight Controller can chose not to Initiate the Launch
+\item[2a]The Flight Controller can chose not to Initiate the Launch
 \item[4a]If the Engines do not ignite, then the System Alerts the
 Flight Controller of the issue, the Flight Controller aborts the
 laumch and all the actors follow their repsective Launch Abort
@@ -65,10 +56,10 @@ Procedures
 \item[5a-8a]If the System communicates an error/issue in the Launch
 Data, then the System alerts the Flight Controller of the error/issue,
 with recomendation (abort/not abort Launch).
-\item[9a.]At anytime, the Flight Controller can abort the Launch, the
+\item[9a]If the Flight Controller can abort the Launch, the
 System will not activate the Launch Mechinism, all the actors are to
 follow their respective Launch Abort Procedures.
-\item[16a.]In the event of a Launch Abort, the System will not
+\item[16a]In the event of a Launch Abort, the System will not
 transition to Launch
 \end{itemize}
 \textbf{Special Requirements:}
@@ -85,12 +76,14 @@ exprected state before the System will advise on launching the Rocket.
 \item There is only one point of Decision for the Abort.  That decision
 rests with the Flight Controller.  Currently, the Flight Controller
 takes no advisement other than System Data.
+\item The Launch Mechanism will not release the delivery system
+(rocket) until enough lift thrust is built up.
 \end{itemize}
 \textbf{Technology \& Variations List}
 \begin{itemize}
 \item[*] The Launch Initialization data can be viewed simultaneously,
 or chose to view selected Pre-Launch data, at the discretion of the Flight
-Director.
+Controller.
 \item[*]  If the System is automated, then the System would determine
 when to ignite the engines, when  to execute the Launching
 Mechanism, and make the decision to abort the Launch Sequence.  The
