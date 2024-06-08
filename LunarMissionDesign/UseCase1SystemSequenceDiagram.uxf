@@ -192,14 +192,14 @@ Initiate Launch</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>150</x>
+      <x>140</x>
       <y>560</y>
-      <w>570</w>
+      <w>580</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 Initiate Launch</panel_attributes>
-    <additional_attributes>10.0;20.0;550.0;20.0</additional_attributes>
+    <additional_attributes>10.0;20.0;560.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
