@@ -58,11 +58,7 @@ of launch (launch is complete)\\\hline
 \end{tabular}\\\\
 \textbf{Alternative Flows:}
 \begin{itemize}
-\item[3a.]Throughout the launch, the Flight Controller has the 
-ability to abort the launch.  System reflects the abort status.
-\item[3b.]Throughout the launch, the (commanding) astronaut has
-the ability to abort the launch.  System reflects the abort status.
-\item[3c.]Throughout the launch, the System alerts the primary actors
+\item[3a.]Throughout the launch, the System alerts the primary actors
 and the responsible secondary actors of any anomalous Launch Data.
 If the System assess any of the anomalous launch data poses a threat
 to the launch and/or lives of the mission crew, the System advises the
@@ -70,14 +66,12 @@ primary actors to abort the launch.  Primary Actors have final
 authority on launch abort.
 \item[5a.]If the final stage fails to separate from the
 payload/capsule, then the System alerts the issue, the System does not
-transition out of launch.  The launch is aborted
-(which can be initiated via either of the primary actors).  The
+transition out of launch.  The launch is aborted.  The
 System reflects the abort status.
 \end{itemize}
 \textbf{Special Requirements:}
 \begin{itemize}
-\item Both primary actors have the ability to abort the Launch. The
-System cannot abort the launch.
+\item Both primary actors have the ability to abort the Launch.
 \item The abort can be in response to launch anomalies/issues
 reported by the System, or at the order of the Flight Controller or
 the (Commanding) Astronaut.
