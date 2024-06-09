@@ -53,15 +53,17 @@ Tower\\\hline
 \begin{itemize}
 \item[4a]If the Engines do not ignite, then the System Alerts the
 Flight Controller of the issue, the Flight Controller aborts the
-laumch and all the actors follow their repsective Launch Abort
-Procedures
+laumch
 \item[5a-7a]If, after an expected time for the Engine Thrust to be
-adequate enough to lift the Rocket, the Engine thrust is not adequate
-enough to lift the Rocket, then the System alerts the Flight Controller
-of the Engine inadequancy with recomendation (abort/not abort Launch).
+adequate enough to lift the Rocket and there is not enough Engine
+thrust to lift the Rocket, then the System issues an Engine
+Thrust Failure
 \item[9a]If the Flight Controller aborts the Launch, the
 System will not activate the Launch Mechinism, all the actors are to
 follow their respective Launch Abort Procedures.
+\item[5b.-7b,10a.11a.] If there is an Engine Thrust Failure, then the
+System alerts the Flight Controller of the Engine Thrust Failure. The
+Flight Controller aborts the launch.
 \item[15a]In the event of a Launch Abort, the System will not
 transition to Launch
 \end{itemize}
@@ -85,8 +87,8 @@ takes no advisement other than System Data.
 \textbf{Technology \& Variations List}
 \begin{itemize}
 \item[*] The Launch Initialization data can be viewed simultaneously,
-or chose to view selected Pre-Launch data, at the discretion of the Flight
-Controller.
+or chose to view selected Launch Initialization data, at the discretion
+of the Flight Controller.
 \item[*]  If the System is automated, then the System would determine
 when to ignite the engines, when  to execute the Launching
 Mechanism, and make the decision to abort the Launch Sequence.  The
@@ -107,8 +109,9 @@ other possible abort procedures
 \item Should the Astronauts have the ability to abort the Launch
 initialization?
 \item If the Engine thrust is inadequate to lift the to launch and
-the Flight Director executes the Launch Rocket procedure, should there
-be a System Override where the Launching Mechanism is not executed?
+the Flight Director does not executes the Launch Rocket procedure,
+should there be a System Override where the Launching Mechanism is not
+executed?
 \end{itemize}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
