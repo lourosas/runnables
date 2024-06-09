@@ -5,25 +5,49 @@
 \usepackage{graphicx}
 \begin{document}
 \noindent
-\textbf{Use Case 2:  Iniate Launch}\\
+\textbf{Use Case 2:  Iniate Launch/Monitor Launch}\\
 \textbf{Scope:  }Launch Simulator\\
-\textbf{Level:  }Flight Controller Goal\\
+\textbf{Level:  }Flight Controller Goal, Astronaut Goal\\
 \textbf{Primary Actor:  }Flight Controller\\
+\textbf{Secondary Actor:  }Engineer/Technician\\
 \textbf{Related Use Cases:  }\textit{Use Case 1:  The Users shall
 monitor Pre-Launch Activities}\\
 \textbf{Stakeholders \& Interrests:  }
 \begin{itemize}
-\item Flight Controller:  wants to initiate Launch
-\item Astronaut:  wants successful Launch
-\item Flight Controller:  wants a successful Launch
+\item Flight Controller:  wants
+\begin{itemize}
+\item to Initiate Launch
+\item to  Monitor Launch Data for launch safety
+\begin{itemize}
+\item Determine if a Launch Abort is needed
+\end{itemize}
+\item a Successful Lanch
+\end{itemize}
+\item Astronaut:  wants
+\begin{itemize}
+\item a Successful Launch
+\item to Monitor Launch data for launch safety
+\begin{itemize}
+\item Determine if a Launch abort is needed
+\end{itemize}
+\end{itemize}
+\item Engineer/Technician:  Wants to monitor launch data of their
+responsibility for launch integrity assessment:  to advise the Flight
+Controller
 \item Administrator:  wants a successful Launch
-\item Local and Federal Politicians:  want a successful Launch for
+\item Local and Federal Politicians:  want
+\begin{itemize}
+\item a successful Launch for
 campaign, re-election and other political purposes
+\item a successful Launch for policy assesment for program funding and
+continuation
+\item technical success for local and national pride
+\end{itemize}
 \end{itemize}
 \textbf{Pre-Conditions:  }All Pre-Launch Activities are complete:  the
 Countdown is at Zero, there is no hold nor abort on the Countdown, the
 System indicates no errors in the Pre-Launch Data\\
-\textbf{Post-Conditions:  }The Trasistion to Launch successful\\\\
+\textbf{Post-Conditions:  }The Trasistion out of Launch successful\\\\
 \textbf{Main Success Scenario:  }\\
 \begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
 \textbf{Flight Controller} & \textbf{System}\\\hline
@@ -48,10 +72,19 @@ Tower\\\hline
 & 14.  Transitions to Launch upon Rocket Clearing the Launch
 Tower\\\hline
 & 15.  Informs of Transition\\\hline 
-\end{tabular}
+& 16.  Starts the Flight Time Clock\\\hline
+& 17.  Periodically returns the Flight Time to the actors
+throughout the durration of the launch\\\hline
+& 18. Periodically monitors/returns launch data to the actors
+throughout the durration of the launch\\\hline
+& 19.  Performs Final Stage Separation from the payload/capsule\\\hline
+& 20.  Informs actors of Final Stage Separation\\\hline
+& 21. Transitions out of Launch (Launch is complete)\\\hline
+& 22. Alerts the Actors of the Transition\\\hline
+\end{tabular}\\\\
 \textbf{Alternative Flows:}
 \begin{itemize}
-\item[4a]If the Engines do not ignite, then the System Alerts the
+\item[4a.]If the Engines do not ignite, then the System Alerts the
 Flight Controller of the issue, the Flight Controller aborts the
 laumch
 \item[5a-7a]If, after an expected time for the Engine Thrust to be
@@ -66,6 +99,10 @@ System alerts the Flight Controller of the Engine Thrust Failure. The
 Flight Controller aborts the launch.
 \item[15a]In the event of a Launch Abort, the System will not
 transition to Launch
+\item[16a.] In the event of a Flight Time Clock failure, the System
+will alert the Actors.  The Flight Controller will initiate manually the
+Flight Time Clock and the Flight Time will be kept outside of the
+System
 \end{itemize}
 \textbf{Special Requirements:}
 \begin{itemize}
