@@ -73,14 +73,13 @@ Tower\\\hline
 Tower\\\hline
 & 15.  Informs of Transition\\\hline 
 & 16.  Starts the Flight Time Clock\\\hline
-& 17.  Periodically returns the Flight Time to the actors
-throughout the durration of the launch\\\hline
-& 18. Periodically monitors/returns launch data to the actors
-throughout the durration of the launch\\\hline
-& 19.  Performs Final Stage Separation from the payload/capsule\\\hline
-& 20.  Informs actors of Final Stage Separation\\\hline
-& 21. Transitions out of Launch (Launch is complete)\\\hline
-& 22. Alerts the Actors of the Transition\\\hline
+& 17.  Flight Time\\\hline
+& 18.  Launch Data\\\hline
+& 19.  Repeats 17, 18 throughout the duration of the Launch\\\hline
+& 20.  Performs Final Stage Separation from the payload/capsule\\\hline
+& 21.  Informs actors of Final Stage Separation\\\hline
+& 22. Transitions out of Launch (Launch is complete)\\\hline
+& 23. Alerts the Actors of the Transition\\\hline
 \end{tabular}\\\\
 \textbf{Alternative Flows:}
 \begin{itemize}
@@ -103,6 +102,14 @@ transition to Launch
 will alert the Actors.  The Flight Controller will initiate manually the
 Flight Time Clock and the Flight Time will be kept outside of the
 System
+\item[17a, 18a.]They System alerts the Actors of any anomalous Launch
+Data.  If the System assess any of that anomalous Launch Data poses a
+threat to the launch and/or lives of the mission crew, then the System
+advises the Actors to abort the Launch.
+\item[21a.]If the final stage fails to separate from the
+payload/capsule, then the System alerts the failure to the Actors, the
+System does not transition out of launch.  Primary Actors about the
+Launch.  The System reflects the abort status.
 \end{itemize}
 \textbf{Special Requirements:}
 \begin{itemize}
@@ -120,6 +127,7 @@ rests with the Flight Controller.  Currently, the Flight Controller
 takes no advisement other than System Data.
 \item The Launch Mechanism will not release the delivery system
 (rocket) until enough lift thrust is built up.
+\item The Primary Actors have final authority on Launch Abort.
 \end{itemize}
 \textbf{Technology \& Variations List}
 \begin{itemize}

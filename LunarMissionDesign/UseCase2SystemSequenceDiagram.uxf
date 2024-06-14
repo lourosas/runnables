@@ -4,9 +4,9 @@
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>90</x>
+      <x>80</x>
       <y>10</y>
-      <w>120</w>
+      <w>140</w>
       <h>110</h>
     </coordinates>
     <panel_attributes>Flight Controller</panel_attributes>
@@ -75,7 +75,7 @@ Launch</panel_attributes>
     <coordinates>
       <x>600</x>
       <y>160</y>
-      <w>270</w>
+      <w>300</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -87,7 +87,7 @@ Transition to Launch Initialization</panel_attributes>
     <coordinates>
       <x>600</x>
       <y>220</y>
-      <w>170</w>
+      <w>180</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -111,7 +111,7 @@ Engine Ignition</panel_attributes>
     <coordinates>
       <x>600</x>
       <y>450</y>
-      <w>240</w>
+      <w>260</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -171,7 +171,7 @@ Launch</panel_attributes>
     <coordinates>
       <x>610</x>
       <y>670</y>
-      <w>150</w>
+      <w>160</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -195,7 +195,7 @@ bg=yellow</panel_attributes>
     <coordinates>
       <x>610</x>
       <y>720</y>
-      <w>240</w>
+      <w>260</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -219,7 +219,7 @@ Engine Thrust Data</panel_attributes>
     <coordinates>
       <x>610</x>
       <y>870</y>
-      <w>210</w>
+      <w>230</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -255,7 +255,7 @@ Rocket Cleared Tower</panel_attributes>
     <coordinates>
       <x>610</x>
       <y>970</y>
-      <w>200</w>
+      <w>210</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -327,7 +327,7 @@ Abort</panel_attributes>
     <coordinates>
       <x>610</x>
       <y>1170</y>
-      <w>100</w>
+      <w>110</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -350,7 +350,7 @@ Abort</panel_attributes>
     <coordinates>
       <x>600</x>
       <y>310</y>
-      <w>230</w>
+      <w>250</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -373,7 +373,7 @@ Start Expected Thrust Clock</panel_attributes>
     <coordinates>
       <x>600</x>
       <y>550</y>
-      <w>280</w>
+      <w>300</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -432,7 +432,7 @@ Abort</panel_attributes>
     <coordinates>
       <x>610</x>
       <y>1430</y>
-      <w>100</w>
+      <w>110</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -491,7 +491,7 @@ Abort</panel_attributes>
     <coordinates>
       <x>610</x>
       <y>1290</y>
-      <w>100</w>
+      <w>110</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -522,7 +522,7 @@ bg=green</panel_attributes>
     <coordinates>
       <x>600</x>
       <y>380</y>
-      <w>290</w>
+      <w>310</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -545,7 +545,7 @@ Throw Engine Ignitian Failure Error</panel_attributes>
     <coordinates>
       <x>610</x>
       <y>810</y>
-      <w>280</w>
+      <w>300</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -555,31 +555,30 @@ Throw Engine Thrust Failure Error</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>940</x>
-      <y>670</y>
-      <w>220</w>
-      <h>140</h>
+      <x>920</x>
+      <y>660</y>
+      <w>250</w>
+      <h>130</h>
     </coordinates>
-    <panel_attributes>If, after initian, the System
-determined there as enough
-thrust to launch the Rocket, and
-after the launch holds were
-releeased it was determined
-there was not enough thrust to
-adequately lift the Rocket,
-indicate the error
-bg=magenta</panel_attributes>
+    <panel_attributes>After the Launch Holds were
+released, and an attempt to
+Launch The Rocket, the System
+determines there is not enough
+thrust from the engines for
+Launching, the System throws the
+Engine Thrust Failure
+bg=cyan</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>650</x>
-      <y>730</y>
-      <w>310</w>
-      <h>110</h>
+      <y>720</y>
+      <w>290</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
-    <additional_attributes>10.0;90.0;290.0;10.0</additional_attributes>
+    <additional_attributes>10.0;100.0;270.0;10.0</additional_attributes>
   </element>
 </diagram>
