@@ -5,30 +5,23 @@
     <id>UMLClass</id>
     <coordinates>
       <x>940</x>
-      <y>450</y>
+      <y>410</y>
       <w>100</w>
-      <h>30</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>Rocket
+-
+height
+stage
+totalStages
 bg=red</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>380</x>
-      <y>220</y>
-      <w>100</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>Launch Tower</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLNote</id>
     <coordinates>
       <x>60</x>
-      <y>20</y>
+      <y>10</y>
       <w>140</w>
       <h>70</h>
     </coordinates>
@@ -41,7 +34,7 @@ bg=orange</panel_attributes>
     <id>UMLNote</id>
     <coordinates>
       <x>250</x>
-      <y>20</y>
+      <y>10</y>
       <w>140</w>
       <h>70</h>
     </coordinates>
@@ -56,7 +49,7 @@ bg=orange</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>310</x>
-      <y>390</y>
+      <y>380</y>
       <w>420</w>
       <h>190</h>
     </coordinates>
@@ -68,8 +61,8 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>550</x>
-      <y>220</y>
+      <x>360</x>
+      <y>210</y>
       <w>230</w>
       <h>30</h>
     </coordinates>
@@ -80,9 +73,9 @@ bg=magenta</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>390</x>
-      <y>700</y>
-      <w>230</w>
+      <x>300</x>
+      <y>690</y>
+      <w>170</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>CountdownTimer
@@ -94,8 +87,8 @@ bg=yellow</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1260</x>
-      <y>270</y>
+      <x>1170</x>
+      <y>90</y>
       <w>100</w>
       <h>70</h>
     </coordinates>
@@ -109,8 +102,8 @@ bg=orange</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1260</x>
-      <y>390</y>
+      <x>1170</x>
+      <y>190</y>
       <w>120</w>
       <h>100</h>
     </coordinates>
@@ -126,8 +119,8 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1260</x>
-      <y>520</y>
+      <x>1220</x>
+      <y>620</y>
       <w>100</w>
       <h>80</h>
     </coordinates>
@@ -142,8 +135,8 @@ bg=blue</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1250</x>
-      <y>620</y>
+      <x>1220</x>
+      <y>720</y>
       <w>100</w>
       <h>90</h>
     </coordinates>
@@ -159,7 +152,7 @@ bg=CYAN</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>720</x>
-      <y>440</y>
+      <y>450</y>
       <w>240</w>
       <h>50</h>
     </coordinates>
@@ -173,59 +166,59 @@ monitor &gt;</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>960</x>
-      <y>270</y>
-      <w>320</w>
+      <y>110</y>
+      <w>230</w>
+      <h>320</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1</panel_attributes>
+    <additional_attributes>210.0;10.0;10.0;10.0;10.0;300.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1000</x>
+      <y>210</y>
+      <w>190</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=*
+m2=1</panel_attributes>
+    <additional_attributes>170.0;10.0;10.0;10.0;10.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1000</x>
+      <y>480</y>
+      <w>240</w>
       <h>200</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=*
 m2=1</panel_attributes>
-    <additional_attributes>300.0;10.0;10.0;10.0;10.0;180.0</additional_attributes>
+    <additional_attributes>220.0;170.0;10.0;170.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1000</x>
-      <y>390</y>
-      <w>280</w>
-      <h>80</h>
+      <x>950</x>
+      <y>480</y>
+      <w>290</w>
+      <h>310</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=*
 m2=1</panel_attributes>
-    <additional_attributes>260.0;10.0;10.0;10.0;10.0;60.0</additional_attributes>
+    <additional_attributes>270.0;280.0;10.0;280.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1000</x>
-      <y>470</y>
-      <w>280</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=*
-m2=1</panel_attributes>
-    <additional_attributes>260.0;60.0;10.0;60.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>960</x>
-      <y>470</y>
-      <w>310</w>
-      <h>190</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=*
-m2=1</panel_attributes>
-    <additional_attributes>290.0;160.0;10.0;160.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>450</x>
-      <y>570</y>
+      <x>340</x>
+      <y>560</y>
       <w>90</w>
       <h>150</h>
     </coordinates>
@@ -238,8 +231,8 @@ controls v</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>540</x>
-      <y>570</y>
+      <x>430</x>
+      <y>560</y>
       <w>140</w>
       <h>150</h>
     </coordinates>
@@ -252,8 +245,8 @@ countdown time ^</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>300</x>
-      <y>600</y>
+      <x>190</x>
+      <y>580</y>
       <w>80</w>
       <h>90</h>
     </coordinates>
@@ -267,8 +260,8 @@ abort</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>370</x>
-      <y>640</y>
+      <x>260</x>
+      <y>620</y>
       <w>110</w>
       <h>30</h>
     </coordinates>
@@ -278,8 +271,8 @@ abort</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>620</x>
-      <y>240</y>
+      <x>400</x>
+      <y>230</y>
       <w>90</w>
       <h>170</h>
     </coordinates>
@@ -290,17 +283,98 @@ monitor ^</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
   </element>
   <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>580</x>
+      <y>690</y>
+      <w>100</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>FlightClock
+--
+time
+bg=light_gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
     <id>Relation</id>
     <coordinates>
-      <x>430</x>
-      <y>240</y>
-      <w>90</w>
+      <x>580</x>
+      <y>560</y>
+      <w>100</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+start/stop v</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>660</x>
+      <y>560</y>
+      <w>100</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+flight time ^</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>580</x>
+      <y>220</y>
+      <w>380</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+launch &gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;360.0;220.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>490</x>
+      <y>230</y>
+      <w>80</w>
       <h>170</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=1
-monitor ^</panel_attributes>
+initiate ^</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1220</x>
+      <y>430</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Capsule
+bg=magenta</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1030</x>
+      <y>430</y>
+      <w>210</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>190.0;10.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
