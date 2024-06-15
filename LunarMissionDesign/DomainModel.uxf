@@ -219,7 +219,7 @@ m2=1</panel_attributes>
     <coordinates>
       <x>340</x>
       <y>560</y>
-      <w>100</w>
+      <w>90</w>
       <h>150</h>
     </coordinates>
     <panel_attributes>lt=-
@@ -233,7 +233,7 @@ controls v</panel_attributes>
     <coordinates>
       <x>430</x>
       <y>560</y>
-      <w>160</w>
+      <w>140</w>
       <h>150</h>
     </coordinates>
     <panel_attributes>lt=-
@@ -245,8 +245,8 @@ countdown time ^</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>190</x>
-      <y>580</y>
+      <x>230</x>
+      <y>590</y>
       <w>80</w>
       <h>90</h>
     </coordinates>
@@ -260,20 +260,20 @@ abort</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>260</x>
+      <x>300</x>
       <y>620</y>
-      <w>110</w>
-      <h>30</h>
+      <w>70</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
-    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+    <additional_attributes>10.0;20.0;50.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>400</x>
       <y>230</y>
-      <w>100</w>
+      <w>90</w>
       <h>170</h>
     </coordinates>
     <panel_attributes>lt=-
@@ -301,7 +301,7 @@ bg=light_gray</panel_attributes>
     <coordinates>
       <x>580</x>
       <y>560</y>
-      <w>110</w>
+      <w>100</w>
       <h>150</h>
     </coordinates>
     <panel_attributes>lt=-
@@ -315,7 +315,7 @@ start/stop v</panel_attributes>
     <coordinates>
       <x>680</x>
       <y>560</y>
-      <w>120</w>
+      <w>100</w>
       <h>150</h>
     </coordinates>
     <panel_attributes>lt=-
@@ -343,7 +343,7 @@ release &gt;</panel_attributes>
     <coordinates>
       <x>490</x>
       <y>230</y>
-      <w>90</w>
+      <w>80</w>
       <h>170</h>
     </coordinates>
     <panel_attributes>lt=-
@@ -405,5 +405,70 @@ m1=1
 m2=1
 monitor &gt;</panel_attributes>
     <additional_attributes>210.0;90.0;10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>820</x>
+      <y>720</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Capsule
+bg=magenta</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>720</x>
+      <y>540</y>
+      <w>210</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+monitor v</panel_attributes>
+    <additional_attributes>130.0;180.0;130.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>830</x>
+      <y>880</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Astronaut</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>200</x>
+      <y>480</y>
+      <w>650</w>
+      <h>440</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1...3
+m2=1
+monitor &gt;</panel_attributes>
+    <additional_attributes>630.0;410.0;10.0;410.0;10.0;10.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>860</x>
+      <y>740</y>
+      <w>80</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1...3
+m2=1
+holds v</panel_attributes>
+    <additional_attributes>10.0;140.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
