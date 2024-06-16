@@ -40,15 +40,17 @@ transitioned from Pre-Launch to Initiate Launch\\\\
 3.  Enters the Countdown Time & \\\hline
 & 4.  Returns Countdown Time\\\hline
 5.  Starts the Countdown  & \\\hline
-& 6.  Displays Countdown Time to all actors\\\hline
-& 7.  Repeats 6 for the entire countdown\\\hline
-& 8.  Monitors Pre-Launch Data\\\hline
-& 9. Returns Pre-Launch Data to all the actors\\\hline
-& 10.  Repeats 7,8 for the entire Countdown\\\hline
-& 11.  Alerts actors when Countdown reaches zero\\\hline
-12.  Initiate Launch Sequence & \\\hline
-& 13.  Transitions out of Pre-Launch into Intiate Launch\\\hline
-& 14.  Informs the actors of the transition\\\hline
+& 6.  Transitions to Pre-Launch\\\hline
+& 7.  Informs the actors of the transition\\\hline
+& 8.  Displays Countdown Time to all actors\\\hline
+& 9.  Repeats 6 for the entire countdown\\\hline
+& 10.  Monitors Pre-Launch Data\\\hline
+& 11. Returns Pre-Launch Data to all the actors\\\hline
+& 12.  Repeats 7,8 for the entire Countdown\\\hline
+& 13.  Alerts actors when Countdown reaches zero\\\hline
+14.  Initiate Launch Sequence & \\\hline
+& 15.  Transitions out of Pre-Launch into Intiate Launch\\\hline
+& 16.  Informs the actors of the transition\\\hline
 \end{tabular}\\\\
 \textbf{Alternative Flows:  }
 \begin{itemize}
@@ -64,16 +66,16 @@ alerting the Actors of the Abort
 \item[3c.]If the Flight Controller enters an unacceptatble Countdown
 Time, then the System refuses to set the time and instructs the
 Flight Controller to enter an acceptable Countdown Time
-\item[9c.]  If the System detects an anomaly in the
+\item[11c.]  If the System detects an anomaly in the
 Pre-Launch Data, then the System alerts the Users of the anomaly for
 the Flight Controller to determine if the anomaly warants a hold in
 the
 Countdown
-\item[9d.]  If there is a Countdown hold, and the System continues to
+\item[11d.]  If there is a Countdown hold, and the System continues to
 detect an anomaly in the Pre-Launch Data sent to the Users, then the
 Flight Controller can chose to abort the Launch, the System indicates
 the Aborted Launch
-\item[9e.]  If there is a Countdown hold, the Flight Controller will
+\item[11e.]  If there is a Countdown hold, the Flight Controller will
 resume the countdown if
 \begin{enumerate}
 \item The Anomaly is fixed and there are no other anomalies
