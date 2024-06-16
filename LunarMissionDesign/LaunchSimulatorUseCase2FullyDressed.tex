@@ -54,61 +54,63 @@ System indicates no errors in the Pre-Launch Data\\
 &1.  Indicates Countdown at zero and ready to launch\\\hline
 2. Intiates Lauch & \\\hline
 & 3.  Directs Engines to ignite\\\hline
-& 4.  Returns confirmation of the engine ignition\\\hline
-& 5.  Monitors Engine Thrust Data\\\hline
-& 6.  Returns Engine Trust Data\\\hline
-& 7.  Repeats 5 \& 6 until Engine Trust adequate to lift
+& 4.  Transitions to Ignitiate Launch\\\hline
+& 5.  Returns confirmation of the engine ignition\\\hline
+& 6.  Monitors Engine Thrust Data\\\hline
+& 7.  Returns Engine Trust Data\\\hline
+& 8.  Repeats 5 \& 6 until Engine Trust adequate to lift
 rocket\\\hline
-& 8.  Rocket ready to Launch\\\hline
-9. Launch Rocket &\\\hline
-& 9.   Execute the Launching Mechanism (Launches Rocket)\\\hline
-& 10.  Monitors Engine Thrust Data\\\hline
-& 11.  Returns Engine Thrust Data\\\hline
-& 12.  Monitors Rocket for Clearing the Launch Tower\\\hline
-& 13.  Returns Rocket's current height\\\hline
-& 14.  Repeats steps 10 through 13 until Rocket Clears Launch
+& 9.  Rocket ready to Launch\\\hline
+10. Launch Rocket &\\\hline
+& 11.   Execute the Launching Mechanism (Launches Rocket)\\\hline
+& 12.  Monitors Engine Thrust Data\\\hline
+& 13.  Returns Engine Thrust Data\\\hline
+& 14.  Monitors Rocket for Clearing the Launch Tower\\\hline
+& 15.  Returns Rocket's current height\\\hline
+& 16.  Repeats steps 10 through 13 until Rocket Clears Launch
 Tower\\\hline
-& 13.  Returns Rocket Cleared Tower\\\hline
-& 14.  Transitions to Launch upon Rocket Clearing the Launch
+& 17.  Returns Rocket Cleared Tower\\\hline
+& 18.  Transitions to Launch upon Rocket Clearing the Launch
 Tower\\\hline
-& 15.  Informs of Transition\\\hline 
-& 16.  Starts the Flight Time Clock\\\hline
-& 17.  Flight Time\\\hline
-& 18.  Launch Data\\\hline
-& 19.  Repeats 17, 18 throughout the duration of the Launch\\\hline
-& 20.  Performs Final Stage Separation from the payload/capsule\\\hline
-& 21.  Informs actors of Final Stage Separation\\\hline
-& 22. Transitions out of Launch (Launch is complete)\\\hline
-& 23. Alerts the Actors of the Transition\\\hline
+& 19.  Informs of Transition\\\hline 
+& 20.  Starts the Flight Time Clock\\\hline
+& 21.  Flight Time\\\hline
+& 22.  Launch Data\\\hline
+& 23.  Repeats 21, 22 throughout the duration of the Launch\\\hline
+& 24.  Performs Final Stage Separation from the payload/capsule\\\hline
+& 25.  Informs actors of Final Stage Separation\\\hline
+& 26. Transitions out of Launch (Launch is complete)\\\hline
+& 27. Alerts the Actors of the Transition\\\hline
 \end{tabular}\\\\
 \textbf{Alternative Flows:}
 \begin{itemize}
-\item[4a.]If the Engines do not ignite, then the System Alerts the
+\item[4a.,5a.]If the Engines do not ignite, then the System Alerts the
 Flight Controller of the issue, the Flight Controller aborts the
-laumch
-\item[5a-7a]If, after an expected time for the Engine Thrust to be
+laumch the System does not Transition to Ingnite Launch
+\item[6a-8a]If, after an expected time for the Engine Thrust to be
 adequate enough to lift the Rocket and there is not enough Engine
 thrust to lift the Rocket, then the System issues an Engine
 Thrust Failure
-\item[9a]If the Flight Controller aborts the Launch, the
+\item[10a]If the Flight Controller aborts the Launch, the
 System will not activate the Launch Mechinism, all the actors are to
 follow their respective Launch Abort Procedures.
-\item[5b.-7b,10a.11a.] If there is an Engine Thrust Failure, then the
+\item[6b.-8b,12a,13a.] If there is an Engine Thrust Failure, then the
 System alerts the Flight Controller of the Engine Thrust Failure. The
 Flight Controller aborts the launch.
-\item[15a]In the event of a Launch Abort, the System will not
+\item[18a]In the event of a Launch Abort, the System will not
 transition to Launch
-\item[16a.] In the event of a Flight Time Clock failure, the System
+\item[21a.] In the event of a Flight Time Clock failure, the System
 will alert the Actors.  The Flight Controller will initiate manually the
 Flight Time Clock and the Flight Time will be kept outside of the
 System
-\item[17a, 18a.]They System alerts the Actors of any anomalous Launch
-Data.  If the System assess any of that anomalous Launch Data poses a
+\item[22a.]The System alerts the Actors of any anomalous Launch
+Data.
+\item[22b.]If the System assess any of that anomalous Launch Data poses a
 threat to the launch and/or lives of the mission crew, then the System
 advises the Actors to abort the Launch.
-\item[21a.]If the final stage fails to separate from the
+\item[24a.,25a.]If the final stage fails to separate from the
 payload/capsule, then the System alerts the failure to the Actors, the
-System does not transition out of launch.  Primary Actors about the
+System does not transition out of launch.  Primary Actors abort the
 Launch.  The System reflects the abort status.
 \end{itemize}
 \textbf{Special Requirements:}
