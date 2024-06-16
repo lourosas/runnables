@@ -77,10 +77,12 @@ Tower\\\hline
 & 21.  Flight Time\\\hline
 & 22.  Launch Data\\\hline
 & 23.  Repeats 21, 22 throughout the duration of the Launch\\\hline
-& 24.  Performs Final Stage Separation from the payload/capsule\\\hline
-& 25.  Informs actors of Final Stage Separation\\\hline
-& 26. Transitions out of Launch (Launch is complete)\\\hline
-& 27. Alerts the Actors of the Transition\\\hline
+& 24.  Performs Stage Separation\\\hline
+& 25.  Informs Stage Separation\\\hline
+& 26.  Repeat 24 \& 25 for all Stages\\\hline
+& 27. Upon Final Stage Separation Transitions out of Launch (Launch is
+complete)\\\hline
+& 28. Alerts the Actors of the Transition\\\hline
 \end{tabular}\\\\
 \textbf{Alternative Flows:}
 \begin{itemize}
@@ -105,13 +107,14 @@ Flight Time Clock and the Flight Time will be kept outside of the
 System
 \item[22a.]The System alerts the Actors of any anomalous Launch
 Data.
-\item[22b.]If the System assess any of that anomalous Launch Data poses a
-threat to the launch and/or lives of the mission crew, then the System
-advises the Actors to abort the Launch.
-\item[24a.,25a.]If the final stage fails to separate from the
-payload/capsule, then the System alerts the failure to the Actors, the
-System does not transition out of launch.  Primary Actors abort the
-Launch.  The System reflects the abort status.
+\item[22b.]If the System assess any of that anomalous Launch Data poses
+a threat to the launch and/or lives of the mission crew, then the
+System advises the Actors to abort the Launch.
+\item[24a.,25a.]If any of the stages fail to separate from the
+rocket--including the final stage, then the System alerts the failure
+to the Actors, the System does not transition out of launch (for final
+stage).  Primary Actors abort the Launch.  The System reflects the
+abort status.
 \end{itemize}
 \textbf{Special Requirements:}
 \begin{itemize}

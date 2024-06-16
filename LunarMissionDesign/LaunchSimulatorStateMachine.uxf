@@ -5,8 +5,8 @@
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>140</x>
-      <y>30</y>
+      <x>310</x>
+      <y>10</y>
       <w>20</w>
       <h>20</h>
     </coordinates>
@@ -16,9 +16,9 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>140</x>
-      <y>20</y>
-      <w>340</w>
+      <x>310</x>
+      <y>0</y>
+      <w>290</w>
       <h>220</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
@@ -28,79 +28,44 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>20</x>
-      <y>230</y>
-      <w>170</w>
+      <x>180</x>
+      <y>210</y>
+      <w>180</w>
       <h>70</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 [Countdown &gt; 0]/</panel_attributes>
-    <additional_attributes>150.0;30.0;150.0;50.0;50.0;50.0;50.0;10.0;90.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLState</id>
-    <coordinates>
-      <x>510</x>
-      <y>370</y>
-      <w>150</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>Initiate Launch
-bg=green</panel_attributes>
-    <additional_attributes/>
+    <additional_attributes>160.0;30.0;160.0;50.0;40.0;50.0;40.0;10.0;100.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>190</x>
-      <y>250</y>
-      <w>340</w>
-      <h>160</h>
+      <x>360</x>
+      <y>230</y>
+      <w>180</w>
+      <h>260</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 [Countdown = 0]/Initiate</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;140.0;320.0;140.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;240.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
-      <y>400</y>
-      <w>140</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>lt=-&gt;</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;50.0;120.0;50.0;120.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLState</id>
-    <coordinates>
-      <x>1070</x>
-      <y>370</y>
-      <w>90</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>Launch
-bg=blue</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>650</x>
-      <y>370</y>
-      <w>440</w>
-      <h>40</h>
+      <x>340</x>
+      <y>900</y>
+      <w>370</w>
+      <h>220</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-[Rocekt Height &gt; Launch Tower Height]/</panel_attributes>
-    <additional_attributes>10.0;20.0;420.0;20.0</additional_attributes>
+[Rocekt Height &gt; Launch Tower Height]/Tower Cleared</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;200.0</additional_attributes>
   </element>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>1100</x>
-      <y>230</y>
+      <x>1060</x>
+      <y>210</y>
       <w>20</w>
       <h>20</h>
     </coordinates>
@@ -110,33 +75,33 @@ bg=blue</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1100</x>
-      <y>240</y>
-      <w>180</w>
-      <h>150</h>
+      <x>1060</x>
+      <y>220</y>
+      <w>30</w>
+      <h>1170</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-Last Stage Separation</panel_attributes>
-    <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
+</panel_attributes>
+    <additional_attributes>10.0;1150.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1110</x>
-      <y>230</y>
-      <w>250</w>
-      <h>180</h>
+      <x>380</x>
+      <y>1090</y>
+      <w>710</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-Abort</panel_attributes>
-    <additional_attributes>50.0;160.0;190.0;160.0;190.0;10.0;10.0;10.0</additional_attributes>
+[Engine Thrust Failure=true]/Abort</panel_attributes>
+    <additional_attributes>10.0;20.0;690.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>20</x>
-      <y>170</y>
-      <w>480</w>
+      <x>160</x>
+      <y>150</y>
+      <w>510</w>
       <h>130</h>
     </coordinates>
     <panel_attributes>Pre-Launch
@@ -155,8 +120,8 @@ valign=top</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>390</x>
-      <y>220</y>
+      <x>560</x>
+      <y>200</y>
       <w>90</w>
       <h>40</h>
     </coordinates>
@@ -167,8 +132,8 @@ valign=top</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>110</x>
-      <y>220</y>
+      <x>280</x>
+      <y>200</y>
       <w>150</w>
       <h>40</h>
     </coordinates>
@@ -178,8 +143,8 @@ valign=top</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>250</x>
-      <y>200</y>
+      <x>420</x>
+      <y>180</y>
       <w>160</w>
       <h>50</h>
     </coordinates>
@@ -190,8 +155,8 @@ Resume</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>250</x>
-      <y>240</y>
+      <x>420</x>
+      <y>220</y>
       <w>160</w>
       <h>50</h>
     </coordinates>
@@ -202,13 +167,266 @@ Hold</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>470</x>
-      <y>220</y>
-      <w>650</w>
+      <x>640</x>
+      <y>200</y>
+      <w>440</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 /Abort</panel_attributes>
-    <additional_attributes>10.0;20.0;630.0;20.0</additional_attributes>
+    <additional_attributes>10.0;20.0;420.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>160</x>
+      <y>410</y>
+      <w>560</w>
+      <h>540</h>
+    </coordinates>
+    <panel_attributes>Initiate Launch
+--
+valign=top
+bg=green
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>330</x>
+      <y>470</y>
+      <w>110</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Ignite_Engines</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>330</x>
+      <y>630</y>
+      <w>90</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Build_Up</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>320</x>
+      <y>840</y>
+      <w>140</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Rocket_Released</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>530</y>
+      <w>220</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[Ignition=true]/Engines Running</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>690</y>
+      <w>200</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[force = adequate]/Release</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>410</x>
+      <y>640</y>
+      <w>680</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[Engine Thrust Faiure = true]/Abort</panel_attributes>
+    <additional_attributes>10.0;20.0;660.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>160</x>
+      <y>570</y>
+      <w>210</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[force &lt; adequate]/Measure</panel_attributes>
+    <additional_attributes>190.0;60.0;190.0;10.0;10.0;10.0;10.0;110.0;170.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>430</x>
+      <y>490</y>
+      <w>660</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[Ignition = false]/Abort</panel_attributes>
+    <additional_attributes>10.0;20.0;640.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>450</x>
+      <y>850</y>
+      <w>640</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[Engine Thrust Faiure = true]/Abort</panel_attributes>
+    <additional_attributes>10.0;20.0;620.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>210</y>
+      <w>910</w>
+      <h>1210</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+Last Stage Separation</panel_attributes>
+    <additional_attributes>10.0;1190.0;750.0;1190.0;750.0;10.0;700.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>120</x>
+      <y>1050</y>
+      <w>640</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>Launch
+--
+valign=top
+bg=blue
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>300</x>
+      <y>1320</y>
+      <w>90</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>Staging</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>520</x>
+      <y>1230</y>
+      <w>110</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>Ignite_Engines</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>300</x>
+      <y>1100</y>
+      <w>90</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Ascent</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>330</x>
+      <y>1160</y>
+      <w>180</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+Current Stage Complete
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>1260</y>
+      <w>170</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[Separation=true]/Ignite</panel_attributes>
+    <additional_attributes>10.0;90.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>1150</y>
+      <w>220</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[Ignition=true]/Engines Running</panel_attributes>
+    <additional_attributes>180.0;80.0;30.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>620</x>
+      <y>1230</y>
+      <w>470</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[Ignition=false]/Abort</panel_attributes>
+    <additional_attributes>10.0;20.0;450.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>1350</y>
+      <w>710</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[Separation = false]/Abort</panel_attributes>
+    <additional_attributes>10.0;20.0;690.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>1120</y>
+      <w>710</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[Anomalous Data = Mission Threatening]/Abort</panel_attributes>
+    <additional_attributes>10.0;20.0;690.0;20.0</additional_attributes>
   </element>
 </diagram>
