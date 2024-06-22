@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2024.3.16)  15 JUN 2024 11:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2024.3.16)  22 JUN 2024 09:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -123,29 +123,24 @@ Underfull \hbox (badness 1509) in paragraph at lines 73--74
  []
 
 
-Underfull \hbox (badness 3601) in paragraph at lines 82--82
-[]\OT1/cmr/m/n/10 26. Tran-si-tions out of Launch
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 47--86
+Underfull \hbox (badness 10000) in paragraph at lines 47--88
 
  []
 
 
-Overfull \hbox (6.20667pt too wide) in paragraph at lines 47--86
+Overfull \hbox (6.20667pt too wide) in paragraph at lines 47--88
 [] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 47--86
+Underfull \hbox (badness 10000) in paragraph at lines 47--88
 
  []
 
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
-Underfull \hbox (badness 10000) in paragraph at lines 145--148
+Underfull \hbox (badness 10000) in paragraph at lines 151--154
 
  []
 
@@ -163,7 +158,7 @@ Here is how much of TeX's memory you used:
 fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti10.pfb>
-Output written on LaunchSimulatorUseCase2FullyDressed.pdf (4 pages, 59875 bytes
+Output written on LaunchSimulatorUseCase2FullyDressed.pdf (4 pages, 60310 bytes
 ).
 PDF statistics:
  35 PDF objects out of 1000 (max. 8388607)
