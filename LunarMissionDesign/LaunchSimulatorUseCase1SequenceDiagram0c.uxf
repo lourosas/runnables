@@ -52,7 +52,7 @@ bg=orange</panel_attributes>
     <coordinates>
       <x>370</x>
       <y>150</y>
-      <w>170</w>
+      <w>160</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -88,19 +88,19 @@ bg=cyan</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>370</x>
-      <y>190</y>
-      <w>240</w>
-      <h>50</h>
+      <y>180</y>
+      <w>320</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 requestPrelaunchTime()</panel_attributes>
-    <additional_attributes>10.0;30.0;50.0;30.0;50.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>300.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>370</x>
-      <y>230</y>
+      <y>260</y>
       <w>320</w>
       <h>40</h>
     </coordinates>
@@ -111,14 +111,14 @@ update(:Object,:Sring)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>50</x>
-      <y>260</y>
-      <w>350</w>
-      <h>40</h>
+      <x>370</x>
+      <y>220</y>
+      <w>320</w>
+      <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 preLaunchTime(hours:int,mins:int,secs:int)</panel_attributes>
-    <additional_attributes>330.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>10.0;40.0;40.0;40.0;40.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLFrame</id>
@@ -148,7 +148,7 @@ error(:String)</panel_attributes>
     <coordinates>
       <x>370</x>
       <y>320</y>
-      <w>250</w>
+      <w>230</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -305,7 +305,7 @@ setPrelaunch(hours:int,mins:int,secs:int)</panel_attributes>
     <coordinates>
       <x>900</x>
       <y>610</y>
-      <w>300</w>
+      <w>280</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -412,6 +412,18 @@ preLaunchMonitoring()</panel_attributes>
     <coordinates>
       <x>50</x>
       <y>120</y>
+      <w>350</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+actionPerformed(:ActionEvent)</panel_attributes>
+    <additional_attributes>330.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>50</x>
+      <y>200</y>
       <w>350</w>
       <h>40</h>
     </coordinates>
