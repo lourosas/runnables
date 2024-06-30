@@ -23,16 +23,15 @@ halign=left
       <h>60</h>
     </coordinates>
     <panel_attributes>Monitor Pre-Launch
-Activities
 bg=blue</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>20</x>
+      <x>30</x>
       <y>60</y>
-      <w>140</w>
+      <w>120</w>
       <h>110</h>
     </coordinates>
     <panel_attributes>Flight Controller</panel_attributes>
@@ -52,9 +51,9 @@ bg=blue</panel_attributes>
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>670</x>
+      <x>680</x>
       <y>370</y>
-      <w>160</w>
+      <w>140</w>
       <h>110</h>
     </coordinates>
     <panel_attributes>Engineer/Technician</panel_attributes>

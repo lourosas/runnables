@@ -24,7 +24,7 @@ import rosas.lou.clock.*;
 /*
 @Model
 */
-public class LaunchSimulator implements Runnable{
+public class LaunchSimulator implements Runnable,Suscriber,Publisher{
    private enum State{PRELAUNCH, INTIATELAUNCH, LAUNCH};
    private enum PreLaunch{CONTINUE, HOLD};
    private enum InitiateLaunch{IGNITEENGINES,BUILDUP,ROCKETRELEASED};
@@ -56,16 +56,17 @@ public class LaunchSimulator implements Runnable{
    //
    //
    //
-   public void endSimulator(){
-      this.start = false;
-   }
+   public void abortCountdown(){}
 
    //
    //
    //
-   public void killSimulation(){
-      this.kill = true;
-   }
+   public void holdCountdown(){}
+
+   //
+   //
+   //
+   public void preLaunchTime(int hours, int mis, int secs){}
 
    //
    //
@@ -76,25 +77,21 @@ public class LaunchSimulator implements Runnable{
       this.rt0.start();
    }
 
-   //
-   //
-   //
-   public void startPrelaunch(){}
 
    //
    //
    //
-   public void preLaunchTime(int hours, int mis, int secs){}
-
-   //
-   //
-   //
-   public void startSimulator(){
+   public void startCountdown(){
       this.start = true;
    }
 
 
    //////////////////////Private Methods//////////////////////////////
+   //
+   //
+   //
+   private void displayPrelaunch(){}
+
    //
    //
    //
@@ -138,5 +135,52 @@ public class LaunchSimulator implements Runnable{
       }
       catch(InterruptedException ie){}
    }
+
+   //////////////////////Subscriber Interface/////////////////////////
+   //
+   //
+   //
+   public void error(RuntimeException re){}
+
+   //
+   //
+   //
+   public void error(RuntimeException re, Object o){}
+
+   //
+   //
+   //
+   public void error(String error){}
+
+   //
+   //
+   //
+   public void update(Object o){}
+
+   //
+   //
+   //
+   public void update(Object o, String s){}
+
+   //////////////////////Publisher Interface//////////////////////////
+   //
+   //
+   //
+   public void add(Subscriber s){}
+
+   //
+   //
+   //
+   public void error(String s, Object o){}
+
+   //
+   //
+   //
+   public void notify(String s, Object o){}
+
+   //
+   //
+   //
+   public void remove(Subscriber s){}
 }
 //////////////////////////////////////////////////////////////////////
