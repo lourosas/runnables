@@ -4,7 +4,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>670</x>
+      <x>750</x>
       <y>210</y>
       <w>340</w>
       <h>160</h>
@@ -25,7 +25,7 @@ bg=blue</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>660</x>
+      <x>740</x>
       <y>10</y>
       <w>80</w>
       <h>90</h>
@@ -38,7 +38,7 @@ bg=blue</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>690</x>
+      <x>770</x>
       <y>10</y>
       <w>130</w>
       <h>220</h>
@@ -49,7 +49,7 @@ bg=blue</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>840</x>
+      <x>920</x>
       <y>0</y>
       <w>220</w>
       <h>150</h>
@@ -67,7 +67,7 @@ bg=yellow</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>810</x>
+      <x>890</x>
       <y>0</y>
       <w>160</w>
       <h>230</h>
@@ -78,7 +78,7 @@ bg=yellow</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1270</x>
+      <x>1350</x>
       <y>230</y>
       <w>320</w>
       <h>120</h>
@@ -97,7 +97,7 @@ bg=cyan</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1000</x>
+      <x>1080</x>
       <y>270</y>
       <w>290</w>
       <h>50</h>
@@ -111,7 +111,7 @@ r2=-countdownTimer</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>770</x>
+      <x>850</x>
       <y>520</y>
       <w>190</w>
       <h>180</h>
@@ -134,10 +134,10 @@ bg=red</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>770</x>
+      <x>800</x>
       <y>840</y>
-      <w>170</w>
-      <h>120</h>
+      <w>280</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>Stage
 --
@@ -147,13 +147,14 @@ bg=red</panel_attributes>
 +monitorPrelauch()
 +monitorIgnition()
 +monitorLaunch()
++releaseCapsule():boolean
 bg=orange</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>810</x>
+      <x>890</x>
       <y>690</y>
       <w>80</w>
       <h>170</h>
@@ -167,7 +168,7 @@ r1=-stages[]</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>550</x>
+      <x>630</x>
       <y>430</y>
       <w>80</w>
       <h>90</h>
@@ -181,7 +182,7 @@ bg=red</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>810</x>
+      <x>890</x>
       <y>360</y>
       <w>40</w>
       <h>180</h>
@@ -194,7 +195,7 @@ m2=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>580</x>
+      <x>660</x>
       <y>430</y>
       <w>210</w>
       <h>110</h>
@@ -205,7 +206,7 @@ m2=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>580</x>
+      <x>660</x>
       <y>430</y>
       <w>210</w>
       <h>430</h>
@@ -216,7 +217,7 @@ m2=1</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>1190</x>
+      <x>1270</x>
       <y>450</y>
       <w>140</w>
       <h>120</h>
@@ -232,7 +233,7 @@ bg=magenta</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>860</x>
+      <x>940</x>
       <y>450</y>
       <w>420</w>
       <h>90</h>
@@ -243,7 +244,7 @@ bg=magenta</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>860</x>
+      <x>940</x>
       <y>450</y>
       <w>420</w>
       <h>410</h>
@@ -254,7 +255,7 @@ bg=magenta</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>240</x>
+      <x>320</x>
       <y>20</y>
       <w>100</w>
       <h>100</h>
@@ -270,7 +271,7 @@ LAUNCH</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>240</x>
+      <x>320</x>
       <y>180</y>
       <w>100</w>
       <h>80</h>
@@ -285,7 +286,7 @@ HOLD</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>240</x>
+      <x>320</x>
       <y>340</y>
       <w>100</w>
       <h>100</h>
@@ -301,7 +302,7 @@ RELEASE</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>250</x>
+      <x>330</x>
       <y>500</y>
       <w>100</w>
       <h>100</h>
@@ -317,7 +318,7 @@ IGNITION</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>330</x>
+      <x>410</x>
       <y>200</y>
       <w>360</w>
       <h>100</h>
@@ -331,7 +332,7 @@ r2=-prelaunchSubstate</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>330</x>
+      <x>410</x>
       <y>290</y>
       <w>360</w>
       <h>110</h>
@@ -345,7 +346,7 @@ r2=-ignitionSubstate</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>340</x>
+      <x>420</x>
       <y>310</y>
       <w>350</w>
       <h>240</h>
@@ -359,7 +360,7 @@ r2=-launchSubstate</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>330</x>
+      <x>410</x>
       <y>60</y>
       <w>360</w>
       <h>210</h>
@@ -373,53 +374,45 @@ r2=-state</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>330</x>
-      <y>1010</y>
+      <x>280</x>
+      <y>1410</y>
       <w>230</w>
-      <h>170</h>
+      <h>90</h>
     </coordinates>
     <panel_attributes>Engine
 --
 --
-+monitorPrelaunch():EngineData
-+monitorIgnition():EngineData
-+monitorLaunch():EngineData
 -thrust():double
 -ignited():boolean
 -temperature():double
--assess()
-
 bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>400</x>
-      <y>930</y>
-      <w>390</w>
-      <h>100</h>
+      <x>790</x>
+      <y>970</y>
+      <w>170</w>
+      <h>210</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
 m2=1...*
 r1=-engines[]</panel_attributes>
-    <additional_attributes>370.0;20.0;10.0;20.0;10.0;80.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;180.0;150.0;180.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>700</x>
-      <y>1100</y>
+      <y>1410</y>
       <w>210</w>
-      <h>220</h>
+      <h>120</h>
     </coordinates>
     <panel_attributes>Tank
 --
 --
-+monitorPrelaunch():TankData
-+monitorIgnition():TankData
-+monitorLaunch():TankData
 -currentCapacity():double
 -flowRate():double
 -hasLeak():boolean
@@ -431,10 +424,10 @@ bg=gray</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>340</x>
-      <y>1280</y>
+      <x>290</x>
+      <y>1650</y>
       <w>190</w>
-      <h>290</h>
+      <h>130</h>
     </coordinates>
     <panel_attributes>EngineData
 --
@@ -444,24 +437,14 @@ bg=gray</panel_attributes>
 -isError:boolean
 -time:Instant
 --
-+data():List&lt;Object&gt;
-+dataErrors():List&lt;String&gt;
-+dataNames():List&lt;String&gt;
-+errors():List&lt;String&gt;
-+thrust():double
-+isIgnited():boolean
-+temperature():double
-+time():double
-+setError(:String,:double)
-+setError(:String, :boolean)
 bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>330</x>
-      <y>1770</y>
+      <x>340</x>
+      <y>1910</y>
       <w>190</w>
       <h>30</h>
     </coordinates>
@@ -472,35 +455,35 @@ bg=yellow</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>420</x>
-      <y>1170</y>
+      <x>370</x>
+      <y>1490</y>
       <w>30</w>
-      <h>130</h>
+      <h>180</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;160.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>480</x>
-      <y>1560</y>
-      <w>80</w>
-      <h>230</h>
+      <x>430</x>
+      <y>1770</y>
+      <w>90</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=1
 r2=-names</panel_attributes>
-    <additional_attributes>10.0;210.0;10.0;10.0</additional_attributes>
+    <additional_attributes>70.0;140.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>700</x>
-      <y>1370</y>
+      <y>1620</y>
       <w>200</w>
-      <h>300</h>
+      <h>160</h>
     </coordinates>
     <panel_attributes>TankData
 --
@@ -512,62 +495,53 @@ r2=-names</panel_attributes>
 -temperature:double
 -time:Instant
 --
-+data():List&lt;Object&gt;
-+dataErrors():List&lt;String&gt;
-+dataNames():List&lt;String&gt;
-+errors():List&lt;String&gt;
-+capacity():double
-+pressure():double
-+temperature():double
-+setError(:String, :double)
-+setError(:String, :boolean)
 bg=gray</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>420</x>
-      <y>1560</y>
-      <w>70</w>
-      <h>230</h>
+      <x>370</x>
+      <y>1770</y>
+      <w>90</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=1
 r2=-errors</panel_attributes>
-    <additional_attributes>10.0;210.0;10.0;10.0</additional_attributes>
+    <additional_attributes>70.0;140.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>260</x>
-      <y>1560</y>
-      <w>150</w>
-      <h>230</h>
+      <x>270</x>
+      <y>1770</y>
+      <w>100</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=1
 r2=-data</panel_attributes>
-    <additional_attributes>10.0;210.0;110.0;10.0</additional_attributes>
+    <additional_attributes>10.0;140.0;50.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>790</x>
-      <y>1310</y>
+      <y>1520</y>
       <w>30</w>
-      <h>80</h>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>710</x>
-      <y>1770</y>
+      <x>620</x>
+      <y>1890</y>
       <w>180</w>
       <h>30</h>
     </coordinates>
@@ -579,49 +553,49 @@ bg=gray</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>880</x>
-      <y>1660</y>
-      <w>110</w>
-      <h>130</h>
+      <y>1770</y>
+      <w>60</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=1
 r1=-data</panel_attributes>
-    <additional_attributes>10.0;10.0;90.0;110.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>740</x>
-      <y>1660</y>
-      <w>70</w>
-      <h>130</h>
+      <x>650</x>
+      <y>1770</y>
+      <w>120</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=1
 r1=-errors</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+    <additional_attributes>70.0;10.0;10.0;120.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>810</x>
-      <y>1660</y>
-      <w>80</w>
-      <h>130</h>
+      <x>720</x>
+      <y>1770</y>
+      <w>130</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=1
 r1=-names</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+    <additional_attributes>70.0;10.0;10.0;120.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>900</x>
-      <y>1770</y>
+      <x>820</x>
+      <y>1890</y>
       <w>180</w>
       <h>30</h>
     </coordinates>
@@ -632,8 +606,8 @@ bg=gray</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>120</x>
-      <y>1770</y>
+      <x>130</x>
+      <y>1910</y>
       <w>190</w>
       <h>30</h>
     </coordinates>
@@ -644,31 +618,28 @@ bg=yellow</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>830</x>
-      <y>950</y>
+      <x>930</x>
+      <y>970</y>
       <w>70</w>
-      <h>170</h>
+      <h>200</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
 m2=1...2
 r1=-tanks[]</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;180.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1030</x>
-      <y>1100</y>
+      <x>1440</x>
+      <y>1410</y>
       <w>240</w>
-      <h>140</h>
+      <h>100</h>
     </coordinates>
     <panel_attributes>Pipe
 --
 -
-+monitorPrelaunch():PipeData
-+monitorIgnition():PipeData
-+monitorLaunch():PipeData
 -flowRate():double
 -hasLeak():boolen
 -pressure():double
@@ -679,23 +650,23 @@ bg=blue</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>930</x>
-      <y>930</y>
-      <w>170</w>
-      <h>190</h>
+      <y>970</y>
+      <w>210</w>
+      <h>210</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
 m2=*
 r1=-pipes[]</panel_attributes>
-    <additional_attributes>10.0;20.0;150.0;20.0;150.0;170.0</additional_attributes>
+    <additional_attributes>150.0;10.0;150.0;180.0;10.0;180.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1040</x>
-      <y>1360</y>
+      <x>1450</x>
+      <y>1610</y>
       <w>230</w>
-      <h>220</h>
+      <h>100</h>
     </coordinates>
     <panel_attributes>PipeData
 --
@@ -703,33 +674,25 @@ r1=-pipes[]</panel_attributes>
 -hasLeak:boolean
 -pressure:double
 --
-+data():List&lt;Object&gt;
-+dataErros():List&lt;String&gt;
-+dataNames():List&lt;String&gt;
-+errors:List&lt;String&gt;
-+flowRate():double
-+pressure():double
-+setError(:String,:double)
-+setError(:String,:boolean)
 bg=blue</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1140</x>
-      <y>1230</y>
+      <x>1550</x>
+      <y>1500</y>
       <w>30</w>
-      <h>150</h>
+      <h>130</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1090</x>
-      <y>1770</y>
+      <x>1430</x>
+      <y>1820</y>
       <w>180</w>
       <h>30</h>
     </coordinates>
@@ -740,8 +703,8 @@ bg=blue</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1280</x>
-      <y>1770</y>
+      <x>1620</x>
+      <y>1820</y>
       <w>180</w>
       <h>30</h>
     </coordinates>
@@ -752,43 +715,338 @@ bg=blue</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1180</x>
-      <y>1570</y>
+      <x>1520</x>
+      <y>1700</y>
       <w>80</w>
-      <h>220</h>
+      <h>140</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=1
 r1=-names</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;200.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1240</x>
-      <y>1570</y>
-      <w>120</w>
-      <h>220</h>
+      <x>1650</x>
+      <y>1700</y>
+      <w>60</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=1
 r1=-data</panel_attributes>
-    <additional_attributes>10.0;10.0;100.0;200.0</additional_attributes>
+    <additional_attributes>10.0;10.0;30.0;120.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1110</x>
-      <y>1570</y>
+      <x>1450</x>
+      <y>1700</y>
       <w>70</w>
-      <h>220</h>
+      <h>140</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=1
 r1=-errors</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;200.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>810</x>
+      <y>1140</y>
+      <w>260</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>FuelSystem
+--
++monitorPreLaunch():FuelSystemData
++monitorIgnition():FuelSystemData
++monitorLaunch():FuelSystemData
+bg=light_gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>0</x>
+      <y>1310</y>
+      <w>180</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>FuelSystemData
+--
++data(:String,:double)
++data(:String, :boolean)
++data():List&lt;Object&gt;
++dataError():List&lt;String&gt;
++dataNames():List&lt;String&gt;
++error(:String,:double)
++error(:String,:boolean)
++errors():List&lt;String&gt;
+bg=black</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>1140</y>
+      <w>570</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>550.0;10.0;550.0;210.0;10.0;210.0;10.0;270.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>930</x>
+      <y>1140</y>
+      <w>650</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;210.0;630.0;210.0;630.0;270.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>1140</y>
+      <w>160</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>140.0;10.0;140.0;210.0;10.0;210.0;10.0;270.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1030</x>
+      <y>1410</y>
+      <w>200</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>FuelPump
+--
+--
+-pumpRate():double
+-pressure():double
+bg=cyan</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1020</x>
+      <y>1620</y>
+      <w>200</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>FuelPumpData
+--
+-pressure:double
+-pumpRate:double
+-time:Instant
+--
+bg=cyan</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1120</x>
+      <y>1470</y>
+      <w>30</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>930</x>
+      <y>1140</y>
+      <w>220</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;210.0;200.0;210.0;200.0;270.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>80</x>
+      <y>1310</y>
+      <w>320</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;240.0;300.0;340.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>80</x>
+      <y>1310</y>
+      <w>740</w>
+      <h>330</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;240.0;720.0;310.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1200</x>
+      <y>1890</y>
+      <w>180</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>List&lt;Object&gt;
+bg=cyan</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1010</x>
+      <y>1890</y>
+      <w>180</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>List&lt;String&gt;
+bg=cyan</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1200</x>
+      <y>1710</y>
+      <w>60</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+r1=-data</panel_attributes>
+    <additional_attributes>10.0;10.0;20.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1120</x>
+      <y>1710</y>
+      <w>80</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+r1=-names</panel_attributes>
+    <additional_attributes>10.0;10.0;20.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1050</x>
+      <y>1710</y>
+      <w>70</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+r1=-errors</panel_attributes>
+    <additional_attributes>10.0;10.0;20.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>80</x>
+      <y>1310</y>
+      <w>1070</w>
+      <h>330</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;240.0;1050.0;310.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>80</x>
+      <y>1310</y>
+      <w>1500</w>
+      <h>320</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;240.0;1480.0;300.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1530</x>
+      <y>830</y>
+      <w>180</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>Capsule
+--
+-name:String
+-astronauts:int
+-oxygen:double
+-co2:double
+-velocity:double
+--
++release():boolean
+-fireReleaseRockets()
+bg=magenta</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1070</x>
+      <y>840</y>
+      <w>480</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+Last Stage</panel_attributes>
+    <additional_attributes>460.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1330</x>
+      <y>450</y>
+      <w>320</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;250.0;300.0;380.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1040</x>
+      <y>360</y>
+      <w>670</w>
+      <h>490</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+r2=-capsule</panel_attributes>
+    <additional_attributes>640.0;470.0;640.0;80.0;10.0;80.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
