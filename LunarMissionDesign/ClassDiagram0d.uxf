@@ -217,16 +217,17 @@ m2=1</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>1270</x>
+      <x>1260</x>
       <y>450</y>
-      <w>140</w>
-      <h>120</h>
+      <w>160</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>Publisher
 --
 add(:Subscriber)
 remove(:Subscriber)
-notify()
+notify(:String,:Object)
+error(:String,:Object)
 bg=magenta</panel_attributes>
     <additional_attributes/>
   </element>
@@ -1048,5 +1049,141 @@ m1=1
 m2=1
 r2=-capsule</panel_attributes>
     <additional_attributes>640.0;470.0;640.0;80.0;10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1810</x>
+      <y>270</y>
+      <w>260</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Subscriber&gt;&gt;
+:ClockSubscriber</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1020</x>
+      <y>0</y>
+      <w>810</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;790.0;10.0;790.0;270.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1660</x>
+      <y>280</y>
+      <w>170</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>150.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>330</x>
+      <y>680</y>
+      <w>200</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>LaunchingMechanism
+--
+--
++monitorPrelaunch()
++monitorIgnition()
++monitorLaunch()
++release()
++setInitialWieght(:double)
+bg=pink</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>520</x>
+      <y>430</y>
+      <w>170</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>150.0;10.0;150.0;230.0;10.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>330</x>
+      <y>920</y>
+      <w>200</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>LaunchingMechanismData
+--
+-force:double
+-intitialWeight:double
+-time:Instant
+--
++data(:String,:double)
++data(:ForceDirection)
++error(:String,:double)
+bg=pink</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>340</x>
+      <y>1190</y>
+      <w>170</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enumeration&gt;&gt;
+ForceDirection
+--
+DOWN
+UP
+LEFT
+RIGHT
+bg=pink</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>410</x>
+      <y>1050</y>
+      <w>120</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=-
+r2=-forceDirection</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>410</x>
+      <y>790</y>
+      <w>30</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>520</x>
+      <y>450</y>
+      <w>840</w>
+      <h>300</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>820.0;10.0;820.0;250.0;10.0;280.0</additional_attributes>
   </element>
 </diagram>
