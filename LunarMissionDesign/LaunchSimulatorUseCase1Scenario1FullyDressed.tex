@@ -6,25 +6,67 @@
 \begin{document}
 \noindent
 \textbf{Use Case 1:  Monitor Pre-Launch}\\
-\textbf{Scenario:  }Enter Countdown\\
+\textbf{Scenario:  }Monitor the Countdown\\
 \textbf{Scope:  }LaunchSimulator\\
 \textbf{Level:  }Flight Controller Goal\\
 \textbf{Primary Actor:  }Flight Controller\\
 \textbf{Related Use Cases:  }None\\
 \textbf{Stakeholders \& Interrests:  }
 \begin{itemize}
-\item Flight Controller wants to enter the Countdown time so as to
-start the Countdown and enter Pre-Launch
+\item Flight Controller: wants to control the countdown as part of
+ the Launch
+\item  Engineer/Technitcian:  wants to know the Current Countdown Time
+\item Astronaut:  wants to know the Current Countdown Time
 \end{itemize}
 \textbf{Pre-Conditions:  }The System is running and ready to begin
-the Countdown and enter Pre-Launch\\
-\textbf{Post-Conditions:  }The Countdown Time is entered\\
+the Countdown and enter Pre-Launch\\\\
+\textbf{Post-Conditions:  }The Countdown Time is entered\\\\
 \textbf{Main Success Scenario:  }\\
 \begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
 \textbf{Flight Conroller} & \textbf{System}\\\hline
 1.  Start Pre-Launch Sequence &\\\hline
 & 2.  Request Countdown Time Entry\\\hline
 3.  Enters Countdown &\\\hline
-\end{tabular}
+& 4.  Reflects the Countdown Time Entered\\\hline
+5.  Starts the Countdown &\\\hline
+& 6. Starts the Countdown Clock\\\hline
+& 7. Transitions to Pre-Launch\\\hline
+& 8.  Periodically Updates  and displays the Countdown Time for the
+entire Countdown\\\hline
+& 9.  Alerts the Actors when the Countdown reaches zero\\\hline
+\end{tabular}\\\\
+\textbf{Alternative Flows:  }
+\begin{itemize}
+\item[*]At anytime, the Flight Controller can hold the countdown; this
+hold may or may not be due to a System Anomaly/Error.
+\item[*]At anytime, if the Countdown is on hold, the Flight Controller
+can resume the Countdown;  the Countdown continues at the time stopped
+\item[*]At anytime, if the Countdown is on hold, the Flight Controller
+can chose to abort the Countdown.  the System responds by abandoning
+the Countdown
+\item[3a.]  If the Flight Controller enters an unacceptable Countdown
+Time ($time < 0$), the System refuses to set the time:  intstructing
+the Flight Controller to enter an acceptable time
+\end{itemize}
+\textbf{Special Requirements:}\\
+\begin{itemize}
+\item Only the Flight Controller can abort the Countdown.  The rest of
+the Stakeholders have input
+\item The entered Countdown must be $>= 1$ hour
+\end{itemize}
+\textbf{Technology \& Variations List:}
+\begin{itemize}
+\item[*]All Actors can view the Countdown Time
+\item[3b,4a.]The Flight Controller can change the Countdown time as
+desired prior to starting the Cuonddown.
+\item[3c,4b]Once the Countdown is starrted,  the Countdown time cannot
+ be changed.
+\end{itemize}
+\textbf{Frequency of Occurence:  }Almost continuously\\\\
+\textbf{Open Issues:}
+\begin{itemize}
+\item Can the Coutdown be Aborted without the Hold?
+\item What happens if the Countdown Timer fails?
+\end{itemize}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
