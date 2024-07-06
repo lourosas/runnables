@@ -6,14 +6,14 @@
 \begin{document}
 \noindent
 \textbf{Use Case 1:  Monitor Pre-Launch}\\
-\textbf{Scenario:  }Monitor the Launching System\\
+\textbf{Scenario:  }Monitor the Launching Mechanism\\
 \textbf{Scope:  }LaunchSimulator\\
 \textbf{Level:  }Flight Controller Goal\\
 \textbf{Primary Actor:  }Flight Controller\\
 \textbf{Related Use Cases:  }None\\
 \textbf{Stakeholders \& Interrests:}
 \begin{itemize}
-\item Flight Contoller:  Wants to monitor the Launching System to
+\item Flight Contoller:  Wants to monitor the Launching Mechanism to
 determine the validity of the Pre-Launch (continue, hold or abort)
 \item Engineer/Technitians:  Wants to monitor the Launching System 
 during pre-launch to ensure the the System Integrity
@@ -22,5 +22,46 @@ Launching System Integrity
 \end{itemize}
 \textbf{Pre-Conditions:  }The Countdown has started, and in
 Pre-Launch\\\\
+\textbf{Post-Conditions: }The Countdown at 0, the System transiitoned
+to Initiate Launch\\\\
+\textbf{Main Success Scenario:}\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+\textbf{Flight Controller} & \textbf{System}\\\hline
+& 1.  Reports the weight of the rocket\\\hline
+& 2.  Reports the directions of the Forces\\\hline
+& 3.  Reports the magintude of the forces at each support\\\hline
+& 4.  Repeats 1 through 3 for the durration of the Countdown\\\hline
+& 5.  Reports Countdown at 0\\\hline
+6.  Initiate Launch &\\\hline
+& 7.  Transitions to Initiate Launch\\\hline
+\end{tabular}\\\\
+\textbf{Alternative Flows:  }
+\begin{itemize}
+\item[1a.]If the System reports anomalies in rocket weight, then the System
+reports the Anomalies to the Flight Controller.  Flight Controller
+determines course of action.
+\item[2a.]If the System reports anomalies in the direction of the
+rocket forces (upward force when should be down, wrong directoin of the
+force), then the System reports the anomaly to the Flight Controller,
+Flight Controller determines course of action.
+\item[3a.]If the System reports unbalanced forces (unbalanced weight
+distribution) in the rocket, then the System reports the anomaly to the
+Flight Controller, Flight Controller determines course of action.
+\end{itemize}
+\textbf{Special Requiements:  }None\\\\
+\textbf{Technology \& Variations List:  }
+\begin{itemize}
+\item The Launching Mechanism supports the weight of the rocket. Force
+measurement will vary
+\item Force measurements and anomaly determination depends on mechanism
+\item This is literally a vectoral measurement
+\end{itemize}
+\textbf{Frequency of Occurence: }Depends on the frequency of the
+launch\\\\
+\textbf{Open Issues:  }
+\begin{itemize}
+\item What constitutes an anomalous pre-launch force measurement?
+\item What constitutes an anomalous pre-launch direction mesurement?
+\end{itemize}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
