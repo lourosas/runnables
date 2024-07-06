@@ -1,0 +1,41 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case 1:  Monitor Pre-Launch}\\
+\textbf{Scenario:  }Monitor Delivery System--Monitor Stage\\
+\textbf{Scope:  }LaunchSimulator\\
+\textbf{Level:  }Flight Controller Goal\\
+\textbf{Primary Actor:  }Flight Controller\\
+\textbf{Related Use Cases:  }None\\
+\textbf{Stakeholders \& Interrests:}
+\begin{itemize}
+\item Flight Controller:  Wants to monitor the entire stage data during
+Pre-Launch for Pre-Launch validity (continue, hold or abort Pre-Launch)
+\item Engineer/Technicians:  Wants to monitor the stage data during
+Pre-Launch to aprise the Flight Controller to the condition of the
+Stage
+\item Astronaut:  Wants to monitor the stage data during pre-launch
+for mission integrity
+\end{itemize}
+\textbf{Pre-Conditions:  }The Countdown has started, in Pre-Launch\\\\
+\textbf{Post-Conditions:  }The Countdown at 0, the System transitioned
+to Initiate Launch\\\\
+\textbf{Main Success Scenario:}\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+\textbf{Flight Controller} & \textbf{System}\\\hline
+& 1.  Monitors the Pre-Launch Engine Data\\\hline
+& 2.  Returns the Pre-Launch Engine Data\\\hline
+& 3.  Repeats 1,2 for each Engine\\\hline
+& 4.  Monitors the Fuel System Data\\\hline
+& 5.  Returns the Fuel System Data\\\hline
+& 6.  Repeats 4,5 for each component in the Fuel System\\\hline
+& 7.  Reports Countdown at 0\\\hline
+8.  Initiate Launch & \\\hline
+& 9.  Transitions to Initiate Launch\\\hline
+\end{tabular}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

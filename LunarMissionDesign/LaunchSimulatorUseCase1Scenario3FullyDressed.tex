@@ -28,12 +28,43 @@ to Initiate Launch\\\\
 \begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
 \textbf{Flight Controller} & \textbf{System}\\\hline
 & 1.  Reports the current velocity of the Rocket\\\hline
-& 2.  Reports the State of the Current Stage\\\hline
-& 3.  Repeats 1, 2 for the durration of the Countdown\\\hline
-& 4.  For the Last Stage, reports the State of the Capsule\\\hline
-& 5.  Reports Countdown at 0\\\hline
-6.  Initiate Launch &\\\hline
-& 7.  Transitions to Initiate Launch\\\hline
-\end{tabular}
+& 2.  Requests the State of the Current Stage\\\hline
+& 3.  Returns the State of the Current Stage\\\hline
+& 4.  Repeats 2 \& 3 for all Stages in the Rocket\\\hline
+& 5.  Repeats 1-4 for the duration of the Countdown\\\hline
+& 6.  For the Last Stage, reports the State of the Capsule\\\hline
+& 7.  Reports Countdown at 0\\\hline
+8.  Initiate Launch &\\\hline
+& 9.  Transitions to Initiate Launch\\\hline
+\end{tabular}\\\\
+\textbf{Alternative Flows:}
+\begin{itemize}
+\item[1a.]During the entire Countdown, the System reports any
+velocity during Pre-Launch as anomalous.  Flight Controller determines
+course of action (hold, abort or not abort).
+\item[3a.]During the entire Countdown, If the System reports any
+anomalous data related to any of the Stages, then the Flight Controller
+determines the course of action (hold, abort or not abort).
+item[6a.]Durring the entire Countdown, if the System reports any
+anomoulous Capsule data, then the Flight Controller determines the
+course of action (hold, abort, not abort)
+\end{itemize}
+\textbf{Special Requirements}
+\begin{itemize}
+\item The System returns several data points for each
+Stage (which makes up the Stage State). This data needs
+documentation in related Use Case scenarios
+\end{itemize}
+\textbf{Technology \& Variations List:}
+\begin{itemize}
+\item Different Rockets will have different number of Stages
+\item The Capsule differs based on mission
+\end{itemize}
+\textbf{Frequency of Occurrence:  }Dependant upon frequency of
+Launch\\\\
+\textbf{Open Issues:}
+\begin{itemize}
+\item Is this writeup truthfully neccessary?
+\end{itemize}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
