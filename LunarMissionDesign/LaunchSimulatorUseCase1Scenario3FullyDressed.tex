@@ -1,0 +1,39 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case 1: Monitor Pre-Launch}\\
+\textbf{Scenrio:  }Monitor Delivery System--Monitor Rocket\\
+\textbf{Scope:  }LaunchSimulator\\
+\textbf{Level:  }Flight Controler Goal\\
+\textbf{Primary Actor:  }Flight Controller\\
+\textbf{Related Use Cases:  }None\\
+\textbf{Stakeholders \& Interrests:  }
+\begin{itemize}
+\item Flight Controller:  Wants to monitor the Rocket during
+Pre-Launch for Pre-Launch Validity (coninue, hold or abort)
+\item Engineer/Technicians:  Wants to monitor the Rocket during
+Pre-Launch to aprise the Flight Controller to the condition of
+Pre-Launch
+\item Astronaut:  Wants to monitor the Rocket during Pre-Launch 
+\end{itemize}
+\textbf{Pre-Conditions:  }The Countdown has started and in
+Pre-Launch\\\\
+\textbf{Post-Conditions:  }The Countdown at 0, the System transitioned
+to Initiate Launch\\\\
+\textbf{Main Success Scenorio: }\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+\textbf{Flight Controller} & \textbf{System}\\\hline
+& 1.  Reports the current velocity of the Rocket\\\hline
+& 2.  Reports the State of the Current Stage\\\hline
+& 3.  Repeats 1, 2 for the durration of the Countdown\\\hline
+& 4.  For the Last Stage, reports the State of the Capsule\\\hline
+& 5.  Reports Countdown at 0\\\hline
+6.  Initiate Launch &\\\hline
+& 7.  Transitions to Initiate Launch\\\hline
+\end{tabular}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
