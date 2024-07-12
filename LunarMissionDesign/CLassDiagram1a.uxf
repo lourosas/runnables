@@ -4,10 +4,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>310</x>
-      <y>300</y>
+      <x>370</x>
+      <y>280</y>
       <w>300</w>
-      <h>190</h>
+      <h>330</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Model&gt;&gt;
 rosas.lou.runnables.LaunchSimulator
@@ -15,18 +15,33 @@ rosas.lou.runnables.LaunchSimulator
 
 --
 +abortCountdown()
-+</panel_attributes>
++holdCountdown()
++ignite()
++preLaunchTime(hours:int,mins:int,secs:int)
++resumeCountdown()
++startCountdown()
++launchingMechanism(:LaunchingMechanism)
+-ignition()
+-ignition(ignition:Ignition)
+-ignitionSubstate(ignition:Ignition)
+-prelaunch()
+-prelaunch(:Prelaunch)
+-prelaunchSubstate(:Prelaunch)
+-prelaunchSubstate():Prelaunch
+-setPrelaunchTime(hours:int,mins:int,secs:int)
+-state():State
+bg=blue</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>540</x>
-      <y>50</y>
-      <w>180</w>
+      <x>620</x>
+      <y>30</y>
+      <w>160</w>
       <h>140</h>
     </coordinates>
-    <panel_attributes>Interface
+    <panel_attributes>Publisher
 --
 add(:Subscriber)
 remove(:Subscriber)
@@ -38,19 +53,19 @@ bg=magenta</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>500</x>
-      <y>50</y>
-      <w>150</w>
+      <x>560</x>
+      <y>30</y>
+      <w>160</w>
       <h>270</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>130.0;10.0;10.0;250.0</additional_attributes>
+    <additional_attributes>140.0;10.0;10.0;250.0</additional_attributes>
   </element>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>300</x>
-      <y>50</y>
+      <x>360</x>
+      <y>30</y>
       <w>80</w>
       <h>90</h>
     </coordinates>
@@ -62,12 +77,395 @@ run()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>330</x>
-      <y>50</y>
+      <x>390</x>
+      <y>30</y>
       <w>120</w>
       <h>270</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>10.0;10.0;100.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>60</x>
+      <y>120</y>
+      <w>100</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+State
+--
+PRELAUNCH
+IGNITION
+LAUNCH</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>60</x>
+      <y>270</y>
+      <w>100</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+Prelaunch
+--
+CONTINUE
+HOLD</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>400</y>
+      <w>100</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+Ignition
+--
+IGNITION
+BUILDUP
+RELEASE</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>100</x>
+      <y>550</y>
+      <w>100</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+Launch
+--
+ASCENT
+STAGING
+IGNITION</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>150</x>
+      <y>160</y>
+      <w>240</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1
+r2=-state</panel_attributes>
+    <additional_attributes>220.0;180.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>150</x>
+      <y>280</y>
+      <w>240</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1
+r2=-prelaunchState</panel_attributes>
+    <additional_attributes>220.0;90.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>170</x>
+      <y>380</y>
+      <w>220</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1
+r2=-ignitionState</panel_attributes>
+    <additional_attributes>200.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>190</x>
+      <y>400</y>
+      <w>200</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1
+r2=-launchState</panel_attributes>
+    <additional_attributes>180.0;10.0;10.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>880</x>
+      <y>360</y>
+      <w>270</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>rosas.lou.clock.CountdownTimer
+bg=magenta
+--
+--
++inputTime(hours:int,mins:int,sec:int)
++requestTime():Instant
++start()
++stop()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>930</x>
+      <y>530</y>
+      <w>130</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>java.time.Instant</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>970</x>
+      <y>450</y>
+      <w>30</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>660</x>
+      <y>380</y>
+      <w>240</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+r1=-timer
+</panel_attributes>
+    <additional_attributes>220.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>1270</x>
+      <y>290</y>
+      <w>220</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>Subscriber
+--
+update(:Object)
+update(:Object,:String)
+error(:RuntimeException)
+error(:RuntimeException,:Object)
+error(error:String)
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>350</x>
+      <y>790</y>
+      <w>340</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>LaunchingMechanism
+--
+
+--
++monitorPrelauch():List&lt;LaunchingMechanismData&gt;
++monitorIgnition():List&lt;LaunchingMechanismData&gt;
++monitorLaunch():List&lt;LaunchingMechanismData&gt;
++release()
+-isError()
+-totalWeight()
+bg=pink</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>400</x>
+      <y>600</y>
+      <w>40</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>10.0;190.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>460</x>
+      <y>930</y>
+      <w>190</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=*
+r1=-List&lt;MechanismSupport&gt;
+r2=-support</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>390</x>
+      <y>1050</y>
+      <w>190</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>MechanismSupport
+--
+-id:int
+--
++direction():ForceDirection
++force():double
++id():int
+
+bg=pink</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>690</x>
+      <y>1380</y>
+      <w>160</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+ForceDirection
+--
+DOWN
+UP
+LEFT
+RIGHT
+bg=pink</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>750</x>
+      <y>1240</y>
+      <w>90</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+r2=-direction</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>670</x>
+      <y>1090</y>
+      <w>380</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>LanchingMechanismData
+--
+-suportId:int
+-force: double
+-error: boolean
+--
+ctor&lt;&gt;(force:double,direction:ForceDirection,error:boolean)
++error():boolean
++force():double
++direction():ForceDirection
+bg=pink</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>680</x>
+      <y>920</y>
+      <w>100</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m2=1
+m1=*</panel_attributes>
+    <additional_attributes>80.0;170.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>470</x>
+      <y>1150</y>
+      <w>240</w>
+      <h>310</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>220.0;280.0;110.0;280.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1270</x>
+      <y>520</y>
+      <w>280</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;View&gt;&gt;
+rosas.lou.runnables.LaunchSimulatorView
+--
+
+--
+
+bg=cyan</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1370</x>
+      <y>290</y>
+      <w>30</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>660</x>
+      <y>280</y>
+      <w>740</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1...*
+m2=1
+r1=-subscriber
+r2=-List&lt;Subcriber&gt;
+</panel_attributes>
+    <additional_attributes>720.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>

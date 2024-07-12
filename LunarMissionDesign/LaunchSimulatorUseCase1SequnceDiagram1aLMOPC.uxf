@@ -140,7 +140,7 @@ Interrupted Exception</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-launchinMechanism data[] = monitorPrelaunch():LaunchinMechanismData[]</panel_attributes>
+data[] = monitorPrelaunch():LaunchinMechanismData[]</panel_attributes>
     <additional_attributes>590.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
@@ -240,7 +240,7 @@ bg=magenta</panel_attributes>
     <coordinates>
       <x>720</x>
       <y>370</y>
-      <w>410</w>
+      <w>370</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -252,7 +252,7 @@ determineError(force:double,direction:int):boolean</panel_attributes>
     <coordinates>
       <x>720</x>
       <y>330</y>
-      <w>230</w>
+      <w>200</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -268,7 +268,7 @@ determineTotalWeight()</panel_attributes>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
-ctor(force:double,diretion:double,error:boolean)
+ctor(force:double,direction:ForceDirection,error:boolean)
 </panel_attributes>
     <additional_attributes>360.0;20.0;10.0;20.0</additional_attributes>
   </element>
@@ -301,7 +301,7 @@ error = error():boolean</panel_attributes>
     <coordinates>
       <x>140</x>
       <y>540</y>
-      <w>340</w>
+      <w>310</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-

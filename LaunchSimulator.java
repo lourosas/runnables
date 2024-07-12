@@ -24,26 +24,29 @@ import rosas.lou.clock.*;
 /*
 @Model
 */
-public class LaunchSimulator implements Runnable,Suscriber,Publisher{
+public class LaunchSimulator implements Runnable,Publisher{
    private enum State{PRELAUNCH, INTIATELAUNCH, LAUNCH};
    private enum PreLaunch{CONTINUE, HOLD};
-   private enum InitiateLaunch{IGNITEENGINES,BUILDUP,ROCKETRELEASED};
+   private enum Ignition{IGNITION,BUILDUP,RELEASED};
    private enum Launch{ASCENT,STAGING,IGNITEENGINES};
 
-   private State          state;
-   private PreLaunch      preLaunchSubstate;
-   private InitiateLaunch intitiateLaunchSubstate;
-   private Launch         launchSubstate;
-   private Rocket         rocket;
-   private Thread         rt0;
-   private boolean        start;
-   private boolean        kill;
+   private State             state;
+   private PreLaunch         preLaunchSubstate;
+   private InitiateLaunch    intitiateLaunchSubstate;
+   private Launch            launchSubstate;
+   private Rocket            rocket;
+   private LaunchingMechnism launchingMechanism;
+   private Thread            rt0;
+   private boolean           start;
+   private boolean           kill;
 
    {
-      state  = State.PRELAUNCH;
-      rt0    = null;
-      start  = false;
-      kill   = false;
+      state              = State.PRELAUNCH;
+      rocket             = null;
+      launchingMechanism = null;
+      rt0                = null;
+      start              = false;
+      kill               = false;
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -66,8 +69,22 @@ public class LaunchSimulator implements Runnable,Suscriber,Publisher{
    //
    //
    //
+   public void ignite(){}
+
+   //
+   //
+   //
    public void preLaunchTime(int hours, int mis, int secs){}
 
+   //
+   //
+   //
+   public void resumeCountdown(){}
+
+   //
+   //
+   //
+   public void setLaunchingMechanism(LaunchingMechanism lm){}
    //
    //
    //
@@ -95,7 +112,17 @@ public class LaunchSimulator implements Runnable,Suscriber,Publisher{
    //
    //
    //
-   private void setPrelaunch(){
+   private void ignition(){}
+
+   //
+   //
+   //
+   private void ignition(Ignition ignition){}
+
+   //
+   //
+   //
+   private void prelaunch(){
       this.state             = State.PRELAUNCH;
       this.preLaunchSubstate = PreLaunch.CONTINUE;
    }
@@ -103,7 +130,7 @@ public class LaunchSimulator implements Runnable,Suscriber,Publisher{
    //
    //
    //
-   private void setPrelaunch(PreLaunch substate){
+   private void prelaunch(PreLaunch substate){
       this.state             = State.PRELAUNCH;
       this.preLaunchSubstate = substate;
    }
@@ -111,9 +138,19 @@ public class LaunchSimulator implements Runnable,Suscriber,Publisher{
    //
    //
    //
-   private void setPrelaunchSubstate(PreLaunch substate){
+   private void preaunchSubstate(PreLaunch substate){
       this.preLaunchSubstate = substate;
    }
+
+   //
+   //
+   //
+   private void setPrelaunchTime(int hours, int mins, int secs){}
+
+   //
+   //
+   //
+   private State state(){}
 
    ////////////////Runnable Interface Implementation//////////////////
    //
@@ -135,32 +172,6 @@ public class LaunchSimulator implements Runnable,Suscriber,Publisher{
       }
       catch(InterruptedException ie){}
    }
-
-   //////////////////////Subscriber Interface/////////////////////////
-   //
-   //
-   //
-   public void error(RuntimeException re){}
-
-   //
-   //
-   //
-   public void error(RuntimeException re, Object o){}
-
-   //
-   //
-   //
-   public void error(String error){}
-
-   //
-   //
-   //
-   public void update(Object o){}
-
-   //
-   //
-   //
-   public void update(Object o, String s){}
 
    //////////////////////Publisher Interface//////////////////////////
    //

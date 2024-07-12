@@ -4,9 +4,9 @@
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>60</x>
+      <x>70</x>
       <y>10</y>
-      <w>140</w>
+      <w>120</w>
       <h>110</h>
     </coordinates>
     <panel_attributes>Flight Controller</panel_attributes>
@@ -126,7 +126,7 @@ preLaunchTime(hours:int, mins:int,secs:int)</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>240</y>
-      <w>400</w>
+      <w>360</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -138,11 +138,11 @@ setPreLaunchTime(hours:int,mins:int,secs:int)</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>400</y>
-      <w>410</w>
+      <w>360</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-setPreLuanch(Prelaunch.CONTINUE:Prelaunch)</panel_attributes>
+preLaunch(Prelaunch.CONTINUE:Prelaunch)</panel_attributes>
     <additional_attributes>10.0;40.0;60.0;40.0;60.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -307,7 +307,7 @@ update(:Object, "Countdown=0":String)</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-InitiateLaunch()</panel_attributes>
+ignite()</panel_attributes>
     <additional_attributes>360.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
@@ -315,11 +315,11 @@ InitiateLaunch()</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>780</y>
-      <w>390</w>
+      <w>290</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-setInitiateLaunch(Ignition.IGNITION:Ignition)</panel_attributes>
+ignition(Ignition.IGNITION:Ignition)</panel_attributes>
     <additional_attributes>10.0;40.0;60.0;40.0;60.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -439,11 +439,11 @@ update(time:Instant, timeString:String)</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>940</y>
-      <w>430</w>
+      <w>380</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-setPreLuanchSubstate(Prelaunch.HOLD:Prelaunch)</panel_attributes>
+prelaunchSubstate(Prelaunch.HOLD:Prelaunch)</panel_attributes>
     <additional_attributes>10.0;40.0;60.0;40.0;60.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -475,11 +475,11 @@ resumeCountdown()</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>1130</y>
-      <w>400</w>
+      <w>340</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-substate = getPrelaunchSubstate():Prelaunch</panel_attributes>
+substate = prelaunchSubstate():Prelaunch</panel_attributes>
     <additional_attributes>10.0;40.0;60.0;40.0;60.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -487,11 +487,11 @@ substate = getPrelaunchSubstate():Prelaunch</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>1030</y>
-      <w>250</w>
+      <w>200</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-state = getState():State</panel_attributes>
+state = state():State</panel_attributes>
     <additional_attributes>10.0;40.0;60.0;40.0;60.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -534,11 +534,11 @@ start()</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>1220</y>
-      <w>430</w>
+      <w>380</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-setPreLuanchSubstate(Prelaunch.HOLD:Prelaunch)</panel_attributes>
+preluanchSubstate(Prelaunch.HOLD:Prelaunch)</panel_attributes>
     <additional_attributes>10.0;40.0;60.0;40.0;60.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -594,11 +594,11 @@ abortCountdown()</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>1410</y>
-      <w>250</w>
+      <w>200</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-state = getState():State</panel_attributes>
+state = state():State</panel_attributes>
     <additional_attributes>10.0;40.0;60.0;40.0;60.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -629,11 +629,11 @@ bg=red</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>1500</y>
-      <w>400</w>
+      <w>340</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-substate = getPrelaunchSubstate():Prelaunch</panel_attributes>
+substate = prelaunchSubstate():Prelaunch</panel_attributes>
     <additional_attributes>10.0;40.0;60.0;40.0;60.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -641,7 +641,7 @@ substate = getPrelaunchSubstate():Prelaunch</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>1610</y>
-      <w>130</w>
+      <w>120</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
