@@ -122,6 +122,11 @@ public class LaunchSimulator implements Runnable,Publisher{
    //
    //
    //
+   private void ignitionSubstate(Ignition ignition){}
+
+   //
+   //
+   //
    private void prelaunch(){
       this.state             = State.PRELAUNCH;
       this.preLaunchSubstate = PreLaunch.CONTINUE;
