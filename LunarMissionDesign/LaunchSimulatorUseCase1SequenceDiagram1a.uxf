@@ -66,9 +66,10 @@ preLaunchTime(hours:int, mins:int,secs:int)</panel_attributes>
       <x>820</x>
       <y>20</y>
       <w>330</w>
-      <h>60</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Subcriber&gt;&gt;
+&lt;&lt;ClockSubscriber&gt;&gt;
 &lt;&lt;View&gt;&gt;
 _launchSimulatorView:LaunchSimulatorView_
 bg=cyan</panel_attributes>
@@ -77,13 +78,13 @@ bg=cyan</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>960</x>
-      <y>70</y>
+      <x>980</x>
+      <y>90</y>
       <w>30</w>
-      <h>1590</h>
+      <h>1570</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;1570.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;1550.0</additional_attributes>
   </element>
   <element>
     <id>UMLFrame</id>
@@ -102,12 +103,12 @@ bg=pink</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>180</y>
-      <w>520</w>
+      <w>540</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 error(:String)</panel_attributes>
-    <additional_attributes>500.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>520.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -244,12 +245,12 @@ inputTime(hours:int,mins:int,secs:int)</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>440</y>
-      <w>520</w>
+      <w>540</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 update(:Object,:String)</panel_attributes>
-    <additional_attributes>500.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>520.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLFrame</id>
@@ -266,37 +267,13 @@ update(:Object,:String)</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>470</x>
-      <y>490</y>
-      <w>350</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-requestTime():Instant</panel_attributes>
-    <additional_attributes>330.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>470</x>
-      <y>510</y>
-      <w>520</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-update(time:Instant, timeString:String)</panel_attributes>
-    <additional_attributes>500.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>470</x>
       <y>730</y>
-      <w>520</w>
+      <w>540</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 update(:Object, "Countdown=0":String)</panel_attributes>
-    <additional_attributes>500.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>520.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -327,12 +304,12 @@ ignition(Ignition.IGNITION:Ignition)</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>830</y>
-      <w>520</w>
+      <w>540</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 update(:Object,:String)</panel_attributes>
-    <additional_attributes>500.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>520.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLFrame</id>
@@ -427,12 +404,12 @@ requestTime():Instant</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>920</y>
-      <w>520</w>
+      <w>540</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 update(time:Instant, timeString:String)</panel_attributes>
-    <additional_attributes>500.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>520.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -451,12 +428,12 @@ prelaunchSubstate(Prelaunch.HOLD:Prelaunch)</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>980</y>
-      <w>520</w>
+      <w>540</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 update(:Object,:String)</panel_attributes>
-    <additional_attributes>500.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>520.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -546,12 +523,12 @@ preluanchSubstate(Prelaunch.HOLD:Prelaunch)</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>1260</y>
-      <w>520</w>
+      <w>540</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 update(:Object,:String)</panel_attributes>
-    <additional_attributes>500.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>520.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -570,12 +547,12 @@ requestTime():Instant</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>1320</y>
-      <w>520</w>
+      <w>540</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 update(time:Instant, timeString:String)</panel_attributes>
-    <additional_attributes>500.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>520.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -692,5 +669,17 @@ update(:Object,:String)</panel_attributes>
     </coordinates>
     <panel_attributes>type=termination</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>470</x>
+      <y>500</y>
+      <w>540</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+update(timeString:String)</panel_attributes>
+    <additional_attributes>520.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>

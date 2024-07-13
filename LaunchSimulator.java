@@ -30,6 +30,7 @@ public class LaunchSimulator implements Runnable,Publisher{
    private enum Ignition{IGNITION,BUILDUP,RELEASED};
    private enum Launch{ASCENT,STAGING,IGNITEENGINES};
 
+   private CountdownTimer    countdownTimer;
    private State             state;
    private PreLaunch         preLaunchSubstate;
    private InitiateLaunch    intitiateLaunchSubstate;
@@ -41,6 +42,7 @@ public class LaunchSimulator implements Runnable,Publisher{
    private boolean           kill;
 
    {
+      countdownTimer     = null;
       state              = State.PRELAUNCH;
       rocket             = null;
       launchingMechanism = null;
