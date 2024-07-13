@@ -20,12 +20,13 @@ package rosas.lou.runnables;
 import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
+import rosas.lou.clock.*;
 
-public interface Publisher{
-   public void add(Subscriber s);
-   public void remove(Subscriber s);
-   public void notify(String s, Object o);
-   public void error(String s, Object o);
+public interface LaunchingMechanism{
+   public List<LaunchingMechanismData> monitorPrelaunch();
+   public List<LaunchingMechanismData> monitorIgnition();
+   public List<LaunchingMechanismData> monitorLaunch();
+   public void release();
 }
 
 //////////////////////////////////////////////////////////////////////
