@@ -30,16 +30,16 @@ public class LaunchSimulator implements Runnable,Publisher{
    private enum Ignition{IGNITION,BUILDUP,RELEASED};
    private enum Launch{ASCENT,STAGING,IGNITEENGINES};
 
-   private CountdownTimer    countdownTimer;
-   private State             state;
-   private PreLaunch         preLaunchSubstate;
-   private InitiateLaunch    intitiateLaunchSubstate;
-   private Launch            launchSubstate;
-   private Rocket            rocket;
-   private LaunchingMechnism launchingMechanism;
-   private Thread            rt0;
-   private boolean           start;
-   private boolean           kill;
+   private CountdownTimer     countdownTimer;
+   private State              state;
+   private PreLaunch          preLaunchSubstate;
+   private Ignition           ignitionSubstate;
+   private Launch             launchSubstate;
+   private Rocket             rocket;
+   private LaunchingMechanism launchingMechanism;
+   private Thread             rt0;
+   private boolean            start;
+   private boolean            kill;
 
    {
       countdownTimer     = null;
@@ -76,7 +76,9 @@ public class LaunchSimulator implements Runnable,Publisher{
    //
    //
    //
-   public void preLaunchTime(int hours, int mis, int secs){}
+   public void preLaunchTime(int hours,int mins,int secs){
+      this.setPrelaunchTime(hours,mins,secs);
+   }
 
    //
    //
@@ -152,12 +154,16 @@ public class LaunchSimulator implements Runnable,Publisher{
    //
    //
    //
-   private void setPrelaunchTime(int hours, int mins, int secs){}
+   private void setPrelaunchTime(int hours,int mins,int secs){
+      System.out.println(hours+":"+mins+":"+secs);
+   }
 
    //
    //
    //
-   private State state(){}
+   private State state(){
+      return this.state;
+   }
 
    ////////////////Runnable Interface Implementation//////////////////
    //

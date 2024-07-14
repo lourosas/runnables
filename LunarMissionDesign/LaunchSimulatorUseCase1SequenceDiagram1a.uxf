@@ -4,9 +4,9 @@
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>70</x>
+      <x>60</x>
       <y>10</y>
-      <w>120</w>
+      <w>140</w>
       <h>110</h>
     </coordinates>
     <panel_attributes>Flight Controller</panel_attributes>
@@ -57,7 +57,7 @@ bg=blue</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-preLaunchTime(hours:int, mins:int,secs:int)</panel_attributes>
+preLaunchTime(hours:String,mins:Stringsecs:String)</panel_attributes>
     <additional_attributes>360.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
@@ -119,7 +119,7 @@ error(:String)</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-preLaunchTime(hours:int, mins:int,secs:int)</panel_attributes>
+preLaunchTime(hours:int,mins:int,secs:int)</panel_attributes>
     <additional_attributes>360.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
@@ -127,7 +127,7 @@ preLaunchTime(hours:int, mins:int,secs:int)</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>240</y>
-      <w>360</w>
+      <w>400</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -139,7 +139,7 @@ setPreLaunchTime(hours:int,mins:int,secs:int)</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>400</y>
-      <w>360</w>
+      <w>390</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -198,7 +198,7 @@ startCountdown()</panel_attributes>
     <coordinates>
       <x>690</x>
       <y>320</y>
-      <w>230</w>
+      <w>260</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>_countdownTimer:CountdownTimer_
@@ -292,7 +292,7 @@ ignite()</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>780</y>
-      <w>290</w>
+      <w>320</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -416,7 +416,7 @@ update(time:Instant, timeString:String)</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>940</y>
-      <w>380</w>
+      <w>410</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -452,7 +452,7 @@ resumeCountdown()</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>1130</y>
-      <w>340</w>
+      <w>380</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -464,7 +464,7 @@ substate = prelaunchSubstate():Prelaunch</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>1030</y>
-      <w>200</w>
+      <w>220</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -511,7 +511,7 @@ start()</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>1220</y>
-      <w>380</w>
+      <w>410</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -571,7 +571,7 @@ abortCountdown()</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>1410</y>
-      <w>200</w>
+      <w>220</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -606,7 +606,7 @@ bg=red</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>1500</y>
-      <w>340</w>
+      <w>380</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -618,7 +618,7 @@ substate = prelaunchSubstate():Prelaunch</panel_attributes>
     <coordinates>
       <x>470</x>
       <y>1610</y>
-      <w>120</w>
+      <w>130</w>
       <h>60</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -673,13 +673,13 @@ update(:Object,:String)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>470</x>
+      <x>790</x>
       <y>500</y>
-      <w>540</w>
+      <w>220</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 update(timeString:String)</panel_attributes>
-    <additional_attributes>520.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>200.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>
