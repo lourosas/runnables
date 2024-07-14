@@ -112,12 +112,37 @@ implements Subscriber, ClockSubscriber{
       JPanel panel     = new JPanel();
       panel.setBorder(BorderFactory.createEtchedBorder());
       
-      JButton preLaunch = new JButton("Pre Launch");
+      JButton preLaunch = new JButton("Pre-Launch");
       preLaunch.setActionCommand("PRELAUNCH");
       preLaunch.setMnemonic(KeyEvent.VK_P);
       preLaunch.addActionListener(this._controller);
       preLaunch.addKeyListener(this._controller);
       panel.add(preLaunch);
+
+      JButton ignition = new JButton("Ignition");
+      ignition.setActionCommand("IGNITION");
+      ignition.setMnemonic(KeyEvent.VK_I);
+      ignition.addActionListener(this._controller);
+      ignition.addKeyListener(this._controller);
+      ignition.setEnabled(false);
+      panel.add(ignition);
+
+      JButton launch = new JButton("Launch");
+      launch.setActionCommand("LAUNCH");
+      launch.setMnemonic(KeyEvent.VK_L);
+      launch.addActionListener(this._controller);
+      launch.addKeyListener(this._controller);
+      launch.setEnabled(false);
+      panel.add(launch);
+
+      JButton abort = new JButton("Abort");
+      abort.setActionCommand("ABORT");
+      abort.setMnemonic(KeyEvent.VK_A);
+      abort.addActionListener(this._controller);
+      abort.addKeyListener(this._controller);
+      abort.setEnabled(false);
+      panel.add(abort);
+
       return panel;
    }
 }

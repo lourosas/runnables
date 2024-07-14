@@ -32,23 +32,68 @@ KeyListener,ItemListener,WindowListener{
    private LaunchSimulator  _simulator;
    private Subscriber       _subscriber;
    private ClockSubscriber  _clockSubscriber;
+   private CountdownTimer   _countdownTimer;
    
    {
       _simulator       = null;
       _subscriber      = null;
       _clockSubscriber = null;
+      _countdownTimer  = null;
    };
 
    /////////////////////////Contstructors/////////////////////////////
    /**/
    public LaunchSimulatorController(){}
    /**/
-   public LaunchSimulatorController(Subscriber sub){}
+   public LaunchSimulatorController(Subscriber sub){
+      this.addSubscriber(sub);
+   }
+   /**/
+   public LaunchSimulatorController
+   (
+      Subscriber      sub,
+      ClockSubscriber csub
+   ){
+      this.addSubscriber(sub);
+      this.addClockSubscriber(csub);
+   }
 
+   ////////////////////////////Public Methods/////////////////////////
+   /**/
+   public void addClockSubscriber(ClockSubscriber cs){
+      this._clockSubscriber = cs;
+   }
+   /**/
+   public void addSubscriber(Subscriber s){
+      this._subscriber = s;
+   }
    ///////////////////////Interface Implementations///////////////////
    /////////////////////////////Action Listener///////////////////////
    /**/
-   public void actionPerformed(ActionEvent e){}
+   public void actionPerformed(ActionEvent e){
+      try{
+         JButton b = (JButton)e.getSource();
+         if(b.getActionCommand().toUpperCase().equals("PRELAUNCH")){
+            //This is currently just TEST
+            //I will need a better solution than this!  But this is
+            //good as an example!!!
+            //Create something much more Simple...but similar
+            //Just need a frame with three text fields and some
+            //buttons!
+            /*
+            CountdownTimerController ctc =
+                                       new CountdownTimerController();
+            CountdownTimerView ctv = new CountdownTimerView("",ctc);
+            this._countdownTimer = new CountdownTimer(new LClock());
+            ctc.addModel(this._countdownTimer);
+            ctc.addView(ctv);
+            this._countdownTimer.addSubscriber(this._clockSubscriber);
+            */
+            this.prelaunchTime();
+         }
+      }
+      catch(ClassCastException ice){}
+   }
    ///////////////////////////////Key Listener////////////////////////
    /**/
    public void keyPressed(KeyEvent ke){}
@@ -74,5 +119,13 @@ KeyListener,ItemListener,WindowListener{
    public void windowIconified(WindowEvent we){}
    /**/
    public void windowOpened(WindowEvent we){}
+
+   ////////////////////////////Private Methods////////////////////////
+   /**/
+   private void prelaunchTime(){
+      this._countdownTimer = new CountdownTimer(new LClock());
+      this._countdownTimer.addSubscriber(this._clockSubscriber);
+      //Create some type of GUI to get the User Input...
+   }
 }
 //////////////////////////////////////////////////////////////////////
