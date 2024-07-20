@@ -85,9 +85,22 @@ implements Subscriber, ClockSubscriber{
 
    /////////////////////////Private Methods///////////////////////////
    /**/
+   private JPanel setUpCountdownPanel(){
+      LaunchSimulatorController contr = this._controller;
+      JPanel panel = new LaunchSimulatorCountdownPanel(contr).panel();
+      return panel;
+
+   }
+
+   /**/
    private JPanel setUpCenterPanel(){
       JPanel panel        = new JPanel();
       panel.setBorder(BorderFactory.createEtchedBorder());
+      panel.setLayout(new GridLayout(2,2,5,5));
+      panel.add(this.setUpNorthWestPanel());
+      panel.add(new JPanel());
+      panel.add(new JPanel());
+      panel.add(new JPanel());
       return panel;
    }
 
@@ -99,12 +112,36 @@ implements Subscriber, ClockSubscriber{
       this.setLayout(new BorderLayout());
       this.setSize(WIDTH, HEIGHT);
       this.setResizable(false);
+
+      JPanel northPanel  = this.setUpNorthPanel();
       JPanel centerPanel = this.setUpCenterPanel();
       JPanel southPanel  = this.setUpSouthPanel();
+      this.getContentPane().add(northPanel,   BorderLayout.NORTH);
       this.getContentPane().add(centerPanel,  BorderLayout.CENTER);
       this.getContentPane().add(southPanel,   BorderLayout.SOUTH);
 
       this.setVisible(true);
+   }
+
+   /**/
+   private JPanel setUpNorthWestPanel(){
+      JPanel panel = new JPanel();
+      panel.setLayout(new GridLayout(0,1));
+      panel.add(this.setUpCountdownPanel());
+      //Remove as Development progresses
+      panel.add(new JPanel());
+      return panel;
+   }
+
+   /**/
+   private JPanel setUpNorthPanel(){
+      JPanel panel = new JPanel();
+      panel.setBorder(BorderFactory.createEtchedBorder());
+
+      JLabel stateLabel = new JLabel("(Current State)");
+      panel.add(stateLabel);
+
+      return panel;
    }
 
    /**/
