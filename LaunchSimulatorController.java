@@ -29,16 +29,12 @@ import rosas.lou.clock.*;
 
 public class LaunchSimulatorController implements ActionListener,
 KeyListener,ItemListener,WindowListener{
-   private LaunchSimulator  _simulator;
-   private Subscriber       _subscriber;
-   private ClockSubscriber  _clockSubscriber;
-   private CountdownTimer   _countdownTimer;
+   private LaunchSimulator     _simulator;
+   private LaunchSimulatorView _view;
    
    {
-      _simulator       = null;
-      _subscriber      = null;
-      _clockSubscriber = null;
-      _countdownTimer  = null;
+      _simulator    = null;
+      _view         = null;   
    };
 
    /////////////////////////Contstructors/////////////////////////////
