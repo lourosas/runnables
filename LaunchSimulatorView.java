@@ -105,7 +105,13 @@ implements Subscriber, ClockSubscriber{
 
    /**/
    private void setPrelaunchTime(){
-   
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel nwPanel=(JPanel)panel.getComponent(0);
+      JPanel cdPanel=(JPanel)nwPanel.getComponent(0);
+      JPanel hmsPanel=(JPanel)cdPanel.getComponent(1);
+      JPanel btnPanel=(JPanel)cdPanel.getComponent(3);
+      System.out.println(hmsPanel.getComponentCount());
+      System.out.println(btnPanel.getComponentCount());
    }
 
    /**/
