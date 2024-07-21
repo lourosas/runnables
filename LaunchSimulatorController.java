@@ -29,12 +29,14 @@ import rosas.lou.clock.*;
 
 public class LaunchSimulatorController implements ActionListener,
 KeyListener,ItemListener,WindowListener{
-   private LaunchSimulator     _simulator;
-   private LaunchSimulatorView _view;
+   private LaunchSimulator    _simulator;
+   private Subscriber         _subscriber;
+   private ClockSubscriber    _clockSubscriber;
    
    {
-      _simulator    = null;
-      _view         = null;   
+      _simulator       = null;
+      _subscriber      = null;
+      _clockSubscriber = null;
    };
 
    /////////////////////////Contstructors/////////////////////////////
@@ -53,11 +55,26 @@ KeyListener,ItemListener,WindowListener{
       this.addSubscriber(sub);
       this.addClockSubscriber(csub);
    }
+   /**/
+   public LaunchSimulatorController
+   (
+      LaunchSimulator sim,
+      Subscriber      sub,
+      ClockSubscriber csub
+   ){
+      this.addClockSubscriber(csub);
+      this.addSubscriber(sub);
+      this.addLaunchSimulator(sim);
+   }
 
    ////////////////////////////Public Methods/////////////////////////
    /**/
    public void addClockSubscriber(ClockSubscriber cs){
       this._clockSubscriber = cs;
+   }
+   /**/
+   public void addLaunchSimulator(LaunchSimulator ls){
+      this._simulator = ls;
    }
    /**/
    public void addSubscriber(Subscriber s){
@@ -119,9 +136,15 @@ KeyListener,ItemListener,WindowListener{
    ////////////////////////////Private Methods////////////////////////
    /**/
    private void prelaunchTime(){
-      this._countdownTimer = new CountdownTimer(new LClock());
-      this._countdownTimer.addSubscriber(this._clockSubscriber);
-      //Create some type of GUI to get the User Input...
+      try{
+         this._subscriber.update(null,"Set:  Prelaunch");
+      }
+      catch(NullPointerException npe){
+         JOptionPane.showMessageDialog(null,
+               "NO GUI to set Prelaunch!",
+               "GUI-less!",
+               JOptionPane.ERROR_MESSAGE);
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////

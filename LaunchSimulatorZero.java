@@ -46,7 +46,7 @@ implements Runnable,Publisher,LaunchSimulator{
 
    {
       clockSubscriber    = null;
-      suscriber          = null;
+      subscriber         = null;
       countdownTimer     = null;
       state              = State.PRELAUNCH;
       rocket             = null;
@@ -63,7 +63,7 @@ implements Runnable,Publisher,LaunchSimulator{
    public LaunchSimulatorZero(){}
 
    /**/
-   public LauncSimulatorZero(Subscriber sub){}
+   public LaunchSimulatorZero(Subscriber sub){}
 
    /**/
    public LaunchSimulatorZero(Subscriber sub, ClockSubscriber csub){
@@ -73,7 +73,7 @@ implements Runnable,Publisher,LaunchSimulator{
 
    ///////////////////////Public Methods//////////////////////////////
    /**/
-   public void addClockSubcriber(ClockSubscriber cs){
+   public void addClockSubscriber(ClockSubscriber cs){
       this.clockSubscriber = cs;
    }
 

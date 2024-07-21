@@ -75,7 +75,13 @@ implements Subscriber, ClockSubscriber{
    /**/
    public void update(Object o){}
    /**/
-   public void update(Object o, String s){}
+   public void update(Object o, String s){
+      if(o != null){}
+      else{
+         this.getMessage(s);
+      }
+   }
+   
    /**/
    public void error(RuntimeException re){}
    /**/
@@ -84,12 +90,15 @@ implements Subscriber, ClockSubscriber{
    public void error(String error){}
 
    /////////////////////////Private Methods///////////////////////////
-   /**/
-   private JPanel setUpCountdownPanel(){
-      LaunchSimulatorController contr = this._controller;
-      JPanel panel = new LaunchSimulatorCountdownPanel(contr).panel();
-      return panel;
-
+   /*
+    *It is going to be some sort of message, so go ahead and get it
+    first
+    * */
+   private void getMessage(String m){
+      String message = m.toUpperCase();
+      if(message.contains("SET")){
+         System.out.println(message);
+      }
    }
 
    /**/
@@ -102,6 +111,14 @@ implements Subscriber, ClockSubscriber{
       panel.add(new JPanel());
       panel.add(new JPanel());
       return panel;
+   }
+
+   /**/
+   private JPanel setUpCountdownPanel(){
+      LaunchSimulatorController contr = this._controller;
+      JPanel panel = new LaunchSimulatorCountdownPanel(contr).panel();
+      return panel;
+
    }
 
    /**/
