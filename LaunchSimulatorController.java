@@ -84,36 +84,22 @@ KeyListener,ItemListener,WindowListener{
    /////////////////////////////Action Listener///////////////////////
    /**/
    public void actionPerformed(ActionEvent e){
-      try{
-         JButton b = (JButton)e.getSource();
-         if(b.getActionCommand().toUpperCase().equals("PRELAUNCH")){
-            //This is currently just TEST
-            //I will need a better solution than this!  But this is
-            //good as an example!!!
-            //Create something much more Simple...but similar
-            //Just need a frame with three text fields and some
-            //buttons!
-            /*
-            CountdownTimerController ctc =
-                                       new CountdownTimerController();
-            CountdownTimerView ctv = new CountdownTimerView("",ctc);
-            this._countdownTimer = new CountdownTimer(new LClock());
-            ctc.addModel(this._countdownTimer);
-            ctc.addView(ctv);
-            this._countdownTimer.addSubscriber(this._clockSubscriber);
-            */
-            this.prelaunchTime();
-         }
-      }
-      catch(ClassCastException ice){}
+      this.handleJButton(e);
+      this.handleJTextField(e);
    }
    ///////////////////////////////Key Listener////////////////////////
    /**/
-   public void keyPressed(KeyEvent ke){}
+   public void keyPressed(KeyEvent ke){
+      this.handleJButton(ke);
+   }
+
    /**/
    public void keyReleased(KeyEvent ke){}
+   
    /**/
-   public void keyTyped(KeyEvent ke){}
+   public void keyTyped(KeyEvent ke){
+      this.handleJTextField(ke);
+   }
    /////////////////////////////Item Listener/////////////////////////
    /**/
    public void itemStateChanged(ItemEvent ie){}
@@ -134,6 +120,61 @@ KeyListener,ItemListener,WindowListener{
    public void windowOpened(WindowEvent we){}
 
    ////////////////////////////Private Methods////////////////////////
+   /**/
+   private void handleJButton(ActionEvent e){
+      try{
+         JButton b = (JButton)e.getSource();
+         String command = b.getActionCommand().toUpperCase();
+         if(command.equals("PRELAUNCH")){
+            this.prelaunchTime();
+         }
+         else if(command.equals("COUNTDOWNSTART")){
+            System.out.println(command);
+         }
+         else{
+            System.out.println(command);
+         }
+      }
+      catch(ClassCastException cce){}
+   }
+
+   /**/
+   private void handleJButton(KeyEvent ke){
+      try{
+         if(ke.getKeyCode() == KeyEvent.VK_ENTER){
+            JButton b = (JButton)ke.getSource();
+            b.doClick(100);
+         }
+      }
+      catch(ClassCastException cce){}
+   }
+
+   /**/
+   private void handleJTextField(ActionEvent e){
+      try{
+         JTextField jtf = (JTextField)e.getSource();
+         Integer.parseInt(jtf.getText());
+         String name = jtf.getName();
+         this._subscriber.update(jtf,name);
+      }
+      catch(ClassCastException cce){}
+      catch(NumberFormatException nfe){}
+      catch(NullPointerException npe){ npe.printStackTrace(); }
+   }
+
+   /**/
+   private void handleJTextField(KeyEvent ke){
+      try{
+         JTextField jtf = (JTextField)ke.getComponent();
+         char c = ke.getKeyChar();
+         if(!Character.isDigit(c)){
+            ke.consume();
+         }
+      }
+      catch(ClassCastException cce){}
+      catch(NullPointerException npe){ npe.printStackTrace(); }
+   }
+
    /**/
    private void prelaunchTime(){
       try{

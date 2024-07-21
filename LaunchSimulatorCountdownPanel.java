@@ -49,6 +49,30 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
       this.activateStartButton();
    }
 
+   /**/
+   public void requestNextFocus(JTextField jtf, String name){
+      JPanel panel = (JPanel)this.getComponent(1);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         try{
+            JTextField tf = (JTextField)panel.getComponent(i);
+            if(jtf == tf){
+               int j = i+2;
+               if(j < panel.getComponentCount()){
+                  tf = (JTextField)panel.getComponent(j);
+                  tf.requestFocus();
+               }
+               else{
+                  JPanel btnPanel = (JPanel)this.getComponent(3);
+                  //Set the focus on Start...
+                  JButton b = (JButton)btnPanel.getComponent(0);
+                  b.requestFocus();
+               }
+            }
+         }
+         catch(ClassCastException cce){}
+      }
+   }
+
    /*
    public JPanel panel(){
       return this._panel;
@@ -123,15 +147,7 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
    /**/
    private void setUpGUI(){
       int CENTER = SwingConstants.CENTER;
-      //this._panel = new JPanel();
-      //this._panel.setBorder(BorderFactory.createEtchedBorder());
-      //this._panel.setLayout(new GridLayout(0,1));
-      //this._panel.setSize(340,160);
       JLabel countdownLabel = new JLabel("Countdown Time",CENTER);
-      //this._panel.add(countdownLabel);
-      //this._panel.add(this.setUpTimeEntryPanel());
-      //this._panel.add(this.setUpCountdownTime());
-      //this._panel.add(this.setUpButtonPanel());
       this.setBorder(BorderFactory.createEtchedBorder());
       this.setLayout(new GridLayout(0,1));
       this.add(countdownLabel);

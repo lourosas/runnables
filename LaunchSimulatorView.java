@@ -76,7 +76,13 @@ implements Subscriber, ClockSubscriber{
    public void update(Object o){}
    /**/
    public void update(Object o, String s){
-      if(o != null){}
+      if(o != null){
+         try{
+            JTextField jtf = (JTextField)o;
+            this.handleJTextFieldEntry(jtf,s);
+         }
+         catch(ClassCastException cce){}
+      }
       else{
          this.getMessage(s);
       }
@@ -100,6 +106,21 @@ implements Subscriber, ClockSubscriber{
          if(message.contains("PRELAUNCH")){
             this.setPrelaunchTime();
          }
+      }
+   }
+
+   /**/
+   private void handleJTextFieldEntry(JTextField jtf, String s){
+      //System.out.println(s);
+      String test = s.toUpperCase();
+      if(test.equals("SETHOURS") ||
+         test.equals("SETMINS")  ||
+         test.equals("SETSECS")){
+         JPanel panel=(JPanel)this.getContentPane().getComponent(1);
+         JPanel nwPanel=(JPanel)panel.getComponent(0);
+         LaunchSimulatorCountdownPanel p =
+             (LaunchSimulatorCountdownPanel)nwPanel.getComponent(0);
+         p.requestNextFocus(jtf, s);
       }
    }
 
