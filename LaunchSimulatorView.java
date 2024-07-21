@@ -97,8 +97,15 @@ implements Subscriber, ClockSubscriber{
    private void getMessage(String m){
       String message = m.toUpperCase();
       if(message.contains("SET")){
-         System.out.println(message);
+         if(message.contains("PRELAUNCH")){
+            this.setPrelaunchTime();
+         }
       }
+   }
+
+   /**/
+   private void setPrelaunchTime(){
+   
    }
 
    /**/
