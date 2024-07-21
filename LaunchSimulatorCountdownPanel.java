@@ -30,22 +30,24 @@ import java.time.*;
 import myclasses.*;
 import rosas.lou.clock.*;
 
-public class LaunchSimulatorCountdownPanel{
-   private JPanel _panel                         = null;
+public class LaunchSimulatorCountdownPanel extends JPanel{
+   //private JPanel _panel                         = null;
    private LaunchSimulatorController _controller = null;
 
    ///////////////////////////Constructors////////////////////////////
    /**/
    public LaunchSimulatorCountdownPanel(LaunchSimulatorController c){
+      super();
       this._controller = c;
       this.setUpGUI();
    }
 
    /////////////////////////Public Methods////////////////////////////
-   /**/
+   /*
    public JPanel panel(){
       return this._panel;
    }
+   */
 
    ////////////////////////Private Methods////////////////////////////
    /**/
@@ -91,15 +93,21 @@ public class LaunchSimulatorCountdownPanel{
    /**/
    private void setUpGUI(){
       int CENTER = SwingConstants.CENTER;
-      this._panel = new JPanel();
+      //this._panel = new JPanel();
       //this._panel.setBorder(BorderFactory.createEtchedBorder());
-      this._panel.setLayout(new GridLayout(0,1));
+      //this._panel.setLayout(new GridLayout(0,1));
       //this._panel.setSize(340,160);
       JLabel countdownLabel = new JLabel("Countdown Time",CENTER);
-      this._panel.add(countdownLabel);
-      this._panel.add(this.setUpTimeEntryPanel());
-      this._panel.add(this.setUpCountdownTime());
-      this._panel.add(this.setUpButtonPanel());
+      //this._panel.add(countdownLabel);
+      //this._panel.add(this.setUpTimeEntryPanel());
+      //this._panel.add(this.setUpCountdownTime());
+      //this._panel.add(this.setUpButtonPanel());
+      this.setBorder(BorderFactory.createEtchedBorder());
+      this.setLayout(new GridLayout(0,1));
+      this.add(countdownLabel);
+      this.add(this.setUpTimeEntryPanel());
+      this.add(this.setUpCountdownTime());
+      this.add(this.setUpButtonPanel());
    }
 
    /**/
