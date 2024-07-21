@@ -107,9 +107,17 @@ implements Subscriber, ClockSubscriber{
    private void setPrelaunchTime(){
       JPanel panel = (JPanel)this.getContentPane().getComponent(1);
       JPanel nwPanel=(JPanel)panel.getComponent(0);
+      JPanel btnPanel=(JPanel)this.getContentPane().getComponent(2);
+      for(int i = 0; i < btnPanel.getComponentCount(); ++i){
+         JButton b = (JButton)btnPanel.getComponent(i);
+         b.setEnabled(false);
+         if(b.getActionCommand().toUpperCase().contains("ABORT")){
+            b.setEnabled(true);
+         }
+      }
       LaunchSimulatorCountdownPanel p =
                (LaunchSimulatorCountdownPanel)nwPanel.getComponent(0);
-      System.out.println(p.getComponentCount());
+      p.activatePrelaunchTime();
    }
 
    /**/

@@ -43,6 +43,12 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
    }
 
    /////////////////////////Public Methods////////////////////////////
+   /**/
+   public void activatePrelaunchTime(){
+      this.activateTextFields();
+      this.activateStartButton();
+   }
+
    /*
    public JPanel panel(){
       return this._panel;
@@ -50,6 +56,30 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
    */
 
    ////////////////////////Private Methods////////////////////////////
+   /**/
+   private void activateStartButton(){
+      JPanel panel = (JPanel)this.getComponent(3);
+      for(int i=0; i < panel.getComponentCount(); ++i){
+         JButton b = (JButton)panel.getComponent(i);
+         b.setEnabled(false);
+         if(b.getActionCommand().toUpperCase().contains("START")){
+            b.setEnabled(true);
+         }
+      }
+   }
+
+   /**/
+   private void activateTextFields(){
+      JPanel panel = (JPanel)this.getComponent(1);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         try{
+            JTextField tf = (JTextField)panel.getComponent(i);
+            tf.setEditable(true);
+         }
+         catch(ClassCastException cce){}
+      }
+   }
+
    /**/
    private JPanel setUpButtonPanel(){
       JPanel panel  = new JPanel();
