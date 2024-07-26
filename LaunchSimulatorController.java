@@ -126,10 +126,10 @@ KeyListener,ItemListener,WindowListener{
          JButton b = (JButton)e.getSource();
          String command = b.getActionCommand().toUpperCase();
          if(command.equals("PRELAUNCH")){
-            this.prelaunchTime();
+            this.activatePrelaunchTime();
          }
          else if(command.equals("COUNTDOWNSTART")){
-            System.out.println(command);
+            this.requestPrelaunchTime();
          }
          else{
             System.out.println(command);
@@ -143,7 +143,7 @@ KeyListener,ItemListener,WindowListener{
       try{
          if(ke.getKeyCode() == KeyEvent.VK_ENTER){
             JButton b = (JButton)ke.getSource();
-            b.doClick(100);
+            b.doClick(250);
          }
       }
       catch(ClassCastException cce){}
@@ -176,13 +176,28 @@ KeyListener,ItemListener,WindowListener{
    }
 
    /**/
-   private void prelaunchTime(){
+   private void activatePrelaunchTime(){
       try{
          this._subscriber.update(null,"Set:  Prelaunch");
       }
       catch(NullPointerException npe){
          JOptionPane.showMessageDialog(null,
                "NO GUI to set Prelaunch!",
+               "GUI-less!",
+               JOptionPane.ERROR_MESSAGE);
+      }
+   }
+
+   /**/
+   private void requestPrelaunchTime(){
+      try{
+         java.util.List<Integer> tl = new LinkedList<Integer>();
+         //Get the Pre-Launch Time
+         this._subscriber.update(tl, "Get:  Prelaunch");
+      }
+      catch(NullPointerException npe){
+         JOptionPane.showMessageDialog(null,
+               "NO GUI to get Prelaunch Time!",
                "GUI-less!",
                JOptionPane.ERROR_MESSAGE);
       }

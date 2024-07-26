@@ -64,13 +64,35 @@ implements Subscriber, ClockSubscriber{
    /**/
    public void update(String time){}
    /**/
+   public void update(State state){}
+   /**/
    public void update(java.time.Instant instant){}
+   /**/
+   public void update(Duration duration){}
+   /**/
+   public void update(Duration duration, boolean isRunning){}
+   /**/
+   public void update(Duration duration, State state){}
+   /**/
+   public void update(Duration duration, State state, String type){}
    /**/
    public void update(boolean isRunning){}
    /**/
    public void update(String time, String type){}
    /**/
    public void update(java.util.List<?> list){}
+   /**/
+   public void updateElapsed(Duration duration){}
+   /**/
+   public void updateLap(Duration duration){}
+   /**/
+   public void updateLaps(java.util.List<?> list){}
+   /**/
+   public void updateRun(){}
+   /**/
+   public void updateStop(){}
+   /**/
+   public void updateReset(){}
    ////////////////////////Subscriber Methods/////////////////////////
    /**/
    public void update(Object o){}
@@ -80,6 +102,15 @@ implements Subscriber, ClockSubscriber{
          try{
             JTextField jtf = (JTextField)o;
             this.handleJTextFieldEntry(jtf,s);
+         }
+         catch(ClassCastException cce){}
+         try{
+            java.util.List<Integer> list = (java.util.List<Integer>)o;
+            if(s.toUpperCase().contains("GET")){
+               if(s.toUpperCase().contains("PRELAUNCH")){
+                  this.getPrelaunchTime(list);
+               }
+            }
          }
          catch(ClassCastException cce){}
       }
@@ -107,6 +138,11 @@ implements Subscriber, ClockSubscriber{
             this.setPrelaunchTime();
          }
       }
+   }
+
+   /**/
+   private void getPrelaunchTime(java.util.List<Integer> list){
+      System.out.println("Poop");
    }
 
    /**/
