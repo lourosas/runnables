@@ -151,14 +151,25 @@ KeyListener,ItemListener,WindowListener{
 
    /**/
    private void handleJTextField(ActionEvent e){
+      JTextField jtf = null;
       try{
-         JTextField jtf = (JTextField)e.getSource();
-         Integer.parseInt(jtf.getText());
-         String name = jtf.getName();
+         jtf         = (JTextField)e.getSource();
+         String name = jtf.getName().toUpperCase();
+         if(name.equals("SETHOURS") ||
+            name.equals("SETMINS")  ||
+            name.equals("SETSECS")){
+            //Do this part, for the time being...
+            Integer.parseInt(jtf.getText());
+         }
          this._subscriber.update(jtf,name);
       }
       catch(ClassCastException cce){}
-      catch(NumberFormatException nfe){}
+      catch(NumberFormatException nfe){
+         JOptionPane.showMessageDialog(jtf,
+               "Please Enter a Valid Number",
+               "Number Needed!!",
+               JOptionPane.ERROR_MESSAGE);
+      }
       catch(NullPointerException npe){ npe.printStackTrace(); }
    }
 
@@ -191,13 +202,12 @@ KeyListener,ItemListener,WindowListener{
    /**/
    private void requestPrelaunchTime(){
       try{
-         java.util.List<Integer> tl = new LinkedList<Integer>();
-         //Get the Pre-Launch Time
-         this._subscriber.update(tl, "Get:  Prelaunch");
+         Integer value = Integer.valueOf(-1);
+         this._subscriber.update(value,"Get:  Prelaunch Hours");
       }
       catch(NullPointerException npe){
          JOptionPane.showMessageDialog(null,
-               "NO GUI to get Prelaunch Time!",
+               "NO GUI to set Prelaunch!",
                "GUI-less!",
                JOptionPane.ERROR_MESSAGE);
       }

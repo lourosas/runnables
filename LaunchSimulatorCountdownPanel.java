@@ -73,6 +73,28 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
       }
    }
 
+   /**/
+   public Integer getHours(){
+      Integer hours  = null;
+      JTextField htf = null;
+      JPanel panel  = (JPanel)this.getComponent(1);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         try{
+            JTextField tf = (JTextField)panel.getComponent(i);
+            if(tf.getName().toUpperCase().contains("SETHOURS")){
+               try{
+                  hours = Integer.valueOf(tf.getText());
+               }
+               catch(NumberFormatException nfe){
+                  nfe.printStackTrace();
+               }
+            }
+         }
+         catch(ClassCastException cce){}
+      }
+      return hours;
+   }
+
    /*
    public JPanel panel(){
       return this._panel;

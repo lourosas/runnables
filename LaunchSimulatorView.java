@@ -56,7 +56,7 @@ implements Subscriber, ClockSubscriber{
       this.setUpGUI();
    }
 
-   //////////////////////////Public Methods//////////////////////////
+   //////////////////////////Public Methods///////////////////////////
    ////////////////////////Interface Methods//////////////////////////
    /////////////////////ClockSubscriber Methods///////////////////////
    /**/
@@ -105,10 +105,12 @@ implements Subscriber, ClockSubscriber{
          }
          catch(ClassCastException cce){}
          try{
-            java.util.List<Integer> list = (java.util.List<Integer>)o;
+            Integer input = (Integer)o;
             if(s.toUpperCase().contains("GET")){
                if(s.toUpperCase().contains("PRELAUNCH")){
-                  this.getPrelaunchTime(list);
+                  if(s.toUpperCase().contains("HOURS")){
+                     this.getPrelaunchHours(input);
+                  }
                }
             }
          }
@@ -141,13 +143,21 @@ implements Subscriber, ClockSubscriber{
    }
 
    /**/
-   private void getPrelaunchTime(java.util.List<Integer> list){
-      System.out.println("Poop");
+   private void getPrelaunchHours(Integer hours){
+      try{
+         JPanel panel=(JPanel)this.getContentPane().getComponent(1);
+         JPanel nwPanel=(JPanel)panel.getComponent(0);
+         LaunchSimulatorCountdownPanel p =
+               (LaunchSimulatorCountdownPanel)nwPanel.getComponent(0);
+         hours = p.getHours();
+      }
+      catch(NumberFormatException nfe){
+         nfe.printStackTrace();
+      }
    }
 
    /**/
    private void handleJTextFieldEntry(JTextField jtf, String s){
-      //System.out.println(s);
       String test = s.toUpperCase();
       if(test.equals("SETHOURS") ||
          test.equals("SETMINS")  ||
@@ -155,7 +165,7 @@ implements Subscriber, ClockSubscriber{
          JPanel panel=(JPanel)this.getContentPane().getComponent(1);
          JPanel nwPanel=(JPanel)panel.getComponent(0);
          LaunchSimulatorCountdownPanel p =
-             (LaunchSimulatorCountdownPanel)nwPanel.getComponent(0);
+               (LaunchSimulatorCountdownPanel)nwPanel.getComponent(0);
          p.requestNextFocus(jtf, s);
       }
    }
