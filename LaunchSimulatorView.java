@@ -100,24 +100,24 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /**/
-   public int requestHours(){
-      int hours = 0;
+   public Integer requestHours(){
+      Integer hours = null;
       LaunchSimulatorCountdownPanel panel = this.getCountdownPanel();
       hours = panel.getHours();
       return hours;
    }
 
    /**/
-   public int requestMins(){
-      int mins = 0;
+   public Integer requestMins(){
+      Integer mins = 0;
       LaunchSimulatorCountdownPanel panel = this.getCountdownPanel();
       mins = panel.getMins();
       return mins;
    }
 
    /**/
-   public int requestSecs(){
-      int secs = 0;
+   public Integer requestSecs(){
+      Integer secs = 0;
       LaunchSimulatorCountdownPanel panel = this.getCountdownPanel();
       secs = panel.getSecs();
       return secs;

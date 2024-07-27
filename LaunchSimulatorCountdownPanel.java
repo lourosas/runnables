@@ -74,66 +74,110 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
    }
 
    /**/
-   public int getHours(){
-      int hours  = 0;
-      JTextField htf = null;
-      JPanel panel  = (JPanel)this.getComponent(1);
-      for(int i = 0; i < panel.getComponentCount(); ++i){
+   public Integer getHours(){
+      Integer hours    = null;
+      int count        = 0;
+      boolean notFound = true;
+      JTextField tf    = null;
+      JPanel panel     = (JPanel)this.getComponent(1);
+      while(count < panel.getComponentCount() && notFound){
          try{
-            JTextField tf = (JTextField)panel.getComponent(i);
+            tf = (JTextField)panel.getComponent(count);
             if(tf.getName().toUpperCase().contains("SETHOURS")){
-               try{
-                  hours = Integer.parseInt(tf.getText());
-               }
-               catch(NumberFormatException nfe){
-                  String error = "Please Enter a Valid\n";
-                  error += "number for Hours";
-                  JOptionPane.showMessageDialog(this,
-                        error,
-                        "Number Needed!",
-                        JOptionPane.ERROR_MESSAGE);
-                  tf.requestFocus();
-                  tf.selectAll();
-               }
+               notFound = false;
             }
          }
          catch(ClassCastException cce){}
+         finally{
+            ++count;
+         }
+      }
+      try{
+         hours = Integer.valueOf(tf.getText());
+      }
+      catch(NumberFormatException nfe){
+         String error = "Please Enter a Valid\n";
+         error += "number for Hours";
+         JOptionPane.showMessageDialog(this,
+                  error,
+                  "Number Needed!",
+                  JOptionPane.ERROR_MESSAGE);
+         tf.requestFocus();
+         tf.selectAll();
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
       }
       return hours;
    }
    
    /**/
-   public int getMins(){
-      int mins = 0;
-      JPanel panel = (JPanel)this.getComponent(1);
-      for(int i = 0; i < panel.getComponentCount(); ++i){
+   public Integer getMins(){
+      Integer mins     = null;
+      int count        = 0;
+      boolean notFound = true;
+      JTextField tf    = null;
+      JPanel panel     = (JPanel)this.getComponent(1);
+      while(count < panel.getComponentCount() && notFound){
          try{
-            JTextField tf = (JTextField)panel.getComponent(i);
+            tf = (JTextField)panel.getComponent(count);
             if(tf.getName().toUpperCase().contains("SETMINS")){
-               try{
-                  mins = Integer.parseInt(tf.getText());
-               }
-               catch(NumberFormatException nfe){
-                  String error = "Please Enter a Valid\n";
-                  error += "number for Minutes";
-                  JOptionPane.showMessageDialog(this,
-                        error,
-                        "Number Needed!",
-                        JOptionPane.ERROR_MESSAGE);
-                  tf.requestFocus();
-                  tf.selectAll();
-               }
+               notFound = false;
             }
          }
          catch(ClassCastException cce){}
+         finally{
+            ++count;
+         }
+      }
+      try{
+         mins = Integer.valueOf(tf.getText());
+      }
+      catch(NumberFormatException npe){
+         String error = "Please Enter a Valid\n";
+         error += "number for Minutes";
+         JOptionPane.showMessageDialog(this,
+                  error,
+                  "Number Needed!",
+                  JOptionPane.ERROR_MESSAGE);
+         tf.requestFocus();
+         tf.selectAll();
       }
       return mins;
    }
 
    /**/
-   public int getSecs(){
-      int secs = 0;
-
+   public Integer getSecs(){
+      Integer secs     = null;
+      int count        = 0;
+      boolean notFound = true;
+      JTextField tf    = null;
+      JPanel panel     = (JPanel)this.getComponent(1);
+      while(count < panel.getComponentCount() && notFound){
+         try{
+            tf = (JTextField)panel.getComponent(count);
+            if(tf.getName().toUpperCase().contains("SETSECS")){
+               notFound = false;
+            }
+         }
+         catch(ClassCastException cce){}
+         finally{
+            ++count;
+         }
+      }
+      try{
+         secs = Integer.valueOf(tf.getText());
+      }
+      catch(NumberFormatException nfe){
+         String error = "Please Enter a Valid\n";
+         error += "number for Seconds";
+         JOptionPane.showMessageDialog(this,
+                  error,
+                  "Number Needed!",
+                  JOptionPane.ERROR_MESSAGE);
+         tf.requestFocus();
+         tf.selectAll();
+      }
       return secs;
    }
 

@@ -24,8 +24,8 @@ import rosas.lou.clock.*;
 
 public interface CountdownTimerInterface{
    public List<Integer> requestTimes();
-   public int requestHours();
-   public int requestMins();
-   public int requestSecs();
+   public Integer requestHours();
+   public Integer requestMins();
+   public Integer requestSecs();
 }
 //////////////////////////////////////////////////////////////////////
