@@ -29,45 +29,27 @@ import rosas.lou.clock.*;
 
 public class LaunchSimulatorController implements ActionListener,
 KeyListener,ItemListener,WindowListener{
-   private LaunchSimulator    _simulator;
-   private Subscriber         _subscriber;
-   private ClockSubscriber    _clockSubscriber;
+   private LaunchSimulator         _simulator;
+   private Subscriber              _subscriber;
+   private ClockSubscriber         _clockSubscriber;
+   private CountdownTimerInterface _countdownTimer;
    
    {
       _simulator       = null;
       _subscriber      = null;
       _clockSubscriber = null;
+      _countdownTimer  = null;
    };
 
    /////////////////////////Contstructors/////////////////////////////
    /**/
    public LaunchSimulatorController(){}
+   ////////////////////////////Public Methods/////////////////////////
    /**/
-   public LaunchSimulatorController(Subscriber sub){
-      this.addSubscriber(sub);
-   }
-   /**/
-   public LaunchSimulatorController
-   (
-      Subscriber      sub,
-      ClockSubscriber csub
-   ){
-      this.addSubscriber(sub);
-      this.addClockSubscriber(csub);
-   }
-   /**/
-   public LaunchSimulatorController
-   (
-      LaunchSimulator sim,
-      Subscriber      sub,
-      ClockSubscriber csub
-   ){
-      this.addClockSubscriber(csub);
-      this.addSubscriber(sub);
-      this.addLaunchSimulator(sim);
+   public void addCountdownTimer(CountdownTimerInterface ct){
+      this._countdownTimer = ct;
    }
 
-   ////////////////////////////Public Methods/////////////////////////
    /**/
    public void addClockSubscriber(ClockSubscriber cs){
       this._clockSubscriber = cs;
@@ -120,6 +102,19 @@ KeyListener,ItemListener,WindowListener{
    public void windowOpened(WindowEvent we){}
 
    ////////////////////////////Private Methods////////////////////////
+   /**/
+   private void activatePrelaunchTime(){
+      try{
+         this._subscriber.update(null,"Set:  Prelaunch");
+      }
+      catch(NullPointerException npe){
+         JOptionPane.showMessageDialog(null,
+               "NO GUI to set Prelaunch!",
+               "GUI-less!",
+               JOptionPane.ERROR_MESSAGE);
+      }
+   }
+
    /**/
    private void handleJButton(ActionEvent e){
       try{
@@ -187,23 +182,11 @@ KeyListener,ItemListener,WindowListener{
    }
 
    /**/
-   private void activatePrelaunchTime(){
-      try{
-         this._subscriber.update(null,"Set:  Prelaunch");
-      }
-      catch(NullPointerException npe){
-         JOptionPane.showMessageDialog(null,
-               "NO GUI to set Prelaunch!",
-               "GUI-less!",
-               JOptionPane.ERROR_MESSAGE);
-      }
-   }
-
-   /**/
    private void requestPrelaunchTime(){
       try{
-         Integer value = Integer.valueOf(-1);
-         this._subscriber.update(value,"Get:  Prelaunch Hours");
+         System.out.println(this._countdownTimer.requestHours());
+         System.out.println(this._countdownTimer.requestMins());
+         System.out.println(this._countdownTimer.requestSecs());
       }
       catch(NullPointerException npe){
          JOptionPane.showMessageDialog(null,

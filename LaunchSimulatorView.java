@@ -32,7 +32,7 @@ import myclasses.*;
 import rosas.lou.clock.*;
 
 public class LaunchSimulatorView extends GenericJFrame
-implements Subscriber, ClockSubscriber{
+implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    private LaunchSimulatorController _controller;
 
    {
@@ -93,6 +93,35 @@ implements Subscriber, ClockSubscriber{
    public void updateStop(){}
    /**/
    public void updateReset(){}
+   //////////////////CountdownTimerInterface Methods//////////////////
+   /**/
+   public java.util.List<Integer> requestTimes(){
+      return null;
+   }
+
+   /**/
+   public int requestHours(){
+      int hours = 0;
+      LaunchSimulatorCountdownPanel panel = this.getCountdownPanel();
+      hours = panel.getHours();
+      return hours;
+   }
+
+   /**/
+   public int requestMins(){
+      int mins = 0;
+      LaunchSimulatorCountdownPanel panel = this.getCountdownPanel();
+      mins = panel.getMins();
+      return mins;
+   }
+
+   /**/
+   public int requestSecs(){
+      int secs = 0;
+      LaunchSimulatorCountdownPanel panel = this.getCountdownPanel();
+      secs = panel.getSecs();
+      return secs;
+   }
    ////////////////////////Subscriber Methods/////////////////////////
    /**/
    public void update(Object o){}
@@ -102,17 +131,6 @@ implements Subscriber, ClockSubscriber{
          try{
             JTextField jtf = (JTextField)o;
             this.handleJTextFieldEntry(jtf,s);
-         }
-         catch(ClassCastException cce){}
-         try{
-            Integer input = (Integer)o;
-            if(s.toUpperCase().contains("GET")){
-               if(s.toUpperCase().contains("PRELAUNCH")){
-                  if(s.toUpperCase().contains("HOURS")){
-                     this.getPrelaunchHours(input);
-                  }
-               }
-            }
          }
          catch(ClassCastException cce){}
       }
@@ -129,6 +147,15 @@ implements Subscriber, ClockSubscriber{
    public void error(String error){}
 
    /////////////////////////Private Methods///////////////////////////
+   /**/
+   private LaunchSimulatorCountdownPanel getCountdownPanel(){
+      JPanel panel=(JPanel)this.getContentPane().getComponent(1);
+      JPanel nwPanel=(JPanel)panel.getComponent(0);
+      LaunchSimulatorCountdownPanel p =
+              (LaunchSimulatorCountdownPanel)nwPanel.getComponent(0);
+      return p;
+   }
+
    /*
     *It is going to be some sort of message, so go ahead and get it
     first
@@ -139,20 +166,6 @@ implements Subscriber, ClockSubscriber{
          if(message.contains("PRELAUNCH")){
             this.setPrelaunchTime();
          }
-      }
-   }
-
-   /**/
-   private void getPrelaunchHours(Integer hours){
-      try{
-         JPanel panel=(JPanel)this.getContentPane().getComponent(1);
-         JPanel nwPanel=(JPanel)panel.getComponent(0);
-         LaunchSimulatorCountdownPanel p =
-               (LaunchSimulatorCountdownPanel)nwPanel.getComponent(0);
-         hours = p.getHours();
-      }
-      catch(NumberFormatException nfe){
-         nfe.printStackTrace();
       }
    }
 

@@ -74,8 +74,8 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
    }
 
    /**/
-   public Integer getHours(){
-      Integer hours  = null;
+   public int getHours(){
+      int hours  = 0;
       JTextField htf = null;
       JPanel panel  = (JPanel)this.getComponent(1);
       for(int i = 0; i < panel.getComponentCount(); ++i){
@@ -83,16 +83,58 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
             JTextField tf = (JTextField)panel.getComponent(i);
             if(tf.getName().toUpperCase().contains("SETHOURS")){
                try{
-                  hours = Integer.valueOf(tf.getText());
+                  hours = Integer.parseInt(tf.getText());
                }
                catch(NumberFormatException nfe){
-                  nfe.printStackTrace();
+                  String error = "Please Enter a Valid\n";
+                  error += "number for Hours";
+                  JOptionPane.showMessageDialog(this,
+                        error,
+                        "Number Needed!",
+                        JOptionPane.ERROR_MESSAGE);
+                  tf.requestFocus();
+                  tf.selectAll();
                }
             }
          }
          catch(ClassCastException cce){}
       }
       return hours;
+   }
+   
+   /**/
+   public int getMins(){
+      int mins = 0;
+      JPanel panel = (JPanel)this.getComponent(1);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         try{
+            JTextField tf = (JTextField)panel.getComponent(i);
+            if(tf.getName().toUpperCase().contains("SETMINS")){
+               try{
+                  mins = Integer.parseInt(tf.getText());
+               }
+               catch(NumberFormatException nfe){
+                  String error = "Please Enter a Valid\n";
+                  error += "number for Minutes";
+                  JOptionPane.showMessageDialog(this,
+                        error,
+                        "Number Needed!",
+                        JOptionPane.ERROR_MESSAGE);
+                  tf.requestFocus();
+                  tf.selectAll();
+               }
+            }
+         }
+         catch(ClassCastException cce){}
+      }
+      return mins;
+   }
+
+   /**/
+   public int getSecs(){
+      int secs = 0;
+
+      return secs;
    }
 
    /*
