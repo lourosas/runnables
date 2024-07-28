@@ -62,7 +62,9 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    /**/
    public void error(String type, String message){}
    /**/
-   public void update(String time){}
+   public void update(String time){
+      System.out.println(time);
+   }
    /**/
    public void update(State state){}
    /**/
@@ -80,7 +82,9 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    /**/
    public void update(String time, String type){}
    /**/
-   public void update(java.util.List<?> list){}
+   public void update(java.util.List<?> list){
+      System.out.println(list);
+   }
    /**/
    public void updateElapsed(Duration duration){}
    /**/

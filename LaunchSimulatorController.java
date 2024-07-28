@@ -104,8 +104,7 @@ KeyListener,ItemListener,WindowListener{
    ////////////////////////////Private Methods////////////////////////
    /**/
    private void activatePrelaunchCountdown(){
-      System.out.println("COUNTDOWNSTART");
-   
+      this._simulator.startCountdown();
    }
 
    /**/

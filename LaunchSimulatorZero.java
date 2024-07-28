@@ -136,6 +136,16 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    //
+   private void setPrelaunch(PreLaunch substate){
+      this.state             = State.PRELAUNCH;
+      this.preLaunchSubstate = substate;
+      System.out.println(this.state);
+      System.out.println(this.preLaunchSubstate);
+   }
+
+   //
+   //
+   //
    private void setPrelaunchTime(int hours,int mins,int secs){
       System.out.printf("%03d:%02d:%02d\n", hours,mins,secs);
       this.prelaunchHours = hours;
@@ -192,6 +202,14 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    public void startCountdown(){
       this.start = true;
+      this.countdownTimer = new CountdownTimer(new LClock());
+      this.countdownTimer.addSubscriber(this.clockSubscriber);
+      int hours = this.prelaunchHours;
+      int mins  = this.prelaunchMins;
+      int secs  = this.prelaunchSecs;
+      this.countdownTimer.inputTime(hours,mins,secs);
+      this.countdownTimer.start();
+      this.setPrelaunch(PreLaunch.CONTINUE);
    }
 
    ////////////////Runnable Interface Implementation//////////////////
