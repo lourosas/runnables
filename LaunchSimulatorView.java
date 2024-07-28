@@ -96,7 +96,11 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    //////////////////CountdownTimerInterface Methods//////////////////
    /**/
    public java.util.List<Integer> requestTimes(){
-      return null;
+      java.util.List<Integer> list = new LinkedList<Integer>();
+      list.add(this.requestHours());
+      list.add(this.requestMins());
+      list.add(this.requestSecs());
+      return list;
    }
 
    /**/

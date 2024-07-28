@@ -131,7 +131,7 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    private void setPrelaunchTime(int hours,int mins,int secs){
-      System.out.println(hours+":"+mins+":"+secs);
+      System.out.printf("%03d:%02d:%02d\n", hours,mins,secs);
    }
 
    //
