@@ -142,7 +142,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
          this.getMessage(s);
       }
    }
-   
+
    /**/
    public void error(RuntimeException re){}
    /**/
@@ -175,6 +175,11 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
             this.setPrelaunchTime();
          }
       }
+      else if(message.contains("READY")){
+         if(message.contains("PRELAUNCH")){
+            this.setForCountdownStart();
+         }
+      }
    }
 
    /**/
@@ -183,10 +188,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       if(test.equals("SETHOURS") ||
          test.equals("SETMINS")  ||
          test.equals("SETSECS")){
-         JPanel panel=(JPanel)this.getContentPane().getComponent(1);
-         JPanel nwPanel=(JPanel)panel.getComponent(0);
-         LaunchSimulatorCountdownPanel p =
-               (LaunchSimulatorCountdownPanel)nwPanel.getComponent(0);
+         LaunchSimulatorCountdownPanel p = this.getCountdownPanel();
          p.requestNextFocus(jtf, s);
       }
    }
@@ -198,12 +200,15 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
                error,
                "Time Entry Error",
                JOptionPane.ERROR_MESSAGE);
-         JPanel panel = (JPanel)this.getContentPane().getComponent(1);
-         JPanel nwPanel=(JPanel)panel.getComponent(0);
-         LaunchSimulatorCountdownPanel p =
-               (LaunchSimulatorCountdownPanel)nwPanel.getComponent(0);
+         LaunchSimulatorCountdownPanel p = this.getCountdownPanel();
          p.wrongHourEntry();
       }
+   }
+
+   /**/
+   private void setForCountdownStart(){
+      LaunchSimulatorCountdownPanel p = this.getCountdownPanel();
+      p.activateReadyForStart();
    }
 
    /**/
@@ -218,8 +223,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
             b.setEnabled(true);
          }
       }
-      LaunchSimulatorCountdownPanel p =
-               (LaunchSimulatorCountdownPanel)nwPanel.getComponent(0);
+      LaunchSimulatorCountdownPanel p = this.getCountdownPanel();
       p.activatePrelaunchTime();
    }
 

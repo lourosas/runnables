@@ -43,6 +43,9 @@ implements Runnable,Publisher,LaunchSimulator{
    private Thread             rt0;
    private boolean            start;
    private boolean            kill;
+   private int                prelaunchHours;
+   private int                prelaunchMins;
+   private int                prelaunchSecs;
 
    {
       clockSubscriber    = null;
@@ -54,6 +57,9 @@ implements Runnable,Publisher,LaunchSimulator{
       rt0                = null;
       start              = false;
       kill               = false;
+      prelaunchHours     = -1;
+      prelaunchMins      = -1;
+      prelaunchSecs      = -1;
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -132,6 +138,10 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    private void setPrelaunchTime(int hours,int mins,int secs){
       System.out.printf("%03d:%02d:%02d\n", hours,mins,secs);
+      this.prelaunchHours = hours;
+      this.prelaunchMins  = mins;
+      this.prelaunchSecs  = secs;
+      this.subscriber.update(null,"Ready:  Prelaunch");
    }
 
    //

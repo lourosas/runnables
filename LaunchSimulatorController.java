@@ -103,6 +103,12 @@ KeyListener,ItemListener,WindowListener{
 
    ////////////////////////////Private Methods////////////////////////
    /**/
+   private void activatePrelaunchCountdown(){
+      System.out.println("COUNTDOWNSTART");
+   
+   }
+
+   /**/
    private void activatePrelaunchTime(){
       try{
          this._subscriber.update(null,"Set:  Prelaunch");
@@ -123,8 +129,11 @@ KeyListener,ItemListener,WindowListener{
          if(command.equals("PRELAUNCH")){
             this.activatePrelaunchTime();
          }
-         else if(command.equals("COUNTDOWNSTART")){
+         else if(command.equals("COUNTDOWNSET")){
             this.requestPrelaunchTime();
+         }
+         else if(command.equals("COUNTDOWNSTART")){
+            this.activatePrelaunchCountdown();
          }
          else{
             System.out.println(command);
