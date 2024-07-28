@@ -148,7 +148,11 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    /**/
    public void error(RuntimeException re, Object o){}
    /**/
-   public void error(String error){}
+   public void error(String error){
+      if(error.toUpperCase().contains("TIME ENTRY")){
+         this.handleTimeEntryErrors(error);
+      }
+   }
 
    /////////////////////////Private Methods///////////////////////////
    /**/
@@ -184,6 +188,21 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
          LaunchSimulatorCountdownPanel p =
                (LaunchSimulatorCountdownPanel)nwPanel.getComponent(0);
          p.requestNextFocus(jtf, s);
+      }
+   }
+
+   /**/
+   private void handleTimeEntryErrors(String error){
+      if(error.toUpperCase().contains("TIME ENTRY")){
+         JOptionPane.showMessageDialog(this,
+               error,
+               "Time Entry Error",
+               JOptionPane.ERROR_MESSAGE);
+         JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+         JPanel nwPanel=(JPanel)panel.getComponent(0);
+         LaunchSimulatorCountdownPanel p =
+               (LaunchSimulatorCountdownPanel)nwPanel.getComponent(0);
+         p.wrongHourEntry();
       }
    }
 

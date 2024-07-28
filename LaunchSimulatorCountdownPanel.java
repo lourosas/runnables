@@ -181,12 +181,31 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
       return secs;
    }
 
-   /*
-   public JPanel panel(){
-      return this._panel;
+   /**/
+   public void wrongHourEntry(){
+      int count        = 0;
+      boolean notFound = true;
+      JPanel panel = (JPanel)this.getComponent(1);
+      while(count < panel.getComponentCount() && notFound){
+         try{
+            JTextField tf = (JTextField)panel.getComponent(count);
+            if(tf.getName().toUpperCase().contains("SETHOURS")){
+               tf.requestFocus();
+               tf.selectAll();
+            }
+         }
+         catch(ClassCastException cce){}
+         finally{
+            ++count;
+         }
+      }
    }
-   */
 
+   /**/
+   public void wrongMinEntry(){}
+
+   /**/
+   public void wrongSecEntry(){}
    ////////////////////////Private Methods////////////////////////////
    /**/
    private void activateStartButton(){

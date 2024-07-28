@@ -166,7 +166,15 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    public void preLaunchTime(int hours,int mins,int secs){
-      this.setPrelaunchTime(hours,mins,secs);
+      if(hours < 1){
+         String error = new String("Time Entry!  Please Enter a\n");
+         error += "Countdown Time greater than\n";
+         error += "59 minutes 59 seconds!";
+         this.subscriber.error(error);
+      }
+      else{
+         this.setPrelaunchTime(hours,mins,secs);
+      }
    }
 
    //
