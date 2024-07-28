@@ -184,15 +184,22 @@ KeyListener,ItemListener,WindowListener{
    /**/
    private void requestPrelaunchTime(){
       try{
-         System.out.println(this._countdownTimer.requestHours());
-         System.out.println(this._countdownTimer.requestMins());
-         System.out.println(this._countdownTimer.requestSecs());
+         int hours = this._countdownTimer.requestHours().intValue();
+         int mins  = this._countdownTimer.requestMins().intValue();
+         int secs  = this._countdownTimer.requestSecs().intValue();
+         System.out.println(hours);
+         System.out.println(mins);
+         System.out.println(secs);
       }
       catch(NullPointerException npe){
-         JOptionPane.showMessageDialog(null,
-               "NO GUI to set Prelaunch!",
-               "GUI-less!",
-               JOptionPane.ERROR_MESSAGE);
+         //If the GUI is NULL, indicate that, otherwise, ignore
+         //setting the state...
+         if(this._countdownTimer == null){
+            JOptionPane.showMessageDialog(null,
+                  "NO GUI to set Prelaunch!",
+                  "GUI-less!",
+                  JOptionPane.ERROR_MESSAGE);
+         }
       }
    }
 }
