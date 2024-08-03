@@ -66,15 +66,23 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    //
-   public LaunchSimulatorZero(){}
+   public LaunchSimulatorZero(){
+      //Go ahead and start the Thread
+      this.setUpThread();
+   }
 
    /**/
-   public LaunchSimulatorZero(Subscriber sub){}
+   public LaunchSimulatorZero(Subscriber sub){
+      //Go ahead and start the Thread
+      this.setUpThread();
+   }
 
    /**/
    public LaunchSimulatorZero(Subscriber sub, ClockSubscriber csub){
       this.addSubscriber(sub);
       this.addClockSubscriber(csub);
+      //Go ahead and start the Thread
+      this.setUpThread();
    }
 
    ///////////////////////Public Methods//////////////////////////////
@@ -157,6 +165,14 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    //
+   private void setUpThread(){
+      this.rt0 = new Thread(this, "Launch Simulator");
+      this.rt0.start();
+   }
+
+   //
+   //
+   //
    private State state(){
       return this.state;
    }
@@ -201,14 +217,20 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    public void startCountdown(){
-      this.start = true;
-      this.countdownTimer = new CountdownTimer(new LClock());
+      //I am thinking much of this will need to be transefed to
+      //(an)other method(s)
+      LClock clock = new LClock();
+      this.countdownTimer = new CountdownTimer(clock);
+      //Get the Thread going
+      Thread t = new Thread(clock, "clock");
+      t.start();
       this.countdownTimer.addSubscriber(this.clockSubscriber);
       int hours = this.prelaunchHours;
       int mins  = this.prelaunchMins;
       int secs  = this.prelaunchSecs;
       this.countdownTimer.inputTime(hours,mins,secs);
       this.countdownTimer.start();
+      this.start = true;
       this.setPrelaunch(PreLaunch.CONTINUE);
    }
 
@@ -226,7 +248,7 @@ implements Runnable,Publisher,LaunchSimulator{
             Thread.sleep(100);
             if(this.start){
                System.out.println("Simulator Running");
-               Thread.sleep(1000);
+               Thread.sleep(500);
             }
          }
       }
