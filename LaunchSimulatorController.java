@@ -131,6 +131,7 @@ KeyListener,ItemListener,WindowListener{
          else if(command.equals("COUNTDOWNSET")){
             this.requestPrelaunchTime();
          }
+         else if(command.equals("COUNTDOWNRESUME")){}
          else if(command.equals("COUNTDOWNSTART")){
             this.activatePrelaunchCountdown();
          }

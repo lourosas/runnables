@@ -297,6 +297,11 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
       start.setActionCommand("COUNTDOWNSTART");
       start.setEnabled(false);
       panel.add(start);
+
+      JButton resume = new JButton("Resume");
+      resume.setActionCommand("COUNTDOWNRESUME");
+      resume.setEnabled(false);
+      panel.add(resume);
       
       JButton hold = new JButton("Hold");
       hold.setActionCommand("COUNTDOWNHOLD");

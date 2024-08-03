@@ -28,6 +28,7 @@ public interface LaunchSimulator{
    public void ignite();
    public void launchingMechanism(LaunchingMechanism mech);
    public void preLaunchTime(int hours, int mins, int secs);
+   public void resumeCountdown();
    public void startCountdown();
 }
 //////////////////////////////////////////////////////////////////////
