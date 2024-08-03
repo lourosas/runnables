@@ -122,30 +122,30 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    private void prelaunch(){
       this.state             = State.PRELAUNCH;
-      this.preLaunchSubstate = PreLaunch.CONTINUE;
+      this.prelaunchSubstate(PreLaunch.CONTINUE);
    }
 
    //
    //
    //
    private void prelaunch(PreLaunch substate){
-      this.state             = State.PRELAUNCH;
-      this.preLaunchSubstate = substate;
+      this.state = State.PRELAUNCH;
+      this.prelaunchSubstate(substate);
    }
 
    //
    //
    //
    private void prelaunchSubstate(PreLaunch substate){
-      this.preLaunchSubstate = substate;
+      if(substate==PreLaunch.CONTINUE || substate==PreLaunch.HOLD){
+         this.preLaunchSubstate = substate;
+      }
    }
 
    //
    //
    //
    private void setPrelaunch(PreLaunch substate){
-      System.out.println("State:  " + this.state);
-      System.out.println("Substate: "+this.preLaunchSubstate);
       this.state = State.PRELAUNCH;
       this.prelaunchSubstate(substate);
       System.out.println(this.state);
@@ -161,6 +161,9 @@ implements Runnable,Publisher,LaunchSimulator{
       this.prelaunchHours = hours;
       this.prelaunchMins  = mins;
       this.prelaunchSecs  = secs;
+      System.out.println("State:  " + this.state);
+      System.out.println("Substate: "+this.preLaunchSubstate);
+      //This will need to change and go somewheres else
       this.subscriber.update(null,"Ready:  Prelaunch");
    }
 
@@ -247,13 +250,10 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    public void startCountdown(){
-      //This will fucking change NOW!!!
-      /*
       this.setUpCountdownTimer();
       this.setTheCountdownTime();
       this.start = true;
       this.setPrelaunch(PreLaunch.CONTINUE);
-      */
    }
 
    ////////////////Runnable Interface Implementation//////////////////
