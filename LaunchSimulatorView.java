@@ -34,9 +34,11 @@ import rosas.lou.clock.*;
 public class LaunchSimulatorView extends GenericJFrame
 implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    private LaunchSimulatorController _controller;
+   private LaunchSimulatorStateSubstate _lsss;
 
    {
-      _controller       = null;
+      _controller = null;
+      _lsss       = null;      
    };
 
    //////////////////////////Constructors/////////////////////////////
@@ -63,7 +65,18 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    public void error(String type, String message){}
    /**/
    public void update(String time){
-      System.out.println(time);
+      try{
+         LaunchSimulatorStateSubstate.State s = this._lsss.state();
+         LaunchSimulatorStateSubstate.PreLaunchSubstate pl =
+                                       this._lsss.prelaunchSubstate();
+         if(s==LaunchSimulatorStateSubstate.State.PRELAUNCH){
+            LaunchSimulatorCountdownPanel p= this.getCountdownPanel();
+            p.setCurrentCountdownTime(time);
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
    }
    /**/
    public void update(State state){}
@@ -141,6 +154,12 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
             this.handleJTextFieldEntry(jtf,s);
          }
          catch(ClassCastException cce){}
+         try{
+            LaunchSimulatorStateSubstate lss =
+                                      (LaunchSimulatorStateSubstate)o;
+            this.handleStateSubstate(lss, s);
+         }
+         catch(ClassCastException cce){}
       }
       else{
          this.getMessage(s);
@@ -159,6 +178,13 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /////////////////////////Private Methods///////////////////////////
+   /**/
+   private void displayState(LaunchSimulatorStateSubstate.State s){
+      JPanel panel=(JPanel)this.getContentPane().getComponent(0);
+      JLabel label=(JLabel)panel.getComponent(0);
+      label.setText("" + s);
+   }
+
    /**/
    private LaunchSimulatorCountdownPanel getCountdownPanel(){
       JPanel panel=(JPanel)this.getContentPane().getComponent(1);
@@ -195,6 +221,52 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
          LaunchSimulatorCountdownPanel p = this.getCountdownPanel();
          p.requestNextFocus(jtf, s);
       }
+   }
+
+   /**/
+   private void handleIgnitionSubstate(){
+   }
+
+   /**/
+   private void handleLaunchSubstate(){
+   }
+
+   /**/
+   private void handlePrelaunchSubstate(){
+      LaunchSimulatorCountdownPanel p = this.getCountdownPanel();
+      if(this._lsss.prelaunchSubstate() != null){
+         LaunchSimulatorStateSubstate.PreLaunchSubstate pl =
+                                       this._lsss.prelaunchSubstate();
+         if(pl == 
+             LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE){
+            p.activateContinueState();    
+         }
+      }
+   }
+
+   /**/
+   private void handlePrelaunchSubstate
+   (
+      LaunchSimulatorStateSubstate.PreLaunchSubstate sub
+   ){
+      LaunchSimulatorCountdownPanel p = this.getCountdownPanel();
+      if(sub ==
+             LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE){
+         p.activateContinueState();
+      }
+   }
+
+   /**/
+   private void handleStateSubstate
+   (
+      LaunchSimulatorStateSubstate lsss,
+      String                       message
+   ){
+      this._lsss = lsss;
+      this.displayState(this._lsss.state());
+      this.handlePrelaunchSubstate();
+      this.handleIgnitionSubstate();
+      this.handleLaunchSubstate();
    }
 
    /**/

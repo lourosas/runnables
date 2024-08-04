@@ -44,6 +44,18 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
 
    /////////////////////////Public Methods////////////////////////////
    /**/
+   public void activateContinueState(){
+      this.deactivateTextFields();
+      this.deactivateButtons();
+      this.activateHoldButton();
+      //Just a test...remove for something else...
+      //this.activateCountdownTimeTextField();
+   }
+
+   /**/
+   public void activateHoldState(){}
+
+   /**/
    public void activatePrelaunchTime(){
       this.activateTextFields();
       this.deactivateButtons();
@@ -193,6 +205,19 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
    }
 
    /**/
+   public void setCurrentCountdownTime(String time){
+      JPanel panel = (JPanel)this.getComponent(2);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         try{
+            //Only TWO components in the Panel!!
+            JTextField tf = (JTextField)panel.getComponent(i);
+            tf.setText(time);
+         }
+         catch(ClassCastException cce){}
+      }
+   }
+   
+   /**/
    public void wrongHourEntry(){
       int count        = 0;
       boolean notFound = true;
@@ -219,6 +244,29 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
    public void wrongSecEntry(){}
    ////////////////////////Private Methods////////////////////////////
    /**/
+   private void activateCountdownTimeTextField(){
+      JPanel panel = (JPanel)this.getComponent(2);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         try{
+            JTextField tf = (JTextField)panel.getComponent(i);
+            tf.setEditable(true);
+         }
+         catch(ClassCastException cce){}
+      }
+   }
+
+   /**/
+   private void activateHoldButton(){
+      JPanel panel = (JPanel)this.getComponent(3);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         JButton b = (JButton)panel.getComponent(i);
+         if(b.getActionCommand().toUpperCase().contains("HOLD")){
+            b.setEnabled(true);
+         }
+      }
+   }
+
+   /**/
    private void activateSetButton(){
       JPanel panel = (JPanel)this.getComponent(3);
       for(int i = 0; i < panel.getComponentCount(); ++i){
@@ -235,17 +283,6 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
       for(int i=0; i < panel.getComponentCount(); ++i){
          JButton b = (JButton)panel.getComponent(i);
          if(b.getActionCommand().toUpperCase().contains("START")){
-            b.setEnabled(true);
-         }
-      }
-   }
-
-   /**/
-   private void activateHoldButton(){
-      JPanel panel = (JPanel)this.getComponent(3);
-      for(int i = 0; i < panel.getComponentCount(); ++i){
-         JButton b = (JButton)panel.getComponent(i);
-         if(b.getActionCommand().toUpperCase().contains("HOLD")){
             b.setEnabled(true);
          }
       }

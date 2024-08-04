@@ -140,21 +140,9 @@ implements Runnable,Publisher,LaunchSimulator{
                          LaunchSimulatorStateSubstate.State.PRELAUNCH;
       this.stateSubstate = new LaunchSimulatorStateSubstate(state,
                                                   substate,null,null);
-   }
-
-   //
-   //
-   //
-   private void setPrelaunch
-   (
-      LaunchSimulatorStateSubstate.PreLaunchSubstate substate
-   ){
-      LaunchSimulatorStateSubstate.State state =
-                         LaunchSimulatorStateSubstate.State.PRELAUNCH;
-      this.stateSubstate = new LaunchSimulatorStateSubstate(state,
-                                                  substate,null,null);
-      System.out.println(this.stateSubstate.state());
-      System.out.println(this.stateSubstate.prelaunchSubstate());
+      String message = new String("State:  "+state);
+      message+=" Prelaunch:  "+this.stateSubstate.prelaunchSubstate();
+      this.subscriber.update(this.stateSubstate,message);
    }
 
    //
@@ -257,7 +245,7 @@ implements Runnable,Publisher,LaunchSimulator{
       this.setUpCountdownTimer();
       this.setTheCountdownTime();
       this.start = true;
-      this.setPrelaunch(
+      this.prelaunch(
              LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE);
    }
 
@@ -274,7 +262,7 @@ implements Runnable,Publisher,LaunchSimulator{
             }
             Thread.sleep(100);
             if(this.start){
-               System.out.println("Simulator Running");
+               //System.out.println("Simulator Running");
                Thread.sleep(500);
             }
          }
