@@ -209,6 +209,9 @@ KeyListener,ItemListener,WindowListener{
                   "GUI-less!",
                   JOptionPane.ERROR_MESSAGE);
          }
+         else{  //This should never fucking happen!
+            npe.printStackTrace();
+         }
       }
    }
 }

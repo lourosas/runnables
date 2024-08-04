@@ -26,18 +26,11 @@ import rosas.lou.clock.*;
 */
 public class LaunchSimulatorZero
 implements Runnable,Publisher,LaunchSimulator{
-   private enum State{PRELAUNCH, INTIATELAUNCH, LAUNCH};
-   private enum PreLaunch{CONTINUE, HOLD};
-   private enum Ignition{IGNITION,BUILDUP,RELEASED};
-   private enum Launch{ASCENT,STAGING,IGNITEENGINES};
+   private LaunchSimulatorStateSubstate stateSubstate;
 
    private ClockSubscriber    clockSubscriber;
    private Subscriber         subscriber;
    private CountdownTimer     countdownTimer;
-   private State              state;
-   private PreLaunch          preLaunchSubstate;
-   private Ignition           ignitionSubstate;
-   private Launch             launchSubstate;
    private Rocket             rocket;
    private LaunchingMechanism launchingMechanism;
    private Thread             rt0;
@@ -48,6 +41,7 @@ implements Runnable,Publisher,LaunchSimulator{
    private int                prelaunchSecs;
 
    {
+      stateSubstate      = null;
       clockSubscriber    = null;
       subscriber         = null;
       countdownTimer     = null;
@@ -110,46 +104,57 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    //
-   private void ignition(Ignition ignition){}
+   private void ignition
+   (
+      LaunchSimulatorStateSubstate.IgnitionSubstate ignition
+   ){}
 
    //
    //
    //
-   private void ignitionSubstate(Ignition ignition){}
+   private void ignitionSubstate
+   (
+      LaunchSimulatorStateSubstate.IgnitionSubstate ignition
+   ){}
 
    //
    //
    //
    private void prelaunch(){
-      this.state             = State.PRELAUNCH;
-      this.prelaunchSubstate(PreLaunch.CONTINUE);
+      LaunchSimulatorStateSubstate.State state =
+                         LaunchSimulatorStateSubstate.State.PRELAUNCH;
+      LaunchSimulatorStateSubstate.PreLaunchSubstate plSubstate =
+              LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE;
+      this.stateSubstate = new LaunchSimulatorStateSubstate(state,
+                                                plSubstate,null,null);
    }
 
    //
    //
    //
-   private void prelaunch(PreLaunch substate){
-      this.state = State.PRELAUNCH;
-      this.prelaunchSubstate(substate);
+   private void prelaunch
+   (
+      LaunchSimulatorStateSubstate.PreLaunchSubstate substate
+   ){
+      LaunchSimulatorStateSubstate.State state =
+                         LaunchSimulatorStateSubstate.State.PRELAUNCH;
+      this.stateSubstate = new LaunchSimulatorStateSubstate(state,
+                                                  substate,null,null);
    }
 
    //
    //
    //
-   private void prelaunchSubstate(PreLaunch substate){
-      if(substate==PreLaunch.CONTINUE || substate==PreLaunch.HOLD){
-         this.preLaunchSubstate = substate;
-      }
-   }
-
-   //
-   //
-   //
-   private void setPrelaunch(PreLaunch substate){
-      this.state = State.PRELAUNCH;
-      this.prelaunchSubstate(substate);
-      System.out.println(this.state);
-      System.out.println(this.preLaunchSubstate);
+   private void setPrelaunch
+   (
+      LaunchSimulatorStateSubstate.PreLaunchSubstate substate
+   ){
+      LaunchSimulatorStateSubstate.State state =
+                         LaunchSimulatorStateSubstate.State.PRELAUNCH;
+      this.stateSubstate = new LaunchSimulatorStateSubstate(state,
+                                                  substate,null,null);
+      System.out.println(this.stateSubstate.state());
+      System.out.println(this.stateSubstate.prelaunchSubstate());
    }
 
    //
@@ -161,11 +166,10 @@ implements Runnable,Publisher,LaunchSimulator{
       this.prelaunchHours = hours;
       this.prelaunchMins  = mins;
       this.prelaunchSecs  = secs;
-      System.out.println("State:  " + this.state);
-      System.out.println("Substate: "+this.preLaunchSubstate);
       //This will need to change and go somewheres else
-      this.subscriber.update(null,"Ready:  Prelaunch");
+      this.subscriber.update(this.stateSubstate,"Ready:  Prelaunch");
    }
+
 
    //
    //
@@ -201,8 +205,8 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    //
-   private State state(){
-      return this.state;
+   private LaunchSimulatorStateSubstate.State state(){
+      return this.stateSubstate.state();
    }
 
    ////////////LaunchSimulator Interface Implementation////////////////
@@ -253,7 +257,8 @@ implements Runnable,Publisher,LaunchSimulator{
       this.setUpCountdownTimer();
       this.setTheCountdownTime();
       this.start = true;
-      this.setPrelaunch(PreLaunch.CONTINUE);
+      this.setPrelaunch(
+             LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE);
    }
 
    ////////////////Runnable Interface Implementation//////////////////

@@ -24,14 +24,14 @@ import rosas.lou.runnables.*;
 
 public class LaunchSimulatorStateSubstate{
    public enum State{PRELAUNCH,INITIATELAUNCH,LAUNCH};
-   public enum PreLaunch{CONTINUE,HOLD};
-   public enum Ignition{IGNITION,BUILDUP,RELEASED};
-   public enum Launch{ASCENT,STAGING,IGNITEENGINES};
+   public enum PreLaunchSubstate{CONTINUE,HOLD};
+   public enum IgnitionSubstate{IGNITION,BUILDUP,RELEASED};
+   public enum LaunchSubstate{ASCENT,STAGING,IGNITEENGINES};
 
-   private State     _state             = null;
-   private PreLaunch _preLaunchSubstate = null;
-   private Ingition  _ignitionSubstate  = null;
-   private Launch    _launchSubstate    = null;
+   private State             _state             = null;
+   private PreLaunchSubstate _preLaunchSubstate = null;
+   private IgnitionSubstate  _ignitionSubstate  = null;
+   private LaunchSubstate    _launchSubstate    = null;
 
    ///////////////////////////Construtors/////////////////////////////
    /**/
@@ -40,10 +40,10 @@ public class LaunchSimulatorStateSubstate{
    /**/
    public LaunchSimulatorStateSubstate
    (
-      State     state,
-      PreLaunch prelaunch,
-      Ignition  ignition,
-      Launch    launch
+      State             state,
+      PreLaunchSubstate prelaunch,
+      IgnitionSubstate  ignition,
+      LaunchSubstate    launch
    ){
       this.setState(state);
       this.setPrelaunchSubstate(prelaunch);
@@ -51,19 +51,38 @@ public class LaunchSimulatorStateSubstate{
       this.setLaunchSubstate(launch);
    }
    ////////////////////////Public Methods/////////////////////////////
+   /**/
+   public State state(){
+      return this._state;
+   }
+
+   /**/
+   public PreLaunchSubstate prelaunchSubstate(){
+      return this._preLaunchSubstate;
+   }
+
+   /**/
+   public IgnitionSubstate ignitionSubstate(){
+      return this._ignitionSubstate;
+   }
+
+   /**/
+   public LaunchSubstate launchSubstate(){
+      return this._launchSubstate;
+   }
    ///////////////////////Private Methods/////////////////////////////
    /**/
-   private void setIgnitionSubstate(Ingnition ignition){
+   private void setIgnitionSubstate(IgnitionSubstate ignition){
       this._ignitionSubstate = ignition;
    }
 
    /**/
-   private void setLaunchSubstate(Launch launch){
+   private void setLaunchSubstate(LaunchSubstate launch){
       this._launchSubstate = launch;
    }
 
    /**/
-   private void setPrelaunchSubstate(PreLaunch prelaunch){
+   private void setPrelaunchSubstate(PreLaunchSubstate prelaunch){
       this._preLaunchSubstate = prelaunch;
    }
    
