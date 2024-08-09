@@ -314,10 +314,10 @@ update(:Object,:String)</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>330</x>
-      <y>550</y>
+      <x>340</x>
+      <y>510</y>
       <w>430</w>
-      <h>70</h>
+      <h>60</h>
     </coordinates>
     <panel_attributes>Ref
 --
@@ -328,10 +328,10 @@ bg=orange</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>330</x>
-      <y>640</y>
+      <x>340</x>
+      <y>580</y>
       <w>430</w>
-      <h>80</h>
+      <h>60</h>
     </coordinates>
     <panel_attributes>Ref
 --
@@ -343,8 +343,8 @@ bg=red</panel_attributes>
     <id>UMLNote</id>
     <coordinates>
       <x>140</x>
-      <y>540</y>
-      <w>140</w>
+      <y>480</y>
+      <w>150</w>
       <h>70</h>
     </coordinates>
     <panel_attributes>Monitor the Rocket
@@ -355,8 +355,8 @@ the Stage</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>270</x>
-      <y>570</y>
+      <x>280</x>
+      <y>510</y>
       <w>80</w>
       <h>90</h>
     </coordinates>
@@ -681,5 +681,19 @@ update(:Object,:String)</panel_attributes>
     <panel_attributes>lt=&lt;&lt;&lt;-
 update(timeString:String)</panel_attributes>
     <additional_attributes>200.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>340</x>
+      <y>650</y>
+      <w>430</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Ref
+--
+Monitor Capsule
+bg=blue</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>

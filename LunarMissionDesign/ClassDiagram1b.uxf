@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>230</y>
+      <w>40</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>240</x>
+      <y>350</y>
+      <w>260</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>Rocket
+--
++monitorPrelaunch():RocketData
++monitorIgnition():RocketData
++monitorLaunch():RocketData
++totalStages():int
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>190</x>
+      <y>0</y>
+      <w>360</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Model&gt;&gt;
+rosas.lou.runnables.LaunchSimulatorZero
+--
+
+--
+-ignition()
+-ignition(ignition:Ignition)
+-ignitionSubstate(ignition:Ignition)
+-prelaunch()
+-prelaunch(:Prelaunch)
+-prelaunchSubstate(:Prelaunch)
+-prelaunchSubstate():Prelaunch
+-setPrelaunchTime(hours:int,mins:int,secs:int)
+-state():State
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>270</x>
+      <y>540</y>
+      <w>190</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>SimpleRocket
+--
+-int modelNumber
+-int stages
+--
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>350</y>
+      <w>30</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>470</x>
+      <y>670</y>
+      <w>300</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Stage
+--
++monitorPrelaunch():List&lt;StageData&gt;
++monitorIgnition():List&lt;StageData&gt;
++monitorLaunch():Liste&lt;StageData&gt;
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>450</x>
+      <y>570</y>
+      <w>200</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=*</panel_attributes>
+    <additional_attributes>10.0;10.0;170.0;10.0;170.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>500</x>
+      <y>850</y>
+      <w>240</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>ConcreteStage
+--
+-int stageNumber
+-int modelNumber
+--
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>610</x>
+      <y>670</y>
+      <w>30</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>530</x>
+      <y>920</y>
+      <w>60</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1...*
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>510</x>
+      <y>1050</y>
+      <w>60</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Engine
+--
+
+bg=cyan</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>620</x>
+      <y>1050</y>
+      <w>100</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>FuelSystem
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>660</x>
+      <y>920</y>
+      <w>40</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>590</x>
+      <y>1190</y>
+      <w>170</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>ConcreteFuelSystem
+--
+
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>660</x>
+      <y>1050</y>
+      <w>30</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>600</x>
+      <y>1280</y>
+      <w>60</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=2</panel_attributes>
+    <additional_attributes>30.0;10.0;10.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>580</x>
+      <y>1420</y>
+      <w>60</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Tank
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>670</x>
+      <y>1420</y>
+      <w>60</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Pump
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>680</x>
+      <y>1280</y>
+      <w>40</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=*</panel_attributes>
+    <additional_attributes>10.0;10.0;20.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>740</x>
+      <y>1280</y>
+      <w>90</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=*</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>780</x>
+      <y>1420</y>
+      <w>60</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Pipes
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>890</x>
+      <y>1040</y>
+      <w>100</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>StageData
+--
+
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>920</y>
+      <w>240</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;210.0;10.0;210.0;130.0</additional_attributes>
+  </element>
+</diagram>
