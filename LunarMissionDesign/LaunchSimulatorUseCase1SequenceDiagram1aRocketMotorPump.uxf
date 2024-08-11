@@ -4,20 +4,19 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>30</x>
+      <x>50</x>
       <y>70</y>
-      <w>150</w>
+      <w>160</w>
       <h>50</h>
     </coordinates>
-    <panel_attributes>&lt;&lt;interface&gt;&gt;
-:FuelSystem
+    <panel_attributes>:ConcreteFuelSystem
 bg=magenta</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>90</x>
+      <x>120</x>
       <y>110</y>
       <w>30</w>
       <h>270</h>
@@ -28,7 +27,7 @@ bg=magenta</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>330</x>
+      <x>360</x>
       <y>70</y>
       <w>130</w>
       <h>50</h>
@@ -41,7 +40,7 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>390</x>
+      <x>420</x>
       <y>110</y>
       <w>30</w>
       <h>280</h>
@@ -52,7 +51,7 @@ bg=green</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>730</x>
+      <x>760</x>
       <y>290</y>
       <w>160</w>
       <h>30</h>
@@ -63,7 +62,7 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>800</x>
+      <x>830</x>
       <y>310</y>
       <w>30</w>
       <h>70</h>
@@ -76,7 +75,7 @@ bg=green</panel_attributes>
     <coordinates>
       <x>20</x>
       <y>30</y>
-      <w>890</w>
+      <w>920</w>
       <h>360</h>
     </coordinates>
     <panel_attributes>loop[for all Pumps]</panel_attributes>
@@ -85,7 +84,7 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>90</x>
+      <x>120</x>
       <y>130</y>
       <w>330</w>
       <h>40</h>
@@ -97,7 +96,7 @@ monitorPrelaunch():PumpData</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>390</x>
+      <x>420</x>
       <y>160</y>
       <w>160</w>
       <h>50</h>
@@ -109,7 +108,7 @@ temp():double</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>390</x>
+      <x>420</x>
       <y>200</y>
       <w>150</w>
       <h>50</h>
@@ -121,7 +120,7 @@ rate():double</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>390</x>
+      <x>420</x>
       <y>240</y>
       <w>180</w>
       <h>50</h>
@@ -133,7 +132,7 @@ isError():boolean</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>90</x>
+      <x>120</x>
       <y>280</y>
       <w>660</w>
       <h>40</h>
@@ -141,5 +140,17 @@ isError():boolean</panel_attributes>
     <panel_attributes>lt=&lt;&lt;&lt;-
 ctor(number:int,type:String,isError:boolean,error:String,temp:double,rate:double)</panel_attributes>
     <additional_attributes>640.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>120</x>
+      <y>310</y>
+      <w>230</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+pumpData(:PumpData)</panel_attributes>
+    <additional_attributes>10.0;30.0;50.0;30.0;50.0;10.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>

@@ -4,13 +4,12 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>90</x>
+      <x>80</x>
       <y>120</y>
-      <w>150</w>
+      <w>160</w>
       <h>60</h>
     </coordinates>
-    <panel_attributes>&lt;&lt;interface&gt;&gt;
-_:FuelSystem_
+    <panel_attributes>_:ConcreteFuelSystem_
 bg=magenta</panel_attributes>
     <additional_attributes/>
   </element>
@@ -133,12 +132,24 @@ ctor(index:int,type:String,isError:boolean,error:String,rate:double,temp:double)
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>80</x>
+      <x>70</x>
       <y>90</y>
-      <w>850</w>
+      <w>860</w>
       <h>370</h>
     </coordinates>
     <panel_attributes>loop[for all Tanks]</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>150</x>
+      <y>360</y>
+      <w>210</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+tankData(:TankData)</panel_attributes>
+    <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>

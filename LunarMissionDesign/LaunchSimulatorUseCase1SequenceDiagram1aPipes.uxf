@@ -4,31 +4,30 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>110</x>
+      <x>80</x>
       <y>60</y>
-      <w>130</w>
+      <w>160</w>
       <h>50</h>
     </coordinates>
-    <panel_attributes>&lt;&lt;interface&gt;&gt;
-:FuelSystem
+    <panel_attributes>:ConcreteFuelSystem
 bg=magenta</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>160</x>
+      <x>150</x>
       <y>100</y>
       <w>30</w>
-      <h>240</h>
+      <h>260</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;220.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;240.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>440</x>
+      <x>430</x>
       <y>60</y>
       <w>100</w>
       <h>50</h>
@@ -41,7 +40,7 @@ bg=cyan</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>480</x>
+      <x>470</x>
       <y>100</y>
       <w>30</w>
       <h>260</h>
@@ -52,7 +51,7 @@ bg=cyan</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>160</x>
+      <x>150</x>
       <y>110</y>
       <w>350</w>
       <h>40</h>
@@ -64,7 +63,7 @@ monitorPrelaunch():PipeData</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>480</x>
+      <x>470</x>
       <y>140</y>
       <w>160</w>
       <h>50</h>
@@ -76,7 +75,7 @@ temp():double</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>480</x>
+      <x>470</x>
       <y>170</y>
       <w>150</w>
       <h>50</h>
@@ -88,7 +87,7 @@ flow():double</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>480</x>
+      <x>470</x>
       <y>200</y>
       <w>180</w>
       <h>50</h>
@@ -100,7 +99,7 @@ isError():boolean</panel_attributes>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>750</x>
+      <x>740</x>
       <y>250</y>
       <w>150</w>
       <h>30</h>
@@ -111,7 +110,7 @@ isError():boolean</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>820</x>
+      <x>810</x>
       <y>270</y>
       <w>30</w>
       <h>90</h>
@@ -122,7 +121,7 @@ isError():boolean</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>160</x>
+      <x>150</x>
       <y>240</y>
       <w>610</w>
       <h>40</h>
@@ -134,12 +133,24 @@ ctor(index:int,type:String,isError:boolean,error:String,flow:double,temp:double)
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>40</x>
+      <x>30</x>
       <y>30</y>
       <w>950</w>
       <h>340</h>
     </coordinates>
     <panel_attributes>loo[for all Pipe]</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>150</x>
+      <y>270</y>
+      <w>200</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+pipeData(:PipeData)</panel_attributes>
+    <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>

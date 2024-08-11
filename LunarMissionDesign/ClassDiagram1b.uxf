@@ -4,7 +4,7 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>600</x>
+      <x>560</x>
       <y>230</y>
       <w>40</w>
       <h>150</h>
@@ -17,7 +17,7 @@ m2=1</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>480</x>
+      <x>440</x>
       <y>350</y>
       <w>260</w>
       <h>140</h>
@@ -34,7 +34,7 @@ bg=red</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>430</x>
+      <x>390</x>
       <y>0</y>
       <w>360</w>
       <h>240</h>
@@ -59,7 +59,7 @@ bg=blue</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>510</x>
+      <x>470</x>
       <y>540</y>
       <w>190</w>
       <h>80</h>
@@ -75,7 +75,7 @@ bg=red</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>600</x>
+      <x>560</x>
       <y>350</y>
       <w>30</w>
       <h>210</h>
@@ -86,7 +86,7 @@ bg=red</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>740</x>
+      <x>700</x>
       <y>670</y>
       <w>240</w>
       <h>120</h>
@@ -102,7 +102,7 @@ bg=yellow</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>690</x>
+      <x>650</x>
       <y>570</y>
       <w>200</w>
       <h>130</h>
@@ -115,10 +115,10 @@ m2=*</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>740</x>
-      <y>850</y>
-      <w>240</w>
-      <h>90</h>
+      <x>700</x>
+      <y>810</y>
+      <w>260</w>
+      <h>130</h>
     </coordinates>
     <panel_attributes>ConcreteStage
 --
@@ -126,24 +126,26 @@ m2=*</panel_attributes>
 -int modelNumber
 -int totalEngines
 --
+-engineData(:EngineData)
+-fuelSystemData(:FuelSystemData)
 bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>850</x>
+      <x>810</x>
       <y>670</y>
       <w>30</w>
-      <h>200</h>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;180.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>460</x>
+      <x>420</x>
       <y>860</y>
       <w>300</w>
       <h>120</h>
@@ -157,7 +159,7 @@ m2=1...*
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>340</x>
+      <x>300</x>
       <y>950</y>
       <w>260</w>
       <h>140</h>
@@ -174,7 +176,7 @@ bg=orange</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>770</x>
+      <x>730</x>
       <y>1030</y>
       <w>280</w>
       <h>120</h>
@@ -189,7 +191,7 @@ bg=orange</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>900</x>
+      <x>860</x>
       <y>930</y>
       <w>40</w>
       <h>130</h>
@@ -203,47 +205,51 @@ m2=1
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>830</x>
-      <y>1180</y>
-      <w>170</w>
-      <h>100</h>
+      <x>780</x>
+      <y>1160</y>
+      <w>180</w>
+      <h>130</h>
     </coordinates>
     <panel_attributes>ConcreteFuelSystem
 --
 -totalTanks:int
 -totalPumps:int
 -totalPipes:int
---</panel_attributes>
+--
+-pipeData(:PipeData)
+-pumpData(:PumpData)
+-tankData(:TankData)
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>900</x>
+      <x>860</x>
       <y>1030</y>
       <w>30</w>
-      <h>170</h>
+      <h>150</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>760</x>
-      <y>1270</y>
+      <x>720</x>
+      <y>1280</y>
       <w>130</w>
-      <h>150</h>
+      <h>140</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
 m2=2...*</panel_attributes>
-    <additional_attributes>100.0;10.0;100.0;70.0;10.0;70.0;10.0;130.0</additional_attributes>
+    <additional_attributes>100.0;10.0;100.0;60.0;10.0;60.0;10.0;120.0</additional_attributes>
   </element>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>650</x>
+      <x>610</x>
       <y>1390</y>
       <w>240</w>
       <h>150</h>
@@ -260,7 +266,7 @@ m2=2...*</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>800</x>
+      <x>760</x>
       <y>1520</y>
       <w>240</w>
       <h>140</h>
@@ -277,33 +283,33 @@ bg=green
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>910</x>
-      <y>1270</y>
+      <x>870</x>
+      <y>1280</y>
       <w>40</w>
-      <h>280</h>
+      <h>270</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
 m2=*</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;260.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;250.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>960</x>
-      <y>1270</y>
+      <x>920</x>
+      <y>1280</y>
       <w>140</w>
-      <h>150</h>
+      <h>140</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
 m2=*</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0;110.0;70.0;110.0;130.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0;110.0;60.0;110.0;120.0</additional_attributes>
   </element>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>950</x>
+      <x>910</x>
       <y>1390</y>
       <w>240</w>
       <h>120</h>
@@ -319,7 +325,7 @@ bg=magenta</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>1070</x>
+      <x>1030</x>
       <y>940</y>
       <w>280</w>
       <h>100</h>
@@ -334,20 +340,20 @@ bg=yellow</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>970</x>
+      <x>950</x>
       <y>870</y>
-      <w>270</w>
+      <w>250</w>
       <h>100</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
 m2=1</panel_attributes>
-    <additional_attributes>10.0;10.0;240.0;10.0;240.0;80.0</additional_attributes>
+    <additional_attributes>10.0;10.0;220.0;10.0;220.0;80.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>380</x>
+      <x>340</x>
       <y>1140</y>
       <w>230</w>
       <h>180</h>
@@ -371,7 +377,7 @@ bg=orange</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>460</x>
+      <x>420</x>
       <y>950</y>
       <w>30</w>
       <h>210</h>
@@ -382,7 +388,7 @@ bg=orange</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>50</x>
+      <x>10</x>
       <y>1230</y>
       <w>220</w>
       <h>190</h>
@@ -402,7 +408,7 @@ bg=cyan</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>150</x>
+      <x>110</x>
       <y>1170</y>
       <w>250</w>
       <h>90</h>
@@ -416,7 +422,7 @@ m2=1
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>80</x>
+      <x>40</x>
       <y>1460</y>
       <w>160</w>
       <h>40</h>
@@ -428,7 +434,7 @@ bg=cyan</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>150</x>
+      <x>110</x>
       <y>1230</y>
       <w>30</w>
       <h>250</h>
@@ -439,7 +445,7 @@ bg=cyan</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>1170</x>
+      <x>1130</x>
       <y>1290</y>
       <w>240</w>
       <h>120</h>
@@ -455,20 +461,20 @@ bg=light_gray</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>990</x>
-      <y>1240</y>
+      <x>950</x>
+      <y>1220</y>
       <w>330</w>
-      <h>80</h>
+      <h>100</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
 m2=1</panel_attributes>
-    <additional_attributes>10.0;10.0;300.0;10.0;300.0;60.0</additional_attributes>
+    <additional_attributes>10.0;10.0;300.0;10.0;300.0;80.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>450</x>
+      <x>410</x>
       <y>1470</y>
       <w>170</w>
       <h>180</h>
@@ -491,7 +497,7 @@ bg=gray</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>550</x>
+      <x>510</x>
       <y>1390</y>
       <w>240</w>
       <h>100</h>
@@ -502,7 +508,7 @@ bg=gray</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>450</x>
+      <x>410</x>
       <y>1730</y>
       <w>180</w>
       <h>170</h>
@@ -521,7 +527,7 @@ bg=gray</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>530</x>
+      <x>490</x>
       <y>1640</y>
       <w>40</w>
       <h>120</h>
@@ -534,7 +540,7 @@ m2=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>830</x>
+      <x>790</x>
       <y>1680</y>
       <w>180</w>
       <h>190</h>
@@ -557,7 +563,7 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>910</x>
+      <x>870</x>
       <y>1520</y>
       <w>30</w>
       <h>180</h>
@@ -568,7 +574,7 @@ bg=green</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>850</x>
+      <x>810</x>
       <y>1970</y>
       <w>140</w>
       <h>170</h>
@@ -587,7 +593,7 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>910</x>
+      <x>870</x>
       <y>1860</y>
       <w>40</w>
       <h>140</h>
@@ -600,7 +606,7 @@ m2=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1240</x>
+      <x>1200</x>
       <y>1560</y>
       <w>150</w>
       <h>180</h>
@@ -623,7 +629,7 @@ bg=magenta</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1060</x>
+      <x>1020</x>
       <y>1390</y>
       <w>270</w>
       <h>190</h>
@@ -634,7 +640,7 @@ bg=magenta</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>1240</x>
+      <x>1200</x>
       <y>1850</y>
       <w>140</w>
       <h>170</h>
@@ -653,7 +659,7 @@ bg=magenta</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1300</x>
+      <x>1260</x>
       <y>1730</y>
       <w>40</w>
       <h>150</h>
@@ -666,7 +672,7 @@ m2=1</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>180</x>
+      <x>140</x>
       <y>660</y>
       <w>220</w>
       <h>140</h>
@@ -683,7 +689,7 @@ bg=red</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>280</x>
+      <x>240</x>
       <y>570</y>
       <w>250</w>
       <h>120</h>
@@ -696,7 +702,7 @@ m2=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>210</x>
+      <x>170</x>
       <y>830</y>
       <w>160</w>
       <h>30</h>
@@ -708,7 +714,7 @@ bg=red</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>280</x>
+      <x>240</x>
       <y>660</y>
       <w>30</w>
       <h>190</h>
