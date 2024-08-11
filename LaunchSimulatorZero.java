@@ -121,12 +121,9 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    private void prelaunch(){
-      LaunchSimulatorStateSubstate.State state =
-                         LaunchSimulatorStateSubstate.State.PRELAUNCH;
       LaunchSimulatorStateSubstate.PreLaunchSubstate plSubstate =
               LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE;
-      this.stateSubstate = new LaunchSimulatorStateSubstate(state,
-                                                plSubstate,null,null);
+      this.prelaunch(plSubstate);
    }
 
    //

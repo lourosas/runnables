@@ -20,16 +20,31 @@ package rosas.lou.runnables;
 import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
-import rosas.lou.clock.*;
 
-public interface MechanismSupport{
-   public LaunchingMechanismData monitorPrelaunch();
-   public LaunchingMechanismData monitorIgnition();
-   public LaunchingMechanismData monitorLaunch();
-   public ForceVector direction();
-   public boolean isError();
-   public double force();
-   public int id();
+public class SimpleLaunchingMechanismData
+implements LaunchingMechanismData{
+   /**/
+   public LaunchingMechanismData
+   (
+      ForceVector direction,
+      double  force,
+      int     id,
+      boolean isError,
+      String  error
+   ){
+   }
+
+   //////////LaunchingSupportMechanismData Implementation/////////////
+   /**/
+   public ForceVector direction(){ return null; }
+
+   /**/
+   public boolean error(){ return true; }
+
+   /**/
+   public double force(){ return 0.0; }
+
+   public int id(){ return -1; }
+
 }
-
 //////////////////////////////////////////////////////////////////////
