@@ -89,7 +89,6 @@ implements Runnable,Publisher,LaunchSimulator{
       this.subscriber = s;
    }
 
-
    //////////////////////Private Methods//////////////////////////////
    //
    //
@@ -211,9 +210,12 @@ implements Runnable,Publisher,LaunchSimulator{
    public void ignite(){}
 
    //
+   //So as to add different LaunchingMechanisms to the 
+   //Simulator
    //
-   //
-   public void launchingMechanism(LaunchingMechanism lm){}
+   public void launchingMechanism(LaunchingMechanism lm){
+      this.launchingMechanism = lm;
+   }
 
    //
    //

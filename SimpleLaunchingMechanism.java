@@ -21,7 +21,7 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public class SimpleLaunchMechanism implements LaunchingMechanism{
+public class SimpleLaunchingMechanism implements LaunchingMechanism{
    //This should change based on file input
    private int                    _numberOfSupports;
    private List<MechanismSupport> _supports;
@@ -35,34 +35,34 @@ public class SimpleLaunchMechanism implements LaunchingMechanism{
    //
    //
    //
-   public SimpleLaunchMechanism(){
+   public SimpleLaunchingMechanism(){
       this(4);
    }
 
    //
    //
    //
-   public SimpleLaunchMechanism(int supports){
+   public SimpleLaunchingMechanism(int supports){
       this._numberOfSupports = supports;
       this.setUpSupports();
    }
 
    //////////////////////////Public Methods///////////////////////////
    /////////////////////////Private Methods///////////////////////////
+   /**/
+   private void setUpSupports(){
+      this._supports = new LinkedList<MechanismSupport>();
+      for(int i = 0; i < this._numberOfSupports; ++i){
+         this._supports.add(new SimpleMechanismSupport(i));
+      }
+   }
+
    /*
     *Will need to request weight measurements from Mechanism Supports
     * */
    private double totalWeight(){
       double totalWeight = 0.;
       return totalWeight;
-   }
-
-   /**/
-   private void setUpSupports(){
-      this._supports = new LinkedList<MechanismSupport>();
-      for(int i = 0; i < this._numberOfSupports(); ++i){
-         this._supports.add(new SimpleMechanismSupport(i);
-      }
    }
 
    /////////////LaunchingMechanism Interface Implementation///////////
@@ -75,7 +75,8 @@ public class SimpleLaunchMechanism implements LaunchingMechanism{
          data = new LinkedList<LaunchingMechanismData>();
          //Get the Prelaunch Data from all the supports...
          for(int i = 0; i < this._supports.size(); ++i){
-            data.add(this._supports.monitorPrelaunch());
+            MechanismSupport s = this._supports.get(i);
+            data.add(s.monitorPrelaunch());
          }
          
       }
@@ -91,16 +92,21 @@ public class SimpleLaunchMechanism implements LaunchingMechanism{
    //
    //
    //
-   public List<LaunchimMechanismData> monitorIgnition(){
+   public List<LaunchingMechanismData> monitorIgnition(){
       return null;
    }
 
    //
    //
    //
-   public List<LaunchimMechanismData> monitorLaunch(){
+   public List<LaunchingMechanismData> monitorLaunch(){
       return null;
    }
+
+   //
+   //
+   //
+   public void release(){}
 }
 //////////////////////////////////////////////////////////////////////
 
