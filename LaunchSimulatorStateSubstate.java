@@ -70,6 +70,17 @@ public class LaunchSimulatorStateSubstate{
    public LaunchSubstate launchSubstate(){
       return this._launchSubstate;
    }
+
+   /**/
+   public String toString(){
+      String s = new String();
+
+      s += "State:\t\t"+this._state+"\n";
+      s += "Pre Launch:\t"+this._preLaunchSubstate+"\n";
+      s += "Ignition:\t"+this._ignitionSubstate+"\n";
+      s += "Launch:\t\t"+this._launchSubstate+"\n";
+      return s;
+   }
    ///////////////////////Private Methods/////////////////////////////
    /**/
    private void setIgnitionSubstate(IgnitionSubstate ignition){

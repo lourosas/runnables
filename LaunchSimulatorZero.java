@@ -253,6 +253,8 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    public void run(){
+      int printCounter                = 0;
+      List<LaunchingMechanismData> md = null;
       try{
          while(true){
             if(this.kill){
@@ -261,12 +263,27 @@ implements Runnable,Publisher,LaunchSimulator{
             }
             Thread.sleep(100);
             if(this.start){
-               //System.out.println("Simulator Running");
-               Thread.sleep(500);
+               //Thread.sleep(50);
+               if(this.stateSubstate.state() ==
+                        LaunchSimulatorStateSubstate.State.PRELAUNCH){
+                  md = this.launchingMechanism.monitorPrelaunch();
+                  if(++printCounter == 100){
+                     System.out.println(this.stateSubstate);
+                     System.out.println(md.size());
+                     for(int i = 0; i < md.size(); ++i){
+                        System.out.println(md.get(i));
+                     }
+                     printCounter = 0;
+                  }
+               }
             }
          }
       }
       catch(InterruptedException ie){}
+      //Do NOT want this!  And, print this!!
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
    }
 
    //////////////////////Publisher Interface//////////////////////////
