@@ -23,11 +23,11 @@ import rosas.lou.runnables.*;
 
 public class SimpleLaunchingMechanismData
 implements LaunchingMechanismData{
-   int           _id;
-   ForceVector   _direction;
-   double        _force;
-   boolean       _isError;
-   String        _error;
+   private int           _id;
+   private ForceVector   _direction;
+   private double        _force;
+   private boolean       _isError;
+   private String        _error;
 
    {
       _id        =   -1;
@@ -35,7 +35,7 @@ implements LaunchingMechanismData{
       _force     = -1.;
       _isError   = true;
       _error     = null;
-   }
+   };
 
    /**/
    public SimpleLaunchingMechanismData
@@ -82,7 +82,7 @@ implements LaunchingMechanismData{
    public String toString(){
       String s = new String();
 
-      s += "id:\t\t\t"+this.id()+"\n";
+      s += "id:\t\t"+this.id()+"\n";
       s += "force:\t\t"+this.force()+"\n";
       s += "direction:\t"+this.direction()+"\n";
       s += "error:\t\t"+this.error()+"\n";

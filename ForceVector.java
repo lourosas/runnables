@@ -22,12 +22,13 @@ import java.util.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
+//Make it real simple 
 public interface ForceVector{
-   public double down();
-   public double left();
-   public double right();
-   public double up();
-   public double totalForce();
+   public double x(); //i-hat
+   public double y(); //j-hat
+   public double z(); //k-hat
+   public double magnitude();
+   public String toString();
 }
 //////////////////////////////////////////////////////////////////////
 

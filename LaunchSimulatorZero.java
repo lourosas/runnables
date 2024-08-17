@@ -268,6 +268,7 @@ implements Runnable,Publisher,LaunchSimulator{
                         LaunchSimulatorStateSubstate.State.PRELAUNCH){
                   md = this.launchingMechanism.monitorPrelaunch();
                   if(++printCounter == 100){
+                     //So far, just test prints
                      System.out.println("\n"+this.stateSubstate);
                      System.out.println(md.size());
                      for(int i = 0; i < md.size(); ++i){
