@@ -78,7 +78,6 @@ public class SimpleLaunchingMechanism implements LaunchingMechanism{
             MechanismSupport s = this._supports.get(i);
             data.add(s.monitorPrelaunch());
          }
-         
       }
       catch(NullPointerException npe){
          npe.printStackTrace();

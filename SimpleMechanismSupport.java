@@ -34,12 +34,50 @@ public class SimpleMechanismSupport implements MechanismSupport{
 
    /////////////////////////Public Methods////////////////////////////
    ////////////////////////Private Methods////////////////////////////
+   //
+   //
+   //
+   private ForceVector direction(){
+      return null;
+   }
+
+   //
+   //
+   //
+   private boolean isError(){
+      return true;
+   }
+
+   //
+   //
+   //
+   private String findError(){
+      return new String("Error");
+   }
+
+   //
+   //
+   //
+   private double force(){
+      double force = 0.;
+      return force;
+   }
+
    /////////////////MechanismSupport Implementation///////////////////
    //
    //
    //
    public LaunchingMechanismData monitorPrelaunch(){
-      return null;
+      ForceVector vec = null; //Need to create concrete classes
+      boolean error   = this.isError();
+      double  force   = this.force();
+      String  reason  = this.findError();
+
+      return new SimpleLaunchingMechanismData(vec,
+                                              force,
+                                              this.id(),
+                                              error,
+                                              reason);
    }
 
    //
@@ -54,28 +92,6 @@ public class SimpleMechanismSupport implements MechanismSupport{
    //
    public LaunchingMechanismData monitorLaunch(){
       return null;
-   }
-
-   //
-   //
-   //
-   public ForceVector direction(){
-      return null;
-   }
-
-   //
-   //
-   //
-   public boolean isError(){
-      return true;
-   }
-
-   //
-   //
-   //
-   public double force(){
-      double force = 0.;
-      return force;
    }
 
    //

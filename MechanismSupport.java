@@ -26,9 +26,6 @@ public interface MechanismSupport{
    public LaunchingMechanismData monitorPrelaunch();
    public LaunchingMechanismData monitorIgnition();
    public LaunchingMechanismData monitorLaunch();
-   public ForceVector direction();
-   public boolean isError();
-   public double force();
    public int id();
 }
 
