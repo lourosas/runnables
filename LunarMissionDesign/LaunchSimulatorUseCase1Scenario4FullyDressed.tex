@@ -36,6 +36,30 @@ to Initiate Launch\\\\
 & 7.  Reports Countdown at 0\\\hline
 8.  Initiate Launch & \\\hline
 & 9.  Transitions to Initiate Launch\\\hline
-\end{tabular}
+\end{tabular}\\\\
+\textbf{Alternative Flows:}
+\begin{itemize}
+\item[2a.]During the entire Countdown, if the any Engine is ignited,
+then the System reports the ignition error.  Flight Controller
+issues an Abort.
+\item[2b.]During the entire Countdown, if any Engine reports a fuel
+flow rate beyond ``tollerance", then the System reports an Engine
+error.  Flight Controller issues an Abort.
+\item[5a.]During the entire Countdown, if the Stage's Fuel Tanks
+report an empty rate beyond ``tollerance", then the System reports a
+Leak Error.  Flight Controller issues an Abort.
+\item[5b.]During the entire Countdown, if the Stage's Pumps report a
+pump rate beyond ``tollerance", then the System reports an Pump Error.
+Flight Controller determines next course of action.
+\item[5c.]During the entire Countdown, if the Stage's Pumps report a
+flow rate beyond ``tollerance", then the System reports at Pump Leak.
+Flight controller issues and Abort.
+\item[5d.]During the entire Countdown, if the Stage's Fuel Tanks
+ report a High Temperature, the the System report the High Temperature
+ error.  Flight Controller issues an Abort.
+\item[5e.]During the entire Countdown, if the Pipes report a Flow Rate
+ beyond ``tollerance", then the System reports a Leak.  Flight
+ controller issues and Abort.
+\end{itemize}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
