@@ -1,0 +1,37 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Monitor Countdown}\\
+\textit{Main Success Scenario}
+\begin{enumerate}
+\item Flight Controller enters the Countdown Time into the Countdown
+Timer
+\item System displays the Countdown Time in the Countdown Timer
+\item Flight Controller Starts the Countdown Timer
+\item System counts down from the entered time to zero
+\item System displays the Current Countdown Time
+\item System alerts the Flight Controller when the Countdown Time
+reaches zero
+\end{enumerate}
+\textit{Alternative Scenarios}
+\begin{itemize}
+\item[*.a]At any time, the Flight Controller can abort the Countdown,
+System responds with stoping the Countdown, and zeroing out the
+Countdown Timer
+\item[1a.]The Flight Controller re-enter another Countdown time prior
+starting the Countdown Time as many times as desired
+\item[2a.]If the Flght Controller enteres a Countdown Time to low as
+pre-determined for adequate safety, then the System does not set the
+entered countdown time and alerts the Flight Director of Countdown Time
+issue, The Flight Controller can choose to enter an approprieate time
+\item[4a.]If the Flight Controller chooses to hold the Countdown, then
+the System Stops the Countdown, displaying the stopped Countdown time.
+Countdown resumes once the flight controller starts the Countdown:
+resuming from the time stopped.
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

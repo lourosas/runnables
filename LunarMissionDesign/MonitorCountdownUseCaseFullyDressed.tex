@@ -1,0 +1,82 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case 2:  Monitor Countdown}\\
+\textbf{Scope:  }Launch Simulator\\
+\textbf{Level:  }Flight Controller Goal\\
+\textbf{Primary Actor:  }Flight Controller\\
+\textbf{Secondary Actors:  }Astronaut. Engineer/Technician\\
+\textbf{Related Use Cases:  }\textit{Use Case 1:  The Flight Controller
+Shall Monitor Pre-Launch Activities}\\
+\textbf{Stake Holders \& Interrests:  }
+\begin{itemize}
+\item Flight Controller:  wants to monitor the Countdown Time
+\item Flight Controller:  wants to control the Countdown Time
+\begin{itemize}
+\item Enter the Countdown Time
+\item Start the Countdown Time
+\item Hold the Countdown Time
+\item Re-Enter the Countdown Time
+\end{itemize}
+\item Flight Controller/Technician:  wants to monitor the Countdown
+Time
+\item Astronaut:  wants to monitor the Countdown Time
+\end{itemize}
+\textbf{Pre-Conditions:  }The System is ready to accept Countdown Time
+Entry from the Flight Controller\\
+\textbf{Post-Conditions:  }The Countdown Timer has reached zero (see
+\textit{Use Case 1:  The Flight Controller shall monitor Pre-Launch
+Activities})\\\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+\textbf{Flight Controller}&\textbf{System}\\\hline
+1. Enters the Countdown Time&\\\hline
+& 2. Displays the Countdown Time in Coundown Timer\\\hline
+3.  Starts the Countdown Timer &\\\hline
+& 4. Countdown from entered time to zero\\\hline
+& 5. Displays the Current Countdown Time\\\hline
+& 6. Countdown Time Zero\\\hline
+\end{tabular}\\\\
+\textbf{Alternative Flows:}
+\begin{itemize}
+\item[*.a]At any time, the Flight Controller can abort the Countdown;
+System responds with stoping the Countdown and zeroing out the
+Countdown Timer
+\item[1a.]The Flight Controller can re-enter another Countdown Time
+prior to starting the Countdown Timer:  entering the Countdown Time
+as many times as desired
+\item[2a.]If the Flight Controller enters a Countdown Time too low as
+pre-determined for adequate launch safety, the the System does not
+set the entered Countdown Time, alerting the Flight Controller of the
+error.  The Flight Controller can choose to enter an appropriate
+Countdown Time
+\item[4a.]If the Flight Controller chooses to hold the Countdown, then
+the System stops the Countdown: displaying the stopped Countdown time.
+Countdown Time resumes upon Flight Controller restart:  resuming from
+the time stopped.
+\end{itemize}
+\textbf{Special Requirements:}
+\begin{itemize}
+\item  There is only one point of decision for the Countdown Hold,
+Countdown Abort:  The Flight Controller
+\end{itemize}
+\textbf{Technology \& Variations List:}
+\begin{itemize}
+\item[4a.] As typical with Countdown Timers, the System continually
+displays the Countdown Time:  Displaying the Countdown time at a set
+rate (usually at 1-sec intervals).  This is completely dependent upon
+the Countdown Timer.
+\end{itemize}
+\textbf{Frequency of Occurence:  }Almost Continuosly:  Based on the
+number of desired Launches and the number of desired Countdowns.\\\\
+\textbf{Open Issues:}
+\begin{itemize}
+\item What is considered a ``safe" Countdown Launch Time?
+\item Does a ``safe" Countdown Launch Time depend on the type of
+launch and type of Delivery Vehicle (Rocket)?
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
