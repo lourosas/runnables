@@ -1,0 +1,35 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case 1:}  Monitor Pre-Launch\\
+\textbf{Scenario:  }Monitor Capsule\\
+\textbf{Scope:  }Launch Simulator\\
+\textbf{Level:  }Flight Controller Goal\\
+\textbf{Primary Actor:  }Flight Controller\\
+\textbf{Related Use Cases:  }None\\
+\textbf{Stakeholders \& Interrests:}
+\begin{itemize}
+\item Flight Controller:  Wants to monitor the Capsule during
+Pre-Launch
+\item Astronaut:  Wants to monitor the Capsule during
+Pre-Launch
+\end{itemize}
+\textbf{Pre-Conditions:  }The Countdown Started, in Pre-Launch\\\\
+\textbf{Post-Conditions:  }The Countdown at 0, the System transitioned
+to Initiate Launch\\\\
+\textbf{Main Success Scenario:}\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+\textbf{Flight Controller} & \textbf{System}\\\hline
+& 1.  Reports current velocity of the Capsule\\\hline
+& 2.  Reports current ``atmosphere" of the Capsule\\\hline
+& 3.  Reports the current state of the Capsule (attached or
+separated)\\\hline
+& 4.  Repeats 1-3 for duration of the Countdown\\\hline
+5.  
+\end{tabular}\\\\
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
