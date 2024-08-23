@@ -38,18 +38,20 @@ Couutdown\\
 & 2.  Requests Countdown Time \textit{See Monitor Countdown Use
 Case}\\\hline
 & 3. Periodically Monitors Pre-Launch Data\\\hline
-& 4. Returns Pre-Launch Data\\\hline
-& 5. Countdown equals zero \textit{See Monitor Countdown Use
+& 4. Returns Launching Mechanism Pre-Launch Data\\\hline
+& 5. Returns Rocket Pre-Lauch Data (all Rocket Stage Data)\\\hline
+& 6. Returns Capsule Data\\\hline
+& 7. Countdown equals zero \textit{See Monitor Countdown Use
 Case}\\\hline
-6. Initiate Launch Sequence & \\\hline
-& 7.  Transitions to Launch Initiation\\\hline
-& 8.  Initiate Launch State\\\hline
+8. Initiate Launch Sequence & \\\hline
+& 9.  Transitions to Launch Initiation\\\hline
+& 10.  Initiate Launch State\\\hline
 \end{tabular}\\\\
 \textbf{Alternative Flows:}
 \begin{itemize}
 \item[3a.]If the System detects an anamoly in the Pre-Launch Data,
 then the System alerts the Flight Controller of the anomoly
-\item[4a.]If there System alerts the Flight Controller of a Pre-
+\item[4a-6a.]If there System alerts the Flight Controller of a Pre-
 Launch anomaly \textit{(See Alternative Flow 3a.)}, then the Flight
 Controller can choose to hold the Countdown
 \item[4b.]If there is a hold in the Countdown and the anomaly is
