@@ -22,8 +22,7 @@ Shall Monitor Pre-Launch Activities}\\
 \item Hold the Countdown Time
 \item Re-Enter the Countdown Time
 \end{itemize}
-\item Flight Controller/Technician:  wants to monitor the Countdown
-Time
+\item Engineer/Technician:  wants to monitor the Countdown Time
 \item Astronaut:  wants to monitor the Countdown Time
 \end{itemize}
 \textbf{Pre-Conditions:  }The System is ready to accept Countdown Time
@@ -31,6 +30,7 @@ Entry from the Flight Controller\\
 \textbf{Post-Conditions:  }The Countdown Timer has reached zero (see
 \textit{Use Case 1:  The Flight Controller shall monitor Pre-Launch
 Activities})\\\\
+\textbf{Flow of Events:}\\
 \begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
 \textbf{Flight Controller}&\textbf{System}\\\hline
 1. Enters the Countdown Time&\\\hline
@@ -49,7 +49,7 @@ Countdown Timer
 prior to starting the Countdown Timer:  entering the Countdown Time
 as many times as desired
 \item[2a.]If the Flight Controller enters a Countdown Time too low as
-pre-determined for adequate launch safety, the the System does not
+pre-determined for adequate launch safety, then the System does not
 set the entered Countdown Time, alerting the Flight Controller of the
 error.  The Flight Controller can choose to enter an appropriate
 Countdown Time
@@ -65,10 +65,8 @@ Countdown Abort:  The Flight Controller
 \end{itemize}
 \textbf{Technology \& Variations List:}
 \begin{itemize}
-\item[4a.] As typical with Countdown Timers, the System continually
-displays the Countdown Time:  Displaying the Countdown time at a set
-rate (usually at 1-sec intervals).  This is completely dependent upon
-the Countdown Timer.
+\item[4a.] A typical Countdown Timer.
+\item[4b.] The Countdown Timer is interchangeable.
 \end{itemize}
 \textbf{Frequency of Occurence:  }Almost Continuosly:  Based on the
 number of desired Launches and the number of desired Countdowns.\\\\

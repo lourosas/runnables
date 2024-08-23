@@ -5,39 +5,34 @@
 \usepackage{graphicx}
 \begin{document}
 \noindent
-\textbf{Monitor Pre-launch Activities}\\
+\textbf{Monitor Pre-launch}\\
 \textit{Main Success Scenario}
 \begin{enumerate}
 \item The Flight Controller Starts the Pre-Launch Sequence
-\item The System requests the Countdown Time
-\item The Flight Controller enters the Countdown Time
-\item System displays the Countdown Time
-\item Flight Controller Starts the Countdown
-\item System continuously displays the Countdown Time
+\item The System requests the Countdown Time \textit{See Monitor
+Countdown Use Case}
 \item System periodically monitors Pre-Launch Data
 \item System returns Pre-Launch Data to the Flight Controller
-\item System alerts the Flight Controller when the countdown reaches 0
+\item System alerts the Flight Controller when the countdown reaches
+   zero \textit{See Monitor Countdown Use Case}
 \item Flight Controller Initiates the Launch Sequence
+\item System Intiates Launch and Transitions to Initiate Launch
+\item System returns the Initiate Launch
 \end{enumerate}
 \textit{Alternate Scenarios}
 \begin{itemize}
-\item[7a.]  If the System detects an anomaly in the Pre-Launch
+\item[3a.]  If the System detects an anomaly in the Pre-Launch
 Data, then the System alerts the Flight Controller of the anomaly
-\item[8a.]  If the System alerts the Flight Controller of a Pre-Launch
-anomaly (see \textit{Alternative Scenario 7a.}) then the Flight
+\item[4a.]  If the System alerts the Flight Controller of a Pre-Launch
+anomaly (see \textit{Alternative Scenario 3a.}) then the Flight
 Controller can chose to hold the Countdown
-\item[8b.]  If there is a hold in the Countdown and the anomaly is
+\item[4b.]  If there is a hold in the Countdown and the anomaly is
 resolved, then the Flight Controller can chose to resume the
-Countdown, the Countdown continues at the time stopped
-\item[8c.]  If there is a hold in the Countdown, then the Flight
+Countdown, the Countdown continues at the time stopped \textit{See
+Monitor Pre-Launch Use Case}
+\item[4c.]  If there is a hold in the Countdown, then the Flight
 Controller can chose to abort the launch the System indicates an
-aborted launch
-\item[7b. 8d.]  If the System is automated at countdown, and the
-System detects an anomaly, then the System can hold the Countdown of
-which the Flight Controller can override
-\item[9a. 10a.] If the System is automated at countdown then the
-System will initiate the Launch Sequence (per the Flight
-Controller's setting) 
+aborted launch \textit{See Monitor Pre-Launch Use Case}
 \end{itemize}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

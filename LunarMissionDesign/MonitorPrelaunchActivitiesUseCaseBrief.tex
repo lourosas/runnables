@@ -5,20 +5,19 @@
 \usepackage{graphicx}
 \begin{document}
 \noindent
-\textbf{Monitor Pre-Launch Activiities}\\\\
+\textbf{Monitor Pre-Launch}\\\\
 \begin{enumerate}
-\item The Flight Controller Starts the Pre-Lauch
-Sequence
-\item System Starts the Countdown
-\item System periodically alerts the Flight Controller of the Countdown
-Time
-\item System periodically monitors pre-launch data
-\item System periodically returns pre-launch data to Flight Controller
-\item System alerts Flight Controller once countdown reaches 0
-\item Flight Controller initiates the Launch Sequence \textbf{or}
-System Initiates the Launch Sequence
-\item System informs the Flight Controller of transition to Launch
-Sequence
+\item The Flight Controller Starts the Pre-Lauch Sequence
+\item The Flight Controller enters and starts the Countdown \textit{
+See Monitor Countdown Use Case}
+\item System monitors pre-launch data
+\item System returns pre-launch data to Stakeholders
+\item System alerts when the Countdown reaches zero \textit{(See
+Monitor Countdown Use Case)}
+\item Flight Controller initiates the Launch Sequence
+\item System Initiates Launch
+\item System informs the Stakeholders of the Transition to Initiate
+Launch
 \end{enumerate}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
