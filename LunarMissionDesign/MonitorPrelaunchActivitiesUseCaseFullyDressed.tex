@@ -26,39 +26,39 @@ Controller Shall Monitor the Countdown}
 \end{itemize}
 \item Flight Controller: wants to monitor the Pre-Launch Activities
 \item Engineer/Technician:  wants to monitor Pre-Launch Data
-\item Astronaut:  wanst to monitor Pre-Launch Data
+\item Astronaut:  wants to monitor Pre-Launch Data
 \end{itemize}
-\textbf{Pre-Conditions:  }The System is ready to start the
-Couutdown\\
+\textbf{Pre-Conditions:  }An appropriate Countdown Time is Entered
+\textit{See Use Case 2:  the Flight Controller Shall Monitor the
+Countdown}\\
 \textbf{Post-Conditions:  }The Launch is Initiated\\\\
 \textbf{Flow of Events:}\\
 \begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
 \textbf{Flight Controller}&\textbf{System}\\\hline
-1. Starts the Pre-Launch Sequence & \\\hline
-& 2.  Requests Countdown Time \textit{See Monitor Countdown Use
-Case}\\\hline
-& 3. Periodically Monitors Pre-Launch Data\\\hline
-& 4. Returns Launching Mechanism Pre-Launch Data\\\hline
-& 5. Returns Rocket Pre-Lauch Data (all Rocket Stage Data)\\\hline
-& 6. Returns Capsule Data\\\hline
-& 7. Countdown equals zero \textit{See Monitor Countdown Use
-Case}\\\hline
-8. Initiate Launch Sequence & \\\hline
-& 9.  Transitions to Launch Initiation\\\hline
-& 10.  Initiate Launch State\\\hline
+1. Starts the Countdown \textit{See Use Case 2:  the Flight
+Controller Shall Monitor the Countdown} & \\\hline
+& 2. Periodically Monitors Pre-Launch Data\\\hline
+& 3. Returns Launching Mechanism Pre-Launch Data\\\hline
+& 4. Returns Rocket Pre-Lauch Data (all Rocket Stage Data)\\\hline
+& 5. Returns Capsule Pre-Launch Data\\\hline
+& 6. Countdown equals zero \textit{See Use Case 2:  the Flight
+Controller Shall Monitor the Countdown}\\\hline
+7. Initiate Launch Sequence & \\\hline
+& 8.  Transitions to Launch Initiation\\\hline
+& 9.  Iniiate Launch State\\\hline
 \end{tabular}\\\\
 \textbf{Alternative Flows:}
 \begin{itemize}
-\item[3a.]If the System detects an anamoly in the Pre-Launch Data,
+\item[2a-5a.]If the System detects an anamoly in the Pre-Launch Data,
 then the System alerts the Flight Controller of the anomoly
-\item[4a-6a.]If there System alerts the Flight Controller of a Pre-
-Launch anomaly \textit{(See Alternative Flow 3a.)}, then the Flight
+\item[2b-5b.]If there System alerts the Flight Controller of a Pre-
+Launch anomaly \textit{(See Alternative Flow 2a.)}, then the Flight
 Controller can choose to hold the Countdown
-\item[4b.]If there is a hold in the Countdown and the anomaly is
+\item[2c-5c.]If there is a hold in the Countdown and the anomaly is
 resolved, then the Flight Controller can choose to resume the
 Countdown, the Countdown continues at the stopped time \textit{See
 Use Case 2:  The Flight Controller shall Monitor the Coundown}
-\item[4c.]If there is a hold in the Countdown, then the Flight
+\item[2d-5d.]If there is a hold in the Countdown, then the Flight
 Controller can choose to abort the launch:  the System indicates an
 aborted launch
 \end{itemize}
