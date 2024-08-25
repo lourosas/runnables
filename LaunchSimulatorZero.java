@@ -178,11 +178,10 @@ implements Runnable,Publisher,LaunchSimulator{
       this.countdownTimer.addSubscriber(this.clockSubscriber);
       this.countdownTimer.inputTime(hours,mins,secs);
       this.prelaunch();
-      //Make Sure it does not start, AND to update the Listeners!
-      //Such a fucking cludge!!  NEED TO CHANGE/alter the
-      //CountdownTimer
-      this.countdownTimer.start();
-      this.countdownTimer.stop();
+      //Going to change...
+      //this.countdownTimer.start();
+      //this.countdownTimer.stop();
+      this.countdownTimer.broadcastTime();
    }
 
 
