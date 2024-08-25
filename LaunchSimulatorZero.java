@@ -146,17 +146,38 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    private void setPrelaunchTime(int hours,int mins,int secs){
       //this will change now!!!
+      //Basically, combine setUpCountdownTimer() and
+      //setTheCountdownTime() MINUS the starting of the Clock
+      //startCountdown() WILL HANDLE THAT!!!
       System.out.printf("%03d:%02d:%02d\n", hours,mins,secs);
-      this.prelaunchHours = hours;
-      this.prelaunchMins  = mins;
-      this.prelaunchSecs  = secs;
+      LClock clock        = new LClock();
+      this.countdownTimer = new CountdownTimer(clock);
+      //Get the Clock Thread going but DO NOT START the Clock!...
+      Thread t = new Thread(clock, "clock");
+      t.start();
+      this.countdownTimer.addSubscriber(this.clockSubscriber);
+      this.countdownTimer.inputTime(hours,mins,secs);
+      //Make Sure it does not start, AND to update the Listeners!
+      //Such a fucking cludge!!  NEED TO CHANGE/alter countdown time
+      this.countdownTimer.start();
+      this.countdownTimer.stop();
+      //Technically, do not need these
+      //this.prelaunchHours = hours;
+      //this.prelaunchMins  = mins;
+      //this.prelaunchSecs  = secs;
       //This will need to change and go somewheres else
-      this.subscriber.update(this.stateSubstate,"Ready:  Prelaunch");
+      //Need ta set up the CountdownTimer separate from the Start!!!
+      //Just fucking create the CountdownTimer Here!!!
+      //Do not start it, but fucking created it...
+      //Technically, do not fucking need this anymore, either
+      //This is far too complex and "glitchy", so get rid of the
+      //fucker!!!!
+      //this.subscriber.update(this.stateSubstate,"Ready:  Prelaunch");
    }
 
 
    //
-   //
+   //THIS WILL NEED TO CHAANGE...SEPARATE OUT THE START!!!!
    //
    private void setTheCountdownTime(){
       int hours = this.prelaunchHours;
@@ -241,6 +262,7 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    public void startCountdown(){
+      //Way too fucking complex!! Need to change!!!
       this.setUpCountdownTimer();
       this.setTheCountdownTime();
       this.start = true;

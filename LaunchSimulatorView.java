@@ -205,6 +205,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
             this.setPrelaunchTime();
          }
       }
+      //Don't fucking need this!!! Fucking Remove!!!!!
       else if(message.contains("READY")){
          if(message.contains("PRELAUNCH")){
             this.setForCountdownStart();

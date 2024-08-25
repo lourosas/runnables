@@ -193,11 +193,13 @@ KeyListener,ItemListener,WindowListener{
    /**/
    private void requestPrelaunchTime(){
       try{
-         java.util.List<Integer> l =
-                                  this._countdownTimer.requestTimes();
+         java.util.List<Integer> l = null;
+         l = this._countdownTimer.requestTimes();
+
          int hours = l.get(0).intValue();
          int mins  = l.get(1).intValue();
          int secs  = l.get(2).intValue();
+
          this._simulator.preLaunchTime(hours,mins,secs);
       }
       catch(NullPointerException npe){
