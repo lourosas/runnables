@@ -24,7 +24,7 @@ import rosas.lou.runnables.*;
 
 public class LaunchSimulatorStateSubstate{
    public enum State{PRELAUNCH,INITIATELAUNCH,LAUNCH};
-   public enum PreLaunchSubstate{CONTINUE,HOLD};
+   public enum PreLaunchSubstate{SET,CONTINUE,HOLD};
    public enum IgnitionSubstate{IGNITION,BUILDUP,RELEASED};
    public enum LaunchSubstate{ASCENT,STAGING,IGNITEENGINES};
 

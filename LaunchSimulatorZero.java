@@ -121,7 +121,7 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    private void prelaunch(){
       LaunchSimulatorStateSubstate.PreLaunchSubstate plSubstate =
-              LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE;
+              LaunchSimulatorStateSubstate.PreLaunchSubstate.SET;
       this.prelaunch(plSubstate);
    }
 
@@ -132,13 +132,33 @@ implements Runnable,Publisher,LaunchSimulator{
    (
       LaunchSimulatorStateSubstate.PreLaunchSubstate substate
    ){
+      boolean update = false;
       LaunchSimulatorStateSubstate.State state =
                          LaunchSimulatorStateSubstate.State.PRELAUNCH;
-      this.stateSubstate = new LaunchSimulatorStateSubstate(state,
+      //SET should ONLY Be SET ONCE!! When stateSubstate is null
+      //To Avoid updates, CANNOT set twice!!!
+      if(substate ==
+                  LaunchSimulatorStateSubstate.PreLaunchSubstate.SET){
+         if(this.stateSubstate == null){
+            this.stateSubstate = new LaunchSimulatorStateSubstate(
+                                                             state,
+                                                             substate,
+                                                             null,
+                                                             null);
+            update = true;
+         }
+      }
+      else{
+         this.stateSubstate = new LaunchSimulatorStateSubstate(state,
                                                   substate,null,null);
-      String message = new String("State:  "+state);
-      message+=" Prelaunch:  "+this.stateSubstate.prelaunchSubstate();
-      this.subscriber.update(this.stateSubstate,message);
+         update = true;
+      }
+      if(update){
+         String message = new String("State:  "+state);
+         message +=
+               " Prelaunch:  "+this.stateSubstate.prelaunchSubstate();
+         this.subscriber.update(this.stateSubstate,message);
+      }
    }
 
    //
@@ -157,22 +177,12 @@ implements Runnable,Publisher,LaunchSimulator{
       t.start();
       this.countdownTimer.addSubscriber(this.clockSubscriber);
       this.countdownTimer.inputTime(hours,mins,secs);
+      this.prelaunch();
       //Make Sure it does not start, AND to update the Listeners!
-      //Such a fucking cludge!!  NEED TO CHANGE/alter countdown time
+      //Such a fucking cludge!!  NEED TO CHANGE/alter the
+      //CountdownTimer
       this.countdownTimer.start();
       this.countdownTimer.stop();
-      //Technically, do not need these
-      //this.prelaunchHours = hours;
-      //this.prelaunchMins  = mins;
-      //this.prelaunchSecs  = secs;
-      //This will need to change and go somewheres else
-      //Need ta set up the CountdownTimer separate from the Start!!!
-      //Just fucking create the CountdownTimer Here!!!
-      //Do not start it, but fucking created it...
-      //Technically, do not fucking need this anymore, either
-      //This is far too complex and "glitchy", so get rid of the
-      //fucker!!!!
-      //this.subscriber.update(this.stateSubstate,"Ready:  Prelaunch");
    }
 
 

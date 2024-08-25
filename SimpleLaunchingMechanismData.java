@@ -23,22 +23,8 @@ import rosas.lou.runnables.*;
 
 public class SimpleLaunchingMechanismData
 implements LaunchingMechanismData{
-   private int           _id;
-   private ForceVector   _direction;
-   private double        _force;
-   private boolean       _isError;
-   private String        _error;
-
-   {
-      _id        =   -1;
-      _direction = null;
-      _force     = -1.;
-      _isError   = true;
-      _error     = null;
-   };
-
    /**/
-   public SimpleLaunchingMechanismData
+   public LaunchingMechanismData
    (
       ForceVector direction,
       double  force,
@@ -46,49 +32,19 @@ implements LaunchingMechanismData{
       boolean isError,
       String  error
    ){
-      this._direction = direction;
-      this._force     = force;
-      this._id        = id;
-      this._isError   = isError;
-      this._error     = new String(error);
    }
 
    //////////LaunchingSupportMechanismData Implementation/////////////
    /**/
-   public ForceVector direction(){
-      return this._direction;
-   }
+   public ForceVector direction(){ return null; }
 
    /**/
-   public boolean error(){
-      return this._isError;
-   }
+   public boolean error(){ return true; }
 
    /**/
-   public String errorReason(){
-      return this._error;
-   }
+   public double force(){ return 0.0; }
 
-   /**/
-   public double force(){
-      return this._force;
-   }
+   public int id(){ return -1; }
 
-   public int id(){
-      return this._id;
-   }
-
-   /**/
-   public String toString(){
-      String s = new String();
-
-      s += "id:\t\t"+this.id()+"\n";
-      s += "force:\t\t"+this.force()+"\n";
-      s += "direction:\t"+this.direction()+"\n";
-      s += "error:\t\t"+this.error()+"\n";
-      s += "reson:\t\t"+this.errorReason()+"\n";
-
-      return s;
-   }
 }
 //////////////////////////////////////////////////////////////////////

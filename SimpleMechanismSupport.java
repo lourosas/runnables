@@ -21,63 +21,25 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public class SimpleMechanismSupport implements MechanismSupport{
+public class SimpleMechanismSupport implements MechanismSupprt{
    private int _id = -1;
 
    ///////////////////////////Constructors////////////////////////////
    //
    //
    //
-   public SimpleMechanismSupport(int id){
+   public SimpleMechansimSupport(int id){
       this._id = id;
    }
 
    /////////////////////////Public Methods////////////////////////////
    ////////////////////////Private Methods////////////////////////////
-   //
-   //
-   //
-   private ForceVector direction(){
-      return null;
-   }
-
-   //
-   //
-   //
-   private boolean isError(){
-      return true;
-   }
-
-   //
-   //
-   //
-   private String findError(){
-      return new String("Error");
-   }
-
-   //
-   //
-   //
-   private double force(){
-      double force = 0.;
-      return force;
-   }
-
    /////////////////MechanismSupport Implementation///////////////////
    //
    //
    //
    public LaunchingMechanismData monitorPrelaunch(){
-      ForceVector vec = null; //Need to create concrete classes
-      boolean error   = this.isError();
-      double  force   = this.force();
-      String  reason  = this.findError();
-
-      return new SimpleLaunchingMechanismData(vec,
-                                              force,
-                                              this.id(),
-                                              error,
-                                              reason);
+      return null;
    }
 
    //
@@ -97,6 +59,28 @@ public class SimpleMechanismSupport implements MechanismSupport{
    //
    //
    //
+   public ForceVector direction(){
+      return null;
+   }
+
+   //
+   //
+   //
+   public boolean isError(){
+      return true;
+   }
+
+   //
+   //
+   //
+   public double force(){
+      double force = 0.;
+      return force;
+   }
+
+   //
+   //
+   //
    public int id(){
       return this._id;
    }
@@ -105,8 +89,7 @@ public class SimpleMechanismSupport implements MechanismSupport{
    //
    //
    public String toString(){
-      String s = this.getClass().getName() + ": " + this.id();
-      return s;
+      String s = this.getClass().getName + ": " + this.id();
    }
 }
 //////////////////////////////////////////////////////////////////////

@@ -244,6 +244,17 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
    public void wrongSecEntry(){}
    ////////////////////////Private Methods////////////////////////////
    /**/
+   private void activateAbortButton(){
+      JPanel panel = (JPanel)this.getComponent(3);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         JButton b = (JButton)panel.getComponent(i);
+         if(b.getActionCommand().toUpperCase().contains("ABORT")){
+            b.setEnabled(true);
+         }
+      }
+   }
+
+   /**/
    private void activateCountdownTimeTextField(){
       JPanel panel = (JPanel)this.getComponent(2);
       for(int i = 0; i < panel.getComponentCount(); ++i){
@@ -344,6 +355,11 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
       hold.setActionCommand("COUNTDOWNHOLD");
       hold.setEnabled(false);
       panel.add(hold);
+
+      JButton abort = new JButton("Abort");
+      abort.setActionCommand("COUNTDOWNABORT");
+      abort.setEnabled(false);
+      panel.add(abort);
 
       if(this._controller != null){
          set.addActionListener(this._controller);

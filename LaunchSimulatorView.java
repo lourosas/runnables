@@ -33,12 +33,12 @@ import rosas.lou.clock.*;
 
 public class LaunchSimulatorView extends GenericJFrame
 implements Subscriber, ClockSubscriber, CountdownTimerInterface{
-   private LaunchSimulatorController _controller;
-   private LaunchSimulatorStateSubstate _lsss;
+   private LaunchSimulatorController     _controller;
+   private LaunchSimulatorStateSubstate  _lsss;
 
    {
       _controller = null;
-      _lsss       = null;      
+      _lsss       = null;
    };
 
    //////////////////////////Constructors/////////////////////////////
@@ -65,12 +65,13 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    public void error(String type, String message){}
    /**/
    public void update(String time){
+      //This will fucking need to change BIGTIME!!!
       try{
-         LaunchSimulatorStateSubstate.State s = this._lsss.state();
-         LaunchSimulatorStateSubstate.PreLaunchSubstate pl =
-                                       this._lsss.prelaunchSubstate();
-         if(s==LaunchSimulatorStateSubstate.State.PRELAUNCH){
-            LaunchSimulatorCountdownPanel p= this.getCountdownPanel();
+         LaunchSimulatorStateSubstate.State state=this._lsss.state();
+         if(state==LaunchSimulatorStateSubstate.State.PRELAUNCH){
+            //Start with the Countdown Panel first, amoung other
+            //things that will need to happen
+            LaunchSimulatorCountdownPanel p=this.getCountdownPanel();
             p.setCurrentCountdownTime(time);
          }
       }
@@ -97,14 +98,18 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    /**/
    public void update(java.util.List<?> list){
       for(int i = 0; i < list.size(); ++i){
-         String s = list.get(i).toUpperCase();
+         String s = ((String)list.get(i)).toUpperCase();
          if(s.contains(":")){
             //This way we know it is a time value
             this.update(s);
          }
          else if(s.contains("RESET")){}
-         else if(s.contains("START")){}
-         else if(s.contains("STOP")){}
+         else if(s.contains("START")){
+            System.out.println(s);
+         }
+         else if(s.contains("STOP")){
+            System.out.println(s);
+         }
       }
    }
    /**/
@@ -234,24 +239,17 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /**/
-   private void handleIgnitionSubstate(){
+   private void handleIgnitionSubstate
+   (
+      LaunchSimulatorStateSubstate.IgnitionSubstate sub
+   ){
    }
 
    /**/
-   private void handleLaunchSubstate(){
-   }
-
-   /**/
-   private void handlePrelaunchSubstate(){
-      LaunchSimulatorCountdownPanel p = this.getCountdownPanel();
-      if(this._lsss.prelaunchSubstate() != null){
-         LaunchSimulatorStateSubstate.PreLaunchSubstate pl =
-                                       this._lsss.prelaunchSubstate();
-         if(pl == 
-             LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE){
-            p.activateContinueState();    
-         }
-      }
+   private void handleLaunchSubstate
+   (
+      LaunchSimulatorStateSubstate.LaunchSubstate sub
+   ){
    }
 
    /**/
@@ -259,11 +257,13 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    (
       LaunchSimulatorStateSubstate.PreLaunchSubstate sub
    ){
-      LaunchSimulatorCountdownPanel p = this.getCountdownPanel();
-      if(sub ==
-             LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE){
-         p.activateContinueState();
+      try{
+         if(sub==LaunchSimulatorStateSubstate.PreLaunchSubstate.SET){
+         //LaunchSimulatorCountdownPanel p = this.getCountdownPanel();
+            this.setForCountdownStart();
+         }
       }
+      catch(NullPointerException npe){}
    }
 
    /**/
@@ -273,10 +273,10 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       String                       message
    ){
       this._lsss = lsss;
-      this.displayState(this._lsss.state());
-      this.handlePrelaunchSubstate();
-      this.handleIgnitionSubstate();
-      this.handleLaunchSubstate();
+      this.displayState(lsss.state());
+      this.handlePrelaunchSubstate(lsss.prelaunchSubstate());
+      this.handleIgnitionSubstate(lsss.ignitionSubstate());
+      this.handleLaunchSubstate(lsss.launchSubstate());
    }
 
    /**/
@@ -333,7 +333,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
 
    /**/
    private void setUpGUI(){
-      int WIDTH  = 700;
+      int WIDTH  = 750;
       int HEIGHT = 700;
 
       this.setLayout(new BorderLayout());
