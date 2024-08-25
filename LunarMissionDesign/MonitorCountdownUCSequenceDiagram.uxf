@@ -610,7 +610,7 @@ update(timeString:String)</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-update(timeString:String)</panel_attributes>
+update(list:List&lt;String&gt;)</panel_attributes>
     <additional_attributes>10.0;20.0;250.0;20.0</additional_attributes>
   </element>
 </diagram>

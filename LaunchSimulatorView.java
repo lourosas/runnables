@@ -96,7 +96,16 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    public void update(String time, String type){}
    /**/
    public void update(java.util.List<?> list){
-      System.out.println(list);
+      for(int i = 0; i < list.size(); ++i){
+         String s = list.get(i).toUpperCase();
+         if(s.contains(":")){
+            //This way we know it is a time value
+            this.update(s);
+         }
+         else if(s.contains("RESET")){}
+         else if(s.contains("START")){}
+         else if(s.contains("STOP")){}
+      }
    }
    /**/
    public void updateElapsed(Duration duration){}
