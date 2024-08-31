@@ -36,9 +36,6 @@ implements Runnable,Publisher,LaunchSimulator{
    private Thread             rt0;
    private boolean            start;
    private boolean            kill;
-   private int                prelaunchHours;
-   private int                prelaunchMins;
-   private int                prelaunchSecs;
 
    {
       stateSubstate      = null;
@@ -50,9 +47,6 @@ implements Runnable,Publisher,LaunchSimulator{
       rt0                = null;
       start              = false;
       kill               = false;
-      prelaunchHours     = -1;
-      prelaunchMins      = -1;
-      prelaunchSecs      = -1;
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -115,9 +109,8 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    private void prelaunch(){
-      LaunchSimulatorStateSubstate.PreLaunchSubstate plSubstate =
-              LaunchSimulatorStateSubstate.PreLaunchSubstate.SET;
-      this.prelaunch(plSubstate);
+      this.prelaunch(
+                  LaunchSimulatorStateSubstate.PreLaunchSubstate.SET);
    }
 
    //
@@ -159,10 +152,6 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    private void setPrelaunchTime(int hours,int mins,int secs){
-      //this will change now!!!
-      //Basically, combine setUpCountdownTimer() and
-      //setTheCountdownTime() MINUS the starting of the Clock
-      //startCountdown() WILL HANDLE THAT!!!
       System.out.printf("%03d:%02d:%02d\n", hours,mins,secs);
       LClock clock        = new LClock();
       this.countdownTimer = new CountdownTimer(clock);
@@ -172,32 +161,6 @@ implements Runnable,Publisher,LaunchSimulator{
       this.countdownTimer.addSubscriber(this.clockSubscriber);
       this.countdownTimer.inputTime(hours,mins,secs);
       this.prelaunch();
-      //put this fucking somewhere else!!!
-      this.countdownTimer.broadcastTime();
-   }
-
-
-   //
-   //THIS WILL NEED TO CHAANGE...SEPARATE OUT THE START!!!!
-   //
-   private void setTheCountdownTime(){
-      int hours = this.prelaunchHours;
-      int mins  = this.prelaunchMins;
-      int secs  = this.prelaunchSecs;
-      this.countdownTimer.inputTime(hours,mins,secs);
-      this.countdownTimer.start();
-   }
-   
-   //
-   //
-   //
-   private void setUpCountdownTimer(){
-      LClock clock        = new LClock();
-      this.countdownTimer = new CountdownTimer(clock);
-      //Get the Clock Thread going...
-      Thread t = new Thread(clock, "clock");
-      t.start();
-      this.countdownTimer.addSubscriber(this.clockSubscriber);
    }
 
    //
@@ -263,10 +226,8 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    public void startCountdown(){
-      //Way too fucking complex!! Need to change!!!
-      this.setUpCountdownTimer();
-      this.setTheCountdownTime();
       this.start = true;
+      this.countdownTimer.start();
       this.prelaunch(
              LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE);
    }
@@ -339,9 +300,8 @@ implements Runnable,Publisher,LaunchSimulator{
          
          System.out.println(ss);
          System.out.println(s);
-         //GOING to have to go somewheres in here!!!
-         //this.countdownTimer.broadcastTime()
          this.subscriber.update(ss, s);
+         this.countdownTimer.broadcastTime();
       }
       catch(ClassCastException cce){}
    }

@@ -48,8 +48,6 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
       this.deactivateTextFields();
       this.deactivateButtons();
       this.activateHoldButton();
-      //Just a test...remove for something else...
-      //this.activateCountdownTimeTextField();
    }
 
    /**/
