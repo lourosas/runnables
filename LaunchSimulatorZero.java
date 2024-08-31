@@ -72,7 +72,7 @@ implements Runnable,Publisher,LaunchSimulator{
 
    /**/
    public LaunchSimulatorZero(Subscriber sub, ClockSubscriber csub){
-      this.addSubscriber(sub);
+      this.add(sub);
       this.addClockSubscriber(csub);
       //Go ahead and start the Thread
       this.setUpThread();
@@ -82,11 +82,6 @@ implements Runnable,Publisher,LaunchSimulator{
    /**/
    public void addClockSubscriber(ClockSubscriber cs){
       this.clockSubscriber = cs;
-   }
-
-   /**/
-   public void addSubscriber(Subscriber s){
-      this.subscriber = s;
    }
 
    //////////////////////Private Methods//////////////////////////////
@@ -154,10 +149,9 @@ implements Runnable,Publisher,LaunchSimulator{
          update = true;
       }
       if(update){
-         String message = new String("State:  "+state);
-         message +=
-               " Prelaunch:  "+this.stateSubstate.prelaunchSubstate();
-         this.subscriber.update(this.stateSubstate,message);
+         String m = new String("State:  "+state);
+         m += " Prelaunch:  "+this.stateSubstate.prelaunchSubstate();
+         this.notify(m, this.stateSubstate);
       }
    }
 
@@ -178,9 +172,7 @@ implements Runnable,Publisher,LaunchSimulator{
       this.countdownTimer.addSubscriber(this.clockSubscriber);
       this.countdownTimer.inputTime(hours,mins,secs);
       this.prelaunch();
-      //Going to change...
-      //this.countdownTimer.start();
-      //this.countdownTimer.stop();
+      //put this fucking somewhere else!!!
       this.countdownTimer.broadcastTime();
    }
 
@@ -255,7 +247,7 @@ implements Runnable,Publisher,LaunchSimulator{
          String error = new String("Time Entry!  Please Enter a\n");
          error += "Countdown Time greater than\n";
          error += "59 minutes 59 seconds!";
-         this.subscriber.error(error);
+         this.error(error, null);
       }
       else{
          this.setPrelaunchTime(hours,mins,secs);
@@ -322,17 +314,37 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    //
-   public void add(Subscriber s){}
+   public void add(Subscriber s){
+      this.subscriber = s;
+   }
 
    //
    //
    //
-   public void error(String s, Object o){}
+   public void error(String s, Object o){
+      if(o == null){
+         this.subscriber.error(new RuntimeException(s));
+      }
+      else{
+      }
+   }
 
    //
    //
    //
-   public void notify(String s, Object o){}
+   public void notify(String s, Object o){
+      try{
+         LaunchSimulatorStateSubstate ss = null;
+         ss = (LaunchSimulatorStateSubstate)o;
+         
+         System.out.println(ss);
+         System.out.println(s);
+         //GOING to have to go somewheres in here!!!
+         //this.countdownTimer.broadcastTime()
+         this.subscriber.update(ss, s);
+      }
+      catch(ClassCastException cce){}
+   }
 
    //
    //

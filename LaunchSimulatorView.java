@@ -181,14 +181,14 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /**/
-   public void error(RuntimeException re){}
+   public void error(RuntimeException re){
+      this.handleRuntimeException(re);
+   }
    /**/
    public void error(RuntimeException re, Object o){}
    /**/
    public void error(String error){
-      if(error.toUpperCase().contains("TIME ENTRY")){
-         this.handleTimeEntryErrors(error);
-      }
+      //Fucking something else to go in here!
    }
 
    /////////////////////////Private Methods///////////////////////////
@@ -267,6 +267,17 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /**/
+   private void handleRuntimeException(RuntimeException re){
+      if(re.getMessage().toUpperCase().contains("TIME ENTRY")){
+         JOptionPane.showMessageDialog(this,
+                                       re.getMessage(),
+                                       "Time Entry Error",
+                                       JOptionPane.ERROR_MESSAGE);
+         (this.getCountdownPanel()).wrongHourEntry();
+      }
+   }
+
+   /**/
    private void handleStateSubstate
    (
       LaunchSimulatorStateSubstate lsss,
@@ -277,18 +288,6 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       this.handlePrelaunchSubstate(lsss.prelaunchSubstate());
       this.handleIgnitionSubstate(lsss.ignitionSubstate());
       this.handleLaunchSubstate(lsss.launchSubstate());
-   }
-
-   /**/
-   private void handleTimeEntryErrors(String error){
-      if(error.toUpperCase().contains("TIME ENTRY")){
-         JOptionPane.showMessageDialog(this,
-               error,
-               "Time Entry Error",
-               JOptionPane.ERROR_MESSAGE);
-         LaunchSimulatorCountdownPanel p = this.getCountdownPanel();
-         p.wrongHourEntry();
-      }
    }
 
    /**/
