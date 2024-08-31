@@ -21,7 +21,7 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public class SimpleLaunchMechanism implements LaunchingMechanism{
+public class SimpleLaunchingMechanism implements LaunchingMechanism{
    //This should change based on file input
    private int                    _numberOfSupports;
    private List<MechanismSupport> _supports;
@@ -35,14 +35,14 @@ public class SimpleLaunchMechanism implements LaunchingMechanism{
    //
    //
    //
-   public SimpleLaunchMechanism(){
+   public SimpleLaunchingMechanism(){
       this(4);
    }
 
    //
    //
    //
-   public SimpleLaunchMechanism(int supports){
+   public SimpleLaunchingMechanism(int supports){
       this._numberOfSupports = supports;
       this.setUpSupports();
    }
@@ -60,8 +60,8 @@ public class SimpleLaunchMechanism implements LaunchingMechanism{
    /**/
    private void setUpSupports(){
       this._supports = new LinkedList<MechanismSupport>();
-      for(int i = 0; i < this._numberOfSupports(); ++i){
-         this._supports.add(new SimpleMechanismSupport(i);
+      for(int i = 0; i < this._numberOfSupports; ++i){
+         this._supports.add(new SimpleMechanismSupport(i));
       }
    }
 
@@ -75,7 +75,8 @@ public class SimpleLaunchMechanism implements LaunchingMechanism{
          data = new LinkedList<LaunchingMechanismData>();
          //Get the Prelaunch Data from all the supports...
          for(int i = 0; i < this._supports.size(); ++i){
-            data.add(this._supports.monitorPrelaunch());
+            MechanismSupport support = this._supports.get(i);
+            data.add(support.monitorPrelaunch());
          }
          
       }
@@ -91,16 +92,21 @@ public class SimpleLaunchMechanism implements LaunchingMechanism{
    //
    //
    //
-   public List<LaunchimMechanismData> monitorIgnition(){
+   public List<LaunchingMechanismData> monitorIgnition(){
       return null;
    }
 
    //
    //
    //
-   public List<LaunchimMechanismData> monitorLaunch(){
+   public List<LaunchingMechanismData> monitorLaunch(){
       return null;
    }
+
+   //
+   //
+   //
+   public void release(){}
 }
 //////////////////////////////////////////////////////////////////////
 

@@ -21,14 +21,14 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public class SimpleMechanismSupport implements MechanismSupprt{
+public class SimpleMechanismSupport implements MechanismSupport{
    private int _id = -1;
 
    ///////////////////////////Constructors////////////////////////////
    //
    //
    //
-   public SimpleMechansimSupport(int id){
+   public SimpleMechanismSupport(int id){
       this._id = id;
    }
 
@@ -89,7 +89,8 @@ public class SimpleMechanismSupport implements MechanismSupprt{
    //
    //
    public String toString(){
-      String s = this.getClass().getName + ": " + this.id();
+      String s = this.getClass().getName() + ": " + this.id();
+      return s;
    }
 }
 //////////////////////////////////////////////////////////////////////
