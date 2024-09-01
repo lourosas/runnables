@@ -26,6 +26,19 @@ import rosas.lou.clock.*;
 */
 public class LaunchSimulatorZero
 implements Runnable,Publisher,LaunchSimulator{
+   private LaunchSimulatorStateSubstate.State PREL = null;
+   private LaunchSimulatorStateSubstate.State INIT = null;
+   private LaunchSimulatorStateSubstate.State LAUN = null;
+   private LaunchSimulatorStateSubstate.PreLaunchSubstate SET  = null;
+   private LaunchSimulatorStateSubstate.PreLaunchSubstate CONT = null;
+   private LaunchSimulatorStateSubstate.PreLaunchSubstate HOLD = null;
+   private LaunchSimulatorStateSubstate.IgnitionSubstate  IGN  = null;
+   private LaunchSimulatorStateSubstate.IgnitionSubstate  BUP  = null;
+   private LaunchSimulatorStateSubstate.IgnitionSubstate  REL  = null;
+   private LaunchSimulatorStateSubstate.LaunchSubstate    ASC  = null;
+   private LaunchSimulatorStateSubstate.LaunchSubstate    STAG = null;
+   private LaunchSimulatorStateSubstate.LaunchSubstate    IGNE = null;
+
    private LaunchSimulatorStateSubstate stateSubstate;
 
    private ClockSubscriber    clockSubscriber;
@@ -38,6 +51,19 @@ implements Runnable,Publisher,LaunchSimulator{
    private boolean            kill;
 
    {
+      PREL = LaunchSimulatorStateSubstate.State.PRELAUNCH;
+      INIT = LaunchSimulatorStateSubstate.State.INITIATELAUNCH;
+      LAUN = LaunchSimulatorStateSubstate.State.LAUNCH;
+      SET  = LaunchSimulatorStateSubstate.PreLaunchSubstate.SET;
+      CONT = LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE;
+      HOLD = LaunchSimulatorStateSubstate.PreLaunchSubstate.HOLD;
+      IGN  = LaunchSimulatorStateSubstate.IgnitionSubstate.IGNITION;
+      BUP  = LaunchSimulatorStateSubstate.IgnitionSubstate.BUILDUP;
+      REL  = LaunchSimulatorStateSubstate.IgnitionSubstate.RELEASED;
+      ASC  = LaunchSimulatorStateSubstate.LaunchSubstate.ASCENT;
+      STAG = LaunchSimulatorStateSubstate.LaunchSubstate.STAGING;
+      IGNE =LaunchSimulatorStateSubstate.LaunchSubstate.IGNITEENGINES;
+
       stateSubstate      = null;
       clockSubscriber    = null;
       subscriber         = null;
