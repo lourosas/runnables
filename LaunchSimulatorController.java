@@ -108,6 +108,11 @@ KeyListener,ItemListener,WindowListener{
    }
 
    /**/
+   private void activatePrelaunchCountdownHold(){
+      this._simulator.holdCountdown();
+   }
+
+   /**/
    private void activatePrelaunchTime(){
       try{
          this._subscriber.update(null,"Set:  Prelaunch");
@@ -121,6 +126,11 @@ KeyListener,ItemListener,WindowListener{
    }
 
    /**/
+   private void activatePrelaunchResumeCountdown(){
+      this._simulator.resumeCountdown();
+   }
+
+   /**/
    private void handleJButton(ActionEvent e){
       try{
          JButton b = (JButton)e.getSource();
@@ -131,9 +141,14 @@ KeyListener,ItemListener,WindowListener{
          else if(command.equals("COUNTDOWNSET")){
             this.requestPrelaunchTime();
          }
-         else if(command.equals("COUNTDOWNRESUME")){}
+         else if(command.equals("COUNTDOWNRESUME")){
+            this.activatePrelaunchResumeCountdown();
+         }
          else if(command.equals("COUNTDOWNSTART")){
             this.activatePrelaunchCountdown();
+         }
+         else if(command.equals("COUNTDOWNHOLD")){
+            this.activatePrelaunchCountdownHold();
          }
          else{
             System.out.println(command);

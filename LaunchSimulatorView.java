@@ -33,10 +33,36 @@ import rosas.lou.clock.*;
 
 public class LaunchSimulatorView extends GenericJFrame
 implements Subscriber, ClockSubscriber, CountdownTimerInterface{
+   private LaunchSimulatorStateSubstate.State PREL             = null;
+   private LaunchSimulatorStateSubstate.State INIT             = null;
+   private LaunchSimulatorStateSubstate.State LAUN             = null;
+   private LaunchSimulatorStateSubstate.PreLaunchSubstate SET  = null;
+   private LaunchSimulatorStateSubstate.PreLaunchSubstate CONT = null;
+   private LaunchSimulatorStateSubstate.PreLaunchSubstate HOLD = null;
+   private LaunchSimulatorStateSubstate.IgnitionSubstate  IGN  = null;
+   private LaunchSimulatorStateSubstate.IgnitionSubstate  BUP  = null;
+   private LaunchSimulatorStateSubstate.IgnitionSubstate  REL  = null;
+   private LaunchSimulatorStateSubstate.LaunchSubstate    ASC  = null;
+   private LaunchSimulatorStateSubstate.LaunchSubstate    STAG = null;
+   private LaunchSimulatorStateSubstate.LaunchSubstate    IGNE = null;
+
    private LaunchSimulatorController     _controller;
    private LaunchSimulatorStateSubstate  _lsss;
 
    {
+      PREL = LaunchSimulatorStateSubstate.State.PRELAUNCH;
+      INIT = LaunchSimulatorStateSubstate.State.INITIATELAUNCH;
+      LAUN = LaunchSimulatorStateSubstate.State.LAUNCH;
+      SET  = LaunchSimulatorStateSubstate.PreLaunchSubstate.SET;
+      CONT = LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE;
+      HOLD = LaunchSimulatorStateSubstate.PreLaunchSubstate.HOLD;
+      IGN  = LaunchSimulatorStateSubstate.IgnitionSubstate.IGNITION;
+      BUP  = LaunchSimulatorStateSubstate.IgnitionSubstate.BUILDUP;
+      REL  = LaunchSimulatorStateSubstate.IgnitionSubstate.RELEASED;
+      ASC  = LaunchSimulatorStateSubstate.LaunchSubstate.ASCENT;
+      STAG = LaunchSimulatorStateSubstate.LaunchSubstate.STAGING;
+      IGNE =LaunchSimulatorStateSubstate.LaunchSubstate.IGNITEENGINES;
+
       _controller = null;
       _lsss       = null;
    };
@@ -104,7 +130,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
             this.update(s);
          }
          else if(s.contains("RESET")){}
-         else if(s.contains("START")){
+         else if(s.contains("RUN")){
             System.out.println(s);
          }
          else if(s.contains("STOP")){
@@ -252,14 +278,16 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       LaunchSimulatorStateSubstate.PreLaunchSubstate sub
    ){
       try{
-         if(sub==LaunchSimulatorStateSubstate.PreLaunchSubstate.SET){
+         if(sub == SET){
             this.setForCountdownStart();
          }
-         else if(sub==
-             LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE){
+         else if(sub== CONT){
             //Set the Countdown Start
             this.setStartResumeCountdown();
-            System.out.println("handlePrelaunchSubstate: "+sub);
+         }
+         else if(sub == HOLD){
+            //Hold the Countdown
+            this.setHoldCountdown();
          }
       }
       catch(NullPointerException npe){}
@@ -293,6 +321,12 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    private void setForCountdownStart(){
       LaunchSimulatorCountdownPanel p = this.getCountdownPanel();
       p.activateSetSubState();
+   }
+
+   /**/
+   private void setHoldCountdown(){
+      LaunchSimulatorCountdownPanel p = this.getCountdownPanel();
+      p.activateHoldSubState();
    }
 
    /**/
@@ -337,7 +371,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
 
    /**/
    private void setUpGUI(){
-      int WIDTH  = 750;
+      int WIDTH  = 850;
       int HEIGHT = 700;
 
       this.setLayout(new BorderLayout());

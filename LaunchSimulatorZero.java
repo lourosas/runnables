@@ -135,8 +135,8 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    private void prelaunch(){
-      this.prelaunch(
-                  LaunchSimulatorStateSubstate.PreLaunchSubstate.SET);
+      //First Attempt to use the Predefined constants!!!
+      this.prelaunch(SET);
    }
 
    //
@@ -147,36 +147,14 @@ implements Runnable,Publisher,LaunchSimulator{
       LaunchSimulatorStateSubstate.PreLaunchSubstate substate
    ){
       boolean update = false;
-      LaunchSimulatorStateSubstate.State state = null;
-      state = LaunchSimulatorStateSubstate.State.PRELAUNCH;
-      LaunchSimulatorStateSubstate.PreLaunchSubstate sub = substate;
- 
-      //SET should ONLY Be SET ONCE!! When stateSubstate is null
-      //To Avoid updates, CANNOT set twice!!!
-      if(sub == LaunchSimulatorStateSubstate.PreLaunchSubstate.SET){
-         if(this.stateSubstate == null){
-            this.stateSubstate = new LaunchSimulatorStateSubstate(
-                                                             state,
-                                                             sub,
-                                                             null,
-                                                             null);
-            update = true;
-         }
-      }
-      else if(sub ==
-             LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE){
-         LaunchSimulatorStateSubstate.PreLaunchSubstate css = null;
-         //Need to check the current Substate
-         css = this.stateSubstate.prelaunchSubstate();
-         if(css==LaunchSimulatorStateSubstate.PreLaunchSubstate.SET){
-            this.stateSubstate = new LaunchSimulatorStateSubstate(
-                                                             state,
-                                                             sub,
-                                                             null,
-                                                             null);
-            update = true;
-         }
-      }
+      LaunchSimulatorStateSubstate.State state = PREL;
+
+      this.stateSubstate = new LaunchSimulatorStateSubstate(
+                                                          state,
+                                                          substate,
+                                                          null,
+                                                          null);
+      update = true;
       if(update){
          String m = new String("State:  "+state);
          m += " Prelaunch:  "+this.stateSubstate.prelaunchSubstate();
@@ -188,15 +166,18 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    private void setPrelaunchTime(int hours,int mins,int secs){
-      System.out.printf("%03d:%02d:%02d\n", hours,mins,secs);
-      LClock clock        = new LClock();
-      this.countdownTimer = new CountdownTimer(clock);
-      //Get the Clock Thread going but DO NOT START the Clock!...
-      Thread t = new Thread(clock, "clock");
-      t.start();
-      this.countdownTimer.addSubscriber(this.clockSubscriber);
-      this.countdownTimer.inputTime(hours,mins,secs);
-      this.prelaunch();
+      //Set the SET State once AND ONLY once!!!...
+      if(this.stateSubstate == null){
+         System.out.printf("%03d:%02d:%02d\n", hours,mins,secs);
+         LClock clock        = new LClock();
+         this.countdownTimer = new CountdownTimer(clock);
+         //Get the Clock Thread going but DO NOT START the Clock!...
+         Thread t = new Thread(clock, "clock");
+         t.start();
+         this.countdownTimer.addSubscriber(this.clockSubscriber);
+         this.countdownTimer.inputTime(hours,mins,secs);
+         this.prelaunch();
+      }
    }
 
    //
@@ -207,6 +188,14 @@ implements Runnable,Publisher,LaunchSimulator{
       this.rt0.start();
    }
 
+   //
+   //
+   //
+   //
+   private LaunchSimulatorStateSubstate.PreLaunchSubstate
+   prelaunchSubstate(){
+      return this.stateSubstate.prelaunchSubstate();
+   }
    //
    //
    //
@@ -223,7 +212,15 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    //
-   public void holdCountdown(){}
+   public void holdCountdown(){
+      if(this.state() == PREL && this.prelaunchSubstate() == CONT){
+         this.countdownTimer.stop();
+         this.prelaunch(HOLD);
+         //No need for Component Updates for the time-being...
+         //This probably will change...
+         this.start = false;
+      }
+   }
 
    //
    //
@@ -256,17 +253,24 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    //
-   public void resumeCountdown(){}
+   public void resumeCountdown(){
+      if(this.state() == PREL  && this.prelaunchSubstate() == HOLD){
+         this.countdownTimer.start();
+         this.prelaunch(CONT);
+         this.start = true;
+      }
+   }
 
    //
    //
    //
    public void startCountdown(){
-      LaunchSimulatorStateSubstate.PreLaunchSubstate sub = null;
-      sub = LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE;
-      this.start = true;
-      this.countdownTimer.start();
-      this.prelaunch(sub);
+      if(this.state() == PREL && this.prelaunchSubstate() == SET){
+         this.start = true;
+         this.countdownTimer.start();
+         //State = PRELAUNCH, Substate = PreLaunch.CONTINUE
+         this.prelaunch(CONT);
+      }
    }
 
    ////////////////Runnable Interface Implementation//////////////////
@@ -285,8 +289,7 @@ implements Runnable,Publisher,LaunchSimulator{
             Thread.sleep(100);
             if(this.start){
                //Thread.sleep(50);
-               if(this.stateSubstate.state() ==
-                        LaunchSimulatorStateSubstate.State.PRELAUNCH){
+               if(this.state() == PREL){
                   //md = this.launchingMechanism.monitorPrelaunch();
                   if(++printCounter == 100){
                      //So far, just test prints

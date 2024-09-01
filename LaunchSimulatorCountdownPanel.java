@@ -51,7 +51,12 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
    }
 
    /**/
-   public void activateHoldSubState(){}
+   public void activateHoldSubState(){
+      this.deactivateTextFields();
+      this.deactivateButtons();
+      this.activateAbortButton();
+      this.activateResumeButton();
+   }
 
    /**/
    public void activatePrelaunchTime(){
@@ -276,6 +281,17 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
    }
 
    /**/
+   private void activateResumeButton(){
+      JPanel panel = (JPanel)this.getComponent(3);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         JButton b = (JButton)panel.getComponent(i);
+         if(b.getActionCommand().toUpperCase().contains("RESUME")){
+            b.setEnabled(true);
+         }
+      }
+   }
+
+   /**/
    private void activateSetButton(){
       JPanel panel = (JPanel)this.getComponent(3);
       for(int i = 0; i < panel.getComponentCount(); ++i){
@@ -364,8 +380,12 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
          set.addKeyListener(this._controller);
          start.addActionListener(this._controller);
          start.addKeyListener(this._controller);
+         resume.addActionListener(this._controller);
+         resume.addKeyListener(this._controller);
          hold.addActionListener(this._controller);
          hold.addKeyListener(this._controller);
+         abort.addActionListener(this._controller);
+         abort.addKeyListener(this._controller);
       }
 
       return panel;
