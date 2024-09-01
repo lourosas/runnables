@@ -44,14 +44,14 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
 
    /////////////////////////Public Methods////////////////////////////
    /**/
-   public void activateContinueState(){
+   public void activateContinueSubState(){
       this.deactivateTextFields();
       this.deactivateButtons();
       this.activateHoldButton();
    }
 
    /**/
-   public void activateHoldState(){}
+   public void activateHoldSubState(){}
 
    /**/
    public void activatePrelaunchTime(){
@@ -61,7 +61,7 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
    }
 
    /**/
-   public void activateReadyForStart(){
+   public void activateSetSubState(){
       this.deactivateTextFields();
       this.deactivateButtons();
       this.activateStartButton();

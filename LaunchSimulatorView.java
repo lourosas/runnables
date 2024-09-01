@@ -256,8 +256,10 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
             this.setForCountdownStart();
          }
          else if(sub==
-             LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE){ 
-            System.out.println(sub);
+             LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE){
+            //Set the Countdown Start
+            this.setStartResumeCountdown();
+            System.out.println("handlePrelaunchSubstate: "+sub);
          }
       }
       catch(NullPointerException npe){}
@@ -290,7 +292,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    /**/
    private void setForCountdownStart(){
       LaunchSimulatorCountdownPanel p = this.getCountdownPanel();
-      p.activateReadyForStart();
+      p.activateSetSubState();
    }
 
    /**/
@@ -307,6 +309,12 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       }
       LaunchSimulatorCountdownPanel p = this.getCountdownPanel();
       p.activatePrelaunchTime();
+   }
+
+   /**/
+   private void setStartResumeCountdown(){
+      LaunchSimulatorCountdownPanel p = this.getCountdownPanel();
+      p.activateContinueSubState();
    }
 
    /**/

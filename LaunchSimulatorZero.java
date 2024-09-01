@@ -121,25 +121,35 @@ implements Runnable,Publisher,LaunchSimulator{
       LaunchSimulatorStateSubstate.PreLaunchSubstate substate
    ){
       boolean update = false;
-      LaunchSimulatorStateSubstate.State state =
-                         LaunchSimulatorStateSubstate.State.PRELAUNCH;
+      LaunchSimulatorStateSubstate.State state = null;
+      state = LaunchSimulatorStateSubstate.State.PRELAUNCH;
+      LaunchSimulatorStateSubstate.PreLaunchSubstate sub = substate;
+ 
       //SET should ONLY Be SET ONCE!! When stateSubstate is null
       //To Avoid updates, CANNOT set twice!!!
-      if(substate ==
-                  LaunchSimulatorStateSubstate.PreLaunchSubstate.SET){
+      if(sub == LaunchSimulatorStateSubstate.PreLaunchSubstate.SET){
          if(this.stateSubstate == null){
             this.stateSubstate = new LaunchSimulatorStateSubstate(
                                                              state,
-                                                             substate,
+                                                             sub,
                                                              null,
                                                              null);
             update = true;
          }
       }
-      else{
-         this.stateSubstate = new LaunchSimulatorStateSubstate(state,
-                                                  substate,null,null);
-         update = true;
+      else if(sub ==
+             LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE){
+         LaunchSimulatorStateSubstate.PreLaunchSubstate css = null;
+         //Need to check the current Substate
+         css = this.stateSubstate.prelaunchSubstate();
+         if(css==LaunchSimulatorStateSubstate.PreLaunchSubstate.SET){
+            this.stateSubstate = new LaunchSimulatorStateSubstate(
+                                                             state,
+                                                             sub,
+                                                             null,
+                                                             null);
+            update = true;
+         }
       }
       if(update){
          String m = new String("State:  "+state);
@@ -226,10 +236,11 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    public void startCountdown(){
+      LaunchSimulatorStateSubstate.PreLaunchSubstate sub = null;
+      sub = LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE;
       this.start = true;
       this.countdownTimer.start();
-      this.prelaunch(
-             LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE);
+      this.prelaunch(sub);
    }
 
    ////////////////Runnable Interface Implementation//////////////////
@@ -250,14 +261,15 @@ implements Runnable,Publisher,LaunchSimulator{
                //Thread.sleep(50);
                if(this.stateSubstate.state() ==
                         LaunchSimulatorStateSubstate.State.PRELAUNCH){
-                  md = this.launchingMechanism.monitorPrelaunch();
+                  //md = this.launchingMechanism.monitorPrelaunch();
                   if(++printCounter == 100){
                      //So far, just test prints
                      System.out.println("\n"+this.stateSubstate);
-                     System.out.println(md.size());
+                     /*System.out.println(md.size());
                      for(int i = 0; i < md.size(); ++i){
                         System.out.println(md.get(i));
                      }
+                     */
                      printCounter = 0;
                   }
                }
