@@ -321,6 +321,9 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
          try{
             JTextField tf = (JTextField)panel.getComponent(i);
             tf.setEditable(true);
+            if(i == 1){
+               tf.requestFocus();
+            }
          }
          catch(ClassCastException cce){}
       }

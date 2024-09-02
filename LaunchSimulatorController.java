@@ -120,13 +120,11 @@ KeyListener,ItemListener,WindowListener{
    /**/
    private void activatePrelaunchTime(){
       try{
-         this._subscriber.update(null,"Set:  Prelaunch");
+         this._subscriber.update(null, "Set: Prelaunch");
+         //this._simulator.activateCountdownEntry();
       }
       catch(NullPointerException npe){
-         JOptionPane.showMessageDialog(null,
-               "NO GUI to set Prelaunch!",
-               "GUI-less!",
-               JOptionPane.ERROR_MESSAGE);
+         npe.printStackTrace();
       }
    }
 
