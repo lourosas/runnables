@@ -108,6 +108,11 @@ KeyListener,ItemListener,WindowListener{
    }
 
    /**/
+   private void activatePrelaunchCountdownAbort(){
+      this._simulator.abortCountdown();
+   }
+
+   /**/
    private void activatePrelaunchCountdownHold(){
       this._simulator.holdCountdown();
    }
@@ -149,6 +154,9 @@ KeyListener,ItemListener,WindowListener{
          }
          else if(command.equals("COUNTDOWNHOLD")){
             this.activatePrelaunchCountdownHold();
+         }
+         else if(command.equals("COUNTDOWNABORT")){
+            this.activatePrelaunchCountdownAbort();
          }
          else{
             System.out.println(command);

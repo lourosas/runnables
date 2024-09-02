@@ -60,6 +60,7 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
 
    /**/
    public void activatePrelaunchTime(){
+      this.clearTextField();
       this.activateTextFields();
       this.deactivateButtons();
       this.activateSetButton();
@@ -320,6 +321,18 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
          try{
             JTextField tf = (JTextField)panel.getComponent(i);
             tf.setEditable(true);
+         }
+         catch(ClassCastException cce){}
+      }
+   }
+
+   /**/
+   private void clearTextField(){
+      JPanel panel = (JPanel)this.getComponent(1);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         try{
+            JTextField tf = (JTextField)panel.getComponent(i);
+            tf.setText("");
          }
          catch(ClassCastException cce){}
       }

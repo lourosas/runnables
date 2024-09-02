@@ -26,9 +26,9 @@ import rosas.lou.clock.*;
 */
 public class LaunchSimulatorZero
 implements Runnable,Publisher,LaunchSimulator{
-   private LaunchSimulatorStateSubstate.State PREL = null;
-   private LaunchSimulatorStateSubstate.State INIT = null;
-   private LaunchSimulatorStateSubstate.State LAUN = null;
+   private LaunchSimulatorStateSubstate.State PREL             = null;
+   private LaunchSimulatorStateSubstate.State INIT             = null;
+   private LaunchSimulatorStateSubstate.State LAUN             = null;
    private LaunchSimulatorStateSubstate.PreLaunchSubstate SET  = null;
    private LaunchSimulatorStateSubstate.PreLaunchSubstate CONT = null;
    private LaunchSimulatorStateSubstate.PreLaunchSubstate HOLD = null;
@@ -203,11 +203,19 @@ implements Runnable,Publisher,LaunchSimulator{
       return this.stateSubstate.state();
    }
 
-   ////////////LaunchSimulator Interface Implementation////////////////
+   ////////////LaunchSimulator Interface Implementation///////////////
    //
    //
    //
-   public void abortCountdown(){}
+   public void abortCountdown(){
+      if(this.state() == PREL && this.prelaunchSubstate() == HOLD){
+         this.countdownTimer.reset();
+         //Nullify the LaunchSimulationStateSubstate instance
+         //Basically, clears it out so as to "Start Over"
+         this.stateSubstate = null;
+         this.notify("Set: Prelaunch", this.stateSubstate);
+      }
+   }
 
    //
    //
@@ -345,6 +353,9 @@ implements Runnable,Publisher,LaunchSimulator{
          this.countdownTimer.broadcastTime();
       }
       catch(ClassCastException cce){}
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
    }
 
    //
