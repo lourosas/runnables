@@ -219,6 +219,18 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
 
    /////////////////////////Private Methods///////////////////////////
    /**/
+   private void abortPrelaunch(){
+      this.setPrelaunchTime();
+      //Set the front label to indicate "Bounced Out" of States
+      //re-set up the North Panel--probably should set up its
+      //own method
+      JPanel panel = (JPanel)this.getContentPane().getComponent(0);
+      JLabel label = (JLabel)panel.getComponent(0);
+      label.setText("(Current State)");
+      
+   }
+
+   /**/
    private void displayState(LaunchSimulatorStateSubstate.State s){
       JPanel panel=(JPanel)this.getContentPane().getComponent(0);
       JLabel label=(JLabel)panel.getComponent(0);
@@ -243,6 +255,11 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       if(message.contains("SET")){
          if(message.contains("PRELAUNCH")){
             this.setPrelaunchTime();
+         }
+      }
+      else if(message.contains("ABORT")){
+         if(message.contains("PRELAUNCH")){
+            this.abortPrelaunch();
          }
       }
    }

@@ -213,7 +213,8 @@ implements Runnable,Publisher,LaunchSimulator{
          //Nullify the LaunchSimulationStateSubstate instance
          //Basically, clears it out so as to "Start Over"
          this.stateSubstate = null;
-         this.notify("Set: Prelaunch", this.stateSubstate);
+         //this.notify("Set: Prelaunch", this.stateSubstate);
+         this.notify("Abort: Prelaunch", this.stateSubstate);
       }
    }
 
@@ -336,6 +337,7 @@ implements Runnable,Publisher,LaunchSimulator{
          this.subscriber.error(new RuntimeException(s));
       }
       else{
+         //TODO:  finish for here
       }
    }
 

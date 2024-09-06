@@ -322,6 +322,7 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
             JTextField tf = (JTextField)panel.getComponent(i);
             tf.setEditable(true);
             if(i == 1){
+               //Focus on the hours text field...
                tf.requestFocus();
             }
          }

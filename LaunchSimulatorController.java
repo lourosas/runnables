@@ -121,7 +121,6 @@ KeyListener,ItemListener,WindowListener{
    private void activatePrelaunchTime(){
       try{
          this._subscriber.update(null, "Set: Prelaunch");
-         //this._simulator.activateCountdownEntry();
       }
       catch(NullPointerException npe){
          npe.printStackTrace();
