@@ -212,13 +212,15 @@ KeyListener,ItemListener,WindowListener{
 
    /**/
    private void requestPrelaunchTime(){
+      int secs = -1; int mins = -1; int hours = -1;
       try{
          java.util.List<Integer> l = null;
          l = this._countdownTimer.requestTimes();
 
-         int hours = l.get(0).intValue();
-         int mins  = l.get(1).intValue();
-         int secs  = l.get(2).intValue();
+         //Go ahead and get Seconds first...since it is saved first
+         secs  = l.get(0).intValue();
+         mins  = l.get(1).intValue();
+         hours = l.get(2).intValue();
 
          this._simulator.preLaunchTime(hours,mins,secs);
       }
@@ -231,8 +233,11 @@ KeyListener,ItemListener,WindowListener{
                   "GUI-less!",
                   JOptionPane.ERROR_MESSAGE);
          }
-         else{  //This should never fucking happen!
-            npe.printStackTrace();
+         else{
+            //This should never fucking happen!            
+            if(hours > -1 && mins > -1 && secs > -1){
+               npe.printStackTrace();
+            }
          }
       }
    }

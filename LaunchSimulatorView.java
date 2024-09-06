@@ -154,9 +154,11 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    /**/
    public java.util.List<Integer> requestTimes(){
       java.util.List<Integer> list = new LinkedList<Integer>();
-      list.add(this.requestHours());
-      list.add(this.requestMins());
+      //Put this in reverse order for exception hadling the "most
+      //logical" gets filled first
       list.add(this.requestSecs());
+      list.add(this.requestMins());
+      list.add(this.requestHours());
       return list;
    }
 

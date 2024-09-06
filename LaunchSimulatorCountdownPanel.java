@@ -135,7 +135,9 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
       catch(NullPointerException npe){
          npe.printStackTrace();
       }
-      return hours;
+      finally{
+         return hours;
+      }
    }
    
    /**/
@@ -170,7 +172,9 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
          tf.requestFocus();
          tf.selectAll();
       }
-      return mins;
+      finally{
+         return mins;
+      }
    }
 
    /**/
@@ -205,7 +209,9 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
          tf.requestFocus();
          tf.selectAll();
       }
-      return secs;
+      finally{
+         return secs;
+      }
    }
 
    /**/
