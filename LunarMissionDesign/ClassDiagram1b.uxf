@@ -17,13 +17,15 @@ m2=1</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>440</x>
+      <x>460</x>
       <y>350</y>
-      <w>260</w>
-      <h>140</h>
+      <w>220</w>
+      <h>170</h>
     </coordinates>
     <panel_attributes>Rocket
 --
++emptyWeight():double
++loadedWeight():double
 +monitorPrelaunch():RocketData
 +monitorIgnition():RocketData
 +monitorLaunch():RocketData
@@ -86,9 +88,9 @@ bg=red</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>700</x>
+      <x>710</x>
       <y>670</y>
-      <w>240</w>
+      <w>220</w>
       <h>120</h>
     </coordinates>
     <panel_attributes>Stage
@@ -104,7 +106,7 @@ bg=yellow</panel_attributes>
     <coordinates>
       <x>650</x>
       <y>570</y>
-      <w>200</w>
+      <w>190</w>
       <h>130</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
@@ -159,9 +161,9 @@ m2=1...*
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>300</x>
+      <x>320</x>
       <y>950</y>
-      <w>260</w>
+      <w>220</w>
       <h>140</h>
     </coordinates>
     <panel_attributes>Engine
@@ -176,9 +178,9 @@ bg=orange</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>730</x>
+      <x>740</x>
       <y>1030</y>
-      <w>280</w>
+      <w>260</w>
       <h>120</h>
     </coordinates>
     <panel_attributes>FuelSystem
@@ -249,9 +251,9 @@ m2=2...*</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>610</x>
+      <x>620</x>
       <y>1390</y>
-      <w>240</w>
+      <w>220</w>
       <h>150</h>
     </coordinates>
     <panel_attributes>Tank
@@ -266,9 +268,9 @@ m2=2...*</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>760</x>
+      <x>770</x>
       <y>1520</y>
-      <w>240</w>
+      <w>220</w>
       <h>140</h>
     </coordinates>
     <panel_attributes>Pump
@@ -298,7 +300,7 @@ m2=*</panel_attributes>
     <coordinates>
       <x>920</x>
       <y>1280</y>
-      <w>140</w>
+      <w>130</w>
       <h>140</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
@@ -309,9 +311,9 @@ m2=*</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>910</x>
+      <x>930</x>
       <y>1390</y>
-      <w>240</w>
+      <w>200</w>
       <h>120</h>
     </coordinates>
     <panel_attributes>Pipes
@@ -325,9 +327,9 @@ bg=magenta</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>1030</x>
+      <x>1050</x>
       <y>940</y>
-      <w>280</w>
+      <w>240</w>
       <h>100</h>
     </coordinates>
     <panel_attributes>StageData
@@ -388,10 +390,10 @@ bg=orange</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>10</x>
+      <x>20</x>
       <y>1230</y>
-      <w>220</w>
-      <h>190</h>
+      <w>200</w>
+      <h>180</h>
     </coordinates>
     <panel_attributes>EngineData
 --
@@ -445,9 +447,9 @@ bg=cyan</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>1130</x>
+      <x>1140</x>
       <y>1290</y>
-      <w>240</w>
+      <w>220</w>
       <h>120</h>
     </coordinates>
     <panel_attributes>FuelSystemData
@@ -508,9 +510,9 @@ bg=gray</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>410</x>
+      <x>420</x>
       <y>1730</y>
-      <w>180</w>
+      <w>160</w>
       <h>170</h>
     </coordinates>
     <panel_attributes>TankData
@@ -672,9 +674,9 @@ m2=1</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>140</x>
+      <x>150</x>
       <y>660</y>
-      <w>220</w>
+      <w>200</w>
       <h>140</h>
     </coordinates>
     <panel_attributes>RocketData

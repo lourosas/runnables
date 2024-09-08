@@ -27,6 +27,7 @@ public interface ForceVector{
    public double left();
    public double right();
    public double up();
+   public double magnitude();
 }
 //////////////////////////////////////////////////////////////////////
 

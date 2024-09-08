@@ -22,14 +22,16 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public class SimpleMechanismSupport implements MechanismSupport{
-   private int _id = -1;
+   private int    _id            = -1;
+   private double _supportWeight = 0.;
 
    ///////////////////////////Constructors////////////////////////////
    //
    //
    //
-   public SimpleMechanismSupport(int id){
-      this._id = id;
+   public SimpleMechanismSupport(int id, double weight){
+      this._id            = id;
+      this._supportWeight = weight;
    }
 
    /////////////////////////Public Methods////////////////////////////
@@ -41,6 +43,28 @@ public class SimpleMechanismSupport implements MechanismSupport{
       return s;
    }
    ////////////////////////Private Methods////////////////////////////
+   //This is where you "measure" the force
+   //
+   //
+   private double force(){
+      //For the time being, just return the _supportWeight
+      //this will need to change to add "Reality" to the Simulation
+      return this._supportWeight;
+   }
+
+   //"Measure" the force vector
+   //
+   //
+   private ForceVector direction(){
+      //Again, very simple!  Just construct a SimpleForceVector and 
+      //put the vector at -z and x=y=0 (all force is straight down)
+      //THIS WILL CHANGE!!!
+      double force = (-1)*this._supportWeight;
+      //for the time being, but the force straight down! (Change:TBD)
+      SimpleForceVector s = new SimpleForceVector(0,0,force);
+      return s;
+   }
+
    //
    //
    //
@@ -48,13 +72,6 @@ public class SimpleMechanismSupport implements MechanismSupport{
       return true;
    }
 
-   //
-   //
-   //
-   private double totalWeight(){
-      return 0.0;
-   }
-   
    /////////////////MechanismSupport Implementation///////////////////
    //
    //
@@ -67,6 +84,9 @@ public class SimpleMechanismSupport implements MechanismSupport{
    //
    //
    public LaunchingMechanismData monitorPrelaunch(){
+      double force  = this.force();
+      ForceVector v = this.direction();
+      //determine error and get error string if error
       return null;
    }
 

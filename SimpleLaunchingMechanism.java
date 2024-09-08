@@ -25,6 +25,7 @@ public class SimpleLaunchingMechanism implements LaunchingMechanism{
    //This should change based on file input
    private int                    _numberOfSupports;
    private List<MechanismSupport> _supports;
+   private Rocket                 _rocket; //The Rocket Supported
 
    {
       _numberOfSupports = -1;//again, should change based in input
@@ -35,15 +36,16 @@ public class SimpleLaunchingMechanism implements LaunchingMechanism{
    //
    //
    //
-   public SimpleLaunchingMechanism(){
-      this(4);
+   public SimpleLaunchingMechanism(Rocket rocket){
+      this(4, rocket);
    }
 
    //
    //
    //
-   public SimpleLaunchingMechanism(int supports){
+   public SimpleLaunchingMechanism(int supports, Rocket rocket){
       this._numberOfSupports = supports;
+      this._rocket           = rocket;
       this.setUpSupports();
    }
 
@@ -59,9 +61,11 @@ public class SimpleLaunchingMechanism implements LaunchingMechanism{
 
    /**/
    private void setUpSupports(){
+      int supports = this._numberOfSupports;
       this._supports = new LinkedList<MechanismSupport>();
-      for(int i = 0; i < this._numberOfSupports; ++i){
-         this._supports.add(new SimpleMechanismSupport(i));
+      for(int i = 0; i < supports; ++i){
+         double weight = this._rocket.loadedWeight()/supports;
+         this._supports.add(new SimpleMechanismSupport(i,weight));
       }
    }
 
@@ -76,6 +80,7 @@ public class SimpleLaunchingMechanism implements LaunchingMechanism{
          //Get the Prelaunch Data from all the supports...
          for(int i = 0; i < this._supports.size(); ++i){
             MechanismSupport support = this._supports.get(i);
+            //Do a test print for now...
             data.add(support.monitorPrelaunch());
          }
          

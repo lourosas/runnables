@@ -21,6 +21,7 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
+//Direction is determined based on sign of the force component
 public class SimpleForceVector implements ForceVector{
    private double _x;
    private double _y;
@@ -52,27 +53,21 @@ public class SimpleForceVector implements ForceVector{
 
    //////////////////////ForceVector Implementation///////////////////
    /**/
-   public double x(){
-      return this._x;
+   public double up(){
+      return 0.;
    }
 
    /**/
-   public double y(){
-      return this._y;
+   public double down(){
+      return 0.;
    }
 
-   public double z(){
-      return this._z;
+   public double right(){
+      return 0.;
    }
 
-   public double maginitude(){
-      return this._magnitude();
-   }
+   public double left(){ return 0.; }
 
-   public String toString(){
-      String s = new String;
-
-      return s;
-   }
+   public double magnitude(){ return 0.; }
 }
 //////////////////////////////////////////////////////////////////////

@@ -273,6 +273,13 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    //
+   public void rocket(Rocket rocket){
+      this.rocket = rocket;
+   }
+
+   //
+   //
+   //
    public void startCountdown(){
       if(this.state() == PREL && this.prelaunchSubstate() == SET){
          this.start = true;
@@ -299,15 +306,14 @@ implements Runnable,Publisher,LaunchSimulator{
             if(this.start){
                //Thread.sleep(50);
                if(this.state() == PREL){
-                  //md = this.launchingMechanism.monitorPrelaunch();
+                  md = this.launchingMechanism.monitorPrelaunch();
                   if(++printCounter == 100){
                      //So far, just test prints
                      System.out.println("\n"+this.stateSubstate);
-                     /*System.out.println(md.size());
+                     System.out.println(md.size());
                      for(int i = 0; i < md.size(); ++i){
                         System.out.println(md.get(i));
                      }
-                     */
                      printCounter = 0;
                   }
                }

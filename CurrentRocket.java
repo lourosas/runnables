@@ -26,14 +26,14 @@ public class CurrentRocket implements Rocket{
 
    private static final int NUMBEROFSTAGES = 1;
 
-   private int currentStage;
-   private boolean start;
-   private boolean abort;
+   private int     currentStage;
+   private double  _loadedWeight;  //Measure in Newtons!!!
+   private double  _emptyWeight;   //Measure in Netwons!!!
 
    {
-      currentStage = 1;
-      start        = false;
-      abort        = false;
+      currentStage   = 1;
+      //_emptyWeight   = 1e6;
+      //_loadedWeight  = 3e6;
    }
    //////////////////////Contructors/////////////////////////////////
    //
@@ -45,41 +45,49 @@ public class CurrentRocket implements Rocket{
    //
    //
    //
-   public void abort(){
-      this.abort = true;
+   public double emptyWeight(){
+      return this._emptyWeight;
    }
 
    //
    //
    //
-   public int currentStage(){
-      return this.currentStage;
+   public double loadedWeight(){
+      return this._loadedWeight;
+   }
+
+   //
+   //
+   //
+   public RocketData monitorPrelaunch(){
+      return null;
+   }
+
+   //
+   //
+   //
+   public RocketData monitorIgnition(){
+      return null;
+   }
+
+   //
+   //
+   //
+   public RocketData monitorLaunch(){
+      return null;
    }
 
    //
    //
    //
    public int stages(){
-      return NUMBEROFSTAGES;
+      return this.NUMBEROFSTAGES;
    }
 
-   /////////////////////Runnable Interface////////////////////////////
+   ///////////////////Runnable Interface Implementation//////////////
    //
    //
    //
-   public void run(){
-      try{
-         while(true){
-            if(this.abort){
-               System.out.println("Rocket Aborting");
-               throw new InterruptedException();
-            }
-            Thread.sleep(250);
-            System.out.println("Rocket Running");
-         }
-      }
-      catch(InterruptedException ie){}
-   }
+   public void run(){}
 }
-
 //////////////////////////////////////////////////////////////////////
