@@ -41,6 +41,20 @@ public class SimpleMechanismSupport implements MechanismSupport{
       return s;
    }
    ////////////////////////Private Methods////////////////////////////
+   //
+   //
+   //
+   private boolean error(){
+      return true;
+   }
+
+   //
+   //
+   //
+   private double totalWeight(){
+      return 0.0;
+   }
+   
    /////////////////MechanismSupport Implementation///////////////////
    //
    //

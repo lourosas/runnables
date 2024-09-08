@@ -292,7 +292,7 @@ implements Runnable,Publisher,LaunchSimulator{
       try{
          while(true){
             if(this.kill){
-               this.rocket.abort();
+               //this.rocket.abort();-->TBD!!!
                throw new InterruptedException();
             }
             Thread.sleep(100);

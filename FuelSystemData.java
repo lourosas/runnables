@@ -1,4 +1,4 @@
-/////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 /*
 Copyright 2024 Lou Rosas
 
@@ -17,19 +17,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 package rosas.lou.runnables;
 
-import java.lang.*;
 import java.util.*;
+import java.lang.*;
 import rosas.lou.runnables.*;
-import rosas.lou.clock.*;
 
-public interface Rocket extends Runnable{
-   public double emptyWeight();
-   public double loadedWeight();
-   public RocketData monitorPrelaunch();
-   public RocketData monitorIgnition();
-   public RocketData monitorLaunch();
-   public int  stages();
+public interface FuelSystemData{
+   public List<PipeData> pipeData();
+   public List<PumpData> pumpData();
+   public List<TankData> tankData();
 }
-
-
 //////////////////////////////////////////////////////////////////////

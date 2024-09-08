@@ -1,4 +1,4 @@
-/////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 /*
 Copyright 2024 Lou Rosas
 
@@ -20,16 +20,13 @@ package rosas.lou.runnables;
 import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
-import rosas.lou.clock.*;
 
-public interface Rocket extends Runnable{
-   public double emptyWeight();
-   public double loadedWeight();
-   public RocketData monitorPrelaunch();
-   public RocketData monitorIgnition();
-   public RocketData monitorLaunch();
-   public int  stages();
+public interface TankData{
+   public double   emptyRate();
+   public String   error();
+   public boolean  isError();
+   public int      number();
+   public double   temperature();
+   public String   type();
 }
-
-
 //////////////////////////////////////////////////////////////////////
