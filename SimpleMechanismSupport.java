@@ -33,8 +33,22 @@ public class SimpleMechanismSupport implements MechanismSupport{
    }
 
    /////////////////////////Public Methods////////////////////////////
+   //
+   //
+   //
+   public String toString(){
+      String s = this.getClass().getName() + ": " + this.id();
+      return s;
+   }
    ////////////////////////Private Methods////////////////////////////
    /////////////////MechanismSupport Implementation///////////////////
+   //
+   //
+   //
+   public int id(){
+      return this._id;
+   }
+
    //
    //
    //
@@ -54,43 +68,6 @@ public class SimpleMechanismSupport implements MechanismSupport{
    //
    public LaunchingMechanismData monitorLaunch(){
       return null;
-   }
-
-   //
-   //
-   //
-   public ForceVector direction(){
-      return null;
-   }
-
-   //
-   //
-   //
-   public boolean isError(){
-      return true;
-   }
-
-   //
-   //
-   //
-   public double force(){
-      double force = 0.;
-      return force;
-   }
-
-   //
-   //
-   //
-   public int id(){
-      return this._id;
-   }
-
-   //
-   //
-   //
-   public String toString(){
-      String s = this.getClass().getName() + ": " + this.id();
-      return s;
    }
 }
 //////////////////////////////////////////////////////////////////////
