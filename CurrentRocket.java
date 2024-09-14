@@ -27,13 +27,13 @@ public class CurrentRocket implements Rocket{
    private static final int NUMBEROFSTAGES = 1;
 
    private int     currentStage;
-   private double  _loadedWeight;  //Measure in Newtons!!!
-   private double  _emptyWeight;   //Measure in Netwons!!!
+   private double  _loadedWeight;  //Measured in Newtons!!!
+   private double  _emptyWeight;   //Measured in Netwons!!!
 
    {
       currentStage   = 1;
-      //_emptyWeight   = 1e6;
-      //_loadedWeight  = 3e6;
+      _emptyWeight   = 1e6;
+      _loadedWeight  = 3e6;
    }
    //////////////////////Contructors/////////////////////////////////
    //

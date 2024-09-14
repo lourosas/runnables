@@ -25,27 +25,28 @@ public class SimpleLaunchingMechanism implements LaunchingMechanism{
    //This should change based on file input
    private int                    _numberOfSupports;
    private List<MechanismSupport> _supports;
-   private Rocket                 _rocket; //The Rocket Supported
+   private double                 _rocketWeight;
 
    {
       _numberOfSupports = -1;//again, should change based in input
       _supports         = null;
+      _rocketWeight     = -1;
    };
 
    //////////////////////////Constructors/////////////////////////////
    //
    //
    //
-   public SimpleLaunchingMechanism(Rocket rocket){
-      this(4, rocket);
+   public SimpleLaunchingMechanism(double rocketWeight){
+      this(4, rocketWeight);
    }
 
    //
    //
    //
-   public SimpleLaunchingMechanism(int supports, Rocket rocket){
+   public SimpleLaunchingMechanism(int supports, double rocketWeight){
       this._numberOfSupports = supports;
-      this._rocket           = rocket;
+      this._rocketWeight     = rocketWeight;
       this.setUpSupports();
    }
 
@@ -64,7 +65,7 @@ public class SimpleLaunchingMechanism implements LaunchingMechanism{
       int supports = this._numberOfSupports;
       this._supports = new LinkedList<MechanismSupport>();
       for(int i = 0; i < supports; ++i){
-         double weight = this._rocket.loadedWeight()/supports;
+         double weight = this._rocketWeight/supports;
          this._supports.add(new SimpleMechanismSupport(i,weight));
       }
    }
