@@ -21,16 +21,21 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public class SimpleLaunchingMechanism implements LaunchingMechanism{
+public class SimpleLaunchingMechanism implements LaunchingMechanism,
+Runnable{
    //This should change based on file input
    private int                    _numberOfSupports;
    private List<MechanismSupport> _supports;
    private double                 _rocketWeight;
+   private Thread                 _t0;
+   private boolean                _kill;
 
    {
+      _kill             = false;
       _numberOfSupports = -1;//again, should change based in input
       _supports         = null;
       _rocketWeight     = -1;
+      _t0               = null;
    };
 
    //////////////////////////Constructors/////////////////////////////
@@ -48,10 +53,17 @@ public class SimpleLaunchingMechanism implements LaunchingMechanism{
       this._numberOfSupports = supports;
       this._rocketWeight     = rocketWeight;
       this.setUpSupports();
+      this.setUpThread();
    }
 
    //////////////////////////Public Methods///////////////////////////
    /////////////////////////Private Methods///////////////////////////
+   /**/
+   private void setUpThread(){
+      this._t0 = new Thread(this, "Launching Mechanism");
+      this._t0.start();
+   }
+
    /*
     *Will need to request weight measurements from Mechanism Supports
     * */
@@ -77,6 +89,7 @@ public class SimpleLaunchingMechanism implements LaunchingMechanism{
    public List<LaunchingMechanismData> monitorPrelaunch(){
       List<LaunchingMechanismData> data = null;
       try{
+         //this will now need to change...
          data = new LinkedList<LaunchingMechanismData>();
          //Get the Prelaunch Data from all the supports...
          for(int i = 0; i < this._supports.size(); ++i){
@@ -113,6 +126,28 @@ public class SimpleLaunchingMechanism implements LaunchingMechanism{
    //
    //
    public void release(){}
+
+   //////////////////Runnable Interface Implementation////////////////
+   //
+   //
+   //
+   public void run(){
+      //Monitor in its own separate Thread...
+      int printCounter       = 0;
+      try{
+         while(true){
+            if(this._kill){
+               throw new InterruptedException();
+            }
+            System.out.println(Thread.currentThread());
+            System.out.println(this._t0.getName());
+            System.out.println(this._t0.getId());
+            Thread.sleep(5000);//This will change to like 10^-3 secs
+         }
+      }
+      catch(InterruptedException ie){}
+   }
+
 }
 //////////////////////////////////////////////////////////////////////
 
