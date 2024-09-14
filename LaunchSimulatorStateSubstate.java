@@ -78,7 +78,7 @@ public class LaunchSimulatorStateSubstate{
       s += "State:\t\t"+this._state+"\n";
       s += "Pre Launch:\t"+this._preLaunchSubstate+"\n";
       s += "Ignition:\t"+this._ignitionSubstate+"\n";
-      s += "Launch:\t\t"+this._launchSubstate;
+      s += "Launch:\t\t"+this._launchSubstate+"\n";
       return s;
    }
    ///////////////////////Private Methods/////////////////////////////

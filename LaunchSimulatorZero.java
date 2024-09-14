@@ -165,14 +165,6 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    //
-   private LaunchSimulatorStateSubstate.PreLaunchSubstate
-   prelaunchSubstate(){
-      return this.stateSubstate.prelaunchSubstate();
-   }
-
-   //
-   //
-   //
    private void setPrelaunchTime(int hours,int mins,int secs){
       //Set the SET State once AND ONLY once!!!...
       if(this.stateSubstate == null){
@@ -196,6 +188,14 @@ implements Runnable,Publisher,LaunchSimulator{
       this.rt0.start();
    }
 
+   //
+   //
+   //
+   //
+   private LaunchSimulatorStateSubstate.PreLaunchSubstate
+   prelaunchSubstate(){
+      return this.stateSubstate.prelaunchSubstate();
+   }
    //
    //
    //
@@ -309,7 +309,7 @@ implements Runnable,Publisher,LaunchSimulator{
                   md = this.launchingMechanism.monitorPrelaunch();
                   if(++printCounter == 100){
                      //So far, just test prints
-                     System.out.println("\n"+this.stateSubstate+"\n");
+                     System.out.println("\n"+this.stateSubstate);
                      System.out.println(md.size());
                      for(int i = 0; i < md.size(); ++i){
                         System.out.println(md.get(i));

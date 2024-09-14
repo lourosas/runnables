@@ -29,6 +29,7 @@ Runnable{
    private double                 _rocketWeight;
    private Thread                 _t0;
    private boolean                _kill;
+   private Object                 _o;
 
    {
       _kill             = false;
@@ -36,6 +37,7 @@ Runnable{
       _supports         = null;
       _rocketWeight     = -1;
       _t0               = null;
+      _o                = null;
    };
 
    //////////////////////////Constructors/////////////////////////////
@@ -52,12 +54,19 @@ Runnable{
    public SimpleLaunchingMechanism(int supports, double rocketWeight){
       this._numberOfSupports = supports;
       this._rocketWeight     = rocketWeight;
+      this._o                = new Object(); //To Synchronize
       this.setUpSupports();
       this.setUpThread();
    }
 
    //////////////////////////Public Methods///////////////////////////
    /////////////////////////Private Methods///////////////////////////
+   /**/
+   private List<LaunchingMechanismData> grabSupportData(){
+      List<LaunchingMechanismData> data = null;
+      return data;     
+   }
+
    /**/
    private void setUpThread(){
       this._t0 = new Thread(this, "Launching Mechanism");
@@ -85,10 +94,13 @@ Runnable{
    /////////////LaunchingMechanism Interface Implementation///////////
    //
    //
-   //
+   //this will need to change!!!
    public List<LaunchingMechanismData> monitorPrelaunch(){
       List<LaunchingMechanismData> data = null;
       try{
+         //Going to need to Synchronize the return data with an
+         //object so as to prevent a race-condition--create a mutex to
+         //ensure only one Thread at a time has access to the data
          //this will now need to change...
          data = new LinkedList<LaunchingMechanismData>();
          //Get the Prelaunch Data from all the supports...
@@ -96,7 +108,6 @@ Runnable{
             MechanismSupport support = this._supports.get(i);
             //Do a test print for now...
             data.add(support.monitorPrelaunch());
-         }
          
       }
       catch(NullPointerException npe){
@@ -136,12 +147,14 @@ Runnable{
       int printCounter       = 0;
       try{
          while(true){
+            List<LaunchingMechanismData> data = null;
             if(this._kill){
                throw new InterruptedException();
             }
-            System.out.println(Thread.currentThread());
-            System.out.println(this._t0.getName());
-            System.out.println(this._t0.getId());
+         //Going to need to Synchronize the return data with an
+         //object so as to prevent a race-condition--create a mutex to
+         //ensure only one Thread at a time has access to the data
+            data = this.grabSupportData();
             Thread.sleep(5000);//This will change to like 10^-3 secs
          }
       }
