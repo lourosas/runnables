@@ -26,6 +26,8 @@ Runnable{
    private LaunchSimulatorStateSubstate.State PREL;
    private LaunchSimulatorStateSubstate.State INIT;
    private LaunchSimulatorStateSubstate.State LAUN;
+
+   private LaunchSimulatorStateSubstate _stateSubstate;
    //This should change based on file input
    private int                    _numberOfSupports;
    private List<MechanismSupport> _supports;
@@ -33,12 +35,15 @@ Runnable{
    private Thread                 _t0;
    private boolean                _kill;
    private Object                 _o;
+   private boolean                _isDataRequested;
 
    {
       PREL = LaunchSimulatorStateSubstate.State.PRELAUNCH;
       INIT = LaunchSimulatorStateSubstate.State.INITIATELAUNCH;
       LAUN = LaunchSimulatorStateSubstate.State.LAUNCH;
 
+      _isDataRequested  = false;
+      _stateSubstate    = null;
       _kill             = false;
       _numberOfSupports = -1;//again, should change based in input
       _supports         = null;
@@ -68,7 +73,24 @@ Runnable{
 
    //////////////////////////Public Methods///////////////////////////
    /////////////////////////Private Methods///////////////////////////
-
+   /**/
+   private void mechanismSupportData(){
+      List<LaunchingMechanismData> data = null;
+      try{
+         data = new LinkedList<LaunchingMechanismData>();
+         for(int i = 0; i < this._supports.size(); ++i){
+            MechanismSupport support = this._supports.get(i);
+            if(this._stateSubstate.state() == PREL){}
+            else if(this._stateSubstate.state() == INIT){}
+            else if(this._stateSubstate.state() == LAUN){}
+         }
+      }
+      catch(NullPointerException npe){
+         //Test Print for now
+         npe.printStackTrace();
+      }
+   }
+   
    /**/
    private void setUpThread(){
       this._t0 = new Thread(this, "Launching Mechanism");
@@ -111,6 +133,8 @@ Runnable{
             //Do a test print for now...
             data.add(support.monitorPrelaunch());
          }
+         //Data requested and sent...
+         this._isDataRequested = true;
       }
       catch(NullPointerException npe){
          npe.printStackTrace();
@@ -153,6 +177,14 @@ Runnable{
             if(this._kill){
                throw new InterruptedException();
             }
+            if(this._isDataRequested){
+               //Clear out the data
+               //Set up the data structures
+               //Set to _isDataRequest to false
+               this._isDataRequested = false;
+            }
+            //Go get the data
+            //this.mechnismSupportData();
          //Going to need to Synchronize the return data with an
          //object so as to prevent a race-condition--create a mutex to
          //ensure only one Thread at a time has access to the data
