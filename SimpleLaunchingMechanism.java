@@ -37,7 +37,6 @@ Runnable{
    private boolean                _kill;
    private Object                 _o;
    private boolean                _isDataRequested;
-   private boolean                _isOutOfSynch;
 
    {
       PREL = LaunchSimulatorStateSubstate.State.PRELAUNCH;
@@ -46,7 +45,6 @@ Runnable{
 
       _data             = null;
       _isDataRequested  = false;
-      _isOutOfSynch     = false;
       _stateSubstate    = null;
       _kill             = false;
       _numberOfSupports = -1;//again, should change based in input
@@ -80,6 +78,7 @@ Runnable{
    /**/
    private void mechanismSupportData(){
       //Will need to be synchronized
+      //Possible race condition...will need to attempt to alleviate
       List<LaunchingMechanismData> data = null;
       data = new LinkedList<LaunchingMechanismData>();
       for(int i = 0; i < this._supports.size(); ++i){
@@ -132,7 +131,6 @@ Runnable{
    //
    //this will need to change!!!
    public List<List<LaunchingMechanismData>> monitorPrelaunch(){
-      List<LaunchingMechanismData> data = null;
       //Going to need to Synchronize the return data with an
       //object so as to prevent a race-condition--create a mutex to
       //ensure only one Thread at a time has access to the data
@@ -141,10 +139,12 @@ Runnable{
       try{
          if(this._stateSubstate.state() != PREL){
             //Set up the StateSubstate object...
+            this.mechanismSupportData();
             this._stateSubstate=new LaunchSimulatorStateSubstate(
                                                  PREL,null,null,null);
             //I could just request the fucking data here out of synch,
             //but that would be too fucking easy!!!
+            /*
             this._isOutOfSynch = true;
             try{
                synchronized(this._o){
@@ -153,13 +153,20 @@ Runnable{
                System.out.println("Out of synch 1--easier way");
             }
             catch(InterruptedException ie){}
+            */
+            this._isDataRequested = false;
+         }
+         else{
+            this._isDataRequested = true;
          }
       }
       catch(NullPointerException npe){
          this._stateSubstate = 
                 new LaunchSimulatorStateSubstate(PREL,null,null,null);
+         this.mechanismSupportData();
          //I could just request the fucking data here out of
          //synch, but that would be too fucking easy!!!
+         /*
          this._isOutOfSynch = true;
          try{
             synchronized(this._o){
@@ -168,9 +175,11 @@ Runnable{
             System.out.println("Out of synch 2--easier way");
          }
          catch(InterruptedException ie){}
+         */
+         this._isDataRequested = false;
       }
       finally{
-         this._isDataRequested = true;
+         //this._isDataRequested = true;//May need to remove
          return this._data;
       }
    }
@@ -201,17 +210,18 @@ Runnable{
    public void run(){
       //Tells when to get the data--hence can change
       //final int GETDATA      = 5000;
-      final int GETDATA      = 5;
+      final int SLEEP        = 5000;
+      //final int SLEEP        = 50;
       int getDataCounter     = 0;
       //Monitor in its own separate Thread...
       int printCounter       = 0;
       try{
          while(true){
-            List<LaunchingMechanismData> data = null;
             if(this._kill){
                throw new InterruptedException();
             }
             if(this._stateSubstate != null){
+               /*
                ++getDataCounter;
                if(this._isOutOfSynch){
                   this.mechanismSupportData();
@@ -233,13 +243,23 @@ Runnable{
                   }
                   this.mechanismSupportData();
                }
-            //Go get the data
-            //this.mechnismSupportData();
+               */
+               //Go get the data
+               if(this._isDataRequested){
+                  //Clear out the data
+                  //Set up the data structures
+                  //Set to _isDataRequest to false
+                  synchronized(this._o){
+                     this._data.clear();
+                  }
+                  this._isDataRequested = false;
+               }
+               this.mechanismSupportData();
          //Going to need to Synchronize the return data with an
          //object so as to prevent a race-condition--create a mutex to
          //ensure only one Thread at a time has access to the data
             }
-            Thread.sleep(1);//This will change to like 10^-3 secs
+            Thread.sleep(SLEEP);//This will change to like 10^-3 secs
          }
       }
       catch(InterruptedException ie){}

@@ -312,6 +312,9 @@ implements Runnable,Publisher,LaunchSimulator{
                      System.out.println("\n"+this.stateSubstate);
                      System.out.println(md.size());
                      for(int i = 0; i < md.size(); ++i){
+                        //Will need to add a syncronized section
+                        //here to avoid a race condtioin
+                        //sychronized(this._o){}//Same _o!!!
                         System.out.println(md.get(i));
                      }
                      printCounter = 0;
