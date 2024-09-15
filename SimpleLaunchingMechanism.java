@@ -23,6 +23,9 @@ import rosas.lou.runnables.*;
 
 public class SimpleLaunchingMechanism implements LaunchingMechanism,
 Runnable{
+   private LaunchSimulatorStateSubstate.State PREL;
+   private LaunchSimulatorStateSubstate.State INIT;
+   private LaunchSimulatorStateSubstate.State LAUN;
    //This should change based on file input
    private int                    _numberOfSupports;
    private List<MechanismSupport> _supports;
@@ -32,6 +35,10 @@ Runnable{
    private Object                 _o;
 
    {
+      PREL = LaunchSimulatorStateSubstate.State.PRELAUNCH;
+      INIT = LaunchSimulatorStateSubstate.State.INITIATELAUNCH;
+      LAUN = LaunchSimulatorStateSubstate.State.LAUNCH;
+
       _kill             = false;
       _numberOfSupports = -1;//again, should change based in input
       _supports         = null;
@@ -61,11 +68,6 @@ Runnable{
 
    //////////////////////////Public Methods///////////////////////////
    /////////////////////////Private Methods///////////////////////////
-   /**/
-   private List<LaunchingMechanismData> grabSupportData(){
-      List<LaunchingMechanismData> data = null;
-      return data;     
-   }
 
    /**/
    private void setUpThread(){
@@ -108,7 +110,7 @@ Runnable{
             MechanismSupport support = this._supports.get(i);
             //Do a test print for now...
             data.add(support.monitorPrelaunch());
-         
+         }
       }
       catch(NullPointerException npe){
          npe.printStackTrace();
@@ -154,7 +156,6 @@ Runnable{
          //Going to need to Synchronize the return data with an
          //object so as to prevent a race-condition--create a mutex to
          //ensure only one Thread at a time has access to the data
-            data = this.grabSupportData();
             Thread.sleep(5000);//This will change to like 10^-3 secs
          }
       }
