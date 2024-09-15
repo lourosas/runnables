@@ -295,7 +295,7 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    public void run(){
       int printCounter                = 0;
-      List<LaunchingMechanismData> md = null;
+      List<List<LaunchingMechanismData>> md = null;
       try{
          while(true){
             if(this.kill){
@@ -323,7 +323,10 @@ implements Runnable,Publisher,LaunchSimulator{
       catch(InterruptedException ie){}
       //Do NOT want this!  And, print this!!
       catch(NullPointerException npe){
+         //If we get here, we are in trouble and need to kill the
+         //application
          npe.printStackTrace();
+         System.exit(0);
       }
    }
 
