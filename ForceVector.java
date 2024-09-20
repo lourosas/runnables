@@ -23,11 +23,11 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public interface ForceVector{
-   public double down();
-   public double left();
-   public double right();
-   public double up();
+   public double x();
+   public double y();
+   public double z();
    public double magnitude();
+   public String toString();
 }
 //////////////////////////////////////////////////////////////////////
 

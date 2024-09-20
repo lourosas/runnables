@@ -318,6 +318,8 @@ implements Runnable,Publisher,LaunchSimulator{
                         System.out.println(md.get(i));
                      }
                      printCounter = 0;
+                     double w=this.launchingMechanism.supportedWeight();
+                     System.out.println(w);
                   }
                }
             }

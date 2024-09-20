@@ -32,6 +32,7 @@ Runnable{
    private int                    _numberOfSupports;
    private List<MechanismSupport> _supports;
    private double                 _rocketWeight;
+   private double                 _supportedWeight;
    private Thread                 _t0;
    private boolean                _kill;
    private Object                 _o;
@@ -46,8 +47,9 @@ Runnable{
       _stateSubstate    = null;
       _kill             = false;
       _numberOfSupports = -1;//again, should change based in input
-      _supports         = null;
       _rocketWeight     = -1;
+      _supports         = null;
+      _supportedWeight  = -1;
       _t0               = null;
       _o                = null;
    };
@@ -81,10 +83,12 @@ Runnable{
 
    /*
     *Will need to request weight measurements from Mechanism Supports
+    Will calculate the current total weight of the System is
+    supporting (should be DAMN CLOSE to the actual weight)...
     * */
-   private double totalWeight(){
-      double totalWeight = 0.;
-      return totalWeight;
+   private void totalWeight(){
+      //For the time being do this...to be calculated later...
+      this._supportedWeight = this._rocketWeight;
    }
 
    /**/
@@ -139,10 +143,12 @@ Runnable{
    public void release(){}
 
    //
-   //
-   //
-   public double supportWeight(){
-      return -1.;
+   //Basically, the total weight of the rocket...(or, damn near close)
+   //At least "as measured"...
+   public double supportedWeight(){
+      //return -1.;
+      //temporary, for now...
+      return this._rocketWeight;
    }
 
    //////////////////Runnable Interface Implementation////////////////

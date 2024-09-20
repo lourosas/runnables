@@ -29,9 +29,9 @@ public class SimpleForceVector implements ForceVector{
    private double _magnitude;
 
    {
-      _x         = -0.;
-      _y         = -0.;
-      _z         = -0.;
+      _x         = -0.;//Left-Right
+      _y         = -0.;//Back-Forward
+      _z         = -0.;//Up-Down
       _magnitude = -0.;
    }; 
 
@@ -52,22 +52,34 @@ public class SimpleForceVector implements ForceVector{
    }
 
    //////////////////////ForceVector Implementation///////////////////
-   /**/
-   public double up(){
-      return 0.;
+   /*
+    * Magnitude of X
+    * */
+   public double x(){
+      return this._x;
+   }
+
+   /*
+    * Magnitude of Y
+    * */
+   public double y(){
+      return this._y;
+   }
+
+   /*
+    * Magnitude of Z
+    * */
+   public double z(){
+      return this._z;
+   }
+
+   public double magnitude(){
+      return this._magnitude;
    }
 
    /**/
-   public double down(){
-      return 0.;
+   public String toString(){
+      return null;//For the time being...
    }
-
-   public double right(){
-      return 0.;
-   }
-
-   public double left(){ return 0.; }
-
-   public double magnitude(){ return 0.; }
 }
 //////////////////////////////////////////////////////////////////////
