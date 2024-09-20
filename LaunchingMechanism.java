@@ -27,6 +27,7 @@ public interface LaunchingMechanism{
    public List<LaunchingMechanismData> monitorIgnition();
    public List<LaunchingMechanismData> monitorLaunch();
    public void release();
+   public double supportWeight();
 }
 
 //////////////////////////////////////////////////////////////////////

@@ -22,8 +22,10 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public class SimpleMechanismSupport implements MechanismSupport{
-   private int    _id            = -1;
-   private double _supportWeight = 0.;
+   private int     _id            = -1;
+   private double  _supportWeight = 0.;
+   private String  _error         = null;
+   private boolean _isError       = true;
 
    ///////////////////////////Constructors////////////////////////////
    //
@@ -43,6 +45,13 @@ public class SimpleMechanismSupport implements MechanismSupport{
       return s;
    }
    ////////////////////////Private Methods////////////////////////////
+   //
+   //
+   //
+   private String error(){
+      return this._error;
+   }
+
    //This is where you "measure" the force
    //
    //
@@ -68,8 +77,8 @@ public class SimpleMechanismSupport implements MechanismSupport{
    //
    //
    //
-   private boolean error(){
-      return true;
+   private boolean isError(){
+      return this._isError;
    }
 
    /////////////////MechanismSupport Implementation///////////////////

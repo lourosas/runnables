@@ -24,7 +24,8 @@ import rosas.lou.clock.*;
 
 public interface LaunchingMechanismData{
    public ForceVector direction();
-   public boolean error();
+   public String error();
+   public boolean isError();
    public double force();
    public int id();
 }

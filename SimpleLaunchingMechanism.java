@@ -138,6 +138,13 @@ Runnable{
    //
    public void release(){}
 
+   //
+   //
+   //
+   public double supportWeight(){
+      return -1.;
+   }
+
    //////////////////Runnable Interface Implementation////////////////
    //
    //

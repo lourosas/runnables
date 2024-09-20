@@ -39,7 +39,10 @@ implements LaunchingMechanismData{
    public ForceVector direction(){ return null; }
 
    /**/
-   public boolean error(){ return true; }
+   public String error(){ return "Error"; }
+
+   /**/
+   public boolean isError(){ return true; }
 
    /**/
    public double force(){ return 0.0; }
