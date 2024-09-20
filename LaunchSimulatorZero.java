@@ -295,7 +295,7 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    public void run(){
       int printCounter                = 0;
-      List<List<LaunchingMechanismData>> md = null;
+      List<LaunchingMechanismData> md = null;
       try{
          while(true){
             if(this.kill){
