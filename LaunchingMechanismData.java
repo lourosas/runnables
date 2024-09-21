@@ -28,5 +28,6 @@ public interface LaunchingMechanismData{
    public boolean isError();
    public double force();
    public int id();
+   String toString();
 }
 //////////////////////////////////////////////////////////////////////

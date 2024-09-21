@@ -79,7 +79,18 @@ public class SimpleForceVector implements ForceVector{
 
    /**/
    public String toString(){
-      return null;//For the time being...
+      String ret = new String("[ ");
+      ret += this.x()+"_i ";
+      if(this.y() >= 0){
+         ret += "+";
+      }
+      ret += this.y()+"_j ";
+      if(this.z() >= 0){
+         ret += "+";
+      }
+      ret += this.z()+"_k : ";
+      ret += this.magnitude() +" ]";
+      return ret;
    }
 }
 //////////////////////////////////////////////////////////////////////
