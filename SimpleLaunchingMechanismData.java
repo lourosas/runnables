@@ -24,7 +24,7 @@ import rosas.lou.runnables.*;
 public class SimpleLaunchingMechanismData
 implements LaunchingMechanismData{
    /**/
-   public LaunchingMechanismData
+   public SimpleLaunchingMechanismData
    (
       ForceVector direction,
       double  force,

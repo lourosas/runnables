@@ -49,6 +49,10 @@ public class SimpleMechanismSupport implements MechanismSupport{
    //
    //
    private String error(){
+      this._error = null;
+      if(this.isError()){
+         this._error = new String("There is an Error (TBD)");
+      }
       return this._error;
    }
 
@@ -93,10 +97,17 @@ public class SimpleMechanismSupport implements MechanismSupport{
    //
    //
    public LaunchingMechanismData monitorPrelaunch(){
-      double force  = this.force();
-      ForceVector v = this.direction();
+      double force   = this.force();
+      ForceVector v  = this.direction();
+
       //determine error and get error string if error
-      return null;
+      boolean isError = this.isError();
+      String  error   = this.error();
+
+      LaunchingMechanismData lmd = null;
+      int id                     = this._id;
+      lmd=new SimpleLaunchingMechanismData(v,force,id,isError,error);
+      return lmd;
    }
 
    //
