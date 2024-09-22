@@ -67,6 +67,7 @@ KeyListener,ItemListener,WindowListener{
    /**/
    public void actionPerformed(ActionEvent e){
       this.handleJButton(e);
+      this.handleJMenuItem(e);
       this.handleJTextField(e);
    }
    ///////////////////////////////Key Listener////////////////////////
@@ -169,6 +170,16 @@ KeyListener,ItemListener,WindowListener{
             JButton b = (JButton)ke.getSource();
             b.doClick(250);
          }
+      }
+      catch(ClassCastException cce){}
+   }
+
+   /**/
+   private void handleJMenuItem(ActionEvent e){
+      try{
+         JMenuItem m = (JMenuItem)e.getSource();
+         String command = m.getActionCommand().toUpperCase();
+         System.out.println(command);
       }
       catch(ClassCastException cce){}
    }
