@@ -407,6 +407,15 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       JMenu file   = new JMenu("File");
       file.setMnemonic(KeyEvent.VK_F);
 
+      JMenuItem open = new JMenuItem("Open", 'O');
+      open.setActionCommand("OpenINIFile");
+      ks = KeyStroke.getKeyStroke(KeyEvent.VK_O, ctrl);
+      open.setAccelerator(ks);
+      this._menuButtonGroup.add(open);
+      open.addActionListener(this._controller);
+      file.add(open);
+
+      file.addSeparator();
       return file;
    }
 
