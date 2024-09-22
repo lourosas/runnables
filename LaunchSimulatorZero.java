@@ -19,6 +19,7 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
+import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 /*
@@ -239,7 +240,30 @@ implements Runnable,Publisher,LaunchSimulator{
    //Add an initialization file!!
    //
    //
-   public void initialize(String file){}
+   public void initialize(String file){
+      FileReader fr     = null;
+      BufferedReader br = null;
+      try{
+         System.out.println(file);
+         fr = new FileReader(file);
+         br = new BufferedReader(fr);
+         String line = null;
+         while((line = br.readLine()) != null){
+            System.out.println(line);
+         }
+         br.close();
+         fr.close();
+      }
+      catch(IOException ioe){
+         ioe.printStackTrace();
+         try{
+            br.close();
+            fr.close();
+         }
+         catch(IOException e){}
+         catch(NullPointerException npe){}
+      }
+   }
 
    //THIS WILL GO AWAY!! All info in the Initialization File!!!
    //So as to add different LaunchingMechanisms to the 

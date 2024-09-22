@@ -29,12 +29,14 @@ import rosas.lou.clock.*;
 
 public class LaunchSimulatorController implements ActionListener,
 KeyListener,ItemListener,WindowListener{
+   private JFrame                  _frame;
    private LaunchSimulator         _simulator;
    private Subscriber              _subscriber;
    private ClockSubscriber         _clockSubscriber;
    private CountdownTimerInterface _countdownTimer;
    
    {
+      _frame           = null;
       _simulator       = null;
       _subscriber      = null;
       _clockSubscriber = null;
@@ -179,7 +181,9 @@ KeyListener,ItemListener,WindowListener{
       try{
          JMenuItem m = (JMenuItem)e.getSource();
          String command = m.getActionCommand().toUpperCase();
-         System.out.println(command);
+         if(command.equals("OPENINIFILE")){
+            this.openIniFile();
+         }
       }
       catch(ClassCastException cce){}
    }
@@ -219,6 +223,20 @@ KeyListener,ItemListener,WindowListener{
       }
       catch(ClassCastException cce){}
       catch(NullPointerException npe){ npe.printStackTrace(); }
+   }
+
+   /**/
+   private void openIniFile(){
+      String i = "*.ini";
+      JFileChooser chooser = new JFileChooser();
+      FileNameExtensionFilter fnef = null;
+      fnef = new FileNameExtensionFilter(i,"ini");
+      chooser.setFileFilter(fnef);
+      int value = chooser.showOpenDialog(this._frame);
+      if(value == 0){
+         String file = chooser.getSelectedFile().getPath();
+         this._simulator.initialize(file);
+      }
    }
 
    /**/
