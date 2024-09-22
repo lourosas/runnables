@@ -23,9 +23,6 @@ import rosas.lou.runnables.*;
 
 //Direction is determined based on sign of the force component
 public class SimpleForceVector implements ForceVector{
-   //The angle of the force to determine the 3-D components
-   private double _theta;  //In Radians
-
    private double _x;
    private double _y;
    private double _z;
@@ -44,14 +41,9 @@ public class SimpleForceVector implements ForceVector{
       this.magnitude(x, y, z);
    }
 
-   /**/
-   public SimpleForceVector(double x,double y,double z,double angle){
-      
-   }
-
    ///////////////////////////Private Methods/////////////////////////
    /**/
-   private void magnitude(double x, double y, double z, double){
+   private void magnitude(double x, double y, double z){
       this._x = x;
       this._y = y;
       this._z = z;

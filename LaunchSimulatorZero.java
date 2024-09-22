@@ -236,7 +236,12 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    public void ignite(){}
 
+   //Add an initialization file!!
    //
+   //
+   public void initialize(String file){}
+
+   //THIS WILL GO AWAY!! All info in the Initialization File!!!
    //So as to add different LaunchingMechanisms to the 
    //Simulator
    //
@@ -270,7 +275,7 @@ implements Runnable,Publisher,LaunchSimulator{
       }
    }
 
-   //
+   //THIS WILL GO AWAY!! ALL INFO IN THE INITIALIZATIN FILE!!!
    //
    //
    public void rocket(Rocket rocket){

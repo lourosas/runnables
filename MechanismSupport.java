@@ -23,10 +23,11 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public interface MechanismSupport{
+   public int id();
+   public void initialize(String file);
    public LaunchingMechanismData monitorPrelaunch();
    public LaunchingMechanismData monitorIgnition();
    public LaunchingMechanismData monitorLaunch();
-   public int id();
 }
 
 //////////////////////////////////////////////////////////////////////

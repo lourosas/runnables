@@ -48,6 +48,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
 
    private LaunchSimulatorController     _controller;
    private LaunchSimulatorStateSubstate  _lsss;
+   private ButtonGroup                   _menuButtonGroup;
 
    {
       PREL = LaunchSimulatorStateSubstate.State.PRELAUNCH;
@@ -63,8 +64,9 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       STAG = LaunchSimulatorStateSubstate.LaunchSubstate.STAGING;
       IGNE =LaunchSimulatorStateSubstate.LaunchSubstate.IGNITEENGINES;
 
-      _controller = null;
-      _lsss       = null;
+      _controller      = null;
+      _lsss            = null;
+      _menuButtonGroup = null;
    };
 
    //////////////////////////Constructors/////////////////////////////
@@ -233,6 +235,16 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /**/
+   private JMenuBar addJMenuBar(){
+      this._menuButtonGroup = new ButtonGroup();
+      JMenuBar menuBar      = new JMenuBar();
+      menuBar.add(this.setUpFileMenu());
+      menuBar.add(this.setUpHelpMenu());
+
+      return menuBar;
+   }
+
+   /**/
    private void displayState(LaunchSimulatorStateSubstate.State s){
       JPanel panel=(JPanel)this.getContentPane().getComponent(0);
       JLabel label=(JLabel)panel.getComponent(0);
@@ -389,6 +401,16 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /**/
+   private JMenu setUpFileMenu(){
+      int ctrl     = InputEvent.CTRL_DOWN_MASK;
+      KeyStroke ks = null;
+      JMenu file   = new JMenu("File");
+      file.setMnemonic(KeyEvent.VK_F);
+
+      return file;
+   }
+
+   /**/
    private void setUpGUI(){
       int WIDTH  = 850;
       int HEIGHT = 700;
@@ -403,8 +425,19 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       this.getContentPane().add(northPanel,   BorderLayout.NORTH);
       this.getContentPane().add(centerPanel,  BorderLayout.CENTER);
       this.getContentPane().add(southPanel,   BorderLayout.SOUTH);
+      this.setJMenuBar(this.addJMenuBar());
 
       this.setVisible(true);
+   }
+
+   /**/
+   private JMenu setUpHelpMenu(){
+      KeyStroke ks = null;
+
+      JMenu help = new JMenu("Help");
+      help.setMnemonic(KeyEvent.VK_H);
+
+      return help;
    }
 
    /**/

@@ -26,9 +26,12 @@ public interface LaunchSimulator{
    public void abortCountdown();
    public void holdCountdown();
    public void ignite();
+   public void initialize(String file);
+   //This will go away!!! Read in by initialization file!!
    public void launchingMechanism(LaunchingMechanism mech);
    public void preLaunchTime(int hours, int mins, int secs);
    public void resumeCountdown();
+   //This will go away!! Read in by initialization file!!!
    public void rocket(Rocket rocket);
    public void startCountdown();
 }

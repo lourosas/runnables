@@ -30,7 +30,7 @@ implements LaunchingMechanismData{
    private int         _id;
 
    {
-      _force       = -1.;
+      _force       = Double.NaN;
       _forceVector = null;
       _error       = null;
       _isError     = true;

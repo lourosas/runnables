@@ -55,14 +55,14 @@ Runnable{
    };
 
    //////////////////////////Constructors/////////////////////////////
-   //
-   //
-   //
+   //PROBABLY NO LONGER NEEDED!!!
+   //The ROCKET WEIGHT WILL NO LONGER NEED TO BE PASSED IN...CAN GET
+   //VIA THE INITIALIZATION FILE!...
    public SimpleLaunchingMechanism(double rocketWeight){
       this(4, rocketWeight);
    }
 
-   //
+   //PROBABLY NO LONGER NEEDED!!!
    //
    //
    public SimpleLaunchingMechanism(int supports, double rocketWeight){
@@ -102,6 +102,11 @@ Runnable{
    }
 
    /////////////LaunchingMechanism Interface Implementation///////////
+   //
+   //
+   //
+   public void initialize(String file){}
+
    //
    //
    //this will need to change!!!
