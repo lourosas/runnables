@@ -326,12 +326,22 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
 
    /**/
    private void handleRuntimeException(RuntimeException re){
-      if(re.getMessage().toUpperCase().contains("TIME ENTRY")){
+      String message = re.getMessage().toUpperCase();
+      if(message.contains("TIME ENTRY")){
          JOptionPane.showMessageDialog(this,
                                        re.getMessage(),
                                        "Time Entry Error",
                                        JOptionPane.ERROR_MESSAGE);
          (this.getCountdownPanel()).wrongHourEntry();
+      }
+      else if(message.contains("CANNOT FIND THE FILE")){
+         String strings[] = re.getMessage().split(" ");
+         String error = new String("The File:  "+strings[0]);
+         error += "\nNot found!  Please enter another file.";
+         JOptionPane.showMessageDialog(this,
+                                       error,
+                                       "File Not Found",
+                                       JOptionPane.ERROR_MESSAGE);
       }
    }
 

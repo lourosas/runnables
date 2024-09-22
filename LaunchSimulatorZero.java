@@ -241,27 +241,15 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    public void initialize(String file){
-      FileReader fr     = null;
-      BufferedReader br = null;
       try{
-         System.out.println(file);
-         fr = new FileReader(file);
-         br = new BufferedReader(fr);
-         String line = null;
-         while((line = br.readLine()) != null){
-            System.out.println(line);
-         }
-         br.close();
-         fr.close();
+         LaunchSimulatorIniFileReader read = null;
+         read = new LaunchSimulatorIniFileReader(file);
+         //Test Prints
+         System.out.println(read.readRocketInfo());
       }
       catch(IOException ioe){
-         ioe.printStackTrace();
-         try{
-            br.close();
-            fr.close();
-         }
-         catch(IOException e){}
-         catch(NullPointerException npe){}
+         //for the time being, do this...something else later...
+         this.error(ioe.getMessage(), null);
       }
    }
 
