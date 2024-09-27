@@ -1,0 +1,13 @@
+{
+   "rocket":{
+      "model":"<Model>",
+      "stages":"<Stages>",
+      "empty_weight":"<Empty Weight>",
+      "full_weight":"<Full Weight>"
+   },
+   "launching_mechanism":{
+      "model":"<Model>",
+      "number_of_holds":"<Number of Holds>",
+      "angle_of_holds":"<Angle of Holds>"
+   }
+}
