@@ -182,7 +182,8 @@ KeyListener,ItemListener,WindowListener{
          JMenuItem m = (JMenuItem)e.getSource();
          String command = m.getActionCommand().toUpperCase();
          if(command.equals("OPENINIFILE")){
-            this.openIniFile();
+            //this.openIniFile();
+            this.openJSONFile();
          }
       }
       catch(ClassCastException cce){}
@@ -230,7 +231,21 @@ KeyListener,ItemListener,WindowListener{
       String i = "*.ini";
       JFileChooser chooser = new JFileChooser();
       FileNameExtensionFilter fnef = null;
-      fnef = new FileNameExtensionFilter(i,"ini");
+      fnef = new FileNameExtensionFilter(i, "ini");
+      chooser.setFileFilter(fnef);
+      int value = chooser.showOpenDialog(this._frame);
+      if(value == 0){
+         String file = chooser.getSelectedFile().getPath();
+         this._simulator.initialize(file);
+      }
+   }
+
+   /**/
+   private void openJSONFile(){
+      String j = "*.json";
+      JFileChooser chooser = new JFileChooser();
+      FileNameExtensionFilter fnef = null;
+      fnef = new FileNameExtensionFilter(j, "json");
       chooser.setFileFilter(fnef);
       int value = chooser.showOpenDialog(this._frame);
       if(value == 0){

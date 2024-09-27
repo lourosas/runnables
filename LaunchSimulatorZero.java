@@ -242,10 +242,18 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    public void initialize(String file){
       try{
-         LaunchSimulatorIniFileReader read = null;
-         read = new LaunchSimulatorIniFileReader(file);
-         //Test Prints
-         System.out.println(read.readRocketInfo());
+         if(file.toUpperCase().contains("INI")){
+            LaunchSimulatorIniFileReader read = null;
+            read = new LaunchSimulatorIniFileReader(file);
+            //Test Prints
+            System.out.println(read.readRocketInfo());
+         }
+         else if(file.toUpperCase().contains("JSON")){
+            LaunchSimulatorJsonFileReader read = null;
+            read = new LaunchSimulatorJsonFileReader(file);
+            //Test Prints
+            System.out.println(read.readRocketInfo());
+         }
       }
       catch(IOException ioe){
          //for the time being, do this...something else later...
