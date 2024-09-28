@@ -45,8 +45,10 @@ public class LaunchSimulatorJsonFileReader{
    //
    //
    //
-   public String readRocketInfo() throws IOException{
+   public Hashtable<String,Object> readRocketInfo()throws IOException{
       try{
+         Hashtable<String,Object> data = null;
+         data               = new Hashtable<String,Object>();
          boolean found      = false;
          String  rocketInfo = new String();
          this.openFile();
@@ -64,7 +66,9 @@ public class LaunchSimulatorJsonFileReader{
             }
          }
          this.closeFile();
-         return  rocketInfo;
+         //return  rocketInfo;
+         System.out.println(rocketInfo);
+         return null;
       }
       catch(IOException ioe){
          this.closeFile();
