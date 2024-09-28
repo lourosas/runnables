@@ -48,25 +48,15 @@ public class LaunchSimulatorJsonFileReader{
    public Hashtable<String,Object> readRocketInfo()throws IOException{
       try{
          Hashtable<String,Object> data = null;
-         data               = new Hashtable<String,Object>();
-         boolean found      = false;
-         String  rocketInfo = new String();
-         this.openFile();
-         String line = new String();
-         while((line = this._br.readLine()) != null){
-            if(line.contains("rocket")){
-               found = true;
-               rocketInfo = rocketInfo.concat(line);
-            }
-            else if(found){
-               rocketInfo = rocketInfo.concat(line);
-               if(line.contains("}")){
-                  found = false;
-               }
-            }
+         data = new Hashtable<String,Object>();
+
+         String jsonData = this.grabJSONFileData();
+         System.out.println(jsonData);
+         String [] sdata = jsonData.split(",");
+         for(int i = 0; i < sdata.length; ++i){
+            sdata[i] = sdata[i].trim();
+            System.out.println(sdata[i]);
          }
-         this.closeFile();
-         //return  rocketInfo;
          return null;
       }
       catch(IOException ioe){
@@ -86,6 +76,28 @@ public class LaunchSimulatorJsonFileReader{
       }
       catch(NullPointerException npe){}
       catch(IOException ioe){}
+   }
+
+   //
+   //
+   //
+   private String grabJSONFileData() throws IOException{
+      try{
+         String data = new String();
+         String line = new String();
+         
+         this.openFile();
+         while((line = this._br.readLine()) != null){
+            data = data.concat(line);
+         }
+         this.closeFile();
+
+         return data;
+      }
+      catch(IOException ioe){
+         this.closeFile();
+         throw ioe;
+      }
    }
 
    //
