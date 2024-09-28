@@ -343,6 +343,15 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
                                        "File Not Found",
                                        JOptionPane.ERROR_MESSAGE);
       }
+      else if(message.contains("NO SUCH FILE OR DIRECTORY")){
+         String strings[] = re.getMessage().split(" ");
+         String error = new String("The File:  "+strings[0]);
+         error += "\nNot found!  Please enter another file.";
+         JOptionPane.showMessageDialog(this,
+                                       error,
+                                       "File Not Found",
+                                       JOptionPane.ERROR_MESSAGE);
+      }
    }
 
    /**/

@@ -67,7 +67,6 @@ public class LaunchSimulatorJsonFileReader{
          }
          this.closeFile();
          //return  rocketInfo;
-         System.out.println(rocketInfo);
          return null;
       }
       catch(IOException ioe){
