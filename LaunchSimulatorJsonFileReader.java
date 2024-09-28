@@ -47,15 +47,27 @@ public class LaunchSimulatorJsonFileReader{
    //
    public Hashtable<String,Object> readRocketInfo()throws IOException{
       try{
+         boolean found = false;
          Hashtable<String,Object> data = null;
          data = new Hashtable<String,Object>();
 
          String jsonData = this.grabJSONFileData();
-         System.out.println(jsonData);
-         String [] sdata = jsonData.split(",");
-         for(int i = 0; i < sdata.length; ++i){
-            sdata[i] = sdata[i].trim();
-            System.out.println(sdata[i]);
+         String [] jsonDataArray = jsonData.split(",");
+         for(int i = 0; i < jsonDataArray.length; ++i){
+            jsonDataArray[i] = jsonDataArray[i].strip();
+         }
+         for(int i = 0; i < jsonDataArray.length; ++i){
+            String value = jsonDataArray[i];
+            if(value.contains("rocket")){
+               found = true;
+            }
+            if(found){
+               //This will be the ending point...
+               if((value.lastIndexOf('}')==value.length()-1)){
+                  found = false;
+               }
+               System.out.println(value);
+            }
          }
          return null;
       }
