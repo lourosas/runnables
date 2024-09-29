@@ -261,14 +261,6 @@ implements Runnable,Publisher,LaunchSimulator{
       }
    }
 
-   //THIS WILL GO AWAY!! All info in the Initialization File!!!
-   //So as to add different LaunchingMechanisms to the 
-   //Simulator
-   //
-   public void launchingMechanism(LaunchingMechanism lm){
-      this.launchingMechanism = lm;
-   }
-
    //
    //
    //
@@ -293,13 +285,6 @@ implements Runnable,Publisher,LaunchSimulator{
          this.prelaunch(CONT);
          this.start = true;
       }
-   }
-
-   //THIS WILL GO AWAY!! ALL INFO IN THE INITIALIZATIN FILE!!!
-   //
-   //
-   public void rocket(Rocket rocket){
-      this.rocket = rocket;
    }
 
    //

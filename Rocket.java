@@ -24,6 +24,7 @@ import rosas.lou.clock.*;
 
 public interface Rocket extends Runnable{
    public double emptyWeight();
+   public void initialize(String file);
    public double loadedWeight();
    public RocketData monitorPrelaunch();
    public RocketData monitorIgnition();

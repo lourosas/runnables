@@ -48,6 +48,11 @@ public class CurrentRocket implements Rocket{
    public double emptyWeight(){
       return this._emptyWeight;
    }
+   
+   //Bring in the initialization data (JSON, INI, etc...)
+   //
+   //
+   public void initialize(String file){}
 
    //
    //
