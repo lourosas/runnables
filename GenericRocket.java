@@ -19,6 +19,7 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
+import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
@@ -43,6 +44,22 @@ public class GenericRocket implements Rocket, Runnable{
    //
    public GenericRocket(){}
 
+   /////////////////////////Private Methods///////////////////////////
+   //
+   //
+   //
+   private void rocketData(String file)throws IOException{
+      if(file.toUpperCase().contains("INI")){
+         LaunchSimulatorIniFileReader read = null;
+         read = new LaunchSimulatorIniFileReader(file);
+      }
+      else if(file.toUpperCase().contains("JSON")){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         System.out.println(read.readRocketInfo());
+      }
+   }
+
    //////////////////Rocket Interface Implementation//////////////////
    //
    //
@@ -54,16 +71,9 @@ public class GenericRocket implements Rocket, Runnable{
    //
    //
    //
-   public void initialize(String file){
-      if(file.toUpperCase().contains("INI")){
-         LaunchSimulatorIniFileReader read = null;
-         read = new LaunchSimulatorIniFileReader(file);
-      }
-      else if(file.toUpperCase().contains("JSON")){
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFilerReader(file);
-         //More to come for initialization...
-      }
+   public void initialize(String file)throws IOException{
+      this.rocketData(file);
+      //this.stageData(file);
    }
 
    //

@@ -52,24 +52,7 @@ public class LaunchSimulatorJsonFileReader{
          data = new Hashtable<String,Object>();
 
          String jsonData = this.grabJSONFileData();
-         String [] jsonDataArray = jsonData.split(",");
-         for(int i = 0; i < jsonDataArray.length; ++i){
-            jsonDataArray[i] = jsonDataArray[i].strip();
-         }
-         for(int i = 0; i < jsonDataArray.length; ++i){
-            String value = jsonDataArray[i];
-            if(value.contains("rocket")){
-               found = true;
-            }
-            if(found){
-               //This will be the ending point...
-               if((value.lastIndexOf('}')==value.length()-1)){
-                  found = false;
-               }
-               System.out.println(value);
-            }
-         }
-         return null;
+         return this.parseRocketData(jsonData);
       }
       catch(IOException ioe){
          this.closeFile();
@@ -124,6 +107,51 @@ public class LaunchSimulatorJsonFileReader{
          this.closeFile();
          throw ioe;
       }
+   }
+
+   //
+   //
+   //
+   private Hashtable<String,Object> parseRocketData(String data){
+      boolean found       = false;
+      boolean ignoreStage = false;
+      String[] array      = data.split(",");
+
+      for(int i = 0; i < array.length; ++i){
+         array[i] = array[i].strip();
+      }
+      for(int i = 0; i < array.length; ++i){
+         String value = array[i];
+         if(value.contains("rocket")){
+            found = true;
+         }
+         if(found){
+            //System.out.println(value);
+            String[] values = value.split(":");
+            for(int j = 0; j < values.length; ++j){
+               values[j] = values[j].strip();
+            }
+            for(int k = 0; k < values.length; ++k){
+               if(values[k].contains("stage") && 
+                  !values[k].contains("stages")){
+                  //System.out.println(values[k]);
+                  ignoreStage = true;
+               }
+               if(!ignoreStage){System.out.println(values[k]);}
+               if(values[k].indexOf(']')!=values[k].lastIndexOf(']')){
+                  if(ignoreStage){
+                     ignoreStage = false;
+                  }
+               }
+            }
+            //this is the ending point for the rocket data
+            if(value.lastIndexOf('}')==value.length()-1){
+               found = false;
+            }
+         }
+      }
+
+      return null;
    }
 
    //

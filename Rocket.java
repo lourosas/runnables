@@ -19,12 +19,13 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
+import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public interface Rocket extends Runnable{
    public double emptyWeight();
-   public void initialize(String file);
+   public void initialize(String file)throws IOException;
    public double loadedWeight();
    public RocketData monitorPrelaunch();
    public RocketData monitorIgnition();
