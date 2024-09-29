@@ -137,7 +137,31 @@ public class LaunchSimulatorJsonFileReader{
                   //System.out.println(values[k]);
                   ignoreStage = true;
                }
-               if(!ignoreStage){System.out.println(values[k]);}
+               if(!ignoreStage){
+                  //this is the data we want...
+                  if(!values[k].contains("rocket")){
+                     String[] sets = values[k].split("\"");
+                     for(int l = 0; l < sets.length; ++l){
+                        sets[l] = sets[l].strip();
+                        if(sets[l].length() > 2){
+                           boolean saveoff = true;
+                           for(int m = 0; m < sets[l].length; ++m){
+                              char c = sets[l].charAt(m);
+                              //This may need to change...
+                              if(c == '<' && m != 0){
+                                 saveoff = false;
+                              }
+                              else if(c == '>'&&m!=sets[l].length-1){
+                                 saveoff = false;
+                              }
+                              else if(!Character.isLetter(c)){
+                                 saveoff = false;
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
                if(values[k].indexOf(']')!=values[k].lastIndexOf(']')){
                   if(ignoreStage){
                      ignoreStage = false;
