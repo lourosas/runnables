@@ -22,37 +22,49 @@ import java.util.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
-public class CurrentRocket implements Rocket, Runnable{
-
-   private static final int NUMBEROFSTAGES = 1;
-
-   private int     _currentStage;
-   private double  _loadedWeight;  //Measure in Newtons!!!
-   private double  _emptyWeight;   //Measure in Netwons!!!
+public class GenericRocket implements Rocket, Runnable{
+   private int    _stages;
+   private int    _currentStage;
+   private double _emptyWeight;
+   private double _loadedWeight;
+   private String _model;
 
    {
-      _currentStage   = 1;
-      _emptyWeight   = 1e6;
-      _loadedWeight  = 3e6;
-   }
-   //////////////////////Contructors/////////////////////////////////
-   //
-   //
-   //
-   public CurrentRocket(){}
+      _stages       = -1;
+      _currentStage = -1;
+      _emptyWeight  = Double.NaN;
+      _loadedWeight = Double.NaN;
+      _model        = null;
+   };
 
-   //////////////Rocket Interface Implementation//////////////////////
+   /////////////////////////Constructors//////////////////////////////
+   //
+   //
+   //
+   public GenericRocket(){}
+
+   //////////////////Rocket Interface Implementation//////////////////
    //
    //
    //
    public double emptyWeight(){
       return this._emptyWeight;
    }
-   
-   //Bring in the initialization data (JSON, INI, etc...)
+
    //
    //
-   public void initialize(String file){}
+   //
+   public void initialize(String file){
+      if(file.toUpperCase().contains("INI")){
+         LaunchSimulatorIniFileReader read = null;
+         read = new LaunchSimulatorIniFileReader(file);
+      }
+      else if(file.toUpperCase().contains("JSON")){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFilerReader(file);
+         //More to come for initialization...
+      }
+   }
 
    //
    //
@@ -86,10 +98,10 @@ public class CurrentRocket implements Rocket, Runnable{
    //
    //
    public int stages(){
-      return this.NUMBEROFSTAGES;
+      return this._stages;
    }
 
-   ///////////////////Runnable Interface Implementation//////////////
+   ///////////////Runnable Interface Implementation///////////////////
    //
    //
    //

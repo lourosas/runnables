@@ -238,7 +238,7 @@ implements Runnable,Publisher,LaunchSimulator{
    public void ignite(){}
 
    //Add an initialization file!!
-   //
+   //Based on the JSON/INI file, initialize everything...
    //
    public void initialize(String file){
       try{
@@ -249,6 +249,8 @@ implements Runnable,Publisher,LaunchSimulator{
             System.out.println(read.readRocketInfo());
          }
          else if(file.toUpperCase().contains("JSON")){
+            this.rocket = new GenericRocket();
+            this.rocket.initialize(file);
             LaunchSimulatorJsonFileReader read = null;
             read = new LaunchSimulatorJsonFileReader(file);
             //Test Prints

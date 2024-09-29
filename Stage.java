@@ -22,6 +22,7 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public interface Stage{
+   public void Initialize(String file);
    public StageData monitorPrelaunch();
    public StageData monitorIgnition();
    public StageData monitorLaunch();
