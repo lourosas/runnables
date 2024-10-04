@@ -35,7 +35,7 @@ public class CurrentRocket implements Rocket, Runnable{
       _emptyWeight   = 1e6;
       _loadedWeight  = 3e6;
    }
-   //////////////////////Contructors/////////////////////////////////
+   //////////////////////Contructors//////////////////////////////////
    //
    //
    //

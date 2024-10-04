@@ -147,7 +147,7 @@ implements Runnable,Publisher,LaunchSimulator{
    (
       LaunchSimulatorStateSubstate.PreLaunchSubstate substate
    ){
-      boolean update = false;
+      boolean update                           = false;
       LaunchSimulatorStateSubstate.State state = PREL;
 
       this.stateSubstate = new LaunchSimulatorStateSubstate(

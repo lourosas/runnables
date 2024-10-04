@@ -32,6 +32,4 @@ public interface Rocket extends Runnable{
    public RocketData monitorLaunch();
    public int  stages();
 }
-
-
 //////////////////////////////////////////////////////////////////////

@@ -45,7 +45,7 @@ public class LaunchSimulatorJsonFileReader{
    //
    //
    //
-   public Hashtable<String,Object> readRocketInfo()throws IOException{
+   public Hashtable<String,String> readRocketInfo()throws IOException{
       try{
          boolean found = false;
          Hashtable<String,Object> data = null;
@@ -112,10 +112,14 @@ public class LaunchSimulatorJsonFileReader{
    //
    //
    //
-   private Hashtable<String,Object> parseRocketData(String data){
-      boolean found       = false;
-      boolean ignoreStage = false;
-      String[] array      = data.split(",");
+   private Hashtable<String,String> parseRocketData(String data){
+      boolean found               = false;
+      boolean ignoreStage         = false;
+      String[] array              = data.split(",");
+      String[] saves              = new String[array.length];
+      int savesCount              = 0;
+      Hashtable<String,String> ht = null;
+      ht = new Hashtable<String,String>();
 
       for(int i = 0; i < array.length; ++i){
          array[i] = array[i].strip();
@@ -126,7 +130,6 @@ public class LaunchSimulatorJsonFileReader{
             found = true;
          }
          if(found){
-            //System.out.println(value);
             String[] values = value.split(":");
             for(int j = 0; j < values.length; ++j){
                values[j] = values[j].strip();
@@ -140,23 +143,15 @@ public class LaunchSimulatorJsonFileReader{
                if(!ignoreStage){
                   //this is the data we want...
                   if(!values[k].contains("rocket")){
-                     String[] sets = values[k].split("\"");
-                     for(int l = 0; l < sets.length; ++l){
-                        sets[l] = sets[l].strip();
-                        if(sets[l].length() > 2){
-                           boolean saveoff = true;
-                           for(int m = 0; m < sets[l].length; ++m){
-                              char c = sets[l].charAt(m);
-                              //This may need to change...
-                              if(c == '<' && m != 0){
-                                 saveoff = false;
-                              }
-                              else if(c == '>'&&m!=sets[l].length-1){
-                                 saveoff = false;
-                              }
-                              else if(!Character.isLetter(c)){
-                                 saveoff = false;
-                              }
+                     String[] temp = values[k].split("\"");
+                     for(int l = 0; l < temp.length; ++l){
+                        temp[l] = temp[l].strip();
+                        if(temp[l].length() > 0){
+                           char c = temp[l].charAt(0);
+                           if(Character.isLetter(c) ||
+                              Character.isDigit(c)){
+                              saves[savesCount] = temp[l];
+                              ++savesCount;
                            }
                         }
                      }
@@ -174,8 +169,13 @@ public class LaunchSimulatorJsonFileReader{
             }
          }
       }
-
-      return null;
+      for(int i = 0; i < savesCount; i+=2){
+         try{
+            ht.put(saves[i],saves[i+1]);
+         }
+         catch(ArrayIndexOutOfBoundsException e){}
+      }
+      return ht;
    }
 
    //
