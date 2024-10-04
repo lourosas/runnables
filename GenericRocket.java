@@ -24,11 +24,12 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public class GenericRocket implements Rocket, Runnable{
-   private int    _stages;
-   private int    _currentStage;
-   private double _emptyWeight;
-   private double _loadedWeight;
-   private String _model;
+   private int     _stages;
+   private int     _currentStage;
+   private double  _emptyWeight;
+   private double  _loadedWeight;
+   private Stage[] _theStages;
+   private String  _model;
 
    {
       _stages       = -1;
@@ -36,6 +37,7 @@ public class GenericRocket implements Rocket, Runnable{
       _emptyWeight  = Double.NaN;
       _loadedWeight = Double.NaN;
       _model        = null;
+      _theStages    = null;
    };
 
    /////////////////////////Constructors//////////////////////////////
