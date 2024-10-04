@@ -27,6 +27,7 @@ public interface Rocket extends Runnable{
    public double emptyWeight();
    public void initialize(String file)throws IOException;
    public double loadedWeight();
+   public String model();
    public RocketData monitorPrelaunch();
    public RocketData monitorIgnition();
    public RocketData monitorLaunch();

@@ -173,7 +173,9 @@ public class LaunchSimulatorJsonFileReader{
          try{
             ht.put(saves[i],saves[i+1]);
          }
-         catch(ArrayIndexOutOfBoundsException e){}
+         catch(ArrayIndexOutOfBoundsException e){
+            ht.put(saves[i],null);
+         }
       }
       return ht;
    }
