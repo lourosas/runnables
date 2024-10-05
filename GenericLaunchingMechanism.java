@@ -35,6 +35,12 @@ Runnable{
    private double                 _tollerance;
 
    {
+      _holds           = -1;
+      _model           = -1;
+      _supports        = null;
+      _supportedWeight = Double.NaN;
+      _inputWeight     = Double.NaN;
+      _tollerance      = Double.NaN;
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -47,14 +53,33 @@ Runnable{
    //Sets up/saves the mechanism data for the System
    //
    //
-   public void mechanismData(String file)throws IOException{
-      System.out.println(file);
+   private void mechanismData(String file)throws IOException{
+      if(file.toUpperCase().contains("INI")){}
+      else if(file.toUpperCase().contains("JSON")){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         this.setRocketData(read.readRocketInfo());
+      }
+   }
+
+   //Should only get the loaded weight of the Rocket...get the empty
+   //wieght in addition...
+   //
+   private void setRocketData(Hashtable<String, String> data){
+      if(data.contains("loaded_weight")){
+         try{}
+         catch(NumberFormatException nfe){}
+         catch(NullPointerException npe){}
+      }
+      if(data.contains()){}
    }
 
    //Sets up/saves the data related to all the individual supports
    //The caveat is all supports are the same...this will probably
    //change
-   public void supportsData(String file)throws IOException{}
+   public void supportsData(String file)throws IOException{
+      //Just send into the Individual Supports!!! YAY!!!
+   }
 
    /////////Launching Mechanism Interface Implementation//////////////
    //
