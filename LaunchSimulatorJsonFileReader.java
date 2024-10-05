@@ -45,11 +45,30 @@ public class LaunchSimulatorJsonFileReader{
    //
    //
    //
+   //
+   public Hashtable<String,String>
+   readLaunchingMechanismInfo()throws IOException{
+      try{
+         Hashtable<String,String> data = null;
+         data = new Hashtable<String,String>();
+
+         String jsonData = this.grabJSONFileData();
+         return this.parseLaunchingMechanismData(jsonData);
+      }
+      catch(IOException ioe){
+         this.closeFile();
+         throw ioe;
+      }
+   }
+
+   //
+   //
+   //
    public Hashtable<String,String> readRocketInfo()throws IOException{
       try{
          boolean found = false;
-         Hashtable<String,Object> data = null;
-         data = new Hashtable<String,Object>();
+         Hashtable<String,String> data = null;
+         data = new Hashtable<String,String>();
 
          String jsonData = this.grabJSONFileData();
          return this.parseRocketData(jsonData);
@@ -106,6 +125,33 @@ public class LaunchSimulatorJsonFileReader{
       catch(IOException ioe){
          this.closeFile();
          throw ioe;
+      }
+   }
+
+   //
+   //
+   //
+   private Hashtable<String,String>
+   parseLaunchingMechanismData(String data){
+      boolean found               = false;
+      String[] array              = data.split(",");
+      String[] saves              = new String[array.length];
+      int savesCount              = 0;
+      Hashtable<String,String> ht = null;
+
+      ht = new Hashtable<String,String>();
+
+      for(int i = 0; i < array.length; ++i){
+         array[i] = array[i].strip();
+      }
+      for(int i = 0; i < array.length; ++i){
+          String value = array[i];
+          if(value.contains("launching_mechanism")){
+             found = true;
+          }
+          if(found){
+             String values[] = value.split(":");
+          }
       }
    }
 

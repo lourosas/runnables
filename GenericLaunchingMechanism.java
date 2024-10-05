@@ -58,20 +58,31 @@ Runnable{
       else if(file.toUpperCase().contains("JSON")){
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
-         this.setRocketData(read.readRocketInfo());
+         this.rocketData(read.readRocketInfo());
+         this.mechanismSupportData(file);
+         this.supportsData(file);
       }
    }
+
+   //
+   //
+   //
+   private void mechanismSupportData(String file)throws IOException{}
 
    //Should only get the loaded weight of the Rocket...get the empty
    //wieght in addition...
    //
-   private void setRocketData(Hashtable<String, String> data){
-      if(data.contains("loaded_weight")){
-         try{}
+   private void rocketData(Hashtable<String, String> data){
+      if(data.containsKey("loaded_weight")){
+         try{
+            String loadedWeight   = data.get("loaded_weight");
+            this._supportedWeight = Double.parseDouble(loadedWeight);
+         }
          catch(NumberFormatException nfe){}
          catch(NullPointerException npe){}
       }
-      if(data.contains()){}
+      //@TODO figure out where to save...
+      if(data.containsKey("empty_weight")){}
    }
 
    //Sets up/saves the data related to all the individual supports
