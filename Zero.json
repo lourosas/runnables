@@ -1,9 +1,9 @@
 {
    "rocket":{
-      "model":"<Model>",
-      "stages":"<Stages>",
-      "empty_weight":"<Empty Weight>",
-      "full_weight":"<Full Weight>",
+      "model":"XYZ Model",
+      "stages":"1",
+      "empty_weight":"1000000",
+      "loaded_weight":"3000000",
       "stage":[{"number":"<Number>",
                  "model":"<Model>",
                  "engine":[{"number":"Engine Number","temperature":"<Temperature>","thrust":"<Thrust>","exhaustflow":"<Exhaust Flow>","fuelflow":"<Fuel Flow>"}],
@@ -15,6 +15,8 @@
    "launching_mechanisam":{
       "model":"<Model>",
       "number_of_holds":"<Number of Holds>",
-      "angle_of_holds":"<Angle of Holds>"
+      "angle_of_holds":"<Angle of Holds>",
+      "holds_tollerance":"<Tollerance>",
+      "total_tollerance":"<Total Tollerance>"
    }
 }
