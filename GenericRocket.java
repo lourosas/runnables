@@ -58,14 +58,14 @@ public class GenericRocket implements Rocket, Runnable{
       else if(file.toUpperCase().contains("JSON")){
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
-         this.setData(read.readRocketInfo());
+         this.setRocketData(read.readRocketInfo());
       }
    }
 
    //Set up the data....
    //
    //
-   private void setData(Hashtable<String,String> data){
+   private void setRocketData(Hashtable<String,String> data){
       //the JSON data is all lower case...
       if(data.containsKey("model")){
          this._model = data.get("model");
@@ -99,9 +99,11 @@ public class GenericRocket implements Rocket, Runnable{
    //
    //
    //
+   /*
    public double emptyWeight(){
       return this._emptyWeight;
    }
+   */
 
    //
    //
@@ -114,16 +116,20 @@ public class GenericRocket implements Rocket, Runnable{
    //
    //
    //
+   /*
    public double loadedWeight(){
       return this._loadedWeight;
    }
+   */
 
    //
    //
    //
+   /*
    public String model(){
       return this._model;
    }
+   */
 
    //
    //
@@ -149,9 +155,11 @@ public class GenericRocket implements Rocket, Runnable{
    //
    //
    //
+   /*
    public int stages(){
       return this._stages;
    }
+   */
 
    ///////////////Runnable Interface Implementation///////////////////
    //

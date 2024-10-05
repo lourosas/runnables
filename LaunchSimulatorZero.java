@@ -242,8 +242,11 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    public void initialize(String file){
       try{
-         this.rocket = new GenericRocket();
+         this.rocket             = new GenericRocket();
+         this.launchingMechanism = new GenericLaunchingMechanism();
+         
          this.rocket.initialize(file);
+         this.launchingMechanism.initialize(file);
       }
       catch(IOException ioe){
          //for the time being, do this...something else later...

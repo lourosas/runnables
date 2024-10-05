@@ -27,7 +27,32 @@ public class GenericStage implements Stage, Runnable{
    private int _modelNumber;
    private int _totalEngines;
 
-   
+   ///////////////////Stage Interface Implementation//////////////////
+   //
+   //
+   //
+   public void Initialize(){}
+
+   //
+   //
+   //
+   public StageData monitorPrelaunch(){ return null; }
+
+   //
+   //
+   //
+   public StageData monitorIgnition(){ return null; }
+
+   //
+   //
+   //
+   public StageData monitorLaunch(){ return null; }
+
+   ////////////////Runnable Interface Implementation//////////////////
+   //
+   //
+   //
+   public void run(){}
 }
 
 //////////////////////////////////////////////////////////////////////
