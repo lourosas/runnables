@@ -19,6 +19,7 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
+import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
@@ -27,7 +28,14 @@ Runnable{
    private int                    _holds;
    private int                    _model;
    private List<MechanismSupport> _supports; //Keep them in a list
-   private double                 _supportedWeight;//Might not need
+   //This weight is to be calculated
+   private double                 _supportedWeight;
+   //Weight read in from the init file
+   private double                 _inputWeight;
+   private double                 _tollerance;
+
+   {
+   };
 
    /////////////////////////Constructors//////////////////////////////
    //
@@ -36,12 +44,25 @@ Runnable{
    public GenericLaunchingMechanism(){}
 
    /////////////////////////Private Methods///////////////////////////
+   //Sets up/saves the mechanism data for the System
+   //
+   //
+   public void mechanismData(String file)throws IOException{
+      System.out.println(file);
+   }
+
+   //Sets up/saves the data related to all the individual supports
+   //The caveat is all supports are the same...this will probably
+   //change
+   public void supportsData(String file)throws IOException{}
 
    /////////Launching Mechanism Interface Implementation//////////////
    //
    //
    //
-   public void initialize(String file){
+   public void initialize(String file)throws IOException{
+      this.mechanismData(file);
+      this.supportsData(file);
    }
 
    //

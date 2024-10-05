@@ -19,11 +19,12 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
+import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public interface LaunchingMechanism{
-   public void initialize(String file);
+   public void initialize(String file)throws IOException;
    public List<LaunchingMechanismData> monitorPrelaunch();
    public List<LaunchingMechanismData> monitorIgnition();
    public List<LaunchingMechanismData> monitorLaunch();
