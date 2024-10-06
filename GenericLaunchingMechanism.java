@@ -29,7 +29,7 @@ Runnable{
    private int                    _model;
    private List<MechanismSupport> _supports; //Keep them in a list
    //This weight is to be calculated
-   private double                 _supportedWeight;
+   private double                 _measuredWeight;
    //Weight read in from the init file
    private double                 _inputWeight;
    private double                 _tollerance;
@@ -38,7 +38,7 @@ Runnable{
       _holds           = -1;
       _model           = -1;
       _supports        = null;
-      _supportedWeight = Double.NaN;
+      _measuredWeight  = Double.NaN;
       _inputWeight     = Double.NaN;
       _tollerance      = Double.NaN;
    };
@@ -53,30 +53,18 @@ Runnable{
    //Sets up/saves the mechanism data for the System
    //
    //
-   private void mechanismData(String file)throws IOException{
-      if(file.toUpperCase().contains("INI")){}
-      else if(file.toUpperCase().contains("JSON")){
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         this.rocketData(read.readRocketInfo());
-         this.mechanismSupportData(file);
-         this.supportsData(file);
-      }
+   private void mechanismData(Hashtable<String,String> data){
    }
 
-   //
-   //
-   //
-   private void mechanismSupportData(String file)throws IOException{}
 
    //Should only get the loaded weight of the Rocket...get the empty
    //wieght in addition...
-   //
+   //Gets the Rocket Info needed for Support Responsibilities
    private void rocketData(Hashtable<String, String> data){
       if(data.containsKey("loaded_weight")){
          try{
-            String loadedWeight   = data.get("loaded_weight");
-            this._supportedWeight = Double.parseDouble(loadedWeight);
+            String loadedWeight = data.get("loaded_weight");
+            this._inputWeight   = Double.parseDouble(loadedWeight);
          }
          catch(NumberFormatException nfe){}
          catch(NullPointerException npe){}
@@ -88,8 +76,7 @@ Runnable{
    //Sets up/saves the data related to all the individual supports
    //The caveat is all supports are the same...this will probably
    //change
-   public void supportsData(String file)throws IOException{
-      //Just send into the Individual Supports!!! YAY!!!
+   public void supportsData(Hashtable<String,String> data){
    }
 
    /////////Launching Mechanism Interface Implementation//////////////
@@ -97,8 +84,16 @@ Runnable{
    //
    //
    public void initialize(String file)throws IOException{
-      this.mechanismData(file);
-      this.supportsData(file);
+      if(file.toUpperCase().contains("INI")){}
+      else if(file.toUpperCase().contains("JSON")){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         Hashtable<String,String> ht = null;
+         ht = read.readRocketInfo();
+         this.rocketData(ht);
+         ht = read.readLaunchingMechanismInfo();
+         this.mechanismData(ht);
+      }
    }
 
    //
@@ -128,10 +123,10 @@ Runnable{
    public void release(){}
 
    //Probably not needed...might be able to remove...
-   //
+   //For the time being, return the Measured Weight...
    //
    public double supportedWeight(){
-      return this._supportedWeight;
+      return this._measuredWeight;
    }
 
    ////////////////Runnable Interface Implementation//////////////////

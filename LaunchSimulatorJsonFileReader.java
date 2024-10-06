@@ -151,8 +151,18 @@ public class LaunchSimulatorJsonFileReader{
           }
           if(found){
              String values[] = value.split(":");
+             for(int j = 0; j < values.length; ++j){
+                values[j] = values[j].strip();
+                System.out.println(values[j]);
+             }
+             //This is the ending point for the Launching Mechanism
+             //Data
+             if(value.lastIndexOf("}") == value.length()-1){
+                found = false;
+             }
           }
       }
+      return ht;
    }
 
    //
@@ -183,7 +193,6 @@ public class LaunchSimulatorJsonFileReader{
             for(int k = 0; k < values.length; ++k){
                if(values[k].contains("stage") && 
                   !values[k].contains("stages")){
-                  //System.out.println(values[k]);
                   ignoreStage = true;
                }
                if(!ignoreStage){
