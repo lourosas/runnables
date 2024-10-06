@@ -100,9 +100,10 @@ public class GenericMechanismSupport implements MechanismSupport{
             String sWeight = rocket.get("loaded_weight");
             double weight = Double.parseDouble(sWeight);
             weight /= holds;
-            System.out.println(weight);
             weight /= Math.sin(this._angle);
-            System.out.println(weight);
+            //This is the weight that is calculated based on
+            //initialization data...
+            this._calculatedWeight = weight;
          }
          catch(NumberFormatException nfe){}
          catch(NullPointerException  npe){}
