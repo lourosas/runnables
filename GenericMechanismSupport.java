@@ -109,6 +109,36 @@ public class GenericMechanismSupport implements MechanismSupport{
          catch(NullPointerException  npe){}
       }
    }
+
+   //Initialze the ForceVector
+   //
+   //
+   private void initializeForceVector(){
+      double x = Double.NaN;
+      double y = Double.NaN;
+      double z = Double.NaN;
+      if(this.id() == 0){
+         x = this._calculatedWeight*Math.cos(this._angle);
+         y = 0.;
+      }
+      else if(this.id() == 1){
+         x = 0.;
+         y = this._calculatedWeight*Math.cos(this._angle);
+      }
+      else if(this.id() == 2){
+         x = (-1.)*this._calculatedWeight*Math.cos(this._angle);
+         y = 0;
+      }
+      else if(this.id() == 3){
+         x = 0.;
+         y = (-1.)*this._calculatedWeight*Math.cos(this._angle);
+      }
+      else{}
+      z = (-1.)*this._calculatedWeight*Math.sin(this._angle);
+      this._vector = new GenericForceVector(x,y,z);
+      System.out.println(this.toString());
+      System.out.println(this._vector);
+   }
    //////////////MechanismSupport Interface Implementation////////////
    //
    //
@@ -131,6 +161,7 @@ public class GenericMechanismSupport implements MechanismSupport{
             Hashtable<String,String> mechHt = null;
             mechHt = read.readLaunchingMechanismInfo();
             this.data(rocketHt, mechHt);
+            this.initializeForceVector();
          }
          catch(IOException ioe){}
       }
