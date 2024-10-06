@@ -54,6 +54,30 @@ Runnable{
    //
    //
    private void mechanismData(Hashtable<String,String> data){
+      if(data.containsKey("model")){
+         try{
+            String sModel = data.get("model");
+            this._model   = Integer.parseInt(sModel);
+         }
+         catch(NumberFormatException nfe){}
+         catch(NullPointerException npe){}
+      }
+      if(data.containsKey("number_of_holds")){
+         try{
+            String sHolds = data.get("number_of_holds");
+            this._holds   = Integer.parseInt(sHolds);
+         }
+         catch(NumberFormatException nfe){}
+         catch(NullPointerException npe){}
+      }
+      if(data.containsKey("total_tollerance")){
+         try{
+            String sToll     = data.get("total_tollerance");
+            this._tollerance = Double.parseDouble(sToll);
+         }
+         catch(NumberFormatException nfe){}
+         catch(NullPointerException npe){}
+      }
    }
 
 
@@ -73,12 +97,6 @@ Runnable{
       if(data.containsKey("empty_weight")){}
    }
 
-   //Sets up/saves the data related to all the individual supports
-   //The caveat is all supports are the same...this will probably
-   //change
-   public void supportsData(Hashtable<String,String> data){
-   }
-
    /////////Launching Mechanism Interface Implementation//////////////
    //
    //
@@ -93,6 +111,18 @@ Runnable{
          this.rocketData(ht);
          ht = read.readLaunchingMechanismInfo();
          this.mechanismData(ht);
+      }
+      for(int i = 0; i < this._holds; ++i){
+         GenericMechanismSupport support = null;
+         support = new GenericMechanismSupport(i);
+         support.initialize(file);
+         try{
+            this._supports.add(support);
+         }
+         catch(NullPointerException npe){
+            this._supports = new LinkedList<MechanismSupport>();
+            this._supports.add(support);
+         }
       }
    }
 

@@ -153,7 +153,21 @@ public class LaunchSimulatorJsonFileReader{
              String values[] = value.split(":");
              for(int j = 0; j < values.length; ++j){
                 values[j] = values[j].strip();
-                System.out.println(values[j]);
+                if(!values[j].contains("launching_mechanism")){
+                   String[] sys = values[j].split("\"");
+                   for(int k = 0; k < sys.length; ++k){
+                      sys[k] = sys[k].strip();
+                      if(sys[k].length() > 0){
+                         char c= sys[k].charAt(0);
+                         if(Character.isLetter(c) ||
+                            Character.isDigit(c)  ||
+                            c == '.'){
+                            saves[savesCount] = sys[k];
+                            ++savesCount;
+                         }
+                      }
+                   }
+                }
              }
              //This is the ending point for the Launching Mechanism
              //Data
@@ -161,6 +175,14 @@ public class LaunchSimulatorJsonFileReader{
                 found = false;
              }
           }
+      }
+      for(int i = 0; i < savesCount; i += 2){
+         try{
+            ht.put(saves[i],saves[i+1]);
+         }
+         catch(ArrayIndexOutOfBoundsException e){
+            ht.put(saves[i],null);
+         }
       }
       return ht;
    }
