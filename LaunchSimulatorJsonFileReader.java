@@ -181,7 +181,11 @@ public class LaunchSimulatorJsonFileReader{
             ht.put(saves[i],saves[i+1]);
          }
          catch(ArrayIndexOutOfBoundsException e){
-            ht.put(saves[i],null);
+            ht.put(saves[i],new String("<no data>"));
+         }
+         catch(NullPointerException npe){
+            //For the time being, keep it like this...
+            ht.put(saves[i],new String("<no data>"));
          }
       }
       return ht;
@@ -251,7 +255,10 @@ public class LaunchSimulatorJsonFileReader{
             ht.put(saves[i],saves[i+1]);
          }
          catch(ArrayIndexOutOfBoundsException e){
-            ht.put(saves[i],null);
+            ht.put(saves[i],new String("<no data>"));
+         }
+         catch(NullPointerException npe){
+            ht.put(saves[i],new String("<no data>"));
          }
       }
       return ht;
