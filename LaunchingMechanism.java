@@ -30,6 +30,7 @@ public interface LaunchingMechanism{
    public List<LaunchingMechanismData> monitorLaunch();
    public void release();
    public double supportedWeight();
+   public String toString();
 }
 
 //////////////////////////////////////////////////////////////////////

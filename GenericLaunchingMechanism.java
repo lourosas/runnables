@@ -159,6 +159,15 @@ Runnable{
       return this._measuredWeight;
    }
 
+   //
+   //
+   //
+   public String toString(){
+      String string = new String();
+
+      return string;
+   }
+
    ////////////////Runnable Interface Implementation//////////////////
    //
    //

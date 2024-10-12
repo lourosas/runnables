@@ -53,15 +53,6 @@ public class GenericMechanismSupport implements MechanismSupport{
       this._id = id;
    }
 
-   ////////////////////////Public Methods/////////////////////////////
-   //
-   //
-   //
-   public String toString(){
-      String s = this.getClass().getName()+" : "+this.id();
-      return s;
-   }
-
    ////////////////////////Private Methods////////////////////////////
    //
    //
@@ -190,6 +181,18 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    public LaunchingMechanismData monitorLaunch(){
       return null;
+   }
+
+   //
+   //
+   //
+   public String toString(){
+      String string = this.getClass().getName()+" : "+this.id();
+      string += "\n"+this._id+", "+this._angle;
+      string += "\n"+this._calculatedWeight+", "+this._measuredWeight;
+      string += "\n"+this._isError+", "+this._error;
+      string += "\n"+this._tollerance+"\n"+this._vector;
+      return string;
    }
 }
 //////////////////////////////////////////////////////////////////////

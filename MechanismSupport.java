@@ -28,6 +28,7 @@ public interface MechanismSupport{
    public LaunchingMechanismData monitorPrelaunch();
    public LaunchingMechanismData monitorIgnition();
    public LaunchingMechanismData monitorLaunch();
+   public String toString();
 }
 
 //////////////////////////////////////////////////////////////////////
