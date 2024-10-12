@@ -68,6 +68,8 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    private void data(Hashtable<String,String> rocket,
                 Hashtable<String,String> mech){
+      System.out.println("rocket: "+rocket);
+      System.out.println("mech: "+mech);
       int holds = -1;
       if(mech.containsKey("number_of_holds")){
          try{
@@ -158,8 +160,10 @@ public class GenericMechanismSupport implements MechanismSupport{
             read = new LaunchSimulatorJsonFileReader(file);
             Hashtable<String,String> rocketHt = null;
             rocketHt = read.readRocketInfo();
+            System.out.println("Initialize "+rocketHt);
             Hashtable<String,String> mechHt = null;
             mechHt = read.readLaunchingMechanismInfo();
+            System.out.println("Initialize "+ mechHt);
             this.data(rocketHt, mechHt);
             this.initializeForceVector();
          }
