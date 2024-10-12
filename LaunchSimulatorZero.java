@@ -247,7 +247,7 @@ implements Runnable,Publisher,LaunchSimulator{
          
          this.rocket.initialize(file);
          this.launchingMechanism.initialize(file);
-         System.out.println(this.launchingMechanism);
+         //Can acutally get the Monitor Prelaunch 
       }
       catch(IOException ioe){
          //for the time being, do this...something else later...
@@ -322,8 +322,9 @@ implements Runnable,Publisher,LaunchSimulator{
                         System.out.println(md.get(i));
                      }
                      printCounter = 0;
-                     double w=this.launchingMechanism.supportedWeight();
-                     System.out.println(w);
+                     //Do not need!!!
+                     //double w=this.launchingMechanism.supportedWeight();
+                     //System.out.println(w);
                   }
                }
             }
