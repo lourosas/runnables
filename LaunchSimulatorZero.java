@@ -247,6 +247,7 @@ implements Runnable,Publisher,LaunchSimulator{
          
          this.rocket.initialize(file);
          this.launchingMechanism.initialize(file);
+         System.out.println(this.launchingMechanism);
       }
       catch(IOException ioe){
          //for the time being, do this...something else later...

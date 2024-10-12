@@ -59,8 +59,6 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    private void data(Hashtable<String,String> rocket,
                 Hashtable<String,String> mech){
-      System.out.println("rocket: "+rocket);
-      System.out.println("mech: "+mech);
       int holds = -1;
       if(mech.containsKey("number_of_holds")){
          try{
@@ -129,8 +127,7 @@ public class GenericMechanismSupport implements MechanismSupport{
       else{}
       z = (-1.)*this._calculatedWeight*Math.sin(this._angle);
       this._vector = new GenericForceVector(x,y,z);
-      System.out.println(this.toString());
-      System.out.println(this._vector);
+      //System.out.println("\n"+this.toString());
    }
    //////////////MechanismSupport Interface Implementation////////////
    //
@@ -151,10 +148,8 @@ public class GenericMechanismSupport implements MechanismSupport{
             read = new LaunchSimulatorJsonFileReader(file);
             Hashtable<String,String> rocketHt = null;
             rocketHt = read.readRocketInfo();
-            System.out.println("Initialize "+rocketHt);
             Hashtable<String,String> mechHt = null;
             mechHt = read.readLaunchingMechanismInfo();
-            System.out.println("Initialize "+ mechHt);
             this.data(rocketHt, mechHt);
             this.initializeForceVector();
          }
@@ -188,7 +183,7 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    public String toString(){
       String string = this.getClass().getName()+" : "+this.id();
-      string += "\n"+this._id+", "+this._angle;
+      string += "\n"+this._angle;
       string += "\n"+this._calculatedWeight+", "+this._measuredWeight;
       string += "\n"+this._isError+", "+this._error;
       string += "\n"+this._tollerance+"\n"+this._vector;

@@ -164,7 +164,12 @@ Runnable{
    //
    public String toString(){
       String string = new String();
-
+      string += "\n"+this._holds+", "+this._model;
+      string += "\n"+this._measuredWeight+", "+this._inputWeight;
+      for(int i = 0; i < this._holds; ++i){
+         string += "\n"+this._supports.get(i).toString();
+      }
+      string += "\n"+this._tollerance;
       return string;
    }
 

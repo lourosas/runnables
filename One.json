@@ -13,10 +13,10 @@
               }]
    },
    "launching_mechanism":{
-      "model":"<Model>",
-      "number_of_holds":"<Number of Holds>",
-      "angle_of_holds":"<Angle of Holds>",
-      "holds_tollerance":"<Holds Tollerance>",
-      "total_tollerance":"<Total Tollerance>"
+      "model":"012",
+      "number_of_holds":"4",
+      "angle_of_holds":"75",
+      "holds_tollerance":".85",
+      "total_tollerance":".9"
    }
 }
