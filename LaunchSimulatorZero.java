@@ -248,8 +248,9 @@ implements Runnable,Publisher,LaunchSimulator{
          this.rocket.initialize(file);
          this.launchingMechanism.initialize(file);
          //Can acutally get the Monitor Prelaunch 
-         this.rocket.monitorPrelaunch();
-         this.launchingMechnism.monitorPrelaunch();
+         //this.rocket.monitorPrelaunch();
+         LaunchingMechanismData lm = null;
+         lm = this.launchingMechanism.monitorPrelaunch();
       }
       catch(IOException ioe){
          //for the time being, do this...something else later...
@@ -301,7 +302,7 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    public void run(){
       int printCounter                = 0;
-      List<LaunchingMechanismData> md = null;
+      LaunchingMechanismData md = null;
       try{
          while(true){
             if(this.kill){
@@ -316,13 +317,6 @@ implements Runnable,Publisher,LaunchSimulator{
                   if(++printCounter == 100){
                      //So far, just test prints
                      System.out.println("\n"+this.stateSubstate);
-                     System.out.println(md.size());
-                     for(int i = 0; i < md.size(); ++i){
-                        //Will need to add a syncronized section
-                        //here to avoid a race condtioin
-                        //sychronized(this._o){}//Same _o!!!
-                        System.out.println(md.get(i));
-                     }
                      printCounter = 0;
                      //Do not need!!!
                      //double w=this.launchingMechanism.supportedWeight();

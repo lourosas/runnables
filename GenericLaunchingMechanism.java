@@ -113,7 +113,7 @@ Runnable{
          this.mechanismData(ht);
       }
       for(int i = 0; i < this._holds; ++i){
-         GenericMechanismSupport support = null;
+         MechanismSupport support = null;
          support = new GenericMechanismSupport(i);
          support.initialize(file);
          try{
@@ -129,21 +129,27 @@ Runnable{
    //
    //
    //
-   public List<LaunchingMechanismData> monitorPrelaunch(){
+   public LaunchingMechanismData monitorPrelaunch(){
+      List<MechanismSupportData> mechData = null;
+      mechData = new LinkedList<MechanismSupportData>();
+      for(int i = 0; i < this._supports.size(); ++i){
+         MechanismSupport support = this._supports.get(i);
+         mechData.add(support.monitorPrelaunch();
+      }
       return null;
    }
 
    //
    //
    //
-   public List<LaunchingMechanismData> monitorIgnition(){
+   public LaunchingMechanismData monitorIgnition(){
       return null;
    }
 
    //
    //
    //
-   public List<LaunchingMechanismData> monitorLaunch(){
+   public LaunchingMechanismData monitorLaunch(){
       return null;
    }
 
