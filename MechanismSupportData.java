@@ -22,13 +22,12 @@ import java.util.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
-public interface MechanismSupport{
+public interface MechanismSupportData{
+   public double angle();
+   public String error();
+   public ForceVector forceVector();
    public int id();
-   public void initialize(String file);
-   public MechanismSupportData monitorPrelaunch();
-   public MechanismSupportData monitorIgnition();
-   public MechanismSupportData monitorLaunch();
-   public String toString();
+   public boolean isError();
+   public double measuredWeight();
 }
-
 //////////////////////////////////////////////////////////////////////

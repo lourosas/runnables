@@ -112,7 +112,8 @@ public class SimpleMechanismSupport implements MechanismSupport{
    //
    //
    //
-   public LaunchingMechanismData monitorPrelaunch(){
+   public MechanimsSupportData monitorPrelaunch(){
+      /*
       double force   = this.force();
       ForceVector v  = this.direction();
 
@@ -124,19 +125,21 @@ public class SimpleMechanismSupport implements MechanismSupport{
       int id                     = this._id;
       lmd=new SimpleLaunchingMechanismData(v,force,id,isError,error);
       return lmd;
-   }
-
-   //
-   //
-   //
-   public LaunchingMechanismData monitorIgnition(){
+      */
       return null;
    }
 
    //
    //
    //
-   public LaunchingMechanismData monitorLaunch(){
+   public MechanismSupportData monitorIgnition(){
+      return null;
+   }
+
+   //
+   //
+   //
+   public MechanismSupportData monitorLaunch(){
       return null;
    }
 }

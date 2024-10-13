@@ -53,7 +53,6 @@ public class LaunchSimulatorJsonFileReader{
          data = new Hashtable<String,String>();
 
          String jsonData = this.grabJSONFileData();
-         data = this.parseLaunchingMechanismData(jsonData);
          return this.parseLaunchingMechanismData(jsonData);
       }
       catch(IOException ioe){
@@ -72,7 +71,6 @@ public class LaunchSimulatorJsonFileReader{
          data = new Hashtable<String,String>();
 
          String jsonData = this.grabJSONFileData();
-         data = this.parseRocketData(jsonData);
          return this.parseRocketData(jsonData);
       }
       catch(IOException ioe){

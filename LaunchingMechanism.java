@@ -25,9 +25,9 @@ import rosas.lou.clock.*;
 
 public interface LaunchingMechanism{
    public void initialize(String file)throws IOException;
-   public List<LaunchingMechanismData> monitorPrelaunch();
-   public List<LaunchingMechanismData> monitorIgnition();
-   public List<LaunchingMechanismData> monitorLaunch();
+   public LaunchingMechanismData monitorPrelaunch();
+   public LaunchingMechanismData monitorIgnition();
+   public LaunchingMechanismData monitorLaunch();
    public void release();
    public double supportedWeight();
    public String toString();

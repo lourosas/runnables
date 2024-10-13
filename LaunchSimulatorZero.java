@@ -237,7 +237,7 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    public void ignite(){}
 
-   //Add an initialization file!!
+   //
    //Based on the JSON/INI file, initialize everything...
    //
    public void initialize(String file){
@@ -248,6 +248,8 @@ implements Runnable,Publisher,LaunchSimulator{
          this.rocket.initialize(file);
          this.launchingMechanism.initialize(file);
          //Can acutally get the Monitor Prelaunch 
+         this.rocket.monitorPrelaunch();
+         this.launchingMechnism.monitorPrelaunch();
       }
       catch(IOException ioe){
          //for the time being, do this...something else later...

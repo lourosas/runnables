@@ -160,21 +160,21 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    //
    //
-   public LaunchingMechanismData monitorPrelaunch(){
+   public MechanismSupportData monitorPrelaunch(){
       return null;
    }
 
    //
    //
    //
-   public LaunchingMechanismData monitorIgnition(){
+   public MechanismSupportData monitorIgnition(){
       return null;
    }
 
    //
    //
    //
-   public LaunchingMechanismData monitorLaunch(){
+   public MechanismSupportData monitorLaunch(){
       return null;
    }
 
