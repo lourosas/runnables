@@ -32,7 +32,7 @@ public class GenericMechanismSupport implements MechanismSupport{
    private double         _calculatedWeight;
    private String         _error;
    private boolean        _isError;
-   private double         _tollerance;
+   private double         _tolerance;
    private ForceVector    _measuredVector;
    private ForceVector    _vector;
 
@@ -44,7 +44,7 @@ public class GenericMechanismSupport implements MechanismSupport{
       _measuredWeight   = Double.NaN;
       _error            = null;
       _isError          = false;
-      _tollerance       = Double.NaN;
+      _tolerance        = Double.NaN;
       _measuredVector   = null;
       _vector           = null;
    };
@@ -85,7 +85,7 @@ public class GenericMechanismSupport implements MechanismSupport{
       if(mech.containsKey("holds_tollerance")){
          try{
             String sToll = mech.get("holds_tollerance");
-            this._tollerance = Double.parseDouble(sToll);
+            this._tolerance = Double.parseDouble(sToll);
          }
          catch(NumberFormatException nfe){}
          catch(NullPointerException  npe){}
@@ -133,11 +133,91 @@ public class GenericMechanismSupport implements MechanismSupport{
       this._vector = new GenericForceVector(x,y,z);
    }
 
+   //
+   //
+   //
+   private boolean isAngleError(){
+      boolean isError = false;
+      double lim  = 1. - this._tolerance;
+      double edge = this._angle * lim;
+      double ll   = this._angle - edge;
+      double ul   = this._angle + edge;
+      if(this._measuredAngle < ll || this._measuredAngle > ul){
+         isError = true;
+      }
+      return isError;
+   }
+
    //Set the _isError boolean
    //call to determine/set the _error if _isError is true
    //
    private void isError(){
-     System.out.println(this._tollerance);
+      //mesure everything to make sure within tollerance...
+      //If out of tollerance, flag as an error...
+      //Start with the Angle Measurements
+      if(this._angle!=Double.NaN && this._measuredAngle!=Double.NaN){
+         this._isError = this.isAngleError();
+      }
+      if((this._measuredWeight != Double.NaN) &&
+         (this._calculatedWeight != Double.NaN)){
+         this._isError = this.isWeightError();
+      }
+      if((this._vector != null)&&(this._measuredVector != null)){
+         this._isError = this.isVectorError();
+      }
+   }
+
+   //Need to measure the Vector Tolerances, in addition to the
+   //Magnitude Tollerances in addtion to the Z-direction force vs.
+   //the _measuredWeight-->those two need to be in tolerance, as well
+   //
+   private boolean isVectorError(){
+      boolean isError = false;
+      double  lim     = 1. - this._tolerance;
+      //first, check the i-hat direction
+      //Will need to change for the different parts...
+      double edge = this._vector.x() * lim;
+      double ll   = this._vector.x() - edge;
+      double ul   = this._vector.x() + edge;
+      if(this._measuredVector.x()<ll || this._measuredVector.x()>ul){
+         isError = true;
+      }
+      edge = this._vector.y() * lim;
+      ll   = this._vector.y() - edge;
+      ul   = this._vector.y() + edge;
+      if(this._measuredVector.y()<ll || this._measuredVector.y()>ul){
+         isError = true;
+      }
+      edge = this._vector.z() * lim;
+      ll   = this._vector.z() - edge;
+      ul   = this._vector.z() + edge;
+      if(this._measuredVector.z()<ll || this._measuredVector.z()>ul){
+         isError = true;
+      }
+      edge        = this._vector.magnitude() * lim;
+      ll          = this._vector.magnitude() - edge;
+      ul          = this._vector.magnitude() + edge;
+      double mMag = this._measuredVector.magnitude();
+      if((mMag < ll) || (mMag > ul)){
+         isError = true;
+      }
+      return isError;
+   }
+
+   //This is the measured downward weight, not related to the
+   //ForceVector, but will eventually be used for comparison...
+   //
+   //
+   private boolean isWeightError(){
+      boolean isError = false;
+      double lim  = 1. - this._tolerance;
+      double edge = this._calculatedWeight * lim;
+      double ll   = this._calculatedWeight - edge;
+      double ul   = this._calculatedWeight + edge;
+      if(this._measuredWeight < ll || this._measuredWeight > ul){
+         isError = true;
+      }
+      return isError;
    }
 
    //
@@ -180,7 +260,8 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    private void measureWeight(){
       //Make this more complex based on release...for now, just
-      //get something working
+      //get something working--this will need to change to the
+      //Measured Vector z() * -1
       this._measuredWeight = this._calculatedWeight;
    }
 
@@ -246,7 +327,7 @@ public class GenericMechanismSupport implements MechanismSupport{
       string += "\n"+this._angle;
       string += "\n"+this._calculatedWeight+", "+this._measuredWeight;
       string += "\n"+this._isError+", "+this._error;
-      string += "\n"+this._tollerance+"\n"+this._vector;
+      string += "\n"+this._tolerance+"\n"+this._vector;
       return string;
    }
 }
