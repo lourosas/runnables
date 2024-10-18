@@ -29,5 +29,6 @@ public interface MechanismSupportData{
    public int id();
    public boolean isError();
    public double measuredWeight();
+   public String toString();
 }
 //////////////////////////////////////////////////////////////////////

@@ -134,7 +134,7 @@ Runnable{
       mechData = new LinkedList<MechanismSupportData>();
       for(int i = 0; i < this._supports.size(); ++i){
          MechanismSupport support = this._supports.get(i);
-         mechData.add(support.monitorPrelaunch();
+         mechData.add(support.monitorPrelaunch());
       }
       return null;
    }

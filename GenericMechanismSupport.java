@@ -24,6 +24,7 @@ import rosas.lou.runnables.*;
 
 public class GenericMechanismSupport implements MechanismSupport{
    private double         _angle; //In Radians!!!
+   private double         _measuredAngle; //In Radians
    private int            _id;
    //What to measure periodically
    private double         _measuredWeight;
@@ -32,16 +33,19 @@ public class GenericMechanismSupport implements MechanismSupport{
    private String         _error;
    private boolean        _isError;
    private double         _tollerance;
+   private ForceVector    _measuredVector;
    private ForceVector    _vector;
 
    {
       _angle            = Double.NaN;
+      _measuredAngle    = Double.NaN;
       _id               = -1;
-      _measuredWeight   = Double.NaN;
       _calculatedWeight = Double.NaN;
+      _measuredWeight   = Double.NaN;
       _error            = null;
       _isError          = false;
       _tollerance       = Double.NaN;
+      _measuredVector   = null;
       _vector           = null;
    };
 
@@ -127,8 +131,63 @@ public class GenericMechanismSupport implements MechanismSupport{
       else{}
       z = (-1.)*this._calculatedWeight*Math.sin(this._angle);
       this._vector = new GenericForceVector(x,y,z);
-      //System.out.println("\n"+this.toString());
    }
+
+   //Set the _isError boolean
+   //call to determine/set the _error if _isError is true
+   //
+   private void isError(){
+     System.out.println(this._tollerance);
+   }
+
+   //
+   //
+   //
+   private void measure(){
+      this.measureAngle();
+      this.measureWeight();
+      this.measureForceVector();
+      this.isError();
+      if(this._isError){
+         this.setError();
+      }
+      //Set and return the MechanismSupportData from here?
+   }
+
+   //
+   //
+   //
+   private void measureAngle(){
+      //Make this more complex based on release...for now, just
+      //get something working
+      this._measuredAngle = this._angle;
+   }
+
+   //
+   //
+   //
+   private void measureForceVector(){
+      //Make this more complex based on release...for now, just
+      //get something working
+      double x = this._vector.x();
+      double y = this._vector.y();
+      double z = this._vector.z();
+      this._measuredVector = new GenericForceVector(x,y,z);
+   }
+
+   //
+   //
+   //
+   private void measureWeight(){
+      //Make this more complex based on release...for now, just
+      //get something working
+      this._measuredWeight = this._calculatedWeight;
+   }
+
+   //
+   //
+   //
+   private void setError(){}
    //////////////MechanismSupport Interface Implementation////////////
    //
    //
@@ -161,6 +220,7 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    //
    public MechanismSupportData monitorPrelaunch(){
+      this.measure();
       return null;
    }
 
