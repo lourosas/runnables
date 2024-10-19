@@ -28,15 +28,15 @@ implements MechanismSupportData{
    private ForceVector      _forceVector;
    private int              _id;
    private boolean          _isError;
-   private double           _measuredWeight; //Not calcualted weight
+   private double           _measuredForce;
 
    {
-      _angle          = Double.NaN;
-      _error          = null;
-      _forceVector    = null;
-      _id             = -1;
-      _isError        = false;
-      _measuredWeight = Double.NaN;
+      _angle         = Double.NaN;
+      _error         = null;
+      _forceVector   = null;
+      _id            = -1;
+      _isError       = false;
+      _measuredForce = Double.NaN;
    };
    //////////////////////////Constructors/////////////////////////////
    //
@@ -49,14 +49,14 @@ implements MechanismSupportData{
       ForceVector fv,
       int id,
       boolean iserr,
-      double mw
+      double mf
    ){
-      this._angle          = an;
-      this._error          = er;
-      this._forceVector    = fv;
-      this._id             = id;
-      this._isError        = iserr;
-      this._measuredWeight = mw;
+      this._angle         = an;
+      this._error         = er;
+      this._forceVector   = fv;
+      this._id            = id;
+      this._isError       = iserr;
+      this._measuredForce = mf;
    }
 
    /////////MechanismSupportData Interface Implementation/////////////
@@ -98,8 +98,8 @@ implements MechanismSupportData{
    //
    //
    //
-   public double measuredWeight(){
-      return this._measuredWeight;
+   public double measuredForce(){
+      return this._measuredForce;
    }
 
    //
@@ -109,7 +109,7 @@ implements MechanismSupportData{
       String string = this.id()+"\n"+this.angle()+"rad\n";
       string       += this.isError()+":"+this.error()+"\n";
       string       += this.forceVector().toString()+"\n";
-      string       += this.measuredWeight();
+      string       += this.measuredForce();
       
       return string;
    }

@@ -135,6 +135,8 @@ Runnable{
       for(int i = 0; i < this._supports.size(); ++i){
          MechanismSupport support = this._supports.get(i);
          mechData.add(support.monitorPrelaunch());
+         //A simple test print
+         System.out.println("\n"+mechData.get(i));
       }
       return null;
    }

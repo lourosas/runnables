@@ -28,7 +28,7 @@ public interface MechanismSupportData{
    public ForceVector forceVector();
    public int id();
    public boolean isError();
-   public double measuredWeight();
+   public double measuredForce();
    public String toString();
 }
 //////////////////////////////////////////////////////////////////////

@@ -27,9 +27,9 @@ public class GenericMechanismSupport implements MechanismSupport{
    private double         _measuredAngle; //In Radians
    private int            _id;
    //What to measure periodically
-   private double         _measuredWeight;
+   private double         _measuredForce;
    //Depends on the number of holds
-   private double         _calculatedWeight;
+   private double         _armForce;
    private String         _error;
    private boolean        _isError;
    private double         _tolerance;
@@ -40,8 +40,8 @@ public class GenericMechanismSupport implements MechanismSupport{
       _angle            = Double.NaN;
       _measuredAngle    = Double.NaN;
       _id               = -1;
-      _calculatedWeight = Double.NaN;
-      _measuredWeight   = Double.NaN;
+      _armForce         = Double.NaN;
+      _measuredForce    = Double.NaN;
       _error            = null;
       _isError          = false;
       _tolerance        = Double.NaN;
@@ -98,7 +98,7 @@ public class GenericMechanismSupport implements MechanismSupport{
             weight /= Math.sin(this._angle);
             //This is the weight that is calculated based on
             //initialization data...
-            this._calculatedWeight = weight;
+            this._armForce = weight;
          }
          catch(NumberFormatException nfe){}
          catch(NullPointerException  npe){}
@@ -113,23 +113,23 @@ public class GenericMechanismSupport implements MechanismSupport{
       double y = Double.NaN;
       double z = Double.NaN;
       if(this.id() == 0){
-         x = this._calculatedWeight*Math.cos(this._angle);
+         x = this._armForce*Math.cos(this._angle);
          y = 0.;
       }
       else if(this.id() == 1){
          x = 0.;
-         y = this._calculatedWeight*Math.cos(this._angle);
+         y = this._armForce*Math.cos(this._angle);
       }
       else if(this.id() == 2){
-         x = (-1.)*this._calculatedWeight*Math.cos(this._angle);
+         x = (-1.)*this._armForce*Math.cos(this._angle);
          y = 0;
       }
       else if(this.id() == 3){
          x = 0.;
-         y = (-1.)*this._calculatedWeight*Math.cos(this._angle);
+         y = (-1.)*this._armForce*Math.cos(this._angle);
       }
       else{}
-      z = (-1.)*this._calculatedWeight*Math.sin(this._angle);
+      z = (-1.)*this._armForce*Math.sin(this._angle);
       this._vector = new GenericForceVector(x,y,z);
    }
 
@@ -167,20 +167,20 @@ public class GenericMechanismSupport implements MechanismSupport{
             this._error += this._angle;
          }
       }
-      if((this._measuredWeight != Double.NaN) &&
-         (this._calculatedWeight != Double.NaN)){
-         this._isError = this.isWeightError();
+      if((this._measuredForce != Double.NaN) &&
+         (this._armForce != Double.NaN)){
+         this._isError = this.isForceError();
          if(this._isError){
             this._error += "\nMeasured Weight Error:  ";
-            this._error += this._measuredWeight + ", Expected: ";
-            this._error += this._calculatedWeight;
+            this._error += this._measuredForce + ", Expected: ";
+            this._error += this._armForce;
          }
       }
       if((this._vector != null)&&(this._measuredVector != null)){
          this._isError = this.isVectorError();
          if(this._isError){
             this._error += "\nMeasured Vector Error: ";
-            this._error += this._measuredVector + "Expected: ";
+            this._error += this._measuredVector + "\n\t\tExpected: ";
             this._error += this._vector;
          }
       }
@@ -192,29 +192,44 @@ public class GenericMechanismSupport implements MechanismSupport{
    //the _measuredWeight-->those two need to be in tolerance, as well
    //
    private boolean isVectorError(){
+      double edge     = Double.NaN;
+      double ul       = Double.NaN;
+      double ll       = Double.NaN;
       boolean isError = false;
       double  lim     = 1. - this._tolerance;
       //first, check the i-hat direction
       //Will need to change for the different parts...
-      double edge = this._vector.x() * lim;
-      double ll   = this._vector.x() - edge;
-      double ul   = this._vector.x() + edge;
+      edge = this._vector.x() * lim;
+      if(this._vector.x() < 0.){
+         edge = this._vector.x() * -lim;
+      }
+      ll   = this._vector.x() - edge;
+      ul   = this._vector.x() + edge;
       if(this._measuredVector.x()<ll || this._measuredVector.x()>ul){
          isError = true;
       }
       edge = this._vector.y() * lim;
+      if(this._vector.y() < 0.){
+         edge = this._vector.y() * -lim;
+      }
       ll   = this._vector.y() - edge;
       ul   = this._vector.y() + edge;
       if(this._measuredVector.y()<ll || this._measuredVector.y()>ul){
          isError = true;
       }
       edge = this._vector.z() * lim;
+      if(this._vector.z() < 0.){
+         edge = this._vector.z() * -lim;
+      }
       ll   = this._vector.z() - edge;
       ul   = this._vector.z() + edge;
       if(this._measuredVector.z()<ll || this._measuredVector.z()>ul){
          isError = true;
       }
       edge        = this._vector.magnitude() * lim;
+      if(this._vector.magnitude() < 0.){
+         edge = this._vector.magnitude() * -lim;
+      }
       ll          = this._vector.magnitude() - edge;
       ul          = this._vector.magnitude() + edge;
       double mMag = this._measuredVector.magnitude();
@@ -228,13 +243,13 @@ public class GenericMechanismSupport implements MechanismSupport{
    //ForceVector, but will eventually be used for comparison...
    //
    //
-   private boolean isWeightError(){
+   private boolean isForceError(){
       boolean isError = false;
       double lim  = 1. - this._tolerance;
-      double edge = this._calculatedWeight * lim;
-      double ll   = this._calculatedWeight - edge;
-      double ul   = this._calculatedWeight + edge;
-      if(this._measuredWeight < ll || this._measuredWeight > ul){
+      double edge = this._armForce * lim;
+      double ll   = this._armForce - edge;
+      double ul   = this._armForce + edge;
+      if(this._measuredForce < ll || this._measuredForce > ul){
          isError = true;
       }
       return isError;
@@ -245,15 +260,17 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    private MechanismSupportData measure(){
       this.measureAngle();
-      this.measureWeight();
+      this.measureArm();
       this.measureForceVector();
+      //After measurements, find the error...
+      this.isError();
       MechanismSupportData data = null;
       data = new GenericMechanismSupportData(this._measuredAngle,
                                              this._error,
                                              this._measuredVector,
                                              this._id,
                                              this._isError,
-                                             this._measuredWeight);
+                                             this._measuredForce);
       return data;
    }
 
@@ -281,17 +298,9 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    //
    //
-   private void measureWeight(){
-      //Make this more complex based on release...for now, just
-      //get something working--this will need to change to the
-      //Measured Vector.z() * -1
-      this._measuredWeight = this._calculatedWeight;
+   private void measureArm(){
+      this._measuredForce = this._armForce;
    }
-
-   //
-   //
-   //
-   private void setError(){}
 
    //////////////MechanismSupport Interface Implementation////////////
    //
@@ -325,8 +334,7 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    //
    public MechanismSupportData monitorPrelaunch(){
-      this.measure();
-      return null;
+      return(this.measure());
    }
 
    //
@@ -349,7 +357,7 @@ public class GenericMechanismSupport implements MechanismSupport{
    public String toString(){
       String string = this.getClass().getName()+" : "+this.id();
       string += "\n"+this._angle;
-      string += "\n"+this._calculatedWeight+", "+this._measuredWeight;
+      string += "\n"+this._armForce+", "+this._measuredForce;
       string += "\n"+this._isError+", "+this._error;
       string += "\n"+this._tolerance+"\n"+this._vector;
       return string;
