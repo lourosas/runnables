@@ -301,7 +301,7 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    public void run(){
-      int printCounter                = 0;
+      int printCounter          = 0;
       LaunchingMechanismData md = null;
       try{
          while(true){

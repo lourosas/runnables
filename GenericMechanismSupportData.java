@@ -21,7 +21,7 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public calss GenericMechanismSupportData 
+public class GenericMechanismSupportData 
 implements MechanismSupportData{
    private double           _angle; //In Radians!!!
    private String           _error;
@@ -42,7 +42,7 @@ implements MechanismSupportData{
    //
    //
    //
-   pubilc GenericMechanismSupportData
+   public GenericMechanismSupportData
    (
       double an,
       String er,
@@ -98,7 +98,7 @@ implements MechanismSupportData{
    //
    //
    //
-   public boolean measuredWeight(){
+   public double measuredWeight(){
       return this._measuredWeight;
    }
 
@@ -106,7 +106,7 @@ implements MechanismSupportData{
    //
    //
    public String toString(){
-      String string = this.id()+"\n"this.angle()+"rad\n";
+      String string = this.id()+"\n"+this.angle()+"rad\n";
       string       += this.isError()+":"+this.error()+"\n";
       string       += this.forceVector().toString()+"\n";
       string       += this.measuredWeight();

@@ -151,20 +151,40 @@ public class GenericMechanismSupport implements MechanismSupport{
    //Set the _isError boolean
    //call to determine/set the _error if _isError is true
    //
-   private void isError(){
+   private boolean isError(){
+      this._isError = false; //Reset everytime...
+      //Initialize the Error String every invocation, but only use it
+      //upon actual error
+      this._error   = new String();
       //mesure everything to make sure within tollerance...
       //If out of tollerance, flag as an error...
       //Start with the Angle Measurements
       if(this._angle!=Double.NaN && this._measuredAngle!=Double.NaN){
          this._isError = this.isAngleError();
+         if(this._isError){
+            this._error += "\nMeasured Angle Error: ";
+            this._error += this._measuredAngle + ", Expected:  ";
+            this._error += this._angle;
+         }
       }
       if((this._measuredWeight != Double.NaN) &&
          (this._calculatedWeight != Double.NaN)){
          this._isError = this.isWeightError();
+         if(this._isError){
+            this._error += "\nMeasured Weight Error:  ";
+            this._error += this._measuredWeight + ", Expected: ";
+            this._error += this._calculatedWeight;
+         }
       }
       if((this._vector != null)&&(this._measuredVector != null)){
          this._isError = this.isVectorError();
+         if(this._isError){
+            this._error += "\nMeasured Vector Error: ";
+            this._error += this._measuredVector + "Expected: ";
+            this._error += this._vector;
+         }
       }
+      return this._isError;
    }
 
    //Need to measure the Vector Tolerances, in addition to the
@@ -223,15 +243,18 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    //
    //
-   private void measure(){
+   private MechanismSupportData measure(){
       this.measureAngle();
       this.measureWeight();
       this.measureForceVector();
-      this.isError();
-      if(this._isError){
-         this.setError();
-      }
-      //Set and return the MechanismSupportData from here?
+      MechanismSupportData data = null;
+      data = new GenericMechanismSupportData(this._measuredAngle,
+                                             this._error,
+                                             this._measuredVector,
+                                             this._id,
+                                             this._isError,
+                                             this._measuredWeight);
+      return data;
    }
 
    //
@@ -261,7 +284,7 @@ public class GenericMechanismSupport implements MechanismSupport{
    private void measureWeight(){
       //Make this more complex based on release...for now, just
       //get something working--this will need to change to the
-      //Measured Vector z() * -1
+      //Measured Vector.z() * -1
       this._measuredWeight = this._calculatedWeight;
    }
 
@@ -269,6 +292,7 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    //
    private void setError(){}
+
    //////////////MechanismSupport Interface Implementation////////////
    //
    //
