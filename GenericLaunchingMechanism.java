@@ -25,17 +25,21 @@ import rosas.lou.clock.*;
 
 public class GenericLaunchingMechanism implements LaunchingMechanism,
 Runnable{
+   private String                 _error;
    private int                    _holds;
+   private boolean                _isError;
    private int                    _model;
    private List<MechanismSupport> _supports; //Keep them in a list
    //This weight is to be calculated
    private double                 _measuredWeight;
    //Weight read in from the init file
    private double                 _inputWeight;
-   private double                 _tollerance;
+   private double                 _tolerance;
 
    {
+      _error           = null;
       _holds           = -1;
+      _isError         = false;
       _model           = -1;
       _supports        = null;
       _measuredWeight  = Double.NaN;
@@ -135,8 +139,6 @@ Runnable{
       for(int i = 0; i < this._supports.size(); ++i){
          MechanismSupport support = this._supports.get(i);
          mechData.add(support.monitorPrelaunch());
-         //A simple test print
-         System.out.println("\n"+mechData.get(i));
       }
       return null;
    }

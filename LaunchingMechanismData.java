@@ -23,11 +23,13 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public interface LaunchingMechanismData{
-   public ForceVector direction();
    public String error();
+   public int holds();
    public boolean isError();
-   public double force();
-   public int id();
+   public double measuredWeight();
+   public int model();
+   public List<MechanismSupportData> supportData();
+   public double tolerance();
    String toString();
 }
 //////////////////////////////////////////////////////////////////////
