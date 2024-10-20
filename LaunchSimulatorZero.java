@@ -251,7 +251,8 @@ implements Runnable,Publisher,LaunchSimulator{
          //this.rocket.monitorPrelaunch();
          LaunchingMechanismData lm = null;
          lm = this.launchingMechanism.monitorPrelaunch();
-         System.out.println(lm);
+         //System.out.println(lm);
+         this.notify("Initialze",lm);
       }
       catch(IOException ioe){
          //for the time being, do this...something else later...
@@ -369,6 +370,16 @@ implements Runnable,Publisher,LaunchSimulator{
          System.out.println(s);
          this.subscriber.update(ss, s);
          this.countdownTimer.broadcastTime();
+      }
+      catch(ClassCastException cce){}
+      try{
+         LaunchingMechanismData lm = (LaunchingMechanismData)o;
+         if(s != null){
+            this.subscriber.update(lm, s);
+         }
+         else{
+            this.subscriber.update(lm);
+         }
       }
       catch(ClassCastException cce){}
       catch(NullPointerException npe){

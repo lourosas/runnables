@@ -189,7 +189,15 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
    ////////////////////////Subscriber Methods/////////////////////////
    /**/
-   public void update(Object o){}
+   public void update(Object o){
+      try{
+         LaunchingMechanismData lm = (LaunchingMechanismData)o;
+         //do a simple print for now
+         System.out.println(lm);
+      }
+      catch(ClassCastException cce){}
+   }
+
    /**/
    public void update(Object o, String s){
       if(o != null){
@@ -202,6 +210,12 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
             LaunchSimulatorStateSubstate lss =
                                       (LaunchSimulatorStateSubstate)o;
             this.handleStateSubstate(lss, s);
+         }
+         catch(ClassCastException cce){}
+         try{
+            LaunchingMechanismData lm = (LaunchingMechanismData)o;
+            System.out.println(s.toUpperCase());
+            System.out.println(lm);
          }
          catch(ClassCastException cce){}
       }
