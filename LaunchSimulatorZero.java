@@ -320,9 +320,8 @@ implements Runnable,Publisher,LaunchSimulator{
                      //So far, just test prints
                      System.out.println("\n"+this.stateSubstate);
                      printCounter = 0;
-                     //Do not need!!!
-                     //double w=this.launchingMechanism.supportedWeight();
-                     //System.out.println(w);
+                     //Test this at the moment...
+                     this.notify(null,md);
                   }
                }
             }

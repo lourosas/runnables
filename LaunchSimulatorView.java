@@ -192,8 +192,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    public void update(Object o){
       try{
          LaunchingMechanismData lm = (LaunchingMechanismData)o;
-         //do a simple print for now
-         System.out.println(lm);
+         this.handleLaunchingMechanismData(null,lm);
       }
       catch(ClassCastException cce){}
    }
@@ -207,15 +206,14 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
          }
          catch(ClassCastException cce){}
          try{
-            LaunchSimulatorStateSubstate lss =
-                                      (LaunchSimulatorStateSubstate)o;
+            LaunchSimulatorStateSubstate lss = null;
+            lss = (LaunchSimulatorStateSubstate)o;
             this.handleStateSubstate(lss, s);
          }
          catch(ClassCastException cce){}
          try{
             LaunchingMechanismData lm = (LaunchingMechanismData)o;
-            System.out.println(s.toUpperCase());
-            System.out.println(lm);
+            this.handleLaunchingMechanismData(s.toUpperCase(),lm);
          }
          catch(ClassCastException cce){}
       }
@@ -269,8 +267,8 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    private LaunchSimulatorCountdownPanel getCountdownPanel(){
       JPanel panel=(JPanel)this.getContentPane().getComponent(1);
       JPanel nwPanel=(JPanel)panel.getComponent(0);
-      LaunchSimulatorCountdownPanel p =
-              (LaunchSimulatorCountdownPanel)nwPanel.getComponent(0);
+      LaunchSimulatorCountdownPanel p = null;
+      p = (LaunchSimulatorCountdownPanel)nwPanel.getComponent(0);
       return p;
    }
 
@@ -308,6 +306,19 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    (
       LaunchSimulatorStateSubstate.IgnitionSubstate sub
    ){
+   }
+
+   /**/
+   private void handleLaunchingMechanismData
+   (
+      String                 state,
+      LaunchingMechanismData lmd
+   ){
+      if(state != null){
+         System.out.println(state);
+      }
+      System.out.println(lmd.isError());
+      if(lmd.isError()){System.out.println(lmd.error());}
    }
 
    /**/
