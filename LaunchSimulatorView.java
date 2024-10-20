@@ -257,6 +257,18 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /**/
+   private void displayLaunchingMechanismError(String error){
+      //Test Prints for the time being...
+      System.out.println(error);
+   }
+
+   /**/
+   private void displayMechanismSupportError(String error){
+      //Test Prints for the time being...
+      System.out.println(error);
+   }
+
+   /**/
    private void displayState(LaunchSimulatorStateSubstate.State s){
       JPanel panel=(JPanel)this.getContentPane().getComponent(0);
       JLabel label=(JLabel)panel.getComponent(0);
@@ -315,10 +327,26 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       LaunchingMechanismData lmd
    ){
       if(state != null){
-         System.out.println(state);
+         System.out.println(state.toUpperCase());
       }
-      System.out.println(lmd.isError());
-      if(lmd.isError()){System.out.println(lmd.error());}
+      if(lmd.isError()){
+         this.displayLaunchingMechanismError(lmd.error());
+      }
+      System.out.println("Model " + lmd.model());
+      System.out.println("Holds " + lmd.holds());
+      System.out.println("Measured Weight "+lmd.measuredWeight());
+      System.out.println("Tolerance "+lmd.tolerance());
+      java.util.List<MechanismSupportData> list = lmd.supportData();
+      for(int i = 0; i < list.size(); ++i){
+         MechanismSupportData data = list.get(i);
+         if(data.isError()){
+            this.displayMechanismSupportError(data.error());
+         }
+         System.out.println("Id: "+data.id());
+         System.out.println("Angle: "+data.angle());
+         System.out.println("Vector: "+data.forceVector());
+         System.out.println("Measured Force: "+data.measuredForce());
+      }
    }
 
    /**/
