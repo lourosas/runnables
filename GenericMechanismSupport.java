@@ -295,7 +295,7 @@ public class GenericMechanismSupport implements MechanismSupport{
       this._measuredVector = new GenericForceVector(x,y,z);
    }
 
-   //
+   //Measure the force on the Arm...
    //
    //
    private void measureArm(){

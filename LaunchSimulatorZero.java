@@ -251,6 +251,7 @@ implements Runnable,Publisher,LaunchSimulator{
          //this.rocket.monitorPrelaunch();
          LaunchingMechanismData lm = null;
          lm = this.launchingMechanism.monitorPrelaunch();
+         System.out.println(lm);
       }
       catch(IOException ioe){
          //for the time being, do this...something else later...

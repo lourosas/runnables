@@ -106,9 +106,9 @@ implements MechanismSupportData{
    //
    //
    public String toString(){
-      String string = this.id()+"\n"+this.angle()+"rad\n";
-      string       += this.isError()+":"+this.error()+"\n";
-      string       += this.forceVector().toString()+"\n";
+      String string = "\n" + this.id() + "\n"+this.angle() + "rad\n";
+      string       += this.isError() + ":" + this.error() + "\n";
+      string       += this.forceVector().toString() + "\n";
       string       += this.measuredForce();
       
       return string;

@@ -44,7 +44,7 @@ Runnable{
       _supports        = null;
       _measuredWeight  = Double.NaN;
       _inputWeight     = Double.NaN;
-      _tollerance      = Double.NaN;
+      _tolerance       = Double.NaN;
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -54,6 +54,50 @@ Runnable{
    public GenericLaunchingMechanism(){}
 
    /////////////////////////Private Methods///////////////////////////
+   //
+   //
+   //
+   private boolean isError(){
+      double  edge      = Double.NaN;
+      double  ul        = Double.NaN;
+      double  ll        = Double.NaN;
+      double  lim       = 1.- this._tolerance;
+      boolean inputGood = (this._inputWeight    != Double.NaN);
+      boolean measGood  = (this._measuredWeight != Double.NaN);
+      this._error       = new String();
+      this._isError     = false;
+
+      //TODO What happens if a Measurement is not good? Indicate an
+      //error or not?
+      if(inputGood && measGood){
+         edge = this._inputWeight * lim;
+         if(this._inputWeight < 0.){
+            edge = this._inputWeight * -lim;
+         }
+         ll = this._inputWeight - edge;
+         ul = this._inputWeight + edge;
+         if(this._measuredWeight < ll || this._measuredWeight > ul){
+            this._isError = true;
+         }
+         if(this._isError){
+            this._error += "\n";
+            this._error +="Launching Mechanism Measured Weight Error";
+            this._error += "\nMeasured: " + this._measuredWeight;
+            this._error += "\nExpected: " + this._inputWeight;
+         }
+      }
+      return this._isError;
+   }
+   //Measure the weight of the rocket based in terms of this
+   //Mechanism...will evolve...
+   //
+   public void measureWeight(){
+      //Make this more complex, based on release...for now, just get
+      //something working...
+      //_inputWeight IS the Rocket Weight!
+      this._measuredWeight = this._inputWeight;
+   }
+
    //Sets up/saves the mechanism data for the System
    //
    //
@@ -76,8 +120,8 @@ Runnable{
       }
       if(data.containsKey("total_tollerance")){
          try{
-            String sToll     = data.get("total_tollerance");
-            this._tollerance = Double.parseDouble(sToll);
+            String sToll    = data.get("total_tollerance");
+            this._tolerance = Double.parseDouble(sToll);
          }
          catch(NumberFormatException nfe){}
          catch(NullPointerException npe){}
@@ -134,13 +178,23 @@ Runnable{
    //
    //
    public LaunchingMechanismData monitorPrelaunch(){
+      LaunchingMechanismData     data     = null;
       List<MechanismSupportData> mechData = null;
       mechData = new LinkedList<MechanismSupportData>();
       for(int i = 0; i < this._supports.size(); ++i){
          MechanismSupport support = this._supports.get(i);
          mechData.add(support.monitorPrelaunch());
       }
-      return null;
+      this.measureWeight();
+      this.isError();
+      data = new GenericLaunchingMechanismData(this._error,
+                                               this._holds,
+                                               this._isError,
+                                               this._measuredWeight,
+                                               this._model,
+                                               this._tolerance,
+                                               mechData);
+      return data;
    }
 
    //
@@ -174,12 +228,12 @@ Runnable{
    //
    public String toString(){
       String string = new String();
-      string += "\n"+this._holds+", "+this._model;
-      string += "\n"+this._measuredWeight+", "+this._inputWeight;
+      string += "\n" + this._holds + ", "+this._model;
+      string += "\n" + this._measuredWeight + ", "+this._inputWeight;
       for(int i = 0; i < this._holds; ++i){
-         string += "\n"+this._supports.get(i).toString();
+         string += "\n" + this._supports.get(i).toString();
       }
-      string += "\n"+this._tollerance;
+      string += "\n" + this._tolerance;
       return string;
    }
 

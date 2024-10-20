@@ -55,13 +55,13 @@ implements LaunchingMechanismData{
       double                      tol,
       List<MechanismSupportData> data
    ){
-      this._error         =    er;
-      this._holds         = holds;
-      this._isError       = iserr;
-      this._measureWeight =    mw;
-      this._model         =   mdl;
-      this._tolerance     =   tol;
-      this._supportData   =  data;
+      this._error          =    er;
+      this._holds          = holds;
+      this._isError        = iserr;
+      this._measuredWeight =    mw;
+      this._model          =   mdl;
+      this._tolerance      =   tol;
+      this._supportData    =  data;
    }
 
    /////////LaunchingMechanismData Interface Implementation///////////
@@ -118,8 +118,8 @@ implements LaunchingMechanismData{
    //
    //
    public String toString(){
-      List<MechanismSupportData> data = this.supportData()
-      String string = this.model() + "\n" + this.holds();
+      List<MechanismSupportData> data = this.supportData();
+      String string = this.model() + "\n" + this.holds() + "\n";
       string       += this.isError()+":"+this.error() + "\n";
       string       += this.measuredWeight() + "\n";
       string       += this.tolerance() + "\n";
