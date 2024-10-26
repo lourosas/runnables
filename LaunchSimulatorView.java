@@ -522,12 +522,18 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /**/
+   private JPanel setUpLaunchingMechanismPanel(){
+      return new LaunchingMechanismDataPanel();
+   }
+
+   /**/
    private JPanel setUpNorthWestPanel(){
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(0,1));
       panel.add(this.setUpCountdownPanel());
       //Remove as Development progresses
-      panel.add(new JPanel());
+      //panel.add(new JPanel());
+      panel.add(this.setUpLaunchingMechanismPanel());
       return panel;
    }
 
