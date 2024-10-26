@@ -49,7 +49,6 @@ public class LaunchingMechanismDataPanel extends JPanel{
    public void setUpData(LaunchingMechanismData data){
       //Make test prints for now...will need to handle the Error
       //message...
-      System.out.println(data);
       this.setUpModelData(data);
       this.setUpHoldsData(data);
       this.setUpWeightData(data);
