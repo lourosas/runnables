@@ -258,7 +258,8 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
 
    /**/
    private void displayLaunchingMechanismError(String error){
-      //Test Prints for the time being...
+      //Test Prints for the time being...put together a (one time)
+      //Error Dialog box...
       System.out.println(error);
    }
 
@@ -281,6 +282,16 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       JPanel nwPanel=(JPanel)panel.getComponent(0);
       LaunchSimulatorCountdownPanel p = null;
       p = (LaunchSimulatorCountdownPanel)nwPanel.getComponent(0);
+      return p;
+   }
+   
+   /**/
+   LaunchingMechanismDataPanel getLaunchingMechanismPanel(){
+      JPanel panel   = (JPanel)this.getContentPane().getComponent(1);
+      JPanel nwPanel = (JPanel)panel.getComponent(0);
+      LaunchingMechanismDataPanel p = null;
+      //At the moment, right below the Countdown Panel
+      p = (LaunchingMechanismDataPanel)nwPanel.getComponent(1);
       return p;
    }
 
@@ -326,12 +337,21 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       String                 state,
       LaunchingMechanismData lmd
    ){
+      LaunchingMechanismDataPanel p = null;
+      p = this.getLaunchingMechanismPanel();
+      //Will also need to add the Mechanism Support Data,
+      //and, set up another series of panels!!!
       if(state != null){
-         System.out.println(state.toUpperCase());
+         //System.out.println(state.toUpperCase());
+         p.setUpData(state, lmd);
+      }
+      else{
+         p.setUpData(lmd);
       }
       if(lmd.isError()){
          this.displayLaunchingMechanismError(lmd.error());
       }
+      /*
       System.out.println("Model " + lmd.model());
       System.out.println("Holds " + lmd.holds());
       System.out.println("Measured Weight "+lmd.measuredWeight());
@@ -347,6 +367,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
          System.out.println("Vector: "+data.forceVector());
          System.out.println("Measured Force: "+data.measuredForce());
       }
+      */
    }
 
    /**/
@@ -531,8 +552,6 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(0,1));
       panel.add(this.setUpCountdownPanel());
-      //Remove as Development progresses
-      //panel.add(new JPanel());
       panel.add(this.setUpLaunchingMechanismPanel());
       return panel;
    }

@@ -41,7 +41,43 @@ public class LaunchingMechanismDataPanel extends JPanel{
       this.setUpGUI();
    }
 
+   ////////////////////////////Public Methods/////////////////////////
+   //
+   //
+   //
+   public void setUpData(LaunchingMechanismData data){
+      //Make test prints for now...will need to handle the Error
+      //message...
+      System.out.println(data);
+   }
+
+   //
+   //
+   //
+   public void setUpData(String state, LaunchingMechanismData data){
+      System.out.println(state);
+      this.setUpData(data);
+   }
+
    ////////////////////////////Private Methods////////////////////////
+   //
+   //
+   //
+   private JPanel setUpErrorPanel(){
+      JPanel panel = new JPanel();
+
+      //ONLY SHOW when there is an error!!
+      JLabel errorLabel   = new JLabel("Error!!!");
+      JLabel errorMessage = new JLabel("<message>");
+      errorLabel.setForeground(Color.RED);
+      errorMessage.setForeground(Color.RED);
+
+      panel.add(errorLabel);
+      panel.add(errorMessage);
+
+      return panel;
+   }
+
    //
    //
    //
@@ -53,7 +89,8 @@ public class LaunchingMechanismDataPanel extends JPanel{
       this.add(platformLabel);
       this.add(this.setUpModelPanel());
       this.add(this.setUpHoldsPanel());
-      this.add(this.setUpMechanismPanel());
+      this.add(this.setUpWeightPanel());
+      this.add(this.setUpErrorPanel());
    }
 
    //
@@ -74,24 +111,6 @@ public class LaunchingMechanismDataPanel extends JPanel{
    //
    //
    //
-   private JPanel setUpMechanismPanel(){
-      JPanel panel = new JPanel();
-
-      JLabel weightLabel  = new JLabel("Measured Weght:  ");
-      //Put the Measured Weight
-      JLabel weightValue  = new JLabel("<weight>");
-      JLabel errorLabel   = new JLabel("Error!!!(In red)");
-      JLabel errorMessage = new JLabel("<message>");
-
-      panel.add(weightLabel); panel.add(weightValue);
-      panel.add(errorLabel);  panel.add(errorMessage);
-
-      return panel;
-   }
-
-   //
-   //
-   //
    private JPanel setUpModelPanel(){
       JPanel panel = new JPanel();
 
@@ -100,6 +119,21 @@ public class LaunchingMechanismDataPanel extends JPanel{
       JLabel modelValue = new JLabel("<model>");
       panel.add(modelLabel);
       panel.add(modelValue);
+
+      return panel;
+   }
+
+   //
+   //
+   //
+   private JPanel setUpWeightPanel(){
+      JPanel panel = new JPanel();
+
+      JLabel weightLabel  = new JLabel("Measured Weght:  ");
+      //Put the Measured Weight
+      JLabel weightValue  = new JLabel("<weight>");
+      panel.add(weightLabel);
+      panel.add(weightValue);
 
       return panel;
    }
