@@ -53,7 +53,6 @@ public class LaunchingMechanismDataPanel extends JPanel{
       this.setUpHoldsData(data);
       this.setUpWeightData(data);
       this.setUpErrorData(data);
-      
    }
 
    //

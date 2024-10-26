@@ -342,7 +342,6 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       //Will also need to add the Mechanism Support Data,
       //and, set up another series of panels!!!
       if(state != null){
-         //System.out.println(state.toUpperCase());
          p.setUpData(state, lmd);
       }
       else{
@@ -351,23 +350,6 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       if(lmd.isError()){
          this.displayLaunchingMechanismError(lmd.error());
       }
-      /*
-      System.out.println("Model " + lmd.model());
-      System.out.println("Holds " + lmd.holds());
-      System.out.println("Measured Weight "+lmd.measuredWeight());
-      System.out.println("Tolerance "+lmd.tolerance());
-      java.util.List<MechanismSupportData> list = lmd.supportData();
-      for(int i = 0; i < list.size(); ++i){
-         MechanismSupportData data = list.get(i);
-         if(data.isError()){
-            this.displayMechanismSupportError(data.error());
-         }
-         System.out.println("Id: "+data.id());
-         System.out.println("Angle: "+data.angle());
-         System.out.println("Vector: "+data.forceVector());
-         System.out.println("Measured Force: "+data.measuredForce());
-      }
-      */
    }
 
    /**/
