@@ -25,6 +25,7 @@ import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+import java.text.*;
 import myclasses.*;
 import javax.swing.border.*;
 
@@ -49,6 +50,11 @@ public class LaunchingMechanismDataPanel extends JPanel{
       //Make test prints for now...will need to handle the Error
       //message...
       System.out.println(data);
+      this.setUpModelData(data);
+      this.setUpHoldsData(data);
+      this.setUpWeightData(data);
+      this.setUpErrorData(data);
+      
    }
 
    //
@@ -60,6 +66,33 @@ public class LaunchingMechanismDataPanel extends JPanel{
    }
 
    ////////////////////////////Private Methods////////////////////////
+   //Clear the State of the input data...
+   //Currently, not maintainable...
+   //
+   private void clearState(){}
+
+   //Set the State of the input data...
+   //Currently, not maintainable
+   //
+   private void setState(String state){}
+
+   //
+   //
+   //
+   private void setUpErrorData(LaunchingMechanismData data){
+      JPanel panel  = (JPanel)this.getComponent(4);
+      JLabel error  = (JLabel)panel.getComponent(0);
+      JLabel errorS = (JLabel)panel.getComponent(1);
+      error.setText("");
+      errorS.setText("");
+      if(data.isError()){
+         error.setText("Error ");
+         errorS.setText(data.error());
+         error.setForeground(Color.RED);
+         errorS.setForeground(Color.RED);
+      }
+   }
+
    //
    //
    //
@@ -96,6 +129,15 @@ public class LaunchingMechanismDataPanel extends JPanel{
    //
    //
    //
+   private void setUpHoldsData(LaunchingMechanismData data){
+      JPanel panel = (JPanel)this.getComponent(2);
+      JLabel label = (JLabel)panel.getComponent(1);
+      label.setText("" + data.holds());
+   }
+
+   //
+   //
+   //
    private JPanel setUpHoldsPanel(){
       JPanel panel = new JPanel();
 
@@ -111,6 +153,15 @@ public class LaunchingMechanismDataPanel extends JPanel{
    //
    //
    //
+   private void setUpModelData(LaunchingMechanismData data){
+      JPanel panel = (JPanel)this.getComponent(1);
+      JLabel label = (JLabel)panel.getComponent(1);
+      label.setText("" + data.model());
+   }
+
+   //
+   //
+   //
    private JPanel setUpModelPanel(){
       JPanel panel = new JPanel();
 
@@ -121,6 +172,17 @@ public class LaunchingMechanismDataPanel extends JPanel{
       panel.add(modelValue);
 
       return panel;
+   }
+
+   //
+   //
+   //
+   private void setUpWeightData(LaunchingMechanismData data){
+      NumberFormat nf = null;
+      nf = NumberFormat.getNumberInstance(Locale.US);
+      JPanel panel = (JPanel)this.getComponent(3);
+      JLabel label = (JLabel)panel.getComponent(1);
+      label.setText(nf.format(data.measuredWeight()) + " N");
    }
 
    //
