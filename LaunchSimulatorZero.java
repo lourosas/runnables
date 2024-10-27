@@ -252,7 +252,7 @@ implements Runnable,Publisher,LaunchSimulator{
          LaunchingMechanismData lm = null;
          lm = this.launchingMechanism.monitorPrelaunch();
          //System.out.println(lm);
-         this.notify("Initialze",lm);
+         this.notify("Initialize",lm);
       }
       catch(IOException ioe){
          //for the time being, do this...something else later...

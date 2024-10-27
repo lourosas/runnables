@@ -339,13 +339,19 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    ){
       LaunchingMechanismDataPanel p = null;
       p = this.getLaunchingMechanismPanel();
+      java.util.List<MechanismSupportData> list = null;
+      list = lmd.supportData();
       //Will also need to add the Mechanism Support Data,
       //and, set up another series of panels!!!
       if(state != null){
          p.setUpData(state, lmd);
+         if(state.toUpperCase().contains("INITIALIZE")){
+            this.setUpMechanismSupportPanels(list);
+         }
       }
       else{
          p.setUpData(lmd);
+         //this.updateMechanismSupportPanels(stuf goes in here);
       }
       if(lmd.isError()){
          this.displayLaunchingMechanismError(lmd.error());
@@ -527,6 +533,18 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    /**/
    private JPanel setUpLaunchingMechanismPanel(){
       return new LaunchingMechanismDataPanel();
+   }
+
+   /**/
+   private void setUpMechanismSupportPanels
+   (
+      java.util.List<MechanismSupportData> list
+   ){
+      System.out.println("Number of holds: "+list.size());
+      Iterator<MechanismSupportData> it = list.iterator();
+      while(it.hasNext()){
+         System.out.println(it.next());
+      }
    }
 
    /**/
