@@ -535,11 +535,19 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       return new LaunchingMechanismDataPanel();
    }
 
-   /**/
+   /*
+    *Going to go ahead and put these in the South West Panel for this
+    View for the current time Because the displays are based on the
+    number of holds, this set up is more fluid and not set up in the
+    same way as the NW Panel...
+    * */
    private void setUpMechanismSupportPanels
    (
       java.util.List<MechanismSupportData> list
    ){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel swPanel=(JPanel)panel.getComponent(1);
+      System.out.println(swPanel);
       System.out.println("Number of holds: "+list.size());
       Iterator<MechanismSupportData> it = list.iterator();
       while(it.hasNext()){
