@@ -295,6 +295,15 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       return p;
    }
 
+   /**/
+   MechanismSupportsPanel getMechanismSupportsPanel(){
+      JPanel panel   = (JPanel)this.getContentPane().getComponent(1);
+      JPanel swPanel = (JPanel)panel.getComponent(2);
+      MechanismSupportsPanel p = null;
+      p = (MechanismSupportsPanel)swPanel.getComponent(0);
+      return p;
+   }
+
    /*
     *It is going to be some sort of message, so go ahead and get it
     first
@@ -346,12 +355,13 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       if(state != null){
          p.setUpData(state, lmd);
          if(state.toUpperCase().contains("INITIALIZE")){
-            this.setUpMechanismSupportPanels(list);
+            MechanismSupportsPanel mp = null;
+            mp = this.getMechanismSupportsPanel();
+            mp.initialize(list);
          }
       }
       else{
          p.setUpData(lmd);
-         //this.updateMechanismSupportPanels(stuf goes in here);
       }
       if(lmd.isError()){
          this.displayLaunchingMechanismError(lmd.error());
@@ -465,12 +475,12 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
 
    /**/
    private JPanel setUpCenterPanel(){
-      JPanel panel        = new JPanel();
+      JPanel panel = new JPanel();
       panel.setBorder(BorderFactory.createEtchedBorder());
-      panel.setLayout(new GridLayout(2,2,5,5));
+      panel.setLayout(new GridLayout(2,2,1,1));
       panel.add(this.setUpNorthWestPanel());
       panel.add(new JPanel());
-      panel.add(new JPanel());
+      panel.add(this.setUpSouthWestPanel());
       panel.add(new JPanel());
       return panel;
    }
@@ -535,24 +545,9 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       return new LaunchingMechanismDataPanel();
    }
 
-   /*
-    *Going to go ahead and put these in the South West Panel for this
-    View for the current time Because the displays are based on the
-    number of holds, this set up is more fluid and not set up in the
-    same way as the NW Panel...
-    * */
-   private void setUpMechanismSupportPanels
-   (
-      java.util.List<MechanismSupportData> list
-   ){
-      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
-      JPanel swPanel=(JPanel)panel.getComponent(1);
-      System.out.println(swPanel);
-      System.out.println("Number of holds: "+list.size());
-      Iterator<MechanismSupportData> it = list.iterator();
-      while(it.hasNext()){
-         System.out.println(it.next());
-      }
+   /**/
+   private JPanel setUpMechanismsSupportsPanel(){
+      return new MechanismSupportsPanel();
    }
 
    /**/
@@ -611,6 +606,14 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       abort.setEnabled(false);
       panel.add(abort);
 
+      return panel;
+   }
+
+   /**/
+   private JPanel setUpSouthWestPanel(){
+      JPanel panel = new JPanel();
+      panel.setLayout(new GridLayout(0,1));
+      panel.add(this.setUpMechanismsSupportsPanel());
       return panel;
    }
 }
