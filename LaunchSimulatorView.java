@@ -512,8 +512,10 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
 
    /**/
    private void setUpGUI(){
-      int WIDTH  = 850;
-      int HEIGHT = 700;
+      //int WIDTH  = 1080;
+      int WIDTH  = 850;//Initial Values
+      int HEIGHT = 700;//Initial Values
+      //int HEIGHT = 1080;//Max Height
 
       this.setLayout(new BorderLayout());
       this.setSize(WIDTH, HEIGHT);

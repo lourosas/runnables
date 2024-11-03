@@ -80,14 +80,10 @@ public class LaunchingMechanismDataPanel extends JPanel{
    private void setUpErrorData(LaunchingMechanismData data){
       JPanel panel  = (JPanel)this.getComponent(4);
       JLabel error  = (JLabel)panel.getComponent(0);
-      JLabel errorS = (JLabel)panel.getComponent(1);
       error.setText("");
-      errorS.setText("");
       if(data.isError()){
-         error.setText("Error ");
-         errorS.setText(data.error());
+         error.setText("Error "+data.error());
          error.setForeground(Color.RED);
-         errorS.setForeground(Color.RED);
       }
    }
 
@@ -98,13 +94,10 @@ public class LaunchingMechanismDataPanel extends JPanel{
       JPanel panel = new JPanel();
 
       //ONLY SHOW when there is an error!!
-      JLabel errorLabel   = new JLabel("Error!!!");
-      JLabel errorMessage = new JLabel("<message>");
+      JLabel errorLabel   = new JLabel("<Error Message>");
       errorLabel.setForeground(Color.RED);
-      errorMessage.setForeground(Color.RED);
 
       panel.add(errorLabel);
-      panel.add(errorMessage);
 
       return panel;
    }
