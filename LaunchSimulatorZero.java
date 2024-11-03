@@ -249,8 +249,11 @@ implements Runnable,Publisher,LaunchSimulator{
          this.launchingMechanism.initialize(file);
          //Can acutally get the Monitor Prelaunch 
          //this.rocket.monitorPrelaunch();
+         //RocketData rd = null;
+         //rd = this.rocket.monitorInitialization();
+         //this.notify("Initialize", rd);
          LaunchingMechanismData lm = null;
-         lm = this.launchingMechanism.monitorPrelaunch();
+         lm = this.launchingMechanism.monitorInitialization();
          //System.out.println(lm);
          this.notify("Initialize",lm);
       }

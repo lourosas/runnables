@@ -25,6 +25,10 @@ import rosas.lou.clock.*;
 
 public class GenericLaunchingMechanism implements LaunchingMechanism,
 Runnable{
+   private static final int PRELAUNCH = -1; //All 0xF's...
+   private static final int IGINTION  =  0;
+   private static final int LAUNCH    =  1;
+
    private String                 _error;
    private int                    _holds;
    private boolean                _isError;
@@ -57,7 +61,7 @@ Runnable{
    //
    //
    //
-   private boolean isError(){
+   private boolean isError(int state){
       double  edge      = Double.NaN;
       double  ul        = Double.NaN;
       double  ll        = Double.NaN;
@@ -70,28 +74,33 @@ Runnable{
       //TODO What happens if a Measurement is not good? Indicate an
       //error or not?
       if(inputGood && measGood){
-         edge = this._inputWeight * lim;
-         if(this._inputWeight < 0.){
-            edge = this._inputWeight * -lim;
-         }
-         ll = this._inputWeight - edge;
-         ul = this._inputWeight + edge;
-         if(this._measuredWeight < ll || this._measuredWeight > ul){
-            this._isError = true;
-         }
-         if(this._isError){
-            this._error += "\n";
-            this._error +="Launching Mechanism Measured Weight Error";
-            this._error += "\nMeasured: " + this._measuredWeight;
-            this._error += "\nExpected: " + this._inputWeight;
+         //Account for the State to determine errors...
+         if(state==PRELAUNCH){
+            edge = this._inputWeight * lim;
+            if(this._inputWeight < 0.){
+               edge = this._inputWeight * -lim;
+            }
+            ll = this._inputWeight - edge;
+            ul = this._inputWeight + edge;
+            if(this._measuredWeight<ll || this._measuredWeight>ul){
+               this._isError = true;
+            }
+            if(this._isError){
+               this._error += "\n";
+               this._error += "Launching Mechanism Measured Weight";
+               this._error += " Error";
+               this._error += "\nMeasured: " + this._measuredWeight;
+               this._error += "\nExpected: " + this._inputWeight;
+            }
          }
       }
       return this._isError;
    }
+
    //Measure the weight of the rocket based in terms of this
    //Mechanism...will evolve...
    //
-   public void measureWeight(){
+   private void measureWeight(){
       //Make this more complex, based on release...for now, just get
       //something working...
       //_inputWeight IS the Rocket Weight!
@@ -177,6 +186,13 @@ Runnable{
    //
    //
    //
+   public LaunchingMechanismData monitorInitialization(){
+      return this.monitorPrelaunch();
+   }
+
+   //
+   //
+   //
    public LaunchingMechanismData monitorPrelaunch(){
       LaunchingMechanismData     data     = null;
       List<MechanismSupportData> mechData = null;
@@ -186,7 +202,7 @@ Runnable{
          mechData.add(support.monitorPrelaunch());
       }
       this.measureWeight();
-      this.isError();
+      this.isError(PRELAUNCH);
       data = new GenericLaunchingMechanismData(this._error,
                                                this._holds,
                                                this._isError,
@@ -208,6 +224,13 @@ Runnable{
    //
    //
    public LaunchingMechanismData monitorLaunch(){
+      return null;
+   }
+
+   //
+   //
+   //
+   public LaunchingMechanismData monitorPostlaunch(){
       return null;
    }
 

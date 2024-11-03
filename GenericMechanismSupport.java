@@ -23,6 +23,10 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class GenericMechanismSupport implements MechanismSupport{
+   private static final int PRELAUNCH = -1;
+   private static final int IGNITION  =  0;
+   private static final int LAUNCH    =  1;
+
    private double         _angle; //In Radians!!!
    private double         _measuredAngle; //In Radians
    private int            _id;
@@ -136,14 +140,17 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    //
    //
-   private boolean isAngleError(){
+   private boolean isAngleError(int state){
       boolean isError = false;
       double lim  = 1. - this._tolerance;
       double edge = this._angle * lim;
       double ll   = this._angle - edge;
       double ul   = this._angle + edge;
-      if(this._measuredAngle < ll || this._measuredAngle > ul){
-         isError = true;
+      //Account for the State to determine errors
+      if(state  == PRELAUNCH){
+         if(this._measuredAngle < ll || this._measuredAngle > ul){
+            isError = true;
+         }
       }
       return isError;
    }
@@ -151,7 +158,7 @@ public class GenericMechanismSupport implements MechanismSupport{
    //Set the _isError boolean
    //call to determine/set the _error if _isError is true
    //
-   private boolean isError(){
+   private boolean isError(int state){
       this._isError = false; //Reset everytime...
       //Initialize the Error String every invocation, but only use it
       //upon actual error
@@ -160,7 +167,7 @@ public class GenericMechanismSupport implements MechanismSupport{
       //If out of tollerance, flag as an error...
       //Start with the Angle Measurements
       if(this._angle!=Double.NaN && this._measuredAngle!=Double.NaN){
-         this._isError = this.isAngleError();
+         this._isError = this.isAngleError(state);
          if(this._isError){
             this._error += "\nMeasured Angle Error: ";
             this._error += this._measuredAngle + ", Expected:  ";
@@ -169,7 +176,7 @@ public class GenericMechanismSupport implements MechanismSupport{
       }
       if((this._measuredForce != Double.NaN) &&
          (this._armForce != Double.NaN)){
-         this._isError = this.isForceError();
+         this._isError = this.isForceError(state);
          if(this._isError){
             this._error += "\nMeasured Weight Error:  ";
             this._error += this._measuredForce + ", Expected: ";
@@ -177,7 +184,7 @@ public class GenericMechanismSupport implements MechanismSupport{
          }
       }
       if((this._vector != null)&&(this._measuredVector != null)){
-         this._isError = this.isVectorError();
+         this._isError = this.isVectorError(state);
          if(this._isError){
             this._error += "\nMeasured Vector Error: ";
             this._error += this._measuredVector + "\n\t\tExpected: ";
@@ -191,50 +198,53 @@ public class GenericMechanismSupport implements MechanismSupport{
    //Magnitude Tollerances in addtion to the Z-direction force vs.
    //the _measuredWeight-->those two need to be in tolerance, as well
    //
-   private boolean isVectorError(){
+   private boolean isVectorError(int state){
       double edge     = Double.NaN;
       double ul       = Double.NaN;
       double ll       = Double.NaN;
       boolean isError = false;
       double  lim     = 1. - this._tolerance;
-      //first, check the i-hat direction
-      //Will need to change for the different parts...
-      edge = this._vector.x() * lim;
-      if(this._vector.x() < 0.){
-         edge = this._vector.x() * -lim;
-      }
-      ll   = this._vector.x() - edge;
-      ul   = this._vector.x() + edge;
-      if(this._measuredVector.x()<ll || this._measuredVector.x()>ul){
-         isError = true;
-      }
-      edge = this._vector.y() * lim;
-      if(this._vector.y() < 0.){
-         edge = this._vector.y() * -lim;
-      }
-      ll   = this._vector.y() - edge;
-      ul   = this._vector.y() + edge;
-      if(this._measuredVector.y()<ll || this._measuredVector.y()>ul){
-         isError = true;
-      }
-      edge = this._vector.z() * lim;
-      if(this._vector.z() < 0.){
-         edge = this._vector.z() * -lim;
-      }
-      ll   = this._vector.z() - edge;
-      ul   = this._vector.z() + edge;
-      if(this._measuredVector.z()<ll || this._measuredVector.z()>ul){
-         isError = true;
-      }
-      edge        = this._vector.magnitude() * lim;
-      if(this._vector.magnitude() < 0.){
-         edge = this._vector.magnitude() * -lim;
-      }
-      ll          = this._vector.magnitude() - edge;
-      ul          = this._vector.magnitude() + edge;
-      double mMag = this._measuredVector.magnitude();
-      if((mMag < ll) || (mMag > ul)){
-         isError = true;
+      //Account for the state to determine errors...
+      if(state == PRELAUNCH){
+         //first, check the i-hat direction
+         //Will need to change for the different parts...
+         edge = this._vector.x() * lim;
+         if(this._vector.x() < 0.){
+            edge = this._vector.x() * -lim;
+         }
+         ll = this._vector.x() - edge;
+         ul = this._vector.x() + edge;
+         if(this._measuredVector.x()<ll||this._measuredVector.x()>ul){
+            isError = true;
+         }
+         edge = this._vector.y() * lim;
+         if(this._vector.y() < 0.){
+            edge = this._vector.y() * -lim;
+         }
+         ll = this._vector.y() - edge;
+         ul = this._vector.y() + edge;
+         if(this._measuredVector.y()<ll||this._measuredVector.y()>ul){
+            isError = true;
+         }
+         edge = this._vector.z() * lim;
+         if(this._vector.z() < 0.){
+            edge = this._vector.z() * -lim;
+         }
+         ll = this._vector.z() - edge;
+         ul = this._vector.z() + edge;
+         if(this._measuredVector.z()<ll||this._measuredVector.z()>ul){
+            isError = true;
+         }
+         edge = this._vector.magnitude() * lim;
+         if(this._vector.magnitude() < 0.){
+            edge = this._vector.magnitude() * -lim;
+         }
+         ll = this._vector.magnitude() - edge;
+         ul = this._vector.magnitude() + edge;
+         double mMag = this._measuredVector.magnitude();
+         if((mMag < ll) || (mMag > ul)){
+            isError = true;
+         }
       }
       return isError;
    }
@@ -243,14 +253,17 @@ public class GenericMechanismSupport implements MechanismSupport{
    //ForceVector, but will eventually be used for comparison...
    //
    //
-   private boolean isForceError(){
+   private boolean isForceError(int state){
       boolean isError = false;
       double lim  = 1. - this._tolerance;
       double edge = this._armForce * lim;
       double ll   = this._armForce - edge;
       double ul   = this._armForce + edge;
-      if(this._measuredForce < ll || this._measuredForce > ul){
-         isError = true;
+      //Account for state to determine errors...
+      if(state == PRELAUNCH){
+         if(this._measuredForce < ll || this._measuredForce > ul){
+            isError = true;
+         }
       }
       return isError;
    }
@@ -258,12 +271,12 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    //
    //
-   private MechanismSupportData measure(){
+   private MechanismSupportData measure(int state){
       this.measureAngle();
       this.measureArm();
       this.measureForceVector();
       //After measurements, find the error...
-      this.isError();
+      this.isError(state);
       MechanismSupportData data = null;
       data = new GenericMechanismSupportData(this._measuredAngle,
                                              this._error,
@@ -333,8 +346,15 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    //
    //
+   public MechanismSupportData monitorInitialization(){
+      return null;
+   }
+
+   //
+   //
+   //
    public MechanismSupportData monitorPrelaunch(){
-      return(this.measure());
+      return(this.measure(PRELAUNCH));
    }
 
    //
@@ -348,6 +368,13 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    //
    public MechanismSupportData monitorLaunch(){
+      return null;
+   }
+
+   //
+   //
+   //
+   public MechanismSupportData monitorPostlaunch(){
       return null;
    }
 

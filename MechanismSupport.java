@@ -25,9 +25,11 @@ import rosas.lou.clock.*;
 public interface MechanismSupport{
    public int id();
    public void initialize(String file);
+   public MechanismSupportData monitorInitialization();
    public MechanismSupportData monitorPrelaunch();
    public MechanismSupportData monitorIgnition();
    public MechanismSupportData monitorLaunch();
+   public MechanismSupportData monitorPostlaunch();
    public String toString();
 }
 

@@ -134,6 +134,13 @@ public class GenericRocket implements Rocket, Runnable{
    //
    //
    //
+   public RocketData monitorInitialization(){
+      return null;
+   }
+
+   //
+   //
+   //
    public RocketData monitorPrelaunch(){
       return null;
    }
@@ -149,6 +156,13 @@ public class GenericRocket implements Rocket, Runnable{
    //
    //
    public RocketData monitorLaunch(){
+      return null;
+   }
+
+   //
+   //
+   //
+   public RocketData monitorPostlaunch(){
       return null;
    }
 
