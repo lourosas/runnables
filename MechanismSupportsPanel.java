@@ -58,6 +58,11 @@ public class MechanismSupportsPanel extends JPanel{
       }
    }
 
+   //
+   //
+   //
+   public void setUpData(java.util.List<MechanismSupportData> list){}
+
    /////////////////////////Private Methods///////////////////////////
    //
    //

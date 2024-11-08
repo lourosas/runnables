@@ -33,9 +33,9 @@ import rosas.lou.clock.*;
 
 public class LaunchSimulatorView extends GenericJFrame
 implements Subscriber, ClockSubscriber, CountdownTimerInterface{
-   private LaunchSimulatorStateSubstate.State PREL             = null;
-   private LaunchSimulatorStateSubstate.State INIT             = null;
-   private LaunchSimulatorStateSubstate.State LAUN             = null;
+   private LaunchSimulatorStateSubstate.State             PREL = null;
+   private LaunchSimulatorStateSubstate.State             INIT = null;
+   private LaunchSimulatorStateSubstate.State             LAUN = null;
    private LaunchSimulatorStateSubstate.PreLaunchSubstate SET  = null;
    private LaunchSimulatorStateSubstate.PreLaunchSubstate CONT = null;
    private LaunchSimulatorStateSubstate.PreLaunchSubstate HOLD = null;
@@ -48,6 +48,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
 
    private LaunchSimulatorController     _controller;
    private LaunchSimulatorStateSubstate  _lsss;
+   private LaunchingMechanismJFrame      _launchMechFrame;
    private ButtonGroup                   _menuButtonGroup;
 
    {
@@ -66,6 +67,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
 
       _controller      = null;
       _lsss            = null;
+      _launchMechFrame = null;
       _menuButtonGroup = null;
    };
 
@@ -348,21 +350,26 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    ){
       LaunchingMechanismDataPanel p = null;
       p = this.getLaunchingMechanismPanel();
-      java.util.List<MechanismSupportData> list = null;
-      list = lmd.supportData();
+      MechanismSupportsPanel mp     = null;
+      mp = this.getMechanismSupportsPanel();
+      java.util.List<MechanismSupportData> list = lmd.supportData();
       //Will also need to add the Mechanism Support Data,
       //and, set up another series of panels!!!
       if(state != null){
          p.setUpData(state, lmd);
          if(state.toUpperCase().contains("INITIALIZE")){
-            MechanismSupportsPanel mp = null;
-            mp = this.getMechanismSupportsPanel();
+            //this._launchMechFrame = new LaunchingMechanismJFrame();
             mp.initialize(list);
          }
       }
       else{
          p.setUpData(lmd);
+         //Will need to add the MechanismSupportsPanel here, as well
+         mp.setUpData(list);
       }
+      //this._launchMechFrame.add(p);
+      //this._launchMechFrame.add(mp);
+      //this._launchMechFrame.setVisible(true);
       if(lmd.isError()){
          this.displayLaunchingMechanismError(lmd.error());
       }
