@@ -348,14 +348,16 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       if(state != null){
          //p.setUpData(state, lmd);
          if(state.toUpperCase().contains("INITIALIZE")){
-            //this._launchMechFrame = new LaunchingMechanismJFrame();
+            this._launchMechFrame = new LaunchingMechanismJFrame();
             //mp.initialize(list);
+            this._launchMechFrame.initialize(lmd);
          }
       }
       else{
          //p.setUpData(lmd);
          //Will need to add the MechanismSupportsPanel here, as well
          //mp.setUpData(list);
+         this._launchMechFrame.setData(lmd);
       }
       //this._launchMechFrame.add(p);
       //this._launchMechFrame.add(mp);

@@ -36,18 +36,74 @@ public class LaunchingMechanismJFrame extends GenericJFrame{
       this.setUpGUI();
    }
 
+   ////////////////////////Public Methods/////////////////////////////
+   //
+   //
+   //
+   public void initialize(LaunchingMechanismData lmd){
+      this.setUpLchngMechanismData(lmd);
+      this.setUpMechSupportsData(lmd);
+      this.setVisual();
+   }
+
+   //
+   //
+   //
+   public void setData(LaunchingMechanismData lmd){}
+
 
    ////////////////////////Private Methods////////////////////////////
    //
    //
    //
+   private void setUpLchngMechanismData(LaunchingMechanismData lmd){
+      LaunchingMechanismDataPanel p = null;
+      p = new LaunchingMechanismDataPanel();
+      p.setUpData(lmd);
+      this.add(p);
+   }
+
+   //
+   //
+   //
+   private void setUpMechSupportsData(LaunchingMechanismData lmd){
+      MechanismSupportDataPanel mp = null;
+      java.util.List<MechanismSupportData> list = lmd.supportData();
+      int currentCount = 0;
+      int idx          = 0;
+      while(currentCount < list.size()){
+         MechanismSupportData data = list.get(idx);
+         ++idx;
+         if(data.id() == currentCount){
+            mp = new MechanismSupportDataPanel();
+            mp.setUpData(data);
+            this.add(mp);
+            ++currentCount;
+            idx = 0;
+         }
+      }
+   }
+
+   //
+   //
+   //
    private void setUpGUI(){
-      int WIDTH  = 425;
-      int HEIGHT = 700;
+      //int WIDTH  = 425;
+      //int HEIGHT = 700;
 
       this.setLayout(new GridLayout(0,1));
+      this.setResizable(false);
+   }
+
+   //
+   //
+   //
+   private void setVisual(){
+      int WIDTH  = 425;
+      int HEIGHT = 140*this.getContentPane().getComponentCount();
+      this.setVisible(false);
       this.setSize(WIDTH,HEIGHT);
-      //this.setResizable(false);
+      this.setVisible(true);
    }
 }
 //////////////////////////////////////////////////////////////////////
