@@ -30,7 +30,7 @@ import java.time.*;
 import myclasses.*;
 import rosas.lou.clock.*;
 
-public class LaunchingMechanismJFrame extends GenericJFrame{
+public class LaunchingMechanismJFrame extends GenericJInteractionFrame{
    ///////////////////////////Constructor/////////////////////////////
    public LaunchingMechanismJFrame(){
       this.setUpGUI();
