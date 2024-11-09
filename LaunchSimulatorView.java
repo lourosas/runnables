@@ -288,16 +288,6 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
    
    /**/
-   LaunchingMechanismDataPanel getLaunchingMechanismPanel(){
-      JPanel panel   = (JPanel)this.getContentPane().getComponent(1);
-      JPanel nwPanel = (JPanel)panel.getComponent(0);
-      LaunchingMechanismDataPanel p = null;
-      //At the moment, right below the Countdown Panel
-      p = (LaunchingMechanismDataPanel)nwPanel.getComponent(1);
-      return p;
-   }
-
-   /**/
    MechanismSupportsPanel getMechanismSupportsPanel(){
       JPanel panel   = (JPanel)this.getContentPane().getComponent(1);
       JPanel swPanel = (JPanel)panel.getComponent(2);
@@ -348,24 +338,24 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       String                 state,
       LaunchingMechanismData lmd
    ){
-      LaunchingMechanismDataPanel p = null;
-      p = this.getLaunchingMechanismPanel();
-      MechanismSupportsPanel mp     = null;
-      mp = this.getMechanismSupportsPanel();
+      //LaunchingMechanismDataPanel p = null;
+      //p = this.getLaunchingMechanismPanel();
+      //MechanismSupportsPanel mp     = null;
+      //mp = this.getMechanismSupportsPanel();
       java.util.List<MechanismSupportData> list = lmd.supportData();
       //Will also need to add the Mechanism Support Data,
       //and, set up another series of panels!!!
       if(state != null){
-         p.setUpData(state, lmd);
+         //p.setUpData(state, lmd);
          if(state.toUpperCase().contains("INITIALIZE")){
             //this._launchMechFrame = new LaunchingMechanismJFrame();
-            mp.initialize(list);
+            //mp.initialize(list);
          }
       }
       else{
-         p.setUpData(lmd);
+         //p.setUpData(lmd);
          //Will need to add the MechanismSupportsPanel here, as well
-         mp.setUpData(list);
+         //mp.setUpData(list);
       }
       //this._launchMechFrame.add(p);
       //this._launchMechFrame.add(mp);
@@ -487,7 +477,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       panel.setLayout(new GridLayout(2,2,1,1));
       panel.add(this.setUpNorthWestPanel());
       panel.add(new JPanel());
-      panel.add(this.setUpSouthWestPanel());
+      panel.add(new JPanel());
       panel.add(new JPanel());
       return panel;
    }
@@ -550,21 +540,11 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /**/
-   private JPanel setUpLaunchingMechanismPanel(){
-      return new LaunchingMechanismDataPanel();
-   }
-
-   /**/
-   private JPanel setUpMechanismsSupportsPanel(){
-      return new MechanismSupportsPanel();
-   }
-
-   /**/
    private JPanel setUpNorthWestPanel(){
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(0,1));
       panel.add(this.setUpCountdownPanel());
-      panel.add(this.setUpLaunchingMechanismPanel());
+      panel.add(new JPanel());
       return panel;
    }
 
@@ -615,14 +595,6 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       abort.setEnabled(false);
       panel.add(abort);
 
-      return panel;
-   }
-
-   /**/
-   private JPanel setUpSouthWestPanel(){
-      JPanel panel = new JPanel();
-      panel.setLayout(new GridLayout(0,1));
-      panel.add(this.setUpMechanismsSupportsPanel());
       return panel;
    }
 }
