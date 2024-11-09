@@ -88,11 +88,13 @@ public class LaunchingMechanismJFrame extends GenericJFrame{
    //
    //
    private void setUpGUI(){
-      //int WIDTH  = 425;
-      //int HEIGHT = 700;
+      int WIDTH  = 425;
+      int HEIGHT = 1100;
 
       this.setLayout(new GridLayout(0,1));
+      this.setSize(WIDTH,HEIGHT);
       this.setResizable(false);
+      this.setVisible(true);
    }
 
    //

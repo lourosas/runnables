@@ -121,7 +121,9 @@ public class MechanismSupportDataPanel extends JPanel{
    //
    private JPanel setUpForceVectorPanel(){
       JPanel panel = new JPanel();
-      
+
+      JLabel forceVectorLble  = new JLabel("Force Vector--");
+      panel.add(forceVectorLble);
       JLabel forceVectorMeas  = new JLabel("<Force Vector Value>");
       panel.add(forceVectorMeas);
 
@@ -141,14 +143,14 @@ public class MechanismSupportDataPanel extends JPanel{
       double z = fv.z();
 
       JPanel panel = (JPanel)this.getComponent(2);
-      JLabel label = (JLabel)panel.getComponent(0);
+      JLabel label = (JLabel)panel.getComponent(1);
       String xs = df.format(x);
       String ys = df.format(y);
       String zs = df.format(z);
       System.out.println(xs);
       System.out.println(ys);
       System.out.println(zs);
-      label.setText(xs+"N, "+ys+"N, "+zs+"N");
+      label.setText("x: "+xs+"N, y: "+ys+"N, z: "+zs+"N");
    }
 
    //
@@ -181,7 +183,7 @@ public class MechanismSupportDataPanel extends JPanel{
    private JPanel setUpMeasuredForcePanel(){
       JPanel panel = new JPanel();
       
-      JLabel measuredForceLabel = new JLabel("Force: ");
+      JLabel measuredForceLabel = new JLabel("Total Force: ");
       JLabel measuredForceMeas  = new JLabel("<Force Value>");
       panel.add(measuredForceLabel);
       panel.add(measuredForceMeas);
