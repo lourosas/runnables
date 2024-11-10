@@ -22,6 +22,7 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public interface RocketData{
+   public double calculatedWeight();
    public String error();
    public double emptyWeight();
    public boolean isError();

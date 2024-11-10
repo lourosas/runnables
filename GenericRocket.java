@@ -31,6 +31,8 @@ public class GenericRocket implements Rocket, Runnable{
    private String      _error;
    private boolean     _isError;
    private int         _numberOfStages;
+   //Accumulation of all the Weight of the Stages!!!
+   private double      _calculatedWeight;
    private int         _currentStage;
    private double      _emptyWeight;
    private double      _loadedWeight;
@@ -38,14 +40,15 @@ public class GenericRocket implements Rocket, Runnable{
    private String      _model;
 
    {
-      _currentStage   = -1;
-      _error          = null;
-      _isError        = false;
-      _numberOfStages = -1;
-      _emptyWeight    = Double.NaN;
-      _loadedWeight   = Double.NaN;
-      _model          = null;
-      _stages         = null;
+      _calculatedWeight = Double.NaN;
+      _currentStage     = -1;
+      _error            = null;
+      _isError          = false;
+      _numberOfStages   = -1;
+      _emptyWeight      = Double.NaN;
+      _loadedWeight     = Double.NaN;
+      _model            = null;
+      _stages           = null;
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -58,8 +61,53 @@ public class GenericRocket implements Rocket, Runnable{
    //
    //
    //
-   private boolean isError(int state){
-      return this._isError;
+   private void isCalculatedWeightError(int state){
+      if(state == PRELAUNCH){
+         double tolerance = .95; //95% of loaded weight
+         double wl = this._loadedWeight * tolerance;
+         double ul = this._loadedWeight + wl;
+         double ll = this._loadedWeight - wl;
+         if(this._calculatedWeight<ll || this._calculatedWeight>ul){
+            if(this._error == null){
+               this._error = new String("Calculated Weight Error");
+            }
+            else{
+               this._error += "\nCalculated Weight Error";
+            }
+            this._error += "\nCalculated Weight: ";
+            this._error += ""+this._calculatedWeight;
+            this._error += "\nLoaded Weight: " + this._loadedWeight;
+            this._isError = true;
+         }
+      }
+   }
+
+   //
+   //
+   //
+   private void isCurrentStageError(int state){
+      if(state == PRELAUNCH){
+         if(this._currentStage != 1){
+            if(this._error == null){
+               this._error = new String("Stage Reporting Error");
+            }
+            else{
+               this._error += "\nStage Reporting Error";
+            }
+            this._error += "\nReporting Stage: "+this._currentStage;
+            this._error += "\nExpected Stage: 1";
+            this._isError = true;
+         }
+      }
+   }
+
+   //For the given State, check to see if there is an error
+   //
+   //
+   private void isError(int state){
+      this.isCurrentStageError(PRELAUNCH);
+      this.isCalculatedWeightError(PRELAUNCH);
+      //more to come as needed...     
    }
 
    //
@@ -124,6 +172,9 @@ public class GenericRocket implements Rocket, Runnable{
    //
    //
    public void initialize(String file)throws IOException{
+      //For initialization, always set the current stage to 1 (the
+      //first stage)...
+      this._currentStage = 1;
       this.rocketData(file);
       //this.stageData(file);
    }
@@ -150,7 +201,26 @@ public class GenericRocket implements Rocket, Runnable{
    //
    //
    public RocketData monitorInitialization(){
-      return null;
+      //@TODO Monitor Initialization for all the Stages and
+      //capture the data!!!!!!
+      //Determine if there is an error
+      this.isError(PRELAUNCH);
+      List<StageData> stageData = new LinkedList<StageData>();
+      try{
+         for(int i = 0; i < this._numberOfStages; ++i){
+            stageData.add(this._stages.get(i).monitorPrelaunch());
+         }
+      }
+      catch(NullPointerException npe){}
+
+      return new GenericRocketData(this._model,
+                                    this._numberOfStages,
+                                    this._emptyWeight,
+                                    this._loadedWeight,
+                                    this._calculatedWeight,
+                                    this._isError,
+                                    this._error,
+                                    stageData);
    }
 
    //

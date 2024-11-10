@@ -247,14 +247,13 @@ implements Runnable,Publisher,LaunchSimulator{
          
          this.rocket.initialize(file);
          this.launchingMechanism.initialize(file);
-         //Can acutally get the Monitor Prelaunch 
-         //this.rocket.monitorPrelaunch();
-         //RocketData rd = null;
-         //rd = this.rocket.monitorInitialization();
-         //this.notify("Initialize", rd);
+         
+         RocketData rd = null;
+         rd = this.rocket.monitorInitialization();
+         this.notify("Initialize", rd);
+
          LaunchingMechanismData lm = null;
          lm = this.launchingMechanism.monitorInitialization();
-         //System.out.println(lm);
          this.notify("Initialize",lm);
       }
       catch(IOException ioe){

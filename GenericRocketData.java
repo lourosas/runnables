@@ -23,6 +23,7 @@ import rosas.lou.runnables.*;
 
 public class GenericRocketData implements RocketData{
    //Initialization, Launch, Countdown
+   private double                 _calculatedWeight;
    private double                 _emptyWeight;
    private String                 _error;
    private boolean                _isError;
@@ -32,13 +33,14 @@ public class GenericRocketData implements RocketData{
    private List<StageData>        _stageData;
 
    {
-      _emptyWeight     = Double.NaN;
-      _error           = null;
-      _isError         = false;
-      _loadedWeight    = Double.NaN;
-      _model           = null;
-      _numberOfStages  = -1;
-      _stageData       = null;
+      _calculatedWeight = Double.NaN;
+      _emptyWeight      = Double.NaN;
+      _error            = null;
+      _isError          = false;
+      _loadedWeight     = Double.NaN;
+      _model            = null;
+      _numberOfStages   = -1;
+      _stageData        = null;
    };
 
    //////////////////////////Constructor//////////////////////////////
@@ -51,6 +53,7 @@ public class GenericRocketData implements RocketData{
       int             numberOfStages,
       double          emptyWeight,
       double          loadedWeight,
+      double          calculatedWeight,
       boolean         isError,
       String          error,
       List<StageData> stages
@@ -59,13 +62,80 @@ public class GenericRocketData implements RocketData{
       this.numberOfStages(numberOfStages);
       this.emptyWeight(emptyWeight);
       this.loadedWeight(loadedWeight);
+      this.calculatedWeight(calculatedWeight);
       this.isError(isError);
       this.error(error);
       this.stages(stages);
    }
 
    ////////////////////////////Private Methods////////////////////////
+   //
+   //
+   //
+   private void calculatedWeight(double weight){
+      this._calculatedWeight = weight;
+   }
+
+   //
+   //
+   //
+   private void emptyWeight(double weight){
+      this._emptyWeight = weight;
+   }
+
+   //
+   //
+   //
+   private void error(String error){
+      this._error = error;
+   }
+
+   //
+   //
+   //
+   private void isError(boolean isError){
+      this._isError = isError;
+   }
+
+   //
+   //
+   //
+   private void loadedWeight(double loadedWeight){
+      this._loadedWeight = loadedWeight;
+   }
+
+   //
+   //
+   //
+   private void model(String model){
+      this._model = model;
+   }
+
+   //
+   //
+   //
+   private void numberOfStages(int num){
+      this._numberOfStages = num;
+   }
+
+   //
+   //
+   //
+   private void stages(List<StageData> data){
+      if(data != null){
+        this._stageData = data;
+      }
+   }
+
+
    //////////////RocketData Inteface Implementation///////////////////
+   //
+   //
+   //
+   public double calculatedWeight(){
+      return this._calculatedWeight;
+   }
+
    //
    //
    //
@@ -133,13 +203,14 @@ public class GenericRocketData implements RocketData{
    //
    //
    //
-   public String toString{
+   public String toString(){
       String value = new String("Empty Weight: "+this.emptyWeight());
       value += "\nError? "+this.isError();
       if(this.isError()){
          value += " Error(s): "+this.error();
       }
       value += "\nLoaded Weight: "+this.loadedWeight();
+      value += "\nCalculated Weight: "+this.calculatedWeight();
       value += "\nModel: "+ this.model();
       value += "\nNumber of Stages" + this.numberOfStages();
       try{
