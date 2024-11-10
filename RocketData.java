@@ -22,11 +22,14 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public interface RocketData{
+   public String error();
    public double emptyWeight();
+   public boolean isError();
    public double loadedWeight();
    public String model();
    public int numberOfStages();
    public StageData stage(int stage);
    public List<StageData> stages();
+   public String toString();
 }
 //////////////////////////////////////////////////////////////////////

@@ -24,20 +24,28 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public class GenericRocket implements Rocket, Runnable{
-   private int     _stages;
-   private int     _currentStage;
-   private double  _emptyWeight;
-   private double  _loadedWeight;
-   private Stage[] _theStages;
-   private String  _model;
+   private static final int PRELAUNCH = -1;
+   private static final int IGNITION  =  0;
+   private static final int LAUNCH    =  1;
+
+   private String      _error;
+   private boolean     _isError;
+   private int         _numberOfStages;
+   private int         _currentStage;
+   private double      _emptyWeight;
+   private double      _loadedWeight;
+   private List<Stage> _stages;
+   private String      _model;
 
    {
-      _stages       = -1;
-      _currentStage = -1;
-      _emptyWeight  = Double.NaN;
-      _loadedWeight = Double.NaN;
-      _model        = null;
-      _theStages    = null;
+      _currentStage   = -1;
+      _error          = null;
+      _isError        = false;
+      _numberOfStages = -1;
+      _emptyWeight    = Double.NaN;
+      _loadedWeight   = Double.NaN;
+      _model          = null;
+      _stages         = null;
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -47,6 +55,13 @@ public class GenericRocket implements Rocket, Runnable{
    public GenericRocket(){}
 
    /////////////////////////Private Methods///////////////////////////
+   //
+   //
+   //
+   private boolean isError(int state){
+      return this._isError;
+   }
+
    //
    //
    //
@@ -72,7 +87,7 @@ public class GenericRocket implements Rocket, Runnable{
       }
       if(data.containsKey("stages")){
          try{
-            this._stages = Integer.parseInt(data.get("stages"));
+            this._numberOfStages=Integer.parseInt(data.get("stages"));
          }
          catch(NumberFormatException nfe){}
          catch(NullPointerException npe){}

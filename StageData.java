@@ -24,5 +24,6 @@ import rosas.lou.runnables.*;
 public interface StageData{
    public List<EngineData> engineData();
    public FuelSystemData   fuelSystemData();
+   public String           toString();
 }
 //////////////////////////////////////////////////////////////////////
