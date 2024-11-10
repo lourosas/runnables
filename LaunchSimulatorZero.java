@@ -383,6 +383,16 @@ implements Runnable,Publisher,LaunchSimulator{
          }
       }
       catch(ClassCastException cce){}
+      try{
+         RocketData rd = (RocketData)o;
+         if(s != null){
+            this.subscriber.update(rd,s);
+         }
+         else{
+            this.subscriber.update(rd);
+         }
+      }
+      catch(ClassCastException cce){}
       catch(NullPointerException npe){
          npe.printStackTrace();
       }

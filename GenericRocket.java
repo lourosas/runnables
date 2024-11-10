@@ -61,6 +61,15 @@ public class GenericRocket implements Rocket, Runnable{
    //
    //
    //
+   private void calculateWeight(){
+      //For the time being, just set the Calculated Weight to the
+      //Loaded Weight
+      this._calculatedWeight = this._loadedWeight;
+   }
+
+   //
+   //
+   //
    private void isCalculatedWeightError(int state){
       if(state == PRELAUNCH){
          double tolerance = .95; //95% of loaded weight
@@ -69,7 +78,7 @@ public class GenericRocket implements Rocket, Runnable{
          double ll = this._loadedWeight - wl;
          if(this._calculatedWeight<ll || this._calculatedWeight>ul){
             if(this._error == null){
-               this._error = new String("Calculated Weight Error");
+               this._error = new String("\nCalculated Weight Error");
             }
             else{
                this._error += "\nCalculated Weight Error";
@@ -77,6 +86,7 @@ public class GenericRocket implements Rocket, Runnable{
             this._error += "\nCalculated Weight: ";
             this._error += ""+this._calculatedWeight;
             this._error += "\nLoaded Weight: " + this._loadedWeight;
+            this._error += "\n";
             this._isError = true;
          }
       }
@@ -89,13 +99,13 @@ public class GenericRocket implements Rocket, Runnable{
       if(state == PRELAUNCH){
          if(this._currentStage != 1){
             if(this._error == null){
-               this._error = new String("Stage Reporting Error");
+               this._error = new String("\nStage Reporting Error");
             }
             else{
                this._error += "\nStage Reporting Error";
             }
             this._error += "\nReporting Stage: "+this._currentStage;
-            this._error += "\nExpected Stage: 1";
+            this._error += "\nExpected Stage: 1\n";
             this._isError = true;
          }
       }
@@ -201,6 +211,11 @@ public class GenericRocket implements Rocket, Runnable{
    //
    //
    public RocketData monitorInitialization(){
+      //Go ahead and calculate the weight of the rocket by calculating
+      //the weight of each stage
+      
+      this.calculateWeight();
+      
       //@TODO Monitor Initialization for all the Stages and
       //capture the data!!!!!!
       //Determine if there is an error

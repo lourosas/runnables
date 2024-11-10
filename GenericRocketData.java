@@ -212,7 +212,7 @@ public class GenericRocketData implements RocketData{
       value += "\nLoaded Weight: "+this.loadedWeight();
       value += "\nCalculated Weight: "+this.calculatedWeight();
       value += "\nModel: "+ this.model();
-      value += "\nNumber of Stages" + this.numberOfStages();
+      value += "\nNumber of Stages: " + this.numberOfStages();
       try{
          for(int i = 0; i < this._stageData.size(); ++i){
             value += this._stageData.get(i).toString();
