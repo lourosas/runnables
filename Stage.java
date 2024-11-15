@@ -20,9 +20,10 @@ package rosas.lou.runnables;
 import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
+import java.io.IOException;
 
 public interface Stage{
-   public void Initialize(String file);
+   public void initialize(String file) throws IOException;
    public StageData monitorPrelaunch();
    public StageData monitorIgnition();
    public StageData monitorLaunch();

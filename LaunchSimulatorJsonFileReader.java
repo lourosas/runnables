@@ -79,6 +79,23 @@ public class LaunchSimulatorJsonFileReader{
       }
    }
 
+   //
+   //
+   //
+   public Hashtable<String,String> readStageInfo()throws IOException{
+      try{
+         Hashtable<String,String> data = null;
+         data = new Hashtable<String,String>();
+
+         String jsonData = this.grabJSONFileData();
+         return this.parseStageData(jsonData);
+      }
+      catch(IOException ioe){
+         this.closeFile();
+         throw ioe;
+      }
+   }
+
    ///////////////////////Private Methods/////////////////////////////
    //
    //
@@ -261,6 +278,32 @@ public class LaunchSimulatorJsonFileReader{
             ht.put(saves[i],new String("<no data>"));
          }
       }
+      return ht;
+   }
+
+   //
+   //
+   //
+   public Hashtable<String,String> parseStageData(String data){
+      boolean  found         = false;
+      String[] array         = data.split(",");
+      for(int i = 0; i < array.length; ++i){
+         array[i] = array[i].strip();
+      }
+      for(int i = 0; i < array.length; ++i){
+         String value = array[i];
+         if(!value.contains("stages")&&value.contains("stage")){
+            found = true;
+         }
+         if(found){
+            String values[] = value.split(":");
+            for(int j = 0; j < values.length; ++j){
+               System.out.println(values[j]);
+            }
+         }
+      }
+      Hashtable<String,String> ht = null;
+      ht = new Hashtable<String,String>();
       return ht;
    }
 

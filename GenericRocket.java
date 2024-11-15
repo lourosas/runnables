@@ -58,7 +58,7 @@ public class GenericRocket implements Rocket, Runnable{
    public GenericRocket(){}
 
    /////////////////////////Private Methods///////////////////////////
-   //
+   //Calculate the Agregate weight of all the Stages...for comparison
    //
    //
    private void calculateWeight(){
@@ -168,6 +168,20 @@ public class GenericRocket implements Rocket, Runnable{
       }
    }
 
+   //
+   //
+   //
+   private void stageData(String file)throws IOException{
+      this._stages = new LinkedList<Stage>();
+      for(int i = 0; i < this._numberOfStages; ++i){
+         //For simplicity, stages need to be positive numbers...
+         GenericStage stage = new GenericStage(i+1);
+         //Initialize the stage
+         stage.initialize(file);
+         this._stages.add(stage);
+      }
+   }
+
    //////////////////Rocket Interface Implementation//////////////////
    //
    //
@@ -186,7 +200,7 @@ public class GenericRocket implements Rocket, Runnable{
       //first stage)...
       this._currentStage = 1;
       this.rocketData(file);
-      //this.stageData(file);
+      this.stageData(file);
    }
 
    //
@@ -213,7 +227,6 @@ public class GenericRocket implements Rocket, Runnable{
    public RocketData monitorInitialization(){
       //Go ahead and calculate the weight of the rocket by calculating
       //the weight of each stage
-      
       this.calculateWeight();
       
       //@TODO Monitor Initialization for all the Stages and

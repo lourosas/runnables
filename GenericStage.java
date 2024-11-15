@@ -27,11 +27,54 @@ public class GenericStage implements Stage, Runnable{
    private int _modelNumber;
    private int _totalEngines;
 
+   {
+      _stageNumber =  -1;
+      _modelNumber =  -1;
+      _totalEngines = -1;
+   };
+
+   /////////////////////////////Constructor///////////////////////////
+   //
+   //
+   //
+   public GenericStage(int number){
+      if(number > 0){
+         this._stageNumber = number;
+      }
+   }
+
+   ///////////////////////////Private Methods/////////////////////////
+   //
+   //
+   //
+   private void setStageData(Hashtable<String,String> data){
+      //will need to figure out which Stage it is...pretty simple
+   }
+
+   //
+   //
+   //
+   private void stageData(String file)throws IOException{
+      if(file.toUpperCase().contains("INI")){
+         LaunchSimulatorIniFileReader read = null;
+         read = new LaunchSimulatorIniFileReader(file);
+      }
+      else if(file.toUpperCase().contains("JSON")){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         this.setStageData(read.readStageInfo());
+      }
+   }
+
    ///////////////////Stage Interface Implementation//////////////////
    //
    //
    //
-   public void Initialize(){}
+   public void initialize(String file)throws IOException{
+      if(this._stageNumber > -1){
+         this.stageData(file);
+      }
+   }
 
    //
    //
