@@ -148,8 +148,14 @@ public class LaunchSimulatorJsonFileReader{
    //
    //
    //
-   private Hashtable<String,String>
+   private Hashtable<String,String> 
    parseLaunchingMechanismData(String data){
+      boolean found         = data.contains("launching_mechanism");
+      if(found){
+         System.out.println(data);
+      }
+      return null;
+      /*
       boolean found               = false;
       String[] array              = data.split(",");
       String[] saves              = new String[array.length];
@@ -206,68 +212,55 @@ public class LaunchSimulatorJsonFileReader{
          }
       }
       return ht;
+      */
    }
 
    //
    //
    //
    private Hashtable<String,String> parseRocketData(String data){
-      boolean found               = false;
-      boolean ignoreStage         = false;
-      String[] array              = data.split(",");
-      String[] saves              = new String[array.length];
+      boolean found               = data.contains("rocket");
+      String  rocketS             = null;
+      String[] saves              = new String[data.length()];
       int savesCount              = 0;
       Hashtable<String,String> ht = null;
-      ht = new Hashtable<String,String>();
-
-      for(int i = 0; i < array.length; ++i){
-         array[i] = array[i].strip();
-      }
-      for(int i = 0; i < array.length; ++i){
-         String value = array[i];
-         if(value.contains("rocket")){
-            found = true;
-         }
-         if(found){
-            String[] values = value.split(":");
-            for(int j = 0; j < values.length; ++j){
-               values[j] = values[j].strip();
-            }
-            for(int k = 0; k < values.length; ++k){
-               if(values[k].contains("stage") && 
-                  !values[k].contains("stages")){
-                  ignoreStage = true;
-               }
-               if(!ignoreStage){
-                  //this is the data we want...
-                  if(!values[k].contains("rocket")){
-                     String[] temp = values[k].split("\"");
-                     for(int l = 0; l < temp.length; ++l){
-                        temp[l] = temp[l].strip();
-                        if(temp[l].length() > 0){
-                           char c = temp[l].charAt(0);
+      if(found){
+         ht = new Hashtable<String,String>();
+         String[] array = data.split("\"rocket\"");
+         for(int i = 0; i < array.length; ++i){
+            String current = array[i].strip();
+            if(current.charAt(0) == ':'){
+               int first = current.indexOf('{');
+               int sec   = current.indexOf('}');
+               current   = current.substring(first+1, sec);
+               String[] rocketdata = current.split(",");
+               for(int j = 0; j < rocketdata.length; ++j){
+                  rocketdata[j] = rocketdata[j].strip();
+                  String[] temp = rocketdata[j].split(":");
+                  for(int k = 0; k < temp.length; ++k){
+                     temp[k] = temp[k].strip();
+                     String[] sel = temp[k].split("\"");
+                     for(int l = 0; l < sel.length; ++l){
+                        sel[l] = sel[l].strip();
+                        if(sel[l].length() > 0){
+                           char c = sel[l].charAt(0);
                            if(Character.isLetter(c) ||
                               Character.isDigit(c)){
-                              saves[savesCount] = temp[l];
-                              ++savesCount;
+                              saves[savesCount] = sel[l];
                            }
+                           else{
+                              saves[savesCount] = "<no data>";
+                           }
+                           ++savesCount;
                         }
                      }
                   }
                }
-               if(values[k].indexOf(']')!=values[k].lastIndexOf(']')){
-                  if(ignoreStage){
-                     ignoreStage = false;
-                  }
-               }
-            }
-            //this is the ending point for the rocket data
-            if(value.lastIndexOf('}')==value.length()-1){
-               found = false;
+               break;
             }
          }
       }
-      for(int i = 0; i < savesCount; i+=2){
+      for(int i = 0; i < savesCount; i += 2){
          try{
             ht.put(saves[i],saves[i+1]);
          }
@@ -285,6 +278,8 @@ public class LaunchSimulatorJsonFileReader{
    //
    //
    public Hashtable<String,String> parseStageData(String data){
+      return null;
+      /*
       boolean  found         = false;
       String[] array         = data.split(",");
       for(int i = 0; i < array.length; ++i){
@@ -305,6 +300,7 @@ public class LaunchSimulatorJsonFileReader{
       Hashtable<String,String> ht = null;
       ht = new Hashtable<String,String>();
       return ht;
+      */
    }
 
    //
