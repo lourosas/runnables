@@ -151,10 +151,58 @@ public class LaunchSimulatorJsonFileReader{
    private Hashtable<String,String> 
    parseLaunchingMechanismData(String data){
       boolean found         = data.contains("launching_mechanism");
+
+      String[] saves              = new String[data.length()];
+      int savesCount              = 0;
+      Hashtable<String,String> ht = null;
       if(found){
-         System.out.println(data);
+         ht = new Hashtable<String,String>();
+         String[] array = data.split("\"launching_mechanism\"");
+         for(int i = 0; i < array.length; ++i){
+            String current = array[i].strip();
+            if(current.charAt(0) == ':'){
+               int first = current.indexOf("{");
+               int sec   = current.indexOf("}");
+               current   = current.substring(first+1, sec);
+               String[] mechData = current.split(",");
+               for(int j = 0; j < mechData.length; ++j){
+                  mechData[j] = mechData[j].strip();
+                  String[] temp = mechData[j].split(":");
+                  for(int k = 0; k < temp.length; ++k){
+                     temp[k]      = temp[k].strip();
+                     String[] sel = temp[k].split("\"");
+                     for(int l = 0; l < sel.length; ++l){
+                        sel[l] = sel[l].strip();
+                        if(sel[l].length() > 0){
+                           char c = sel[l].charAt(0);
+                           if(Character.isLetter(c) ||
+                              Character.isDigit(c) || c=='.'){
+                              saves[savesCount] = sel[l];
+                           }
+                           else{
+                              saves[savesCount] = "<no data>";
+                           }
+                           ++savesCount;
+                        }
+                     }
+                  }
+               }
+               break;
+            }
+         }
       }
-      return null;
+      for(int i = 0; i < savesCount; i+=2){
+         try{
+            ht.put(saves[i], saves[i+1]);
+         }
+         catch(ArrayIndexOutOfBoundsException e){
+            ht.put(saves[i], new String("<no data>"));
+         }
+         catch(NullPointerException npe){
+            ht.put(saves[i], new String("<no data>"));
+         }
+      }
+      return ht;
       /*
       boolean found               = false;
       String[] array              = data.split(",");
@@ -238,7 +286,7 @@ public class LaunchSimulatorJsonFileReader{
                   rocketdata[j] = rocketdata[j].strip();
                   String[] temp = rocketdata[j].split(":");
                   for(int k = 0; k < temp.length; ++k){
-                     temp[k] = temp[k].strip();
+                     temp[k]      = temp[k].strip();
                      String[] sel = temp[k].split("\"");
                      for(int l = 0; l < sel.length; ++l){
                         sel[l] = sel[l].strip();
