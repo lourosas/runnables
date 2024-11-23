@@ -307,6 +307,7 @@ implements Runnable,Publisher,LaunchSimulator{
    public void run(){
       int printCounter          = 0;
       LaunchingMechanismData md = null;
+      RocketData rd             = null;
       try{
          while(true){
             if(this.kill){
@@ -318,6 +319,7 @@ implements Runnable,Publisher,LaunchSimulator{
                //Thread.sleep(50);
                if(this.state() == PREL){
                   md = this.launchingMechanism.monitorPrelaunch();
+                  rd = this.rocket.monitorPrelaunch();
                   if(++printCounter == 100){
                      //So far, just test prints
                      System.out.println("\n"+this.stateSubstate);

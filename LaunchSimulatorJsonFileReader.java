@@ -82,11 +82,9 @@ public class LaunchSimulatorJsonFileReader{
    //
    //
    //
-   public Hashtable<String,String> readStageInfo()throws IOException{
+   public List<Hashtable<String,String>>
+   readStageInfo()throws IOException{
       try{
-         Hashtable<String,String> data = null;
-         data = new Hashtable<String,String>();
-
          String jsonData = this.grabJSONFileData();
          return this.parseStageData(jsonData);
       }
@@ -202,7 +200,6 @@ public class LaunchSimulatorJsonFileReader{
             ht.put(saves[i], new String("<no data>"));
          }
       }
-      System.out.println(ht);
       return ht;
    }
 
@@ -265,33 +262,70 @@ public class LaunchSimulatorJsonFileReader{
       return ht;
    }
 
+   //To allow for multible Stages--store the data contiguously...
    //
    //
-   //
-   public Hashtable<String,String> parseStageData(String data){
-      return null;
-      /*
-      boolean  found         = false;
-      String[] array         = data.split(",");
-      for(int i = 0; i < array.length; ++i){
-         array[i] = array[i].strip();
-      }
-      for(int i = 0; i < array.length; ++i){
-         String value = array[i];
-         if(!value.contains("stages")&&value.contains("stage")){
-            found = true;
-         }
-         if(found){
-            String values[] = value.split(":");
-            for(int j = 0; j < values.length; ++j){
-               System.out.println(values[j]);
+   private List<Hashtable<String,String>>parseStageData(String data){
+      //There will need to be some testing....
+      boolean found               = data.contains("stage");
+      List<Hashtable<String,String>> li = null;
+      if(found){
+         li = new LinkedList<Hashtable<String,String>>();
+         String array[] = data.split("\"stage\"");
+         for(int i = 0; i < array.length; ++i){
+            String[] saves = new String[data.length()];
+            int savesCount = 0;
+            Hashtable<String,String> ht = null;
+            String current = array[i].strip();
+            char char0 = current.charAt(0);
+            char char1 = current.charAt(1);
+            if(char0 == ':' && (char1 == ' '|| char1 == '{')){
+               ht = new Hashtable<String,String>();
+               int first = current.indexOf("{");
+               int sec   = current.indexOf("}");
+               current = current.substring(first+1,sec);
+               String[] stageData = current.split(",");
+               for(int j = 0; j < stageData.length; ++j){
+                  stageData[j] = stageData[j].strip();
+                  String[] temp = stageData[j].split(":");
+                  for(int k = 0; k < temp.length; ++k){
+                     temp[k]      = temp[k].strip();
+                     String[] sel = temp[k].split("\"");
+                     for(int l = 0; l < sel.length; ++l){
+                        sel[l] = sel[l].strip();
+                        if(sel[l].length() > 0){
+                           char c = sel[l].charAt(0);
+                           boolean isChar = Character.isLetter(c);
+                           boolean isNum  = Character.isDigit(c);
+                           if(isChar||isNum||c=='.'){
+                              saves[savesCount] = sel[l];
+                           }
+                           else{
+                              saves[savesCount] = "<no data>";
+                           }
+                           ++savesCount;
+                        }
+                     }
+                  }
+               }
+               for(int j = 0; j < savesCount; j += 2){
+                  try{
+                     ht.put(saves[j],saves[j+1]);
+                  }
+                  catch(ArrayIndexOutOfBoundsException e){
+                     ht.put(saves[i],new String("<no data>"));
+                  }
+                  catch(NullPointerException npe){
+                     ht.put(saves[i],new String("<no data>"));
+                  }
+               }
+               li.add(ht);
             }
          }
       }
-      Hashtable<String,String> ht = null;
-      ht = new Hashtable<String,String>();
-      return ht;
-      */
+      System.out.println(li);
+      return null;
+      //return li;
    }
 
    //

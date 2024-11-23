@@ -47,7 +47,10 @@ public class GenericStage implements Stage, Runnable{
    //
    //
    //
-   private void setStageData(Hashtable<String,String> data){
+   private void setStageData
+   (
+      List<Hashtable<String,String>> data
+   ){
       //will need to figure out which Stage it is...pretty simple
    }
 
