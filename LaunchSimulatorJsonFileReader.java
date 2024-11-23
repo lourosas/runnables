@@ -150,7 +150,7 @@ public class LaunchSimulatorJsonFileReader{
    //
    private Hashtable<String,String> 
    parseLaunchingMechanismData(String data){
-      boolean found         = data.contains("launching_mechanism");
+      boolean found = data.contains("launching_mechanism");
 
       String[] saves              = new String[data.length()];
       int savesCount              = 0;
@@ -202,65 +202,8 @@ public class LaunchSimulatorJsonFileReader{
             ht.put(saves[i], new String("<no data>"));
          }
       }
+      System.out.println(ht);
       return ht;
-      /*
-      boolean found               = false;
-      String[] array              = data.split(",");
-      String[] saves              = new String[array.length];
-      int savesCount              = 0;
-      Hashtable<String,String> ht = null;
-
-      ht = new Hashtable<String,String>();
-
-      for(int i = 0; i < array.length; ++i){
-         array[i] = array[i].strip();
-      }
-      for(int i = 0; i < array.length; ++i){
-          String value = array[i];
-          if(value.contains("launching_mechanism")){
-             found = true;
-          }
-          if(found){
-             String values[] = value.split(":");
-             for(int j = 0; j < values.length; ++j){
-                values[j] = values[j].strip();
-                if(!values[j].contains("launching_mechanism")){
-                   String[] sys = values[j].split("\"");
-                   for(int k = 0; k < sys.length; ++k){
-                      sys[k] = sys[k].strip();
-                      if(sys[k].length() > 0){
-                         char c= sys[k].charAt(0);
-                         if(Character.isLetter(c) ||
-                            Character.isDigit(c)  ||
-                            c == '.'){
-                            saves[savesCount] = sys[k];
-                            ++savesCount;
-                         }
-                      }
-                   }
-                }
-             }
-             //This is the ending point for the Launching Mechanism
-             //Data
-             if(value.lastIndexOf("}") == value.length()-1){
-                found = false;
-             }
-          }
-      }
-      for(int i = 0; i < savesCount; i += 2){
-         try{
-            ht.put(saves[i],saves[i+1]);
-         }
-         catch(ArrayIndexOutOfBoundsException e){
-            ht.put(saves[i],new String("<no data>"));
-         }
-         catch(NullPointerException npe){
-            //For the time being, keep it like this...
-            ht.put(saves[i],new String("<no data>"));
-         }
-      }
-      return ht;
-      */
    }
 
    //
