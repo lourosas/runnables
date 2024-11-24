@@ -149,7 +149,7 @@ bg=yellow</panel_attributes>
     <coordinates>
       <x>510</x>
       <y>230</y>
-      <w>1690</w>
+      <w>1430</w>
       <h>1130</h>
     </coordinates>
     <panel_attributes>loop(number of Stages)</panel_attributes>
@@ -220,7 +220,7 @@ bg=orange</panel_attributes>
     <coordinates>
       <x>770</x>
       <y>390</y>
-      <w>1380</w>
+      <w>1110</w>
       <h>950</h>
     </coordinates>
     <panel_attributes>loop(number of Engines)</panel_attributes>
@@ -300,14 +300,14 @@ ctor()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1140</x>
+      <x>830</x>
       <y>620</y>
-      <w>260</w>
+      <w>570</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 initialize(file:String)</panel_attributes>
-    <additional_attributes>240.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>550.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLFrame</id>
