@@ -323,9 +323,7 @@ public class LaunchSimulatorJsonFileReader{
             }
          }
       }
-      System.out.println(li);
-      return null;
-      //return li;
+      return li;
    }
 
    //

@@ -23,9 +23,9 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class GenericStage implements Stage, Runnable{
-   private int _stageNumber;
-   private int _modelNumber;
-   private int _totalEngines;
+   private int  _stageNumber;
+   private long _modelNumber;
+   private int  _totalEngines;
 
    {
       _stageNumber =  -1;
@@ -52,6 +52,21 @@ public class GenericStage implements Stage, Runnable{
       List<Hashtable<String,String>> data
    ){
       //will need to figure out which Stage it is...pretty simple
+      for(int i = 0; i < data.size(); ++i){
+         Hashtable<String,String> ht = data.get(i);
+         try{
+            String num = ht.get("number");
+            if(Integer.parseInt(num) == this._stageNumber){
+               this._totalEngines=Integer.parseInt(ht.get("engines"));
+               int v = Integer.parseUnsignedInt(ht.get("model"),16);
+               this._modelNumber = Integer.toUnsignedLong(v);
+               System.out.println("Model Number: "+this._modelNumber);
+               String model=String.format("0x%X",this._modelNumber);
+               System.out.println("String:  "+model);
+            }
+         }
+         catch(NumberFormatException npe){}
+      }
    }
 
    //

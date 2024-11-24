@@ -1,24 +1,24 @@
 {
    "rocket":
    {
-      "model":"<>",
-      "stages":"<>",
-      "empty_weight":"<>",
-      "loaded_weight":"<>"
+      "model":"XYZ Model",
+      "stages":"1",
+      "empty_weight":"1000000",
+      "loaded_weight":"3000000"
    },
    "launching_mechanism":
    {
-      "model":"<>",
-      "number_of_holds":"<>",
-      "angle_of_holds":"<>",
-      "holds_tolerance":"<>",
-      "total_tolerance":"<>"
+      "model":"012",
+      "number_of_holds":"4",
+      "angle_of_holds":"75",
+      "holds_tolerance":".85",
+      "total_tolerance":".9"
    },
    "stage":
    {
-      "number":"<>",
-      "engines":"<>",
-      "model":"<>"
+      "number":"1",
+      "engines":"1",
+      "model":"CAFEBABE"
    },
    "engine:":
    {

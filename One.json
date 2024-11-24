@@ -6,6 +6,7 @@
       "loaded_weight":"3000000",
       "stage":[{"number":"<Number>",
                  "model":"<Model>",
+                 "engines":"<Number>",
                  "engine":[{"number":"Engine Number","temperature":"<Temperature>","thrust":"<Thrust>","exhaustflow":"<Exhaust Flow>","fuelflow":"<Fuel Flow>"}],
                  "tank":[{"number":"<Tank Number>","fuel":"<fuel>","temperature":"<Temperature>","capacity":"<Capacity>","emptyrate":"<Empty Rate>"}],
                  "pipe":[{"number":"<Number>","type":"<Type>","temperature":"<Temperature>","rate":"<Rate>"}],
