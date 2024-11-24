@@ -23,14 +23,20 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class GenericStage implements Stage, Runnable{
-   private int  _stageNumber;
-   private long _modelNumber;
-   private int  _totalEngines;
+   private List<Engine> _engines;
+   private String       _error;
+   private int          _stageNumber;
+   private long         _modelNumber;
+   private int          _totalEngines;
+   private boolean      _isError;
 
    {
-      _stageNumber =  -1;
-      _modelNumber =  -1;
+      _engines      = null;
+      _error        = null;
+      _stageNumber  = -1;
+      _modelNumber  = -1;
       _totalEngines = -1;
+      _isError      = false;
    };
 
    /////////////////////////////Constructor///////////////////////////
@@ -47,10 +53,28 @@ public class GenericStage implements Stage, Runnable{
    //
    //
    //
+   private void engineData(String file)throws IOException{
+      for(int i = 0; i < this._totalEngines; ++i){
+         Engine engine = new GenericEngine(i+1,this._stageNumber);
+         engine.initialize(file);
+         try{
+            this._engines.add(engine);
+         }
+         catch(NullPointerException npe){
+            this._engines = new LinkedList<Engine>();
+            this._engines.add(engine);
+         }
+      }
+   }
+
+   //
+   //
+   //
    private void setStageData
    (
       List<Hashtable<String,String>> data
    ){
+      System.out.println(data);
       //will need to figure out which Stage it is...pretty simple
       for(int i = 0; i < data.size(); ++i){
          Hashtable<String,String> ht = data.get(i);
@@ -60,9 +84,6 @@ public class GenericStage implements Stage, Runnable{
                this._totalEngines=Integer.parseInt(ht.get("engines"));
                int v = Integer.parseUnsignedInt(ht.get("model"),16);
                this._modelNumber = Integer.toUnsignedLong(v);
-               System.out.println("Model Number: "+this._modelNumber);
-               String model=String.format("0x%X",this._modelNumber);
-               System.out.println("String:  "+model);
             }
          }
          catch(NumberFormatException npe){}
@@ -91,6 +112,7 @@ public class GenericStage implements Stage, Runnable{
    public void initialize(String file)throws IOException{
       if(this._stageNumber > -1){
          this.stageData(file);
+         this.engineData(file);
       }
    }
 

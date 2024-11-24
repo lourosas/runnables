@@ -45,6 +45,20 @@ public class LaunchSimulatorJsonFileReader{
    //
    //
    //
+   public List<Hashtable<String,String>>
+   readEngineDataInfo()throws IOException{
+      try{ 
+         String jsonData = this.grabJSONFileData();
+         return this.parseEngineData(jsonData);
+      }
+      catch(IOException ioe){
+         this.closeFile();
+         throw ioe;
+      }
+   }
+
+   //
+   //
    //
    public Hashtable<String,String>
    readLaunchingMechanismInfo()throws IOException{
@@ -141,6 +155,14 @@ public class LaunchSimulatorJsonFileReader{
          this.closeFile();
          throw ioe;
       }
+   }
+
+   //
+   //
+   //
+   private List<Hashtable<String,String>>
+   parseEngineData(String data){
+      return null;
    }
 
    //
