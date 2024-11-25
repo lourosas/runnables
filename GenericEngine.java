@@ -25,9 +25,10 @@ import rosas.lou.runnables.*;
 public class GenericEngine implements Engine, Runnable{
    private String  _error;
    private double  _exhaustFlow;
+   private double  _fuelFlow;
    private boolean _isError;
    private boolean _isIgnited;
-   private int     _model;
+   private long    _model;
    private int     _number;
    private int     _stage;
    private double  _temperature;
@@ -36,6 +37,7 @@ public class GenericEngine implements Engine, Runnable{
    {
       _error         = null;
       _exhaustFlow   = Double.NaN;
+      _fuelFlow      = Double.NaN;
       _isError       = false;
       _isIgnited     = false;
       _model         = -1;
@@ -65,7 +67,7 @@ public class GenericEngine implements Engine, Runnable{
    private void engineData(String file)throws IOException{
       if(file.toUpperCase().contains("INI")){
          LaunchSimulatorIniFileReader read = null;
-         read = new LaunchSimulatorInifileReader(file);
+         read = new LaunchSimulatorIniFileReader(file);
       }
       else if(file.toUpperCase().contains("JSON")){
          LaunchSimulatorJsonFileReader read = null;
@@ -81,7 +83,31 @@ public class GenericEngine implements Engine, Runnable{
    (
       List<Hashtable<String,String>> data
    ){
-   
+      System.out.println(this._stage);
+      System.out.println(this._number);
+      System.out.println(data);
+      for(int i = 0; i < data.size(); ++i){
+         Hashtable<String, String> ht = data.get(i);
+         System.out.println(ht);
+         try{
+            String num = ht.get("stage");
+            if(Integer.parseInt(num) == this._stage){
+               int x = Integer.parseUnsignedInt(ht.get("model"),16);
+               this._model = Integer.toUnsignedLong(x);
+               //System.out.println(String.format("0x%X",this._model));
+               double d = Double.parseDouble(ht.get("exhaust_flow"));
+               this._exhaustFlow = d;
+               d = Double.parseDouble(ht.get("fuel_flow"));
+               this._fuelFlow = d;
+               d = Double.parseDouble(ht.get("temperature"));
+               this._temperature = d;
+               d = Double.parseDouble(ht.get("tolerance"));
+               this._tolerance = d;
+               System.out.println(this._tolerance);
+            }
+         }
+         catch(NumberFormatException nfe){}
+      }
    }
 
    ////////////////////Engine Interface Implementation////////////////

@@ -162,7 +162,61 @@ public class LaunchSimulatorJsonFileReader{
    //
    private List<Hashtable<String,String>>
    parseEngineData(String data){
-      return null;
+      boolean found = data.contains("engine");
+      List<Hashtable<String,String>> li = null;
+      if(found){
+         li = new LinkedList<Hashtable<String,String>>();
+         String[] array = data.split("\"engine\"");
+         for(int i = 0; i < array.length; ++i){
+            String[] saves = new String[data.length()];
+            int savesCount = 0;
+            Hashtable<String,String> ht = null;
+            String current = array[i].strip();
+            char char0 = current.charAt(0);
+            char char1 = current.charAt(1);
+            if(char0==':' && (char1==' ' || char1=='{')){
+               ht = new Hashtable<String, String>();
+               int first = current.indexOf("{");
+               int sec   = current.indexOf("}");
+               current   = current.substring(first+1, sec).strip();
+               String[] engData = current.split(",");
+               for(int j = 0; j < engData.length; ++j){
+                  engData[j] = engData[j].strip();
+                  String[] temp = engData[j].split(":");
+                  for(int k = 0; k < temp.length; ++k){
+                     temp[k]=temp[k].strip();
+                     //Remove the "...from the beginning and end
+                     temp[k]=temp[k].substring(1,temp[k].length()-1);
+                     if(temp[k].length() > 0){
+                        char c = temp[k].charAt(0);
+                        boolean isChar = Character.isLetter(c);
+                        boolean isNum  = Character.isDigit(c);
+                        if(isChar || isNum || c == '.'){
+                           saves[savesCount] = temp[k];
+                        }
+                        else{
+                           saves[savesCount] = "<no data>";
+                        }
+                        ++savesCount;
+                     }
+                  }
+               }
+               for(int j = 0; j < savesCount; j += 2){
+                  try{
+                     ht.put(saves[j],saves[j+1]);
+                  }
+                  catch(ArrayIndexOutOfBoundsException e){
+                     ht.put(saves[j],new String("<no data>"));
+                  }
+                  catch(NullPointerException npe){
+                     ht.put(saves[j],new String("<no data>"));
+                  }
+               }
+               li.add(ht);
+            }
+         }
+      }
+      return li;
    }
 
    //
@@ -335,10 +389,10 @@ public class LaunchSimulatorJsonFileReader{
                      ht.put(saves[j],saves[j+1]);
                   }
                   catch(ArrayIndexOutOfBoundsException e){
-                     ht.put(saves[i],new String("<no data>"));
+                     ht.put(saves[j],new String("<no data>"));
                   }
                   catch(NullPointerException npe){
-                     ht.put(saves[i],new String("<no data>"));
+                     ht.put(saves[j],new String("<no data>"));
                   }
                }
                li.add(ht);
