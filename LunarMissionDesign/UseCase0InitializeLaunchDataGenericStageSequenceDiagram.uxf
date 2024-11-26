@@ -149,8 +149,8 @@ bg=yellow</panel_attributes>
     <coordinates>
       <x>510</x>
       <y>230</y>
-      <w>1430</w>
-      <h>1130</h>
+      <w>1250</w>
+      <h>1120</h>
     </coordinates>
     <panel_attributes>loop(number of Stages)</panel_attributes>
     <additional_attributes/>
@@ -218,10 +218,10 @@ bg=orange</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>770</x>
+      <x>740</x>
       <y>390</y>
-      <w>1110</w>
-      <h>950</h>
+      <w>750</w>
+      <h>170</h>
     </coordinates>
     <panel_attributes>loop(number of Engines)</panel_attributes>
     <additional_attributes/>
@@ -266,7 +266,7 @@ engineData(:Hashtable&lt;String,String&gt;)</panel_attributes>
     <id>UMLGeneric</id>
     <coordinates>
       <x>1270</x>
-      <y>550</y>
+      <y>570</y>
       <w>220</w>
       <h>60</h>
     </coordinates>
@@ -278,12 +278,12 @@ _:GenericFuelSystem_</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1370</x>
-      <y>600</y>
+      <y>620</y>
       <w>30</w>
-      <h>750</h>
+      <h>690</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;730.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;670.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
