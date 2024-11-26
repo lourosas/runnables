@@ -72,6 +72,14 @@ public class GenericStage implements Stage, Runnable{
    //
    //
    //
+   private void fuelSystem(String file)throws IOException{
+      this._fuelSystem = new GenericFuelSystem(this._stageNumber);
+      this._fuelSystem.initialize(file);
+   }
+
+   //
+   //
+   //
    private void setStageData
    (
       List<Hashtable<String,String>> data
@@ -115,6 +123,7 @@ public class GenericStage implements Stage, Runnable{
       if(this._stageNumber > -1){
          this.stageData(file);
          this.engineData(file);
+         this.fuelSystem(file);
       }
    }
 
