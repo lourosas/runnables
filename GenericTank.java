@@ -18,13 +18,40 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 package rosas.lou.runnables;
 
 import java.util.*;
+import java.io.*;
 import rosas.lou.runnables.*;
-import java.io.IOException;
 
-public interface FuelSystem{
-   public void initialize(String file)throws IOException;
-   public FuelSystemData monitorPrelaunch();
-   public FuelSystemData monitorIgnition();
-   public FuelSystemData monitorLaunch();
+public class GenericTank implements Tank{
+   private int _stageNumber;
+   private int _tankNumber;
+   {
+      _stageNumber = -1;
+      _tankNumber  = -1;
+   };
+
+   ///////////////////////////Constructor/////////////////////////////
+   //
+   //
+   //
+   public GenericTank(int stage, int number){
+      this._stageNumber = stage;
+      this._tankNumber  = number;
+   }
+
+   //////////////////////////Tank Interface///////////////////////////
+   //
+   //
+   //
+   public TankData monitorPrelaunch(){ return null; }
+
+   //
+   //
+   //
+   public TankData monitorIgnition(){ return null; }
+
+   //
+   //
+   //
+   public TankData monitorLaunch(){ return null; }
 }
 //////////////////////////////////////////////////////////////////////

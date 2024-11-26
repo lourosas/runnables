@@ -17,14 +17,47 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 package rosas.lou.runnables;
 
+import java.lang.*;
 import java.util.*;
+import java.io.*;
 import rosas.lou.runnables.*;
-import java.io.IOException;
 
-public interface FuelSystem{
-   public void initialize(String file)throws IOException;
-   public FuelSystemData monitorPrelaunch();
-   public FuelSystemData monitorIgnition();
-   public FuelSystemData monitorLaunch();
+public class GenericFuelSystem implements FuelSystem{
+   private int _stageNumber;
+
+   {
+      _stageNumber = -1;
+   };
+
+   ////////////////////////////Constructor////////////////////////////
+   //
+   //
+   //
+   public GenericFuelSystem(int stage){
+      if(stage > 0){
+         this._stageNumber = stage;
+      }
+   }
+   
+   /////////////////Fuel System Interface Implementation//////////////
+   //
+   //
+   //
+   public void initialize(String file)throws IOException{}
+
+   //
+   //
+   //
+   public FuelSystemData monitorPrelaunch(){ return null; }
+
+   //
+   //
+   //
+   public FuelSystemData monitorIgnition(){ return null; }
+
+   //
+   //
+   //
+   public FuelSystemData monitorLaunch(){ return null; }
 }
 //////////////////////////////////////////////////////////////////////

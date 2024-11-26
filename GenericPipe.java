@@ -17,14 +17,37 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 package rosas.lou.runnables;
 
-import java.util.*;
-import rosas.lou.runnables.*;
-import java.io.IOException;
+public class GenericPipe implements Pipe{
+   int _stage;
+   int _number;
 
-public interface FuelSystem{
-   public void initialize(String file)throws IOException;
-   public FuelSystemData monitorPrelaunch();
-   public FuelSystemData monitorIgnition();
-   public FuelSystemData monitorLaunch();
+   {
+      _stage  = -1;
+      _number = -1;
+   };
+   ///////////////////////////Constructor/////////////////////////////
+   //
+   //
+   //
+   public GenericPipe(int stage, int number){
+      this._stage  = stage;
+      this._number = number;
+   }
+
+   //////////////////////Pipe Interface Implementation////////////////
+   //
+   //
+   //
+   public PipeData monitorPrelaunch(){  return null; }
+
+   //
+   //
+   //
+   public PipeData monitorIgnition(){ return null; }
+
+   //
+   //
+   //
+   public PipeData monitorLaunch(){ return null; }
 }
 //////////////////////////////////////////////////////////////////////
