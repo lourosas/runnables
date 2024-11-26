@@ -20,17 +20,16 @@
       "engines":"1",
       "model":"CAFEBABE"
    },
-   "engine:":
+   "engine":
    {
-      "model":"<>",
-      "number":"<>",
-      "stage":"<>",
-      "fuel_flow":"<>",
-      "temperature":"<>",
-      "exhaust_flow":<>,
-      "tolerance":"<>"
+      "model":"FACE",
+      "stage":"1",
+      "exhaust_flow":"1200",
+      "fuel_flow":"789.65",
+      "temperature":"8500",
+      "tolerance":".85"
    },
-   "tank:":
+   "tank":
    {
       "model":"<>",
       "number":"<>",
