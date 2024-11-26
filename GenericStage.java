@@ -23,16 +23,18 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class GenericStage implements Stage, Runnable{
-   private List<Engine> _engines;
-   private String       _error;
-   private int          _stageNumber;
-   private long         _modelNumber;
-   private int          _totalEngines;
-   private boolean      _isError;
+   private List<Engine>  _engines;
+   private String        _error;
+   private FuelSystem    _fuelSystem;
+   private int           _stageNumber;
+   private long          _modelNumber;
+   private int           _totalEngines;
+   private boolean       _isError;
 
    {
       _engines      = null;
       _error        = null;
+      _fuelSystem   = null;
       _stageNumber  = -1;
       _modelNumber  = -1;
       _totalEngines = -1;
