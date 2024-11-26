@@ -73,7 +73,9 @@ public class GenericStage implements Stage, Runnable{
    //
    //
    private void fuelSystem(String file)throws IOException{
-      this._fuelSystem = new GenericFuelSystem(this._stageNumber);
+      int stage = this._stageNumber;
+      int engs  = this._totalEngines;
+      this._fuelSystem = new GenericFuelSystem(stage,engs);
       this._fuelSystem.initialize(file);
    }
 

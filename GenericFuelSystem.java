@@ -23,19 +23,37 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class GenericFuelSystem implements FuelSystem{
-   private int _stageNumber;
+   
+   private int        _stageNumber;
+   private int        _engines;
+   private Tank       _fuel;
+   private Tank       _oxidizer;
+   private List<Pipe> _pipes;
+   private Pump       _oxidizerPump;
+   private Pump       _fuelPump;
 
    {
-      _stageNumber = -1;
+      _engines       = -1;
+      _stageNumber   = -1;
+      _fuel          = null;
+      _oxidizer      = null;
+      _pipes         = null;
+      _oxidizerPump  = null;
+      _fuelPump      = null;
    };
 
    ////////////////////////////Constructor////////////////////////////
    //
    //
    //
-   public GenericFuelSystem(int stage){
+   public GenericFuelSystem(int stage, int engines){
+      //At least one pipe per each tank feeding the engines...
       if(stage > 0){
          this._stageNumber = stage;
+      }
+      if(engines > 0){
+         //Needed to determine the number of pipes...
+         this._engines = engines;
       }
    }
    
@@ -43,7 +61,9 @@ public class GenericFuelSystem implements FuelSystem{
    //
    //
    //
-   public void initialize(String file)throws IOException{}
+   public void initialize(String file)throws IOException{
+      System.out.println("Fuel System:  "+file);
+   }
 
    //
    //
