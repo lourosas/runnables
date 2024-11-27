@@ -437,11 +437,43 @@ public class LaunchSimulatorJsonFileReader{
                ht = new Hashtable<String,String>();
                int first = current.indexOf("{");
                int sec   = current.indexOf("}");
+               current   = current.substring(first+1,sec);
+               String[] tankData = current.split(",");
+               for(int j = 0; j < tankData.length; ++j){
+                  tankData[j]   = tankData[j].strip();
+                  String[] temp = tankData[j].split(":");
+                  for(int k = 0; k < temp.length; ++k){
+                     temp[k]=temp[k].substring(1,temp[k].length()-1);
+                     if(temp[k].length() > 0){
+                        char c = temp[k].charAt(0);
+                        boolean isChar = Character.isLetter(c);
+                        boolean isNum  = Character.isDigit(c);
+                        if(isChar || isNum ||c == '.'){
+                           saves[savesCount] = temp[k];
+                        }
+                        else{
+                           saves[savesCount] = "<no data>";
+                        }
+                        ++savesCount;
+                     }
+                  }
+               }
+               for(int j = 0; j < savesCount; j += 2){
+                  try{
+                     ht.put(saves[j],saves[j+1]);
+                  }
+                  catch(ArrayIndexOutOfBoundsException e){
+                     ht.put(saves[j],"<no data>");
+                  }
+                  catch(NullPointerException npe){
+                     ht.put(saves[j],"<no data>");
+                  }
+               }
+               li.add(ht);
             }
          }
       }
-      return null;
-      //return li;
+      return li;
    }
 
    //
