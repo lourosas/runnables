@@ -56,6 +56,28 @@ public class GenericFuelSystem implements FuelSystem{
          this._engines = engines;
       }
    }
+
+   ////////////////////Private Methods////////////////////////////////
+   //
+   //
+   //
+   private void setUpPipes(String file)throws IOException{
+      System.out.println("Pipes: " + file);
+   }
+
+   //
+   //
+   //
+   private void setUpPumps(String file)throws IOException{
+      System.out.println("Pumps: " + file);
+   }
+
+   //
+   //
+   //
+   private void setUpTanks(String file)throws IOException{
+      System.out.println("Tanks: "+file);
+   }
    
    /////////////////Fuel System Interface Implementation//////////////
    //
@@ -63,6 +85,9 @@ public class GenericFuelSystem implements FuelSystem{
    //
    public void initialize(String file)throws IOException{
       System.out.println("Fuel System:  "+file);
+      this.setUpTanks(file);
+      this.setUpPumps(file);
+      this.setUpPipes(file);
    }
 
    //
