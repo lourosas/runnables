@@ -34,11 +34,50 @@ public class GenericTank implements Tank{
    //
    //
    public GenericTank(int stage, int number){
-      this._stageNumber = stage;
-      this._tankNumber  = number;
+      if(stage > 0){
+         this._stageNumber = stage;
+      }
+      if(number > 0){
+         this._tankNumber  = number;
+      }
    }
 
    //////////////////////////Tank Interface///////////////////////////
+   //
+   //
+   //
+   private void setTankData
+   (
+      List<Hashtable<String,String>> data
+   ){
+      System.out.println(data);
+   }
+
+   //
+   //
+   //
+   private void tankData(String file)throws IOException{
+      if(file.toUpperCase().contains("INI")){
+         LaunchSimulatorIniFileReader read = null;
+         read = new LaunchSimulatorIniFileReader(file);
+      }
+      else if(file.toUpperCase().contains("JSON")){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         this.setTankData(read.readTankDataInfo());
+      }
+   }
+
+   ///////////////////////Tank Interface Methods//////////////////////
+   //
+   //
+   //
+   public void initialize(String file)throws IOException{
+      if(this._stageNumber > 0 && this._tankNumber > 0){
+         this.tankData(file);
+      }
+   }
+
    //
    //
    //

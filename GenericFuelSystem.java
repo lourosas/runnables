@@ -76,7 +76,12 @@ public class GenericFuelSystem implements FuelSystem{
    //
    //
    private void setUpTanks(String file)throws IOException{
-      System.out.println("Tanks: "+file);
+      //Allow for the possibility the data is different based on the
+      //tank...
+      this._fuel     = new GenericTank(this._stageNumber, 1);
+      this._oxidizer = new GenericTank(this._stageNumber, 2);
+      this._fuel.initialize(file);
+      this._oxidizer.initialize(file);
    }
    
    /////////////////Fuel System Interface Implementation//////////////

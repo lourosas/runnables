@@ -22,7 +22,7 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public interface Pipe{
-   public void initialization(String file)throws IOException;
+   public void initialize(String file)throws IOException;
    public PipeData monitorPrelaunch();
    public PipeData monitorIgnition();
    public PipeData monitorLaunch();

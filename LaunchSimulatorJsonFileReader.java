@@ -108,6 +108,21 @@ public class LaunchSimulatorJsonFileReader{
       }
    }
 
+   //
+   //
+   //
+   public List<Hashtable<String,String>>
+   readTankDataInfo()throws IOException{
+      try{
+         String jsonData = this.grabJSONFileData();
+         return this.parseTankData(jsonData);
+      }
+      catch(IOException ioe){
+         this.closeFile();
+         throw ioe;
+      }
+   }
+
    ///////////////////////Private Methods/////////////////////////////
    //
    //
@@ -400,6 +415,33 @@ public class LaunchSimulatorJsonFileReader{
          }
       }
       return li;
+   }
+
+   //
+   //
+   //
+   private List<Hashtable<String,String>>parseTankData(String data){
+      boolean found                     = data.contains("tank");
+      List<Hashtable<String,String>> li = null;
+      if(found){
+         li = new LinkedList<Hashtable<String,String>>();
+         String[] array = data.split("\"tank\"");
+         for(int i = 0; i < array.length; ++i){
+            String[] saves = new String[data.length()];
+            int savesCount = 0;
+            Hashtable<String,String> ht = null;
+            String current = array[i].strip();
+            char char0     = current.charAt(0);
+            char char1     = current.charAt(1);
+            if(char0 == ':' && (char1 == ' '|| char1 == '{')){
+               ht = new Hashtable<String,String>();
+               int first = current.indexOf("{");
+               int sec   = current.indexOf("}");
+            }
+         }
+      }
+      return null;
+      //return li;
    }
 
    //
