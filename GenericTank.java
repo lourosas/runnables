@@ -51,6 +51,11 @@ public class GenericTank implements Tank{
       List<Hashtable<String,String>> data
    ){
       System.out.println(data);
+      //Get the Stage and Tank numbers for comparison
+      for(int i = 0; i < data.size(); ++i){
+         Hashtable<String,String> ht = data.get(i);
+         System.out.println(ht);
+      }
    }
 
    //
