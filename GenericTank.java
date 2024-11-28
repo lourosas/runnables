@@ -22,11 +22,24 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class GenericTank implements Tank{
-   private int _stageNumber;
-   private int _tankNumber;
+   private double  _capacity;
+   private String  _fuel;
+   private long    _model;
+   private double  _emptyRate;
+   private int     _stageNumber;
+   private int     _tankNumber;
+   private double  _temperature;
+   private double  _tolerance;
+
    {
-      _stageNumber = -1;
-      _tankNumber  = -1;
+      _capacity     = Double.NaN;
+      _fuel         = null;
+      _model        = -1;
+      _emptyRate    = Double.NaN;
+      _stageNumber  = -1;
+      _tankNumber   = -1;
+      _temperature  = Double.NaN;
+      _tolerance    = Double.NaN;
    };
 
    ///////////////////////////Constructor/////////////////////////////
@@ -55,13 +68,13 @@ public class GenericTank implements Tank{
       for(int i = 0; i < data.size(); ++i){
          Hashtable<String,String> ht = data.get(i);
          try{
-            String s = ht.get("stage");
-            int stage = Integer.parseInt(s);
+            int stage = Integer.parseInt(ht.get("stage"));
             int num   = Integer.parseInt(ht.get("number"));
-            System.out.println("Number: "+ num);
+            if((stage==this._stageNumber) && (num==this._tankNumber)){
+               System.out.println("Hashtable: "+ht);
+            }
          }
          catch(NumberFormatException nfe){}
-         System.out.println(ht);
       }
    }
 
