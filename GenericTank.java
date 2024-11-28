@@ -54,6 +54,13 @@ public class GenericTank implements Tank{
       //Get the Stage and Tank numbers for comparison
       for(int i = 0; i < data.size(); ++i){
          Hashtable<String,String> ht = data.get(i);
+         try{
+            String s = ht.get("stage");
+            int stage = Integer.parseInt(s);
+            int num   = Integer.parseInt(ht.get("number"));
+            System.out.println("Number: "+ num);
+         }
+         catch(NumberFormatException nfe){}
          System.out.println(ht);
       }
    }
