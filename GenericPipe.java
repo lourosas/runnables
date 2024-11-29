@@ -17,28 +17,31 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 package rosas.lou.runnables;
 
-public class GenericPipe implements Pipe{
-   int _stage;
-   int _number;
+import java.lang.*;
+import java.util.*;
+import rosas.lou.runnables.*;
 
-   {
-      _stage  = -1;
-      _number = -1;
-   };
+public class GenericPipe implements Pipe{
+   private int _tank;  //Tank Number (1,2)
+   private int _stage; //Stage Number (1...total stages)
+   private int _pipe;  //Pipe Number for the Tank (1,2)
+
    ///////////////////////////Constructor/////////////////////////////
    //
    //
    //
-   public GenericPipe(int stage, int number){
-      this._stage  = stage;
-      this._number = number;
+   public GenericPipe(int tank, int stage, int pipe){
    }
+   ////////////////////Pipe Interface Implementation//////////////////
+   //
+   //
+   //
+   public void initialize(String file)throws IOException{}
 
-   //////////////////////Pipe Interface Implementation////////////////
    //
    //
    //
-   public PipeData monitorPrelaunch(){  return null; }
+   public PipeData monitorPrelaunch(){ return null; }
 
    //
    //

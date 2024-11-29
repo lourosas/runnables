@@ -62,6 +62,23 @@ public class GenericFuelSystem implements FuelSystem{
    //
    //
    private void setUpPipes(String file)throws IOException{
+      //Two Pipes Per Engine, per Stage, per Tank
+      for(int i = 0; i < this._engines; ++i){
+         //Tank
+         for(int j = 0; j < 2; ++j){
+            //Pipe
+            for(int k = 0; k < 2; ++k){
+               Pipe p = new GenericPipe(j+1,this._stageNumber,k+1);
+               try{
+                  this._pipes.add(p);
+               }
+               catch(NullPointerException npe){
+                  this._pipes = new LinkedList<Pipe>();
+                  this._pipes.add(p);
+               }
+            }
+         }
+      }
       System.out.println("Pipes: " + file);
    }
 
