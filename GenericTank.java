@@ -63,7 +63,6 @@ public class GenericTank implements Tank{
    (
       List<Hashtable<String,String>> data
    ){
-      System.out.println(data);
       //Get the Stage and Tank numbers for comparison
       for(int i = 0; i < data.size(); ++i){
          Hashtable<String,String> ht = data.get(i);
@@ -71,7 +70,17 @@ public class GenericTank implements Tank{
             int stage = Integer.parseInt(ht.get("stage"));
             int num   = Integer.parseInt(ht.get("number"));
             if((stage==this._stageNumber) && (num==this._tankNumber)){
-               System.out.println("Hashtable: "+ht);
+               int x = Integer.parseUnsignedInt(ht.get("model"),16);
+               this._model = Integer.toUnsignedLong(x);
+               double d = Double.parseDouble(ht.get("capacity"));
+               this._capacity = d;
+               this._fuel = ht.get("fuel");
+               d = Double.parseDouble(ht.get("rate"));
+               this._emptyRate = d;
+               d = Double.parseDouble(ht.get("temperature"));
+               this._temperature = d;
+               d = Double.parseDouble(ht.get("tolerance"));
+               this._tolerance = d;
             }
          }
          catch(NumberFormatException nfe){}
