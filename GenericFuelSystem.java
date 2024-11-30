@@ -29,8 +29,8 @@ public class GenericFuelSystem implements FuelSystem{
    private Tank       _fuel;
    private Tank       _oxidizer;
    private List<Pipe> _pipes;
-   private Pump       _oxidizerPump;
    private Pump       _fuelPump;
+   private Pump       _oxidizerPump;
 
    {
       _engines       = -1;
@@ -64,10 +64,11 @@ public class GenericFuelSystem implements FuelSystem{
    private void setUpPipes(String file)throws IOException{
       //Two Pipes Per Engine, per Stage, per Tank
       for(int i = 0; i < this._engines; ++i){
-         //Tank
+         //Tanks--For this Fuel System, the Tanks are assumed to be
+         //two!
          for(int j = 0; j < 2; ++j){
             System.out.println("Stage Number: "+this._stageNumber);
-            //Pipe                   tank,stage,engine
+            //Pipe,tank,stage,engine
             Pipe p = new GenericPipe(j+1,this._stageNumber,i+1);
             p.initialize(file);
             try{
@@ -86,6 +87,10 @@ public class GenericFuelSystem implements FuelSystem{
    //
    private void setUpPumps(String file)throws IOException{
       System.out.println("Pumps: " + file);
+      this._fuelPump     = new GenericPump(this._stageNumber, 1);
+      this._oxidizerPump = new GenericPump(this._stageNumber, 2);
+      this._fuelPump.initialize(file);
+      this._oxidizerPump.initialize(file);
    }
 
    //

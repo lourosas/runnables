@@ -23,12 +23,18 @@ import java.io.IOException;
 import rosas.lou.runnables.*;
 
 public class GenericPump implements Pump{
-   private int _stage;
-   private int _tank;
+   private int    _stage;
+   private int    _tank;
+   private double _rate;
+   private double _temperature;
+   private double _tolerance;
 
    {
-      _stage = -1;
-      _tank  = -1;
+      _stage       = -1;
+      _tank        = -1;
+      _rate        = Double.NaN;
+      _temperature = Double.NaN;
+      _tolerance   = Double.NaN;
    };
 
    ////////////////////////////Constructor////////////////////////////
@@ -44,12 +50,51 @@ public class GenericPump implements Pump{
       }
    }
 
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void pumpData(String file)throws IOException{
+      if(file.toUpperCase().contains("INI")){
+         LaunchSimulatorIniFileReader read = null;
+         read = new LaunchSimulatorIniFileReader(file);
+      }
+      else if(file.toUpperCase().contains("JSON")){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         this.setPumpData(read.readPumpDataInfo());
+      }
+   }
+
+   //
+   //
+   //
+   private void setPumpData(List<Hashtable<String,String>> data){
+      for(int i = 0; i < data.size(); ++i){
+         Hashtable<String,String> ht = data.get(i);
+         try{
+            int stage = Integer.parseInt(ht.get("stage"));
+            int tank  = Integer.parseInt(ht.get("tanknumber"));
+            if((this._tank == tank) && (this._stage == stage)){
+               System.out.println("Pump: "+ht);
+               this._rate = Double.parseDouble(ht.get("rate"));
+               Double d   = Double.parseDouble(ht.get("temperature"));
+               this._temperature = d;
+               d = Double.parseDouble(ht.get("tolerance"));
+               this._tolerance = d;
+            }
+         }
+         catch(NumberFormatException nfe){}
+      }
+   }
+
    ///////////////////Pump Interface Implementation///////////////////
    //
    //
    //
-   public void initialization(String file)throws IOExcpetion{
+   public void initialize(String file)throws IOException{
       if((this._stage > 0) && (this._tank > 0)){
+         this.pumpData(file);
       }
    }
 

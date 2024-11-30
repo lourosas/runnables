@@ -2,7 +2,7 @@
    "rocket":
    {
       "model":"XYZ Model",
-      "stages":"1",
+      "stages":"2",
       "empty_weight":"1000000",
       "loaded_weight":"3000000"
    },
@@ -135,5 +135,21 @@
       "rate":"75",
       "temperature":"250",
       "tolerance":".9"
+   },
+   "pump":
+   {
+      "stage":"2",
+      "tanknumber":"1",
+      "rate":"60",
+      "temperature":"120",
+      "tolerance":".93"
+   },
+   "pump":
+   {
+      "stage":"2",
+      "tanknumber":"2",
+      "rate":"45",
+      "temperature":"250",
+      "tolerance":".7"
    }
 }

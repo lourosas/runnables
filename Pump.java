@@ -22,7 +22,7 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public interface Pump{
-   public void initialization(String file)throws IOException;
+   public void initialize(String file)throws IOException;
    public PumpData monitorPrelaunch();
    public PumpData monitorIgnition();
    public PumpData monitorLaunch();

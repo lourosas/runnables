@@ -71,10 +71,7 @@ public class GenericPipe implements Pipe{
    //
    //
    //
-   private void setPipeData
-   (
-      List<Hashtable<String,String>> data 
-   ){
+   private void setPipeData(List<Hashtable<String,String>> data ){
       System.out.println("Pipes: "+data);
       for(int i = 0; i < data.size(); ++i){
          Hashtable<String,String> ht = data.get(i);
