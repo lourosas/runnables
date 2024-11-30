@@ -1,22 +1,13 @@
 {
    "rocket":{
-      "model":"XYZ Model",
-      "stages":"1",
-      "empty_weight":"1000000",
-      "loaded_weight":"3000000",
-      "stage":[{"number":"<Number>",
-                 "model":"<Model>",
-                 "engine":[{"number":"Engine Number","temperature":"<Temperature>","thrust":"<Thrust>","exhaustflow":"<Exhaust Flow>","fuelflow":"<Fuel Flow>"}],
-                 "tank":[{"number":"<Tank Number>","fuel":"<fuel>","temperature":"<Temperature>","capacity":"<Capacity>","emptyrate":"<Empty Rate>"}],
-                 "pipe":[{"number":"<Number>","type":"<Type>","temperature":"<Temperature>","rate":"<Rate>"}],
-                 "pump":[{"number":"<Number>","type":"<Type>","temperature":"<Temperature>","rate":"<Rate>"}]
-              }]
-   },
+      "model":"<Model>"
+      "stages":"<Stages>"
+      "empty_weight":"<Empty Weight>"
+      "full_weight":"<Full Weight>"
+   }
    "launching_mechanism":{
-      "model":"<Model>",
-      "number_of_holds":"<Number of Holds>",
-      "angle_of_holds":"<Angle of Holds>",
-      "holds_tollerance":"<Holds Tollerance>",
-      "total_tollerance":"<Total Tollerance>"
+      "model":"<Model>"
+      "number_of_holds":"<Number of Holds>"
+      "angle_of_holds":"<Angle of Holds>"
    }
 }

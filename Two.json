@@ -2,7 +2,7 @@
    "rocket":
    {
       "model":"XYZ Model",
-      "stages":"1",
+      "stages":"2",
       "empty_weight":"1000000",
       "loaded_weight":"3000000"
    },
@@ -20,6 +20,12 @@
       "engines":"1",
       "model":"CAFEBABE"
    },
+   "stage":
+   {
+      "number":"2",
+      "engines":"1",
+      "model":"BABEDEAD"
+   },
    "engine":
    {
       "model":"FACE",
@@ -29,23 +35,90 @@
       "temperature":"8500",
       "tolerance":".85"
    },
+   "engine":
+   {
+      "model":"F3CE",
+      "stage":"2",
+      "exhaust_flow":"1200",
+      "fuel_flow":"789.65",
+      "temperature":"8500",
+      "tolerance":".85"
+   },
    "tank":
    {
-      "model":"<>",
-      "number":"<>",
-      "stage":"<>",
-      "fuel":"<>",
-      "rate":"<>",
-      "temperature":"<>",
-      "tolerance":"<>"
+      "model":"DEAD",
+      "number":"1",
+      "stage":"1",
+      "capacity":"350000",
+      "fuel":"Hydrogen",
+      "rate":"2550",
+      "temperature":"150",
+      "tolerance":".9"
+   },
+   "tank":
+   {
+      "model":"BEAF",
+      "number":"2",
+      "stage":"1",
+      "capacity":"350000",
+      "fuel":"Oxidizer",
+      "rate":"1250",
+      "temperature":"200",
+      "tolerance":".95"
+   },
+   "tank":
+   {
+      "model":"FDEAD",
+      "number":"1",
+      "stage":"2",
+      "capacity":"350000",
+      "fuel":"Hydrogen",
+      "rate":"2550",
+      "temperature":"150",
+      "tolerance":".9"
+   },
+   "tank":
+   {
+      "model":"DBEAF",
+      "number":"2",
+      "stage":"2",
+      "capacity":"250000",
+      "fuel":"Oxidizer",
+      "rate":"1350",
+      "temperature":"200",
+      "tolerance":".95"
    },
    "pipe":
    {
-      "number":"<>",
-      "stage":"<>",
-      "rate":"<>",
-      "temperature":"<>",
-      "tolerance":"<>"
+      "stage":"1",
+      "tanknumber":"1",
+      "rate":"200",
+      "temperature":"100",
+      "tolerance":".95"
+   },
+   "pipe":
+   {
+      "stage":"1",
+      "tanknumber":"2",
+      "rate":"100",
+      "temperature":"150",
+      "tolerance":".9"
+   },
+   "pipe":
+   {
+      "stage":"2",
+      "tanknumber":"1",
+      "rate":"200",
+      "temperature":"100",
+      "tolerance":".95"
+   },
+   "pipe":
+   {
+      "stage":"2",
+      "tanknumber":"2",
+      "rate":"100",
+      "temperature":"150",
+      "tolerance":".9"
    },
    "pump":
    {
