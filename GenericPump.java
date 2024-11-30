@@ -18,32 +18,40 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 package rosas.lou.runnables;
 
 import java.lang.*;
-import java.io.*;
+import java.util.*;
+import java.io.IOException;
 import rosas.lou.runnables.*;
 
 public class GenericPump implements Pump{
    private int _stage;
-   private int _number;
+   private int _tank;
 
    {
-      _stage  = -1;
-      _number = -1;
+      _stage = -1;
+      _tank  = -1;
    };
 
-   ///////////////////////////Constructor/////////////////////////////
+   ////////////////////////////Constructor////////////////////////////
    //
    //
    //
-   public GenericPump(int stage, int number){
-      this._stage  = stage;
-      this._number = number;
+   public GenericPump(int stage, int tank){
+      if(stage > 0){
+         this._stage = stage;
+      }
+      if(tank > 0){
+         this._tank = tank;
+      }
    }
 
-   //////////////////Pump Interface Implementation////////////////////
+   ///////////////////Pump Interface Implementation///////////////////
    //
    //
    //
-   public void initialization(String file)throws IOException{}
+   public void initialization(String file)throws IOExcpetion{
+      if((this._stage > 0) && (this._tank > 0)){
+      }
+   }
 
    //
    //

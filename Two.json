@@ -2,7 +2,7 @@
    "rocket":
    {
       "model":"XYZ Model",
-      "stages":"2",
+      "stages":"1",
       "empty_weight":"1000000",
       "loaded_weight":"3000000"
    },
@@ -46,9 +46,9 @@
    },
    "tank":
    {
-      "model":"DEAD",
-      "number":"1",
       "stage":"1",
+      "number":"1",
+      "model":"DEAD",
       "capacity":"350000",
       "fuel":"Hydrogen",
       "rate":"2550",
@@ -57,9 +57,9 @@
    },
    "tank":
    {
-      "model":"BEAF",
-      "number":"2",
       "stage":"1",
+      "number":"2",
+      "model":"BEAF",
       "capacity":"350000",
       "fuel":"Oxidizer",
       "rate":"1250",
@@ -68,9 +68,9 @@
    },
    "tank":
    {
-      "model":"FDEAD",
-      "number":"1",
       "stage":"2",
+      "number":"1",
+      "model":"FDEAD",
       "capacity":"350000",
       "fuel":"Hydrogen",
       "rate":"2550",
@@ -79,9 +79,9 @@
    },
    "tank":
    {
-      "model":"DBEAF",
-      "number":"2",
       "stage":"2",
+      "number":"2",
+      "model":"DBEAF",
       "capacity":"250000",
       "fuel":"Oxidizer",
       "rate":"1350",
@@ -122,10 +122,18 @@
    },
    "pump":
    {
-      "number":"<>",
-      "stage":"<>",
-      "rate":"<>",
-      "temperature":"<>",
-      "tolerance":"<>"
+      "stage":"1",
+      "tanknumber":"1",
+      "rate":"50",
+      "temperature":"150",
+      "tolerance":".95"
+   },
+   "pump":
+   {
+      "stage":"1",
+      "tanknumber":"2",
+      "rate":"75",
+      "temperature":"250",
+      "tolerance":".9"
    }
 }
