@@ -340,14 +340,14 @@ add(:MechnaismSupport)</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>350</x>
+      <x>340</x>
       <y>650</y>
-      <w>330</w>
+      <w>350</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-rocketData=monitorPrelaunch():RocketData</panel_attributes>
-    <additional_attributes>310.0;20.0;10.0;20.0</additional_attributes>
+rocketData=monitorInitialization():RocketData</panel_attributes>
+    <additional_attributes>320.0;20.0;20.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -358,7 +358,7 @@ rocketData=monitorPrelaunch():RocketData</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-monitorPrelaunch():LaunchingMechanismData</panel_attributes>
+monitorInitializaton():LaunchingMechanismData</panel_attributes>
     <additional_attributes>560.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
