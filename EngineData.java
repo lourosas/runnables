@@ -22,12 +22,14 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public interface EngineData{
-   public double currentTemp();
-   public String error();
-   public double exhaustFlowRate();
+   public double  currentTemp();
+   public String  error();
+   public double  exhaustFlowRate();
+   public long    model();
    public boolean isError();
    public boolean isIgnited();
-   public double fuelFlowRate();
-   public double temperature();
+   public double  fuelFlowRate();
+   public double  temperature();
+   public String  toString();
 }
 //////////////////////////////////////////////////////////////////////

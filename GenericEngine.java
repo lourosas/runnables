@@ -23,6 +23,10 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class GenericEngine implements Engine, Runnable{
+   private static final int PRELAUNCH = -1;
+   private static final int IGNITION  =  0;
+   private static final int LAUNCH    =  1;
+
    private String  _error;
    private double  _exhaustFlow;
    private double  _fuelFlow;

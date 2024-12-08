@@ -30,6 +30,7 @@ public class GenericStage implements Stage, Runnable{
    private long          _modelNumber;
    private int           _totalEngines;
    private boolean       _isError;
+   private double        _weight;
 
    {
       _engines      = null;
@@ -39,6 +40,7 @@ public class GenericStage implements Stage, Runnable{
       _modelNumber  = -1;
       _totalEngines = -1;
       _isError      = false;
+      _weight       = Double.NaN;
    };
 
    /////////////////////////////Constructor///////////////////////////
@@ -52,6 +54,11 @@ public class GenericStage implements Stage, Runnable{
    }
 
    ///////////////////////////Private Methods/////////////////////////
+   //Calculated the weight of the entire stage...
+   //
+   //
+   private void calculateWeight(){}
+
    //
    //
    //
@@ -132,7 +139,13 @@ public class GenericStage implements Stage, Runnable{
    //
    //
    //
-   public StageData monitorPrelaunch(){ return null; }
+   public StageData monitorPrelaunch(){
+      //Part of the StageData
+      List<EngineData> engineData = new LinkedList<EngineData>();
+      for(int i = 0; i < this._engines.size(); ++i){
+      }
+      return null;
+   }
 
    //
    //

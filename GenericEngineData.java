@@ -21,12 +21,8 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public interface StageData{
-   public List<EngineData> engineData();
-   public FuelSystemData   fuelSystemData();
-   public long             model();
-   public int              numberOfEngines();
-   public int              stageNumber();
-   public String           toString();
+public class GenericEngineData implements EngineData{
+
+
 }
 //////////////////////////////////////////////////////////////////////
