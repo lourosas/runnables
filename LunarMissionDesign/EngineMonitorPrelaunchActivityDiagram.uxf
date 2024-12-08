@@ -4,10 +4,10 @@
   <element>
     <id>UMLObject</id>
     <coordinates>
-      <x>10</x>
-      <y>20</y>
+      <x>30</x>
+      <y>10</y>
       <w>820</w>
-      <h>920</h>
+      <h>1350</h>
     </coordinates>
     <panel_attributes>Engine.monitorPrelaunch()
 valign=top</panel_attributes>
@@ -16,8 +16,8 @@ valign=top</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>230</x>
-      <y>50</y>
+      <x>360</x>
+      <y>40</y>
       <w>20</w>
       <h>20</h>
     </coordinates>
@@ -27,8 +27,8 @@ valign=top</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>160</x>
-      <y>120</y>
+      <x>290</x>
+      <y>110</y>
       <w>160</w>
       <h>50</h>
     </coordinates>
@@ -40,21 +40,21 @@ style=wordwrap</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>380</x>
-      <y>290</y>
+      <x>510</x>
+      <y>280</y>
       <w>150</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>Set Exhaust Flow Error
-bg=blue
+bg=red
 style=wordwrap</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>230</x>
-      <y>60</y>
+      <x>360</x>
+      <y>50</y>
       <w>30</w>
       <h>80</h>
     </coordinates>
@@ -64,8 +64,8 @@ style=wordwrap</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>160</x>
-      <y>390</y>
+      <x>290</x>
+      <y>380</y>
       <w>160</w>
       <h>50</h>
     </coordinates>
@@ -77,19 +77,20 @@ style=wordwrap</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>230</x>
-      <y>320</y>
-      <w>30</w>
+      <x>360</x>
+      <y>310</y>
+      <w>60</w>
       <h>90</h>
     </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
+    <panel_attributes>lt=&lt;-
+[No]</panel_attributes>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>160</x>
-      <y>740</y>
+      <x>290</x>
+      <y>660</y>
       <w>160</w>
       <h>50</h>
     </coordinates>
@@ -101,19 +102,20 @@ style=wordwrap</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>230</x>
-      <y>690</y>
-      <w>30</w>
-      <h>70</h>
+      <x>360</x>
+      <y>600</y>
+      <w>60</w>
+      <h>80</h>
     </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+    <panel_attributes>lt=&lt;-
+[No]</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>160</x>
-      <y>870</y>
+      <x>290</x>
+      <y>930</y>
       <w>160</w>
       <h>50</h>
     </coordinates>
@@ -125,10 +127,10 @@ style=wordwrap</panel_attributes>
   <element>
     <id>Text</id>
     <coordinates>
-      <x>10</x>
-      <y>840</y>
-      <w>220</w>
-      <h>30</h>
+      <x>50</x>
+      <y>910</y>
+      <w>260</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>{isIgnited = isIgnited():  boolean}
 style=wordwrap</panel_attributes>
@@ -137,8 +139,8 @@ style=wordwrap</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>160</x>
-      <y>210</y>
+      <x>290</x>
+      <y>200</y>
       <w>160</w>
       <h>50</h>
     </coordinates>
@@ -150,8 +152,8 @@ style=wordwrap</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>230</x>
-      <y>160</y>
+      <x>360</x>
+      <y>150</y>
       <w>30</w>
       <h>70</h>
     </coordinates>
@@ -161,8 +163,8 @@ style=wordwrap</panel_attributes>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>220</x>
-      <y>290</y>
+      <x>350</x>
+      <y>280</y>
       <w>40</w>
       <h>40</h>
     </coordinates>
@@ -172,8 +174,8 @@ style=wordwrap</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>230</x>
-      <y>250</y>
+      <x>360</x>
+      <y>240</y>
       <w>30</w>
       <h>60</h>
     </coordinates>
@@ -183,13 +185,420 @@ style=wordwrap</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>250</x>
-      <y>290</y>
+      <x>380</x>
+      <y>280</y>
       <w>150</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 [Yes]</panel_attributes>
     <additional_attributes>130.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>130</x>
+      <y>180</y>
+      <w>170</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>{&lt;&lt;Engine&gt;&gt;.isError()}
+halign=center
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>110</x>
+      <y>240</y>
+      <w>200</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>{Exhaust Flow &gt; 0.1?}
+halign=center
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>320</y>
+      <w>150</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;130.0;80.0;130.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>290</x>
+      <y>480</y>
+      <w>150</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Engine Temperature Error?
+bg=red
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>510</x>
+      <y>1010</y>
+      <w>150</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>Set Ingition Error
+bg=red
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>420</y>
+      <w>30</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>350</x>
+      <y>570</y>
+      <w>40</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>530</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>140</x>
+      <y>460</y>
+      <w>170</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>{&lt;&lt;Engine&gt;&gt;.isError()}
+halign=center
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>100</x>
+      <y>540</y>
+      <w>240</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>{temp&lt;temp*tolerance OR
+ temp&gt;temp*(2-tolerance)?}
+halign=center
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>510</x>
+      <y>570</y>
+      <w>150</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>Set Exhaust Flow Error
+bg=red
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>570</y>
+      <w>150</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+[Yes]</panel_attributes>
+    <additional_attributes>130.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>610</y>
+      <w>150</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;130.0;70.0;130.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>290</x>
+      <y>750</y>
+      <w>150</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>Fuel Flow Error?
+bg=red
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>700</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>350</x>
+      <y>840</y>
+      <w>40</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>790</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>130</x>
+      <y>740</y>
+      <w>170</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>{&lt;&lt;Engine&gt;&gt;.isError()}
+halign=center
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>130</x>
+      <y>790</y>
+      <w>170</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>{Fuel Flow &gt; 0.05?}
+halign=center
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>510</x>
+      <y>830</y>
+      <w>150</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>Set Fuel Flow Error
+bg=red
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>840</y>
+      <w>150</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+[Yes]</panel_attributes>
+    <additional_attributes>130.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>870</y>
+      <w>60</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+[No]</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>870</y>
+      <w>150</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;130.0;70.0;130.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>350</x>
+      <y>1020</y>
+      <w>40</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>970</y>
+      <w>30</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>1020</y>
+      <w>150</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+[Yes]</panel_attributes>
+    <additional_attributes>130.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>1050</y>
+      <w>60</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+[No]</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>590</x>
+      <y>950</y>
+      <w>260</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>{If the engine is ignited in pre-launch, alert the stakeholders imediately}
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>290</x>
+      <y>1220</y>
+      <w>150</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Return RocketData Object
+bg=blue
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>290</x>
+      <y>1110</y>
+      <w>150</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Construct RocketData Object
+bg=blue
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>430</x>
+      <y>1050</y>
+      <w>160</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;140.0;80.0;140.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>1160</y>
+      <w>30</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>360</x>
+      <y>1330</y>
+      <w>20</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>type=final</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>1270</y>
+      <w>30</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
