@@ -22,7 +22,13 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public class GenericEngineData implements EngineData{
-
+   private double         _currentTemp;
+   private String         _error;
+   private double         _exhaustRate;
+   private boolean        _isError;
+   private boolean        _isIgnited;
+   private double         _fuelRate;
+   private long           _model;
 
 }
 //////////////////////////////////////////////////////////////////////
