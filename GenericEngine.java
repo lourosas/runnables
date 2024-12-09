@@ -29,26 +29,32 @@ public class GenericEngine implements Engine, Runnable{
 
    private String  _error;
    private double  _exhaustFlow;
+   private double  _measuredExhaustFlow;
    private double  _fuelFlow;
+   private double  _measuredFuelFlow;
    private boolean _isError;
    private boolean _isIgnited;
    private long    _model;
    private int     _number;
    private int     _stage;
    private double  _temperature;
+   private double  _measuredTemperature;
    private double  _tolerance;
 
    {
-      _error         = null;
-      _exhaustFlow   = Double.NaN;
-      _fuelFlow      = Double.NaN;
-      _isError       = false;
-      _isIgnited     = false;
-      _model         = -1;
-      _number        = -1;
-      _stage         = -1;
-      _temperature   = Double.NaN;
-      _tolerance     = Double.NaN;
+      _error               = null;
+      _exhaustFlow         = Double.NaN;
+      _measuredExhaustFlow = Double.NaN;
+      _fuelFlow            = Double.NaN;
+      _measuredFuelFlow    = Double.NaN;
+      _isError             = false;
+      _isIgnited           = false;
+      _model               = -1;
+      _number              = -1;
+      _stage               = -1;
+      _temperature         = Double.NaN;
+      _measuredTemperature = Double.NaN;
+      _tolerance           = Double.NaN;
    };
 
    ///////////////////////////Constructor/////////////////////////////
@@ -65,6 +71,27 @@ public class GenericEngine implements Engine, Runnable{
    }
 
    ////////////////////////////Private Methods////////////////////////
+   //Temp comments:  In truth, there is no way to actually determine
+   //Ignition...based on the data, can "surmise" if ignition has
+   //occured based on what is measureable:  exhaust rate, fuel rate,
+   //temperature and compare to what is pre-entered...
+   private void determineIgnition(){
+      this._isIgnited = false;  //Pre-Set the value...
+      double limit = this._exhaustFlow * this._tolerance;
+      //All three have to fit the criteria as dictated by the 
+      if(this._measuredExhaustFlow >= limit){
+         limit = this._fuelFlow * this._tolerance;
+         if(this._measuredFuelFlow >= limit){
+            limit = this._temperature * this._tolerance;
+            if(this._measuredTemperature >= limit){
+               this_isIgnited = true;
+            }
+         }
+      }
+      
+      
+   }
+
    //
    //
    //
@@ -78,6 +105,59 @@ public class GenericEngine implements Engine, Runnable{
          read = new LaunchSimulatorJsonFileReader(file);
          this.setEngineData(read.readEngineDataInfo());
       }
+   }
+
+   //
+   //
+   //
+   private void isExhaustFlowError(int state){}
+
+   //
+   //
+   //
+   private void isFuelFlowError(int state){}
+
+   //
+   //
+   //
+   private void isTemperatureError(int state){}
+
+   //
+   //
+   //
+   private void isError(int state){
+      this._isError = false; //Preset the error condition
+      this.isExhaustFlowError(state);
+      this.isFuelFlowError(state);
+      this.isTemperatureError(state);
+      if(state == PRELAUNCH){
+
+      }
+   }
+
+   //
+   //
+   //
+   private void measureExhaustFlow(){
+      //@TBD need to determine how to "Measure"
+      //for the time being, cludge the value
+      this._measuredExhaustFlow = 0.;
+   }
+
+   //
+   //
+   //
+   private void measureFuelFlow(){
+      //Stop Gap for the time being
+      this._measuredFuelFlow = 0.;
+   }
+
+   //
+   //
+   //
+   private void measureTemperature(){
+      //Stop gap for the time being
+      this._measuredTemperature = this._temperature;
    }
 
    //
@@ -128,6 +208,11 @@ public class GenericEngine implements Engine, Runnable{
    //
    //
    public EngineData monitorPrelaunch(){
+      this.measureExhaustFlow();
+      this.measureTemperature();
+      this.measureFuelFlow();
+      this.determineIgnition();
+      this.isError(PRELAUNCH);
       return null;
    }
 
