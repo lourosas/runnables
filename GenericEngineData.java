@@ -30,5 +30,139 @@ public class GenericEngineData implements EngineData{
    private double         _fuelRate;
    private long           _model;
 
+   {
+      _currentTemp  = Double.NaN;
+      _error        = null;
+      _exhaustRate  = Double.NaN;
+      _isError      = false;
+      _isIgnited    = false;
+      _fuelRate     = Double.NaN;
+      _model        = -1;
+   };
+
+   ////////////////////////////Constructor////////////////////////////
+   //
+   //
+   //
+   public GenericEngineData
+   (
+      double  exhaust,
+      double  fuel,
+      long    model,
+      boolean isError,
+      String  error,
+      boolean isIgnited,
+      double  temperature
+   ){
+      this.exhaustFlowRate(exhaust);
+      this.fuelFlowRate(fuel);
+      this.model(model);
+      this.isError(isError);
+      this.error(error);
+      this.isIgnited(isIgnited);
+      this.temperature(temperature);
+   }
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void error(String error){
+      this._error = error;   
+   }
+
+   //
+   //
+   //
+   private void exhaustFlowRate(double rate){
+      this._exhaustRate = rate;
+   }
+
+   //
+   //
+   //
+   private void fuelFlowRate(double rate){
+      this._fuelRate = rate;
+   }
+
+   //
+   //
+   //
+   private void isError(boolean isError){
+      this._isError = isError;
+   }
+
+   //
+   //
+   //
+   private void isIgnited(boolean isIgnited){
+      this._isIgnited = isIgnited;
+   }
+
+   //
+   //
+   //
+   private void model(long model){
+      this._model = model;
+   }
+
+   //
+   //
+   //
+   private void temperature(double temp){
+      this._temperature = temp;
+   }
+
+   /////////////EngineData Interface Implementation///////////////////
+   //
+   //
+   //
+   public String error(){ return this._error; }
+
+   //
+   //
+   //
+   public double exhaustFlowRate(){ return this._exhaustRate; }
+
+   //
+   //
+   //
+   public long model(){ return this._model; }
+
+   //
+   //
+   //
+   public boolean isError(){ return this._isError; }
+
+   //
+   //
+   //
+   public boolean isIgnited(){ return this._isIgnited; }
+   
+   //
+   //
+   //
+   public double fuelFlowRate(){ return this._fuelRate; }
+
+   //
+   //
+   //
+   public double temperature(){ return this._currentTemp; }
+
+   //
+   //
+   //
+   public String toString(){
+      String value = new String("Rocket: \n");
+      value += "Error? "+this.isError();
+      if(this.isError()){
+         value += "Errors: "+this.error();
+      }
+      value += "\nModel:               ";
+      value += String.format("0x%X",this.model());
+      value += "\nTemperature:         "+this.temperature();
+      value += "\nExhaust Flow Rate:   "+this.exhaustFlowRate();
+      value += "\nFuel Flow Rate:      "+this.feulFlowRate();
+      value += "\nIgnited:             "+this.isIgnited();
+   }
 }
 //////////////////////////////////////////////////////////////////////

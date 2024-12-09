@@ -22,7 +22,6 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public interface EngineData{
-   public double  currentTemp();
    public String  error();
    public double  exhaustFlowRate();
    public long    model();
