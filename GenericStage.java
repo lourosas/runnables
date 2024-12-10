@@ -144,7 +144,8 @@ public class GenericStage implements Stage, Runnable{
       List<EngineData> engineData = new LinkedList<EngineData>();
       System.out.println("<Stage>.engines: "+this._engines.size());
       for(int i = 0; i < this._engines.size(); ++i){
-         
+         System.out.println("Engine: "+i);
+         System.out.println(this._engines.get(i).monitorPrelaunch());
       }
       return null;
    }

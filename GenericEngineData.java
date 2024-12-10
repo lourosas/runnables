@@ -152,10 +152,10 @@ public class GenericEngineData implements EngineData{
    //
    //
    public String toString(){
-      String value = new String("Rocket: \n");
+      String value = new String("Engine: \n");
       value += "Error? "+this.isError();
       if(this.isError()){
-         value += "Errors: "+this.error();
+         value += "\nErrors: "+this.error();
       }
       value += "\nModel:               ";
       value += String.format("0x%X",this.model());

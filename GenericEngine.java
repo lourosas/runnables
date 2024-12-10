@@ -232,7 +232,9 @@ public class GenericEngine implements Engine, Runnable{
    //
    private void measureTemperature(){
       //Stop gap for the time being
-      this._measuredTemperature = this._temperature;
+      double measured = 293.;
+      //this._measuredTemperature = this._temperature;
+      this._measuredTemperature = measured;
    }
 
    //
@@ -290,12 +292,12 @@ public class GenericEngine implements Engine, Runnable{
       this.determineIgnition();
       this.isError(PRELAUNCH);
       data = new GenericEngineData(this._measuredExhaustFlow,
-            this._measuredFuelFlow,
-            this._model,
-            this._isError,
-            this._error,
-            this._isIgnited,
-            this._measuredTemperature);
+                                   this._measuredFuelFlow,
+                                   this._model,
+                                   this._isError,
+                                   this._error,
+                                   this._isIgnited,
+                                   this._measuredTemperature);
       return data;
    }
 
