@@ -84,12 +84,10 @@ public class GenericEngine implements Engine, Runnable{
          if(this._measuredFuelFlow >= limit){
             limit = this._temperature * this._tolerance;
             if(this._measuredTemperature >= limit){
-               this_isIgnited = true;
+               this._isIgnited = true;
             }
          }
       }
-      
-      
    }
 
    //
@@ -107,31 +105,108 @@ public class GenericEngine implements Engine, Runnable{
       }
    }
 
-   //
-   //
-   //
-   private void isExhaustFlowError(int state){}
-
-   //
-   //
-   //
-   private void isFuelFlowError(int state){}
-
-   //
-   //
-   //
-   private void isTemperatureError(int state){}
 
    //
    //
    //
    private void isError(int state){
+      this._error   = null;  //Preset to null
       this._isError = false; //Preset the error condition
       this.isExhaustFlowError(state);
       this.isFuelFlowError(state);
       this.isTemperatureError(state);
-      if(state == PRELAUNCH){
+      this.isIgnitionError(state);
+   }
 
+   //
+   //
+   //
+   private void isExhaustFlowError(int state){
+      if(state == PRELAUNCH){
+         //Durring Pre-Launch, a very tight tolerance for the
+         //Engine...there should be NO exhaust flow--this is
+         //measurement error
+         double err = 0.1;
+         if(this._measuredExhaustFlow >= err){
+            this._isError = true;
+            String s = new String("\nPre-Launch Exhaust Error");
+            if(this._error == null){
+               this._error = new String(s);
+            }
+            else{
+               this._error += s;
+            }
+            this._error += "\nMeasured Exhaust Flow: ";
+            this._error += ""+this._measuredExhaustFlow;
+         }
+      }
+   }
+
+   //
+   //
+   //
+   private void isFuelFlowError(int state){
+      if(state == PRELAUNCH){
+         //During Pre-Launch, there should be NO fuel flowing into
+         //the Engine--If there is--BIG PROBLEM!!  Tolerance based on
+         //Measurement Error
+         double err = 0.05;
+         if(this._measuredFuelFlow >= err){
+            this._isError = true;
+            String s = new String("\nPre-Launch Fuel Flow Error");
+            if(this._error == null){
+               this._error = new String(s);
+            }
+            else{
+               this._error += s;
+            }
+            this._error += "\nMeasured Fuel Flow: ";
+            this._error += ""+this._measuredFuelFlow;
+         }
+      }
+   }
+
+   //
+   //
+   //
+   private void isIgnitionError(int state){
+      if((state == PRELAUNCH) && (this._isIgnited)){
+         //This is bad!!!
+         this._isError |= this._isIgnited;
+         String s = new String("\nPre-Launch: Engine Ignited");
+         if(this._error == null){
+            this._error = new String(s);
+         }
+         else{
+            this._error += s;
+         }
+         this._error += "\nStart Abort Sequence!";
+         this._error += "\n"+this._isIgnited;
+      }
+   }
+
+
+   //
+   //
+   //
+   private void isTemperatureError(int state){
+      if(state == PRELAUNCH){
+         //Temperature for Pre-Launch should not be Greater than
+         //373K--the Boiling point of water--since "nothing is
+         //technically happening"...
+         int err = 373; //the boiling point of H20 at sea level
+         if(this._measuredTemperature > err){
+            this._isError = true;
+            String s = new String("\nPre-Launch Temperature Error");
+            if(this._error == null){
+               this._error = new String(s);
+            }
+            else{
+               this._error += s;
+            }
+            this._error += "\nMeasured Temperature: ";
+            this._error += ""+this._measuredTemperature;
+         }
       }
    }
 
@@ -208,12 +283,20 @@ public class GenericEngine implements Engine, Runnable{
    //
    //
    public EngineData monitorPrelaunch(){
+      EngineData data = null;
       this.measureExhaustFlow();
       this.measureTemperature();
       this.measureFuelFlow();
       this.determineIgnition();
       this.isError(PRELAUNCH);
-      return null;
+      data = new GenericEngineData(this._measuredExhaustFlow,
+            this._measuredFuelFlow,
+            this._model,
+            this._isError,
+            this._error,
+            this._isIgnited,
+            this._measuredTemperature);
+      return data;
    }
 
    //

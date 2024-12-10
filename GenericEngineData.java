@@ -109,7 +109,7 @@ public class GenericEngineData implements EngineData{
    //
    //
    private void temperature(double temp){
-      this._temperature = temp;
+      this._currentTemp = temp;
    }
 
    /////////////EngineData Interface Implementation///////////////////
@@ -161,8 +161,9 @@ public class GenericEngineData implements EngineData{
       value += String.format("0x%X",this.model());
       value += "\nTemperature:         "+this.temperature();
       value += "\nExhaust Flow Rate:   "+this.exhaustFlowRate();
-      value += "\nFuel Flow Rate:      "+this.feulFlowRate();
+      value += "\nFuel Flow Rate:      "+this.fuelFlowRate();
       value += "\nIgnited:             "+this.isIgnited();
+      return value;
    }
 }
 //////////////////////////////////////////////////////////////////////
