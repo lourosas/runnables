@@ -21,5 +21,136 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public class GenericTankData implements TankData{}
+public class GenericTankData implements TankData{
+   public double    _emptyRate;
+   public String    _error;
+   public boolean   _isError;
+   public int       _number;//Tank Number for the Stage
+   public double    _temperature;
+   public String    _type;//The Fuel Type
+
+   {
+      _emptyRate      = Double.NaN;
+      _error          = null;
+      _isError        = false;
+      _number         = -1;
+      _temperature    = Double.NaN;
+      _type           = null;
+   };
+   
+   ////////////////////////////Constructor////////////////////////////
+   //
+   //
+   //
+   public GenericTankData
+   (
+      double   emptyRate,
+      String   error,
+      boolean  isError,
+      int      number,
+      double   temperature,
+      String   type
+   ){
+      this.emptyRate(emptyRate);
+      this.error(error);
+      this.isError(isError);
+      this.number(number);
+      this.temperature(temperature);
+      this.type(type);
+   }
+
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void emptyRate(double er){
+      if(er > -1.){
+         this._emptyRate = er;
+      }
+   }
+
+   //
+   //
+   //
+   private void error(String err){
+      this._error = err;
+   }
+
+   //
+   //
+   //
+   private void isError(boolean error){
+      this._isError = error;
+   }
+
+   //Save off the Tank Number in the Stage
+   //
+   //
+   private void number(int num){
+      if(number > 0){
+         this._number = num;
+      }
+   }
+
+   //
+   //
+   //
+   private void temperature(double temp){
+      this._temperature = temp;
+   }
+
+   //Save off the Fuel Type
+   //
+   //
+   private void type(String fuelType){
+      this.type = fuelType;
+   }
+
+
+   //////////////////TankData Interface Implementation////////////////
+   //
+   //
+   //
+   public double emptyRate(){ return this._emptyRate; }
+
+   //
+   //
+   //
+   public String error(){ return this._error; }
+
+   //
+   //
+   //
+   public boolean isError(){ return this._isError; }
+
+   //
+   //
+   //
+   public int number(){ return this._number; }
+
+   //
+   //
+   //
+   public int temperature(){ return this._temperature; }
+
+   //
+   //
+   //
+   public String type(){  return this._type; }
+
+   //
+   //
+   //
+   public String toString(){
+      String value = new String("\nTank: "+this.number);
+      value += "\nError?       " + this.isError();
+      if(this.isError()){
+         value += "\nErrors:   "+this.error();
+      }
+      value += "\nEmpty Rate:  " + this.emptyRate();
+      value += "\nTemperature: " + this.temperature();
+      value += "\nFuel Type:   " + this.type();
+      return value;
+   }
+}
 //////////////////////////////////////////////////////////////////////

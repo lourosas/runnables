@@ -28,5 +28,6 @@ public interface TankData{
    public int      number();
    public double   temperature();
    public String   type();
+   public String   toString();
 }
 //////////////////////////////////////////////////////////////////////
