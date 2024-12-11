@@ -28,5 +28,6 @@ public interface PipeData{
    public boolean  isError();
    public double   temp();
    public String   type();
+   public String   toString();
 }
 //////////////////////////////////////////////////////////////////////

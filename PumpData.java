@@ -28,5 +28,6 @@ public interface PumpData{
    public boolean  isError();
    public double   temperature();
    public String   type();
+   public String   toString();
 }
 //////////////////////////////////////////////////////////////////////

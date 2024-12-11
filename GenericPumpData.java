@@ -21,5 +21,66 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public class GenericPumpData implements PumpData{}
+public class GenericPumpData implements PumpData{
+   private String    _error;
+   private double    _flow;
+   private int       _index; //Which Pump in the Fuel System
+   private boolean   _isError;
+   private double    _temperature;
+   private String    _type;  //Fuel Type
+
+   {
+      _error       = null;
+      _flow        = Double.NaN;
+      _index       = -1;
+      _isError     = false;
+      _temperature = Double.NaN;
+      _type        = null;
+   };
+
+   /////////////////PumpData Interface Implementation/////////////////
+   //
+   //
+   //
+   public String error(){ return this._error; }
+
+   //
+   //
+   //
+   public double flow(){ return this._flow; }
+
+   //
+   //
+   //
+   public int index(){ return this._index; }
+
+   //
+   //
+   //
+   public boolean isError(){ return this._isError; }
+
+   //
+   //
+   //
+   public double temperature(){ return this._temperature; }
+
+   //Return the Fuel Type
+   //
+   //
+   public String type(){ return this._type; }
+   
+   //
+   //
+   //
+   public String toString(){
+      String value = new String("\nPump:      "+this.index());
+      value += "\nError?      "+this.isError();
+      if(this.isError()){
+                       value += "Error(s): "+this.error(); 
+      }
+      value += "\nFuel Flow:   "+this.flow();
+      value += "\nFuel Type:   "+this.type();
+      value += "\nTemperature: "+this.temperature();
+   }
+}
 //////////////////////////////////////////////////////////////////////

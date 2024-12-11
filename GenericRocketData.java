@@ -128,7 +128,7 @@ public class GenericRocketData implements RocketData{
    }
 
 
-   //////////////RocketData Inteface Implementation///////////////////
+   //////////////RocketData Interface Implementation//////////////////
    //
    //
    //
