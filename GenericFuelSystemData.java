@@ -21,5 +21,37 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public class GenericFuelSystemData implements FuelSystemData{}
+public class GenericFuelSystemData implements FuelSystemData{
+   private int            _numPipes;
+   private int            _numPumps;
+   private int            _numTanks;
+   private List<PipeData> _pipes;
+   private List<PumpData> _pumps;
+   private List<TankData> _tanks;
+
+   {
+      _numPipes    = -1;
+      _numPumps    = -1;
+      _numTanks    = -1;
+      _pipes       = null;
+      _pumps       = null;
+      _tanks       = null;
+   };
+
+   //////////////FuelSystemData Interface Implementation//////////////
+   //
+   //
+   //
+   public List<PipeData> pipeData(){ return this._pipes; }
+
+   //
+   //
+   //
+   public List<PumpData> pumpData(){ return this._pumps; }
+
+   //
+   //
+   //
+   public List<TankData> tankData(){ return this._tanks; }
+}
 //////////////////////////////////////////////////////////////////////

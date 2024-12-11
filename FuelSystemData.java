@@ -25,5 +25,6 @@ public interface FuelSystemData{
    public List<PipeData> pipeData();
    public List<PumpData> pumpData();
    public List<TankData> tankData();
+   public String toString();
 }
 //////////////////////////////////////////////////////////////////////
