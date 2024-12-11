@@ -53,5 +53,11 @@ public class GenericFuelSystemData implements FuelSystemData{
    //
    //
    public List<TankData> tankData(){ return this._tanks; }
+
+   //
+   //
+   //
+   public String toString(){
+   }
 }
 //////////////////////////////////////////////////////////////////////
