@@ -60,21 +60,27 @@ public class GenericStageData implements StageData{
    //
    //
    private void engines(int number){
-      this._engines = number;
+      if(number > 0){
+         this._engines = number;
+      }
    }
 
    //
    //
    //
    private void engineData(List<EngineData> data){
-      this._engineData = data;
+      if(data != null){
+         this._engineData = data;
+      }
    }
 
    //
    //
    //
    private void fuelSystemData(FuelSystemData data){
-      this._fuelSystemData = data;
+      if(data != null){
+         this._fuelSystemData = data;
+      }
    }
 
    //
@@ -88,7 +94,9 @@ public class GenericStageData implements StageData{
    //
    //
    private void stageNumber(int stagenumber){
-      this._number = stagenumber;
+      if(stagenumber > 0){
+         this._number = stagenumber;
+      }
    }
 
    
@@ -96,12 +104,29 @@ public class GenericStageData implements StageData{
    //
    //
    //
-   public List<EngineData> engineData(){ return null; }
+   public List<EngineData> engineData(){ return this._engineData; }
 
    //
    //
    //
-   public FuelSystemData fuelSystemData(){ return null; }
+   public FuelSystemData fuelSystemData(){
+      return this._fuelSystemData;
+   }
+
+   //
+   //
+   //
+   public long model(){ return this._model; }
+
+   //
+   //
+   //
+   public int numberOfEngines(){ return this._engines; }
+
+   //
+   //
+   //
+   public int stageNumber(){ return this._number; }
 
    //
    //
