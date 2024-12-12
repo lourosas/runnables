@@ -38,6 +38,27 @@ public class GenericFuelSystemData implements FuelSystemData{
       _tanks       = null;
    };
 
+   ////////////////////////////Constructor////////////////////////////
+   //
+   //
+   //
+   public GenericFuelSystemData
+   (
+      List<PipeData> pipeData,
+      List<PumpData> pumpData,
+      List<TankData> tankData
+   ){
+      this._pipes = pipeData;
+      this._pumps = pumpData;
+      this._tanks = tankData;
+      try{ this._numPipes = this._pipes.size(); }
+      catch(NullPointerException npe){}
+      try{ this._numPumps = this._pumps.size(); }
+      catch(NullPointerException npe){}
+      try{ this._numTanks = this._tanks.size(); }
+      catch(NullPointerException npe){}
+   }
+
    //////////////FuelSystemData Interface Implementation//////////////
    //
    //
@@ -58,6 +79,20 @@ public class GenericFuelSystemData implements FuelSystemData{
    //
    //
    public String toString(){
+      String value = new String("\nFuel System:  ");
+      Iterator<PipeData> it = this._pipes.iterator();
+      while(it.hasNext()){
+         value += it.next().toString();
+      }
+      Iterator<PumpData> ip = this._pumps.iterator();
+      while(ip.hasNext()){
+         value += ip.next().toString();
+      }
+      Iterator<TankData> is = this._tanks.iterator();
+      while(is.hasNext()){
+         value += is.next().toString();
+      }
+      return value;
    }
 }
 //////////////////////////////////////////////////////////////////////
