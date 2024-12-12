@@ -119,7 +119,13 @@ public class GenericFuelSystem implements FuelSystem{
    //
    //
    //
-   public FuelSystemData monitorPrelaunch(){ return null; }
+   public FuelSystemData monitorPrelaunch(){
+      FuelSystemData fsd = null;
+      List<TankData> td  = new LinkedList<TankData>();
+      td.add(this._fuel.monitorPrelaunch());
+      td.add(this._oxidizer.monitorPrelaunch());
+      return fsd;
+   }
 
    //
    //

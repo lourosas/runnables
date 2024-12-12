@@ -22,24 +22,34 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class GenericTank implements Tank{
+   private static final int PRELAUNCH = -1;
+   private static final int IGNITION  =  0;
+   private static final int LAUNCH    =  1;
+
    private double  _capacity;
+   private double  _measuredCapacity;
+   private String  _error;
    private String  _fuel;
    private long    _model;
    private double  _emptyRate;
+   private boolean _isError;
    private int     _stageNumber;
    private int     _tankNumber;
    private double  _temperature;
    private double  _tolerance;
 
    {
-      _capacity     = Double.NaN;
-      _fuel         = null;
-      _model        = -1;
-      _emptyRate    = Double.NaN;
-      _stageNumber  = -1;
-      _tankNumber   = -1;
-      _temperature  = Double.NaN;
-      _tolerance    = Double.NaN;
+      _capacity         = Double.NaN;
+      _measuredCapacity = Double.NaN;
+      _error            = null;
+      _fuel             = null;
+      _model            = -1;
+      _emptyRate        = Double.NaN;
+      _isError          = false;
+      _stageNumber      = -1;
+      _tankNumber       = -1;
+      _temperature      = Double.NaN;
+      _tolerance        = Double.NaN;
    };
 
    ///////////////////////////Constructor/////////////////////////////
@@ -55,7 +65,17 @@ public class GenericTank implements Tank{
       }
    }
 
-   //////////////////////////Tank Interface///////////////////////////
+   ////////////////////////////Private Methods////////////////////////
+   //
+   //
+   //
+   private void isError(int state){}
+
+   //
+   //
+   //
+   private void measureCapacity(){}
+
    //
    //
    //
@@ -115,7 +135,10 @@ public class GenericTank implements Tank{
    //
    //
    //
-   public TankData monitorPrelaunch(){ return null; }
+   public TankData monitorPrelaunch(){ 
+      this.measureCapacity()
+      return null;
+   }
 
    //
    //

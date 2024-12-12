@@ -235,8 +235,9 @@ public class GenericRocket implements Rocket, Runnable{
       this.isError(PRELAUNCH);
       List<StageData> stageData = new LinkedList<StageData>();
       try{
-         for(int i = 0; i < this._numberOfStages; ++i){
-            stageData.add(this._stages.get(i).monitorPrelaunch());
+         Iterator<Stage> it = this._stages.iterator();
+         while(it.hasNext()){
+            stageData.add(it.next().monitorPrelaunch());
          }
       }
       catch(NullPointerException npe){}
