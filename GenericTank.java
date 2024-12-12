@@ -74,7 +74,10 @@ public class GenericTank implements Tank{
    //
    //
    //
-   private void measureCapacity(){}
+   private void measureCapacity(){
+      //Stop Gap for the time being...
+      this._measuredCapacity = this._capacity;
+   }
 
    //
    //
@@ -136,7 +139,8 @@ public class GenericTank implements Tank{
    //
    //
    public TankData monitorPrelaunch(){ 
-      this.measureCapacity()
+      System.out.println("Fuel "+this._fuel);
+      this.measureCapacity();
       return null;
    }
 
