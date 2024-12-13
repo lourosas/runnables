@@ -22,20 +22,24 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public class GenericTankData implements TankData{
-   public double    _emptyRate;
-   public String    _error;
-   public boolean   _isError;
-   public int       _number;//Tank Number for the Stage
-   public double    _temperature;
-   public String    _type;//The Fuel Type
+   private double    _capacity; //Will change based on State
+   private double    _emptyRate;
+   private String    _error;
+   private boolean   _isError;
+   private int       _number;//Tank Number for the Stage
+   private double    _temperature;
+   private String    _type;//The Fuel Type
+   private double    _weight; //Will change based on State
 
    {
+      _capacity       = Double.NaN;
       _emptyRate      = Double.NaN;
       _error          = null;
       _isError        = false;
       _number         = -1;
       _temperature    = Double.NaN;
       _type           = null;
+      _weight         = Double.NaN;
    };
    
    ////////////////////////////Constructor////////////////////////////
@@ -44,27 +48,39 @@ public class GenericTankData implements TankData{
    //
    public GenericTankData
    (
+      double   capacity,
       double   emptyRate,
       String   error,
       boolean  isError,
       int      number,
       double   temperature,
-      String   type
+      String   type,
+      double   weight
    ){
+      this.capacity(capacity);
       this.emptyRate(emptyRate);
       this.error(error);
       this.isError(isError);
       this.number(number);
       this.temperature(temperature);
       this.type(type);
+      this.weight(weight);
    }
 
    //////////////////////////Private Methods//////////////////////////
    //
    //
    //
+   private void capacity(double cap){
+      if(cap >= 0.){
+         this._capacity = cap;
+      }
+   }
+   //
+   //
+   //
    private void emptyRate(double er){
-      if(er > -1.){
+      if(er >= 0.){
          this._emptyRate = er;
       }
    }
@@ -106,8 +122,22 @@ public class GenericTankData implements TankData{
       this.type = fuelType;
    }
 
+   //
+   //
+   //
+   private void weight(double weight){
+      if(weight >= 0.){
+         this._weight = weight;
+      }
+   }
+
 
    //////////////////TankData Interface Implementation////////////////
+   //
+   //
+   //
+   public double capacity(){ return this._capacity; }
+
    //
    //
    //
@@ -141,15 +171,22 @@ public class GenericTankData implements TankData{
    //
    //
    //
+   public double weight(){ return this._weight; }
+
+   //
+   //
+   //
    public String toString(){
       String value = new String("\nTank: "+this.number);
       value += "\nError?       " + this.isError();
       if(this.isError()){
          value += "\nErrors:   "+this.error();
       }
-      value += "\nEmpty Rate:  " + this.emptyRate();
-      value += "\nTemperature: " + this.temperature();
-      value += "\nFuel Type:   " + this.type();
+      value += "\nCapacity:         " + this.capacity();
+      value += "\nWeight:           " + this.weight();
+      value += "\nEmpty Rate:       " + this.emptyRate();
+      value += "\nTemperature:      " + this.temperature();
+      value += "\nFuel Type:        " + this.type();
       return value;
    }
 }

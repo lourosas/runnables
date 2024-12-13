@@ -27,6 +27,7 @@ public class GenericTank implements Tank{
    private static final int LAUNCH    =  1;
 
    private double  _capacity;
+   private double  _density;
    private double  _measuredCapacity;
    private String  _error;
    private String  _fuel;
@@ -40,6 +41,7 @@ public class GenericTank implements Tank{
 
    {
       _capacity         = Double.NaN;
+      _density          = Double.NaN;
       _measuredCapacity = Double.NaN;
       _error            = null;
       _fuel             = null;
