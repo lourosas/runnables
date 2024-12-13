@@ -26,10 +26,10 @@ public class GenericTankData implements TankData{
    private double    _emptyRate;
    private String    _error;
    private boolean   _isError;
-   private int       _number;//Tank Number for the Stage
+   private int       _number;   //Tank Number for the Stage
    private double    _temperature;
-   private String    _type;//The Fuel Type
-   private double    _weight; //Will change based on State
+   private String    _type;     //The Fuel Type
+   private double    _weight;   //Will change based on State
 
    {
       _capacity       = Double.NaN;

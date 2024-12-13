@@ -26,32 +26,37 @@ public class GenericTank implements Tank{
    private static final int IGNITION  =  0;
    private static final int LAUNCH    =  1;
 
-   private double  _capacity;
+   private double  _capacity; //In Liters
    private double  _density;
-   private double  _measuredCapacity;
+   private double  _measuredCapacity; //In Liters
+   private double  _measuredWeight; //Measured Fuel Weigt in Newtons
    private String  _error;
    private String  _fuel;
    private long    _model;
-   private double  _emptyRate;
+   private double  _emptyRate; //Liters/Sec
+   private double  _emptyRateWeight; //N/s
    private boolean _isError;
    private int     _stageNumber;
    private int     _tankNumber;
    private double  _temperature;
+   private double  _measuredTemperature;
    private double  _tolerance;
 
    {
-      _capacity         = Double.NaN;
-      _density          = Double.NaN;
-      _measuredCapacity = Double.NaN;
-      _error            = null;
-      _fuel             = null;
-      _model            = -1;
-      _emptyRate        = Double.NaN;
-      _isError          = false;
-      _stageNumber      = -1;
-      _tankNumber       = -1;
-      _temperature      = Double.NaN;
-      _tolerance        = Double.NaN;
+      _capacity            = Double.NaN;
+      _density             = Double.NaN;
+      _measuredCapacity    = Double.NaN;
+      _error               = null;
+      _fuel                = null;
+      _measuredWeight      = Double.NaN;
+      _model               = -1;
+      _emptyRate           = Double.NaN;
+      _isError             = false;
+      _stageNumber         = -1;
+      _tankNumber          = -1;
+      _temperature         = Double.NaN;
+      _measuredTemperature = Double.NaN;
+      _tolerance           = Double.NaN;
    };
 
    ///////////////////////////Constructor/////////////////////////////
@@ -71,14 +76,69 @@ public class GenericTank implements Tank{
    //
    //
    //
-   private void isError(int state){}
+   private void isCapacityError(int state){
+      double g = 9.81;
+      if(state == PRELAUNCH){
+         //Durring Prelaunch, the capacity must be with in tollerance,
+         //since there should be NO FLOW in the Tank in Pre-Launch!
+         double limit  = this._capacity * this._tolerance;
+         //F = ma measured in Newtons...weight capcity
+         double weight = (capLimit/1000)*this._density*g;
+         if(this._measuredCapacity > capLimit){
+            isError  = true;
+            String s = new String("\nPre-Launch Error: Tank too low");
+         }
+      }
+   }
 
    //
    //
    //
+   private void isError(int state){
+      this._isError = false;
+      this.isCapacityError(PRELAUNCH);
+      this.isFlowError(PRELAUNCH);
+      this.isTemperatureError(PRELAUNCH);
+   }
+
+   //
+   //
+   //
+   private void isFlowError(int state){}
+
+   //
+   //
+   //
+   private void isTemperatureError(int state){}
+
+   //The Capacity is measured in liters--converted into m^3
+   //
+   //
    private void measureCapacity(){
+      double g = 9.81;
       //Stop Gap for the time being...
       this._measuredCapacity = this._capacity;
+      double mass = (this._measuredCapacity/1000)*this._density;
+      this._measuredWeight = mass*g;  //F = ma in Newtons!!!!
+   }
+
+   //
+   //
+   //
+   private void measureEmptyRate(){
+      double g = 9.81;
+      //Need to figure out how to measure
+      this._emptyRate = 0;
+      double mass = (this._emptyRate/1000.)*this._density;
+      this._emptyRateWeight = mass*g; //F = ma in Newtons
+   }
+
+   //
+   //
+   //
+   private void measureTemperature(){
+      //Stop Gap for now
+      this._measuredTemperature = this._temperature;
    }
 
    //
@@ -100,6 +160,7 @@ public class GenericTank implements Tank{
                double d = Double.parseDouble(ht.get("capacity"));
                this._capacity = d;
                d = Double.parseDouble(ht.get("density"));
+               this._density = d;
                this._fuel = ht.get("fuel");
                d = Double.parseDouble(ht.get("rate"));
                this._emptyRate = d;
@@ -144,6 +205,9 @@ public class GenericTank implements Tank{
    public TankData monitorPrelaunch(){ 
       System.out.println("Fuel "+this._fuel);
       this.measureCapacity();
+      this.measureEmptyRate();
+      this.measureTemperature();
+      this.isError(PRELAUNCH);
       return null;
    }
 
