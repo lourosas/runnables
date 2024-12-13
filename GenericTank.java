@@ -99,6 +99,7 @@ public class GenericTank implements Tank{
                this._model = Integer.toUnsignedLong(x);
                double d = Double.parseDouble(ht.get("capacity"));
                this._capacity = d;
+               d = Double.parseDouble(ht.get("density"));
                this._fuel = ht.get("fuel");
                d = Double.parseDouble(ht.get("rate"));
                this._emptyRate = d;
