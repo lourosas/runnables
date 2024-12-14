@@ -23,23 +23,23 @@ import rosas.lou.runnables.*;
 
 public class GenericTankData implements TankData{
    private double    _capacity; //Will change based on State
+   private double    _density;  //Density of the fuel
    private double    _emptyRate;
    private String    _error;
+   private String    _fuel;     //The Fuel Type
    private boolean   _isError;
    private int       _number;   //Tank Number for the Stage
    private double    _temperature;
-   private String    _type;     //The Fuel Type
-   private double    _weight;   //Will change based on State
 
    {
       _capacity       = Double.NaN;
+      _density        = Double.NaN;
       _emptyRate      = Double.NaN;
       _error          = null;
+      _fuel           = null;
       _isError        = false;
       _number         = -1;
       _temperature    = Double.NaN;
-      _type           = null;
-      _weight         = Double.NaN;
    };
    
    ////////////////////////////Constructor////////////////////////////
@@ -49,22 +49,22 @@ public class GenericTankData implements TankData{
    public GenericTankData
    (
       double   capacity,
+      double   density,
       double   emptyRate,
       String   error,
+      String   fuel,
       boolean  isError,
       int      number,
-      double   temperature,
-      String   type,
-      double   weight
+      double   temperature
    ){
       this.capacity(capacity);
+      this.density(density);
       this.emptyRate(emptyRate);
       this.error(error);
+      this.fuel(fuel);
       this.isError(isError);
       this.number(number);
       this.temperature(temperature);
-      this.type(type);
-      this.weight(weight);
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -74,6 +74,15 @@ public class GenericTankData implements TankData{
    private void capacity(double cap){
       if(cap >= 0.){
          this._capacity = cap;
+      }
+   }
+
+   //
+   //
+   //
+   private void density(double dens){
+      if(dens >= 0.){
+         this._density = dens;
       }
    }
    //
@@ -92,6 +101,13 @@ public class GenericTankData implements TankData{
       this._error = err;
    }
 
+   //Set the Fuel Type...
+   //
+   //
+   private void fuel(String fuel){
+      this._fuel = fuel;
+   }
+
    //
    //
    //
@@ -103,7 +119,7 @@ public class GenericTankData implements TankData{
    //
    //
    private void number(int num){
-      if(number > 0){
+      if(num > 0){
          this._number = num;
       }
    }
@@ -115,28 +131,16 @@ public class GenericTankData implements TankData{
       this._temperature = temp;
    }
 
-   //Save off the Fuel Type
-   //
-   //
-   private void type(String fuelType){
-      this.type = fuelType;
-   }
-
-   //
-   //
-   //
-   private void weight(double weight){
-      if(weight >= 0.){
-         this._weight = weight;
-      }
-   }
-
-
    //////////////////TankData Interface Implementation////////////////
    //
    //
    //
    public double capacity(){ return this._capacity; }
+
+   //
+   //
+   //
+   public double density(){ return this._density; }
 
    //
    //
@@ -148,10 +152,25 @@ public class GenericTankData implements TankData{
    //
    public String error(){ return this._error; }
 
+   //Fuel Type
+   //
+   //
+   public String fuel(){ return this._fuel; }
+
    //
    //
    //
    public boolean isError(){ return this._isError; }
+
+   //
+   //
+   //
+   public double massLossRate(){
+      //Convert from Liters to m^3
+      //Convert to mass by multiplying by density...
+      double mass = (this.emptyRate()/1000.)*this.density();
+      return mass;
+   }
 
    //
    //
@@ -161,32 +180,34 @@ public class GenericTankData implements TankData{
    //
    //
    //
-   public int temperature(){ return this._temperature; }
+   public double temperature(){ return this._temperature; }
 
    //
    //
    //
-   public String type(){  return this._type; }
-
-   //
-   //
-   //
-   public double weight(){ return this._weight; }
+   public double weight(){
+      double g      = 9.81;
+      double mass   = (this.capacity()/1000.)*this.density();
+      double weight = mass * g;
+      return weight;
+   }
 
    //
    //
    //
    public String toString(){
-      String value = new String("\nTank: "+this.number);
+      String value = new String("\nTank: "+this.number());
       value += "\nError?       " + this.isError();
       if(this.isError()){
-         value += "\nErrors:   "+this.error();
+         value += "\nErrors:   "+this.error() + "\n"; 
       }
       value += "\nCapacity:         " + this.capacity();
+      value += "\nDensity:          " + this.density();
       value += "\nWeight:           " + this.weight();
       value += "\nEmpty Rate:       " + this.emptyRate();
+      value += "\nMass Loss Rate:   " + this.massLossRate();
       value += "\nTemperature:      " + this.temperature();
-      value += "\nFuel Type:        " + this.type();
+      value += "\nFuel Type:        " + this.fuel();
       return value;
    }
 }

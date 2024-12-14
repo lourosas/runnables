@@ -22,12 +22,16 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public interface TankData{
+   public double   capacity();
+   public double   density();
    public double   emptyRate();
    public String   error();
+   public String   fuel(); //Fuel Type...
    public boolean  isError();
+   public double   massLossRate(); //Derived...
    public int      number();
    public double   temperature();
-   public String   type();
+   public double   weight(); //Derived...
    public String   toString();
 }
 //////////////////////////////////////////////////////////////////////

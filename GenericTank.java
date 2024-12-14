@@ -107,7 +107,7 @@ public class GenericTank implements Tank{
          double weight = this.convertToWeight(this._capacity);
          double mw     = this.convertToWeight(this._measuredCapacity);
          double mc     = this._measuredCapacity;
-         if(this._measuredCapacity > limit){
+         if(this._measuredCapacity < limit){
             this._isError  = true;
             String s = new String("\nPre-Launch Error: Tank too low");
             if(this._error == null){
@@ -128,6 +128,7 @@ public class GenericTank implements Tank{
    //
    //
    private void isError(int state){
+      this._error   = null;
       this._isError = false;
       this.isCapacityError(PRELAUNCH);
       this.isFlowError(PRELAUNCH);
@@ -267,12 +268,21 @@ public class GenericTank implements Tank{
    //
    //
    public TankData monitorPrelaunch(){ 
-      System.out.println("Fuel "+this._fuel);
+      TankData tankData = null;
       this.measureCapacity();
       this.measureEmptyRate();
       this.measureTemperature();
       this.isError(PRELAUNCH);
-      return null;
+      tankData = new GenericTankData(
+                              this._measuredCapacity,
+                              this._density,
+                              this._measuredEmptyRate,
+                              this._error,
+                              this._fuel,
+                              this._isError,
+                              this._tankNumber,
+                              this._measuredTemperature);
+      return tankData;
    }
 
    //
