@@ -2,7 +2,7 @@
    "rocket":
    {
       "model":"XYZ Model",
-      "stages":"2",
+      "stages":"1",
       "empty_weight":"1000000",
       "loaded_weight":"3000000"
    },
@@ -46,46 +46,50 @@
    },
    "tank":
    {
+      "density":"31.26", 
       "stage":"1",
       "number":"1",
       "model":"DEAD",
       "capacity":"350000",
       "fuel":"Hydrogen",
       "rate":"2550",
-      "temperature":"150",
+      "temperature":"33.2",
       "tolerance":".9"
    },
    "tank":
    {
+      "density":"438",
       "stage":"1",
       "number":"2",
       "model":"BEAF",
       "capacity":"350000",
       "fuel":"Oxidizer",
       "rate":"1250",
-      "temperature":"200",
+      "temperature":"154.6",
       "tolerance":".95"
    },
    "tank":
    {
+      "density":"31.26",
       "stage":"2",
       "number":"1",
       "model":"FDEAD",
       "capacity":"350000",
       "fuel":"Hydrogen",
       "rate":"2550",
-      "temperature":"150",
+      "temperature":"33.2",
       "tolerance":".9"
    },
    "tank":
    {
+      "density":"438",
       "stage":"2",
       "number":"2",
       "model":"DBEAF",
       "capacity":"250000",
       "fuel":"Oxidizer",
       "rate":"1350",
-      "temperature":"200",
+      "temperature":"154.6",
       "tolerance":".95"
    },
    "pipe":
