@@ -29,12 +29,11 @@ public class GenericTank implements Tank{
    private double  _capacity; //In Liters
    private double  _density;
    private double  _measuredCapacity; //In Liters
-   private double  _measuredWeight; //Measured Fuel Weigt in Newtons
    private String  _error;
    private String  _fuel;
    private long    _model;
    private double  _emptyRate; //Liters/Sec
-   private double  _emptyRateWeight; //N/s
+   private double  _measuredEmptyRate; //Liters/Sec
    private boolean _isError;
    private int     _stageNumber;
    private int     _tankNumber;
@@ -43,20 +42,20 @@ public class GenericTank implements Tank{
    private double  _tolerance;
 
    {
-      _capacity            = Double.NaN;
-      _density             = Double.NaN;
-      _measuredCapacity    = Double.NaN;
-      _error               = null;
-      _fuel                = null;
-      _measuredWeight      = Double.NaN;
-      _model               = -1;
-      _emptyRate           = Double.NaN;
-      _isError             = false;
-      _stageNumber         = -1;
-      _tankNumber          = -1;
-      _temperature         = Double.NaN;
-      _measuredTemperature = Double.NaN;
-      _tolerance           = Double.NaN;
+      _capacity                = Double.NaN;
+      _density                 = Double.NaN;
+      _measuredCapacity        = Double.NaN;
+      _error                   = null;
+      _fuel                    = null;
+      _model                   = -1;
+      _emptyRate               = Double.NaN;
+      _measuredEmptyRate       = Double.NaN;
+      _isError                 = false;
+      _stageNumber             = -1;
+      _tankNumber              = -1;
+      _temperature             = Double.NaN;
+      _measuredTemperature     = Double.NaN;
+      _tolerance               = Double.NaN;
    };
 
    ///////////////////////////Constructor/////////////////////////////
@@ -76,17 +75,51 @@ public class GenericTank implements Tank{
    //
    //
    //
+   private double convertToMass(double volume){
+      //Convert from Liters to cubic meters...
+      //Multiply by density to get mass...
+      double weight = (volume/1000)*this._density;
+      return weight;
+   }
+
+   //Take a volume and convert to weight (Newtons)
+   //Volume in Liters
+   //
+   private double convertToWeight(double volume){
+      double g = 9.81;
+      //Convert from Liters to cubic meters...
+      //Multiply by desnsity to get mass...
+      //Multiply by g to get weight-->F = ma...
+      double weight = (volume/1000)*this._density*g;
+      return weight;
+   }
+
+   //
+   //
+   //
    private void isCapacityError(int state){
       double g = 9.81;
       if(state == PRELAUNCH){
-         //Durring Prelaunch, the capacity must be with in tollerance,
+         //Durring Prelaunch, the capacity must be with in tolerance,
          //since there should be NO FLOW in the Tank in Pre-Launch!
          double limit  = this._capacity * this._tolerance;
          //F = ma measured in Newtons...weight capcity
-         double weight = (capLimit/1000)*this._density*g;
-         if(this._measuredCapacity > capLimit){
-            isError  = true;
+         double weight = this.convertToWeight(this._capacity);
+         double mw     = this.convertToWeight(this._measuredCapacity);
+         double mc     = this._measuredCapacity;
+         if(this._measuredCapacity > limit){
+            this._isError  = true;
             String s = new String("\nPre-Launch Error: Tank too low");
+            if(this._error == null){
+               this._error = new String(s);
+            }
+            else{
+               this._error += s;
+            }
+            this._error += "\nMeasured Capacity: "+mc;
+            this._error += "\nExpected Capacity: "+this._capacity;
+            this._error += "\nMeasured Weight:   "+mw;
+            this._error += "\nExpected Weight:   "+weight;
          }
       }
    }
@@ -104,12 +137,48 @@ public class GenericTank implements Tank{
    //
    //
    //
-   private void isFlowError(int state){}
+   private void isFlowError(int state){
+      if(state == PRELAUNCH){
+         //At prelaunch, there literally better not be ANY flow!
+         double err = 0.05;
+         if(this._measuredEmptyRate >= err){
+            double er = this._measuredEmptyRate;
+            this._isError = true;
+            double mass = this.convertToMass(this._measuredEmptyRate);
+            String s = new String("\nPre-Launch Error: Flow");
+            if(this._error == null){
+               this._error = new String(s);
+            }
+            else{
+               this._error += s;
+            }
+            this._error += "\nMeasured Flow:      " + er;
+            this._error += "\nMeasured Mass Loss: " + mass;
+         }
+      }
+   }
 
+   //Fuel Temp MUST be the same regargless of State!!!
    //
    //
-   //
-   private void isTemperatureError(int state){}
+   private void isTemperatureError(int state){
+      double ul = this._temperature*(2 - this._tolerance);
+      double ll = this._temperature*this._tolerance;
+      double m  = this._measuredTemperature;
+      //Error out based on tradtional limit ranges...
+      if(m < ll || m > ul){
+         this._isError = true;
+         String s = new String("Tempearture Error:  ");
+         if(this._error == null){
+            this._error = new String(s);
+         }
+         else{
+            this._error += s;
+         }
+         this._error += "\nRequired Temp:  "+this._temperature;
+         this._error += "\nMeasured Temp:  "+m;
+      }
+   }
 
    //The Capacity is measured in liters--converted into m^3
    //
@@ -118,19 +187,14 @@ public class GenericTank implements Tank{
       double g = 9.81;
       //Stop Gap for the time being...
       this._measuredCapacity = this._capacity;
-      double mass = (this._measuredCapacity/1000)*this._density;
-      this._measuredWeight = mass*g;  //F = ma in Newtons!!!!
    }
 
    //
    //
    //
    private void measureEmptyRate(){
-      double g = 9.81;
       //Need to figure out how to measure
-      this._emptyRate = 0;
-      double mass = (this._emptyRate/1000.)*this._density;
-      this._emptyRateWeight = mass*g; //F = ma in Newtons
+      this._measuredEmptyRate = 0;
    }
 
    //
