@@ -23,18 +23,30 @@ import java.io.IOException;
 import rosas.lou.runnables.*;
 
 public class GenericPump implements Pump{
-   private int    _stage;
-   private int    _tank;
-   private double _rate;
-   private double _temperature;
-   private double _tolerance;
+   private static final int PRELAUNCH = -1;
+   private static final int IGNITION  =  0;
+   private static final int LAUNCH    =  1;
+
+   private String  _error;
+   private boolean _isError;
+   private int     _stage;
+   private int     _tank;
+   private double  _rate;
+   private double  _measuredRate;
+   private double  _temperature;
+   private double  _measuredTemperature;
+   private double  _tolerance;
 
    {
-      _stage       = -1;
-      _tank        = -1;
-      _rate        = Double.NaN;
-      _temperature = Double.NaN;
-      _tolerance   = Double.NaN;
+      _error               = null;
+      _isError             = false;
+      _stage               = -1;
+      _tank                = -1;
+      _rate                = Double.NaN;
+      _measuredRate        = Double.NaN;
+      _temperature         = Double.NaN;
+      _measuredTemperature = Double.NaN;
+      _tolerance           = Double.NaN;
    };
 
    ////////////////////////////Constructor////////////////////////////
@@ -51,6 +63,53 @@ public class GenericPump implements Pump{
    }
 
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void isError(int state){
+     this._error   = null;
+     this._isError = false;
+     this.isFlowError(state);
+     this.isTemperatureError(state);
+   }
+
+   //
+   //
+   //
+   private void isFlowError(int state){
+      if(state == PRELAUNCH){
+         //At prelaunch, there literally better not be ANY Flow!!!
+      }
+   }
+
+   //
+   //
+   //
+   private void isTemperatureError(int state){
+      if(state == PRELAUNCH){}
+   }
+
+   //
+   //
+   //
+   private void isTemperatureError(int state){}
+
+   //The flow is measured in Liters/sec...converted to m^3/sec
+   //
+   //
+   private void measureFlow(){
+      //Stop gap for now...for Prelaunch, there should be NO flow...
+      this._measuredRate = 0.;
+   }
+
+   //
+   //
+   //
+   private void measureTemperature(){
+      //Stop gap for now...
+      this._measuredTemperature = this._temperature;
+   }
+
    //
    //
    //
@@ -101,7 +160,13 @@ public class GenericPump implements Pump{
    //
    //
    //
-   public PumpData monitorPrelaunch(){ return null; }
+   public PumpData monitorPrelaunch(){
+      PumpData data = null;
+      this.measureFlow();
+      this.measureTemperature();
+      this.isError(PRELAUNCH);
+      return data;
+   }
 
    //
    //
