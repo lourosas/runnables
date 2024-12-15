@@ -122,8 +122,11 @@ public class GenericFuelSystem implements FuelSystem{
    public FuelSystemData monitorPrelaunch(){
       FuelSystemData fsd = null;
       List<TankData> td  = new LinkedList<TankData>();
+      List<PumpData> pd  = new LinkedList<PumpData>();
       td.add(this._fuel.monitorPrelaunch());
       td.add(this._oxidizer.monitorPrelaunch());
+      pd.add(this._fuelPump.monitorPrelaunch());
+      pd.add(this._oxidizerPump.monitorPrelaunch());
       return fsd;
    }
 

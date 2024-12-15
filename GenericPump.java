@@ -90,7 +90,7 @@ public class GenericPump implements Pump{
                this._error = new String(s);
             }
             else{
-               this_error += s;
+               this._error += s;
             }
             this._error += "\nMeasured Flow:     " + er;
             this._error += "\nMeasured Flow m^3: " + ercubic;
@@ -121,11 +121,6 @@ public class GenericPump implements Pump{
          }
       }
    }
-
-   //
-   //
-   //
-   private void isTemperatureError(int state){}
 
    //The flow is measured in Liters/sec...converted to m^3/sec
    //
@@ -198,6 +193,15 @@ public class GenericPump implements Pump{
       this.measureFlow();
       this.measureTemperature();
       this.isError(PRELAUNCH);
+      data = new GenericPumpData(
+                            this._error,
+                            this._measuredRate,
+                            this._tank,
+                            this._isError,
+                            this._stage,
+                            this._measuredTemperature,
+                            this._tolerance,
+                            null);
       return data;
    }
 

@@ -42,6 +42,95 @@ public class GenericPumpData implements PumpData{
       _type        = null;
    };
 
+   ////////////////////////////Constructor////////////////////////////
+   //
+   //
+   //
+   public GenericPumpData
+   (
+      String       error,
+      double       flow,
+      int          number,   //Tank Number--index
+      boolean      isError,
+      int          stage,
+      double       temperature,
+      double       tolerance,
+      String       fuelType  //can be null
+   ){
+      this.error(error);
+      this.flow(flow);
+      this.index(number);
+      this.isError(isError);
+      this.stage(stage);
+      this.temperature(temperature);
+      this.tolerance(tolerance);
+      this.type(fuelType);
+   }
+
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void error(String err){ this._error = err; }
+
+   //
+   //
+   //
+   private void flow(double flow){
+      if(flow > 0.){
+         this._flow = flow;
+      }
+   }
+
+   //
+   //
+   //
+   private void index(int number){
+      if(number > 0){
+         this._index = number;
+      }
+   }
+
+   //
+   //
+   //
+   private void isError(boolean isError){
+      this._isError = isError;
+   }
+
+   //
+   //
+   //
+   private void stage(int st){
+      if(st > 0){
+         this._stage = st;
+      }
+   }
+
+   //
+   //
+   //
+   private void temperature(double temp){
+      this._temperature = temp;
+   }
+
+   //
+   //
+   //
+   private void tolerance(double tol){
+      if(tol > 0.){
+         this._tolerance = tol;
+      }
+   }
+
+   //
+   //
+   //
+   private void type(String tp){
+      if(tp != null){
+         this._type = tp;
+      }
+   }
    /////////////////PumpData Interface Implementation/////////////////
    //
    //
@@ -66,7 +155,7 @@ public class GenericPumpData implements PumpData{
    //
    //
    //
-   public int stage
+   public int stage(){ return this._stage; }
 
    //
    //
@@ -88,13 +177,14 @@ public class GenericPumpData implements PumpData{
    //
    public String toString(){
       String value = new String("\nPump:      "+this.index());
-      value += "\nError?      "+this.isError();
-      if(this.isError()){
-                       value += "Error(s): "+this.error(); 
-      }
+      value += "\nStage:     "+this.stage();
+      value += "\nError?     "+this.isError();
+      if(this.isError()){value += "\nError(s): "+this.error();}
       value += "\nFuel Flow:   "+this.flow();
-      value += "\nFuel Type:   "+this.type();
+      if(this._type != null){value += "\nFuel Type:   "+this.type();}
       value += "\nTemperature: "+this.temperature();
+      value += "\nTolerance:   "+this.tolerance();
+      return value;
    }
 }
 //////////////////////////////////////////////////////////////////////
