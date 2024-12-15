@@ -77,7 +77,7 @@ public class GenericPumpData implements PumpData{
    //
    //
    private void flow(double flow){
-      if(flow > 0.){
+      if(flow >= 0.){
          this._flow = flow;
       }
    }

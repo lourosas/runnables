@@ -127,6 +127,7 @@ public class GenericFuelSystem implements FuelSystem{
       td.add(this._oxidizer.monitorPrelaunch());
       pd.add(this._fuelPump.monitorPrelaunch());
       pd.add(this._oxidizerPump.monitorPrelaunch());
+      System.out.println(pd);
       return fsd;
    }
 
