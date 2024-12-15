@@ -24,8 +24,11 @@ import rosas.lou.runnables.*;
 public interface PipeData{
    public String   error();
    public double   flow();
-   public int      index();
+   public int      number();
    public boolean  isError();
+   public int      stage();
+   public int      tank();
+   public double   tolerance();
    public double   temp();
    public String   type();
    public String   toString();

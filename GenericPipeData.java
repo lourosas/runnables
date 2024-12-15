@@ -19,23 +19,29 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
-import rosas.lou.runnables
+import rosas.lou.runnables.*;
 
 public class GenericPipeData implements PipeData{
    private String   _error;
    private double   _flow;
-   private int      _index; //Number of current pipe
+   private int      _number; //Number of current pipe
    private boolean  _isError;
+   private int      _stage;
+   private int      _tank;
    private double   _temp;
+   private double   _tolerance;
    private String   _type; //Fuel Type
 
    {
-      _error   = null;
-      _flow    = Double.NaN;
-      _index   = -1;
-      _isError = false;
-      _temp    = Double.NaN;
-      _type    = null;
+      _error     = null;
+      _flow      = Double.NaN;
+      _number    = -1;
+      _isError   = false;
+      _stage     = -1;
+      _tank      = -1;
+      _temp      = Double.NaN;
+      _tolerance = Double.NaN;
+      _type      = null;
    };
 
    ////////////////////////////Constructor////////////////////////////
@@ -46,16 +52,22 @@ public class GenericPipeData implements PipeData{
    (
       String   error,
       double   flow,
-      int      index,
+      int      number,
       boolean  isError,
+      int      stage,
+      int      tank,
       double   temp,
-      String   fuelType
+      double   tolerance,
+      String   fuelType //Can be null
    ){
       this.error(error);
       this.flow(flow);
-      this.index(index);
+      this.number(number);
       this.isError(isError);
+      this.stage(stage);
+      this.tank(tank);
       this.temp(temp);
+      this.tolerance(tolerance);
       this.type(fuelType);
    }
 
@@ -71,7 +83,7 @@ public class GenericPipeData implements PipeData{
    //
    //
    private void flow(double flow){
-      if(flow > -1.){
+      if(flow >= 0.){
          this._flow = flow;
       }
    }
@@ -79,10 +91,10 @@ public class GenericPipeData implements PipeData{
    //
    //
    //
-   private void index(int index){
-      if(index > 0){
-         this._index = index;
-      }
+   private void number(int num){
+      if(num > 0){
+         this._number = num;
+     }
    }
 
    //
@@ -95,8 +107,33 @@ public class GenericPipeData implements PipeData{
    //
    //
    //
+   private void stage(int stg){
+      if(stg > 0){
+         this._stage = stg;
+      }
+   }
+
+   //
+   //
+   //
+   private void tank(int tk){
+      if(tk > 0){
+         this._tank = tk;
+      }
+   }
+
+   //
+   //
+   //
    private void temp(double temperature){
       this._temp = temperature;
+   }
+
+   //
+   //
+   //
+   private void tolerance(double tolerance){
+      this._tolerance = tolerance;
    }
 
    //
@@ -120,12 +157,27 @@ public class GenericPipeData implements PipeData{
    //Pipe connected to the Tank and Engine
    //
    //
-   public int index(){ return this._index }
+   public int number(){ return this._number; }
 
    //
    //
    //
    public boolean isError(){ return this._isError; }
+
+   //
+   //
+   //
+   public int stage(){ return this._stage; }
+
+   //
+   //
+   //
+   public int tank(){ return this._tank; }
+
+   //
+   //
+   //
+   public double tolerance(){ return this._tolerance; }
 
    //
    //
@@ -141,14 +193,18 @@ public class GenericPipeData implements PipeData{
    //
    //
    public String toString(){
-      String value = new String("\nPipe:         "+this.index());
-      value += "\nFuel:        "+this.type();
-      value += "\nError?       "+this.isError();
+      String value = new String("\nPipe:         "+this.number());
+      value += "\nStage:        "+this.stage();
+      value += "\nTank:         "+this.tank();
+      value += "\nError?        "+this.isError();
       if(this.isError()){
-         value += "\nError(s)       "+this.error();
+         value += "\nError(s) "+this.error();
       }
-      value += "\nFuel Type:   "+this.type();
+      value += "\nFuel Flow:     "+this.flow();
+      if(this._type != null){value += "\n Fuel Type:   "+this.type();}
       value += "\nTempearture: "+this.temp();
+      value += "\nTolerance:   "+this.tolerance();
+      return value;
    }
 }
 //////////////////////////////////////////////////////////////////////
