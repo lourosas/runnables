@@ -146,7 +146,7 @@ public class GenericTank implements Tank{
             double er = this._measuredEmptyRate;
             this._isError = true;
             double mass = this.convertToMass(this._measuredEmptyRate);
-            String s = new String("\nPre-Launch Error: Flow");
+            String s = new String("\nTank Pre-Launch Error: Flow");
             if(this._error == null){
                this._error = new String(s);
             }
@@ -169,7 +169,7 @@ public class GenericTank implements Tank{
       //Error out based on tradtional limit ranges...
       if(m < ll || m > ul){
          this._isError = true;
-         String s = new String("Tempearture Error:  ");
+         String s = new String("\nTank Tempearture Error:  ");
          if(this._error == null){
             this._error = new String(s);
          }

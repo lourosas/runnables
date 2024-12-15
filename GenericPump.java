@@ -79,14 +79,47 @@ public class GenericPump implements Pump{
    private void isFlowError(int state){
       if(state == PRELAUNCH){
          //At prelaunch, there literally better not be ANY Flow!!!
+         double err = 0.05;
+         if(this._measuredRate >= err){
+            double er      = this._measuredRate;
+            //convert to m^3
+            double ercubic = this._measuredRate/1000.;
+            this._isError = true;
+            String s = new String("\nPump Pre-Launch Error: Flow");
+            if(this._error == null){
+               this._error = new String(s);
+            }
+            else{
+               this_error += s;
+            }
+            this._error += "\nMeasured Flow:     " + er;
+            this._error += "\nMeasured Flow m^3: " + ercubic;
+         }
       }
    }
 
-   //
+   //The Fuel temperature in the pump MUST be within rage
+   //REGARLESS of State!!!
    //
    //
    private void isTemperatureError(int state){
-      if(state == PRELAUNCH){}
+      if(state == PRELAUNCH){
+         double ul = this._temperature*(2 - this._tolerance);
+         double ll = this._temperature*this._tolerance;
+         double m  = this._measuredTemperature;
+         if(m > ul){
+            this._isError = true;
+            String s = new String("\nTank Temperature Error:  ");
+            if(this._error == null){
+               this._error = new String(s);
+            }
+            else{
+               this._error += s;
+            }
+            this._error += "\nRequired Temp: "+this._temperature;
+            this._error += "\nMeasured Temp: "+m;
+         }
+      }
    }
 
    //

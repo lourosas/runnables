@@ -26,15 +26,19 @@ public class GenericPumpData implements PumpData{
    private double    _flow;
    private int       _index; //Which Pump in the Fuel System
    private boolean   _isError;
+   private int       _stage;  //which stage
    private double    _temperature;
-   private String    _type;  //Fuel Type
+   private double    _tolerance;
+   private String    _type; //Fuel type (TBD)
 
    {
       _error       = null;
       _flow        = Double.NaN;
       _index       = -1;
       _isError     = false;
+      _stage       = -1;
       _temperature = Double.NaN;
+      _tolerance   = Double.NaN;
       _type        = null;
    };
 
@@ -62,13 +66,23 @@ public class GenericPumpData implements PumpData{
    //
    //
    //
+   public int stage
+
+   //
+   //
+   //
    public double temperature(){ return this._temperature; }
 
-   //Return the Fuel Type
+   //
+   //
+   //
+   public double tolerance(){ return this._tolerance; }
+
+   //
    //
    //
    public String type(){ return this._type; }
-   
+
    //
    //
    //
