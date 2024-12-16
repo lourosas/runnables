@@ -57,7 +57,17 @@ public class GenericStage implements Stage, Runnable{
    //Calculated the weight of the entire stage...
    //
    //
-   private void calculateWeight(){}
+   private void calculateWeight
+   (
+      List<EngineData> list,
+      FuelSystemData   fsd
+   ){
+      //0. Do the test prints!
+      System.out.println(list);
+      System.out.println(fsd);
+      //1.  Assume a dry weight for the given stage--first print stage
+      System.out.println("Stage Number: "+this._stageNumber);
+   }
 
    //
    //
@@ -147,9 +157,10 @@ public class GenericStage implements Stage, Runnable{
       while(it.hasNext()){
          engineData.add(it.next().monitorPrelaunch());
       }
-      System.out.println(engineData);
       //now, get the Fuel System Data
       FuelSystemData fsd = this._fuelSystem.monitorPrelaunch();
+      //get the weight of the fuel and engines and add to it...
+      this.calculateWeight(engineData, fsd);
       return null;
    }
 

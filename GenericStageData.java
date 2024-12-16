@@ -25,6 +25,7 @@ public class GenericStageData implements StageData{
    private long             _model;
    private int              _number;
    private int              _engines;
+   private double           _weight;
    private List<EngineData> _engineData;
    private FuelSystemData   _fuelSystemData;
 
@@ -32,6 +33,7 @@ public class GenericStageData implements StageData{
       _model          = -1;
       _number         = -1;
       _engines        = -1;
+      _weight         = Double.NaN;
       _engineData     = null;
       _fuelSystemData = null;
    };
@@ -45,12 +47,14 @@ public class GenericStageData implements StageData{
       long             model,
       int              number,
       int              engines,
+      double           weight,
       List<EngineData> engineData,
       FuelSystemData   fuelSystemData
    ){
       this.model(model);
       this.stageNumber(stageNumber);
       this.engines(engines);
+      this.weight(weight);
       this.engineData(engineData);
       this.fuelSystemData(fuelSystemData);
    }
@@ -99,6 +103,15 @@ public class GenericStageData implements StageData{
       }
    }
 
+   //
+   //
+   //
+   private void weight(double w){
+      if(w > 0.){
+         this._weight = w;
+      }
+   }
+
    
    //////////////////Stage Data Interface Implementation//////////////
    //
@@ -127,6 +140,11 @@ public class GenericStageData implements StageData{
    //
    //
    public int stageNumber(){ return this._number; }
+
+   //Weight is in Newtons!!
+   //
+   //
+   public double weight(){ return this._weight; }
 
    //
    //

@@ -27,6 +27,7 @@ public interface StageData{
    public long             model();
    public int              numberOfEngines();
    public int              stageNumber();
+   public double           weight();
    public String           toString();
 }
 //////////////////////////////////////////////////////////////////////

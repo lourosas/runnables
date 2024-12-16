@@ -135,7 +135,6 @@ public class GenericFuelSystem implements FuelSystem{
          pi.add(it.next().monitorPrelaunch());
       }
       fsd = new GenericFuelSystemData(pi,pd,td);
-      System.out.println(fsd);
       return fsd;
    }
 
