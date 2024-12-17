@@ -18,12 +18,14 @@
    {
       "number":"1",
       "engines":"1",
+      "dryweight":"30656.25",
       "model":"CAFEBABE"
    },
    "stage":
    {
       "number":"2",
       "engines":"1",
+      "dryweight":"30656.25",
       "model":"BABEDEAD"
    },
    "engine":
@@ -97,7 +99,7 @@
       "stage":"1",
       "tanknumber":"1",
       "rate":"200",
-      "temperature":"100",
+      "temperature":"33.2",
       "tolerance":".95"
    },
    "pipe":
@@ -105,7 +107,7 @@
       "stage":"1",
       "tanknumber":"2",
       "rate":"100",
-      "temperature":"150",
+      "temperature":"154.6",
       "tolerance":".9"
    },
    "pipe":
@@ -113,7 +115,7 @@
       "stage":"2",
       "tanknumber":"1",
       "rate":"200",
-      "temperature":"100",
+      "temperature":"33.2",
       "tolerance":".95"
    },
    "pipe":
@@ -121,7 +123,7 @@
       "stage":"2",
       "tanknumber":"2",
       "rate":"100",
-      "temperature":"150",
+      "temperature":"154.6",
       "tolerance":".9"
    },
    "pump":
@@ -129,7 +131,7 @@
       "stage":"1",
       "tanknumber":"1",
       "rate":"50",
-      "temperature":"150",
+      "temperature":"33.2",
       "tolerance":".95"
    },
    "pump":
@@ -137,7 +139,7 @@
       "stage":"1",
       "tanknumber":"2",
       "rate":"75",
-      "temperature":"250",
+      "temperature":"154.6",
       "tolerance":".9"
    },
    "pump":
@@ -145,7 +147,7 @@
       "stage":"2",
       "tanknumber":"1",
       "rate":"60",
-      "temperature":"120",
+      "temperature":"33.2",
       "tolerance":".93"
    },
    "pump":
@@ -153,7 +155,7 @@
       "stage":"2",
       "tanknumber":"2",
       "rate":"45",
-      "temperature":"250",
-      "tolerance":".7"
+      "temperature":"154.6",
+      "tolerance":".9"
    }
 }
