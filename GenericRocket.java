@@ -61,10 +61,18 @@ public class GenericRocket implements Rocket, Runnable{
    //Calculate the Agregate weight of all the Stages...for comparison
    //
    //
-   private void calculateWeight(){
+   private void calculateWeight(List<StageData> data){
+      this._calculatedWeight = 0.; //Clear out the weight
+      Iterator<StageData> it = data.iterator();
+      //Do a test print, first...
+      while(it.hasNext()){
+         this._calculatedWeight += it.next().weight();
+      }
+      //Now add weight for a simple and hypothetical (small) payload!!
+      this._calculatedWeight += 17658;
       //For the time being, just set the Calculated Weight to the
       //Loaded Weight
-      this._calculatedWeight = this._loadedWeight;
+      //this._calculatedWeight = this._loadedWeight;
    }
 
    //
@@ -225,14 +233,8 @@ public class GenericRocket implements Rocket, Runnable{
    //
    //
    public RocketData monitorInitialization(){
-      //Go ahead and calculate the weight of the rocket by calculating
-      //the weight of each stage
-      this.calculateWeight();
-      
       //@TODO Monitor Initialization for all the Stages and
       //capture the data!!!!!!
-      //Determine if there is an error
-      this.isError(PRELAUNCH);
       List<StageData> stageData = new LinkedList<StageData>();
       try{
          Iterator<Stage> it = this._stages.iterator();
@@ -241,7 +243,11 @@ public class GenericRocket implements Rocket, Runnable{
          }
       }
       catch(NullPointerException npe){}
-
+      //Go ahead and calculate the weight of the rocket by calculating
+      //the weight of each stage
+      this.calculateWeight(stageData);
+      //Determine if there is an error-->COMPARE WEIGHT!!!
+      this.isError(PRELAUNCH);
       return new GenericRocketData(this._model,
                                     this._numberOfStages,
                                     this._emptyWeight,

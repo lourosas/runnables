@@ -25,13 +25,13 @@ import rosas.lou.runnables.*;
 public class GenericStage implements Stage, Runnable{
    private double        _dryweight;
    private List<Engine>  _engines;
-   private String        _error;
+   private String        _error;  //currently, not using, but keep
    private FuelSystem    _fuelSystem;
    private int           _stageNumber;
    private long          _modelNumber;
    private int           _totalEngines;
-   private boolean       _isError;
-   private double        _weight;
+   private boolean       _isError;//Currently, not using, but keep
+   private double        _weight; //Dry weight + wet weight
 
    {
       _dryweight    = Double.NaN;
@@ -170,8 +170,7 @@ public class GenericStage implements Stage, Runnable{
                                           this._weight,
                                           engineData,
                                           fsd);
-      System.out.println("Stage Data: "+sd);
-      return null;
+      return sd;
    }
 
    //

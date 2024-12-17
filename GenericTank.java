@@ -78,8 +78,8 @@ public class GenericTank implements Tank{
    private double convertToMass(double volume){
       //Convert from Liters to cubic meters...
       //Multiply by density to get mass...
-      double weight = (volume/1000)*this._density;
-      return weight;
+      double mass = (volume/1000)*this._density;
+      return mass;
    }
 
    //Take a volume and convert to weight (Newtons)

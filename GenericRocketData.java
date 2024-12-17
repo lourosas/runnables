@@ -204,7 +204,8 @@ public class GenericRocketData implements RocketData{
    //
    //
    public String toString(){
-      String value = new String("Empty Weight: "+this.emptyWeight());
+      String value = new String("\nRocket Data: ");
+      value += "\nEmpty Weight: "+this.emptyWeight();
       value += "\nError? "+this.isError();
       if(this.isError()){
          value += " Error(s): "+this.error();
