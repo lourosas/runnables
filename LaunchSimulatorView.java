@@ -407,6 +407,8 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
 
    /**/
    private void handleRocketData(String state, RocketData rd){
+      System.out.println(state);
+      System.out.println(rd);
       java.util.List<StageData> list = rd.stages();
       if(state != null){
       

@@ -251,7 +251,6 @@ implements Runnable,Publisher,LaunchSimulator{
          RocketData rd = null;
          rd = this.rocket.monitorInitialization();
          //Test print
-         System.out.println(rd);
          this.notify("Initialize", rd);
 
          LaunchingMechanismData lm = null;
