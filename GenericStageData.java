@@ -52,7 +52,7 @@ public class GenericStageData implements StageData{
       FuelSystemData   fuelSystemData
    ){
       this.model(model);
-      this.stageNumber(stageNumber);
+      this.stageNumber(number);
       this.engines(engines);
       this.weight(weight);
       this.engineData(engineData);
@@ -150,14 +150,16 @@ public class GenericStageData implements StageData{
    //
    //
    public String toString(){
-      String data = new String("GenericStageData: \n");
-      data += "Stage:   " + this._number + "\n";
-      data += "Model:   " + String.format("0x%X\n",this.model);
-      data += "Engines: " + this._engines + "\n";
-      for(int i = 0; i < this._engineData.size(); ++i){
-         data += this._engineData.get(i).toString() + "\n";
+      String data = new String("\nGenericStageData: \n");
+      data += "Stage:   " + this.stageNumber() + "\n";
+      data += "Model:   " + String.format("0x%X\n",this.model());
+      data += "Engines: " + this.numberOfEngines() + "\n";
+      data += "Weight:  " + this.weight() + "\n";
+      Iterator<EngineData> it = this.engineData().iterator();
+      while(it.hasNext()){
+         data += it.next().toString() + "\n";
       }
-      data += this._fuelSystemData.toString() + "\n";
+      data += this.fuelSystemData().toString() + "\n";
       return data;
    }
 }

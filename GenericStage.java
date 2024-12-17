@@ -23,6 +23,7 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class GenericStage implements Stage, Runnable{
+   private double        _dryweight;
    private List<Engine>  _engines;
    private String        _error;
    private FuelSystem    _fuelSystem;
@@ -33,6 +34,7 @@ public class GenericStage implements Stage, Runnable{
    private double        _weight;
 
    {
+      _dryweight    = Double.NaN;
       _engines      = null;
       _error        = null;
       _fuelSystem   = null;
@@ -57,16 +59,14 @@ public class GenericStage implements Stage, Runnable{
    //Calculated the weight of the entire stage...
    //
    //
-   private void calculateWeight
-   (
-      List<EngineData> list,
-      FuelSystemData   fsd
-   ){
-      //0. Do the test prints!
-      System.out.println(list);
-      System.out.println(fsd);
-      //1.  Assume a dry weight for the given stage--first print stage
-      System.out.println("Stage Number: "+this._stageNumber);
+   private void calculateWeight(FuelSystemData fsd){
+      this._weight = this._dryweight;
+      List<TankData> data = fsd.tankData();
+      Iterator<TankData> it = data.iterator();
+      while(it.hasNext()){
+         //4.  Add the Weight to the tank Weight
+         this._weight += it.next().weight();
+      }
    }
 
    //
@@ -110,6 +110,8 @@ public class GenericStage implements Stage, Runnable{
          try{
             String num = ht.get("number");
             if(Integer.parseInt(num) == this._stageNumber){
+               double dw = Double.parseDouble(ht.get("dryweight"));
+               this._dryweight = dw;
                this._totalEngines=Integer.parseInt(ht.get("engines"));
                int v = Integer.parseUnsignedInt(ht.get("model"),16);
                this._modelNumber = Integer.toUnsignedLong(v);
@@ -160,7 +162,15 @@ public class GenericStage implements Stage, Runnable{
       //now, get the Fuel System Data
       FuelSystemData fsd = this._fuelSystem.monitorPrelaunch();
       //get the weight of the fuel and engines and add to it...
-      this.calculateWeight(engineData, fsd);
+      this.calculateWeight(fsd);
+      StageData sd = new GenericStageData(
+                                          this._modelNumber,
+                                          this._stageNumber,
+                                          this._engines.size(),
+                                          this._weight,
+                                          engineData,
+                                          fsd);
+      System.out.println("Stage Data: "+sd);
       return null;
    }
 
