@@ -22,6 +22,7 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public interface StageData{
+   public double           dryWeight();
    public List<EngineData> engineData();
    public FuelSystemData   fuelSystemData();
    public long             model();

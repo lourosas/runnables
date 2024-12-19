@@ -22,6 +22,7 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public class GenericStageData implements StageData{
+   private double           _dryWeight;
    private long             _model;
    private int              _number;
    private int              _engines;
@@ -30,6 +31,7 @@ public class GenericStageData implements StageData{
    private FuelSystemData   _fuelSystemData;
 
    {
+      _dryWeight      = Double.NaN;
       _model          = -1;
       _number         = -1;
       _engines        = -1;
@@ -44,6 +46,7 @@ public class GenericStageData implements StageData{
    //
    GenericStageData
    (
+      double           dryWeight,
       long             model,
       int              number,
       int              engines,
@@ -51,6 +54,7 @@ public class GenericStageData implements StageData{
       List<EngineData> engineData,
       FuelSystemData   fuelSystemData
    ){
+      this.dryWeight(dryWeight);
       this.model(model);
       this.stageNumber(number);
       this.engines(engines);
@@ -60,6 +64,13 @@ public class GenericStageData implements StageData{
    }
 
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void dryWeight(double dryweight){
+      this._dryWeight = dryweight;
+   }
+
    //
    //
    //
@@ -117,6 +128,13 @@ public class GenericStageData implements StageData{
    //
    //
    //
+   public double dryWeight(){
+      return this._dryWeight;
+   }
+
+   //
+   //
+   //
    public List<EngineData> engineData(){ return this._engineData; }
 
    //
@@ -151,10 +169,11 @@ public class GenericStageData implements StageData{
    //
    public String toString(){
       String data = new String("\nGenericStageData: \n");
-      data += "Stage:   " + this.stageNumber() + "\n";
-      data += "Model:   " + String.format("0x%X\n",this.model());
-      data += "Engines: " + this.numberOfEngines() + "\n";
-      data += "Weight:  " + this.weight() + "\n";
+      data += "Stage:      " + this.stageNumber() + "\n";
+      data += "Model:      " + String.format("0x%X\n",this.model());
+      data += "Engines:    " + this.numberOfEngines() + "\n";
+      data += "Dry Weight: " + this.dryWeight() + "\n";
+      data += "Weight:     " + this.weight() + "\n";
       Iterator<EngineData> it = this.engineData().iterator();
       while(it.hasNext()){
          data += it.next().toString() + "\n";

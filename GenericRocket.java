@@ -69,6 +69,8 @@ public class GenericRocket implements Rocket, Runnable{
          this._calculatedWeight += it.next().weight();
       }
       //Now add weight for a simple and hypothetical (small) payload!!
+      //This is NOT Where this should be!!! Need to come up with a
+      //DIFERENT PLACE!!!
       this._calculatedWeight += 17658;
       //For the time being, just set the Calculated Weight to the
       //Loaded Weight

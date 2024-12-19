@@ -163,7 +163,7 @@ public class GenericStage implements Stage, Runnable{
       FuelSystemData fsd = this._fuelSystem.monitorPrelaunch();
       //get the weight of the fuel and engines and add to it...
       this.calculateWeight(fsd);
-      StageData sd = new GenericStageData(
+      StageData sd = new GenericStageData(this._dryweight,
                                           this._modelNumber,
                                           this._stageNumber,
                                           this._engines.size(),
