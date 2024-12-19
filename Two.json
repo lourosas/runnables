@@ -3,8 +3,15 @@
    {
       "model":"XYZ Model",
       "stages":"1",
-      "empty_weight":"1000000",
-      "loaded_weight":"3000000"
+      "empty_weight":"48500",
+      "loaded_weight":"1659800"
+   },
+   "payload":
+   {
+      "type":"capsule",
+      "model":"Mercury",
+      "crew":"N/A",
+      "dryweight":"17568"
    },
    "launching_mechanism":
    {

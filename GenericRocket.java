@@ -62,6 +62,7 @@ public class GenericRocket implements Rocket, Runnable{
    //
    //
    private void calculateWeight(List<StageData> data){
+      /*
       this._calculatedWeight = 0.; //Clear out the weight
       Iterator<StageData> it = data.iterator();
       //Do a test print, first...
@@ -75,6 +76,17 @@ public class GenericRocket implements Rocket, Runnable{
       //For the time being, just set the Calculated Weight to the
       //Loaded Weight
       //this._calculatedWeight = this._loadedWeight;
+      */
+      this._calculatedWeight = 0.;
+      //Everything but the fuel
+      this._calculatedWeight += this._emptyWeight;
+      Iterator<StageData> it = data.iterator();
+      while(it.hasNext()){
+         StageData sd = it.next();
+         this._calculatedWeight += sd.weight();
+         //The Dry Weight already taken into account in the dry weight
+         this._calculatedWeight -= sd.dryWeight();
+      }
    }
 
    //
