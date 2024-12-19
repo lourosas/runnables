@@ -244,9 +244,12 @@ implements Runnable,Publisher,LaunchSimulator{
       try{
          this.rocket             = new GenericRocket();
          this.launchingMechanism = new GenericLaunchingMechanism();
+         //Not sure if to make global
+         Payload payload         = new GenericCapsule();
          
          this.rocket.initialize(file);
          this.launchingMechanism.initialize(file);
+         payload.initialize(file);
          
          RocketData rd = null;
          rd = this.rocket.monitorInitialization();

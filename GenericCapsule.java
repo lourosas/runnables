@@ -19,14 +19,55 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
+import java.io.*;
 import rosas.lou.runnables.*;
 
 public class GenericCapsule implements Payload, Runnable{
+   String _model;
+   String _type;
+   int    _crew;
+   double _dryweight;
+
+   {
+      _model      = null;
+      _type       = null;
+      _crew       = -1;
+      _dryweight  = Double.NaN;
+   };
+   ////////////////////////////Constructor///////////////////////////
+   //
+   //
+   //
+   public GenericCapsule(){}
+
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void capsuleData(String file)throws IOException{
+      if(file.toUpperCase().contains("INI")){
+         LaunchSimulatorIniFileReader read = null;
+         read = new LaunchSimulatorIniFileReader(file);
+      }
+      else if(file.toUpperCase().contains("JSON")){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         this.setCapsuleData(read.readPayloadInfo());
+      }
+   }
+
+   //
+   //
+   //
+   private void setCapsuleData(List<Hashtable<String,String>> data){}
+
    //////////////////Payload Interface Implementation/////////////////
    //
    //
    //
-   public void initialize(String file)throws IOException{}
+   public void initialize(String file)throws IOException{
+      this.capsuleData(file);
+   }
 
    //
    //
@@ -47,5 +88,11 @@ public class GenericCapsule implements Payload, Runnable{
    //
    //
    public PayloadData monitorPostLaunch(){ return null; }
+
+   /////////////////Runnable Interface Implementation/////////////////
+   //
+   //
+   //
+   public void run(){}
 }
 //////////////////////////////////////////////////////////////////////
