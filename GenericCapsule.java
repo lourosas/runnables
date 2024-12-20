@@ -23,6 +23,10 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class GenericCapsule implements Payload, Runnable{
+   private static final int PRELAUNCH = -1;
+   private static final int IGNITION  =  0;
+   private static final int LAUNCH    =  1;
+
    String _model;
    String _type;
    int    _crew;
@@ -34,6 +38,7 @@ public class GenericCapsule implements Payload, Runnable{
       _crew       = -1;
       _dryweight  = Double.NaN;
    };
+
    ////////////////////////////Constructor///////////////////////////
    //
    //
