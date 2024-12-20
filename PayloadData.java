@@ -22,7 +22,7 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public interface PayloadData{
-   public String  crew();
+   public int     crew();
    public double  currentWeight();
    public double  dryWeight();
    public String  error();

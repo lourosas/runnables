@@ -62,6 +62,7 @@ public class GenericEngineData implements EngineData{
       this.isIgnited(isIgnited);
       this.temperature(temperature);
    }
+
    //////////////////////////Private Methods//////////////////////////
    //
    //
