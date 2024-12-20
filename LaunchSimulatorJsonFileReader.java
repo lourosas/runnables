@@ -78,8 +78,7 @@ public class LaunchSimulatorJsonFileReader{
    //
    //
    //
-   public List<Hashtable<String,String>>
-   readPayloadInfo()throws IOException{
+   public Hashtable<String,String>readPayloadInfo()throws IOException{
       try{
          String jsonData = this.grabJSONFileData();
          return this.parsePayloadData(jsonData);
@@ -342,17 +341,16 @@ public class LaunchSimulatorJsonFileReader{
    //
    //
    //
-   private List<Hashtable<String,String>>
-   parsePayloadData(String data){
-      boolean found                     = data.contains("payload");
-      List<Hashtable<String,String>> li = null;
+//   private List<Hashtable<String,String>>
+   private Hashtable<String,String> parsePayloadData(String data){
+      Hashtable<String,String> ht = null;
+      boolean found               = data.contains("payload");
       if(found){
-         li = new LinkedList<Hashtable<String,String>>();
+         ht             = new Hashtable<String,String>();
          String[] array = data.split("\"payload\"");
          for(int i = 0; i < array.length; ++i){
             String[] saves = new String[data.length()];
             int savesCount = 0;
-            Hashtable<String,String> ht = null;
             String current = array[i].strip();
             char char0     = current.charAt(0);
             char char1     = current.charAt(1);
@@ -369,7 +367,7 @@ public class LaunchSimulatorJsonFileReader{
                      int beg = 1;
                      int end = temp[k].length() - 1;
                      temp[k] = temp[k].substring(beg, end);
-                     if(temp[k].length > 0){
+                     if(temp[k].length() > 0){
                         char c         = temp[k].charAt(0);
                         boolean isChar = Character.isLetter(c);
                         boolean isNum  = Character.isDigit(c);
@@ -388,17 +386,16 @@ public class LaunchSimulatorJsonFileReader{
                      ht.put(saves[j], saves[j+1]);
                   }
                   catch(ArrayIndexOutOfBoundsException e){
-                     ht.put(saves[j],"<No Data>");
+                     ht.put(saves[j], "<No Data>");
                   }
                   catch(NullPointerException npe){
-                     ht.put(saves[j],"<No Data>");
+                     ht.put(saves[j], "<No Data>");
                   }
                }
-               li.add(ht);
             }
          }
       }
-      return li;
+      return ht;
    }
 
    //

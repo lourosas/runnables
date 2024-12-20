@@ -59,7 +59,32 @@ public class GenericCapsule implements Payload, Runnable{
    //
    //
    //
-   private void setCapsuleData(List<Hashtable<String,String>> data){}
+   private void setCapsuleData(Hashtable<String,String> data){
+      try{
+         this._model = data.get("model");
+      }
+      catch(NullPointerException npe){}
+      try{
+         this._type = data.get("type");
+      }
+      catch(NullPointerException npe){}
+      try{
+         int i = Integer.parseInt(data.get("crew"));
+         if(i > 0){
+            this._crew = i;
+         }
+      }
+      catch(NumberFormatException nfe){}
+      catch(NullPointerException npe){}
+      try{
+         double d = Double.parseDouble(data.get("dryweight"));
+         if(d > 0.){
+            this._dryweight = d;
+         }
+      }
+      catch(NumberFormatException nfe){}
+      catch(NullPointerException npe){}
+   }
 
    //////////////////Payload Interface Implementation/////////////////
    //
