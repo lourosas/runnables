@@ -31,6 +31,11 @@ import myclasses.*;
 import rosas.lou.clock.*;
 
 public class RocketJFrame extends GenericJInteractionFrame{
+   RocketData _rocketData; //The Current Rocket Data...
+
+   {
+      _rocketData = null;
+   };
 
    ////////////////////////////Constructors///////////////////////////
    //
@@ -51,9 +56,36 @@ public class RocketJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   public initialize(RocketData rd){}
+   public void initialize(RocketData rd){}
 
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private JPanel setUpCenterPanel(){
+      JPanel panel = new JPanel();
+      panel.setBorder(BorderFactory.createEtchedBorder());
+      panel.setLayout(0,2);
+      return panel;
+   }
+
+   //
+   //
+   //
+   private JPanel setUpSouthPanel(){
+      JPanel panel = new JPanel();
+      panel.setBorder(BorderFactory.createEtchedBorder());
+      JButton stages = new JButton("Stages");
+      stages.addActionListener(new ActionListener{
+         public void actionPerformed(ActionEvent e){
+            //Test Prints for the time being...
+            e.printStackTrace();
+         }
+      });
+
+      return panel
+   }
+
    //
    //
    //
@@ -62,12 +94,14 @@ public class RocketJFrame extends GenericJInteractionFrame{
       int HEIGHT = 200;
       this.setLayout(new BorderLayout());//allow for a button panel
       this.setSize(WIDTH, HEIGHT);
-      this.setVisible(true);
+      //Do not set up the visualization until it is time to display
+      //this.setVisible(true);
       if(parent != null){
          Point p = parent.getLocation();
          this.setLocation(p.x, p.y); //Right on top of the parent...
       }
+      JPanel centerPanel = this.setUpCenterPanel();
+      JPanel southPanel  = this.setUpSouthPanel();
    }
-
 }
 //////////////////////////////////////////////////////////////////////

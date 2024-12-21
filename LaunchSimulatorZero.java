@@ -47,6 +47,7 @@ implements Runnable,Publisher,LaunchSimulator{
    private CountdownTimer     countdownTimer;
    private Rocket             rocket;
    private LaunchingMechanism launchingMechanism;
+   private Payload            payload;
    private Thread             rt0;
    private boolean            start;
    private boolean            kill;
@@ -70,6 +71,7 @@ implements Runnable,Publisher,LaunchSimulator{
       subscriber         = null;
       countdownTimer     = null;
       rocket             = null;
+      payload            = null;
       launchingMechanism = null;
       rt0                = null;
       start              = false;
@@ -244,8 +246,7 @@ implements Runnable,Publisher,LaunchSimulator{
       try{
          this.rocket             = new GenericRocket();
          this.launchingMechanism = new GenericLaunchingMechanism();
-         //Not sure if to make global
-         Payload payload         = new GenericCapsule();
+         this.payload            = new GenericCapsule();
          
          this.rocket.initialize(file);
          this.launchingMechanism.initialize(file);
@@ -259,6 +260,10 @@ implements Runnable,Publisher,LaunchSimulator{
          LaunchingMechanismData lm = null;
          lm = this.launchingMechanism.monitorInitialization();
          this.notify("Initialize",lm);
+
+         PayloadData pd = null;
+         pd = this.payload.monitorPrelaunch();
+         this.notify("Initialize", pd);
       }
       catch(IOException ioe){
          //for the time being, do this...something else later...
@@ -312,6 +317,7 @@ implements Runnable,Publisher,LaunchSimulator{
       int printCounter          = 0;
       LaunchingMechanismData md = null;
       RocketData rd             = null;
+      PayloadData pd            = null;
       try{
          while(true){
             if(this.kill){
@@ -324,6 +330,7 @@ implements Runnable,Publisher,LaunchSimulator{
                if(this.state() == PREL){
                   md = this.launchingMechanism.monitorPrelaunch();
                   rd = this.rocket.monitorPrelaunch();
+                  pd = this.payload.monitorPrelaunch();
                   if(++printCounter == 100){
                      //So far, just test prints
                      System.out.println("\n"+this.stateSubstate);
@@ -402,6 +409,16 @@ implements Runnable,Publisher,LaunchSimulator{
       catch(NullPointerException npe){
          npe.printStackTrace();
       }
+      try{
+         PayloadData pd = (PayloadData)o;
+         if(s != null){
+            this.subscriber.update(pd,s);
+         }
+         else{
+            this.subscriber.update(pd);
+         }
+      }
+      catch(ClassCastException cce){}
    }
 
    //

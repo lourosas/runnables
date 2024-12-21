@@ -202,6 +202,11 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
          this.handleLaunchingMechanismData(null,lm);
       }
       catch(ClassCastException cce){}
+      try{
+         PayloadData pd = (PayloadData)o;
+         this.handlePayloadData(null, pd);
+      }
+      catch(ClassCastException cce){}
    }
 
    /**/
@@ -228,6 +233,11 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
             this.handleRocketData(s.toUpperCase(),rd);
          }
          catch(ClassCastException cce){}      
+         try{
+            PayloadData pd = (PayloadData)o;
+            this.handlePayloadData(s.toUpperCase(), pd);
+         }
+         catch(ClassCastException cce){ }
       }
       else{
          this.getMessage(s);
@@ -381,7 +391,12 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    private void handleLaunchSubstate
    (
       LaunchSimulatorStateSubstate.LaunchSubstate sub
-   ){
+   ){}
+
+   /**/
+   private void handlePayloadData(String state, PayloadData pd){
+      if(state != null){}
+      else{}
    }
 
    /**/

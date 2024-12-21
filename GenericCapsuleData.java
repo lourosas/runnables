@@ -179,7 +179,7 @@ public class GenericCapsuleData implements PayloadData{
       if(this.crew() > 0){
          value += "\nCrew:             "+this.crew();
       }
-      else{ value += "\nCrew:         N/A"; }
+      else{ value += "\nCrew:             N/A"; }
       value += "\nCurrent Temp:     "+this.currentTemp();
       value += "\nMeasured Weight:  "+this.currentWeight();
       value += "\nExpected Weight:  "+this.dryWeight();
