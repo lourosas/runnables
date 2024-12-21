@@ -56,7 +56,9 @@ public class RocketJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   public void initialize(RocketData rd){}
+   public void initialize(RocketData rd){
+      this.setUpRocketData(rd);
+   }
 
    //////////////////////////Private Methods//////////////////////////
    //
@@ -65,8 +67,16 @@ public class RocketJFrame extends GenericJInteractionFrame{
    private JPanel setUpCenterPanel(){
       JPanel panel = new JPanel();
       panel.setBorder(BorderFactory.createEtchedBorder());
-      panel.setLayout(0,2);
+      panel.setLayout(new GridLayout(0,2));
       return panel;
+   }
+
+   //
+   //
+   //
+   public void setUpRocketData(RocketData rd){
+      this._rocketData = rd;
+      //Test Prints
    }
 
    //
@@ -76,14 +86,13 @@ public class RocketJFrame extends GenericJInteractionFrame{
       JPanel panel = new JPanel();
       panel.setBorder(BorderFactory.createEtchedBorder());
       JButton stages = new JButton("Stages");
-      stages.addActionListener(new ActionListener{
+      stages.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
             //Test Prints for the time being...
-            e.printStackTrace();
+            System.out.println(e);
          }
       });
-
-      return panel
+      return panel;
    }
 
    //
@@ -102,6 +111,9 @@ public class RocketJFrame extends GenericJInteractionFrame{
       }
       JPanel centerPanel = this.setUpCenterPanel();
       JPanel southPanel  = this.setUpSouthPanel();
+      this.getContentPane().add(centerPanel,BorderLayout.CENTER);
+      this.getContentPane().add(southPanel, BorderLayout.SOUTH);  
+
    }
 }
 //////////////////////////////////////////////////////////////////////

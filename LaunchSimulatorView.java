@@ -422,8 +422,13 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
 
    /**/
    private void handleRocketData(String state, RocketData rd){
-      System.out.println(rd);
-      if(state != null){}
+      if(state != null){
+         if(state.toUpperCase().contains("INITIALIZE")){
+            //Will need to make this global...
+            RocketJFrame frame = new RocketJFrame(this);
+            frame.initialize(rd);
+         }
+      }
       else{}
    }
 
