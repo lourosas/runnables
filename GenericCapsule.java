@@ -47,7 +47,7 @@ public class GenericCapsule implements Payload, Runnable{
       _type           = null;
    };
 
-   ////////////////////////////Constructor///////////////////////////
+   ////////////////////////////Constructor////////////////////////////
    //
    //
    //
@@ -76,13 +76,44 @@ public class GenericCapsule implements Payload, Runnable{
       this._error   = null;  //Set to null
       this._isError = false; //Pre-set
       this.isTemperatureError(state);
-      this.isMeasuredWeigthError(state);
+      this.isMeasuredWeightError(state);
    }
 
    //
    //
    //
    private void isMeasuredWeightError(int state){
+      if(state == PRELAUNCH){
+         //In the Pre-Launch state, the payload weight should be
+         //extreamly close to the entered weight...(similar to the
+         //dry weight)...throw and error if above or below the
+         //"allowed error"...
+         //Going to use the Dry Weight as the measure
+         double tolerance = .95;
+         double wl = this._dryweight * tolerance;
+         double ul = this._dryweight + wl;
+         double ll = this._dryweight - wl;
+         if(this._measuredweight < ll || this._measuredweight > ul){
+            this._isError = true;
+            String s = new String("\nMeasured Weight Error");
+            if(this._error == null){
+               this._error = new String(s);
+            }
+            else{
+               this._error += s;
+            }
+            this._error += "\nExpected Weight: ";
+            this._error += "" + this._dryweight;
+            this._error += "\nMeasured Weight: ";
+            this._error += "" + this._measuredweight + "\n";
+         }
+      }
+   }
+
+   //
+   //
+   //
+   private void isTemperatureError(int state){
       if(state == PRELAUNCH){
          //The payload should never get higher than the boiling point
          //of water...
@@ -105,16 +136,11 @@ public class GenericCapsule implements Payload, Runnable{
    //
    //
    //
-   private void isTemperatureError(int state){}
-
-   //
-   //
-   //
    private void measureTemp(){
       //Put a stop gap in for now...set the temp at typical
       //temp...temp is set in Kelvin...
       double temp = 300; //300K
-      this._currentTemp = temp;
+      this._currenttemp = temp;
    }
 
    //
@@ -171,7 +197,14 @@ public class GenericCapsule implements Payload, Runnable{
       this.measureTemp();
       this.measureWeight();
       this.isError(PRELAUNCH);
-      return data;
+      return new GenericCapsuleData(this._crew,
+                                    this._currenttemp,
+                                    this._error,
+                                    this._isError,
+                                    this._dryweight,
+                                    this._measuredweight,
+                                    this._model,
+                                    this._type);
    }
 
    //

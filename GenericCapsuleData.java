@@ -26,7 +26,8 @@ public class GenericCapsuleData implements PayloadData{
    private double      _currentTemp;
    private String      _error;
    private boolean     _isError;
-   private double      _mesuredWeight;
+   private double      _dryWeight;
+   private double      _measuredWeight;
    private String      _model;
    private String      _type;
 
@@ -50,7 +51,8 @@ public class GenericCapsuleData implements PayloadData{
       double  temp,
       String  error,
       boolean isError,
-      double  weight,
+      double  dryWeight,
+      double  measuredWeight,
       String  model,
       String  type
    ){
@@ -58,7 +60,8 @@ public class GenericCapsuleData implements PayloadData{
       this.currentTemp(temp);
       this.error(error);
       this.isError(isError);
-      this.measuredWeight(weight);
+      this.dryWeight(dryWeight);
+      this.measuredWeight(measuredWeight);
       this.model(model);
       this.type(type);
    }
@@ -78,6 +81,15 @@ public class GenericCapsuleData implements PayloadData{
    //
    private void currentTemp(double temp){
       this._currentTemp = temp;
+   }
+
+   //
+   //
+   //
+   private void dryWeight(double dw){
+      if(dw > 0.){
+         this._dryWeight = dw;
+      }
    }
 
    //
@@ -122,5 +134,62 @@ public class GenericCapsuleData implements PayloadData{
    //
    //
    public int crew(){ return this._crew; }
+   
+   //
+   //
+   //
+   public double currentTemp(){ return this._currentTemp;}
+
+
+   //
+   //
+   //
+   public double currentWeight(){ return this._measuredWeight; }
+
+   //
+   //
+   //
+   public double dryWeight(){ return this._dryWeight; }
+
+   //
+   //
+   //
+   public String error(){ return this._error; }
+
+   //
+   //
+   //
+   public boolean isError(){ return this._isError; }
+
+   //
+   //
+   //
+   public String model(){ return this._model; }
+
+   //
+   //
+   //
+   public String type(){ return this._type; }
+
+   //
+   //
+   //
+   public String toString(){
+      String value = new String("\nCapsule Data");
+      if(this.crew() > 0){
+         value += "\nCrew:             "+this.crew();
+      }
+      else{ value += "\nCrew:         N/A"; }
+      value += "\nCurrent Temp:     "+this.currentTemp();
+      value += "\nMeasured Weight:  "+this.currentWeight();
+      value += "\nExpected Weight:  "+this.dryWeight();
+      value += "\nError? "+this.isError();
+      if(this.isError()){
+         value += "Error(s): "+this.error();
+      }
+      value += "\nModel:            "+this.model();
+      value += "\nType:             "+this.type();
+      return value;
+   }
 }
 //////////////////////////////////////////////////////////////////////
