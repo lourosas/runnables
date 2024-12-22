@@ -58,6 +58,7 @@ public class RocketJFrame extends GenericJInteractionFrame{
    //
    public void initialize(RocketData rd){
       this.setUpRocketData(rd);
+      this.setVisual();
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -74,9 +75,13 @@ public class RocketJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   public void setUpRocketData(RocketData rd){
+   private void setUpRocketData(RocketData rd){
       this._rocketData = rd;
-      //Test Prints
+      System.out.println("poop!"+this._rocketData);
+      System.out.println("Fucking Count: "+this.getComponentCount());
+      JPanel panel = (JPanel)this.getComponent(0);
+      panel.add(new JLabel("poop"));
+      this.setVisual();
    }
 
    //
@@ -92,6 +97,7 @@ public class RocketJFrame extends GenericJInteractionFrame{
             System.out.println(e);
          }
       });
+      panel.add(stages);
       return panel;
    }
 
@@ -101,6 +107,7 @@ public class RocketJFrame extends GenericJInteractionFrame{
    private void setUpGUI(JFrame parent){
       int WIDTH  = 425;
       int HEIGHT = 200;
+      System.out.println("\nFucking setUpGUI()\n");
       this.setLayout(new BorderLayout());//allow for a button panel
       this.setSize(WIDTH, HEIGHT);
       //Do not set up the visualization until it is time to display
@@ -113,7 +120,19 @@ public class RocketJFrame extends GenericJInteractionFrame{
       JPanel southPanel  = this.setUpSouthPanel();
       this.getContentPane().add(centerPanel,BorderLayout.CENTER);
       this.getContentPane().add(southPanel, BorderLayout.SOUTH);  
+      this.setResizable(false);
+      //this.setVisible(true);
 
+   }
+
+   //
+   //
+   //
+   private void setVisual(){
+      System.out.println("\nFucking setVisual()\n");
+      this.setVisible(false);
+      this.setSize(425,200);
+      this.setVisible(true);
    }
 }
 //////////////////////////////////////////////////////////////////////
