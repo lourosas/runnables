@@ -27,6 +27,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import javax.swing.border.*;
 import java.time.*;
+import java.text.*;
 import myclasses.*;
 import rosas.lou.clock.*;
 
@@ -76,12 +77,44 @@ public class RocketJFrame extends GenericJInteractionFrame{
    //
    //
    private void setUpRocketData(RocketData rd){
-      this._rocketData = rd;
-      System.out.println("poop!"+this._rocketData);
-      System.out.println("Fucking Count: "+this.getComponentCount());
-      JPanel panel = (JPanel)this.getComponent(0);
-      panel.add(new JLabel("poop"));
-      this.setVisual();
+      this._rocketData    = rd;
+      NumberFormat format = NumberFormat.getInstance(Locale.US);
+      JPanel p            = (JPanel)this.getContentPane();
+      JPanel rp           = (JPanel)p.getComponent(0);
+
+      JLabel l=new JLabel("Rocket Model: ",SwingConstants.RIGHT);
+      rp.add(l);
+      l = new JLabel(rd.model());
+      rp.add(l);
+
+      l = new JLabel("Current Weight: ",SwingConstants.RIGHT);
+      rp.add(l);
+      String n = format.format(rd.calculatedWeight())+"N";
+      l = new JLabel(n);
+      rp.add(l);
+
+      l = new JLabel("Current Stage: ",SwingConstants.RIGHT);
+      rp.add(l);
+      n = "" + rd.currentStage();
+      l = new JLabel(n);
+      rp.add(l);
+
+      l = new JLabel("Total Stages: ",SwingConstants.RIGHT);
+      rp.add(l);
+      n = "" + rd.numberOfStages();
+      l = new JLabel(n);
+      rp.add(l);
+
+      l = new JLabel("Error:  ",SwingConstants.RIGHT);
+      if(rd.isError()){ l.setForeground(Color.RED); }
+      else{ l.setForeground(Color.BLUE); }
+      rp.add(l);
+      n = "" + rd.isError();
+      l = new JLabel(n);
+      rp.add(l);
+      if(rd.isError()){ l.setForeground(Color.RED); }
+      else{ l.setForeground(Color.BLUE); }
+
    }
 
    //

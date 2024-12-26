@@ -24,6 +24,7 @@ import rosas.lou.runnables.*;
 public class GenericRocketData implements RocketData{
    //Initialization, Launch, Countdown
    private double                 _calculatedWeight;
+   private int                    _currentStage;
    private double                 _emptyWeight;
    private String                 _error;
    private boolean                _isError;
@@ -34,6 +35,7 @@ public class GenericRocketData implements RocketData{
 
    {
       _calculatedWeight = Double.NaN;
+      _currentStage     = -1;
       _emptyWeight      = Double.NaN;
       _error            = null;
       _isError          = false;
@@ -50,6 +52,7 @@ public class GenericRocketData implements RocketData{
    public GenericRocketData
    (
       String          model,
+      int             currentStage,
       int             numberOfStages,
       double          emptyWeight,
       double          loadedWeight,
@@ -59,6 +62,7 @@ public class GenericRocketData implements RocketData{
       List<StageData> stages
    ){
       this.model(model);
+      this.currentStage(currentStage);
       this.numberOfStages(numberOfStages);
       this.emptyWeight(emptyWeight);
       this.loadedWeight(loadedWeight);
@@ -74,6 +78,15 @@ public class GenericRocketData implements RocketData{
    //
    private void calculatedWeight(double weight){
       this._calculatedWeight = weight;
+   }
+
+   //
+   //
+   //
+   private void currentStage(int stage){
+      if(stage > 0){
+         this._currentStage = stage;
+      }
    }
 
    //
@@ -134,6 +147,13 @@ public class GenericRocketData implements RocketData{
    //
    public double calculatedWeight(){
       return this._calculatedWeight;
+   }
+
+   //
+   //
+   //
+   public int currentStage(){
+      return this._currentStage;
    }
 
    //
@@ -210,10 +230,11 @@ public class GenericRocketData implements RocketData{
       if(this.isError()){
          value += " Error(s): "+this.error();
       }
-      value += "\nLoaded Weight: "+this.loadedWeight();
+      value += "\nLoaded Weight:     "+this.loadedWeight();
       value += "\nCalculated Weight: "+this.calculatedWeight();
-      value += "\nModel: "+ this.model();
-      value += "\nNumber of Stages: " + this.numberOfStages();
+      value += "\nModel:             "+ this.model();
+      value += "\nCurrent Stage:     "+this.currentStage();
+      value += "\nNumber of Stages:  " + this.numberOfStages();
       try{
          for(int i = 0; i < this._stageData.size(); ++i){
             value += this._stageData.get(i).toString();

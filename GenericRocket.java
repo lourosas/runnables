@@ -248,6 +248,7 @@ public class GenericRocket implements Rocket, Runnable{
       //Determine if there is an error-->COMPARE WEIGHT!!!
       this.isError(PRELAUNCH);
       return new GenericRocketData(this._model,
+                                    this._currentStage,
                                     this._numberOfStages,
                                     this._emptyWeight,
                                     this._loadedWeight,

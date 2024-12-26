@@ -334,6 +334,17 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       }
    }
 
+   /*
+    *Just gets the Rocket Panel
+    * */
+   private LaunchSimulatorRocketPanel getRocketPanel(){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel nePanel=(JPanel)panel.getComponent(1);
+      LaunchSimulatorRocketPanel p = null;
+      p = (LaunchSimulatorRocketPanel)nePanel.getComponent(0);
+      return p;
+   }
+
    /**/
    private void handleJTextFieldEntry(JTextField jtf, String s){
       String test = s.toUpperCase();
@@ -427,6 +438,9 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
             //Will need to make this global...
             RocketJFrame frame = new RocketJFrame(this);
             frame.initialize(rd);
+            LaunchSimulatorRocketPanel p = null;
+            p = (LaunchSimulatorRocketPanel)this.getRocketPanel();
+            p.initialize(rd);
          }
       }
       else{}
@@ -515,7 +529,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       panel.setBorder(BorderFactory.createEtchedBorder());
       panel.setLayout(new GridLayout(2,2,1,1));
       panel.add(this.setUpNorthWestPanel());
-      panel.add(new JPanel());
+      panel.add(this.setUpNorthEastPanel());//Rocket Panel
       panel.add(new JPanel());
       panel.add(new JPanel());
       return panel;
@@ -579,6 +593,15 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /**/
+   private JPanel setUpNorthEastPanel(){
+      JPanel panel = new JPanel();
+      panel.setLayout(new GridLayout(0,1));
+      panel.add(this.setUpRocketPanel());
+      panel.add(new JPanel());
+      return panel;
+   }
+
+   /**/
    private JPanel setUpNorthWestPanel(){
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(0,1));
@@ -596,6 +619,11 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       panel.add(stateLabel);
 
       return panel;
+   }
+
+   /**/
+   private JPanel setUpRocketPanel(){
+      return new LaunchSimulatorRocketPanel();  
    }
 
    /**/
