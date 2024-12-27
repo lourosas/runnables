@@ -406,7 +406,12 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
 
    /**/
    private void handlePayloadData(String state, PayloadData pd){
-      if(state != null){}
+      if(state != null){
+         if(state.toUpperCase().contains("INITIALIZE")){
+            LaunchSimulatorPayloadPanel p = null;
+
+         }
+      }
       else{}
    }
 
@@ -606,7 +611,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(0,1));
       panel.add(this.setUpCountdownPanel());
-      panel.add(new JPanel());
+      panel.add(this.setUpPayloadPanel());
       return panel;
    }
 
@@ -619,6 +624,11 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       panel.add(stateLabel);
 
       return panel;
+   }
+
+   /**/
+   private JPanel setUpPayloadPanel(){
+      return new LaunchSimulatorPayloadPanel();
    }
 
    /**/
