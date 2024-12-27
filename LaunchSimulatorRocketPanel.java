@@ -58,6 +58,7 @@ public class LaunchSimulatorRocketPanel extends JPanel{
    //
    //
    private void activateButtonPanel(String action){
+      this.deactivateButtonPanel();
       if(action.toUpperCase().equals("INITIALIZE")){
          JPanel bp = (JPanel)this.getComponent(1);
          for(int i = 0; i < bp.getComponentCount(); ++i){
@@ -76,6 +77,23 @@ public class LaunchSimulatorRocketPanel extends JPanel{
    //
    //
    //
+   private void deactivateButtonPanel(){
+      JPanel bp = (JPanel)this.getComponent(1);
+      for(int i = 0; i < bp.getComponentCount(); ++i){
+         try{
+            JButton b = (JButton)bp.getComponent(i);
+            b.setEnabled(false);
+         }
+         catch(ClassCastException cce){
+            //If this is triggered "we" are in trouble!!
+            cce.printStackTrace();
+         }
+      }
+   }
+
+   //
+   //
+   //
    private JPanel setUpButtonPanel(){
       JPanel panel = new JPanel();
       //Add more Buttons as needed
@@ -86,8 +104,6 @@ public class LaunchSimulatorRocketPanel extends JPanel{
             System.out.println(e);
          }
       });
-      //Disable Stages Button until initialization
-      stages.setEnabled(false);
       panel.add(stages);
       return panel;
    }
@@ -111,22 +127,55 @@ public class LaunchSimulatorRocketPanel extends JPanel{
       this.setLayout(new BorderLayout());
       this.add(this.setUpDataPanel(),  BorderLayout.CENTER);
       this.add(this.setUpButtonPanel(),BorderLayout.SOUTH);
+      this.deactivateButtonPanel();
    }
 
    //
    //
    //
    private void updateCenterPanel(RocketData rd){
-      NumberFormat format = NumberFormat.getInstance(Locale.US);
       try{
+         NumberFormat format = NumberFormat.getInstance(Locale.US);
          JPanel rdp = (JPanel)this.getComponent(0);
-         System.out.println(rdp);
+         String n = new String();
          JLabel l=new JLabel("Rocket Model: ",SwingConstants.RIGHT);
          rdp.add(l);
          l = new JLabel(rd.model());
          rdp.add(l);
+
+         l = new JLabel("Current Weight: ",SwingConstants.RIGHT);
+         rdp.add(l);
+         n = format.format(rd.calculatedWeight())+"N";
+         l = new JLabel(n);
+         rdp.add(l);
+
+         l = new JLabel("Current Stage: ",SwingConstants.RIGHT);
+         rdp.add(l);
+         n = "" + rd.currentStage();
+         l = new JLabel(n);
+         rdp.add(l);
+
+         l = new JLabel("Total Stages: ",SwingConstants.RIGHT);
+         rdp.add(l);
+         n = "" + rd.numberOfStages();
+         l = new JLabel(n);
+         rdp.add(l);
+         
+         l = new JLabel("Error: ",SwingConstants.RIGHT);
+         if(rd.isError()){ l.setForeground(Color.RED); }
+         else{ l.setForeground(Color.BLUE); }
+         rdp.add(l);
+         n = "" + rd.isError();
+         l = new JLabel(n);
+         if(rd.isError()){ l.setForeground(Color.RED); }
+         else{ l.setForeground(Color.BLUE); }
+         rdp.add(l);
+         
+         rdp.repaint();
+         rdp.revalidate();
       }
       catch(ClassCastException cce){cce.printStackTrace(); }
+      catch(Exception e){ e.printStackTrace(); }
    }
 }
 //////////////////////////////////////////////////////////////////////
