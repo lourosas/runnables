@@ -27,6 +27,7 @@ public class GenericCapsuleData implements PayloadData{
    private String      _error;
    private boolean     _isError;
    private double      _dryWeight;
+   private double      _maxWeight;
    private double      _measuredWeight;
    private String      _model;
    private String      _type;
@@ -36,6 +37,7 @@ public class GenericCapsuleData implements PayloadData{
       _currentTemp    = Double.NaN;
       _error          = null;
       _isError        = false;
+      _maxWeight      = Double.NaN;
       _measuredWeight = Double.NaN;
       _model          = null;
       _type           = null;
@@ -52,6 +54,7 @@ public class GenericCapsuleData implements PayloadData{
       String  error,
       boolean isError,
       double  dryWeight,
+      double  maxWeight,
       double  measuredWeight,
       String  model,
       String  type
@@ -61,6 +64,7 @@ public class GenericCapsuleData implements PayloadData{
       this.error(error);
       this.isError(isError);
       this.dryWeight(dryWeight);
+      this.maxWeight(maxWeight);
       this.measuredWeight(measuredWeight);
       this.model(model);
       this.type(type);
@@ -104,6 +108,15 @@ public class GenericCapsuleData implements PayloadData{
    //
    private void isError(boolean isError){
       this._isError = isError;
+   }
+
+   //
+   //
+   //
+   private void maxWeight(double wgt){
+      if(wgt > 0.){
+         this._maxWeight = wgt;
+      }
    }
 
    //
@@ -164,6 +177,11 @@ public class GenericCapsuleData implements PayloadData{
    //
    //
    //
+   public double maxWeight(){ return this._maxWeight; }
+
+   //
+   //
+   //
    public String model(){ return this._model; }
 
    //
@@ -183,6 +201,7 @@ public class GenericCapsuleData implements PayloadData{
       value += "\nCurrent Temp:     "+this.currentTemp();
       value += "\nMeasured Weight:  "+this.currentWeight();
       value += "\nExpected Weight:  "+this.dryWeight();
+      value += "\nMaximum  Weight:  "+this.maxWeight();
       value += "\nError? "+this.isError();
       if(this.isError()){
          value += "Error(s): "+this.error();

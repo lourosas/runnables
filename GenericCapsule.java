@@ -32,6 +32,7 @@ public class GenericCapsule implements Payload, Runnable{
    private double   _dryweight;
    private String   _error;
    private boolean  _isError;
+   private double   _maxweight;
    private double   _measuredweight;
    private String   _model;
    private String   _type;
@@ -42,6 +43,7 @@ public class GenericCapsule implements Payload, Runnable{
       _dryweight      = Double.NaN;
       _error          = null;
       _isError        = false;
+      _maxweight      = Double.NaN;
       _measuredweight = Double.NaN;
       _model          = null;
       _type           = null;
@@ -84,26 +86,17 @@ public class GenericCapsule implements Payload, Runnable{
    //
    private void isMeasuredWeightError(int state){
       if(state == PRELAUNCH){
-         //In the Pre-Launch state, the payload weight should be
-         //extreamly close to the entered weight...(similar to the
-         //dry weight)...throw and error if above or below the
-         //"allowed error"...
-         //Going to use the Dry Weight as the measure
-         double tolerance = .95;
-         double wl = this._dryweight * tolerance;
-         double ul = this._dryweight + wl;
-         double ll = this._dryweight - wl;
-         if(this._measuredweight < ll || this._measuredweight > ul){
+         //In the Pre-Launch state, the payload weight should not
+         //exceede the Maximum Allowed Weight...
+         if(this._measuredweight > this._maxweight){
             this._isError = true;
             String s = new String("\nMeasured Weight Error");
-            if(this._error == null){
-               this._error = new String(s);
-            }
-            else{
-               this._error += s;
-            }
+            if(this._error == null){ this._error = new String(s); }
+            else{ this._error += s; }
             this._error += "\nExpected Weight: ";
             this._error += "" + this._dryweight;
+            this._error += "\nMaximum  Weight: ";
+            this._error += "" + this._maxweight;
             this._error += "\nMeasured Weight: ";
             this._error += "" + this._measuredweight + "\n";
          }
@@ -179,6 +172,14 @@ public class GenericCapsule implements Payload, Runnable{
       }
       catch(NumberFormatException nfe){}
       catch(NullPointerException npe){}
+      try{
+         double d = Double.parseDouble(data.get("maxweight"));
+         if(d > 0.){
+            this._maxweight = d;
+         }
+      }
+      catch(NumberFormatException nfe){}
+      catch(NullPointerException npe){}
    }
 
    //////////////////Payload Interface Implementation/////////////////
@@ -202,6 +203,7 @@ public class GenericCapsule implements Payload, Runnable{
                                     this._error,
                                     this._isError,
                                     this._dryweight,
+                                    this._maxweight,
                                     this._measuredweight,
                                     this._model,
                                     this._type);
