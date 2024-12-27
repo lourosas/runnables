@@ -436,8 +436,8 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       if(state != null){
          if(state.toUpperCase().contains("INITIALIZE")){
             //Will need to make this global...
-            RocketJFrame frame = new RocketJFrame(this);
-            frame.initialize(rd);
+            //RocketJFrame frame = new RocketJFrame(this);
+            //frame.initialize(rd);
             LaunchSimulatorRocketPanel p = null;
             p = (LaunchSimulatorRocketPanel)this.getRocketPanel();
             p.initialize(rd);

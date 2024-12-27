@@ -130,8 +130,9 @@ public class LaunchSimulatorRocketPanel extends JPanel{
       this.deactivateButtonPanel();
    }
 
-   //
-   //
+   //This is the data associated with the Rocket...not associated
+   //With the Stage...that needs to be addressed when the Actor
+   //Presses the "Stage" Button...
    //
    private void updateCenterPanel(RocketData rd){
       try{
