@@ -45,13 +45,29 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
    }
 
    ///////////////////////////Public Methods//////////////////////////
+   //
+   //
+   //
+   public void initialize(PayloadData pd){
+      //Eventually, activate buttons??
+      this.initializeCenterPanel(pd);
+   }
+
    //////////////////////////Private Methods//////////////////////////
    //
    //
    //
-   private void deactivatePanel(){
+   private void activateButtonPanel(String action){
+      //First, deactivate all buttons
+      this.deactivateButtonPanel();
+   }
+
+   //
+   //
+   //
+   private void deactivateButtonPanel(){
       JPanel bp = (JPanel)this.getComponent(1);
-      for(int i = 0; i < bp.getCompoenentCount(); ++i){
+      for(int i = 0; i < bp.getComponentCount(); ++i){
          try{
             JButton b = (JButton)bp.getComponent(i);
             b.setEnabled(false);
@@ -61,6 +77,57 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
             cce.printStackTrace();
          }
       }
+   }
+
+   //
+   //
+   //
+   private void initializeCenterPanel(PayloadData pd){
+      try{
+         NumberFormat format = NumberFormat.getInstance(Locale.US);
+         JPanel pdp = (JPanel)this.getComponent(0);
+         String n = new String();
+
+         JLabel l=new JLabel("Payload Type: ",SwingConstants.RIGHT);
+         pdp.add(l);
+         l = new JLabel(pd.type());
+         pdp.add(l);
+
+         l = new JLabel("Model: ",SwingConstants.RIGHT);
+         pdp.add(l);
+         l = new JLabel(pd.model());
+         pdp.add(l);
+
+         l = new JLabel("Crew: ", SwingConstants.RIGHT);
+         pdp.add(l);
+         if(pd.crew() > 0){
+            n = "" + pd.crew();
+         }
+         else{
+            n = "N/A";
+         }
+         l = new JLabel(n);
+         pdp.add(l);
+
+         l = new JLabel("Measured Weight: ",SwingConstants.RIGHT);
+         pdp.add(l);
+         n = format.format(pd.currentWeight())+"N";
+         l = new JLabel(n);
+         pdp.add(l);
+
+         l = new JLabel("Error: ",SwingConstants.RIGHT);
+         if(pd.isError()){ l.setForeground(Color.RED); }
+         else{ l.setForeground(Color.BLUE); }
+         pdp.add(l);
+         n = "" + pd.isError();
+         l = new JLabel(n);
+         if(pd.isError()){ l.setForeground(Color.RED); }
+         else{ l.setForeground(Color.BLUE); }
+         pdp.add(l);
+
+      }
+      catch(ClassCastException cce){ cce. printStackTrace(); }
+      catch(Exception e){ e.printStackTrace(); }
    }
 
    //
@@ -91,7 +158,8 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
    //
    //
    private void setUpGUI(){
-      this.setBorder(new BorderLayyout());
+      this.setLayout(new BorderLayout());
+      this.setBorder(BorderFactory.createEtchedBorder());
       this.add(this.setUpDataPanel(),  BorderLayout.CENTER);
       this.add(this.setUpButtonPanel(),BorderLayout.SOUTH);
       this.deactivateButtonPanel();

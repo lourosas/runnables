@@ -334,6 +334,15 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       }
    }
 
+   /**/
+   private LaunchSimulatorPayloadPanel getPayloadPanel(){
+      JPanel panel  = (JPanel)this.getContentPane().getComponent(1);
+      JPanel nwPanel= (JPanel)panel.getComponent(0);
+      LaunchSimulatorPayloadPanel p = null;
+      p = (LaunchSimulatorPayloadPanel)nwPanel.getComponent(1);
+      return p;
+   }
+
    /*
     *Just gets the Rocket Panel
     * */
@@ -409,7 +418,8 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       if(state != null){
          if(state.toUpperCase().contains("INITIALIZE")){
             LaunchSimulatorPayloadPanel p = null;
-
+            p = (LaunchSimulatorPayloadPanel)this.getPayloadPanel();
+            p.initialize(pd);
          }
       }
       else{}

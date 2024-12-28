@@ -26,6 +26,7 @@ public interface PayloadData{
    public double  currentTemp();
    public double  currentWeight();
    public double  dryWeight();
+   public double  maxWeight();
    public String  error();
    public boolean isError();
    public String  model();
