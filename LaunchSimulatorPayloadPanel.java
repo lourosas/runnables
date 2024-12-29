@@ -49,8 +49,10 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
    //
    //
    public void initialize(PayloadData pd){
-      //Eventually, activate buttons??
+      //First, deactivate all buttons
+      this.deactivateButtonPanel();
       this.initializeCenterPanel(pd);
+      this.initializeButtonPanel(pd);
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -58,8 +60,22 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
    //
    //
    private void activateButtonPanel(String action){
-      //First, deactivate all buttons
       this.deactivateButtonPanel();
+      JPanel bp = (JPanel)this.getComponent(1);
+      if(action.toUpperCase().equals("ERROR")){
+         for(int i = 0; i < bp.getComponentCount(); ++i){
+            try{
+               JButton b = (JButton)bp.getComponent(i);
+               if(b.getText().toUpperCase().equals("ERROR")){
+                  //Activate the Error JButton
+                  b.setEnabled(true);
+               }
+            }
+            catch(ClassCastException cce){
+               //If "we" get here, "we" are in trouble!...
+            }
+         }
+      }
    }
 
    //
@@ -76,6 +92,16 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
             //If this is caught, that is bad...
             cce.printStackTrace();
          }
+      }
+   }
+
+   //
+   //
+   //
+   private void initializeButtonPanel(PayloadData pd){
+      if(pd.isError()){
+         //Activate the button panel for Error
+         this.activateButtonPanel("Error");
       }
    }
 

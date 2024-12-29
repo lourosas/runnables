@@ -49,6 +49,7 @@ public class LaunchSimulatorRocketPanel extends JPanel{
    //
    //
    public void initialize(RocketData rd){
+      this.deactivateButtonPanel();
       this.activateButtonPanel("INITIALIZE");
       this.updateCenterPanel(rd);
    }
