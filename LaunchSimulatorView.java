@@ -306,6 +306,15 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       p = (LaunchSimulatorCountdownPanel)nwPanel.getComponent(0);
       return p;
    }
+
+   /**/
+   private LaunchSimulatorMechanismPanel getMechanismPanel(){
+      JPanel panel   = (JPanel)this.getContentPane().getComponent(1);
+      JPanel nePanel = (JPanel)panel.getComponent(1);
+      LaunchSimulatorMechanismPanel p = null;
+      p=(LaunchSimulatorMechanismPanel)nePanel.getComponent(1);
+      return p;
+   }
    
    /**/
    MechanismSupportsPanel getMechanismSupportsPanel(){
@@ -391,6 +400,9 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
             this._launchMechFrame = new LaunchingMechanismJFrame();
             //mp.initialize(list);
             this._launchMechFrame.initialize(lmd);
+            LaunchSimulatorMechanismPanel p = null;
+            p=(LaunchSimulatorMechanismPanel)this.getMechanismPanel();
+            p.initialize(lmd);
          }
       }
       else{
@@ -608,11 +620,17 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /**/
+   private JPanel setUpMechanismPanel(){
+      return new LaunchSimulatorMechanismPanel();
+   }
+
+   /**/
    private JPanel setUpNorthEastPanel(){
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(0,1));
       panel.add(this.setUpRocketPanel());
-      panel.add(new JPanel());
+      panel.add(this.setUpMechanismPanel());
+      //panel.add(new JPanel());
       return panel;
    }
 

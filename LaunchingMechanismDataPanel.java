@@ -108,7 +108,7 @@ public class LaunchingMechanismDataPanel extends JPanel{
    private void setUpGUI(){
       int CENTER = SwingConstants.CENTER;
       JLabel platformLabel = new JLabel("Platform", CENTER);
-      this.setBorder(BorderFactory.createEtchedBorder());
+      //this.setBorder(BorderFactory.createEtchedBorder());
       this.setLayout(new GridLayout(0,1));
       this.add(platformLabel);
       this.add(this.setUpModelPanel());
