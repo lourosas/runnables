@@ -60,13 +60,27 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    private void activateButtonPanel(String action){
       this.deactivateButtonPanel();
+      JPanel bp = (JPanel)this.getComponent(1);
       if(action.toUpperCase().equals("INITIALIZE")){
-         JPanel bp = (JPanel)this.getComponent(1);
          for(int i = 0; i < bp.getComponentCount(); ++i){
             try{
                JButton b = (JButton)bp.getComponent(i);
                if(b.getText().toUpperCase().equals("HOLDS")){
                   //Enable the Holds JButton
+                  b.setEnabled(true);
+               }
+            }
+            catch(ClassCastException cce){}
+         }
+      }
+      else if(action.toUpperCase().equals("ERROR")){
+         for(int i = 0; i < bp.getComponentCount(); ++i){
+            try{
+               JButton b = (JButton)bp.getComponent(i);
+               if(b.getText().toUpperCase().equals("HOLDS")){
+                  b.setEnabled(true);
+               }
+               else if(b.getText().toUpperCase().equals("ERROR")){
                   b.setEnabled(true);
                }
             }
@@ -116,9 +130,23 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
          data = (JPanel)panel.getComponent(2);
          l = new JLabel("Measured Weight: ",SwingConstants.RIGHT);
          data.add(l);
-         n = format.format(lmd.measuredWeight()+"N");
+         n = format.format(lmd.measuredWeight())+"N";
          l = new JLabel(n);
          data.add(l);
+
+         data = (JPanel)panel.getComponent(3);
+         l = new JLabel("Error: ",SwingConstants.RIGHT);
+         if(lmd.isError()){ l.setForeground(Color.RED); }
+         else{ l.setForeground(Color.BLUE); }
+         data.add(l);
+         n = "" + lmd.isError();
+         l = new JLabel(n);
+         if(lmd.isError()){ l.setForeground(Color.RED); }
+         else{ l.setForeground(Color.BLUE); }
+         data.add(l);
+         if(lmd.isError()){
+            this.activateButtonPanel("ERROR");
+         }
          
       }
       catch(ClassCastException cce){ cce.printStackTrace(); }
