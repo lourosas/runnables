@@ -51,7 +51,7 @@ public class LaunchSimulatorRocketPanel extends JPanel{
    public void initialize(RocketData rd){
       this.deactivateButtonPanel();
       this.activateButtonPanel("INITIALIZE");
-      this.updateCenterPanel(rd);
+      this.initializeCenterPanel(rd);
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -95,6 +95,34 @@ public class LaunchSimulatorRocketPanel extends JPanel{
    //
    //
    //
+   private void initializeCenterPanel(RocketData rd){
+      try{
+         String n            = new String();
+         NumberFormat format = NumberFormat.getInstance(Locale.US);
+         JPanel panel        = (JPanel)this.getComponent(0);
+         //Get the Model Panel
+         JPanel rdp = (JPanel)panel.getComponent(0);
+         JLabel l=new JLabel("Rocket Model: ",SwingConstants.RIGHT);
+         rdp.add(l);
+         l = new JLabel("" + rd.model());
+         rdp.add(l);
+         rdp.repaint();
+         rdp.revalidate();
+         //Caluclated Weight Panel
+         rdp = (JPanel)panel.getComponent(1);
+         l   = new JLabel("Current Weight: ",SwingConstants.RIGHT);
+         rdp.add(l);
+         n = format.format(rd.calculatedWeight())+"N";
+         l = new JLabel(n);
+         rdp.add(l);
+      }
+      catch(ClassCastException cce){ cce.printStackTrace(); }
+      catch(Exception e){ e.printStackTrace(); }
+   }
+
+   //
+   //
+   //
    private JPanel setUpButtonPanel(){
       JPanel panel = new JPanel();
       //Add more Buttons as needed
@@ -115,7 +143,13 @@ public class LaunchSimulatorRocketPanel extends JPanel{
    private JPanel setUpDataPanel(){
       JPanel panel = new JPanel();
       //panel.setBorder(BorderFactory.createEtchedBorder());
-      panel.setLayout(new GridLayout(0,2));
+      //panel.setLayout(new GridLayout(0,2));
+      panel.setLayout(new GridLayout(0,1));
+      panel.add(this.setUpPanel()); //Model Panel
+      panel.add(this.setUpPanel()); //Weight Panel
+      panel.add(this.setUpPanel()); //Current Stage panel
+      panel.add(this.setUpPanel()); //Total Stages panel
+      panel.add(this.setUpPanel()); //Error Panel
       return panel;
    }
 
@@ -131,10 +165,20 @@ public class LaunchSimulatorRocketPanel extends JPanel{
       this.deactivateButtonPanel();
    }
 
+   //
+   //
+   //
+   private JPanel setUpPanel(){
+      JPanel panel = new JPanel();
+      panel.setLayout(new GridLayout(1,2));
+      return panel;
+   }
+
+
    //This is the data associated with the Rocket...not associated
    //With the Stage...that needs to be addressed when the Actor
    //Presses the "Stage" Button...
-   //
+   //NEEDS TO BE REDONE!!!!
    private void updateCenterPanel(RocketData rd){
       try{
          NumberFormat format = NumberFormat.getInstance(Locale.US);
