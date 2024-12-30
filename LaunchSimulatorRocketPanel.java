@@ -115,6 +115,37 @@ public class LaunchSimulatorRocketPanel extends JPanel{
          n = format.format(rd.calculatedWeight())+"N";
          l = new JLabel(n);
          rdp.add(l);
+         //Current Stage Panel
+         rdp = (JPanel)panel.getComponent(2);
+         l = new JLabel("Current Stage: ",SwingConstants.RIGHT);
+         rdp.add(l);
+         n = "" + rd.currentStage();
+         l = new JLabel(n);
+         rdp.add(l);
+         //Total Stages Panel
+         rdp = (JPanel)panel.getComponent(3);
+         l = new JLabel("Total Stages: ",SwingConstants.RIGHT);
+         rdp.add(l);
+         n = "" + rd.numberOfStages();
+         l = new JLabel(n);
+         rdp.add(l);
+         //Error Panel
+         rdp = (JPanel)panel.getComponent(4);
+         if(rd.isError()){
+            l = new JLabel("Error: ",SwingConstants.RIGHT);
+            l.setForeground(Color.RED);
+            rdp.add(l);
+            n = "" + rd.isError();
+            l = new JLabel(n);
+            l.setForeground(Color.RED);
+            rdp.add(l);
+            this.activateButtonPanel("ERROR"); //TBD
+         }
+         else{
+            l = new JLabel("");
+            rdp.add(l);
+            rdp.add(l);
+         }
       }
       catch(ClassCastException cce){ cce.printStackTrace(); }
       catch(Exception e){ e.printStackTrace(); }
