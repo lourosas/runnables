@@ -135,19 +135,21 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
          data.add(l);
 
          data = (JPanel)panel.getComponent(3);
-         l = new JLabel("Error: ",SwingConstants.RIGHT);
-         if(lmd.isError()){ l.setForeground(Color.RED); }
-         else{ l.setForeground(Color.BLUE); }
-         data.add(l);
-         n = "" + lmd.isError();
-         l = new JLabel(n);
-         if(lmd.isError()){ l.setForeground(Color.RED); }
-         else{ l.setForeground(Color.BLUE); }
-         data.add(l);
          if(lmd.isError()){
+            l = new JLabel("Error: ",SwingConstants.RIGHT);
+            l.setForeground(Color.RED);
+            data.add(l);
+            n = "" + lmd.isError();
+            l = new JLabel(n);
+            l.setForeground(Color.RED);
+            data.add(l);
             this.activateButtonPanel("ERROR");
          }
-         
+         else{
+            l = new JLabel("");
+            data.add(l);
+            data.add(l); //Add the Label twice
+         }
       }
       catch(ClassCastException cce){ cce.printStackTrace(); }
    }
