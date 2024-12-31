@@ -76,6 +76,7 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
             }
          }
       }
+      else if(action.toUpperCase().equals("INITIALIZE")){}
    }
 
    //
@@ -102,6 +103,9 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
       if(pd.isError()){
          //Activate the button panel for Error
          this.activateButtonPanel("Error");
+      }
+      else{
+         this.activateButtonPanel("Initialize");
       }
    }
 
@@ -171,13 +175,20 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
    //
    //
    private JPanel setUpButtonPanel(){
-      JPanel panel  = new JPanel();
-      JButton error = new JButton("Error");
+      JPanel panel      = new JPanel();
+      JButton dryweight = new JButton("Dry Weight");
+      dryweight.addActionListener(new ActionListener(){
+         public void actionPerformed(ActionEvent e){
+            Sytem.out.println(e);
+         }
+      });
+      JButton error     = new JButton("Error");
       error.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
             System.out.println(e);
          }
       });
+      panel.add(dryweight);
       panel.add(error);
       return panel;
    }
