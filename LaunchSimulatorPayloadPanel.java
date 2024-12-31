@@ -34,14 +34,23 @@ import rosas.lou.clock.*;
 
 public class LaunchSimulatorPayloadPanel extends JPanel{
    //Again, continue to use Anonymous Inner Classes
+   private JFrame      _parent;
+   private PayloadData _currentPD;
+
+   {
+      _parent    = null;
+      _currentPD = null;
+   };
    
    //////////////////////Constructor//////////////////////////////////
    //
    //
    //
-   public LaunchSimulatorPayloadPanel(){
+   public LaunchSimulatorPayloadPanel(JFrame frame){
       super();
       this.setUpGUI();
+      //For location if the Capsule Frame is requested...
+      this._parent = frame;
    }
 
    ///////////////////////////Public Methods//////////////////////////
@@ -49,10 +58,12 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
    //
    //
    public void initialize(PayloadData pd){
+      //Keep around for payload updates...
+      this._currentPD = pd;
       //First, deactivate all buttons
       this.deactivateButtonPanel();
-      this.initializeCenterPanel(pd);
-      this.initializeButtonPanel(pd);
+      this.initializeCenterPanel();
+      this.initializeButtonPanel();
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -70,13 +81,26 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
                   //Activate the Error JButton
                   b.setEnabled(true);
                }
+               else if(b.getText().toUpperCase().equals("STATUS")){
+                  b.setEnabled(true);
+               }
             }
             catch(ClassCastException cce){
                //If "we" get here, "we" are in trouble!...
             }
          }
       }
-      else if(action.toUpperCase().equals("INITIALIZE")){}
+      else if(action.toUpperCase().equals("INITIALIZE")){
+         for(int i = 0; i < bp.getComponentCount(); ++i){
+            try{
+               JButton b = (JButton)bp.getComponent(i);
+               if(b.getText().toUpperCase().equals("STATUS")){
+                  b.setEnabled(true);
+               }
+            }
+            catch(ClassCastException cce){}
+         }
+      }
    }
 
    //
@@ -99,8 +123,8 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
    //
    //
    //
-   private void initializeButtonPanel(PayloadData pd){
-      if(pd.isError()){
+   private void initializeButtonPanel(){
+      if(this._currentPD.isError()){
          //Activate the button panel for Error
          this.activateButtonPanel("Error");
       }
@@ -112,7 +136,7 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
    //
    //
    //
-   private void initializeCenterPanel(PayloadData pd){
+   private void initializeCenterPanel(){
       try{
          String n            = new String();
          NumberFormat format = NumberFormat.getInstance(Locale.US);
@@ -122,20 +146,20 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
          JPanel pdp = (JPanel)panel.getComponent(0);
          JLabel l=new JLabel("Payload Type: ",SwingConstants.RIGHT);
          pdp.add(l);
-         l = new JLabel(pd.type());
+         l = new JLabel(this._currentPD.type());
          pdp.add(l);
          //Model
          pdp = (JPanel)panel.getComponent(1);
          l = new JLabel("Model: ",SwingConstants.RIGHT);
          pdp.add(l);
-         l = new JLabel(pd.model());
+         l = new JLabel(this._currentPD.model());
          pdp.add(l);
          //Crew
          pdp = (JPanel)panel.getComponent(2);
          l = new JLabel("Crew: ", SwingConstants.RIGHT);
          pdp.add(l);
-         if(pd.crew() > 0){
-            n = "" + pd.crew();
+         if(this._currentPD.crew() > 0){
+            n = "" + this._currentPD.crew();
          }
          else{
             n = "N/A";
@@ -144,18 +168,18 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
          pdp.add(l);
          //Weight
          pdp = (JPanel)panel.getComponent(3);
-         l = new JLabel("Measured Weight: ",SwingConstants.RIGHT);
+         l = new JLabel("Current Weight: ",SwingConstants.RIGHT);
          pdp.add(l);
-         n = format.format(pd.currentWeight())+"N";
+         n = format.format(this._currentPD.currentWeight())+"N";
          l = new JLabel(n);
          pdp.add(l);
          //Error
          pdp = (JPanel)panel.getComponent(4);
-         if(pd.isError()){
+         if(this._currentPD.isError()){
             l = new JLabel("Error: ",SwingConstants.RIGHT);
             l.setForeground(Color.RED);
             pdp.add(l);
-            n = "" + pd.isError();
+            n = "" + this._currentPD.isError();
             l = new JLabel(n);
             l.setForeground(Color.RED);
             pdp.add(l);
@@ -176,14 +200,8 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
    //
    private JPanel setUpButtonPanel(){
       JPanel panel      = new JPanel();
-      JButton measuredweight = new JButton("Measured Weight");
-      measuredweight.addActionListener(new ActionListener(){
-         public void actionPerformed(ActionEvent e){
-            System.out.println(e);
-         }
-      });
-      JButton maxweight = new JButton("Maximum Weight");
-      maxweight.addActionListener(new ActionListener(){
+      JButton status = new JButton("Status");
+      status.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
             System.out.println(e);
          }
@@ -194,8 +212,7 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
             System.out.println(e);
          }
       });
-      panel.add(measuredweight);
-      panel.add(maxweight);
+      panel.add(status);
       panel.add(error);
       return panel;
    }

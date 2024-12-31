@@ -656,7 +656,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
 
    /**/
    private JPanel setUpPayloadPanel(){
-      return new LaunchSimulatorPayloadPanel();
+      return new LaunchSimulatorPayloadPanel(this);
    }
 
    /**/
