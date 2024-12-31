@@ -110,20 +110,24 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
    //
    private void initializeCenterPanel(PayloadData pd){
       try{
+         String n            = new String();
          NumberFormat format = NumberFormat.getInstance(Locale.US);
-         JPanel pdp = (JPanel)this.getComponent(0);
-         String n = new String();
+         JPanel panel        = (JPanel)this.getComponent(0);
 
+         //Payload Type
+         JPanel pdp = (JPanel)panel.getComponent(0);
          JLabel l=new JLabel("Payload Type: ",SwingConstants.RIGHT);
          pdp.add(l);
          l = new JLabel(pd.type());
          pdp.add(l);
-
+         //Model
+         pdp = (JPanel)panel.getComponent(1);
          l = new JLabel("Model: ",SwingConstants.RIGHT);
          pdp.add(l);
          l = new JLabel(pd.model());
          pdp.add(l);
-
+         //Crew
+         pdp = (JPanel)panel.getComponent(2);
          l = new JLabel("Crew: ", SwingConstants.RIGHT);
          pdp.add(l);
          if(pd.crew() > 0){
@@ -134,23 +138,30 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
          }
          l = new JLabel(n);
          pdp.add(l);
-
+         //Weight
+         pdp = (JPanel)panel.getComponent(3);
          l = new JLabel("Measured Weight: ",SwingConstants.RIGHT);
          pdp.add(l);
          n = format.format(pd.currentWeight())+"N";
          l = new JLabel(n);
          pdp.add(l);
-
-         l = new JLabel("Error: ",SwingConstants.RIGHT);
-         if(pd.isError()){ l.setForeground(Color.RED); }
-         else{ l.setForeground(Color.BLUE); }
-         pdp.add(l);
-         n = "" + pd.isError();
-         l = new JLabel(n);
-         if(pd.isError()){ l.setForeground(Color.RED); }
-         else{ l.setForeground(Color.BLUE); }
-         pdp.add(l);
-
+         //Error
+         pdp = (JPanel)panel.getComponent(4);
+         if(pd.isError()){
+            l = new JLabel("Error: ",SwingConstants.RIGHT);
+            l.setForeground(Color.RED);
+            pdp.add(l);
+            n = "" + pd.isError();
+            l = new JLabel(n);
+            l.setForeground(Color.RED);
+            pdp.add(l);
+            this.activateButtonPanel("ERROR");
+         }
+         else{
+            l = new JLabel("");
+            pdp.add(l);
+            pdp.add(l);
+         }
       }
       catch(ClassCastException cce){ cce. printStackTrace(); }
       catch(Exception e){ e.printStackTrace(); }
@@ -176,7 +187,13 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
    //
    private JPanel setUpDataPanel(){
       JPanel panel = new JPanel();
-      panel.setLayout(new GridLayout(0,2));
+      //panel.setLayout(new GridLayout(0,2));
+      panel.setLayout(new GridLayout(0,1));
+      panel.add(this.setUpPanel()); //Payload Panel
+      panel.add(this.setUpPanel()); //Model Panel
+      panel.add(this.setUpPanel()); //Crew Panel
+      panel.add(this.setUpPanel()); //Weight Panel
+      panel.add(this.setUpPanel()); //Error Panel
       return panel;
    }
 
@@ -189,6 +206,15 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
       this.add(this.setUpDataPanel(),  BorderLayout.CENTER);
       this.add(this.setUpButtonPanel(),BorderLayout.SOUTH);
       this.deactivateButtonPanel();
+   }
+
+   //
+   //
+   //
+   private JPanel setUpPanel(){
+      JPanel panel = new JPanel();
+      panel.setLayout(new GridLayout(1,2));
+      return panel;
    }
 }
 

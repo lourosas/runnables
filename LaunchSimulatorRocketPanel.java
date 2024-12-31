@@ -60,13 +60,27 @@ public class LaunchSimulatorRocketPanel extends JPanel{
    //
    private void activateButtonPanel(String action){
       this.deactivateButtonPanel();
+      JPanel bp = (JPanel)this.getComponent(1);
       if(action.toUpperCase().equals("INITIALIZE")){
-         JPanel bp = (JPanel)this.getComponent(1);
          for(int i = 0; i < bp.getComponentCount(); ++i){
             try{
                JButton b = (JButton)bp.getComponent(i);
                if(b.getText().toUpperCase().equals("STAGES")){
                   //Enable the Stages JButton
+                  b.setEnabled(true);
+               }
+            }
+            catch(ClassCastException cce){}
+         }
+      }
+      else if(action.toUpperCase().equals("ERROR")){
+         for(int i = 0; i < bp.getComponentCount(); ++i){
+            try{
+               JButton b = (JButton)bp.getComponent(i);
+               if(b.getText().toUpperCase().equals("STAGES")){
+                  b.setEnabled(true);
+               }
+               else if(b.getText().toUpperCase().equals("ERROR")){
                   b.setEnabled(true);
                }
             }
@@ -158,13 +172,21 @@ public class LaunchSimulatorRocketPanel extends JPanel{
       JPanel panel = new JPanel();
       //Add more Buttons as needed
       JButton stages = new JButton("Stages");
+      JButton error  = new JButton("Error");
       stages.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
             //Test Prints for the time being
             System.out.println(e);
          }
       });
+      error.addActionListener(new ActionListener(){
+         public void actionPerformed(ActionEvent e){
+            //Test Prints for the time being
+            System.out.println(e);
+         }
+      });
       panel.add(stages);
+      panel.add(error);
       return panel;
    }
 
