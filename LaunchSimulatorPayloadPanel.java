@@ -176,10 +176,16 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
    //
    private JPanel setUpButtonPanel(){
       JPanel panel      = new JPanel();
-      JButton dryweight = new JButton("Dry Weight");
-      dryweight.addActionListener(new ActionListener(){
+      JButton measuredweight = new JButton("Measured Weight");
+      measuredweight.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
-            Sytem.out.println(e);
+            System.out.println(e);
+         }
+      });
+      JButton maxweight = new JButton("Maximum Weight");
+      maxweight.addActionListener(new ActionListener(){
+         public void actionPerformed(ActionEvent e){
+            System.out.println(e);
          }
       });
       JButton error     = new JButton("Error");
@@ -188,7 +194,8 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
             System.out.println(e);
          }
       });
-      panel.add(dryweight);
+      panel.add(measuredweight);
+      panel.add(maxweight);
       panel.add(error);
       return panel;
    }
