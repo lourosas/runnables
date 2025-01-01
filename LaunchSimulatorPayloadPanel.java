@@ -35,10 +35,12 @@ import rosas.lou.clock.*;
 public class LaunchSimulatorPayloadPanel extends JPanel{
    //Again, continue to use Anonymous Inner Classes
    private JFrame      _parent;
+   private JFrame      _payloadF;
    private PayloadData _currentPD;
 
    {
       _parent    = null;
+      _payloadF  = null;
       _currentPD = null;
    };
    
@@ -207,7 +209,7 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
       JButton status = new JButton("Status");
       status.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
-            //setUpPayloadJFrame();
+            setUpPayloadJFrame();
             //An actutal action...
             activateButtonPanel("Status Pressed");
             System.out.println(e);
@@ -257,6 +259,29 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(1,2));
       return panel;
+   }
+
+   //
+   //
+   //
+   private void setUpPayloadJFrame(){
+      if(this._payloadF == null){
+         if(this._parent != null){
+            this._payloadF = new CompletePayloadJFrame(this._parent);
+         }
+         else{
+            this._payloadF = new CompletePayloadJFrame();
+         }
+         this._payloadF.addWindowListener(new WindowAdapter(){
+            public void windowClosing(WindowEvent w){
+               System.out.println(w);
+               System.out.println(_payloadF);
+            }
+         });
+      }
+      else{
+         this._payloadF.setVisible(true);
+      }
    }
 }
 
