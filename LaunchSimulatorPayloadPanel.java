@@ -34,9 +34,9 @@ import rosas.lou.clock.*;
 
 public class LaunchSimulatorPayloadPanel extends JPanel{
    //Again, continue to use Anonymous Inner Classes
-   private JFrame      _parent;
-   private JFrame      _payloadF;
-   private PayloadData _currentPD;
+   private JFrame                 _parent;
+   private CompletePayloadJFrame  _payloadF;
+   private PayloadData            _currentPD;
 
    {
       _parent    = null;
@@ -105,7 +105,22 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
          }
       }
       else if(action.toUpperCase().equals("STATUS PRESSED")){
-         System.out.println(action);
+         //Disable the Status Button
+         for(int i = 0; i < bp.getComponentCount(); ++i){
+            JButton b = (JButton)bp.getComponent(i);
+            if(b.getText().toUpperCase().equals("STATUS")){
+               b.setEnabled(false);
+            }
+         }
+      }
+      else if(action.toUpperCase().equals("STATUS ACTIVATE")){
+         //Enable the Status Button
+         for(int i = 0; i < bp.getComponentCount(); ++i){
+            JButton b = (JButton)bp.getComponent(i);
+            if(b.getText().toUpperCase().equals("STATUS")){
+               b.setEnabled(true);
+            }
+         }
       }
    }
 
@@ -123,6 +138,28 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
             //If this is caught, that is bad...
             cce.printStackTrace();
          }
+      }
+   }
+
+   //
+   //
+   //
+   private void displayPayloadJFrame(){
+      if(this._payloadF == null){
+         if(this._parent != null){
+            this._payloadF = new CompletePayloadJFrame(this._parent);
+         }
+         else{
+            this._payloadF = new CompletePayloadJFrame();
+         }
+         this._payloadF.addWindowListener(new WindowAdapter(){
+            public void windowClosing(WindowEvent w){
+               activateButtonPanel("Status Activate");
+            }
+         });
+      }
+      else{
+         this._payloadF.setVisible(true);
       }
    }
 
@@ -209,10 +246,10 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
       JButton status = new JButton("Status");
       status.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
-            setUpPayloadJFrame();
+            displayPayloadJFrame();
+            updatePayloadJFrame();
             //An actutal action...
             activateButtonPanel("Status Pressed");
-            System.out.println(e);
          }
       });
       JButton error     = new JButton("Error");
@@ -264,23 +301,9 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
    //
    //
    //
-   private void setUpPayloadJFrame(){
-      if(this._payloadF == null){
-         if(this._parent != null){
-            this._payloadF = new CompletePayloadJFrame(this._parent);
-         }
-         else{
-            this._payloadF = new CompletePayloadJFrame();
-         }
-         this._payloadF.addWindowListener(new WindowAdapter(){
-            public void windowClosing(WindowEvent w){
-               System.out.println(w);
-               System.out.println(_payloadF);
-            }
-         });
-      }
-      else{
-         this._payloadF.setVisible(true);
+   private void updatePayloadJFrame(){
+      if(this._payloadF != null){
+         this._payloadF.updatePayloadData(this._currentPD);
       }
    }
 }

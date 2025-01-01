@@ -58,7 +58,7 @@ public class CompletePayloadJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   public void intitialize(PayloadData pd){}
+   public void updatePayloadData(PayloadData pd){}
 
    //////////////////////////Private Methods/////////////////////////
    //
