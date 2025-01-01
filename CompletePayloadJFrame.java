@@ -64,12 +64,106 @@ public class CompletePayloadJFrame extends GenericJInteractionFrame{
    //
    //
    //
+   private void initializeCenterPanel(){
+      JPanel p     = (JPanel)this.getContentPane();
+      JPanel cp    = (JPanel)p.getComponent(0);
+      
+      JPanel panel = (JPanel)cp.getComponent(0);
+      panel.setBorder(BorderFactory.createEtchedBorder());
+      JLabel l = new JLabel("Payload Data", SwingConstants.CENTER);
+      panel.add(l);
+
+      panel = (JPanel)cp.getComponent(1);
+      l = new JLabel("Payload Type: ", SwingConstants.RIGHT);
+      panel.add(l);
+      panel.add(new JLabel());
+
+      panel = (JPanel)cp.getComponent(2);
+      l = new JLabel("Model: ", SwingConstants.RIGHT);
+      panel.add(l);
+      panel.add(new JLabel());
+
+      panel = (JPanel)cp.getComponent(3);
+      l = new JLabel("Crew: ", SwingConstants.RIGHT);
+      panel.add(l);
+      panel.add(new JLabel());
+
+      panel = (JPanel)cp.getComponent(4);
+      l = new JLabel("Empty Weight: ", SwingConstants.RIGHT);
+      panel.add(l);
+      panel.add(new JLabel());
+
+      panel = (JPanel)cp.getComponent(5);
+      l = new JLabel("Measured Weight: ", SwingConstants.RIGHT);
+      panel.add(l);
+      panel.add(new JLabel());
+
+      panel = (JPanel)cp.getComponent(6);
+      l = new JLabel("Maximum Weight: ", SwingConstants.RIGHT);
+      panel.add(l);
+      panel.add(new JLabel());
+
+      panel = (JPanel)cp.getComponent(7);
+      l = new JLabel("Temperature: ", SwingConstants.RIGHT);
+      panel.add(l);
+      panel.add(new JLabel());
+
+      panel = (JPanel)cp.getComponent(8);
+      l = new JLabel("Error: ", SwingConstants.RIGHT);
+      l.setForeground(Color.BLUE);
+      panel.add(l);
+      panel.add(new JLabel());
+   }
+
+   //
+   //
+   //
+   private JPanel setUpCenterPanel(){
+      JPanel panel = new JPanel();
+      panel.setBorder(BorderFactory.createEtchedBorder());
+      panel.setLayout(new GridLayout(0,1));
+      panel.add(this.setUpPanel(1)); //Title Panel
+      panel.add(this.setUpPanel(2)); //Payload (Type) Panel
+      panel.add(this.setUpPanel(2)); //Model Panel
+      panel.add(this.setUpPanel(2)); //Crew Panel
+      panel.add(this.setUpPanel(2)); //Dry Weight
+      panel.add(this.setUpPanel(2)); //Measured Weight
+      panel.add(this.setUpPanel(2)); //Max Weight
+      panel.add(this.setUpPanel(2)); //Temperature Panel
+      panel.add(this.setUpPanel(2)); //Error Panel
+      return panel;
+   }
+
+   //
+   //
+   //
    private void setUpGUI(JFrame parent){
       int WIDTH  = 425;
-      int HEIGHT = 600;
+      int HEIGHT = 400;
       this.setLayout(new BorderLayout());
       this.setSize(WIDTH, HEIGHT);
+      if(parent != null){
+         Point p = parent.getLocation();
+         this.setLocation(p.x, p.y);
+      }
+      JPanel centerPanel = this.setUpCenterPanel();
+      this.getContentPane().add(centerPanel,BorderLayout.CENTER);
+      this.initializeCenterPanel();
       this.setResizable(false);
       this.setVisible(true);
+   }
+
+   //
+   //
+   //
+   private JPanel setUpPanel(int columns){
+      JPanel panel = new JPanel();
+      if(columns > 0){
+         panel.setLayout(new GridLayout(1,columns));
+      }
+      else{
+         panel.setLayout(new GridLayout(1,1));
+      }
+      return panel;
    }
 }
