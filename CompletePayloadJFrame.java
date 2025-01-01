@@ -43,10 +43,33 @@ public class CompletePayloadJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   public CompletePayloadJFrame(){}
+   public CompletePayloadJFrame(){
+      this(null);
+   }
 
    //
    //
    //
-   public CompletePayloadJFrame(JFrame parent){}
+   public CompletePayloadJFrame(JFrame parent){
+      this.setUpGUI(parent);
+   }
+
+   ///////////////////////////Public Methods/////////////////////////
+   //
+   //
+   //
+   public void intitialize(PayloadData pd){}
+
+   //////////////////////////Private Methods/////////////////////////
+   //
+   //
+   //
+   private void setUpGUI(JFrame parent){
+      int WIDTH  = 425;
+      int HEIGHT = 600;
+      this.setLayout(new BorderLayout());
+      this.setSize(WIDTH, HEIGHT);
+      this.setResizable(false);
+      this.setVisible(true);
+   }
 }

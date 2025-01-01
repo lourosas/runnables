@@ -71,9 +71,9 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
    //
    //
    private void activateButtonPanel(String action){
-      this.deactivateButtonPanel();
       JPanel bp = (JPanel)this.getComponent(1);
       if(action.toUpperCase().equals("ERROR")){
+         this.deactivateButtonPanel();
          for(int i = 0; i < bp.getComponentCount(); ++i){
             try{
                JButton b = (JButton)bp.getComponent(i);
@@ -91,6 +91,7 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
          }
       }
       else if(action.toUpperCase().equals("INITIALIZE")){
+         this.deactivateButtonPanel();
          for(int i = 0; i < bp.getComponentCount(); ++i){
             try{
                JButton b = (JButton)bp.getComponent(i);
@@ -100,6 +101,9 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
             }
             catch(ClassCastException cce){}
          }
+      }
+      else if(action.toUpperCase().equals("STATUS PRESSED")){
+         System.out.println(action);
       }
    }
 
@@ -203,6 +207,9 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
       JButton status = new JButton("Status");
       status.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
+            //setUpPayloadJFrame();
+            //An actutal action...
+            activateButtonPanel("Status Pressed");
             System.out.println(e);
          }
       });
