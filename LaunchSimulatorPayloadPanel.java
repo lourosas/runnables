@@ -257,6 +257,7 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
       JButton error     = new JButton("Error");
       error.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
+            //TODO--need to set up the error...
             System.out.println(e);
          }
       });

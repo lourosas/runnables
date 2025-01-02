@@ -201,6 +201,34 @@ public class CompletePayloadJFrame extends GenericJInteractionFrame{
       l = (JLabel)panel.getComponent(1);
       l.setText(n);
 
+      //Measured Weight IS Current Weight
+      panel = (JPanel)cp.getComponent(5);
+      n = format.format(pd.currentWeight()) +"N";
+      l = (JLabel)panel.getComponent(1);
+      l.setText(n);
+
+      panel = (JPanel)cp.getComponent(6);
+      n = format.format(pd.maxWeight()) +"N";
+      l = (JLabel)panel.getComponent(1);
+      l.setText(n);
+
+      panel = (JPanel)cp.getComponent(7);
+      n = format.format(pd.currentTemp())+"K";
+      l = (JLabel)panel.getComponent(1);
+      l.setText(n);
+
+      panel = (JPanel)cp.getComponent(8);
+      l = (JLabel)panel.getComponent(1);
+      l.setText("" + pd.isError());
+      //Color for Component 0 already set to Blue
+      l.setForeground(Color.BLUE);
+      if(pd.isError()){
+         l = (JLabel)panel.getComponent(0);
+         l.setForeground(Color.RED);
+         l = (JLabel)panel.getComponent(1);
+         l.setForeground(Color.RED);
+      }
+
       p.repaint();
       p.revalidate();
    }
