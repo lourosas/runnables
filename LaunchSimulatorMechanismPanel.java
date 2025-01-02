@@ -34,14 +34,31 @@ import rosas.lou.clock.*;
 
 public class LaunchSimulatorMechanismPanel extends JPanel{
    //Going to use annonymous inner classes
+   private LaunchingMechanismData  _currentLMD;//May not need
+   private JFrame                  _parent;
+   private MechanismSupportsJFrame _mechanismsF;
+
+   {
+      _currentLMD  = null;
+      _parent      = null;
+      _mechanismsF = null;
+   };
    
-   ////////////////////////////Constructor////////////////////////////
+   ////////////////////////////Constructors///////////////////////////
    //
    //
    //
    public LaunchSimulatorMechanismPanel(){
+      this(null);
+   }
+
+   //
+   //
+   //
+   public LaunchSimulatorMechanismPanel(JFrame frame){
       super();
       this.setUpGUI();
+      this._parent = frame;
    }
 
    ///////////////////////////Public Methods//////////////////////////
@@ -49,9 +66,11 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    //
    public void initialize(LaunchingMechanismData lmd){
+      this._currentLMD = lmd;
       this.deactivateButtonPanel();
-      this.activateButtonPanel("INITIALIZE");
-      this.initiateCenterPanel(lmd);
+      this.initiateButtonPanel();
+      this.initiateCenterPanel();
+      this.updateMechanismSupportsJFrame();
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -59,9 +78,9 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    //
    private void activateButtonPanel(String action){
-      this.deactivateButtonPanel();
       JPanel bp = (JPanel)this.getComponent(1);
       if(action.toUpperCase().equals("INITIALIZE")){
+         this.deactivateButtonPanel();
          for(int i = 0; i < bp.getComponentCount(); ++i){
             try{
                JButton b = (JButton)bp.getComponent(i);
@@ -74,6 +93,7 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
          }
       }
       else if(action.toUpperCase().equals("ERROR")){
+         this.deactivateButtonPanel();
          for(int i = 0; i < bp.getComponentCount(); ++i){
             try{
                JButton b = (JButton)bp.getComponent(i);
@@ -81,6 +101,28 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
                   b.setEnabled(true);
                }
                else if(b.getText().toUpperCase().equals("ERROR")){
+                  b.setEnabled(true);
+               }
+            }
+            catch(ClassCastException cce){}
+         }
+      }
+      else if(action.toUpperCase().equals("HOLDS PRESSED")){
+         for(int i = 0; i < bp.getComponentCount(); ++i){
+            try{
+               JButton b = (JButton)bp.getComponent(i);
+               if(b.getText().toUpperCase().equals("HOLDS")){
+                  b.setEnabled(false);
+               }
+            }
+            catch(ClassCastException cce){}
+         }
+      }
+      else if(action.toUpperCase().equals("STATUS ACTIVATE")){
+         for(int i = 0; i < bp.getComponentCount(); ++i){
+            try{
+               JButton b = (JButton)bp.getComponent(i);
+               if(b.getText().toUpperCase().equals("HOLDS")){
                   b.setEnabled(true);
                }
             }
@@ -109,7 +151,25 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    //
    //
-   private void initiateCenterPanel(LaunchingMechanismData lmd){
+   private void displayMechanismsSupportsJFrame(){}
+
+   //
+   //
+   //
+   private void initiateButtonPanel(){
+      if(this._currentLMD.isError()){
+         //Activate the button panel for error
+         this.activateButtonPanel("Error");
+      }
+      else{
+         this.activateButtonPanel("Initialize");
+      }
+   }
+
+   //
+   //
+   //
+   private void initiateCenterPanel(){
       try{
          String n = new String();
          NumberFormat format=NumberFormat.getNumberInstance(Locale.US);
@@ -118,28 +178,28 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
          JPanel data  = (JPanel)panel.getComponent(0);
          JLabel l=new JLabel("Platform Model: ",SwingConstants.RIGHT);
          data.add(l);
-         l = new JLabel("" + lmd.model());
+         l = new JLabel("" + this._currentLMD.model());
          data.add(l);
 
          data = (JPanel)panel.getComponent(1);
          l = new JLabel("No. of Holds: ",SwingConstants.RIGHT);
          data.add(l);
-         l = new JLabel("" + lmd.holds());
+         l = new JLabel("" + this._currentLMD.holds());
          data.add(l);
 
          data = (JPanel)panel.getComponent(2);
          l = new JLabel("Measured Weight: ",SwingConstants.RIGHT);
          data.add(l);
-         n = format.format(lmd.measuredWeight())+"N";
+         n = format.format(this._currentLMD.measuredWeight())+"N";
          l = new JLabel(n);
          data.add(l);
 
          data = (JPanel)panel.getComponent(3);
-         if(lmd.isError()){
+         if(this._currentLMD.isError()){
             l = new JLabel("Error: ",SwingConstants.RIGHT);
             l.setForeground(Color.RED);
             data.add(l);
-            n = "" + lmd.isError();
+            n = "" + this._currentLMD.isError();
             l = new JLabel(n);
             l.setForeground(Color.RED);
             data.add(l);
@@ -166,6 +226,9 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
          public void actionPerformed(ActionEvent e){
             //Test Prints for the time being
             System.out.println(e);
+            displayMechanismsSupportsJFrame();
+            updateMechanismSupportsJFrame();
+            activateButtonPanel("Holds Pressed");
          }
       });
       error.addActionListener(new ActionListener(){
@@ -245,6 +308,10 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    //
    //
-   private void updateCenterPanel(LaunchingMechanismData lmd){}
+   private void updateMechanismSupportsJFrame(){
+      if(this._mechanismsF != null){
+         this._mechanismsF.updateSupportsData(this._currentLMD);
+      }
+   }
 }
 //////////////////////////////////////////////////////////////////////

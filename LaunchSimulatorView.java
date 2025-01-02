@@ -621,7 +621,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
 
    /**/
    private JPanel setUpMechanismPanel(){
-      return new LaunchSimulatorMechanismPanel();
+      return new LaunchSimulatorMechanismPanel(this);
    }
 
    /**/
