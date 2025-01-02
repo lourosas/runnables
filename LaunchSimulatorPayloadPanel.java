@@ -66,6 +66,7 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
       this.deactivateButtonPanel();
       this.initializeCenterPanel();
       this.initializeButtonPanel();
+      this.updatePayloadJFrame();
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -153,6 +154,7 @@ public class LaunchSimulatorPayloadPanel extends JPanel{
             this._payloadF = new CompletePayloadJFrame();
          }
          this._payloadF.addWindowListener(new WindowAdapter(){
+            //GenericJInteractionFrame already takes care of visible
             public void windowClosing(WindowEvent w){
                activateButtonPanel("Status Activate");
             }

@@ -24,6 +24,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.text.*;
 import java.io.File;
 import javax.swing.border.*;
 import java.time.*;
@@ -58,7 +59,9 @@ public class CompletePayloadJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   public void updatePayloadData(PayloadData pd){}
+   public void updatePayloadData(PayloadData pd){
+      this.updateCenterPanel(pd);
+   }
 
    //////////////////////////Private Methods/////////////////////////
    //
@@ -139,7 +142,7 @@ public class CompletePayloadJFrame extends GenericJInteractionFrame{
    //
    private void setUpGUI(JFrame parent){
       int WIDTH  = 425;
-      int HEIGHT = 400;
+      int HEIGHT = 325;
       this.setLayout(new BorderLayout());
       this.setSize(WIDTH, HEIGHT);
       if(parent != null){
@@ -165,5 +168,40 @@ public class CompletePayloadJFrame extends GenericJInteractionFrame{
          panel.setLayout(new GridLayout(1,1));
       }
       return panel;
+   }
+
+   //
+   //
+   //
+   private void updateCenterPanel(PayloadData pd){
+      NumberFormat format = NumberFormat.getInstance(Locale.US);
+      String n            = null;
+      JPanel p            = (JPanel)this.getContentPane();
+      JPanel cp           = (JPanel)p.getComponent(0);
+
+      JPanel panel = (JPanel)cp.getComponent(1);
+      JLabel l = (JLabel)panel.getComponent(1);
+      l.setText(pd.type());
+
+      panel = (JPanel)cp.getComponent(2);
+      l = (JLabel)panel.getComponent(1);
+      l.setText(pd.model());
+
+      panel = (JPanel)cp.getComponent(3);
+      l = (JLabel)panel.getComponent(1);
+      if(pd.crew() < 1){
+         l.setText("N/A");
+      }
+      else{
+         l.setText("" + pd.crew());
+      }
+
+      panel = (JPanel)cp.getComponent(4);
+      n = format.format(pd.dryWeight())+"N";
+      l = (JLabel)panel.getComponent(1);
+      l.setText(n);
+
+      p.repaint();
+      p.revalidate();
    }
 }
