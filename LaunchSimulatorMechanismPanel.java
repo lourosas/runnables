@@ -170,7 +170,7 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
       });
       error.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
-            //Test Prints for the time being
+            //TODO--figure out how to handle errors
             System.out.println(e);
          }
       });
