@@ -118,7 +118,7 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
             catch(ClassCastException cce){}
          }
       }
-      else if(action.toUpperCase().equals("STATUS ACTIVATE")){
+      else if(action.toUpperCase().equals("HOLDS ACTIVATE")){
          for(int i = 0; i < bp.getComponentCount(); ++i){
             try{
                JButton b = (JButton)bp.getComponent(i);
@@ -151,7 +151,27 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    //
    //
-   private void displayMechanismsSupportsJFrame(){}
+   private void displayMechanismsSupportsJFrame(){
+      if(this._mechanismsF == null){
+         MechanismSupportsJFrame f = null;
+         if(this._parent == null){
+            f = new MechanismSupportsJFrame(this._parent);
+         }
+         else{
+            f = new MechanismSupportsJFrame();
+         }
+         this._mechanismsF = f;
+         this._mechanismsF.addWindowListener(new WindowAdapter(){
+            //GenericJInteractionFrame already takes care of visible
+            public void windowClosing(WindowEvent w){
+               activateButtonPanel("Holds Activate");
+            }
+         });
+      }
+      else{
+         this._mechanismsF.setVisible(true);
+      }
+   }
 
    //
    //
