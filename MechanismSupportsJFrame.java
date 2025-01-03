@@ -59,7 +59,7 @@ GenericJInteractionFrame{
    //
    public void updateSupportsData(LaunchingMechanismData lmd){
       JPanel panel = (JPanel)this.getContentPane();
-      System.out.println(panel);
+      System.out.println(lmd.supportData());
    }
 
    //////////////////////////Private Methods//////////////////////////
