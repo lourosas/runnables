@@ -58,8 +58,8 @@ GenericJInteractionFrame{
    //
    //
    public void updateSupportsData(LaunchingMechanismData lmd){
-      JPanel panel = (JPanel)this.getContentPane();
-      System.out.println(lmd.supportData());
+      this.updateLaunchingMechanismData(lmd);
+      this.setVisual();
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -84,7 +84,39 @@ GenericJInteractionFrame{
    //
    //
    //
-   public void setVisual(){}
-   
+   private void setVisual(){
+      int WIDTH   = 425;
+      int HEIGHT  = 140*this.getContentPane().getComponentCount();
+      this.setVisible(false);
+      this.setSize(WIDTH, HEIGHT);
+      this.setVisible(true);
+   }
+
+   //
+   //
+   //
+   private void updateLaunchingMechanismData
+   (
+      LaunchingMechanismData lmd
+   ){
+      MechanismSupportDataPanel mp = null;
+      java.util.List<MechanismSupportData> list = lmd.supportData();
+      int count = 0;
+      int idx   = 0;
+      if(this.getContentPane().getComponentCount() == 0){
+         while(count < list.size()){
+            MechanismSupportData data = list.get(idx);
+            ++idx;
+            if(data.id() == count){
+               mp = new MechanismSupportDataPanel();
+               mp.setUpData(data);
+               this.add(mp);
+               ++count;
+               idx = 0;
+            }
+         }
+      }
+      else{}
+   }
 }
 //////////////////////////////////////////////////////////////////////

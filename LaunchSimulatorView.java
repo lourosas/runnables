@@ -387,18 +387,10 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       String                 state,
       LaunchingMechanismData lmd
    ){
-      //LaunchingMechanismDataPanel p = null;
-      //p = this.getLaunchingMechanismPanel();
-      //MechanismSupportsPanel mp     = null;
-      //mp = this.getMechanismSupportsPanel();
       java.util.List<MechanismSupportData> list = lmd.supportData();
-      //Will also need to add the Mechanism Support Data,
-      //and, set up another series of panels!!!
       if(state != null){
-         //p.setUpData(state, lmd);
          if(state.toUpperCase().contains("INITIALIZE")){
             this._launchMechFrame = new LaunchingMechanismJFrame();
-            //mp.initialize(list);
             this._launchMechFrame.initialize(lmd);
             LaunchSimulatorMechanismPanel p = null;
             p=(LaunchSimulatorMechanismPanel)this.getMechanismPanel();
@@ -406,14 +398,8 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
          }
       }
       else{
-         //p.setUpData(lmd);
-         //Will need to add the MechanismSupportsPanel here, as well
-         //mp.setUpData(list);
          this._launchMechFrame.setData(lmd);
       }
-      //this._launchMechFrame.add(p);
-      //this._launchMechFrame.add(mp);
-      //this._launchMechFrame.setVisible(true);
       if(lmd.isError()){
          this.displayLaunchingMechanismError(lmd.error());
       }

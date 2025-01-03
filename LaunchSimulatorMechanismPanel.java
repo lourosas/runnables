@@ -154,7 +154,7 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    private void displayMechanismsSupportsJFrame(){
       if(this._mechanismsF == null){
          MechanismSupportsJFrame f = null;
-         if(this._parent == null){
+         if(this._parent != null){
             f = new MechanismSupportsJFrame(this._parent);
          }
          else{
@@ -244,8 +244,6 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
       JButton error = new JButton("Error");
       holds.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
-            //Test Prints for the time being
-            System.out.println(e);
             displayMechanismsSupportsJFrame();
             updateMechanismSupportsJFrame();
             activateButtonPanel("Holds Pressed");
