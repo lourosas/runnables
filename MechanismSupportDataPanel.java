@@ -58,16 +58,17 @@ public class MechanismSupportDataPanel extends JPanel{
    //
    private void setUpAngleData(MechanismSupportData data){
       double angle = data.angle();
-      java.text.DecimalFormat df = null;
-      df = new java.text.DecimalFormat("#.##");
       JPanel panel = (JPanel)this.getComponent(1);
       JLabel label = (JLabel)panel.getComponent(1);
-      label.setText(df.format(angle));
       
       if(data.toString().contains("rad")){
+         java.text.DecimalFormat df = null;
+         df = new java.text.DecimalFormat("#.###");
+         label.setText(df.format(angle));
          label.setText(label.getText() + " rad");
       }
       else{
+         label.setText(""+angle);
          label.setText(label.getText()+'\u00B0');
       }
    }
@@ -92,10 +93,12 @@ public class MechanismSupportDataPanel extends JPanel{
    private JPanel setUpErrorPanel(){
       JPanel panel = new JPanel();
 
-      JLabel errorLabel   = new JLabel("<Error Message>");
+      JLabel errorLabel   = new JLabel("Error: ");
+      JLabel errorMessage = new JLabel("<Error Message>");
       errorLabel.setForeground(Color.RED);
 
       panel.add(errorLabel);
+      panel.add(errorMessage);
 
       return panel;
    }
@@ -105,14 +108,18 @@ public class MechanismSupportDataPanel extends JPanel{
    //
    private void setUpErrorData(MechanismSupportData data){
       boolean isError = data.isError();
-      JPanel panel = (JPanel)this.getComponent(4);
-      JLabel label = (JLabel)panel.getComponent(0);
+      JPanel panel        = (JPanel)this.getComponent(4);
+      JLabel errorLabel   = (JLabel)panel.getComponent(0);
+      JLabel errorMessage = (JLabel)panel.getComponent(1);
 
-      //label.setText("No Error");
-      label.setText("");
+      errorMessage.setText(""+data.isError());
       if(data.isError()){
-         label.setText(data.error());
-         label.setForeground(Color.RED);
+         errorLabel.setForeground(Color.RED);
+         errorMessage.setForeground(Color.RED);
+      }
+      else{
+         errorLabel.setForeground(Color.BLUE);
+         errorMessage.setForeground(Color.BLUE);
       }
    }
 
@@ -122,7 +129,7 @@ public class MechanismSupportDataPanel extends JPanel{
    private JPanel setUpForceVectorPanel(){
       JPanel panel = new JPanel();
 
-      JLabel forceVectorLble  = new JLabel("Force Vector--");
+      JLabel forceVectorLble  = new JLabel("Force Vector: ");
       panel.add(forceVectorLble);
       JLabel forceVectorMeas  = new JLabel("<Force Vector Value>");
       panel.add(forceVectorMeas);
@@ -135,7 +142,7 @@ public class MechanismSupportDataPanel extends JPanel{
    //
    private void setUpForceVectorData(MechanismSupportData data){
       java.text.DecimalFormat df = null;
-      df = new java.text.DecimalFormat("#.##");
+      df = new java.text.DecimalFormat("###,###,###.##");
 
       ForceVector fv = data.forceVector();
       double x = fv.x();
@@ -198,7 +205,7 @@ public class MechanismSupportDataPanel extends JPanel{
       ForceVector fv = data.forceVector();
       double force = fv.magnitude();
       java.text.DecimalFormat df = null;
-      df = new java.text.DecimalFormat("#.##");
+      df = new java.text.DecimalFormat("###,###,###.##");
       JPanel panel = (JPanel)this.getComponent(3);
       JLabel label = (JLabel)panel.getComponent(1);
       label.setText(df.format(force)+"N");
