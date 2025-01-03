@@ -67,10 +67,16 @@ GenericJInteractionFrame{
    //
    //
    private void setUpGUI(JFrame parent){
-      int WIDTH  = 425;
-      int HEIGHT = 1000;
+      int WIDTH    = 425;
+      int HEIGHT   = 1000;
+      JPanel panel = new JPanel();
+      panel.setLayout(new GridLayout(0,1));
 
-      this.setLayout(new GridLayout(0,1));
+      //this.setLayout(new GridLayout(0,1));
+      this.setLayout(new BorderLayout());
+      //Set up the Title
+      this.add(this.setUpTitle(), BorderLayout.NORTH);
+      this.add(panel, BorderLayout.CENTER);
       this.setSize(WIDTH, HEIGHT);
       if(parent != null){
          Point p = parent.getLocation();
@@ -84,9 +90,21 @@ GenericJInteractionFrame{
    //
    //
    //
+   private JPanel setUpTitle(){
+      JPanel panel = new JPanel();
+      panel.setBorder(BorderFactory.createEtchedBorder());
+      String s = new String("Platform Supports");
+      panel.add(new JLabel(s, SwingConstants.CENTER));
+      return panel;
+   }
+
+   //
+   //
+   //
    private void setVisual(){
+      JPanel panel= (JPanel)this.getContentPane().getComponent(1);
       int WIDTH   = 425;
-      int HEIGHT  = 140*this.getContentPane().getComponentCount();
+      int HEIGHT  = 150*panel.getComponentCount();
       this.setVisible(false);
       this.setSize(WIDTH, HEIGHT);
       this.setVisible(true);
@@ -103,14 +121,16 @@ GenericJInteractionFrame{
       java.util.List<MechanismSupportData> list = lmd.supportData();
       int count = 0;
       int idx   = 0;
-      if(this.getContentPane().getComponentCount() == 0){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      //The first update, and nothing is created...
+      if(panel.getComponentCount() == 0){
          while(count < list.size()){
             MechanismSupportData data = list.get(idx);
             ++idx;
             if(data.id() == count){
                mp = new MechanismSupportDataPanel();
                mp.setUpData(data);
-               this.add(mp);
+               panel.add(mp);
                ++count;
                idx = 0;
             }
