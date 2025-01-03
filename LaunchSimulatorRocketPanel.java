@@ -59,9 +59,9 @@ public class LaunchSimulatorRocketPanel extends JPanel{
    //
    //
    private void activateButtonPanel(String action){
-      this.deactivateButtonPanel();
       JPanel bp = (JPanel)this.getComponent(1);
       if(action.toUpperCase().equals("INITIALIZE")){
+         this.deactivateButtonPanel();
          for(int i = 0; i < bp.getComponentCount(); ++i){
             try{
                JButton b = (JButton)bp.getComponent(i);
@@ -74,6 +74,7 @@ public class LaunchSimulatorRocketPanel extends JPanel{
          }
       }
       else if(action.toUpperCase().equals("ERROR")){
+         this.deactivateButtonPanel();
          for(int i = 0; i < bp.getComponentCount(); ++i){
             try{
                JButton b = (JButton)bp.getComponent(i);
@@ -87,6 +88,7 @@ public class LaunchSimulatorRocketPanel extends JPanel{
             catch(ClassCastException cce){}
          }
       }
+      else if(action.toUpperCase().equals("STAGES PRESSED")){}
    }
 
    //
@@ -105,6 +107,11 @@ public class LaunchSimulatorRocketPanel extends JPanel{
          }
       }
    }
+
+   //
+   //
+   //
+   private void displayStageJFrame(){}
 
    //
    //
@@ -177,11 +184,15 @@ public class LaunchSimulatorRocketPanel extends JPanel{
          public void actionPerformed(ActionEvent e){
             //Test Prints for the time being
             System.out.println(e);
+            displayStageJFrame();
+            updateStageJFrame();
+            activateButtonPanel("Stages Pressed");
          }
       });
       error.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
             //Test Prints for the time being
+            //TODO-complete this (as with all of them)
             System.out.println(e);
          }
       });
@@ -276,5 +287,10 @@ public class LaunchSimulatorRocketPanel extends JPanel{
       catch(ClassCastException cce){cce.printStackTrace(); }
       catch(Exception e){ e.printStackTrace(); }
    }
+
+   //
+   //
+   //
+   private void updateStageJFrame(){}
 }
 //////////////////////////////////////////////////////////////////////
