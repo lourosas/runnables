@@ -653,7 +653,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
 
    /**/
    private JPanel setUpRocketPanel(){
-      return new LaunchSimulatorRocketPanel();  
+      return new LaunchSimulatorRocketPanel(this);  
    }
 
    /**/

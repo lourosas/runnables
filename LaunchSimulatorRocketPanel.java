@@ -34,14 +34,29 @@ import rosas.lou.clock.*;
 
 public class LaunchSimulatorRocketPanel extends JPanel{
    //Going to "do" anonymous inner classes
+   private JFrame       _parent;
+   private StagesJFrame _stagesF;
+
+   {
+      _parent  = null;
+      _stagesF = null;
+   };
 
    ////////////////////////////Constructors///////////////////////////
    //
    //
    //
    public LaunchSimulatorRocketPanel(){
+      this(null);
+   }
+
+   //
+   //
+   //
+   public LaunchSimulatorRocketPanel(JFrame frame){
       super();
       this.setUpGUI();
+      this._parent = frame;
    }
 
    ///////////////////////////Public Methods//////////////////////////
@@ -88,7 +103,17 @@ public class LaunchSimulatorRocketPanel extends JPanel{
             catch(ClassCastException cce){}
          }
       }
-      else if(action.toUpperCase().equals("STAGES PRESSED")){}
+      else if(action.toUpperCase().equals("STAGES PRESSED")){
+         for(int i = 0; i < bp.getComponentCount(); ++i){
+            try{
+               JButton b = (JButton)bp.getComponent(i);
+               if(b.getText().toUpperCase().equals("STAGES")){
+                  b.setEnabled(false);
+               }
+            }
+            catch(ClassCastException cce){}
+         }
+      }
    }
 
    //
@@ -111,7 +136,14 @@ public class LaunchSimulatorRocketPanel extends JPanel{
    //
    //
    //
-   private void displayStageJFrame(){}
+   private void displayStageJFrame(){
+      if(this._stagesF == null){
+
+      }
+      else{
+         this._stagesF.requestDisplay();
+      }
+   }
 
    //
    //
