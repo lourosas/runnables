@@ -23,8 +23,10 @@ import rosas.lou.runnables.*;
 
 public interface StageData{
    public double           dryWeight();
+   public String           error();
    public List<EngineData> engineData();
    public FuelSystemData   fuelSystemData();
+   public boolean          isError();
    public long             model();
    public int              numberOfEngines();
    public int              stageNumber();

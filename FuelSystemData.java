@@ -22,9 +22,11 @@ import java.lang.*;
 import rosas.lou.runnables.*;
 
 public interface FuelSystemData{
+   public String         error();
+   public booelean       isError();
    public List<PipeData> pipeData();
    public List<PumpData> pumpData();
    public List<TankData> tankData();
-   public String toString();
+   public String         toString();
 }
 //////////////////////////////////////////////////////////////////////

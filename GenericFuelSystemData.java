@@ -22,6 +22,8 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public class GenericFuelSystemData implements FuelSystemData{
+   private String         _error;
+   private boolean        _isError;
    private int            _numPipes;
    private int            _numPumps;
    private int            _numTanks;
@@ -30,6 +32,8 @@ public class GenericFuelSystemData implements FuelSystemData{
    private List<TankData> _tanks;
 
    {
+      _error       = null;
+      _isError     = false;
       _numPipes    = -1;
       _numPumps    = -1;
       _numTanks    = -1;
@@ -57,6 +61,42 @@ public class GenericFuelSystemData implements FuelSystemData{
       catch(NullPointerException npe){}
       try{ this._numTanks = this._tanks.size(); }
       catch(NullPointerException npe){}
+   }
+
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void errors(){
+      try{
+         Iterator<PipeData> it = this._pipes.iterator();
+         while(it.hasNext()){
+            PipeData pd = (PipeData)it.next();
+            if(pd.isError()){
+               if(!this._isError){ this._isError = true;}
+               if(this._error == null){
+                  this._error = new String(pd.error());
+               }
+               else{ this._error += pd.error(); }
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+      try{
+         Iterator<PumpData> it = this._pumps.iterator();
+         while(it.hasNext()){
+            PumpData pd = (PumpData)it.next();
+            if(pd.isError()){
+               if(!this._isError){ this._isError = true; }
+               if(this._error == null){
+                  this._error = new String(pd.error());
+               }
+               else{ this._error += pd.error(); }
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+   
    }
 
    //////////////FuelSystemData Interface Implementation//////////////
@@ -92,6 +132,7 @@ public class GenericFuelSystemData implements FuelSystemData{
       while(is.hasNext()){
          value += is.next().toString();
       }
+      //Add ERROR Data!!!!
       return value;
    }
 }

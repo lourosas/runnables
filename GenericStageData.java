@@ -23,6 +23,8 @@ import rosas.lou.runnables.*;
 
 public class GenericStageData implements StageData{
    private double           _dryWeight;
+   private String           _error;
+   private boolean          _isError;
    private long             _model;
    private int              _number;
    private int              _engines;
@@ -32,6 +34,8 @@ public class GenericStageData implements StageData{
 
    {
       _dryWeight      = Double.NaN;
+      _error          = null;
+      _isError        = false;
       _model          = -1;
       _number         = -1;
       _engines        = -1;
@@ -47,7 +51,9 @@ public class GenericStageData implements StageData{
    GenericStageData
    (
       double           dryWeight,
+      String           error,
       long             model,
+      boolean          isError,
       int              number,
       int              engines,
       double           weight,
@@ -55,7 +61,9 @@ public class GenericStageData implements StageData{
       FuelSystemData   fuelSystemData
    ){
       this.dryWeight(dryWeight);
+      this.error(error);
       this.model(model);
+      this.isError(isError);
       this.stageNumber(number);
       this.engines(engines);
       this.weight(weight);
@@ -92,10 +100,24 @@ public class GenericStageData implements StageData{
    //
    //
    //
+   private void error(String error){
+      this._error = error;
+   }
+
+   //
+   //
+   //
    private void fuelSystemData(FuelSystemData data){
       if(data != null){
          this._fuelSystemData = data;
       }
+   }
+
+   //
+   //
+   //
+   private void isError(boolean isErr){
+      this._isError = isErr;
    }
 
    //
@@ -135,6 +157,11 @@ public class GenericStageData implements StageData{
    //
    //
    //
+   public String error(){ return this._error; }
+
+   //
+   //
+   //
    public List<EngineData> engineData(){ return this._engineData; }
 
    //
@@ -143,6 +170,11 @@ public class GenericStageData implements StageData{
    public FuelSystemData fuelSystemData(){
       return this._fuelSystemData;
    }
+
+   //
+   //
+   //
+   public boolean isError(){ return this._isError; }
 
    //
    //
@@ -179,6 +211,10 @@ public class GenericStageData implements StageData{
          data += it.next().toString() + "\n";
       }
       data += this.fuelSystemData().toString() + "\n";
+      data += "Error: " + this.isError() + "\n";
+      if(this.isError()){
+         data += this.error();
+      }
       return data;
    }
 }
