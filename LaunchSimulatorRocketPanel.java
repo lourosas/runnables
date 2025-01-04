@@ -36,10 +36,12 @@ public class LaunchSimulatorRocketPanel extends JPanel{
    //Going to "do" anonymous inner classes
    private JFrame       _parent;
    private StagesJFrame _stagesF;
+   private RocketData   _currentRD;
 
    {
-      _parent  = null;
-      _stagesF = null;
+      _currentRD = null;
+      _parent    = null;
+      _stagesF   = null;
    };
 
    ////////////////////////////Constructors///////////////////////////
@@ -64,9 +66,11 @@ public class LaunchSimulatorRocketPanel extends JPanel{
    //
    //
    public void initialize(RocketData rd){
+      this._currentRD = rd;
       this.deactivateButtonPanel();
       this.activateButtonPanel("INITIALIZE");
       this.initializeCenterPanel(rd);
+      this.updateStageJFrame();
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -114,6 +118,17 @@ public class LaunchSimulatorRocketPanel extends JPanel{
             catch(ClassCastException cce){}
          }
       }
+      else if(action.toUpperCase().equals("STAGES ACTIVATE")){
+         for(int i = 0; i < bp.getComponentCount(); ++i){
+            try{
+               JButton b = (JButton)bp.getComponent(i);
+               if(b.getText().toUpperCase().equals("STAGES")){
+                  b.setEnabled(true);
+               }
+            }
+            catch(ClassCastException cce){}
+         }
+      }
    }
 
    //
@@ -138,7 +153,18 @@ public class LaunchSimulatorRocketPanel extends JPanel{
    //
    private void displayStageJFrame(){
       if(this._stagesF == null){
-
+         if(this._parent != null){
+            this._stagesF = new StagesJFrame(this._parent);
+         }
+         else{
+            this._stagesF = new StagesJFrame();
+         }
+         this._stagesF.addWindowListener(new WindowAdapter(){
+            //GenericJInteractionFrame already tankes care of visible
+            public void windowClosing(WindowEvent w){
+               activateButtonPanel("Stages Activate");
+            }
+         });
       }
       else{
          this._stagesF.requestDisplay();
@@ -323,6 +349,11 @@ public class LaunchSimulatorRocketPanel extends JPanel{
    //
    //
    //
-   private void updateStageJFrame(){}
+   private void updateStageJFrame(){
+      if(this._stagesF != null){
+         this._stagesF.update(this._currentRD);
+      }
+   
+   }
 }
 //////////////////////////////////////////////////////////////////////
