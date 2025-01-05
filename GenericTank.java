@@ -130,9 +130,9 @@ public class GenericTank implements Tank{
    private void isError(int state){
       this._error   = null;
       this._isError = false;
-      this.isCapacityError(PRELAUNCH);
-      this.isFlowError(PRELAUNCH);
-      this.isTemperatureError(PRELAUNCH);
+      this.isCapacityError(state);
+      this.isFlowError(state);
+      this.isTemperatureError(state);
    }
 
    //

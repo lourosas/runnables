@@ -61,6 +61,7 @@ public class GenericFuelSystemData implements FuelSystemData{
       catch(NullPointerException npe){}
       try{ this._numTanks = this._tanks.size(); }
       catch(NullPointerException npe){}
+      this.errors();
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -96,10 +97,33 @@ public class GenericFuelSystemData implements FuelSystemData{
          }
       }
       catch(NullPointerException npe){}
-   
+      try{
+         Iterator<TankData> it = this._tanks.iterator();
+         while(it.hasNext()){
+            TankData td = (PumpData)it.next();
+            if(td.isError()){
+               if(!this._isError){ this._isError = true; }
+               if(this._error == null){
+                  this._error = new String(td.error());
+               }
+               else{ this._error += td.error(); }
+            }
+         }
+      }
+      catch(NullPointerException npe){}
    }
 
    //////////////FuelSystemData Interface Implementation//////////////
+   //
+   //
+   //
+   public String error(){ return this._error; }
+
+   //
+   //
+   //
+   public boolean isError(){ return this._isError; }
+
    //
    //
    //
