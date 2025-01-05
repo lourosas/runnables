@@ -122,8 +122,8 @@ public class GenericRocket implements Rocket, Runnable{
    //
    //
    private void isError(int state){
-      this.isCurrentStageError(PRELAUNCH);
-      this.isCalculatedWeightError(PRELAUNCH);
+      this.isCurrentStageError(state);
+      this.isCalculatedWeightError(state);
       //more to come as needed...     
    }
 
@@ -238,7 +238,17 @@ public class GenericRocket implements Rocket, Runnable{
       try{
          Iterator<Stage> it = this._stages.iterator();
          while(it.hasNext()){
-            stageData.add(it.next().monitorPrelaunch());
+            Stage s = it.next();
+            StageData sd = s.monitorPrelaunch();
+            stageData.add(sd);
+            //Filter up the stage data...
+            if(sd.isError()){
+               this._isError = true;
+               if(this._error == null){
+                  this._error=new String(sd.error());
+               }
+               else{ this._error += sd.error(); }
+            }
          }
       }
       catch(NullPointerException npe){}

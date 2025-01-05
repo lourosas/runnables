@@ -152,20 +152,36 @@ public class GenericStage implements Stage, Runnable{
    //
    //
    public StageData monitorPrelaunch(){
+      boolean isError = false;
+      String error    = null;
       //Part of the StageData
       List<EngineData> engineData = new LinkedList<EngineData>();
       System.out.println("<Stage>.engines: "+this._engines.size());
       Iterator<Engine> it = this._engines.iterator();
       while(it.hasNext()){
-         engineData.add(it.next().monitorPrelaunch());
+         Engine e = (Engine)it.next();
+         EngineData d = e.monitorPrelaunch();
+         engineData.add(d);
+         if(d.isError()){
+            if(!isError){ isError = true; }
+            if(error == null){ error = new String(d.error());}
+            else{ error += d.error(); }
+         }
+         //engineData.add(it.next().monitorPrelaunch());
       }
       //now, get the Fuel System Data
       FuelSystemData fsd = this._fuelSystem.monitorPrelaunch();
       //get the weight of the fuel and engines and add to it...
       this.calculateWeight(fsd);
-      //need to correct...
+      if(fsd.isError()){
+         if(!isError){ isError = true; }
+         if(error == null){ error = new String(fsd.error()); }
+         else{ error += fsd.error(); }
+      }
       StageData sd = new GenericStageData(this._dryweight,
+                                          error,
                                           this._modelNumber,
+                                          isError,
                                           this._stageNumber,
                                           this._engines.size(),
                                           this._weight,

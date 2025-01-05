@@ -49,6 +49,7 @@ public class StagesJFrame extends GenericJInteractionFrame{
    //
    //
    public StagesJFrame(JFrame parent){
+      this._parent = parent;
       this.setUpGUI(parent);
    }
 
@@ -65,6 +66,7 @@ public class StagesJFrame extends GenericJInteractionFrame{
    //
    public void update(RocketData data){
       this.updateStageData(data);
+      this.setVisual();
    }
    
    //////////////////////////Private Methods/////////////////////////
@@ -111,7 +113,21 @@ public class StagesJFrame extends GenericJInteractionFrame{
    //
    //
    private void updateStageData(RocketData data){
-      System.out.println(data);
+      StageDataPanel sdp = null;
+      java.util.List<StageData> list = data.stages();
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      if(panel.getComponentCount() == 0){
+         Iterator<StageData> it = list.iterator();
+         while(it.hasNext()){
+            StageData sd = (StageData)it.next();
+            sdp          = new StageDataPanel();
+            sdp.update(sd);
+            panel.add(sdp);
+         }
+      }
+      //System.out.println(this.getContentPane().getComponentCount());
+      //System.out.println(data.stages());
+      //System.out.println(panel.getComponentCount());
    }
 }
 

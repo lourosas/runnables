@@ -100,7 +100,7 @@ public class GenericFuelSystemData implements FuelSystemData{
       try{
          Iterator<TankData> it = this._tanks.iterator();
          while(it.hasNext()){
-            TankData td = (PumpData)it.next();
+            TankData td = (TankData)it.next();
             if(td.isError()){
                if(!this._isError){ this._isError = true; }
                if(this._error == null){
