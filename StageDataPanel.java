@@ -26,6 +26,7 @@ import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+import java.text.NumberFormat;
 import myclasses.*;
 import javax.swing.border.*;
 
@@ -118,6 +119,7 @@ public class StageDataPanel extends JPanel{
    private JPanel setUpDataPanel(){
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(0,1));
+      panel.setBorder(BorderFactory.createEtchedBorder());
       panel.add(this.setUpPanel(2)); //Current Stage
       panel.add(this.setUpPanel(2)); //Current Model
       panel.add(this.setUpPanel(2)); //Number of Engines
@@ -133,7 +135,7 @@ public class StageDataPanel extends JPanel{
       this.setLayout(new BorderLayout());
       this.add(this.setUpDataPanel(),  BorderLayout.CENTER);
       this.add(this.setUpButtonPanel(),BorderLayout.SOUTH);
-      //this.deactivateButtonPanel();
+      this.deactivateButtonPanel();
    }
 
    //
@@ -148,9 +150,102 @@ public class StageDataPanel extends JPanel{
    //
    //
    //
-   private void updateDataPanel(StageData sd){
+   private void updateCurrentModel(StageData sd){
       JPanel panel = (JPanel)this.getComponent(0);
-      System.out.println(panel.getComponentCount());
+      JPanel cp    = (JPanel)panel.getComponent(1);
+      JLabel label = null;
+      if(cp.getComponentCount() == 0){
+         label = new JLabel("Model:  ",SwingConstants.RIGHT);
+         cp.add(label);
+         String model = String.format("0x%X",sd.model());
+         label = new JLabel(model);
+         cp.add(label);
+      }
+      else{}
+   }
+
+   //
+   //
+   //
+   private void updateCurrentStagePanel(StageData sd){
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel sp    = (JPanel)panel.getComponent(0);
+      JLabel label = null;
+      if(sp.getComponentCount() == 0){
+         label = new JLabel("Current Stage: ",SwingConstants.RIGHT);
+         sp.add(label);
+         label = new JLabel("" + sd.stageNumber());
+         sp.add(label);
+      }
+      else{
+         //Will need to figure out what to de here...
+      }
+   }
+
+   //
+   //
+   //
+   private void updateError(StageData sd){
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel ep    = (JPanel)panel.getComponent(4);
+      JLabel label = null;
+      if(ep.getComponentCount() == 0){
+         label = new JLabel("Error: ",SwingConstants.RIGHT);
+         ep.add(label);
+         if(sd.isError()){ label.setForeground(Color.RED); }
+         else{ label.setForeground(Color.BLUE); }
+         label = new JLabel("" + sd.isError());
+         if(sd.isError()){ label.setForeground(Color.RED); }
+         else{ label.setForeground(Color.BLUE); }
+         ep.add(label);
+      }
+      else{}
+   }
+
+   //
+   //
+   //
+   private void updateDataPanel(StageData sd){
+      this.updateCurrentStagePanel(sd);
+      this.updateCurrentModel(sd);
+      this.updateEngineNumber(sd);
+      this.updateWeight(sd);
+      this.updateError(sd);
+   }
+
+   //
+   //
+   //
+   private void updateEngineNumber(StageData sd){
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel ep    = (JPanel)panel.getComponent(2);
+      JLabel label = null;
+      if(ep.getComponentCount() == 0){
+         label=new JLabel("Number of Engines: ",SwingConstants.RIGHT);
+         ep.add(label);
+         label = new JLabel("" + sd.numberOfEngines());
+         ep.add(label);
+      }
+      else{}
+   }
+   
+   //
+   //
+   //
+   private void updateWeight(StageData sd){
+      JPanel panel        = (JPanel)this.getComponent(0);
+      JPanel wp           = (JPanel)panel.getComponent(3);
+      JLabel label        = null;
+      NumberFormat format = null;
+      format = NumberFormat.getNumberInstance(Locale.US);
+      if(wp.getComponentCount() == 0){
+         String wght = new String("Measured Weight: ");
+         label = new JLabel(wght,SwingConstants.RIGHT);
+         wp.add(label);
+         String n = format.format(sd.weight())+"N";
+         label = new JLabel(n);
+         wp.add(label);
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////
