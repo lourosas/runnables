@@ -137,10 +137,10 @@ public class StagesJFrame extends GenericJInteractionFrame{
       else{
          //TBD...if the panel is already there, will somehow need
          //to update the data
+         //Test Prints
+         System.out.print("StagesJFrame Component Count: ");
+         System.out.println(panel.getComponentCount());
       }
-      //System.out.println(this.getContentPane().getComponentCount());
-      //System.out.println(data.stages());
-      //System.out.println(panel.getComponentCount());
    }
 }
 

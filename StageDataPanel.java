@@ -59,10 +59,20 @@ public class StageDataPanel extends JPanel{
    //
    //
    public void update(StageData sd){
-      System.out.println(sd);
+      this.updateDataPanel(sd);
    }
 
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void activateButtonPanel(String action){}
+
+   //
+   //
+   //
+   private void deactivateButtonPanel(){}
+
    //
    //
    //
@@ -133,6 +143,14 @@ public class StageDataPanel extends JPanel{
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(1, columns));
       return panel;
+   }
+
+   //
+   //
+   //
+   private void updateDataPanel(StageData sd){
+      JPanel panel = (JPanel)this.getComponent(0);
+      System.out.println(panel.getComponentCount());
    }
 }
 //////////////////////////////////////////////////////////////////////
