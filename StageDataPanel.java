@@ -61,18 +61,45 @@ public class StageDataPanel extends JPanel{
    //
    public void update(StageData sd){
       this.updateDataPanel(sd);
+      this.deactivateButtonPanel();
+      this.activateButtonPanel(sd);
+
    }
 
    //////////////////////////Private Methods//////////////////////////
    //
    //
    //
-   private void activateButtonPanel(String action){}
+   private void activateButtonPanel(StageData sd){
+      //Stop gap for now-->To be REMOVED
+      JPanel bp = (JPanel)this.getComponent(1);
+      for(int i = 0; i < bp.getComponentCount(); ++i){
+         try{
+            JButton b = (JButton)bp.getComponent(i);
+            b.setEnabled(true);
+         }
+         catch(ClassCastException cce){
+            cce.printStackTrace();
+         }
+      }
+      
+   }
 
    //
    //
    //
-   private void deactivateButtonPanel(){}
+   private void deactivateButtonPanel(){
+      JPanel bp = (JPanel)this.getComponent(1);
+      for(int i = 0; i < bp.getComponentCount(); ++i){
+         try{
+            JButton b = (JButton)bp.getComponent(i);
+            b.setEnabled(false);
+         }
+         catch(ClassCastException cce){
+            cce.printStackTrace();
+         }
+      }
+   }
 
    //
    //
