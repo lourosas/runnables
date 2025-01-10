@@ -107,7 +107,16 @@ public class StagesJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   private void setVisual(){}
+   private void setVisual(){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      int WIDTH    = 425;
+      int HEIGHT   = 280*panel.getComponentCount();
+      this.setSize(WIDTH, HEIGHT);
+      this.setVisible(true);
+      System.out.println("setVisual()");
+      System.out.println("Width:  "+WIDTH);
+      System.out.println("Height: "+HEIGHT);
+   }
 
    //
    //
@@ -120,10 +129,14 @@ public class StagesJFrame extends GenericJInteractionFrame{
          Iterator<StageData> it = list.iterator();
          while(it.hasNext()){
             StageData sd = (StageData)it.next();
-            sdp          = new StageDataPanel();
+            sdp = new StageDataPanel(this._parent);
             sdp.update(sd);
             panel.add(sdp);
          }
+      }
+      else{
+         //TBD...if the panel is already there, will somehow need
+         //to update the data
       }
       //System.out.println(this.getContentPane().getComponentCount());
       //System.out.println(data.stages());

@@ -166,9 +166,6 @@ public class LaunchSimulatorRocketPanel extends JPanel{
             }
          });
       }
-      else{
-         this._stagesF.requestDisplay();
-      }
    }
 
    //
