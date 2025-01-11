@@ -91,18 +91,27 @@ public class StageDataPanel extends JPanel{
             JButton b = (JButton)bp.getComponent(i);
             if(b.getText().toUpperCase().equals("ERROR")){
                if(action.toUpperCase().equals("ERROR")){
-                  //if(!this._errors.isShowing()){
+                  //if(this._errors == null){
+                  //   b.setEnabled(true)
+                  //}
+                  //else if(!this._errors.isShowing()){
                   //   b.setEnabled(true);
                   //}
                }
             }
             else if(b.getText().toUpperCase().equals("FUEL SYSTEM")){
-               //if(!this._fuelSystem.isShowing()){
+               //if(this._fuelSystem == null){
+               //   b.setEnabled(true);
+               //}
+               //else if(!this._fuelSystem.isShowing()){
                //   b.setEnabled(true);
                //}
             }
             else if(b.getText().toUpperCase().equals("ENGINES")){
-               //if(!this._engines.isShowing()){
+               //if(this._engines == null){
+               //   b.setEnabled(true);
+               //}
+               //else if(!this._engines.isShowing()){
                //   b.setEnabled(true);
                //}
             }

@@ -61,7 +61,7 @@ public class StagesJFrame extends GenericJInteractionFrame{
       this.setVisual();
    }
 
-   //THIS WILL NEED CHANGING!!!
+   //
    //
    //
    public void update(RocketData data){
