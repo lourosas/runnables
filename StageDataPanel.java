@@ -73,6 +73,7 @@ public class StageDataPanel extends JPanel{
          this.activateButtonPanel("ERROR");
       }
       else{
+         //Keep this dialog around for now, may need it...
          this.activateButtonPanel("UPDATE");
       }
 
@@ -84,14 +85,12 @@ public class StageDataPanel extends JPanel{
    //
    private void activateButtonPanel(String action){
       this.deactivateButtonPanel();
-      //Stop gap for now-->To be REMOVED
       JPanel bp = (JPanel)this.getComponent(1);
       for(int i = 0; i < bp.getComponentCount(); ++i){
-         /*
          try{
             JButton b = (JButton)bp.getComponent(i);
             if(b.getText().toUpperCase().equals("ERROR")){
-               if(sd.isError()){
+               if(action.toUpperCase().equals("ERROR")){
                   //if(!this._errors.isShowing()){
                   //   b.setEnabled(true);
                   //}
@@ -102,12 +101,15 @@ public class StageDataPanel extends JPanel{
                //   b.setEnabled(true);
                //}
             }
-            b.setEnabled(true);
+            else if(b.getText().toUpperCase().equals("ENGINES")){
+               //if(!this._engines.isShowing()){
+               //   b.setEnabled(true);
+               //}
+            }
          }
          catch(ClassCastException cce){
             cce.printStackTrace();
          }
-         */
       }
    }
 

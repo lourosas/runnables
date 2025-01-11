@@ -151,26 +151,6 @@ public class LaunchSimulatorRocketPanel extends JPanel{
    //
    //
    //
-   private void displayStageJFrame(){
-      if(this._stagesF == null){
-         if(this._parent != null){
-            this._stagesF = new StagesJFrame(this._parent);
-         }
-         else{
-            this._stagesF = new StagesJFrame();
-         }
-         this._stagesF.addWindowListener(new WindowAdapter(){
-            //GenericJInteractionFrame already tankes care of visible
-            public void windowClosing(WindowEvent w){
-               activateButtonPanel("Stages Activate");
-            }
-         });
-      }
-   }
-
-   //
-   //
-   //
    private void initializeCenterPanel(RocketData rd){
       try{
          String n            = new String();
@@ -226,6 +206,15 @@ public class LaunchSimulatorRocketPanel extends JPanel{
       catch(ClassCastException cce){ cce.printStackTrace(); }
       catch(Exception e){ e.printStackTrace(); }
    }
+   
+   //
+   //
+   //
+   private void requestStageJFrameDisplay(){
+      if(this._stagesF != null){
+         this._stagesF.requestDisplay();
+      }
+   }
 
    //
    //
@@ -239,8 +228,9 @@ public class LaunchSimulatorRocketPanel extends JPanel{
          public void actionPerformed(ActionEvent e){
             //Test Prints for the time being
             System.out.println(e);
-            displayStageJFrame();
+            setUpStageJFrame();
             updateStageJFrame();
+            requestStageJFrameDisplay();
             activateButtonPanel("Stages Pressed");
          }
       });
@@ -293,6 +283,26 @@ public class LaunchSimulatorRocketPanel extends JPanel{
       return panel;
    }
 
+   //
+   //
+   //
+   private void setUpStageJFrame(){
+      if(this._stagesF == null){
+         if(this._parent != null){
+            this._stagesF = new StagesJFrame(this._parent);
+         }
+         else{
+            this._stagesF = new StagesJFrame();
+         }
+         this._stagesF.addWindowListener(new WindowAdapter(){
+            //GenericJInteractionFrame already tankes care of visible
+            public void windowClosing(WindowEvent w){
+               activateButtonPanel("Stages Activate");
+            }
+         });
+      }
+      //this._stagesF.requestDisplay();
+   }
 
    //This is the data associated with the Rocket...not associated
    //With the Stage...that needs to be addressed when the Actor

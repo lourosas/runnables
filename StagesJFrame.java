@@ -54,7 +54,7 @@ public class StagesJFrame extends GenericJInteractionFrame{
    }
 
    ///////////////////////////Public Methods//////////////////////////
-   //
+   //I DO NOT THINK this is needed!!!
    //
    //
    public void requestDisplay(){
@@ -66,7 +66,6 @@ public class StagesJFrame extends GenericJInteractionFrame{
    //
    public void update(RocketData data){
       this.updateStageData(data);
-      this.setVisual();//NEEDS TO BE DONE SOMEWHERE ELSE!!!
    }
    
    //////////////////////////Private Methods/////////////////////////
