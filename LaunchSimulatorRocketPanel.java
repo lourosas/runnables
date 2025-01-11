@@ -350,7 +350,6 @@ public class LaunchSimulatorRocketPanel extends JPanel{
       if(this._stagesF != null){
          this._stagesF.update(this._currentRD);
       }
-   
    }
 }
 //////////////////////////////////////////////////////////////////////

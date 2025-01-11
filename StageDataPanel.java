@@ -33,9 +33,16 @@ import javax.swing.border.*;
 public class StageDataPanel extends JPanel{
    //Transfer this to the other Frames that are part of the Stage Data
    private JFrame  _parent;
+   //Both TBD
+   //private FuelSystemFrame _fuelSystem;
+   //private EnginesFrame    _engines;
+   //private ErrorFrame      _errors;
 
    {
-      _parent = null;
+      _parent       = null;
+      //_fuelSystem = null;
+      //_engines    = null;
+      //_errors     = null;
    };
    //Going to use Anonumous Inner Classes for this...
    ////////////////////////////Constructors///////////////////////////
@@ -62,7 +69,12 @@ public class StageDataPanel extends JPanel{
    public void update(StageData sd){
       this.updateDataPanel(sd);
       this.deactivateButtonPanel();
-      this.activateButtonPanel(sd);
+      if(sd.isError()){
+         this.activateButtonPanel("ERROR");
+      }
+      else{
+         this.activateButtonPanel("UPDATE");
+      }
 
    }
 
@@ -70,19 +82,33 @@ public class StageDataPanel extends JPanel{
    //
    //
    //
-   private void activateButtonPanel(StageData sd){
+   private void activateButtonPanel(String action){
+      this.deactivateButtonPanel();
       //Stop gap for now-->To be REMOVED
       JPanel bp = (JPanel)this.getComponent(1);
       for(int i = 0; i < bp.getComponentCount(); ++i){
+         /*
          try{
             JButton b = (JButton)bp.getComponent(i);
+            if(b.getText().toUpperCase().equals("ERROR")){
+               if(sd.isError()){
+                  //if(!this._errors.isShowing()){
+                  //   b.setEnabled(true);
+                  //}
+               }
+            }
+            else if(b.getText().toUpperCase().equals("FUEL SYSTEM")){
+               //if(!this._fuelSystem.isShowing()){
+               //   b.setEnabled(true);
+               //}
+            }
             b.setEnabled(true);
          }
          catch(ClassCastException cce){
             cce.printStackTrace();
          }
+         */
       }
-      
    }
 
    //

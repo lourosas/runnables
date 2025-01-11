@@ -61,12 +61,12 @@ public class StagesJFrame extends GenericJInteractionFrame{
       this.setVisual();
    }
 
-   //
+   //THIS WILL NEED CHANGING!!!
    //
    //
    public void update(RocketData data){
       this.updateStageData(data);
-      this.setVisual();
+      this.setVisual();//NEEDS TO BE DONE SOMEWHERE ELSE!!!
    }
    
    //////////////////////////Private Methods/////////////////////////
@@ -113,9 +113,6 @@ public class StagesJFrame extends GenericJInteractionFrame{
       int HEIGHT   = 225*panel.getComponentCount();
       this.setSize(WIDTH, HEIGHT);
       this.setVisible(true);
-      System.out.println("setVisual()");
-      System.out.println("Width:  "+WIDTH);
-      System.out.println("Height: "+HEIGHT);
    }
 
    //
@@ -137,7 +134,7 @@ public class StagesJFrame extends GenericJInteractionFrame{
       else{
          //TBD...if the panel is already there, will somehow need
          //to update the data
-         //Test Prints
+         //Test Prints==>Keep this for NOW!!!
          System.out.print("StagesJFrame Component Count: ");
          System.out.println(panel.getComponentCount());
       }
