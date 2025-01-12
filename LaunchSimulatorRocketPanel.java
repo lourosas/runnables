@@ -69,7 +69,7 @@ public class LaunchSimulatorRocketPanel extends JPanel{
       this._currentRD = rd;
       this.deactivateButtonPanel();
       this.activateButtonPanel("INITIALIZE");
-      this.initializeCenterPanel(rd);
+      this.initializeCenterPanel();
       this.updateStageJFrame();
    }
 
@@ -151,7 +151,7 @@ public class LaunchSimulatorRocketPanel extends JPanel{
    //
    //
    //
-   private void initializeCenterPanel(RocketData rd){
+   private void initializeCenterPanel(){
       try{
          String n            = new String();
          NumberFormat format = NumberFormat.getInstance(Locale.US);
@@ -160,7 +160,7 @@ public class LaunchSimulatorRocketPanel extends JPanel{
          JPanel rdp = (JPanel)panel.getComponent(0);
          JLabel l=new JLabel("Rocket Model: ",SwingConstants.RIGHT);
          rdp.add(l);
-         l = new JLabel("" + rd.model());
+         l = new JLabel("" + this._currentRD.model());
          rdp.add(l);
          rdp.repaint();
          rdp.revalidate();
@@ -168,30 +168,30 @@ public class LaunchSimulatorRocketPanel extends JPanel{
          rdp = (JPanel)panel.getComponent(1);
          l   = new JLabel("Current Weight: ",SwingConstants.RIGHT);
          rdp.add(l);
-         n = format.format(rd.calculatedWeight())+"N";
+         n = format.format(this._currentRD.calculatedWeight())+"N";
          l = new JLabel(n);
          rdp.add(l);
          //Current Stage Panel
          rdp = (JPanel)panel.getComponent(2);
          l = new JLabel("Current Stage: ",SwingConstants.RIGHT);
          rdp.add(l);
-         n = "" + rd.currentStage();
+         n = "" + this._currentRD.currentStage();
          l = new JLabel(n);
          rdp.add(l);
          //Total Stages Panel
          rdp = (JPanel)panel.getComponent(3);
          l = new JLabel("Total Stages: ",SwingConstants.RIGHT);
          rdp.add(l);
-         n = "" + rd.numberOfStages();
+         n = "" + this._currentRD.numberOfStages();
          l = new JLabel(n);
          rdp.add(l);
          //Error Panel
          rdp = (JPanel)panel.getComponent(4);
-         if(rd.isError()){
+         if(this._currentRD.isError()){
             l = new JLabel("Error: ",SwingConstants.RIGHT);
             l.setForeground(Color.RED);
             rdp.add(l);
-            n = "" + rd.isError();
+            n = "" + this._currentRD.isError();
             l = new JLabel(n);
             l.setForeground(Color.RED);
             rdp.add(l);

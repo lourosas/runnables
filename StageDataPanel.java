@@ -32,15 +32,17 @@ import javax.swing.border.*;
 
 public class StageDataPanel extends JPanel{
    //Transfer this to the other Frames that are part of the Stage Data
-   private JFrame  _parent;
+   private JFrame     _parent;
+   private StageData  _currentSD;
    //Both TBD
-   //private FuelSystemFrame _fuelSystem;
+   private FuelSystemJFrame _fuelSystem;
    //private EnginesFrame    _engines;
    //private ErrorFrame      _errors;
 
    {
-      _parent       = null;
-      //_fuelSystem = null;
+      _parent     = null;
+      _currentSD  = null;
+      _fuelSystem = null;
       //_engines    = null;
       //_errors     = null;
    };
@@ -67,7 +69,9 @@ public class StageDataPanel extends JPanel{
    //
    //
    public void update(StageData sd){
-      this.updateDataPanel(sd);
+      this._currentSD = sd;
+      this.updateDataPanel();
+      this.updateFuelSystemJFrame();
       this.deactivateButtonPanel();
       if(sd.isError()){
          this.activateButtonPanel("ERROR");
@@ -100,12 +104,12 @@ public class StageDataPanel extends JPanel{
                }
             }
             else if(b.getText().toUpperCase().equals("FUEL SYSTEM")){
-               //if(this._fuelSystem == null){
-               //   b.setEnabled(true);
-               //}
-               //else if(!this._fuelSystem.isShowing()){
-               //   b.setEnabled(true);
-               //}
+               if(this._fuelSystem == null){
+                  b.setEnabled(true);
+               }
+               else if(!this._fuelSystem.isShowing()){
+                  b.setEnabled(true);
+               }
             }
             else if(b.getText().toUpperCase().equals("ENGINES")){
                //if(this._engines == null){
@@ -141,6 +145,14 @@ public class StageDataPanel extends JPanel{
    //
    //
    //
+   private void requestFuelSystemJFrameDisplay(){
+      if(this._fuelSystem != null){
+         this._fuelSystem.requestDisplay();
+      }
+   }
+   //
+   //
+   //
    private JPanel setUpButtonPanel(){
       JPanel panel = new JPanel();
       panel.setBorder(BorderFactory.createEtchedBorder());
@@ -151,9 +163,10 @@ public class StageDataPanel extends JPanel{
          public void actionPerformed(ActionEvent e){
             //Test Print
             System.out.println(e);
-            //displayFuelSystemJFrame();
-            //updateFuelSystemJFrame();
-            //activateButtonPanel("Fuel System Pressed");
+            setUpFuelSystemJFrame();
+            updateFuelSystemJFrame();
+            requestFuelSystemJFrameDisplay();
+            activateButtonPanel("Fuel System Pressed");
          }
       });
       engines.addActionListener(new ActionListener(){
@@ -190,6 +203,21 @@ public class StageDataPanel extends JPanel{
       panel.add(this.setUpPanel(2)); //Current Weight
       panel.add(this.setUpPanel(2)); //Error Indicator
       return panel;
+   }
+
+   //
+   //
+   //
+   private void setUpFuelSystemJFrame(){
+      if(this._fuelSystem == null){
+         this._fuelSystem = new FuelSystemJFrame(this._parent);
+         this._fuelSystem.addWindowListener(new WindowAdapter(){
+            //GenericJInteractionFrame already takes care of Visible
+            public void windowClosing(WindowEvent w){
+               activateButtonPanel("Fuel System Activate");
+            }
+         });
+      }
    }
 
    //
@@ -269,12 +297,12 @@ public class StageDataPanel extends JPanel{
    //
    //
    //
-   private void updateDataPanel(StageData sd){
-      this.updateCurrentStagePanel(sd);
-      this.updateCurrentModel(sd);
-      this.updateEngineNumber(sd);
-      this.updateWeight(sd);
-      this.updateError(sd);
+   private void updateDataPanel(){
+      this.updateCurrentStagePanel(this._currentSD);
+      this.updateCurrentModel(this._currentSD);
+      this.updateEngineNumber(this._currentSD);
+      this.updateWeight(this._currentSD);
+      this.updateError(this._currentSD);
    }
 
    //
@@ -291,6 +319,15 @@ public class StageDataPanel extends JPanel{
          ep.add(label);
       }
       else{}
+   }
+
+   //
+   //
+   //
+   private void updateFuelSystemJFrame(){
+      if(this._fuelSystem != null){
+         this._fuelSystem.update(this._currentSD);
+      }
    }
    
    //

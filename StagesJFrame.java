@@ -55,7 +55,7 @@ public class StagesJFrame extends GenericJInteractionFrame{
    }
 
    ///////////////////////////Public Methods//////////////////////////
-   //I DO NOT THINK this is needed!!!
+   //
    //
    //
    public void requestDisplay(){
