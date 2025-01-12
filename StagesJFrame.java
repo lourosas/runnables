@@ -49,6 +49,7 @@ public class StagesJFrame extends GenericJInteractionFrame{
    //
    //
    public StagesJFrame(JFrame parent){
+      super();
       this._parent = parent;
       this.setUpGUI(parent);
    }
