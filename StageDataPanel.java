@@ -80,7 +80,6 @@ public class StageDataPanel extends JPanel{
          //Keep this dialog around for now, may need it...
          this.activateButtonPanel("UPDATE");
       }
-
    }
 
    //////////////////////////Private Methods//////////////////////////
