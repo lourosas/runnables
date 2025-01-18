@@ -95,7 +95,7 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
                   //}
                }
             }
-            else if(b.getText().toUpperCase().equals("Pipe Data")){
+            else if(b.getText().toUpperCase().equals("PIPE DATA")){
                //Stop Gap
                b.setEnabled(true);
                //if(this._pipeData == null){
@@ -105,7 +105,7 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
                //   b.setEnabled(true);
                //}
             }
-            else if(b.getText().toUpperCase().equals("Pump Data")){
+            else if(b.getText().toUpperCase().equals("PUMP DATA")){
                //Stop Gap
                b.setEnabled(true);
                //if(this._pumpData == null){
@@ -115,7 +115,7 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
                //   b.setEnabled(true);
                //}
             }
-            else if(b.getText().toUpperCase().equals("Tank Data")){
+            else if(b.getText().toUpperCase().equals("TANK DATA")){
                //Stop Gap
                b.setEnabled(true);
                //if(this._pipeData == null){}
