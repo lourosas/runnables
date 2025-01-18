@@ -206,6 +206,7 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
       this.updateFuelTankPanel(data.fuelSystemData());
       this.updatePipePanel(data.fuelSystemData());
       this.updatePumpPanel(data.fuelSystemData());
+      this.updateErrorPanel(data);
    }
 
    //
@@ -217,6 +218,29 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
       this.updateTitle(data);
       this.updateCenterPanel(data);
       this.updateButtonPanel(data);
+   }
+
+   //
+   //
+   //
+   private void updateErrorPanel(StageData data){
+      JPanel panel  = (JPanel)this.getContentPane().getComponent(1);
+      JPanel epanel = (JPanel)panel.getComponent(3);
+      //This is essentially panel initialization
+      if(epanel.getComponentCount() == 0){
+         String s     = new String("Error: ");
+         JLabel label = new JLabel(s, SwingConstants.RIGHT);
+         JLabel error = new JLabel("" + data.isError());
+         label.setForeground(Color.BLUE);
+         error.setForeground(Color.BLUE);
+         if(data.isError()){
+            label.setForeground(Color.RED);
+            error.setForeground(Color.RED);
+         }
+         epanel.add(label);
+         epanel.add(error);
+      }
+      else{}
    }
 
    //
