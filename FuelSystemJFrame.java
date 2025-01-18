@@ -137,8 +137,11 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    private JPanel setUpCenterPanel(){
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(0,1));
-      panel.add(this.setUpPanel(2));//Stage Number
-      panel.add(this.setUpPanel(2));//Error
+      //TEMPORARY NOTE:  Stage will go in the Title Bar
+      panel.add(this.setUpPanel(2)); //Number of Fuel Tanks
+      panel.add(this.setUpPanel(2)); //Number of Pipes
+      panel.add(this.setUpPanel(2)); //Number of Pumps
+      panel.add(this.setUpPanel(2)); //Error Indicator
       return panel;
    }
 
@@ -194,9 +197,45 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    //
    //
    //
+   private void updateButtonPanel(StageData data){}
+
+   //
+   //
+   //
+   private void updateCenterPanel(StageData data){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      JPanel ftpanel = (JPanel)panel.getComponent(0);
+      FuelSystemData fsd = (FuelSystemData)data.fuelSystemData();
+      if(ftpanel.getComponentCount() == 0){
+         String s      = new String("Fuel Tanks: ");
+         JLabel label  = new JLabel(s, SwingConstants.RIGHT);
+         java.util.List<TankData> l = fsd.tankData();
+         JLabel tanks  = new JLabel("" + l.size());
+         ftpanel.add(label);
+         ftpanel.add(tanks);
+      }
+      else{}
+   }
+
+   //
+   //
+   //
    private void updateFuelSystemData(StageData data){
       //Test Print
       System.out.println("Fuel System Stage Data: "+data);
+      this.updateTitle(data);
+      this.updateCenterPanel(data);
+      this.updateButtonPanel(data);
+   }
+
+   //
+   //
+   //
+   private void updateTitle(StageData data){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(0);
+      JLabel label = (JLabel)panel.getComponent(0);
+      String s = label.getText();
+      label.setText(s + " Stage: " + data.stageNumber());
    }
 }
 //////////////////////////////////////////////////////////////////////
