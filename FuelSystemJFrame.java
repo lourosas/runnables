@@ -209,16 +209,6 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
       this.updateErrorPanel(data);
    }
 
-   //
-   //
-   //
-   private void updateFuelSystemData(StageData data){
-      //Test Print
-      System.out.println("Fuel System Stage Data: "+data);
-      this.updateTitle(data);
-      this.updateCenterPanel(data);
-      this.updateButtonPanel(data);
-   }
 
    //
    //
@@ -241,6 +231,17 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
          epanel.add(error);
       }
       else{}
+   }
+
+   //
+   //
+   //
+   private void updateFuelSystemData(StageData data){
+      //Test Print
+      System.out.println("Fuel System Stage Data: "+data);
+      this.updateTitle(data);
+      this.updateCenterPanel(data);
+      this.updateButtonPanel(data);
    }
 
    //
