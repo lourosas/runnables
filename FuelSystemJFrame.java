@@ -76,7 +76,57 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   private void activateButtonPanel(String action){}
+   private void activateButtonPanel(String action){
+      this.deactivateButtonPanel();
+      JPanel bp = (JPanel)this.getContentPane().getComponent(2);
+      for(int i = 0; i < bp.getComponentCount(); ++i){
+         try{
+            JButton b = (JButton)bp.getComponent(i);
+            if(b.getText().toUpperCase().equals("ERROR")){
+               if(action.toUpperCase().equals("ERROR")){
+                  //Stop Gap
+                  b.setEnabled(true);
+                  //This is how to code it up...
+                  //if(this._errors == null){
+                  //   b.setEnabled(true);
+                  //}
+                  //else if(!this._errors.isShowing()){
+                  //   b.setEnabled(true);
+                  //}
+               }
+            }
+            else if(b.getText().toUpperCase().equals("Pipe Data")){
+               //Stop Gap
+               b.setEnabled(true);
+               //if(this._pipeData == null){
+               //   b.setEnabled(true);
+               //}
+               //else if(!this._pipeData.isShowing()){
+               //   b.setEnabled(true);
+               //}
+            }
+            else if(b.getText().toUpperCase().equals("Pump Data")){
+               //Stop Gap
+               b.setEnabled(true);
+               //if(this._pumpData == null){
+               //   b.setEnabled(true);
+               //}
+               //else if(!this._pumpData.isShowing()){
+               //   b.setEnabled(true);
+               //}
+            }
+            else if(b.getText().toUpperCase().equals("Tank Data")){
+               //Stop Gap
+               b.setEnabled(true);
+               //if(this._pipeData == null){}
+               //else if(!this._pipeData.isShowing()){
+               //   b.setEnabled(true);
+               //}
+            }
+         }
+         catch(ClassCastException cce){ cce.printStackTrace(); }
+      }
+   }
 
    //
    //
@@ -162,6 +212,7 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
          this.setLocation(p.x, p.y);
       }
 
+      this.deactivateButtonPanel();
       this.setSize(WIDTH, HEIGHT);
       this.setResizable(false);
       this.setVisible(false);
@@ -197,7 +248,15 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   private void updateButtonPanel(StageData data){}
+   private void updateButtonPanel(StageData data){
+      FuelSystemData fsd = data.fuelSystemData();
+      if(fsd.isError()){
+         this.activateButtonPanel("ERROR");
+      }
+      else{
+         this.activateButtonPanel("GOOD DATA");
+      }
+   }
 
    //
    //
