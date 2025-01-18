@@ -203,18 +203,9 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    //
    //
    private void updateCenterPanel(StageData data){
-      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
-      JPanel ftpanel = (JPanel)panel.getComponent(0);
-      FuelSystemData fsd = (FuelSystemData)data.fuelSystemData();
-      if(ftpanel.getComponentCount() == 0){
-         String s      = new String("Fuel Tanks: ");
-         JLabel label  = new JLabel(s, SwingConstants.RIGHT);
-         java.util.List<TankData> l = fsd.tankData();
-         JLabel tanks  = new JLabel("" + l.size());
-         ftpanel.add(label);
-         ftpanel.add(tanks);
-      }
-      else{}
+      this.updateFuelTankPanel(data.fuelSystemData());
+      this.updatePipePanel(data.fuelSystemData());
+      this.updatePumpPanel(data.fuelSystemData());
    }
 
    //
@@ -226,6 +217,60 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
       this.updateTitle(data);
       this.updateCenterPanel(data);
       this.updateButtonPanel(data);
+   }
+
+   //
+   //
+   //
+   private void updateFuelTankPanel(FuelSystemData fsd){
+      JPanel panel   = (JPanel)this.getContentPane().getComponent(1);
+      JPanel ftpanel = (JPanel)panel.getComponent(0);
+      //This is essentially Panel Initialization
+      if(ftpanel.getComponentCount() == 0){
+         String s     = new String("Fuel Tanks: ");
+         JLabel label = new JLabel(s, SwingConstants.RIGHT);
+         java.util.List<TankData> l = fsd.tankData();
+         JLabel tanks = new JLabel("" + l.size());
+         ftpanel.add(label);
+         ftpanel.add(tanks);
+      }
+      else{}
+   }
+
+   //
+   //
+   //
+   private void updatePipePanel(FuelSystemData fsd){
+      JPanel panel   = (JPanel)this.getContentPane().getComponent(1);
+      JPanel pdpanel = (JPanel)panel.getComponent(1);
+      //This is essentially Panel Initialization
+      if(pdpanel.getComponentCount() == 0){
+         String s     = new String("Number of Pipes: ");
+         JLabel label = new JLabel(s, SwingConstants.RIGHT);
+         java.util.List<PipeData> l = fsd.pipeData();
+         JLabel pipes = new JLabel("" + l.size());
+         pdpanel.add(label);
+         pdpanel.add(pipes);
+      }
+      else{}
+   }
+
+   //
+   //
+   //
+   private void updatePumpPanel(FuelSystemData fsd){
+      JPanel panel   = (JPanel)this.getContentPane().getComponent(1);
+      JPanel pmpanel = (JPanel)panel.getComponent(2);
+      //This is essentially Panel initialization
+      if(pmpanel.getComponentCount() == 0){
+         String s     = new String("Number of Pumps: ");
+         JLabel label = new JLabel(s, SwingConstants.RIGHT);
+         java.util.List<PumpData> l = fsd.pumpData();
+         JLabel pumps = new JLabel("" + l.size());
+         pmpanel.add(label);
+         pmpanel.add(pumps);
+      }
+      else{}
    }
 
    //
