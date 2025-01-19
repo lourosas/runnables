@@ -29,6 +29,7 @@ public class GenericTankData implements TankData{
    private String    _fuel;     //The Fuel Type
    private boolean   _isError;
    private int       _number;   //Tank Number for the Stage
+   private int       _stage;    //This is needed!!!
    private double    _temperature;
 
    {
@@ -39,6 +40,7 @@ public class GenericTankData implements TankData{
       _fuel           = null;
       _isError        = false;
       _number         = -1;
+      _stage          = -1;
       _temperature    = Double.NaN;
    };
    
@@ -55,6 +57,7 @@ public class GenericTankData implements TankData{
       String   fuel,
       boolean  isError,
       int      number,
+      int      stage,
       double   temperature
    ){
       this.capacity(capacity);
@@ -64,6 +67,7 @@ public class GenericTankData implements TankData{
       this.fuel(fuel);
       this.isError(isError);
       this.number(number);
+      this.stage(stage);
       this.temperature(temperature);
    }
 
@@ -127,6 +131,15 @@ public class GenericTankData implements TankData{
    //
    //
    //
+   private void stage(int st){
+      if(st > 0){
+         this._stage = st;
+      }
+   }
+
+   //
+   //
+   //
    private void temperature(double temp){
       this._temperature = temp;
    }
@@ -180,6 +193,11 @@ public class GenericTankData implements TankData{
    //
    //
    //
+   public int stage(){ return this._stage; }
+
+   //
+   //
+   //
    public double temperature(){ return this._temperature; }
 
    //
@@ -197,7 +215,8 @@ public class GenericTankData implements TankData{
    //
    public String toString(){
       String value = new String("\nTank: "+this.number());
-      value += "\nError?       " + this.isError();
+      value += "\nStage: "+this.stage();
+      value += "\nError?           " + this.isError();
       if(this.isError()){
          value += "\nErrors:   "+this.error() + "\n"; 
       }

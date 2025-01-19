@@ -281,6 +281,7 @@ public class GenericTank implements Tank{
                               this._fuel,
                               this._isError,
                               this._tankNumber,
+                              this._stageNumber,
                               this._measuredTemperature);
       return tankData;
    }

@@ -30,6 +30,7 @@ public interface TankData{
    public boolean  isError();
    public double   massLossRate(); //Derived...
    public int      number();
+   public int      stage();
    public double   temperature();
    public double   weight(); //Derived...
    public String   toString();

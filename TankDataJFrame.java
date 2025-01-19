@@ -59,6 +59,8 @@ public class TankDataJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   private void setUpGUI(){}
+   private void setUpGUI(){
+   
+   }
 }
 //////////////////////////////////////////////////////////////////////

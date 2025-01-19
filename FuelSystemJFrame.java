@@ -284,7 +284,7 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   private void updateCenterPanel(StageData data){
+   private void updateCenterPanel(){
       this.updateFuelTankPanel();
       this.updatePipePanel();
       this.updatePumpPanel();
@@ -322,7 +322,7 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
       //Test Print
       System.out.println("Fuel System Stage Data: "+data);
       this.updateTitle(data);
-      this.updateCenterPanel(data);
+      this.updateCenterPanel();
       this.updateButtonPanel();
    }
 
