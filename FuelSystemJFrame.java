@@ -32,11 +32,14 @@ import rosas.lou.clock.*;
 
 public class FuelSystemJFrame extends GenericJInteractionFrame{
    //Use Anonymous Innerclasses
-
-   private JFrame _parent;
-
+   private FuelSystemData _fsd;
+   private JFrame         _parent;
+   private TankDataJFrame _tanks;
+   
    {
+      _fsd       = null;
       _parent    = null;
+      _tanks     = null;
    };
 
    ////////////////////////////Constructors///////////////////////////
@@ -68,6 +71,7 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    //
    //
    public void update(StageData data){
+      this._fsd = data.fuelSystemData();
       this.updateFuelSystemData(data);
    }
    
@@ -98,28 +102,30 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
             else if(b.getText().toUpperCase().equals("PIPE DATA")){
                //Stop Gap
                b.setEnabled(true);
-               //if(this._pipeData == null){
+               //if(this._pipes == null){
                //   b.setEnabled(true);
                //}
-               //else if(!this._pipeData.isShowing()){
+               //else if(!this._pipes.isShowing()){
                //   b.setEnabled(true);
                //}
             }
             else if(b.getText().toUpperCase().equals("PUMP DATA")){
                //Stop Gap
                b.setEnabled(true);
-               //if(this._pumpData == null){
+               //if(this._pumps == null){
                //   b.setEnabled(true);
                //}
-               //else if(!this._pumpData.isShowing()){
+               //else if(!this._pumps.isShowing()){
                //   b.setEnabled(true);
                //}
             }
             else if(b.getText().toUpperCase().equals("TANK DATA")){
                //Stop Gap
                b.setEnabled(true);
-               //if(this._pipeData == null){}
-               //else if(!this._pipeData.isShowing()){
+               //if(this._tanks == null){
+               //   b.setEnabled(true);
+               //}
+               //else if(!this._tanks.isShowing()){
                //   b.setEnabled(true);
                //}
             }
@@ -165,7 +171,10 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
       });
       tanks.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
+            //Test Print
             System.out.println(e);
+            setUpTankDataJFrame();
+            activateButtonPanel("Tank Data Pressed");
          }
       });
       error.addActionListener(new ActionListener(){
@@ -230,6 +239,21 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    //
    //
    //
+   private void setUpTankDataJFrame(){
+      if(this._tanks == null){
+         this._tanks = new TankDataJFrame(this._parent);
+         this._tanks.addWindowListener(new WindowAdapter(){
+            //GenericJInteractionFrame already takes care of Visible
+            public void windowClosing(WindowEvent w){
+               activateButtonPanel("Tank Frame Closing");
+            }
+         });
+      }
+   }
+
+   //
+   //
+   //
    private JPanel setUpTitle(){
       JPanel panel = new JPanel();
       panel.setBorder(BorderFactory.createEtchedBorder());
@@ -248,9 +272,8 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   private void updateButtonPanel(StageData data){
-      FuelSystemData fsd = data.fuelSystemData();
-      if(fsd.isError()){
+   private void updateButtonPanel(){
+      if(this._fsd.isError()){
          this.activateButtonPanel("ERROR");
       }
       else{
@@ -262,27 +285,27 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    //
    //
    private void updateCenterPanel(StageData data){
-      this.updateFuelTankPanel(data.fuelSystemData());
-      this.updatePipePanel(data.fuelSystemData());
-      this.updatePumpPanel(data.fuelSystemData());
-      this.updateErrorPanel(data);
+      this.updateFuelTankPanel();
+      this.updatePipePanel();
+      this.updatePumpPanel();
+      this.updateErrorPanel();
    }
 
 
    //
    //
    //
-   private void updateErrorPanel(StageData data){
+   private void updateErrorPanel(){
       JPanel panel  = (JPanel)this.getContentPane().getComponent(1);
       JPanel epanel = (JPanel)panel.getComponent(3);
       //This is essentially panel initialization
       if(epanel.getComponentCount() == 0){
          String s     = new String("Error: ");
          JLabel label = new JLabel(s, SwingConstants.RIGHT);
-         JLabel error = new JLabel("" + data.isError());
+         JLabel error = new JLabel("" + this._fsd.isError());
          label.setForeground(Color.BLUE);
          error.setForeground(Color.BLUE);
-         if(data.isError()){
+         if(this._fsd.isError()){
             label.setForeground(Color.RED);
             error.setForeground(Color.RED);
          }
@@ -300,20 +323,20 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
       System.out.println("Fuel System Stage Data: "+data);
       this.updateTitle(data);
       this.updateCenterPanel(data);
-      this.updateButtonPanel(data);
+      this.updateButtonPanel();
    }
 
    //
    //
    //
-   private void updateFuelTankPanel(FuelSystemData fsd){
+   private void updateFuelTankPanel(){
       JPanel panel   = (JPanel)this.getContentPane().getComponent(1);
       JPanel ftpanel = (JPanel)panel.getComponent(0);
       //This is essentially Panel Initialization
       if(ftpanel.getComponentCount() == 0){
          String s     = new String("Fuel Tanks: ");
          JLabel label = new JLabel(s, SwingConstants.RIGHT);
-         java.util.List<TankData> l = fsd.tankData();
+         java.util.List<TankData> l = this._fsd.tankData();
          JLabel tanks = new JLabel("" + l.size());
          ftpanel.add(label);
          ftpanel.add(tanks);
@@ -324,14 +347,14 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   private void updatePipePanel(FuelSystemData fsd){
+   private void updatePipePanel(){
       JPanel panel   = (JPanel)this.getContentPane().getComponent(1);
       JPanel pdpanel = (JPanel)panel.getComponent(1);
       //This is essentially Panel Initialization
       if(pdpanel.getComponentCount() == 0){
          String s     = new String("Number of Pipes: ");
          JLabel label = new JLabel(s, SwingConstants.RIGHT);
-         java.util.List<PipeData> l = fsd.pipeData();
+         java.util.List<PipeData> l = this._fsd.pipeData();
          JLabel pipes = new JLabel("" + l.size());
          pdpanel.add(label);
          pdpanel.add(pipes);
@@ -342,14 +365,14 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   private void updatePumpPanel(FuelSystemData fsd){
+   private void updatePumpPanel(){
       JPanel panel   = (JPanel)this.getContentPane().getComponent(1);
       JPanel pmpanel = (JPanel)panel.getComponent(2);
       //This is essentially Panel initialization
       if(pmpanel.getComponentCount() == 0){
          String s     = new String("Number of Pumps: ");
          JLabel label = new JLabel(s, SwingConstants.RIGHT);
-         java.util.List<PumpData> l = fsd.pumpData();
+         java.util.List<PumpData> l = this._fsd.pumpData();
          JLabel pumps = new JLabel("" + l.size());
          pmpanel.add(label);
          pmpanel.add(pumps);
