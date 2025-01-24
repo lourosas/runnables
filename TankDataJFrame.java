@@ -32,10 +32,12 @@ import rosas.lou.clock.*;
 
 public class TankDataJFrame extends GenericJInteractionFrame{
    //Use Anonymous Inner Classes
-   private JFrame _parent;
+   private JFrame       _parent;
+   private StageData    _sd;
 
    {
       _parent  = null;
+      _sd      = null;
    };
 
    ////////////////////////////Constructors///////////////////////////
@@ -52,7 +54,24 @@ public class TankDataJFrame extends GenericJInteractionFrame{
    public TankDataJFrame(JFrame parent){
       super();
       this._parent = parent;
-      this.setUpGUI();
+      this.setUpGUI(parent);
+   }
+
+   ///////////////////////////Public Methods//////////////////////////
+   //
+   //
+   //
+   public void requestDisplay(){
+      this.setVisual();
+   }
+
+   //
+   //
+   //
+   public void update(StageData data){
+      this._sd = data;
+      //technically, do not need to save off the data Globally...
+      this.updateData(data);
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -64,7 +83,7 @@ public class TankDataJFrame extends GenericJInteractionFrame{
       int HEIGHT   = 1000;
       JPanel panel = new JPanel();
       //Put all the Tank Panels one...
-      panel.setLayouot(new GridLayout(0,1));
+      panel.setLayout(new GridLayout(0,1));
 
       this.setLayout(new BorderLayout());
       this.add(this.setUpTitle(), BorderLayout.NORTH);
@@ -95,5 +114,34 @@ public class TankDataJFrame extends GenericJInteractionFrame{
    //
    //
    private void setVisual(){}
+
+   //
+   //
+   //
+   private void updateData(StageData sd){
+      if(this._sd != null){
+         System.out.println("Tank Data Test Prints");
+         System.out.println(this._sd.fuelSystemData().tankData());
+         this.updateTitle(sd);
+         this.updateStagePanels(sd);
+      }
+   }
+
+   //
+   //
+   //
+   private void updateStagePanel(StageData sd){
+      //TankDataPanel tdp = null;
+   }
+
+   //
+   //
+   //
+   private void updateTitle(StageData sd){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(0);
+      JLabel label = (JLabel)panel.getComponent(0);
+      label.setText(label.getText()+this._sd.stageNumber());
+      System.out.println(label.getText());
+   }
 }
 //////////////////////////////////////////////////////////////////////

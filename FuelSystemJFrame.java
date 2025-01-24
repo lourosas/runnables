@@ -32,11 +32,13 @@ import rosas.lou.clock.*;
 
 public class FuelSystemJFrame extends GenericJInteractionFrame{
    //Use Anonymous Innerclasses
+   private StageData      _sd;
    private FuelSystemData _fsd;
    private JFrame         _parent;
    private TankDataJFrame _tanks;
    
    {
+      _sd        = null;
       _fsd       = null;
       _parent    = null;
       _tanks     = null;
@@ -71,8 +73,10 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    //
    //
    public void update(StageData data){
-      this._fsd = data.fuelSystemData();
+      this._sd  = data;
+      this._fsd = this._sd.fuelSystemData();
       this.updateFuelSystemData(data);
+      this.updateTankDataJFrame();
    }
    
 
@@ -174,6 +178,8 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
             //Test Print
             System.out.println(e);
             setUpTankDataJFrame();
+            updateTankDataJFrame();
+            requestTankDataJFrameDisplay();
             activateButtonPanel("Tank Data Pressed");
          }
       });
@@ -188,6 +194,15 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
       panel.add(tanks);
       panel.add(error);
       return panel;
+   }
+
+   //
+   //
+   //
+   private void requestTankDataJFrameDisplay(){
+      if(this._tanks != null){
+         //this.requestDisplay();
+      }
    }
 
    //
@@ -378,6 +393,15 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
          pmpanel.add(pumps);
       }
       else{}
+   }
+
+   //
+   //
+   //
+   private void updateTankDataJFrame(){
+      if(this._tanks != null){
+         this._tanks.update(this._sd);
+      }
    }
 
    //
