@@ -197,7 +197,6 @@ public class GenericPump implements Pump{
                             this._error,
                             this._measuredRate,
                             this._tank,
-                            this._tank,
                             this._isError,
                             this._stage,
                             this._measuredTemperature,

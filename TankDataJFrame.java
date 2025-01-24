@@ -59,8 +59,41 @@ public class TankDataJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   private void setUpGUI(){
-   
+   private void setUpGUI(JFrame parent){
+      int WIDTH    = 425;
+      int HEIGHT   = 1000;
+      JPanel panel = new JPanel();
+      //Put all the Tank Panels one...
+      panel.setLayouot(new GridLayout(0,1));
+
+      this.setLayout(new BorderLayout());
+      this.add(this.setUpTitle(), BorderLayout.NORTH);
+      this.add(panel, BorderLayout.CENTER);
+      this.setSize(WIDTH, HEIGHT);
+      if(parent != null){
+         Point p = parent.getLocation();
+         this.setLocation(p.x, p.y);
+      }
+      this.setResizable(false);
+      //Do not set visible until all the Support Panels are set
+      this.setVisible(false);
    }
+
+   //
+   //
+   //
+   private JPanel setUpTitle(){
+      JPanel panel = new JPanel();
+      panel.setBorder(BorderFactory.createEtchedBorder());
+      String s = new String("Tanks Stage ");
+      //Will need to add to this based on the Stage
+      panel.add(new JLabel(s, SwingConstants.CENTER));
+      return panel;
+   }
+
+   //
+   //
+   //
+   private void setVisual(){}
 }
 //////////////////////////////////////////////////////////////////////

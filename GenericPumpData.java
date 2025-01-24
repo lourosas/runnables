@@ -24,10 +24,9 @@ import rosas.lou.runnables.*;
 public class GenericPumpData implements PumpData{
    private String    _error;
    private double    _flow;
-   private int       _index;
+   private int       _index; //Which Pump in the Fuel System
    private boolean   _isError;
    private int       _stage;  //which stage
-   private int       _tank;
    private double    _temperature;
    private double    _tolerance;
    private String    _type; //Fuel type (TBD)
@@ -38,7 +37,6 @@ public class GenericPumpData implements PumpData{
       _index       = -1;
       _isError     = false;
       _stage       = -1;
-      _tank        = -1;
       _temperature = Double.NaN;
       _tolerance   = Double.NaN;
       _type        = null;
@@ -52,8 +50,7 @@ public class GenericPumpData implements PumpData{
    (
       String       error,
       double       flow,
-      int          number, //Pump Number
-      int          tank,   //Tank Number
+      int          number,   //Tank Number--index
       boolean      isError,
       int          stage,
       double       temperature,
@@ -65,7 +62,6 @@ public class GenericPumpData implements PumpData{
       this.index(number);
       this.isError(isError);
       this.stage(stage);
-      this.tank(tank);
       this.temperature(temperature);
       this.tolerance(tolerance);
       this.type(fuelType);
@@ -108,15 +104,6 @@ public class GenericPumpData implements PumpData{
    private void stage(int st){
       if(st > 0){
          this._stage = st;
-      }
-   }
-
-   //
-   //
-   //
-   private void tank(int tk){
-      if(tk > 0){
-         this._tank = tk;
       }
    }
 
@@ -173,11 +160,6 @@ public class GenericPumpData implements PumpData{
    //
    //
    //
-   public int tank(){ return this._tank; }
-
-   //
-   //
-   //
    public double temperature(){ return this._temperature; }
 
    //
@@ -196,7 +178,6 @@ public class GenericPumpData implements PumpData{
    public String toString(){
       String value = new String("\nPump:      "+this.index());
       value += "\nStage:     "+this.stage();
-      value += "\nTank:      "+this.tank();
       value += "\nError?     "+this.isError();
       if(this.isError()){value += "\nError(s): "+this.error();}
       value += "\nFuel Flow:   "+this.flow();
