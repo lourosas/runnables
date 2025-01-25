@@ -71,7 +71,7 @@ public class TankDataPanel extends JPanel{
          public void actionPerformed(ActionEvent e){
             System.out.println(e); //For the time being...
          }
-      }
+      });
       return panel;
    }
 
@@ -81,13 +81,13 @@ public class TankDataPanel extends JPanel{
    private JPanel setUpCenterPanel(){
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(0,1));
-      panel.add(this.setUpStageNumberPanel());
-      panel.add(this.setUpTankNumberPanel());
-      panel.add(this.setUpFuelPanel());
-      panel.add(this.setUpTemperaturePanel());
-      panel.add(this.setUpWeightPanel());
-      panel.add(this.setUpEmptyRate());
-      panel.add(this.setUpErrorPanel());
+      panel.add(this.setUpPanel(2));  //Stage Number
+      panel.add(this.setUpPanel(2));  //Tank  Number
+      panel.add(this.setUpPanel(2));  //Fuel  Type
+      panel.add(this.setUpPanel(2));  //Temperature
+      panel.add(this.setUpPanel(2));  //Weight--Newtons
+      panel.add(this.setUpPanel(2));  //Empty Rate--N/s
+      panel.add(this.setUpPanel(2));  //Error
       return panel;
    }
 
@@ -95,34 +95,23 @@ public class TankDataPanel extends JPanel{
    //
    //
    private void setUpGUI(){
+      this.setBorder(BorderFactory.createEtchedBorder());
       this.setLayout(new BorderLayout());
       this.add(this.setUpCenterPanel(), BorderLayout.CENTER);
       //One Button--Error: based on isError() == true
       this.add(this.setUpButtonPanel(), BorderLayout.SOUTH);
+      this.deactivateButtonPanel();
    }
 
    //
    //
    //
-   private JPanel setUpStageNumberPanel(){
+   private JPanel setUpPanel(int columns){
+      int cols = columns > 0 ? columns : 1;
       JPanel panel = new JPanel();
-      panel.setLayout(new GridLayout(1,2));
-      JLabel stage = new JLabel("Stage: ",SwingConstants.RIGHT);
-      panel.add(stage);
-      panel.add(new JLabe());
+      panel.setLayout(new GridLayout(0,cols));
       return panel;
    }
 
-   //
-   //
-   //
-   private JPanel setUpTankNumberPanel(){
-      JPanel panel = new JPanel();
-      panel.setLayout(new GridLayout(1,2));
-      JLabel tank = new JLabel("Tank: ",SwingConstants.RIGHT);
-      panel.add(tank);
-      panel.add(new JLabel());
-      return panel;
-   }
 }
 //////////////////////////////////////////////////////////////////////

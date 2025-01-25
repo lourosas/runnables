@@ -69,6 +69,10 @@ public class TankDataJFrame extends GenericJInteractionFrame{
    //
    //
    public void update(StageData data){
+      if(this._sd == null){
+         //Only update the Title Once...upon first stage data(for now)
+         this.updateTitle(data);
+      }
       this._sd = data;
       //technically, do not need to save off the data Globally...
       this.updateData(data);
@@ -132,7 +136,6 @@ public class TankDataJFrame extends GenericJInteractionFrame{
       if(this._sd != null){
          System.out.println("Tank Data Test Prints");
          System.out.println(this._sd.fuelSystemData().tankData());
-         this.updateTitle(sd);
          this.updateStagePanels(sd);
       }
    }
@@ -141,7 +144,17 @@ public class TankDataJFrame extends GenericJInteractionFrame{
    //
    //
    private void updateStagePanels(StageData sd){
-      //TankDataPanel tdp = null;
+      if(this._sd != null){
+         TankDataPanel tdp = null;
+         JPanel panel=(JPanel)this.getContentPane().getComponent(1);
+         if(panel.getComponentCount() == 0){
+            java.util.List<TankData> t = null;
+            t = this._sd.fuelSystemData().tankData();
+            Iterator<TankData> it = t.iterator();
+            while(it.hasNext()){ System.out.println(it.next()); }
+         }
+         else{}
+      }
    }
 
    //
