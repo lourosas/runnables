@@ -155,6 +155,15 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    //
    //
    //
+   private void requestTankDataJFrameDisplay(){
+      if(this._tanks != null){
+         this._tanks.requestDisplay();
+      }
+   }
+
+   //
+   //
+   //
    private JPanel setUpButtonPanel(){
       JPanel panel = new JPanel();
       panel.setBorder(BorderFactory.createEtchedBorder());
@@ -194,15 +203,6 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
       panel.add(tanks);
       panel.add(error);
       return panel;
-   }
-
-   //
-   //
-   //
-   private void requestTankDataJFrameDisplay(){
-      if(this._tanks != null){
-         //this.requestDisplay();
-      }
    }
 
    //
