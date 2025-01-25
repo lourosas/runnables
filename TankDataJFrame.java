@@ -151,7 +151,12 @@ public class TankDataJFrame extends GenericJInteractionFrame{
             java.util.List<TankData> t = null;
             t = this._sd.fuelSystemData().tankData();
             Iterator<TankData> it = t.iterator();
-            while(it.hasNext()){ System.out.println(it.next()); }
+            while(it.hasNext()){
+               if(this._sd.stageNumber() == it.next().stage()){
+                  tdp = new TankDataPanel();
+                  tdp.setUpTankData(this._sd);  //Send in all Stage Data
+               }
+            }
          }
          else{}
       }

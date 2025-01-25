@@ -41,6 +41,13 @@ public class TankDataPanel extends JPanel{
       this.setUpGUI();
    }
 
+   //
+   //
+   //
+   public void setUpTankData(StageData sd){
+      System.out.println(sd);
+   }
+
    //////////////////////////Private Methods//////////////////////////
    //
    //
