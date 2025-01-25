@@ -148,10 +148,12 @@ public class TankDataJFrame extends GenericJInteractionFrame{
    //
    //
    private void updateTitle(StageData sd){
-      JPanel panel = (JPanel)this.getContentPane().getComponent(0);
-      JLabel label = (JLabel)panel.getComponent(0);
-      label.setText(label.getText()+this._sd.stageNumber());
-      System.out.println(label.getText());
+      if(this._sd != null){
+         JPanel panel = (JPanel)this.getContentPane().getComponent(0);
+         JLabel label = (JLabel)panel.getComponent(0);
+         label.setText(label.getText()+this._sd.stageNumber());
+         System.out.println(label.getText());
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////
