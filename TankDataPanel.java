@@ -152,6 +152,22 @@ public class TankDataPanel extends JPanel{
    //
    //
    private void setUpStageNumber(StageData sd){
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel sdp   = (JPanel)panel.getComponent(0);
+      //Get the Tank Data
+      java.util.List<TankData> t = null;
+      t = sd.fuelSystemData().tankData();
+      Iterator<TankData> it = t.iterator();
+      while(it.hasNext()){
+         TankData td = it.next();
+         if(td.number() == this._tankNumber){
+            JLabel stage = null;
+            stage = new JLabel("Stage: ",SwingConstants.RIGHT);
+            sdp.add(stage);
+            JLabel number = new JLabel("" + td.stage());
+            sdp.add(number);
+         }
+      }
    }
 
    //

@@ -112,10 +112,9 @@ public class TankDataJFrame extends GenericJInteractionFrame{
    //
    //
    private void setVisual(){
-      //Definitely Temporary!!!!!!
-      //More permanent once TankDataPanel(s) are created!!!
-      int WIDTH  = 425;
-      int HEIGHT = 150;//* number of TankDataPanel(s)
+      JPanel panel= (JPanel)this.getContentPane().getComponent(1);
+      int WIDTH   = 425;
+      int HEIGHT  = 200 * panel.getComponentCount();
       this.setVisible(false);
       this.setSize(WIDTH, HEIGHT);
       this.setVisible(true);
@@ -157,6 +156,7 @@ public class TankDataJFrame extends GenericJInteractionFrame{
                if(this._sd.stageNumber() == it.next().stage()){
                   tdp = new TankDataPanel(++count);
                   tdp.setUpTankData(this._sd);//Send in all Stage Data
+                  panel.add(tdp);
                }
             }
          }
