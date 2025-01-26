@@ -114,17 +114,71 @@ public class TankDataPanel extends JPanel{
    //
    //
    //
-   private void setUpEmptyRateData(StageData sd){}
+   private void setUpEmptyRateData(StageData sd){
+      java.text.DecimalFormat df = null;
+      df = new java.text.DecimalFormat("###,###,###.##");
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel erp   = (JPanel)panel.getComponent(5);
+      java.util.List<TankData> t = sd.fuelSystemData().tankData();
+      Iterator<TankData> it = t.iterator();
+      while(it.hasNext()){
+         TankData td = it.next();
+         if(td.number() == this._tankNumber){
+            if(erp.getComponentCount() == 0){
+               String rate = new String("Curreent Empty Rate: ");
+               erp.add(new JLabel(rate,SwingConstants.RIGHT));
+               String emptyRate = df.format(td.emptyRate());
+               erp.add(new JLabel(emptyRate+"m^3/sec"));
+            }
+            else{}
+         }
+      }
+   }
 
    //
    //
    //
-   private void setUpErrorData(StageData sd){}
+   private void setUpErrorData(StageData sd){
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel ep    = (JPanel)panel.getComponent(6);
+      java.util.List<TankData> t = sd.fuelSystemData().tankData();
+      Iterator<TankData> it = t.iterator();
+      while(it.hasNext()){
+         TankData td = it.next();
+         if(td.number() == this._tankNumber){
+            if(ep.getComponentCount() == 0){
+               JLabel error = null;
+               error = new JLabel("Error: ", SwingConstants.RIGHT);
+               error.setForeground(Color.BLUE);
+               ep.add(error);
+               JLabel data = new JLabel(td.isError()+"");
+               data.setForeground(Color.BLUE);
+               ep.add(data);
+            }
+            else{}
+         }
+      }
+   }
 
    //
    //
    //
-   private void setUpFuelType(StageData sd){}
+   private void setUpFuelType(StageData sd){
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel ftp   = (JPanel)panel.getComponent(2);
+      java.util.List<TankData> t =  sd.fuelSystemData().tankData();
+      Iterator<TankData> it = t.iterator();
+      while(it.hasNext()){
+         TankData td = it.next();
+         if(td.number() == this._tankNumber){
+            if(ftp.getComponentCount() == 0){
+               ftp.add(new JLabel("Fuel: ",SwingConstants.RIGHT));
+               ftp.add(new JLabel(""+td.fuel()));
+            }
+            else{}
+         }
+      }
+   }
 
    //
    //
@@ -161,11 +215,14 @@ public class TankDataPanel extends JPanel{
       while(it.hasNext()){
          TankData td = it.next();
          if(td.number() == this._tankNumber){
-            JLabel stage = null;
-            stage = new JLabel("Stage: ",SwingConstants.RIGHT);
-            sdp.add(stage);
-            JLabel number = new JLabel("" + td.stage());
-            sdp.add(number);
+            if(sdp.getComponentCount() == 0){
+               JLabel stage = null;
+               stage = new JLabel("Stage: ",SwingConstants.RIGHT);
+               sdp.add(stage);
+               JLabel number = new JLabel("" + td.stage());
+               sdp.add(number);
+            }
+            else{}
          }
       }
    }
@@ -173,16 +230,67 @@ public class TankDataPanel extends JPanel{
    //
    //
    //
-   private void setUpTankNumber(StageData sd){}
+   private void setUpTankNumber(StageData sd){
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel tdp   = (JPanel)panel.getComponent(1);
+      java.util.List<TankData> t = null;
+      t = sd.fuelSystemData().tankData();
+      Iterator<TankData> it = t.iterator();
+      while(it.hasNext()){
+         TankData td = it.next();
+         if(td.number() == this._tankNumber){
+            System.out.println(tdp.getComponentCount());
+            if(tdp.getComponentCount() == 0){
+               tdp.add(new JLabel("Tank: ",SwingConstants.RIGHT));
+               tdp.add(new JLabel(""+td.number()));
+            }
+            else{}
+         }
+      }
+   }
    
    //
    //
    //
-   private void setUpTemperatureData(StageData sd){}
+   private void setUpTemperatureData(StageData sd){
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel tp    = (JPanel)panel.getComponent(3);
+      java.util.List<TankData> t = sd.fuelSystemData().tankData();
+      Iterator<TankData> it = t.iterator();
+      while(it.hasNext()){
+         TankData td = it.next();
+         if(td.number() == this._tankNumber){
+            if(tp.getComponentCount() == 0){
+               String temp = new String("Temperature: ");
+               tp.add(new JLabel(temp,SwingConstants.RIGHT));
+               //Temperature is measured in Kelvin!!!
+               tp.add(new JLabel(""+td.temperature()+"K"));
+            }
+         }
+      }
+   }
 
    //
    //
    //
-   private void setUpWeightData(StageData sd){}
+   private void setUpWeightData(StageData sd){
+      java.text.DecimalFormat df = null;
+      df = new java.text.DecimalFormat("###,###,###.##");
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel wp    = (JPanel)panel.getComponent(4);
+      java.util.List<TankData> t = sd.fuelSystemData().tankData();
+      Iterator<TankData> it = t.iterator();
+      while(it.hasNext()){
+         TankData td = it.next();
+         if(td.number() == this._tankNumber){
+            if(wp.getComponentCount() == 0){
+               wp.add(new JLabel("Weight: ",SwingConstants.RIGHT));
+               String weight = df.format(td.weight());
+               wp.add(new JLabel(weight+"N"));
+            }
+            else{}
+         }
+      }
+   }
 }
 //////////////////////////////////////////////////////////////////////

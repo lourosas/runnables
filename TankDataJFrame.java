@@ -126,16 +126,13 @@ public class TankDataJFrame extends GenericJInteractionFrame{
    //
    //
    private void updateData(StageData sd){
-      if(this._sd == null){
-         //Only update the Title ONCE...upon receipt of first data...
-         this.updateTitle(sd);
-      }
       if(sd != null){
          this._sd = sd;
       }
       if(this._sd != null){
-         System.out.println("Tank Data Test Prints");
-         System.out.println(this._sd.fuelSystemData().tankData());
+         //System.out.println("Tank Data Test Prints");
+         //System.out.println(this._sd.fuelSystemData().tankData());
+         this.updateTitle(sd);
          this.updateStagePanels(sd);
       }
    }
@@ -168,11 +165,11 @@ public class TankDataJFrame extends GenericJInteractionFrame{
    //
    //
    private void updateTitle(StageData sd){
-      if(this._sd != null){
+      //ONLY update the Title upon first update!
+      if(sd != null){
          JPanel panel = (JPanel)this.getContentPane().getComponent(0);
          JLabel label = (JLabel)panel.getComponent(0);
-         label.setText(label.getText()+this._sd.stageNumber());
-         System.out.println(label.getText());
+         label.setText("Tanks Stage "+sd.stageNumber());
       }
    }
 }
