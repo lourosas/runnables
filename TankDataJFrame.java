@@ -114,7 +114,7 @@ public class TankDataJFrame extends GenericJInteractionFrame{
    private void setVisual(){
       JPanel panel= (JPanel)this.getContentPane().getComponent(1);
       int WIDTH   = 425;
-      int HEIGHT  = 200 * panel.getComponentCount();
+      int HEIGHT  = 220 * panel.getComponentCount();
       this.setVisible(false);
       this.setSize(WIDTH, HEIGHT);
       this.setVisible(true);

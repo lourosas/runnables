@@ -95,6 +95,7 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
                   //Stop Gap
                   b.setEnabled(true);
                   //This is how to code it up...
+                  //_errors is the Error Frame!!!
                   //if(this._errors == null){
                   //   b.setEnabled(true);
                   //}

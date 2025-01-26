@@ -66,7 +66,30 @@ public class TankDataPanel extends JPanel{
    //
    //
    //
-   private void activateButtonPanel(){}
+   private void activateButtonPanel(String action){
+      this.deactivateButtonPanel();
+      JPanel bp = (JPanel)this.getComponent(1);
+      for(int i = 0; i < bp.getComponentCount(); ++i){
+         try{
+            JButton b = (JButton)bp.getComponent(i);
+            if(b.getText().toUpperCase().equals("ERROR")){
+               if(action.toUpperCase().equals("ERROR")){
+                  //Stop Gap
+                  b.setEnabled(true);
+                  //This is how to code it up...
+                  //_errors is the Error Frame!!!
+                  //if(this._errors == null){
+                  //   b.setEnabled(true);
+                  //}
+                  //else if(!this._errors.isShowing()){
+                  //   b.setEnabled(true);
+                  //}
+               }
+            }
+         }
+         catch(ClassCastException cce){ cce.printStackTrace(); }
+      }
+   }
 
    //
    //
@@ -91,8 +114,10 @@ public class TankDataPanel extends JPanel{
          //TBD
          public void actionPerformed(ActionEvent e){
             System.out.println(e); //For the time being...
+            System.out.println(_tankNumber);
          }
       });
+      panel.add(error);
       return panel;
    }
 
@@ -111,6 +136,7 @@ public class TankDataPanel extends JPanel{
       panel.add(this.setUpPanel(2));  //Error
       return panel;
    }
+
    //
    //
    //
@@ -149,11 +175,19 @@ public class TankDataPanel extends JPanel{
             if(ep.getComponentCount() == 0){
                JLabel error = null;
                error = new JLabel("Error: ", SwingConstants.RIGHT);
-               error.setForeground(Color.BLUE);
-               ep.add(error);
                JLabel data = new JLabel(td.isError()+"");
+               error.setForeground(Color.BLUE);
                data.setForeground(Color.BLUE);
+               if(td.isError()){
+                  error.setForeground(Color.RED);
+                  data.setForeground(Color.RED);
+               }
+               ep.add(error);
                ep.add(data);
+               //Indicate the Error with the Button Panel...
+               if(td.isError()){
+                  this.activateButtonPanel("ERROR");
+               }
             }
             else{}
          }
@@ -239,7 +273,6 @@ public class TankDataPanel extends JPanel{
       while(it.hasNext()){
          TankData td = it.next();
          if(td.number() == this._tankNumber){
-            System.out.println(tdp.getComponentCount());
             if(tdp.getComponentCount() == 0){
                tdp.add(new JLabel("Tank: ",SwingConstants.RIGHT));
                tdp.add(new JLabel(""+td.number()));
