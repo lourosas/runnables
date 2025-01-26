@@ -32,12 +32,20 @@ import javax.swing.border.*;
 public class TankDataPanel extends JPanel{
    //Use Anonymous Inner Classes
 
+   private int _tankNumber;
+
+   {
+      _tankNumber = 0;
+   };
    ////////////////////////////Constructors///////////////////////////
    //
    //
    //
-   public TankDataPanel(){
+   public TankDataPanel(int tankNumber){
       super();
+      if(tankNumber > 0){
+         this._tankNumber = tankNumber;
+      }
       this.setUpGUI();
    }
 
@@ -45,7 +53,13 @@ public class TankDataPanel extends JPanel{
    //
    //
    public void setUpTankData(StageData sd){
-      System.out.println(sd);
+      this.setUpStageNumber(sd);
+      this.setUpTankNumber(sd);
+      this.setUpFuelType(sd);
+      this.setUpTemperatureData(sd);
+      this.setUpWeightData(sd);
+      this.setUpEmptyRateData(sd);
+      this.setUpErrorData(sd);
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -97,6 +111,20 @@ public class TankDataPanel extends JPanel{
       panel.add(this.setUpPanel(2));  //Error
       return panel;
    }
+   //
+   //
+   //
+   private void setUpEmptyRateData(StageData sd){}
+
+   //
+   //
+   //
+   private void setUpErrorData(StageData sd){}
+
+   //
+   //
+   //
+   private void setUpFuelType(StageData sd){}
 
    //
    //
@@ -120,5 +148,25 @@ public class TankDataPanel extends JPanel{
       return panel;
    }
 
+   //
+   //
+   //
+   private void setUpStageNumber(StageData sd){
+   }
+
+   //
+   //
+   //
+   private void setUpTankNumber(StageData sd){}
+   
+   //
+   //
+   //
+   private void setUpTemperatureData(StageData sd){}
+
+   //
+   //
+   //
+   private void setUpWeightData(StageData sd){}
 }
 //////////////////////////////////////////////////////////////////////
