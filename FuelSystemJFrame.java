@@ -36,12 +36,14 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    private FuelSystemData _fsd;
    private JFrame         _parent;
    private TankDataJFrame _tanks;
+   //private PumpDataJFrame _pumps;
    
    {
       _sd        = null;
       _fsd       = null;
       _parent    = null;
       _tanks     = null;
+      //_pumps   = null;
    };
 
    ////////////////////////////Constructors///////////////////////////
