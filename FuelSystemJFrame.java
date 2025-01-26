@@ -126,13 +126,13 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
             }
             else if(b.getText().toUpperCase().equals("TANK DATA")){
                //Stop Gap
-               b.setEnabled(true);
-               //if(this._tanks == null){
-               //   b.setEnabled(true);
-               //}
-               //else if(!this._tanks.isShowing()){
-               //   b.setEnabled(true);
-               //}
+               //b.setEnabled(true);
+               if(this._tanks == null){
+                  b.setEnabled(true);
+               }
+               else if(!this._tanks.isShowing()){
+                  b.setEnabled(true);
+               }
             }
          }
          catch(ClassCastException cce){ cce.printStackTrace(); }
@@ -190,7 +190,7 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
             setUpTankDataJFrame();
             updateTankDataJFrame();
             requestTankDataJFrameDisplay();
-            activateButtonPanel("Tank Data Pressed");
+            activateButtonPanel("Tank");
          }
       });
       error.addActionListener(new ActionListener(){
@@ -261,7 +261,7 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
          this._tanks.addWindowListener(new WindowAdapter(){
             //GenericJInteractionFrame already takes care of Visible
             public void windowClosing(WindowEvent w){
-               activateButtonPanel("Tank Frame Closing");
+               activateButtonPanel("Tank");
             }
          });
       }
