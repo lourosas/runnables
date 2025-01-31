@@ -39,5 +39,49 @@ public class PumpDataJFrame extends GenericJInteractionFrame{
       _parent = null;
       _sd     = null;
    }
+
+   ////////////////////////////Constructors///////////////////////////
+   //
+   //
+   //
+   public PumpDataJFrame(){
+      this(null);
+   }
+
+   //
+   //
+   //
+   public PumpDataJFramee(JFrame parent){
+      super();
+      this._parent = parent;
+      this.setUpGUI(parent);
+   }
+
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void setUpGUI(JFrame parent){
+      int WIDTH     = 425;
+      int HIEGHT    = 100;
+      JPanel panel  = JPanel();
+      panel.setLayout(new GridLayout(0,1));
+
+      this.setLayout(new BorderLayout());
+      this.add(this.setUpTitle(), BorderLayout.NORTH);
+      this.add(panel, BorderLayout.CENTER);
+      //More to add here...!!!
+   }
+
+   //
+   //
+   //
+   private void setUpTitle(){
+      JPanel panel = new JPanel();
+      panel.setBorderLayout(BorderFactory.createEtchedBorder());
+      String s = new String("Pipes Stage ");
+      panel.add(new JLabel(s, SwingConstants.CENTER));
+      return panel;
+   }
 }
 //////////////////////////////////////////////////////////////////////

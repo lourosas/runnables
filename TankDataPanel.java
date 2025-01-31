@@ -151,7 +151,7 @@ public class TankDataPanel extends JPanel{
          TankData td = it.next();
          if(td.number() == this._tankNumber){
             if(erp.getComponentCount() == 0){
-               String rate = new String("Curreent Empty Rate: ");
+               String rate = new String("Current Empty Rate: ");
                erp.add(new JLabel(rate,SwingConstants.RIGHT));
                String emptyRate = df.format(td.emptyRate());
                erp.add(new JLabel(emptyRate+"m^3/sec"));
