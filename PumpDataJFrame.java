@@ -57,20 +57,42 @@ public class PumpDataJFrame extends GenericJInteractionFrame{
       this.setUpGUI(parent);
    }
 
+   ///////////////////////////Public Methods//////////////////////////
+   //
+   //
+   //
+   public void requestDisplay(){
+      this.setVisual();
+   }
+
+   //
+   //
+   //
+   public void update(StageData data){
+      this.updateData(data);
+   }
+
    //////////////////////////Private Methods//////////////////////////
    //
    //
    //
    private void setUpGUI(JFrame parent){
       int WIDTH     = 425;
-      int HIEGHT    = 100;
+      int HEIGHT    = 100;
       JPanel panel  = JPanel();
       panel.setLayout(new GridLayout(0,1));
 
       this.setLayout(new BorderLayout());
       this.add(this.setUpTitle(), BorderLayout.NORTH);
       this.add(panel, BorderLayout.CENTER);
-      //More to add here...!!!
+      this.setSize(WIDTH, HEIGHT);
+      if(parent != null){
+         Point p = parent.getLocation();
+         this.setLocation(p.x, p.y);
+      }
+      this.setResizable(false);
+      //Do not ser visible until all the Data Panels are set
+      this.setVisible(false);
    }
 
    //
@@ -83,5 +105,32 @@ public class PumpDataJFrame extends GenericJInteractionFrame{
       panel.add(new JLabel(s, SwingConstants.CENTER));
       return panel;
    }
+   
+   //
+   //
+   //
+   private void setVisual(){}
+
+   //
+   //
+   //
+   private void updateData(StageData sd){
+      if(sd != null){
+         this._sd = sd;
+         //Continue adding stuff here...
+         this.updateTitle(sd);
+         this.updatePumpPanel(sd);
+      }
+   }
+
+   //
+   //
+   //
+   public void updatePumpPanel(StageData sd){}
+
+   //
+   //
+   //
+   private void updateTitle(StageData sd){}
 }
 //////////////////////////////////////////////////////////////////////
