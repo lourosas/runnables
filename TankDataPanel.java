@@ -132,7 +132,7 @@ public class TankDataPanel extends JPanel{
       panel.add(this.setUpPanel(2));  //Fuel  Type
       panel.add(this.setUpPanel(2));  //Temperature
       panel.add(this.setUpPanel(2));  //Weight--Newtons
-      panel.add(this.setUpPanel(2));  //Empty Rate--N/s
+      panel.add(this.setUpPanel(2));  //Empty Rate--m^3/s
       panel.add(this.setUpPanel(2));  //Error
       return panel;
    }

@@ -165,7 +165,6 @@ public class TankDataJFrame extends GenericJInteractionFrame{
    //
    //
    private void updateTitle(StageData sd){
-      //ONLY update the Title upon first update!
       if(sd != null){
          JPanel panel = (JPanel)this.getContentPane().getComponent(0);
          JLabel label = (JLabel)panel.getComponent(0);

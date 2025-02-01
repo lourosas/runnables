@@ -36,14 +36,14 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    private FuelSystemData _fsd;
    private JFrame         _parent;
    private TankDataJFrame _tanks;
-   //private PumpDataJFrame _pumps;
+   private PumpDataJFrame _pumps;
    
    {
       _sd        = null;
       _fsd       = null;
       _parent    = null;
       _tanks     = null;
-      //_pumps   = null;
+      _pumps     = null;
    };
 
    ////////////////////////////Constructors///////////////////////////
@@ -158,6 +158,15 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    //
    //
    //
+   private void requestPumpDataJFrameDisplay(){
+      if(this._pumps != null){
+         this._pumps.requestDisplay();
+      }
+   }
+
+   //
+   //
+   //
    private void requestTankDataJFrameDisplay(){
       if(this._tanks != null){
          this._tanks.requestDisplay();
@@ -182,13 +191,16 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
       });
       pumps.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
+            //Test Print
             System.out.println(e);
+            setUpPumpDataJFrame();
+            updatePumpDataJFrame();
+            requestPumpDataJFrameDisplay();
+            activateButtonPanel("Pump");
          }
       });
       tanks.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
-            //Test Print
-            System.out.println(e);
             setUpTankDataJFrame();
             updateTankDataJFrame();
             requestTankDataJFrameDisplay();
@@ -252,6 +264,21 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(1,columns));
       return panel;
+   }
+
+   //
+   //
+   //
+   private void setUpPumpDataJFrame(){
+      if(this._pumps == null){
+         this._pumps = new PumpDataJFrame(this._parent);
+         this._pumps.addWindowListener(new WindowAdapter(){
+            //GenericJInteractionFrame already takes care of Visible
+            public void windowClosing(WindowEvent w){
+               activateButtonPanel("Pump");
+            }
+         });
+      }
    }
 
    //
@@ -396,6 +423,15 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
          pmpanel.add(pumps);
       }
       else{}
+   }
+
+   //
+   //
+   //
+   private void updatePumpDataJFrame(){
+      if(this._pumps != null){
+         this._pumps.update(this._sd);
+      }
    }
 
    //

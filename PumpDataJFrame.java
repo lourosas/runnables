@@ -51,7 +51,7 @@ public class PumpDataJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   public PumpDataJFramee(JFrame parent){
+   public PumpDataJFrame(JFrame parent){
       super();
       this._parent = parent;
       this.setUpGUI(parent);
@@ -79,7 +79,7 @@ public class PumpDataJFrame extends GenericJInteractionFrame{
    private void setUpGUI(JFrame parent){
       int WIDTH     = 425;
       int HEIGHT    = 100;
-      JPanel panel  = JPanel();
+      JPanel panel  = new JPanel();
       panel.setLayout(new GridLayout(0,1));
 
       this.setLayout(new BorderLayout());
@@ -98,9 +98,9 @@ public class PumpDataJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   private void setUpTitle(){
+   private JPanel setUpTitle(){
       JPanel panel = new JPanel();
-      panel.setBorderLayout(BorderFactory.createEtchedBorder());
+      panel.setBorder(BorderFactory.createEtchedBorder());
       String s = new String("Pipes Stage ");
       panel.add(new JLabel(s, SwingConstants.CENTER));
       return panel;
@@ -119,18 +119,44 @@ public class PumpDataJFrame extends GenericJInteractionFrame{
          this._sd = sd;
          //Continue adding stuff here...
          this.updateTitle(sd);
-         this.updatePumpPanel(sd);
+         this.updatePumpPanels(sd);
       }
    }
 
    //
    //
    //
-   public void updatePumpPanel(StageData sd){}
+   private void updatePumpPanels(StageData sd){
+      if(this._sd != null){
+         PumpDataPanel pdp = null;
+         JPanel panel=(JPanel)this.getContentPane().getComponent(1);
+         if(panel.getComponentCount() == 0){
+            java.util.List<PumpData> l = null;
+            l = this._sd.fuelSystemData().pumpData();
+            Iterator<PumpData> it = l.iterator();
+            int count = 0;
+            while(it.hasNext()){
+               PumpData pd = it.next();
+               if(this._sd.stageNumber() == pd.stage()){ 
+                  pdp = new PumpDataPanel(pd.stage(),pd.index());
+                  pdp.setUpPumpData(this._sd);
+                  panel.add(pdp);
+               }
+            }
+         }
+         else{}
+      }
+   }
 
    //
    //
    //
-   private void updateTitle(StageData sd){}
+   private void updateTitle(StageData sd){
+      if(sd != null){
+         JPanel panel = (JPanel)this.getContentPane().getComponent(0);
+         JLabel label = (JLabel)panel.getComponent(0);
+         label.setText("Pumps Stage "+sd.stageNumber());
+      }
+   }
 }
 //////////////////////////////////////////////////////////////////////
