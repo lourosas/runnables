@@ -59,6 +59,9 @@ public class PumpDataPanel extends JPanel{
    public void setUpPumpData(StageData sd){
       java.util.List<PumpData> l = sd.fuelSystemData().pumpData();
       this.setUpStageNumber(sd);
+      this.setUpTankPumpNumber(sd);
+      this.setUpFuelType(sd);
+      this.setUpTemperatureData(sd);
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -128,9 +131,34 @@ public class PumpDataPanel extends JPanel{
    //
    //
    //
+   private void setUpFuelType(StageData sd){
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel fdp   = (JPanel)panel.getComponent(2);
+      java.util.List<PumpData> l = sd.fuelSystemData().pumpData();
+      Iterator<PumpData> it = l.iterator();
+      while(it.hasNext()){
+         PumpData pd = it.next();
+         if(pd.stage() == this._stage && pd.index() == this._pump){
+            //Initialization
+            if(fdp.getComponentCount() == 0){
+               JLabel fuel = null;
+               fuel = new JLabel("Fuel Type: ",SwingConstants.RIGHT);
+               fdp.add(fuel);
+               JLabel type = new JLabel(""+pd.type());
+               fdp.add(type);
+            }
+            //Update
+            else{}
+         }
+      }
+   }
+
+   //
+   //
+   //
    private void setUpStageNumber(StageData sd){
       JPanel panel = (JPanel)this.getComponent(0);
-      JPanel sdp   = (JPanel)panel.getComponent(1);
+      JPanel sdp   = (JPanel)panel.getComponent(0);
       java.util.List<PumpData> l = sd.fuelSystemData().pumpData();
       Iterator<PumpData> it = l.iterator();
       while(it.hasNext()){
@@ -145,6 +173,58 @@ public class PumpDataPanel extends JPanel{
                sdp.add(stage);
                JLabel number = new JLabel(""+pd.stage());
                sdp.add(number);
+            }
+            //Update
+            else{}
+         }
+      }
+   }
+
+   //Tank and Pump are synonomous-->One in the Same in this setup
+   //
+   //
+   private void setUpTankPumpNumber(StageData sd){
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel tpdp  = (JPanel)panel.getComponent(1);
+      java.util.List<PumpData> l = sd.fuelSystemData().pumpData();
+      Iterator<PumpData> it = l.iterator();
+      while(it.hasNext()){
+         PumpData pd = it.next();
+         if(pd.stage() == this._stage && pd.index() == this._pump){
+            //Initialization
+            if(tpdp.getComponentCount() == 0){
+               JLabel pump = null;
+               pump = new JLabel("Pump/Tank: ",SwingConstants.RIGHT);
+               tpdp.add(pump);
+               JLabel number = new JLabel(""+pd.index());
+               tpdp.add(number);
+            }
+            //Update
+            else{}
+         }
+      }
+   }
+
+   //
+   //
+   //
+   private void setUpTemperatureData(StageData sd){
+      int right = SwingConstants.RIGHT;
+      java.text.DecimalFormat df = null;
+      df = new java.text.DecimalFormat("###.##");
+
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel tdp   = (JPanel)panel.getComponent(3);
+      java.util.List<PumpData> l = sd.fuelSystemData().pumpData();
+      Iterator<PumpData> it = l.iterator();
+      while(it.hasNext()){
+         PumpData pd = it.next();
+         if(pd.stage() == this._stage && pd.index() == this._pump){
+            //Initialization
+            if(tdp.getComponentCount() == 0){
+               tdp.add(new JLabel("Temperature: ",right));
+               String temp = df.format(pd.temperature());
+               tdp.add(new JLabel(temp+"K"));
             }
             //Update
             else{}
