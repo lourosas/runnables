@@ -118,13 +118,13 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
             }
             else if(b.getText().toUpperCase().equals("PUMP DATA")){
                //Stop Gap
-               b.setEnabled(true);
-               //if(this._pumps == null){
-               //   b.setEnabled(true);
-               //}
-               //else if(!this._pumps.isShowing()){
-               //   b.setEnabled(true);
-               //}
+               //b.setEnabled(true);
+               if(this._pumps == null){
+                  b.setEnabled(true);
+               }
+               else if(!this._pumps.isShowing()){
+                  b.setEnabled(true);
+               }
             }
             else if(b.getText().toUpperCase().equals("TANK DATA")){
                //Stop Gap

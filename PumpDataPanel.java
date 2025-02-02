@@ -70,6 +70,34 @@ public class PumpDataPanel extends JPanel{
    //
    //
    //
+   private void activateButtonPanel(String action){
+      this.deactivateButtonPanel();
+      JPanel bp = (JPanel)this.getComponent(1);
+      for(int i = 0; i < bp.getComponentCount(); ++i){
+         try{
+            JButton b = (JButton)bp.getComponent(i);
+            if(b.getText().toUpperCase().equals("ERROR")){
+               if(action.toUpperCase().equals("ERROR")){
+                  //Stop Gap
+                  b.setEnabled(true);
+                  //This is how to code it up...
+                  //_error is the Error Frame!!
+                  //if(this._errors == null){
+                  //   b.setEnabled(true);
+                  //}
+                  //else if(!this._errors.isShowing()){
+                  //   b.setEnabled(true);
+                  //}
+               }
+            }
+         }
+         catch(ClassCastException cce){}
+      }
+   }
+
+   //
+   //
+   //
    private void deactivateButtonPanel(){
       JPanel bp = (JPanel)this.getComponent(1);
       for(int i = 0; i < bp.getComponentCount(); ++i){
@@ -91,6 +119,7 @@ public class PumpDataPanel extends JPanel{
             System.out.println(e);
          }
       });
+      panel.add(error);
       return panel;
    }
 
@@ -134,35 +163,14 @@ public class PumpDataPanel extends JPanel{
                ep.add(error);
                ep.add(data);
                //Indicate the Error with the Button Panel...
-               //if(pd.isError()){
-               //   this.activateButtonPanel("ERROR");
-               //}
+               if(pd.isError()){
+                  this.activateButtonPanel("ERROR");
+               }
             }
             //Update
             else{}
          }
       }
-   }
-
-   //
-   //
-   //
-   private void setUpGUI(){
-      this.setBorder(BorderFactory.createEtchedBorder());
-      this.setLayout(new BorderLayout());
-      this.add(this.setUpCenterPanel(), BorderLayout.CENTER);
-      this.add(this.setUpButtonPanel(), BorderLayout.SOUTH);
-      this.deactivateButtonPanel();
-   }
-
-   //
-   //
-   //
-   private JPanel setUpPanel(int columns){
-      int cols = columns > 0 ? columns : 1;
-      JPanel panel = new JPanel();
-      panel.setLayout(new GridLayout(0,cols));
-      return panel;
    }
 
    //Flow Data in Pre-Launch NEEDS TO BE 0
@@ -217,6 +225,26 @@ public class PumpDataPanel extends JPanel{
       }
    }
 
+   //
+   //
+   //
+   private void setUpGUI(){
+      this.setBorder(BorderFactory.createEtchedBorder());
+      this.setLayout(new BorderLayout());
+      this.add(this.setUpCenterPanel(), BorderLayout.CENTER);
+      this.add(this.setUpButtonPanel(), BorderLayout.SOUTH);
+      this.deactivateButtonPanel();
+   }
+
+   //
+   //
+   //
+   private JPanel setUpPanel(int columns){
+      int cols = columns > 0 ? columns : 1;
+      JPanel panel = new JPanel();
+      panel.setLayout(new GridLayout(0,cols));
+      return panel;
+   }
    //
    //
    //
