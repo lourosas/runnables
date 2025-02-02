@@ -62,6 +62,8 @@ public class PumpDataPanel extends JPanel{
       this.setUpTankPumpNumber(sd);
       this.setUpFuelType(sd);
       this.setUpTemperatureData(sd);
+      this.setUpFlowRate(sd);
+      this.setUpErrorData(sd);
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -110,6 +112,41 @@ public class PumpDataPanel extends JPanel{
    //
    //
    //
+   private void setUpErrorData(StageData sd){
+      int right = SwingConstants.RIGHT;
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel ep    = (JPanel)panel.getComponent(5);
+      java.util.List<PumpData> l = sd.fuelSystemData().pumpData();
+      Iterator<PumpData> it = l.iterator();
+      while(it.hasNext()){
+         PumpData pd = it.next();
+         if(pd.stage() == this._stage && pd.index() == this._pump){
+            //Initialization
+            if(ep.getComponentCount() == 0){
+               JLabel error = new JLabel("Error: ", right);
+               JLabel data  = new JLabel(""+pd.isError());
+               error.setForeground(Color.BLUE);
+               data.setForeground(Color.BLUE);
+               if(pd.isError()){
+                  error.setForeground(Color.RED);
+                  data.setForeground(Color.RED);
+               }
+               ep.add(error);
+               ep.add(data);
+               //Indicate the Error with the Button Panel...
+               //if(pd.isError()){
+               //   this.activateButtonPanel("ERROR");
+               //}
+            }
+            //Update
+            else{}
+         }
+      }
+   }
+
+   //
+   //
+   //
    private void setUpGUI(){
       this.setBorder(BorderFactory.createEtchedBorder());
       this.setLayout(new BorderLayout());
@@ -126,6 +163,33 @@ public class PumpDataPanel extends JPanel{
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(0,cols));
       return panel;
+   }
+
+   //Flow Data in Pre-Launch NEEDS TO BE 0
+   //Initialization shows what it is post pre-launch to separation...
+   //
+   private void setUpFlowRate(StageData sd){
+      int right = SwingConstants.RIGHT;
+      java.text.DecimalFormat df = null;
+      df = new java.text.DecimalFormat("##,###.##");
+      
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel fdp   = (JPanel)panel.getComponent(4);
+      java.util.List<PumpData> l = sd.fuelSystemData().pumpData();
+      Iterator<PumpData> it = l.iterator();
+      while(it.hasNext()){
+         PumpData pd = it.next();
+         if(pd.stage() == this._stage && pd.index() == this._pump){
+            //Initialization
+            if(fdp.getComponentCount() == 0){
+               fdp.add(new JLabel("Current Pump Rate: ",right));
+               String rate = df.format(pd.flow());
+               fdp.add(new JLabel(rate+"m^3/Sec"));
+            }
+            //Update
+            else{}
+         }
+      }
    }
 
    //
