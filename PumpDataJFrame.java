@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 /*
-Copyright 2024 Lou Rosas
+Copyright 2025 Lou Rosas
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -109,7 +109,14 @@ public class PumpDataJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   private void setVisual(){}
+   private void setVisual(){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      int WIDTH  = 425;
+      int HEIGHT = 220*panel.getComponentCount();
+      this.setVisible(false);
+      this.setSize(WIDTH, HEIGHT);
+      this.setVisible(true);
+   }
 
    //
    //

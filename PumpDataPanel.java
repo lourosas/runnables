@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 /*
-Copyright 2024 Lou Rosas
+Copyright 2025 Lou Rosas
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -58,10 +58,6 @@ public class PumpDataPanel extends JPanel{
    //
    public void setUpPumpData(StageData sd){
       java.util.List<PumpData> l = sd.fuelSystemData().pumpData();
-      //Test Prints
-      System.out.println("See if this fucking prints");
-      System.out.println(l);
-      System.out.println(l.size());
       this.setUpStageNumber(sd);
    }
 
@@ -132,6 +128,28 @@ public class PumpDataPanel extends JPanel{
    //
    //
    //
-   private void setUpStageNumber(StageData sd){}
+   private void setUpStageNumber(StageData sd){
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel sdp   = (JPanel)panel.getComponent(1);
+      java.util.List<PumpData> l = sd.fuelSystemData().pumpData();
+      Iterator<PumpData> it = l.iterator();
+      while(it.hasNext()){
+         PumpData pd = it.next();
+         //Pump<-->Tank One Pump per Tank...
+         //May not need the Stage Check, but not sure at the moment...
+         if(pd.stage() == this._stage && pd.index() == this._pump){
+            //Initialization
+            if(sdp.getComponentCount() == 0){
+               JLabel stage = null;
+               stage = new JLabel("Stage: ",SwingConstants.RIGHT);
+               sdp.add(stage);
+               JLabel number = new JLabel(""+pd.stage());
+               sdp.add(number);
+            }
+            //Update
+            else{}
+         }
+      }
+   }
 }
 //////////////////////////////////////////////////////////////////////
