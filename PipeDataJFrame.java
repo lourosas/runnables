@@ -30,34 +30,33 @@ import java.time.*;
 import myclasses.*;
 import rosas.lou.clock.*;
 
-public class PumpDataJFrame extends GenericJInteractionFrame{
-   //Use Anonymous Inner Classes
-   private JFrame    _parent;
-   private StageData _sd;
+public class PipeDataJFrame extends GenericJInteractionFrame{
+   private JFrame     _parent;
+   private StageData  _sd;
 
    {
-      _parent = null;
-      _sd     = null;
-   }
+      _parent    = null;
+      _sd        = null;
+   };
 
-   ////////////////////////////Constructors///////////////////////////
+   ///////////////////////////Constructors////////////////////////////
    //
    //
    //
-   public PumpDataJFrame(){
+   public PipeDataJFrame(){
       this(null);
    }
 
    //
    //
    //
-   public PumpDataJFrame(JFrame parent){
+   public PipeDataJFrame(JFrame parent){
       super();
       this._parent = parent;
       this.setUpGUI(parent);
    }
 
-   ///////////////////////////Public Methods//////////////////////////
+   //////////////////////////Public Methods///////////////////////////
    //
    //
    //
@@ -72,7 +71,7 @@ public class PumpDataJFrame extends GenericJInteractionFrame{
       this.updateData(data);
    }
 
-   //////////////////////////Private Methods//////////////////////////
+   /////////////////////////Private Methods///////////////////////////
    //
    //
    //
@@ -91,9 +90,11 @@ public class PumpDataJFrame extends GenericJInteractionFrame{
          this.setLocation(p.x, p.y);
       }
       this.setResizable(false);
-      //Do not ser visible until all the Data Panels are set
+      //Do not set visible until all the Data Panels are set...
       this.setVisible(false);
    }
+
+   private void setVisual(){}
 
    //
    //
@@ -101,21 +102,9 @@ public class PumpDataJFrame extends GenericJInteractionFrame{
    private JPanel setUpTitle(){
       JPanel panel = new JPanel();
       panel.setBorder(BorderFactory.createEtchedBorder());
-      String s = new String("Pumps Stage ");
+      String s = new String("Pipes Stage ");
       panel.add(new JLabel(s, SwingConstants.CENTER));
       return panel;
-   }
-   
-   //
-   //
-   //
-   private void setVisual(){
-      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
-      int WIDTH  = 425;
-      int HEIGHT = 220*panel.getComponentCount();
-      this.setVisible(false);
-      this.setSize(WIDTH, HEIGHT);
-      this.setVisible(true);
    }
 
    //
@@ -124,33 +113,23 @@ public class PumpDataJFrame extends GenericJInteractionFrame{
    private void updateData(StageData sd){
       if(sd != null){
          this._sd = sd;
-         //Continue adding stuff here...
          this.updateTitle(sd);
-         this.updatePumpPanels(sd);
+         this.updatePipePanels(sd);
       }
    }
 
    //
    //
    //
-   private void updatePumpPanels(StageData sd){
+   private void updatePipePanels(StageData sd){
       if(this._sd != null){
-         PumpDataPanel pdp = null;
+         PipeDataPanel pdp = null;
          JPanel panel=(JPanel)this.getContentPane().getComponent(1);
+         //Initialize
          if(panel.getComponentCount() == 0){
-            java.util.List<PumpData> l = null;
-            l = this._sd.fuelSystemData().pumpData();
-            Iterator<PumpData> it = l.iterator();
-            int count = 0;
-            while(it.hasNext()){
-               PumpData pd = it.next();
-               if(this._sd.stageNumber() == pd.stage()){ 
-                  pdp = new PumpDataPanel(pd.stage(),pd.index());
-                  pdp.setUpPumpData(this._sd);
-                  panel.add(pdp);
-               }
-            }
+            
          }
+         //Update
          else{}
       }
    }
@@ -162,7 +141,7 @@ public class PumpDataJFrame extends GenericJInteractionFrame{
       if(sd != null){
          JPanel panel = (JPanel)this.getContentPane().getComponent(0);
          JLabel label = (JLabel)panel.getComponent(0);
-         label.setText("Pumps Stage "+sd.stageNumber());
+         label.setText("Pipes Stage "+sd.stageNumber());
       }
    }
 }

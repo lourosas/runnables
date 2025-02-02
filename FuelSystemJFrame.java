@@ -37,6 +37,7 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    private JFrame         _parent;
    private TankDataJFrame _tanks;
    private PumpDataJFrame _pumps;
+   private PipeDataJFrame _pipes;
    
    {
       _sd        = null;
@@ -79,6 +80,8 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
       this._fsd = this._sd.fuelSystemData();
       this.updateFuelSystemData(data);
       this.updateTankDataJFrame();
+      this.updatePipeDataJFrame();
+      this.updatePumpDataJFrame();
    }
    
 
@@ -403,6 +406,7 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
          JLabel pipes = new JLabel("" + l.size());
          pdpanel.add(label);
          pdpanel.add(pipes);
+         Iterator<PipeData> it = l.iterator();
       }
       else{}
    }
@@ -428,6 +432,15 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    //
    //
    //
+   private void updatePipeDataJFrame(){
+      if(this._pipes != null){
+         this._pipes.update(this._sd);
+      }
+   }
+
+   //
+   //
+   //
    private void updatePumpDataJFrame(){
       if(this._pumps != null){
          this._pumps.update(this._sd);
@@ -447,10 +460,11 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    //
    //
    private void updateTitle(StageData data){
-      JPanel panel = (JPanel)this.getContentPane().getComponent(0);
-      JLabel label = (JLabel)panel.getComponent(0);
-      String s = label.getText();
-      label.setText(s + " Stage: " + data.stageNumber());
+      if(data != null){
+         JPanel panel = (JPanel)this.getContentPane().getComponent(0);
+         JLabel label = (JLabel)panel.getComponent(0);
+         label.setText(" Stage: " + data.stageNumber());
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////
