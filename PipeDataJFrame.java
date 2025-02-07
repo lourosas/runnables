@@ -94,6 +94,9 @@ public class PipeDataJFrame extends GenericJInteractionFrame{
       this.setVisible(false);
    }
 
+   //
+   //
+   //
    private void setVisual(){}
 
    //
@@ -127,7 +130,10 @@ public class PipeDataJFrame extends GenericJInteractionFrame{
          JPanel panel=(JPanel)this.getContentPane().getComponent(1);
          //Initialize
          if(panel.getComponentCount() == 0){
-            
+            //Do a series of Test Prints first off...
+            java.util.List<PipeData> l = null;
+            l = this._sd.fuelSystemData().pipeData();
+            System.out.println(l);
          }
          //Update
          else{}

@@ -161,6 +161,15 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
    //
    //
    //
+   private void requestPipeDataJFrameDisplay(){
+      if(this._pipes != null){
+         this._pipes.requestDisplay();
+      }
+   }
+
+   //
+   //
+   //
    private void requestPumpDataJFrameDisplay(){
       if(this._pumps != null){
          this._pumps.requestDisplay();
@@ -189,7 +198,12 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
 
       pipes.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
+            //Test Print
             System.out.println(e);
+            setUpPipeDataJFrame();
+            updatePipeDataJFrame();
+            requestPipeDataJFrameDisplay();
+            activateButtonPanel("Pipe");
          }
       });
       pumps.addActionListener(new ActionListener(){
@@ -267,6 +281,21 @@ public class FuelSystemJFrame extends GenericJInteractionFrame{
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(1,columns));
       return panel;
+   }
+
+   //
+   //
+   //
+   private void setUpPipeDataJFrame(){
+      if(this._pipes == null){
+         this._pipes = new PipeDataJFrame(this._parent);
+         this._pipes.addWindowListener(new WindowAdapter(){
+            //GenericJInteractionFrame already takes care of Visible
+            public void windowClosing(WindowEvent w){
+               activateButtonPanel("Pipe");
+            }
+         });
+      }
    }
 
    //
