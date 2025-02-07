@@ -97,7 +97,14 @@ public class PipeDataJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   private void setVisual(){}
+   private void setVisual(){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      int WIDTH    = 425;
+      int HEIGHT   = 250*panel.getComponentCount();
+      this.setVisible(false);
+      this.setSize(WIDTH, HEIGHT);
+      this.setVisible(true);
+   }
 
    //
    //
@@ -133,7 +140,19 @@ public class PipeDataJFrame extends GenericJInteractionFrame{
             //Do a series of Test Prints first off...
             java.util.List<PipeData> l = null;
             l = this._sd.fuelSystemData().pipeData();
-            System.out.println(l);
+            Iterator<PipeData> it = l.iterator();
+            while(it.hasNext()){
+               PipeData pd = it.next();
+               //Stage Data only for the Stage!!!
+               if(this._sd.stageNumber() == pd.stage()){
+                  int stage = pd.stage();
+                  int tank  = pd.tank();
+                  int idx   = pd.number();
+                  pdp = new PipeDataPanel(stage,tank,idx);
+                  pdp.setUpPipeData(this._sd);
+                  panel.add(pdp);
+               }
+            }
          }
          //Update
          else{}

@@ -56,13 +56,76 @@ public class PipeDataPanel extends JPanel{
    }
 
    //////////////////////////Public Methods///////////////////////////
+   //
+   //
+   //
+   public void setUpPipeData(StageData sd){}
+
    /////////////////////////Private Methods///////////////////////////
+   //
+   //
+   //
+   private void deactivateButtonPanel(){
+      JPanel bp = (JPanel)this.getComponent(1);
+      for(int i = 0; i < bp.getComponentCount(); ++i){
+         JButton b = (JButton)bp.getComponent(i);
+         b.setEnabled(false);
+      }
+   }
+
+   //
+   //
+   //
+   private JPanel setUpButtonPanel(){
+      JPanel panel = new JPanel();
+      panel.setBorder(BorderFactory.createEtchedBorder());
+      JButton error = new JButton("Error");
+      error.addActionListener(new ActionListener(){
+         //TBD
+         public void actionPerformed(ActionEvent e){
+            //TBD
+            System.out.println(e);
+         }
+      });
+      panel.add(error);
+      return panel;
+   }
+
+   //
+   //
+   //
+   private JPanel setUpCenterPanel(){
+      JPanel panel = new JPanel();
+      panel.setLayout(new GridLayout(0,1));
+      panel.add(this.setUpPanel(2));  //Stage Number
+      panel.add(this.setUpPanel(2));  //Tank  Number
+      panel.add(this.setUpPanel(2));  //Pipe Number (Index)
+      panel.add(this.setUpPanel(2));  //Fuel Type
+      panel.add(this.setUpPanel(2));  //Temperature
+      panel.add(this.setUpPanel(2));  //Flow Rate
+      panel.add(this.setUpPanel(2));  //Error
+      return panel;
+   }
+
+   //
+   //
+   //
+   private JPanel setUpPanel(int columns){
+      int cols = columns > 0 ? columns : 1;
+      JPanel panel = new JPanel();
+      panel.setLayout(new GridLayout(0,cols));
+      return panel;
+   }
+
    //
    //
    //
    private void setUpGUI(){
       this.setBorder(BorderFactory.createEtchedBorder());
       this.setLayout(new BorderLayout());
+      this.add(this.setUpCenterPanel(), BorderLayout.CENTER);
+      this.add(this.setUpButtonPanel(), BorderLayout.SOUTH);
+      this.deactivateButtonPanel();
    }
 }
 //////////////////////////////////////////////////////////////////////
