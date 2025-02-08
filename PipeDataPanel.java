@@ -59,7 +59,12 @@ public class PipeDataPanel extends JPanel{
    //
    //
    //
-   public void setUpPipeData(StageData sd){}
+   public void setUpPipeData(StageData sd){
+      this.setUpStageNumber(sd);
+      this.setUpTankNumber(sd);
+      this.setUpPipeNumber(sd);
+      this.setUpFuelType(sd);
+   }
 
    /////////////////////////Private Methods///////////////////////////
    //
@@ -110,11 +115,29 @@ public class PipeDataPanel extends JPanel{
    //
    //
    //
-   private JPanel setUpPanel(int columns){
-      int cols = columns > 0 ? columns : 1;
-      JPanel panel = new JPanel();
-      panel.setLayout(new GridLayout(0,cols));
-      return panel;
+   private void setUpFuelType(StageData sd){
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel ftp   = (JPanel)panel.getComponent(3);
+      java.util.List<PipeData> l = sd.fuelSystemData().pipeData();
+      Iterator<PipeData> it = l.iterator();
+      while(it.hasNext()){
+         PipeData pd = it.next();
+         boolean isStage = pd.stage()  == this._stage;
+         boolean isTank  = pd.tank()   == this._tank;
+         boolean isPipe  = pd.number() == this._pipe;
+         if(isStage && isTank && isPipe){
+            //Initialization
+            if(ftp.getComponentCount() == 0){
+               JLabel fuel = null;
+               fuel = new JLabel("Fuel:  ",SwingConstants.RIGHT);
+               ftp.add(fuel);
+               JLabel type = new JLabel(""+pd.type());
+               ftp.add(type);
+            }
+            //Update
+            else{}
+         }
+      }
    }
 
    //
@@ -126,6 +149,100 @@ public class PipeDataPanel extends JPanel{
       this.add(this.setUpCenterPanel(), BorderLayout.CENTER);
       this.add(this.setUpButtonPanel(), BorderLayout.SOUTH);
       this.deactivateButtonPanel();
+   }
+
+   //
+   //
+   //
+   private JPanel setUpPanel(int columns){
+      int cols = columns > 0 ? columns : 1;
+      JPanel panel = new JPanel();
+      panel.setLayout(new GridLayout(0,cols));
+      return panel;
+   }
+
+   //
+   //
+   //
+   private void setUpPipeNumber(StageData sd){
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel pdp   = (JPanel)panel.getComponent(2);
+      java.util.List<PipeData> l = sd.fuelSystemData().pipeData();
+      Iterator<PipeData> it = l.iterator();
+      while(it.hasNext()){
+         PipeData pd = it.next();
+         boolean isStage = pd.stage()  == this._stage;
+         boolean isTank  = pd.tank()   == this._tank;
+         boolean isPipe  = pd.number() == this._pipe;
+         if(isStage && isTank && isPipe){
+            //Initialization
+            if(pdp.getComponentCount() == 0){
+               JLabel pipe = null;
+               pipe = new JLabel("Pipe:  ",SwingConstants.RIGHT);
+               pdp.add(pipe);
+               JLabel number = new JLabel(""+pd.number());
+               pdp.add(number);
+            }
+            //Update
+            else{}
+         }
+      }
+   }
+
+   //
+   //
+   //
+   private void setUpStageNumber(StageData sd){
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel sdp   = (JPanel)panel.getComponent(0);
+      java.util.List<PipeData> l = sd.fuelSystemData().pipeData();
+      Iterator<PipeData> it = l.iterator();
+      while(it.hasNext()){
+         PipeData pd = it.next(); 
+         boolean isStage = pd.stage()  == this._stage;
+         boolean isTank  = pd.tank()   == this._tank;
+         boolean isPipe  = pd.number() == this._pipe;
+         if(isStage && isTank && isPipe){
+            //Initialization
+            if(sdp.getComponentCount() == 0){
+               JLabel stage = null;
+               stage = new JLabel("Stage: ",SwingConstants.RIGHT);
+               sdp.add(stage);
+               JLabel number = new JLabel(""+pd.stage());
+               sdp.add(number);
+            }
+            //Update
+            else{}
+         }
+      }
+   }
+
+   //
+   //
+   //
+   private void setUpTankNumber(StageData sd){
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel tnp   = (JPanel)panel.getComponent(1);
+      java.util.List<PipeData> l = sd.fuelSystemData().pipeData();
+      Iterator<PipeData> it = l.iterator();
+      while(it.hasNext()){
+         PipeData pd = it.next();
+         boolean isStage = pd.stage()  == this._stage;
+         boolean isTank  = pd.tank()   == this._tank;
+         boolean isPipe  = pd.number() == this._pipe;
+         if(isStage && isTank && isPipe){
+            //Initialization
+            if(tnp.getComponentCount() == 0){
+               JLabel tank = null;
+               tank = new JLabel("Tank:  ",SwingConstants.RIGHT);
+               tnp.add(tank);
+               JLabel number = new JLabel(""+pd.tank());
+               tnp.add(number);
+            }
+            //Update
+            else{}
+         }
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////
