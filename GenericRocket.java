@@ -205,6 +205,7 @@ public class GenericRocket implements Rocket, Runnable{
    public void initialize(String file)throws IOException{
       //For initialization, always set the current stage to 1 (the
       //first stage)...
+      //This is order dependent, consider changing...
       this._currentStage = 1;
       this.rocketData(file);
       this.stageData(file);
