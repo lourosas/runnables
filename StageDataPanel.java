@@ -46,7 +46,7 @@ public class StageDataPanel extends JPanel{
       //_engines    = null;
       //_errors     = null;
    };
-   //Going to use Anonumous Inner Classes for this...
+   //Going to use Anonymous Inner Classes for this...
    ////////////////////////////Constructors///////////////////////////
    //
    //
