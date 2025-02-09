@@ -25,9 +25,11 @@ public interface EngineData{
    public String  error();
    public double  exhaustFlowRate();
    public long    model();
+   public int     index();
    public boolean isError();
    public boolean isIgnited();
    public double  fuelFlowRate();
+   public int     stage();
    public double  temperature();
    public String  toString();
 }

@@ -25,19 +25,23 @@ public class GenericEngineData implements EngineData{
    private double         _currentTemp;
    private String         _error;
    private double         _exhaustRate;
+   private int            _index;
    private boolean        _isError;
    private boolean        _isIgnited;
    private double         _fuelRate;
    private long           _model;
+   private int            _stage;
 
    {
       _currentTemp  = Double.NaN;
       _error        = null;
       _exhaustRate  = Double.NaN;
+      _index        = -1;
       _isError      = false;
       _isIgnited    = false;
       _fuelRate     = Double.NaN;
       _model        = -1;
+      _stage        = -1;
    };
 
    ////////////////////////////Constructor////////////////////////////
@@ -46,6 +50,8 @@ public class GenericEngineData implements EngineData{
    //
    public GenericEngineData
    (
+      int     stage,
+      int     number, //Index
       double  exhaust,
       double  fuel,
       long    model,
@@ -54,6 +60,8 @@ public class GenericEngineData implements EngineData{
       boolean isIgnited,
       double  temperature
    ){
+      this.stage(stage);
+      this.index(number); //Index--number of Engine
       this.exhaustFlowRate(exhaust);
       this.fuelFlowRate(fuel);
       this.model(model);
@@ -102,8 +110,25 @@ public class GenericEngineData implements EngineData{
    //
    //
    //
+   private void index(int number){
+      if(number > 0){
+         this._index = number;
+      }
+   }
+   //
+   //
+   //
    private void model(long model){
       this._model = model;
+   }
+
+   //
+   //
+   //
+   private void stage(int stage){
+      if(stage > 0){
+         this._stage = stage;
+      }
    }
 
    //
@@ -132,6 +157,11 @@ public class GenericEngineData implements EngineData{
    //
    //
    //
+   public int index(){ return this._index; }
+
+   //
+   //
+   //
    public boolean isError(){ return this._isError; }
 
    //
@@ -147,14 +177,21 @@ public class GenericEngineData implements EngineData{
    //
    //
    //
+   public int stage(){ return this._stage; }
+
+   //
+   //
+   //
    public double temperature(){ return this._currentTemp; }
 
    //
    //
    //
    public String toString(){
-      String value = new String("Engine: \n");
-      value += "Error? "+this.isError();
+      String value = new String("Engine: ");
+      value += "\nStage:               "+this.stage();
+      value += "\nEngine No.:          "+this.index();
+      value += "\nError? "+this.isError();
       if(this.isError()){
          value += "\nErrors: "+this.error();
       }

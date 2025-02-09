@@ -291,7 +291,9 @@ public class GenericEngine implements Engine, Runnable{
       this.measureFuelFlow();
       this.determineIgnition();
       this.isError(PRELAUNCH);
-      data = new GenericEngineData(this._measuredExhaustFlow,
+      data = new GenericEngineData(this._stage,
+                                   this._number, //Index
+                                   this._measuredExhaustFlow,
                                    this._measuredFuelFlow,
                                    this._model,
                                    this._isError,

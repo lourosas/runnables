@@ -36,8 +36,8 @@ public class StageDataPanel extends JPanel{
    private StageData  _currentSD;
    //Both TBD
    private FuelSystemJFrame _fuelSystem;
-   //private EnginesFrame    _engines;
-   //private ErrorFrame      _errors;
+   private EnginesJFrame  _engines;
+   //private ErrorJFrame    _errors;
 
    {
       _parent     = null;
@@ -111,6 +111,8 @@ public class StageDataPanel extends JPanel{
                }
             }
             else if(b.getText().toUpperCase().equals("ENGINES")){
+               //Stop Gap for the time being
+               b.setEnabled(true);
                //if(this._engines == null){
                //   b.setEnabled(true);
                //}
@@ -138,6 +140,15 @@ public class StageDataPanel extends JPanel{
          catch(ClassCastException cce){
             cce.printStackTrace();
          }
+      }
+   }
+
+   //
+   //
+   //
+   private void requestEnginesJFrameDisplay(){
+      if(this._engines != null){
+         this._engines.requestDisplay();
       }
    }
 
@@ -172,9 +183,10 @@ public class StageDataPanel extends JPanel{
          public void actionPerformed(ActionEvent e){
             //Test Print
             System.out.println(e);
-            //displayEnginesJFrame();
-            //updateEnginesJFrame)(;
-            //activateButtonPanel("Engines Pressed");
+            setUpEnginesJFrame();
+            updateEnginesJFrame();
+            requestEnginesJFrameDisplay();
+            activateButtonPanel("Engines Pressed");
          }
       });
       error.addActionListener(new ActionListener(){
@@ -202,6 +214,21 @@ public class StageDataPanel extends JPanel{
       panel.add(this.setUpPanel(2)); //Current Weight
       panel.add(this.setUpPanel(2)); //Error Indicator
       return panel;
+   }
+
+   //
+   //
+   //
+   private void setUpEnginesJFrame(){
+      if(this._engines == null){
+         this._engines = new EnginesJFrame(this._parent);
+         this._engines.addWindowListener(new WindowAdapter(){
+            //GenericJInteractionFrame already takes care of Visible
+            public void windowClosing(WindowEvent w){
+               activateButtonPanel("Engines Activate");
+            }
+         });
+      }
    }
 
    //
@@ -318,6 +345,15 @@ public class StageDataPanel extends JPanel{
          ep.add(label);
       }
       else{}
+   }
+
+   //
+   //
+   //
+   private void updateEnginesJFrame(){
+      if(this._engines != null){
+         this._engines.update(this._currentSD);
+      }  
    }
 
    //
