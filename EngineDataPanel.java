@@ -28,5 +28,90 @@ import java.io.File;
 import myclasses.*;
 import javax.swing.border.*;
 
-public class EngineDataPanel extends JPanel{}
+public class EngineDataPanel extends JPanel{
+   //Use Anonymous Inner classes
+   
+   private int _stage;
+   private int _index; //Engine Number
+
+   {
+      _stage    = 0;
+      _index    = 0;
+   };
+
+   ////////////////////////////Constructors///////////////////////////
+   //
+   //
+   //
+   public EngineDataPanel(int stage, int index){
+      super();
+      if(stage > 0 && index > 0){
+         this._stage = stage;
+         this._index = index;
+         this.setUpGUI();
+      }
+   }
+
+   ///////////////////////////Public Methods//////////////////////////
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void deactivateButtonPanel(){}
+
+   //
+   //
+   //
+   private JPanel setUpButtonPanel(){
+      JPanel panel = new JPanel();
+      panel.setBorder(BorderFactory.createEtchedBorder());
+      JButton error = new JButton("Error");
+      error.addActionListener(new ActionListener(){
+         public void actionPerformed(ActionEvent e){
+            //TBD
+            System.out.println(e);
+         }
+      });
+      panel.add(error);
+      return panel;
+   }
+
+   //
+   //
+   //
+   private JPanel setUpCenterPanel(){
+      JPanel panel = new JPanel();
+      panel.setLayout(new GridLayout(0,1));
+      panel.add(this.setUpPanel(2)); //Stage Number
+      panel.add(this.setUpPanel(2)); //Engine Number (Index)
+      panel.add(this.setUpPanel(1)); //Model
+      panel.add(this.setUpPanel(2)); //Is Ingnited
+      panel.add(this.setUpPanel(2)); //Temperature
+      panel.add(this.setUpPanel(2)); //Fuel Flow Rate
+      panel.add(this.setUpPanel(2)); //Exhaust Flow Rate
+      panel.add(this.setUpPanel(2)); //Error
+      return panel;
+   }
+
+   //
+   //
+   //
+   private void setUpGUI(){
+      this.setBorder(BorderFactory.createEtchedBorder());
+      this.setLayout(new BorderLayout());
+      this.add(this.setUpCenterPanel(), BorderLayout.CENTER);
+      this.add(this.setUpButtonPanel(),  BorderLayout.NORTH);
+      this.deactivateButtonPanel();
+   }
+
+   //
+   //
+   //
+   private JPanel setUpPanel(int columns){
+      int cols = columns > 0 ? columns : 1;
+      JPanel panel = new JPanel();
+      panel.setLayout(new GridLayout(0,cols));
+      return panel;
+   }
+}
 //////////////////////////////////////////////////////////////////////

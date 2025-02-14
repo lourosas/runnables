@@ -76,7 +76,7 @@ public class EnginesJFrame extends GenericJInteractionFrame{
    //
    //
    private void setUpGUI(JFrame parent){
-      int WIDTH     = 425;
+      int WIDTH     = 500;
       int HEIGHT    = 100;
       JPanel panel  = new JPanel();
       panel.setLayout(new GridLayout(0,1));
@@ -114,6 +114,39 @@ public class EnginesJFrame extends GenericJInteractionFrame{
    //
    //
    private void updateData(StageData sd){
+      if(sd != null){
+         this._sd = sd;
+         this.updateEnginePanels(sd);
+         this.updateTitle(sd);
+      }
+   }
+
+   //
+   //
+   //
+   private void updateEnginePanels(StageData sd){
+      if(this._sd != null){
+         EngineDataPanel edp = null;
+         JPanel panel=(JPanel)this.getContentPane().getComponent(1);
+         //Initialize
+         if(panel.getComponentCount() == 0){
+            java.util.List<EngineData> l = null;
+            l = this._sd.engineData();
+         }
+         //Update
+         else{}
+      }
+   }
+
+   //
+   //
+   //
+   private void updateTitle(StageData sd){
+      if(sd != null){
+         JPanel panel = (JPanel)this.getContentPane().getComponent(0);
+         JLabel label = (JLabel)panel.getComponent(0);
+         label.setText("Engines Stage "+sd.stageNumber());
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////
