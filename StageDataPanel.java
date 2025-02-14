@@ -43,7 +43,7 @@ public class StageDataPanel extends JPanel{
       _parent     = null;
       _currentSD  = null;
       _fuelSystem = null;
-      //_engines    = null;
+      _engines    = null;
       //_errors     = null;
    };
    //Going to use Anonymous Inner Classes for this...

@@ -75,16 +75,45 @@ public class EnginesJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   private void setUpGUI(JFrame parent){}
+   private void setUpGUI(JFrame parent){
+      int WIDTH     = 425;
+      int HEIGHT    = 100;
+      JPanel panel  = new JPanel();
+      panel.setLayout(new GridLayout(0,1));
+
+      this.setLayout(new BorderLayout());
+      this.add(this.setUpTitle(), BorderLayout.NORTH);
+      this.add(panel, BorderLayout.CENTER);
+      this.setSize(WIDTH, HEIGHT);
+      if(parent != null){
+         Point p = parent.getLocation();
+         this.setLocation(p.x, p.y);
+      }
+      this.setResizable(false);
+      //Do not set visible until all the Data Panels are set...
+      this.setVisible(false);
+   }
 
    //
    //
    //
    private void setVisual(){}
+   
+   //
+   //
+   //
+   private JPanel setUpTitle(){
+      JPanel panel = new JPanel();
+      panel.setBorder(BorderFactory.createEtchedBorder());
+      String s = new String("Engines Stage ");
+      panel.add(new JLabel(s, SwingConstants.CENTER));
+      return panel;
+   }
 
    //
    //
    //
-   private void updateData(StageData sd){}
+   private void updateData(StageData sd){
+   }
 }
 //////////////////////////////////////////////////////////////////////
