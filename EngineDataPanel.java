@@ -137,17 +137,91 @@ public class EngineDataPanel extends JPanel{
    //
    //
    //
-   private void setUpError(StageData sd){}
+   private void setUpError(StageData sd){
+      int RIGHT = SwingConstants.RIGHT;
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel ep    = (JPanel)panel.getComponent(7);
+      java.util.List<EngineData> l = sd.engineData();
+      Iterator<EngineData> it = l.iterator();
+      while(it.hasNext()){
+         EngineData ed = it.next();
+         if((ed.stage()==this._stage) && (ed.index()==this._index)){
+            //Initialization
+            if(ep.getComponentCount() == 0){
+               JLabel error = new JLabel("Error: ",RIGHT);
+               JLabel data  = new JLabel(""+ed.isError());
+               error.setForeground(Color.BLUE);
+               data.setForeground(Color.BLUE);
+               if(ed.isError()){
+                  error.setForeground(Color.RED);
+                  data.setForeground(Color.RED);
+               }
+               ep.add(error);
+               ep.add(data);
+            }
+            //Update
+            else{}
+         }
+      }
+   }
 
    //
    //
    //
-   private void setUpExhaustFlowRate(StageData sd){}
+   private void setUpExhaustFlowRate(StageData sd){
+      int RIGHT = SwingConstants.RIGHT;
+
+      java.text.DecimalFormat df = null;
+      df = new java.text.DecimalFormat("##,###.##");
+
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel efp   = (JPanel)panel.getComponent(6);
+      java.util.List<EngineData> l = sd.engineData();
+      Iterator<EngineData> it = l.iterator();
+      while(it.hasNext()){
+         EngineData ed = it.next();
+         if((ed.stage()==this._stage) && (ed.index()==this._index)){
+            //Initialization
+            if(efp.getComponentCount() == 0){
+               JLabel flow = new JLabel("Exhaust Flow Rate: ",RIGHT);
+               efp.add(flow);
+               String rate = df.format(ed.exhaustFlowRate());
+               efp.add(new JLabel(rate+"m^3/sec"));
+            }
+            //Update
+            else{}
+         }
+      }
+   }
 
    //
    //
    //
-   private void setUpFuelFlowRate(StageData sd){}
+   private void setUpFuelFlowRate(StageData sd){
+      int RIGHT    = SwingConstants.RIGHT;
+      
+      java.text.DecimalFormat df = null;
+      df = new java.text.DecimalFormat("##,###.##");
+
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel ffp   = (JPanel)panel.getComponent(5);
+      java.util.List<EngineData> l = sd.engineData();
+      Iterator<EngineData> it = l.iterator();
+      while(it.hasNext()){
+         EngineData ed = it.next();
+         if((ed.stage()==this._stage) && (ed.index()==this._index)){
+            //Initialization
+            if(ffp.getComponentCount() == 0){
+               JLabel flow = new JLabel("Fuel Flow Rate: ",RIGHT);
+               ffp.add(flow);
+               String rate = df.format(ed.fuelFlowRate());
+               ffp.add(new JLabel(rate+"m^3/sec"));
+            }
+            //Update
+            else{}
+         }
+      }
+   }
 
    //
    //
@@ -253,6 +327,27 @@ public class EngineDataPanel extends JPanel{
    //
    //
    //
-   private void setUpTemperature(StageData sd){}
+   private void setUpTemperature(StageData sd){
+      int RIGHT = SwingConstants.RIGHT;
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel tdp   = (JPanel)panel.getComponent(4);
+      java.util.List<EngineData> l = sd.engineData();
+      Iterator<EngineData> it = l.iterator();
+      while(it.hasNext()){
+         EngineData ed = it.next();
+         if((ed.stage()==this._stage )&& (ed.index()==this._index)){
+            //Initialization
+            if(tdp.getComponentCount() == 0){
+               JLabel temp = new JLabel("Temperature: ",RIGHT);
+               tdp.add(temp);
+               JLabel value = new JLabel(ed.temperature()+"K");
+               tdp.add(value);
+            }
+            //Update
+            else{}
+         }
+      
+      }
+   }
 }
 //////////////////////////////////////////////////////////////////////
