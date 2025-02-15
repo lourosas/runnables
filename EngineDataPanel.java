@@ -71,7 +71,41 @@ public class EngineDataPanel extends JPanel{
    //
    //
    //
-   private void deactivateButtonPanel(){}
+   private void activateButtonPanel(String action){
+      this.deactivateButtonPanel();
+      JPanel bp = (JPanel)this.getComponent(1);
+      for(int i = 0; i < bp.getComponentCount(); ++i){
+         try{
+            JButton b = (JButton)bp.getComponent(i);
+            if(b.getText().toUpperCase().equals("ERROR")){
+               if(action.toUpperCase().equals("ERROR")){
+                  //Stop Gap
+                  b.setEnabled(true);
+                  //This is actually how to code it up...
+                  //_errors is the Error Frame
+                  //if(this._errors == null){{
+                  //   b.setEnabled(true);
+                  //}
+                  //else if(!this._errors.isShowing()){
+                  //   b.setEnabled(true);
+                  //}
+               }
+            }
+         }
+         catch(ClassCastException cce){}
+      }
+   }
+
+   //
+   //
+   //
+   private void deactivateButtonPanel(){
+      JPanel bp = (JPanel)this.getComponent(1);
+      for(int i = 0; i < bp.getComponentCount(); ++i){
+         JButton b = (JButton)bp.getComponent(i);
+         b.setEnabled(false);
+      }
+   }
 
    //
    //
@@ -158,6 +192,10 @@ public class EngineDataPanel extends JPanel{
                }
                ep.add(error);
                ep.add(data);
+               //Indicate the Error with the Button Panel
+               if(ed.isError()){
+                  this.activateButtonPanel("ERROR");
+               }
             }
             //Update
             else{}
