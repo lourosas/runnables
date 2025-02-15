@@ -97,7 +97,14 @@ public class EnginesJFrame extends GenericJInteractionFrame{
    //
    //
    //
-   private void setVisual(){}
+   private void setVisual(){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      int WIDTH    = 425;
+      int HEIGHT   = 280*panel.getComponentCount();
+      this.setVisible(false);
+      this.setSize(WIDTH, HEIGHT);
+      this.setVisible(true);
+   }
    
    //
    //
@@ -132,6 +139,17 @@ public class EnginesJFrame extends GenericJInteractionFrame{
          if(panel.getComponentCount() == 0){
             java.util.List<EngineData> l = null;
             l = this._sd.engineData();
+            Iterator<EngineData> it = l.iterator();
+            while(it.hasNext()){
+               EngineData ed = it.next();
+               if(this._sd.stageNumber() == ed.stage()){
+                  int stage = ed.stage();  //Stage  Number
+                  int idx   = ed.index();  //Engine Number
+                  edp = new EngineDataPanel(stage, idx);
+                  edp.setUpEngineData(this._sd);
+                  panel.add(edp);
+               }
+            }
          }
          //Update
          else{}
