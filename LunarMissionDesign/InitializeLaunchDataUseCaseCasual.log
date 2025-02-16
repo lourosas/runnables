@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2024.3.16)  1 NOV 2024 10:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2024.3.16)  1 NOV 2024 12:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**MonitorPrelaunchActivitiesUseCaseCasual.tex
-(./MonitorPrelaunchActivitiesUseCaseCasual.tex
+**InitializeLaunchDataUseCaseCasual.tex
+(./InitializeLaunchDataUseCaseCasual.tex
 LaTeX2e <2020-02-02> patch level 2
 L3 programming layer <2020-02-14>
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
@@ -68,8 +68,8 @@ File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
 \l__kernel_color_stack_int=\count175
 \l__pdf_internal_box=\box45
 )
-(./MonitorPrelaunchActivitiesUseCaseCasual.aux)
-\openout1 = `MonitorPrelaunchActivitiesUseCaseCasual.aux'.
+(./InitializeLaunchDataUseCaseCasual.aux)
+\openout1 = `InitializeLaunchDataUseCaseCasual.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 6.
 LaTeX Font Info:    ... okay on input line 6.
@@ -111,21 +111,20 @@ e
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-(./MonitorPrelaunchActivitiesUseCaseCasual.aux) ) 
+(./InitializeLaunchDataUseCaseCasual.aux) ) 
 Here is how much of TeX's memory you used:
  1204 strings out of 483183
- 17904 string characters out of 5966292
- 246508 words of memory out of 5000000
+ 17844 string characters out of 5966292
+ 248490 words of memory out of 5000000
  16257 multiletter control sequences out of 15000+600000
  532992 words of font info for 26 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 30i,4n,25p,232b,97s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmti10.pfb>
-Output written on MonitorPrelaunchActivitiesUseCaseCasual.pdf (1 page, 43816 by
-tes).
+ 30i,4n,25p,226b,145s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmti10.pfb>
+Output written on InitializeLaunchDataUseCaseCasual.pdf (1 page, 43925 bytes).
 PDF statistics:
  20 PDF objects out of 1000 (max. 8388607)
  13 compressed objects within 1 object stream
