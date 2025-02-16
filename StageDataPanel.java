@@ -36,7 +36,7 @@ public class StageDataPanel extends JPanel{
    private StageData  _currentSD;
    //Both TBD
    private FuelSystemJFrame _fuelSystem;
-   private EnginesJFrame  _engines;
+   private EnginesJFrame    _engines;
    //private ErrorJFrame    _errors;
 
    {
@@ -71,6 +71,7 @@ public class StageDataPanel extends JPanel{
    public void update(StageData sd){
       this._currentSD = sd;
       this.updateDataPanel();
+      this.updateEnginesJFrame();
       this.updateFuelSystemJFrame();
       this.deactivateButtonPanel();
       if(sd.isError()){
@@ -111,14 +112,12 @@ public class StageDataPanel extends JPanel{
                }
             }
             else if(b.getText().toUpperCase().equals("ENGINES")){
-               //Stop Gap for the time being
-               b.setEnabled(true);
-               //if(this._engines == null){
-               //   b.setEnabled(true);
-               //}
-               //else if(!this._engines.isShowing()){
-               //   b.setEnabled(true);
-               //}
+               if(this._engines == null){
+                  b.setEnabled(true);
+               }
+               else if(!this._engines.isShowing()){
+                  b.setEnabled(true);
+               }
             }
          }
          catch(ClassCastException cce){
