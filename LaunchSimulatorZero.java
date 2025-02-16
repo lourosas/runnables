@@ -27,18 +27,18 @@ import rosas.lou.clock.*;
 */
 public class LaunchSimulatorZero
 implements Runnable,Publisher,LaunchSimulator{
-   private LaunchSimulatorStateSubstate.State PREL             = null;
    private LaunchSimulatorStateSubstate.State INIT             = null;
+   private LaunchSimulatorStateSubstate.State PREL             = null;
+   private LaunchSimulatorStateSubstate.State IGNI             = null;
    private LaunchSimulatorStateSubstate.State LAUN             = null;
+   private LaunchSimulatorStateSubstate.State ASCE             = null;
    private LaunchSimulatorStateSubstate.PreLaunchSubstate SET  = null;
    private LaunchSimulatorStateSubstate.PreLaunchSubstate CONT = null;
    private LaunchSimulatorStateSubstate.PreLaunchSubstate HOLD = null;
    private LaunchSimulatorStateSubstate.IgnitionSubstate  IGN  = null;
    private LaunchSimulatorStateSubstate.IgnitionSubstate  BUP  = null;
-   private LaunchSimulatorStateSubstate.IgnitionSubstate  REL  = null;
-   private LaunchSimulatorStateSubstate.LaunchSubstate    ASC  = null;
-   private LaunchSimulatorStateSubstate.LaunchSubstate    STAG = null;
-   private LaunchSimulatorStateSubstate.LaunchSubstate    IGNE = null;
+   private LaunchSimulatorStateSubstate.AscentSubstate    STG  = null;
+   private LaunchSimulatorStateSubstate.AscentSubstate    IGNE = null;
 
    private LaunchSimulatorStateSubstate stateSubstate;
 
@@ -53,18 +53,18 @@ implements Runnable,Publisher,LaunchSimulator{
    private boolean            kill;
 
    {
+      INIT = LaunchSimulatorStateSubstate.State.INITIALIZE;
       PREL = LaunchSimulatorStateSubstate.State.PRELAUNCH;
-      INIT = LaunchSimulatorStateSubstate.State.INITIATELAUNCH;
+      IGNI = LaunchSimulatorStateSubstate.State.IGNITION;
       LAUN = LaunchSimulatorStateSubstate.State.LAUNCH;
+      ASCE = LaunchSimulatorStateSubstate.State.ASCENT;
       SET  = LaunchSimulatorStateSubstate.PreLaunchSubstate.SET;
       CONT = LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE;
       HOLD = LaunchSimulatorStateSubstate.PreLaunchSubstate.HOLD;
       IGN  = LaunchSimulatorStateSubstate.IgnitionSubstate.IGNITION;
       BUP  = LaunchSimulatorStateSubstate.IgnitionSubstate.BUILDUP;
-      REL  = LaunchSimulatorStateSubstate.IgnitionSubstate.RELEASED;
-      ASC  = LaunchSimulatorStateSubstate.LaunchSubstate.ASCENT;
-      STAG = LaunchSimulatorStateSubstate.LaunchSubstate.STAGING;
-      IGNE =LaunchSimulatorStateSubstate.LaunchSubstate.IGNITEENGINES;
+      STG  = LaunchSimulatorStateSubstate.AscentSubstate.STAGING;
+      IGNE =LaunchSimulatorStateSubstate.AscentSubstate.IGNITEENGINES;
 
       stateSubstate      = null;
       clockSubscriber    = null;

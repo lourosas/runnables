@@ -23,15 +23,15 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public class LaunchSimulatorStateSubstate{
-   public enum State{PRELAUNCH,INITIATELAUNCH,LAUNCH};
+   public enum State{INITIALIZE,PRELAUNCH,IGNITION,LAUNCH,ASCENT};
    public enum PreLaunchSubstate{SET,CONTINUE,HOLD};
-   public enum IgnitionSubstate{IGNITION,BUILDUP,RELEASED};
-   public enum LaunchSubstate{ASCENT,STAGING,IGNITEENGINES};
+   public enum IgnitionSubstate{IGNITION,BUILDUP};
+   public enum AscentSubstate{STAGING,IGNITEENGINES};
 
    private State             _state             = null;
-   private PreLaunchSubstate _preLaunchSubstate = null;
+   private AscentSubstate    _ascentSubstate    = null;
    private IgnitionSubstate  _ignitionSubstate  = null;
-   private LaunchSubstate    _launchSubstate    = null;
+   private PreLaunchSubstate _preLaunchSubstate = null;
 
    ///////////////////////////Construtors/////////////////////////////
    /**/
@@ -43,12 +43,12 @@ public class LaunchSimulatorStateSubstate{
       State             state,
       PreLaunchSubstate prelaunch,
       IgnitionSubstate  ignition,
-      LaunchSubstate    launch
+      AscentSubstate    ascent
    ){
       this.setState(state);
       this.setPrelaunchSubstate(prelaunch);
       this.setIgnitionSubstate(ignition);
-      this.setLaunchSubstate(launch);
+      this.setAscentSubstate(ascent);
    }
    ////////////////////////Public Methods/////////////////////////////
    /**/
@@ -57,8 +57,8 @@ public class LaunchSimulatorStateSubstate{
    }
 
    /**/
-   public PreLaunchSubstate prelaunchSubstate(){
-      return this._preLaunchSubstate;
+   public AscentSubstate ascentSubstate(){
+      return this._ascentSubstate;
    }
 
    /**/
@@ -67,8 +67,8 @@ public class LaunchSimulatorStateSubstate{
    }
 
    /**/
-   public LaunchSubstate launchSubstate(){
-      return this._launchSubstate;
+   public PreLaunchSubstate prelaunchSubstate(){
+      return this._preLaunchSubstate;
    }
 
    /**/
@@ -78,25 +78,25 @@ public class LaunchSimulatorStateSubstate{
       s += "State:\t\t"+this._state+"\n";
       s += "Pre Launch:\t"+this._preLaunchSubstate+"\n";
       s += "Ignition:\t"+this._ignitionSubstate+"\n";
-      s += "Launch:\t\t"+this._launchSubstate+"\n";
+      s += "Ascent:\t\t"+this._ascentSubstate+"\n";
       return s;
    }
    ///////////////////////Private Methods/////////////////////////////
+   /**/
+   private void setAscentSubstate(AscentSubstate ascent){
+      this._ascentSubstate = ascent;
+   }
+   
    /**/
    private void setIgnitionSubstate(IgnitionSubstate ignition){
       this._ignitionSubstate = ignition;
    }
 
    /**/
-   private void setLaunchSubstate(LaunchSubstate launch){
-      this._launchSubstate = launch;
-   }
-
-   /**/
    private void setPrelaunchSubstate(PreLaunchSubstate prelaunch){
       this._preLaunchSubstate = prelaunch;
    }
-   
+
    /**/
    private void setState(State state){
       this._state = state;

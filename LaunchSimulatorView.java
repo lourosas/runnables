@@ -33,18 +33,18 @@ import rosas.lou.clock.*;
 
 public class LaunchSimulatorView extends GenericJFrame
 implements Subscriber, ClockSubscriber, CountdownTimerInterface{
-   private LaunchSimulatorStateSubstate.State             PREL = null;
    private LaunchSimulatorStateSubstate.State             INIT = null;
+   private LaunchSimulatorStateSubstate.State             PREL = null;
+   private LaunchSimulatorStateSubstate.State             IGNI = null;
    private LaunchSimulatorStateSubstate.State             LAUN = null;
+   private LaunchSimulatorStateSubstate.State             ASCE = null;
    private LaunchSimulatorStateSubstate.PreLaunchSubstate SET  = null;
    private LaunchSimulatorStateSubstate.PreLaunchSubstate CONT = null;
    private LaunchSimulatorStateSubstate.PreLaunchSubstate HOLD = null;
    private LaunchSimulatorStateSubstate.IgnitionSubstate  IGN  = null;
    private LaunchSimulatorStateSubstate.IgnitionSubstate  BUP  = null;
-   private LaunchSimulatorStateSubstate.IgnitionSubstate  REL  = null;
-   private LaunchSimulatorStateSubstate.LaunchSubstate    ASC  = null;
-   private LaunchSimulatorStateSubstate.LaunchSubstate    STAG = null;
-   private LaunchSimulatorStateSubstate.LaunchSubstate    IGNE = null;
+   private LaunchSimulatorStateSubstate.AscentSubstate    STG  = null;
+   private LaunchSimulatorStateSubstate.AscentSubstate    IGNE = null;
 
    private LaunchSimulatorController     _controller;
    private LaunchSimulatorStateSubstate  _lsss;
@@ -52,18 +52,18 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    private ButtonGroup                   _menuButtonGroup;
 
    {
+      INIT = LaunchSimulatorStateSubstate.State.INITIALIZE;
       PREL = LaunchSimulatorStateSubstate.State.PRELAUNCH;
-      INIT = LaunchSimulatorStateSubstate.State.INITIATELAUNCH;
+      IGNI = LaunchSimulatorStateSubstate.State.IGNITION;
       LAUN = LaunchSimulatorStateSubstate.State.LAUNCH;
+      ASCE = LaunchSimulatorStateSubstate.State.ASCENT;
       SET  = LaunchSimulatorStateSubstate.PreLaunchSubstate.SET;
       CONT = LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE;
       HOLD = LaunchSimulatorStateSubstate.PreLaunchSubstate.HOLD;
       IGN  = LaunchSimulatorStateSubstate.IgnitionSubstate.IGNITION;
       BUP  = LaunchSimulatorStateSubstate.IgnitionSubstate.BUILDUP;
-      REL  = LaunchSimulatorStateSubstate.IgnitionSubstate.RELEASED;
-      ASC  = LaunchSimulatorStateSubstate.LaunchSubstate.ASCENT;
-      STAG = LaunchSimulatorStateSubstate.LaunchSubstate.STAGING;
-      IGNE =LaunchSimulatorStateSubstate.LaunchSubstate.IGNITEENGINES;
+      STG  = LaunchSimulatorStateSubstate.AscentSubstate.STAGING;
+      IGNE =LaunchSimulatorStateSubstate.AscentSubstate.IGNITEENGINES;
 
       _controller      = null;
       _lsss            = null;
@@ -364,6 +364,12 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /**/
+   private void handleAscentSubstate
+   (
+      LaunchSimulatorStateSubstate.AscentSubstate sub
+   ){}
+
+   /**/
    private void handleJTextFieldEntry(JTextField jtf, String s){
       String test = s.toUpperCase();
       if(test.equals("SETHOURS") ||
@@ -410,12 +416,6 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
          this.displayLaunchingMechanismError(lmd.error());
       }
    }
-
-   /**/
-   private void handleLaunchSubstate
-   (
-      LaunchSimulatorStateSubstate.LaunchSubstate sub
-   ){}
 
    /**/
    private void handlePayloadData(String state, PayloadData pd){
@@ -505,7 +505,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       this.displayState(lsss.state());
       this.handlePrelaunchSubstate(lsss.prelaunchSubstate());
       this.handleIgnitionSubstate(lsss.ignitionSubstate());
-      this.handleLaunchSubstate(lsss.launchSubstate());
+      this.handleAscentSubstate(lsss.ascentSubstate());
    }
 
    /**/
