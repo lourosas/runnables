@@ -227,6 +227,15 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    //
+   //
+   private LaunchSimulatorStateSubstate.PreLaunchSubstate
+   prelaunchSubstate(){
+      return this.stateSubstate.prelaunchSubstate();
+   }
+
+   //
+   //
+   //
    private void setPrelaunchTime(int hours,int mins,int secs){
       //Set the SET State once AND ONLY once!!!...
       //Will need to FUCKING CHANGE!!!  Poset Initialization!!!
@@ -249,15 +258,6 @@ implements Runnable,Publisher,LaunchSimulator{
    private void setUpThread(){
       this.rt0 = new Thread(this, "Launch Simulator");
       this.rt0.start();
-   }
-
-   //
-   //
-   //
-   //
-   private LaunchSimulatorStateSubstate.PreLaunchSubstate
-   prelaunchSubstate(){
-      return this.stateSubstate.prelaunchSubstate();
    }
    //
    //
@@ -304,22 +304,20 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    public void initialize(String file){
       try{
-         //this.payload            = new GenericCapsule();
-         
          this.initializeRocket(file);
          this.initializeLaunchingMechanism(file);
          this.initializePayload(file);
-         //this.payload.initialize(file);
-
-
-         //PayloadData pd = null;
-         //pd = this.payload.monitorPrelaunch();
-         //this.notify("Initialize", pd);
+         //now, need to set the State, Substate...
+         LaunchSimulatorStateSubstate.State state = INIT;
+         this.stateSubstate = new LaunchSimulatorStateSubstate(state,
+                                                               null,
+                                                               null,
+                                                               null);
+         String s = new String("State: "+state);
+         s += " Prelaunch: " + null;
+         this.notify(s, this.stateSubstate);
       }
-      catch(IOException ioe){
-         //for the time being, do this...something else later...
-         //this.error(ioe.getMessage(), null);
-      }
+      catch(IOException ioe){}
    }
 
    //
@@ -437,6 +435,7 @@ implements Runnable,Publisher,LaunchSimulator{
          this.countdownTimer.broadcastTime();
       }
       catch(ClassCastException cce){}
+      catch(NullPointerException npe){}
       try{
          LaunchingMechanismData lm = (LaunchingMechanismData)o;
          if(s != null){

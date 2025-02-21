@@ -299,6 +299,12 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /**/
+   private JPanel getButtonPanel(){
+      JPanel panel=(JPanel)this.getContentPane().getComponent(2);
+      return panel;
+   }
+
+   /**/
    private LaunchSimulatorCountdownPanel getCountdownPanel(){
       JPanel panel=(JPanel)this.getContentPane().getComponent(1);
       JPanel nwPanel=(JPanel)panel.getComponent(0);
@@ -388,6 +394,21 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /**/
+   private void handleInitializationState
+   (
+      LaunchSimulatorStateSubstate ss
+   ){
+      JPanel bp = this.getButtonPanel();
+      for(int i = 0; i < bp.getComponentCount(); ++i){
+         JButton b = (JButton)bp.getComponent(i);
+         //enable the Pre-Launch Button
+         if(b.getActionCommand().toUpperCase().equals("PRELAUNCH")){
+            b.setEnabled(true);
+         }
+      }
+   }
+
+   /**/
    private void handleLaunchingMechanismData
    (
       String                 state,
@@ -427,6 +448,13 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
          }
       }
       else{}
+   }
+
+   /**/
+   private void handlePrelaunchState(LaunchSimulatorStateSubstate ss){
+      this.handlePrelaunchSubstate(ss.prelaunchSubstate());
+      this.handleIgnitionSubstate(ss.ignitionSubstate());
+      this.handleAscentSubstate(ss.ascentSubstate());
    }
 
    /**/
@@ -503,9 +531,15 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    ){
       this._lsss = lsss;
       this.displayState(lsss.state());
-      this.handlePrelaunchSubstate(lsss.prelaunchSubstate());
-      this.handleIgnitionSubstate(lsss.ignitionSubstate());
-      this.handleAscentSubstate(lsss.ascentSubstate());
+      if(lsss.state() == INIT){
+         this.handleInitializationState(lsss);
+      }
+      else if(lsss.state() == PREL){
+         this.handlePrelaunchState(lsss);
+      }
+      //this.handlePrelaunchSubstate(lsss.prelaunchSubstate());
+      //this.handleIgnitionSubstate(lsss.ignitionSubstate());
+      //this.handleAscentSubstate(lsss.ascentSubstate());
    }
 
    /**/
