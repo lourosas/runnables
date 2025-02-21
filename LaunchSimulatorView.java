@@ -666,6 +666,8 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       preLaunch.setMnemonic(KeyEvent.VK_P);
       preLaunch.addActionListener(this._controller);
       preLaunch.addKeyListener(this._controller);
+      //Only AFTER Initialization! Is this button enabled!!
+      preLaunch.setEnabled(false);
       panel.add(preLaunch);
 
       JButton ignition = new JButton("Ignition");

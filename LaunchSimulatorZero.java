@@ -137,6 +137,64 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    //
    //
+   private void initializeLaunchingMechanism(String file)
+   throws IOException{
+      if(this.stateSubstate == null){
+         try{
+            this.launchingMechanism = new GenericLaunchingMechanism();
+            this.launchingMechanism.initialize(file);
+            LaunchingMechanismData lm = null;
+            lm = this.launchingMechanism.monitorInitialization();
+            this.notify("Initialize",lm);
+         }
+         catch(IOException ioe){
+            this.error(ioe.getMessage(), null);
+            throw ioe;
+         }
+      }
+   }
+
+   //
+   //
+   //
+   private void initializePayload(String file)throws IOException{
+      if(this.stateSubstate == null){
+         try{
+            this.payload = new GenericCapsule();
+            this.payload.initialize(file);
+            PayloadData pd = null;
+            pd = this.payload.monitorPrelaunch();
+            this.notify("Initialize",pd);
+         }
+         catch(IOException ioe){
+            this.error(ioe.getMessage(),null);
+            throw ioe;
+         }
+      }
+   }
+
+   //
+   //
+   //
+   private void initializeRocket(String file)throws IOException{
+      if(this.stateSubstate == null){
+         try{
+            this.rocket = new GenericRocket();
+            this.rocket.initialize(file);
+            RocketData rd = null;
+            rd = this.rocket.monitorInitialization();
+            this.notify("Initialize", rd);
+         }
+         catch(IOException ioe){
+            this.error(ioe.getMessage(), null);
+            throw ioe;
+         }
+      }
+   }
+
+   //
+   //
+   //
    private void prelaunch(){
       //First Attempt to use the Predefined constants!!!
       this.prelaunch(SET);
@@ -151,7 +209,8 @@ implements Runnable,Publisher,LaunchSimulator{
    ){
       boolean update                           = false;
       LaunchSimulatorStateSubstate.State state = PREL;
-
+      //THIS IS GOING TO NEED TO FUCKING CHANGE!!!!
+      //ONLY TRANSITION IF IN INITIALIZE STATE!!!
       this.stateSubstate = new LaunchSimulatorStateSubstate(
                                                           state,
                                                           substate,
@@ -170,6 +229,7 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    private void setPrelaunchTime(int hours,int mins,int secs){
       //Set the SET State once AND ONLY once!!!...
+      //Will need to FUCKING CHANGE!!!  Poset Initialization!!!
       if(this.stateSubstate == null){
          System.out.printf("%03d:%02d:%02d\n", hours,mins,secs);
          LClock clock        = new LClock();
@@ -244,30 +304,21 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    public void initialize(String file){
       try{
-         this.rocket             = new GenericRocket();
-         this.launchingMechanism = new GenericLaunchingMechanism();
-         this.payload            = new GenericCapsule();
+         //this.payload            = new GenericCapsule();
          
-         this.rocket.initialize(file);
-         this.launchingMechanism.initialize(file);
-         payload.initialize(file);
-         
-         RocketData rd = null;
-         rd = this.rocket.monitorInitialization();
-         //Test print
-         this.notify("Initialize", rd);
+         this.initializeRocket(file);
+         this.initializeLaunchingMechanism(file);
+         this.initializePayload(file);
+         //this.payload.initialize(file);
 
-         LaunchingMechanismData lm = null;
-         lm = this.launchingMechanism.monitorInitialization();
-         this.notify("Initialize",lm);
 
-         PayloadData pd = null;
-         pd = this.payload.monitorPrelaunch();
-         this.notify("Initialize", pd);
+         //PayloadData pd = null;
+         //pd = this.payload.monitorPrelaunch();
+         //this.notify("Initialize", pd);
       }
       catch(IOException ioe){
          //for the time being, do this...something else later...
-         this.error(ioe.getMessage(), null);
+         //this.error(ioe.getMessage(), null);
       }
    }
 
