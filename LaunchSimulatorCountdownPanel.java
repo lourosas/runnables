@@ -58,6 +58,16 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
       this.activateResumeButton();
    }
 
+   /*
+    *Fancy word for the look of the Panel afer System Startup
+    * */
+   public void activateNoStateStartUp(){
+      this.clearTextField();
+      this.clearTimeField();
+      this.deactivateTextFields();
+      this.deactivateButtons();
+   }
+
    /**/
    public void activatePrelaunchTime(){
       this.clearTextField();
@@ -339,6 +349,18 @@ public class LaunchSimulatorCountdownPanel extends JPanel{
    /**/
    private void clearTextField(){
       JPanel panel = (JPanel)this.getComponent(1);
+      for(int i = 0; i < panel.getComponentCount(); ++i){
+         try{
+            JTextField tf = (JTextField)panel.getComponent(i);
+            tf.setText("");
+         }
+         catch(ClassCastException cce){}
+      }
+   }
+
+   /**/
+   private void clearTimeField(){
+      JPanel panel = (JPanel)this.getComponent(2);
       for(int i = 0; i < panel.getComponentCount(); ++i){
          try{
             JTextField tf = (JTextField)panel.getComponent(i);

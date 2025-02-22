@@ -258,7 +258,9 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    /////////////////////////Private Methods///////////////////////////
    /**/
    private void abortPrelaunch(){
-      this.setPrelaunchTime();
+      //Abort Goes back to the *Original State* of the View
+      //I will want to use this method from now on!
+      this.setNoStateStartup();
       //Set the front label to indicate "Bounced Out" of States
       //re-set up the North Panel--probably should set up its
       //own method
@@ -552,10 +554,16 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /**/
+   private void setNoStateStartup(){
+      //Lots of stuff are going to need to happen for this, here...
+      //including ALL of the panels going back to the Original State!
+      LaunchSimulatorCountdownPanel p = this.getCountdownPanel();
+      p.activateNoStateStartUp();
+   }
+
+   /**/
    private void setPrelaunchTime(){
-      JPanel panel = (JPanel)this.getContentPane().getComponent(1);
-      JPanel nwPanel=(JPanel)panel.getComponent(0);
-      JPanel btnPanel=(JPanel)this.getContentPane().getComponent(2);
+      JPanel btnPanel = this.getButtonPanel();
       for(int i = 0; i < btnPanel.getComponentCount(); ++i){
          JButton b = (JButton)btnPanel.getComponent(i);
          b.setEnabled(false);
