@@ -537,9 +537,6 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       else if(lsss.state() == PREL){
          this.handlePrelaunchState(lsss);
       }
-      //this.handlePrelaunchSubstate(lsss.prelaunchSubstate());
-      //this.handleIgnitionSubstate(lsss.ignitionSubstate());
-      //this.handleAscentSubstate(lsss.ascentSubstate());
    }
 
    /**/
