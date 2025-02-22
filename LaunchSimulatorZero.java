@@ -238,8 +238,9 @@ implements Runnable,Publisher,LaunchSimulator{
    //
    private void setPrelaunchTime(int hours,int mins,int secs){
       //Set the SET State once AND ONLY once!!!...
-      //Will need to FUCKING CHANGE!!!  Poset Initialization!!!
-      if(this.stateSubstate == null){
+      //Will need to FUCKING CHANGE!!!  Post Initialization!!!
+      //ONLY Transition if in Initialization State!
+      if(this.state() == INIT){
          System.out.printf("%03d:%02d:%02d\n", hours,mins,secs);
          LClock clock        = new LClock();
          this.countdownTimer = new CountdownTimer(clock);
