@@ -325,7 +325,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
    
    /**/
-   MechanismSupportsPanel getMechanismSupportsPanel(){
+   private MechanismSupportsPanel getMechanismSupportsPanel(){
       JPanel panel   = (JPanel)this.getContentPane().getComponent(1);
       JPanel swPanel = (JPanel)panel.getComponent(2);
       MechanismSupportsPanel p = null;

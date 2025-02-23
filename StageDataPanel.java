@@ -44,7 +44,6 @@ public class StageDataPanel extends JPanel{
       _currentSD  = null;
       _fuelSystem = null;
       _engines    = null;
-      //_errors     = null;
    };
    //Going to use Anonymous Inner Classes for this...
    ////////////////////////////Constructors///////////////////////////
@@ -112,13 +111,13 @@ public class StageDataPanel extends JPanel{
             }
             else if(b.getText().toUpperCase().equals("ENGINES")){
                //Stop Gap for the time being
-               b.setEnabled(true);
-               //if(this._engines == null){
-               //   b.setEnabled(true);
-               //}
-               //else if(!this._engines.isShowing()){
-               //   b.setEnabled(true);
-               //}
+               //b.setEnabled(true);
+               if(this._engines == null){
+                  b.setEnabled(true);
+               }
+               else if(!this._engines.isShowing()){
+                  b.setEnabled(true);
+               }
             }
          }
          catch(ClassCastException cce){
