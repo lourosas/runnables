@@ -559,6 +559,22 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       //including ALL of the panels going back to the Original State!
       LaunchSimulatorCountdownPanel p = this.getCountdownPanel();
       p.activateNoStateStartUp();
+      JPanel panel   = (JPanel)this.getContentPane().getComponent(1);
+      JPanel nwPanel = (JPanel)panel.getComponent(0);
+      nwPanel.remove(this.getPayloadPanel());
+      nwPanel.add(this.setUpPayloadPanel());
+      JPanel nePanel = (JPanel)panel.getComponent(1);
+      nePanel.remove(this.getMechanismPanel());
+      nePanel.remove(this.getRocketPanel());
+      nePanel.add(this.setUpRocketPanel());
+      nePanel.add(this.setUpMechanismPanel());
+      JPanel btnPanel = this.getButtonPanel();
+      for(int i = 0; i < btnPanel.getComponentCount(); ++i){
+         JButton b = (JButton)btnPanel.getComponent(i);
+         b.setEnabled(false);
+      }
+      this.repaint();
+      this.revalidate();
    }
 
    /**/

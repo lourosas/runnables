@@ -73,6 +73,10 @@ public class LaunchSimulatorRocketPanel extends JPanel{
       this.updateStageJFrame();
    }
 
+   //Blank everything out...basically, remove everything...
+   //
+   //
+   public void resetCompletely(){}
    //////////////////////////Private Methods//////////////////////////
    //
    //
