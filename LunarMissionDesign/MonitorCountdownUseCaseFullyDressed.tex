@@ -42,9 +42,6 @@ Activities})\\\\
 \end{tabular}\\\\
 \textbf{Alternative Flows:}
 \begin{itemize}
-\item[*.a]At any time, the Flight Controller can abort the Countdown;
-System responds with stoping the Countdown and zeroing out the
-Countdown Timer
 \item[1a.]The Flight Controller can re-enter another Countdown Time
 prior to starting the Countdown Timer:  entering the Countdown Time
 as many times as desired
@@ -57,6 +54,10 @@ Countdown Time
 the System stops the Countdown: displaying the stopped Countdown time.
 Countdown Time resumes upon Flight Controller restart:  resuming from
 the time stopped.
+\item[4b.]If the Countdown is on hold, then the Flight Controller can
+chose to abort the Countdown--Clearing the Countdown and aborting the
+Rocket Launch \textit{See Use Case 1: Flight Controller shall Monitor
+the Pre-Launch}
 \end{itemize}
 \textbf{Special Requirements:}
 \begin{itemize}
