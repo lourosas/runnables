@@ -27,13 +27,20 @@ import rosas.lou.clock.*;
 //objects when to enact their Behavior)
 public class TestModel implements Publisher, Subscriber, Runnable{
 
-   private Thread t0 = null;
+   private Thread t0      = null;
+   private TestSubject ts = null;
+   private Object      o =  null;
+
    ///////////////////////////Constructors////////////////////////////
    //
    //
    //
    public TestModel(){
       this.setUpThread();
+      this.ts = new TestSubject();
+      ts.add(this);
+      this.o = new Object();
+      this.ts.addObject(o);
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -42,13 +49,14 @@ public class TestModel implements Publisher, Subscriber, Runnable{
    //
    private void setUpThread(){
       this.t0 = new Thread(this,"TestModel:Publisher and Subscriber");
+      this.t0.start();
    }
 
    ////////////////////////Publisher Interface////////////////////////
    //
    //
    //
-   public void add(Subscriber){}
+   public void add(Subscriber s){}
 
    //
    //
@@ -84,7 +92,21 @@ public class TestModel implements Publisher, Subscriber, Runnable{
    //
    //
    //
-   public void error(RuntimeException re, Object o){}
+   public void error(RuntimeException re, Object o){
+      try{
+         //Technically, not needed...but understanding Threading...
+         synchronized(this.o){
+            Integer integer = (Integer)o;
+            System.out.println("\nTest Model");
+            System.out.println(Thread.currentThread().getName());
+            System.out.println(Thread.currentThread().getId());
+            int i = integer.intValue();
+            System.out.println("Error = " + i);
+            System.out.println();
+         }
+      }
+      catch(ClassCastException cce){ cce.printStackTrace(); }
+   }
 
    //
    //
@@ -95,6 +117,28 @@ public class TestModel implements Publisher, Subscriber, Runnable{
    //
    //
    //
-   public void run(){}
+   public void run(){
+      try{
+         while(true){
+            try{
+               synchronized(this.o){
+                  System.out.println("\nTest Model");
+                  System.out.println("In Thread");
+                  System.out.println(Thread.currentThread().getName());
+                  System.out.println(Thread.currentThread().getId());
+                  int data = this.ts.requestData();
+                  System.out.println("Returned = "+data);
+                  System.out.println();
+                  Thread.sleep(1000);
+               }
+            }
+            catch(NullPointerException npe){
+               npe.printStackTrace();
+               Thread.sleep(1000);
+            }
+         }
+      }
+      catch(InterruptedException ie){}
+   }
 }
 //////////////////////////////////////////////////////////////////////

@@ -24,7 +24,10 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 public class TestSubject implements Publisher,Runnable{
 
-   private Thread t0 = null;
+   private Thread t0             = null;
+   private Subscriber subscriber = null;
+   private Random     random     = null;
+   private Object     o          = null;
 
    
    ////////////////////////////Constructors///////////////////////////
@@ -33,6 +36,30 @@ public class TestSubject implements Publisher,Runnable{
    //
    public TestSubject(){
       this.setUpThread();
+      this.random = new Random();
+   }
+
+   ///////////////////////////Public Methods//////////////////////////
+   //
+   //
+   //
+   public void addObject(Object obj){
+      this.o = obj;
+   }
+
+   //The Typical way to request data without having to alert the
+   //Test Model.  The Test Model will request this data (by means of
+   //Controller)
+   //
+   public int requestData(){
+      //Technically, not needed...already obtained in TestModel
+      synchronized(this.o){
+         System.out.println("Test Subject");
+         System.out.println("requestData()");
+         System.out.println(Thread.currentThread().getName());
+         System.out.println(Thread.currentThread().getId());
+         return this.random.nextInt(10);
+      }
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -40,19 +67,30 @@ public class TestSubject implements Publisher,Runnable{
    //
    //
    private void setUpThread(){
-      this.t0 = new Thread(this,"TestSubject:Publisher-TestModel");
+      this.t0 = new Thread(this,"TestSubject:Publisher-TestSubject");
+      this.t0.start();
    }
 
    ////////////////////////Publisher Interface////////////////////////
    //
    //
    //
-   public void add(Subscriber s){}
+   public void add(Subscriber s){
+      this.subscriber = s;
+   }
 
    //
    //
    //
-   public void error(String s, Object o){}
+   public void error(String s, Object o){
+      try{
+         //Put in a mutually exclusive block, to be safe...
+         synchronized(this.o){
+            this.subscriber.error(new RuntimeException(s), o);
+         }
+      }
+      catch(NullPointerException npe){ npe.printStackTrace(); }
+   }
 
    //
    //
@@ -68,6 +106,30 @@ public class TestSubject implements Publisher,Runnable{
    //
    //
    //
-   public void run(){}
+   public void run(){
+      try{
+         while(true){
+            try{
+               synchronized(this.o){
+                  //Thread.sleep(10000);
+                  Thread.sleep(100);
+                  int ranNum = this.random.nextInt(1000);
+                  System.out.println("\nTest Subject");
+                  System.out.println("In Thread");
+                  System.out.println(Thread.currentThread().getName());
+                  System.out.println(Thread.currentThread().getId());
+                  System.out.println("Number = "+ranNum);
+                  System.out.println();
+                  if(ranNum == 3){ //Indicate an error
+                     Integer i = Integer.valueOf(ranNum);
+                     this.error("Runtime Number Error", i);
+                  }
+               }
+            }
+            catch(NullPointerException npe){}
+         }
+      }
+      catch(InterruptedException ie){}
+   }
 }
 //////////////////////////////////////////////////////////////////////
