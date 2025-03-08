@@ -47,6 +47,26 @@ public class TestModel implements Publisher, Subscriber, Runnable{
    //
    //
    //
+   private void querySubject(){
+      try{
+         synchronized(this.o){
+            System.out.println("\nTest Model");
+            System.out.println("In Thread");
+            System.out.println(Thread.currentThread().getName());
+            System.out.println(Thread.currentThread().getId());
+            int data = this.ts.requestData();
+            System.out.println("Returned = "+data);
+            System.out.println();
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+   }
+
+   //
+   //
+   //
    private void setUpThread(){
       this.t0 = new Thread(this,"TestModel:Publisher and Subscriber");
       this.t0.start();
@@ -120,22 +140,8 @@ public class TestModel implements Publisher, Subscriber, Runnable{
    public void run(){
       try{
          while(true){
-            try{
-               synchronized(this.o){
-                  System.out.println("\nTest Model");
-                  System.out.println("In Thread");
-                  System.out.println(Thread.currentThread().getName());
-                  System.out.println(Thread.currentThread().getId());
-                  int data = this.ts.requestData();
-                  System.out.println("Returned = "+data);
-                  System.out.println();
-                  Thread.sleep(1000);
-               }
-            }
-            catch(NullPointerException npe){
-               npe.printStackTrace();
-               Thread.sleep(1000);
-            }
+            this.querySubject();
+            Thread.sleep(1000);
          }
       }
       catch(InterruptedException ie){}

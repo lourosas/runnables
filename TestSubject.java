@@ -66,6 +66,28 @@ public class TestSubject implements Publisher,Runnable{
    //
    //
    //
+   private void publishRandomNumber(){
+      try{
+         synchronized(this.o){
+            int ranNum = this.random.nextInt(1000);
+            System.out.println("\nTest Subject");
+            System.out.println("In Thread");
+            System.out.println(Thread.currentThread().getName());
+            System.out.println(Thread.currentThread().getId());
+            System.out.println("Number = "+ranNum);
+            System.out.println();
+            if(ranNum == 3){ //Indicate an error
+               Integer i = Integer.valueOf(ranNum);
+               this.error("Runtime Number Error", i);
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
    private void setUpThread(){
       this.t0 = new Thread(this,"TestSubject:Publisher-TestSubject");
       this.t0.start();
@@ -109,24 +131,9 @@ public class TestSubject implements Publisher,Runnable{
    public void run(){
       try{
          while(true){
-            try{
-               synchronized(this.o){
-                  //Thread.sleep(10000);
-                  Thread.sleep(100);
-                  int ranNum = this.random.nextInt(1000);
-                  System.out.println("\nTest Subject");
-                  System.out.println("In Thread");
-                  System.out.println(Thread.currentThread().getName());
-                  System.out.println(Thread.currentThread().getId());
-                  System.out.println("Number = "+ranNum);
-                  System.out.println();
-                  if(ranNum == 3){ //Indicate an error
-                     Integer i = Integer.valueOf(ranNum);
-                     this.error("Runtime Number Error", i);
-                  }
-               }
-            }
-            catch(NullPointerException npe){}
+            //Thread.sleep(10000);
+            Thread.sleep(100);
+            this.publishRandomNumber();
          }
       }
       catch(InterruptedException ie){}
