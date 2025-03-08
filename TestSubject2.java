@@ -22,39 +22,53 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
-public class TestSubject implements Publisher,Runnable{
 
-   private Thread t0             = null;
-   private Subscriber subscriber = null;
-   private Random     random     = null;
-   private Object     o          = null;
+public class TestSubject2 implements Runnable{
 
-   
+   private Thread t0      = null;
+   private Random random  = null;
+   private Object  o0     = null;
+   private Object  o1     = null;
+
    ////////////////////////////Constructors///////////////////////////
    //
    //
    //
-   public TestSubject(){
-      this.setUpThread();
+   public TestSubject2(){
       this.random = new Random();
+      this.setUpThread();
    }
 
    ///////////////////////////Public Methods//////////////////////////
    //
    //
    //
-   public void addObject(Object obj){
-      this.o = obj;
+   public void addObject0(Object obj){
+      this.o0 = obj;
    }
 
-   //The Typical way to request data without having to alert the
-   //Test Model.  The Test Model will request this data (by means of
-   //Controller)
+   //
+   //
+   //
+   public void addObject1(Object obj){
+      this.o1 = obj;
+   }
+
+   //
+   //
+   //
+   public int requestErrorValue(){
+      //Stubbed out for now
+      return 0;
+   }
+
+   //The Typical way to request data without having to alert the Test
+   //Model.  The Test Model will request the data by means of
+   //Controller
    //
    public int requestData(){
-      //Technically, not needed...already obtained in TestModel
-      synchronized(this.o){
-         System.out.println("Test Subject");
+      synchronized(this.o0){
+         System.out.println("TestSubject2");
          System.out.println("requestData()");
          System.out.println(Thread.currentThread().getName());
          System.out.println(Thread.currentThread().getId());
@@ -70,15 +84,13 @@ public class TestSubject implements Publisher,Runnable{
       try{
          synchronized(this.o){
             int ranNum = this.random.nextInt(1000);
-            System.out.println("\nTest Subject");
+            System.out.println("\nTestSubject2");
             System.out.println("In Thread");
             System.out.println(Thread.currentThread().getName());
             System.out.println(Thread.currentThread().getId());
             System.out.println("Number = "+ranNum);
-            System.out.println();
-            if(ranNum == 3){ //Indicate an error
-               Integer i = Integer.valueOf(ranNum);
-               this.error("Runtime Number Error", i);
+            if(ranNum == 3){
+               //TBD
             }
          }
       }
@@ -89,40 +101,9 @@ public class TestSubject implements Publisher,Runnable{
    //
    //
    private void setUpThread(){
-      this.t0 = new Thread(this,"TestSubject:Publisher-TestSubject");
+      this.t0 = new Thread(this,"TestSubject2");
       this.t0.start();
    }
-
-   ////////////////////////Publisher Interface////////////////////////
-   //
-   //
-   //
-   public void add(Subscriber s){
-      this.subscriber = s;
-   }
-
-   //
-   //
-   //
-   public void error(String s, Object o){
-      try{
-         //Put in a mutually exclusive block, to be safe...
-         synchronized(this.o){
-            this.subscriber.error(new RuntimeException(s), o);
-         }
-      }
-      catch(NullPointerException npe){ npe.printStackTrace(); }
-   }
-
-   //
-   //
-   //
-   public void notify(String s, Object o){}
-
-   //
-   //
-   //
-   public void remove(Subscriber s){}
 
    /////////////////////////Runnable Interface////////////////////////
    //

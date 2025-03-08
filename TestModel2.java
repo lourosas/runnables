@@ -23,24 +23,24 @@ import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 //@Model
-//By means of Controller (Not MVC, but controlls the messaging of
-//objects when to enact their Behavior)
-public class TestModel implements Publisher, Subscriber, Runnable{
+//Instead of Publisher being a Subscriber, try a wait()/notify()
+//approach on the same object
+public class TestModel2 implements Publisher, Runnable{
+   private Thread t0       = null;
+   private TestSubject2 ts = null;
+   private Object o0       = null;
+   private Object o1       = null;
 
-   private Thread t0      = null;
-   private TestSubject ts = null;
-   private Object      o =  null;
-
-   ///////////////////////////Constructors////////////////////////////
+   ////////////////////////////Constructors///////////////////////////
    //
    //
    //
-   public TestModel(){
+   public TestModel2(){
+      this.ts = new TestSubject2();
       this.setUpThread();
-      this.ts = new TestSubject();
-      ts.add(this);
-      this.o = new Object();
-      this.ts.addObject(o);
+      this.o0 = new Object();
+      this.o1 = new Object();
+      this.ts.addObject0(this.o0);
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -49,26 +49,23 @@ public class TestModel implements Publisher, Subscriber, Runnable{
    //
    private void querySubject(){
       try{
-         synchronized(this.o){
-            System.out.println("\nTest Model");
+         synchronized(this.o0){
+            System.out.println("\nTestModel2");
             System.out.println("In Thread");
             System.out.println(Thread.currentThread().getName());
             System.out.println(Thread.currentThread().getId());
             int data = this.ts.requestData();
-            System.out.println("Returned = "+data);
-            System.out.println();
+            System.out.println("Returned = "+data+"\n");
          }
       }
-      catch(NullPointerException npe){
-         npe.printStackTrace();
-      }
+      catch(NullPointerException npe){ npe.printStackTrace(); }
    }
 
    //
    //
    //
    private void setUpThread(){
-      this.t0 = new Thread(this,"TestModel:Publisher and Subscriber");
+      this.t0 = new Thread(this,"TestModel2:Publisher Only");
       this.t0.start();
    }
 
@@ -93,47 +90,7 @@ public class TestModel implements Publisher, Subscriber, Runnable{
    //
    public void remove(Subscriber s){}
 
-   ////////////////////////Subscriber Interface///////////////////////
-   //
-   //
-   //
-   public void update(Object o){}
-
-   //
-   //
-   //
-   public void update(Object o, String s){}
-
-   //
-   //
-   //
-   public void error(RuntimeException re){}
-
-   //
-   //
-   //
-   public void error(RuntimeException re, Object o){
-      try{
-         //Technically, not needed...but understanding Threading...
-         synchronized(this.o){
-            Integer integer = (Integer)o;
-            System.out.println("\nTest Model");
-            System.out.println(Thread.currentThread().getName());
-            System.out.println(Thread.currentThread().getId());
-            int i = integer.intValue();
-            System.out.println("Error = " + i);
-            System.out.println();
-         }
-      }
-      catch(ClassCastException cce){ cce.printStackTrace(); }
-   }
-
-   //
-   //
-   //
-   public void error(String error){}
-
-   /////////////////////////Runtime Interface/////////////////////////
+   /////////////////////////Runnable Interface////////////////////////
    //
    //
    //
