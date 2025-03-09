@@ -27,14 +27,17 @@ public class TestSubject2 implements Runnable{
 
    private Thread t0      = null;
    private Random random  = null;
-   private Object  o0     = null;
-   private Object  o1     = null;
+   private Object o0      = null;
+   private Object o1      = null;
+   private Object o2      = null;
+   private int error      = -1;
 
    ////////////////////////////Constructors///////////////////////////
    //
    //
    //
    public TestSubject2(){
+      this.o2     = new Object();
       this.random = new Random();
       this.setUpThread();
    }
@@ -58,8 +61,7 @@ public class TestSubject2 implements Runnable{
    //
    //
    public int requestErrorValue(){
-      //Stubbed out for now
-      return 0;
+      return this.error;
    }
 
    //The Typical way to request data without having to alert the Test
@@ -82,7 +84,7 @@ public class TestSubject2 implements Runnable{
    //
    private void publishRandomNumber(){
       try{
-         synchronized(this.o){
+         synchronized(this.o0){
             int ranNum = this.random.nextInt(1000);
             System.out.println("\nTestSubject2");
             System.out.println("In Thread");
@@ -90,11 +92,30 @@ public class TestSubject2 implements Runnable{
             System.out.println(Thread.currentThread().getId());
             System.out.println("Number = "+ranNum);
             if(ranNum == 3){
-               //TBD
+               this.setAndAlertErrorNumber(ranNum);
             }
          }
       }
       catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
+   private void setAndAlertErrorNumber(int alert){
+      synchronized(this.o2){
+         this.error = alert;
+         System.out.println("Error!! "+this.error);
+         try{
+            this.o1.notify();
+         }
+         catch(IllegalMonitorStateException e){
+            //e.printStackTrace();
+            System.out.println("TestSubject2");
+            System.out.println(Thread.currentThread().getName());
+            System.out.println(Thread.currentThread().getId()+"\n");
+         }
+      }
    }
 
    //

@@ -30,20 +30,52 @@ public class TestModel2 implements Publisher, Runnable{
    private TestSubject2 ts = null;
    private Object o0       = null;
    private Object o1       = null;
+   private Object o2       = null;
 
    ////////////////////////////Constructors///////////////////////////
    //
    //
    //
    public TestModel2(){
-      this.ts = new TestSubject2();
-      this.setUpThread();
       this.o0 = new Object();
       this.o1 = new Object();
+      this.o2 = new Object();
+      this.ts = new TestSubject2();
       this.ts.addObject0(this.o0);
+      this.ts.addObject1(this.o1);
+      //This instance, makeing it simple by putting everything in
+      //somewhat "organized" order...
+      this.setUpThread();
+      this.errorNotification();
    }
 
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void errorNotification(){
+      synchronized(this.o2){
+         try{
+            System.out.println("\nTestModel2");
+            System.out.println(Thread.currentThread().getName());
+            System.out.println(Thread.currentThread().getId()+"\n");
+
+            //Test--ONLY ONCE for now...change to consistent later
+            this.o1.wait();
+            System.out.println(this.ts.requestErrorValue());
+            //Tests for now
+            System.out.println("The End");
+            System.exit(0);
+         }
+         catch(InterruptedException ie){}
+         catch(IllegalMonitorStateException ime){
+            System.out.println("\nTestModel2");
+            System.out.println(Thread.currentThread().getName());
+            System.out.println(Thread.currentThread().getId()+"\n");
+         }
+      }
+   }
+
    //
    //
    //
