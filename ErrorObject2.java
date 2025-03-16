@@ -27,29 +27,32 @@ import rosas.lou.clock.*;
 public class ErrorObject2{
    private int     errorValue;
    private boolean transfer = true; //see what the fuck happens here
+   private Object  o0       = null;
 
    ////////////////////////////Constructors///////////////////////////
    //
    //
    //
-   public ErrorObject2(){}
+   public ErrorObject2(){
+      this.o0 = new Object();
+   }
 
    ///////////////////////////Public Methods//////////////////////////
    //
    //
    //
    public int receive(){
-      synchronized(this){
+      synchronized(this.o0){
          System.out.println("receive():  Lock Obtained");
          while(this.transfer){
             try{
-               wait(); //Wait for a send
+               this.o0.wait(); //Wait for a send
             }
             catch(InterruptedException ie){}
          }
          this.transfer = true;
          try{
-            notify();
+            this.o0.notify();
          }
          catch(IllegalMonitorStateException e){
             e.printStackTrace();
@@ -62,18 +65,18 @@ public class ErrorObject2{
    //
    //
    public void send(int error){
-      synchronized(this){
+      synchronized(this.o0){
          System.out.println("send():  Lock Obtained");
          while(!this.transfer){
             try{
-               wait();
+               this.o0.wait();
             }
             catch(InterruptedException ie){}
          }
          this.errorValue = error;
          this.transfer   = false;
          try{
-            notify();
+            this.o0.notify();
          }
          catch(IllegalMonitorStateException e){
             e.printStackTrace();
