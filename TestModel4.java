@@ -22,37 +22,40 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
-//@Model
-//Instead of Publisher being a Subscriber, try a wait()/notify()
-//approach on the same object
-public class TestModel3 implements Publisher, Runnable{
-   private Thread t0           = null;
-   private TestSubject3 ts     = null;
-   private Object o0           = null;
-   private Object o1           = null;
-   private ErrorObject eo      = null;
+
+//Trying to still fucking understand wait()/notify()...
+public class TestModel4 implements Publisher,Runnable{
+   private Thread t0       = null;
+   private TestSubject4 ts = null;
+   private Object o0       = null;
+   private Object o1       = null;
+   private ErrorObject2 eo = null;
 
    ////////////////////////////Constructors///////////////////////////
    //
    //
    //
-   public TestModel3(ErrorObject eo){
-      this.eo = eo;
+   public TestModel4(ErrorObject2 eo2){
+      this.eo = eo2;
       this.o0 = new Object();
       this.o1 = new Object();
-      this.ts = new TestSubject3(this.eo);
+      this.ts = new TestSubject4(this.eo);
       this.ts.addObject0(this.o0);
       this.ts.addObject1(this.o1);
       this.setUpThread();
    }
-   
+
+   ///////////////////////////Public Methods//////////////////////////
+   //
+   //
+   //
    //////////////////////////Private Methods//////////////////////////
    //
    //
    //
    private void queryError(){
-      int error = this.eo.get();
-      System.out.println("Error! "+error);
+      int error = this.eo.receive();
+      System.out.println("Error! " + error);
    }
 
    //
@@ -61,7 +64,7 @@ public class TestModel3 implements Publisher, Runnable{
    private void querySubject(){
       try{
          synchronized(this.o0){
-            System.out.println("\nTestModel3");
+            System.out.println("\nTestModel4.querySubject()");
             System.out.println("In Thread");
             System.out.println(Thread.currentThread().getName());
             System.out.println(Thread.currentThread().getId());
@@ -76,9 +79,10 @@ public class TestModel3 implements Publisher, Runnable{
    //
    //
    private void setUpThread(){
-      this.t0 = new Thread(this,"TestModel3:Publisher Only");
+      this.t0 = new Thread(this,"TestModel4:Publisher Only");
       this.t0.start();
    }
+
 
    ////////////////////////Publisher Interface////////////////////////
    //

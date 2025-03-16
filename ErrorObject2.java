@@ -22,35 +22,32 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
-public class ErrorObject{
+
+//Trying to fucking understand wait()/notify()...
+public class ErrorObject2{
    private int     errorValue;
-   private boolean isError = false;
+   private boolean transfer = true; //see what the fuck happens here
 
    ////////////////////////////Constructors///////////////////////////
    //
    //
    //
-   public ErrorObject(){}
+   public ErrorObject2(){}
 
    ///////////////////////////Public Methods//////////////////////////
    //
    //
    //
-   public int get(){
+   public int receive(){
       synchronized(this){
-         System.out.println("get():  lock obtained");
-         System.out.println(Thread.currentThread().getId());
-         while(!this.isError){
+         System.out.println("receive():  Lock Obtained");
+         while(this.transfer){
             try{
-               boolean hold = Thread.currentThread().holdsLock(this);
-               System.out.println(hold);
-               wait(); //Wait for an error
-               hold = Thread.currentThread().holdsLock(this);
-               System.out.println("get() post wait() hold: "+hold);
+               wait(); //Wait for a send
             }
             catch(InterruptedException ie){}
          }
-         this.isError = false;
+         this.transfer = true;
          try{
             notify();
          }
@@ -64,18 +61,17 @@ public class ErrorObject{
    //
    //
    //
-   public void set(int error){
+   public void send(int error){
       synchronized(this){
-         System.out.println("set():  lock obtained");
-         System.out.println(Thread.currentThread().getId());
-         while(this.isError){
+         System.out.println("send():  Lock Obtained");
+         while(!this.transfer){
             try{
-               wait(); //Wait if there is already an error
+               wait();
             }
             catch(InterruptedException ie){}
          }
          this.errorValue = error;
-         this.isError = true;
+         this.transfer   = false;
          try{
             notify();
          }
