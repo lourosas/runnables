@@ -37,22 +37,25 @@ public class ErrorObject{
    //
    //
    public int get(){
+      boolean hold = Thread.currentThread().holdsLock(this);
+      System.out.println("get() hold " + hold);
       synchronized(this){
          System.out.println("get():  lock obtained");
          System.out.println(Thread.currentThread().getId());
          while(!this.isError){
             try{
-               boolean hold = Thread.currentThread().holdsLock(this);
+               hold = Thread.currentThread().holdsLock(this);
                System.out.println(hold);
-               wait(); //Wait for an error
+               this.wait(); //Wait for an error
                hold = Thread.currentThread().holdsLock(this);
                System.out.println("get() post wait() hold: "+hold);
+               System.out.println(Thread.currentThread().getId());
             }
             catch(InterruptedException ie){}
          }
          this.isError = false;
          try{
-            notify();
+            this.notify();
          }
          catch(IllegalMonitorStateException e){
             e.printStackTrace();
@@ -65,24 +68,37 @@ public class ErrorObject{
    //
    //
    public void set(int error){
+      boolean hold = Thread.currentThread().holdsLock(this);
+      System.out.println("set() hold " + hold);
       synchronized(this){
          System.out.println("set():  lock obtained");
          System.out.println(Thread.currentThread().getId());
          while(this.isError){
             try{
-               wait(); //Wait if there is already an error
+               hold = Thread.currentThread().holdsLock(this);
+               System.out.println(hold);
+               this.wait(); //Wait if there is already an error
+               hold = Thread.currentThread().holdsLock(this);
+               System.out.println("set() post wait() hold: "+hold);
             }
             catch(InterruptedException ie){}
          }
          this.errorValue = error;
          this.isError = true;
          try{
-            notify();
+            this.notify();
+            hold = Thread.currentThread().holdsLock(this);
+            //See What happens...
+            System.out.println("set() hold post notify()" + hold);
+            System.out.println(Thread.currentThread().getId());
          }
          catch(IllegalMonitorStateException e){
             e.printStackTrace();
          }
       }
+      hold = Thread.currentThread().holdsLock(this);
+      System.out.println("set() hold " + hold);
+      System.out.println(Thread.currentThread().getId());
    }
 }
 //////////////////////////////////////////////////////////////////////
