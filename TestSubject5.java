@@ -124,7 +124,7 @@ public class TestSubject5 implements Publisher, Runnable{
    public void run(){
       try{
          while(true){
-            Thread.sleep(1000);
+            Thread.sleep(100);
             this.publishRandomNumber();
          }
       }
