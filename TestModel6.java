@@ -23,7 +23,7 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class TestModel6 implements Runnable{
-   Object o0 = null;
+   private Object o0 = null;
    ///////////////////////////Constructors////////////////////////////
    //
    //
