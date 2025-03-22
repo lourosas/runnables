@@ -27,6 +27,7 @@ public class TestSubject5 implements Publisher, Runnable{
    private Subscriber subscriber = null;
    private Random random         = null;
    private Object o              = null;
+   private int value             = -1;
 
    ////////////////////////////Constructors///////////////////////////
    //
@@ -58,6 +59,19 @@ public class TestSubject5 implements Publisher, Runnable{
       //}
    }
 
+   //
+   //
+   //
+   public void value(int val){
+      //synchronized(this.o){
+      this.value = val;
+      System.out.println("\nTestSubject5.value()");
+      System.out.println(Thread.currentThread().getName());
+      System.out.println(Thread.currentThread().getId());
+      System.out.println("Value = "+this.value+"\n");
+      //}
+   }
+
    //////////////////////////Private Methods//////////////////////////
    //
    //
@@ -85,6 +99,8 @@ public class TestSubject5 implements Publisher, Runnable{
    private void setUpThread(){
       this.t0 = new Thread(this,"TestSubject5:Publisher");
       this.t0.start();
+      System.out.print("TestSubject5: Thread Number = ");
+      System.out.println(this.t0.getId());
    }
 
    ////////////////////////Publisher Interface////////////////////////
@@ -122,13 +138,14 @@ public class TestSubject5 implements Publisher, Runnable{
    //
    //
    public void run(){
-      try{
+      //try{
          while(true){
-            Thread.sleep(100);
-            this.publishRandomNumber();
+            //Thread.sleep(100);
+            //this.publishRandomNumber();
+            this.value(3);
          }
-      }
-      catch(InterruptedException ie){}
+      //}
+      //catch(InterruptedException ie){}
    }
 }
 //////////////////////////////////////////////////////////////////////

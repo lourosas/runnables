@@ -46,13 +46,14 @@ public class TestModel5 implements Publisher, Subscriber, Runnable{
    //
    private void querySubject(){
       try{
-         //synchronized(this.o){
+         /*synchronized(this.o){
             System.out.println("\nTestModel5:In Thread");
             System.out.println(Thread.currentThread().getName());
             System.out.println(Thread.currentThread().getId());
             int data = this.ts.requestData();
             System.out.println("Returned = "+data+"\n");
-         //}
+         }*/
+         this.ts.value(15);
       }
       catch(NullPointerException npe){ npe.printStackTrace(); }
    }
@@ -63,6 +64,8 @@ public class TestModel5 implements Publisher, Subscriber, Runnable{
    private void setUpThread(){
       this.t0 = new Thread(this,"TestModel5:Publisher/Subscriber");
       this.t0.start();
+      System.out.print("TestModel5: Thread Number = ");
+      System.out.println(this.t0.getId());
    }
 
    ////////////////////////Publisher Interface////////////////////////
@@ -129,14 +132,14 @@ public class TestModel5 implements Publisher, Subscriber, Runnable{
    //
    //
    public void run(){
-      try{
+      //try{
          while(true){
             this.querySubject();
             //Make something weird to show "thread issues"
-            Thread.sleep(473);
+            //Thread.sleep(473);
          }
-      }
-      catch(InterruptedException ie){}
+      //}
+      //catch(InterruptedException ie){}
    }
 }
 //////////////////////////////////////////////////////////////////////
