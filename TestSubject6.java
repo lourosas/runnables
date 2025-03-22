@@ -22,5 +22,7 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 
-public class TestSubject6 implements Runnable{}
+public class TestSubject6 implements Runnable{
+
+}
 //////////////////////////////////////////////////////////////////////
