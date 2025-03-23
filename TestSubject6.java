@@ -25,6 +25,7 @@ import rosas.lou.runnables.*;
 public class TestSubject6 implements Runnable{
    private Random random = null;
    private Object o0     = null;
+   private boolean toRun = true;
    ////////////////////////////Constructors///////////////////////////
    //
    //
@@ -47,7 +48,24 @@ public class TestSubject6 implements Runnable{
    //
    //
    public int requestData(){
-      return -1;
+      int rand = -1;
+      synchronized(this.o0){
+         rand = this.random.nextInt(100);
+         System.out.println("\nTestSubject6");
+         System.out.println(Thread.currentThread().getName());
+         System.out.println(Thread.currentThread().getId());
+         System.out.println("Random = " + rand);
+      }
+      return rand;
+   }
+
+   //
+   //
+   //
+   public void stopRun(){
+      //No need to worry about a race condition--only one object from
+      //one Thread will call this...
+      this.toRun = false;
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -55,13 +73,32 @@ public class TestSubject6 implements Runnable{
    //
    //
    private long printItOut(long number){
-      return -1;
+      synchronized(this.o0){ //Baby step it
+         long numb = number;
+         //Baby Step development...
+         System.out.println("\nTestSubject6");
+         System.out.println(Thread.currentThread().getName());
+         System.out.println(Thread.currentThread().getId());
+         System.out.println("Number = " + numb);
+         return numb;
+      }
    }
 
    /////////////////////////Runnable Interface////////////////////////
    //
    //
    //
-   public void run(){}
+   public void run(){
+      try{
+         while(this.toRun){
+            synchronized(this.o0){
+               long n = Thread.currentThread().getId()%100;
+               System.out.println("ret = "+this.printItOut(n));
+            }
+            Thread.sleep(200);
+         }
+      }
+      catch(InterruptedException ie){}
+   }
 }
 //////////////////////////////////////////////////////////////////////

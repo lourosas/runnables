@@ -53,7 +53,7 @@ public class TestModel6 implements Runnable{
          System.out.println("\nTestModel6");
          System.out.println(Thread.currentThread().getName());
          System.out.println(Thread.currentThread().getId());
-         System.out.println("Number = "+number);
+         System.out.println("Number = "+numb);
          return numb;
       }
    }
@@ -74,6 +74,9 @@ public class TestModel6 implements Runnable{
                System.out.println("ret = " + this.printItOut(
                                  Thread.currentThread().getId()%100));
             }
+            //At first, keep it outside of the Monitor Lock...
+            int rand = this.ts.requestData();
+            System.out.println("rand = " + rand);
          }
       }
       catch(InterruptedException ie){}
