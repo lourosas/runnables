@@ -23,6 +23,45 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class TestSubject6 implements Runnable{
+   private Random random = null;
+   private Object o0     = null;
+   ////////////////////////////Constructors///////////////////////////
+   //
+   //
+   //
+   public TestSubject6(){
+      this(new Object());
+   }
 
+   //
+   //
+   //
+   public TestSubject6(Object o){
+      this.o0 = o;
+      //Get the random in here...
+      this.random = new Random();
+   }
+
+   ///////////////////////////Public Methods//////////////////////////
+   //
+   //
+   //
+   public int requestData(){
+      return -1;
+   }
+
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private long printItOut(long number){
+      return -1;
+   }
+
+   /////////////////////////Runnable Interface////////////////////////
+   //
+   //
+   //
+   public void run(){}
 }
 //////////////////////////////////////////////////////////////////////
