@@ -93,7 +93,7 @@ public class TestSubject6 implements Runnable{
          while(this.toRun){
             synchronized(this.o0){
                long n = Thread.currentThread().getId()%100;
-               System.out.println("ret = "+this.printItOut(n));
+               System.out.println("return = "+this.printItOut(n));
             }
             Thread.sleep(200);
          }
