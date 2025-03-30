@@ -23,6 +23,77 @@ import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 public class TestSubject7 implements Runnable{
+   private Object o0        = null;
+   private Random random    = null;
+   private ErrorListener el = null;
+   
+   ////////////////////////////Constructors///////////////////////////
+   //
+   //
+   //
+   public TestSubject7(){
+      this(new Object());
+   }
 
+   //
+   //
+   //
+   public TestSubject7(Object o){
+      this.o0     = o;
+      this.random = new Random();
+   }
+
+   //////////////////////////Public Methods///////////////////////////
+   //
+   //
+   //
+   public void addErrorListener(ErrorListener listener){
+      this.el = listener;
+   }
+
+   //
+   //
+   //
+   public int requestData(){
+      synchronized(this.o0){
+         System.out.println("\nTestSubject7:requestData()");
+         System.out.println(Thread.currentThread().getName());
+         System.out.println("Id: "+Thread.currentThread().getId());
+         return this.random.nextInt(500);
+      }
+   }
+   /////////////////////////Private Methods///////////////////////////
+   //
+   //
+   //
+   private void publishRandomNumber(){
+      synchronized(this.o0){
+         int ranNumber = this.random.nextInt(1000);
+         System.out.println("\nTestSubject7: In Thread");
+         System.out.println(Thread.currentThread().getName());
+         System.out.println("Id: "+Thread.currentThread().getId());
+         System.out.println("Number = " + ranNumber + "\n");
+         if(ranNumber == 3){
+            String error = new String("Error: "+ranNumber);
+            ErrorEvent e = new ErrorEvent(this, error);
+            this.el.errorOccurred(e);
+         }
+      }
+   }
+
+
+   ////////////////////////Runnable Interface/////////////////////////
+   //
+   //
+   //
+   public void run(){
+      try{
+         while(true){
+            this.publishRandomNumber();
+            Thread.sleep(100);
+         }
+      }
+      catch(InterruptedException ie){}
+   }
 }
 //////////////////////////////////////////////////////////////////////

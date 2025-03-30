@@ -23,6 +23,6 @@ import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 public interface ErrorListener{
-      public errorOccurred(ErrorEvent e);
+      public void errorOccurred(ErrorEvent e);
 }
 //////////////////////////////////////////////////////////////////////

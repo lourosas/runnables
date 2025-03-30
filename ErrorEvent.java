@@ -23,10 +23,8 @@ import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 public class ErrorEvent extends EventObject{
-   private Object source;
    private String event;
    {
-      source = null;
       event  = null;
    };
 
@@ -35,7 +33,7 @@ public class ErrorEvent extends EventObject{
    //
    //
    public ErrorEvent(Object source, String event){
-      this.source = source;
+      super(source);
       this.event  = event;
    }
 

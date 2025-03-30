@@ -39,27 +39,44 @@ public class TestModel7 implements Publisher, Runnable, ErrorListener{
    //
    public void setTestSubject(TestSubject7 subject){
       this.ts = subject;
+      this.ts.addErrorListener(this);
    }
 
    //////////////////////////Private Methods//////////////////////////
    //
    //
    //
-   private void printOutFromSubject(int value){
-      synchronized(this.o){}
+   private void printOutFromSubject(){
+      try{
+         synchronized(this.o0){
+            System.out.println("\nTestModel7:In Thread");
+            System.out.println(Thread.currentThread().getName());
+            System.out.println("Id: "+Thread.currentThread().getId());
+            int data = this.ts.requestData();
+            System.out.println("Returned = "+data+"\n");
+         }
+      }
+      catch(NullPointerException npe){}
    }
 
    //////////////////////ErrorListener Interface//////////////////////
    //
    //
    //
-   public void errorOccurrend(ErrorEvent e){}
+   public void errorOccurred(ErrorEvent e){
+      System.out.println("\nTestModel7:Error Alert");
+      System.out.println(Thread.currentThread().getName());
+      System.out.println("Id: "+Thread.currentThread().getId());
+      System.out.println(e);
+      System.out.println(e.getSource());
+      System.out.println(e.getEvent());
+   }
 
    ///////////////////////Publisher Interface/////////////////////////
    //
    //
    //
-   public void addSubscriber(Subscriber s){}
+   public void add(Subscriber s){}
 
    //
    //
@@ -81,8 +98,13 @@ public class TestModel7 implements Publisher, Runnable, ErrorListener{
    //
    //
    public void run(){
-      try{}
-      catch()
+      try{
+         while(true){
+            Thread.sleep(500);
+            this.printOutFromSubject();
+         }
+      }
+      catch(InterruptedException ie){}
    }
 }
 //////////////////////////////////////////////////////////////////////
