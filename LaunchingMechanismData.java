@@ -29,6 +29,7 @@ public interface LaunchingMechanismData{
    public double measuredWeight();
    public int model();
    public List<MechanismSupportData> supportData();
+   public String time();
    public double tolerance();
    String toString();
 }

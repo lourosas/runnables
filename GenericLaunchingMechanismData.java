@@ -28,6 +28,7 @@ implements LaunchingMechanismData{
    private boolean                    _isError;
    private double                     _measuredWeight;
    private int                        _model;
+   private String                     _time;
    private double                     _tolerance;
    private List<MechanismSupportData> _supportData;
 
@@ -38,6 +39,7 @@ implements LaunchingMechanismData{
       _measuredWeight   = Double.NaN;
       _model            = -1;
       _tolerance        = Double.NaN;
+      _time             = null;
       _supportData      = null;
    }
    
@@ -52,6 +54,7 @@ implements LaunchingMechanismData{
       boolean                   iserr,
       double                       mw,
       int                         mdl,
+      String                     time,
       double                      tol,
       List<MechanismSupportData> data
    ){
@@ -60,6 +63,7 @@ implements LaunchingMechanismData{
       this._isError        = iserr;
       this._measuredWeight =    mw;
       this._model          =   mdl;
+      this._time           =  time;
       this._tolerance      =   tol;
       this._supportData    =  data;
    }
@@ -105,6 +109,10 @@ implements LaunchingMechanismData{
    //
    public List<MechanismSupportData> supportData(){
       return this._supportData;
+   }
+
+   public String time(){
+      return this._time;
    }
 
    //

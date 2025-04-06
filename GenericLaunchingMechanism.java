@@ -31,6 +31,8 @@ Runnable{
 
    private String                 _error;
    private int                    _holds;
+   private boolean                _kill; //TBD to use correctly
+   private int                    _state;
    private boolean                _isError;
    private int                    _model;
    private List<MechanismSupport> _supports; //Keep them in a list
@@ -38,14 +40,18 @@ Runnable{
    private double                 _measuredWeight;
    //Weight read in from the init file
    private double                 _inputWeight;
+   private boolean                _start;
    private double                 _tolerance;
 
    {
       _error           = null;
       _holds           = -1;
+      _kill            = false;
       _isError         = false;
       _model           = -1;
       _supports        = null;
+      _start           = true;
+      _state           = PRELAUNCH;
       _measuredWeight  = Double.NaN;
       _inputWeight     = Double.NaN;
       _tolerance       = Double.NaN;
@@ -61,7 +67,7 @@ Runnable{
    //
    //
    //
-   private boolean isError(int state){
+   private boolean isError(){
       double  edge      = Double.NaN;
       double  ul        = Double.NaN;
       double  ll        = Double.NaN;
@@ -75,7 +81,7 @@ Runnable{
       //error or not?
       if(inputGood && measGood){
          //Account for the State to determine errors...
-         if(state==PRELAUNCH){
+         if(this._state==PRELAUNCH){
             edge = this._inputWeight * lim;
             if(this._inputWeight < 0.){
                edge = this._inputWeight * -lim;
@@ -86,11 +92,7 @@ Runnable{
                this._isError = true;
             }
             if(this._isError){
-               this._error += "\n";
-               this._error += "Launching Mechanism Measured Weight";
-               this._error += " Error";
-               this._error += "\nMeasured: " + this._measuredWeight;
-               this._error += "\nExpected: " + this._inputWeight;
+               this.setError("Measured Weight");
             }
          }
       }
@@ -154,6 +156,19 @@ Runnable{
       if(data.containsKey("empty_weight")){}
    }
 
+   //
+   //
+   //
+   private void setError(String errorType){
+      if(errorType.toUpperCase().contains("MEASURED")){
+         this._error += "\n";
+         this._error += "Launching Mechanism Measured Weight";
+         this._error += " Error";
+         this._error += "\nMeasured: " + this._measuredWeight;
+         this._error += "\nExpected: " + this._inputWeight;
+      }
+   }
+
    /////////Launching Mechanism Interface Implementation//////////////
    //
    //
@@ -194,6 +209,9 @@ Runnable{
    //
    //
    public LaunchingMechanismData monitorPrelaunch(){
+      this._state = PRELAUNCH;
+      //Per the design, this needs to chnage...
+      /*
       LaunchingMechanismData     data     = null;
       List<MechanismSupportData> mechData = null;
       mechData = new LinkedList<MechanismSupportData>();
@@ -211,6 +229,8 @@ Runnable{
                                                this._tolerance,
                                                mechData);
       return data;
+      */
+      return null;
    }
 
    //
@@ -231,6 +251,9 @@ Runnable{
    //
    //
    public LaunchingMechanismData monitorPostlaunch(){
+      //Once the Transition out of Launch State, no need to monitor
+      //the Launching Mechanism
+      this._start = false;
       return null;
    }
 
@@ -264,6 +287,34 @@ Runnable{
    //
    //
    //
-   public void run(){}
+   public void run(){
+      try{
+         while(true){
+            //TBD how to use this--if actually needed...
+            if(this._kill){
+               throw new InterruptedException();
+            } 
+            if(this._start){
+               this.measureWeight();
+               this.isError();
+               if(this._state == PRELAUNCH){
+                  Thread.sleep(100);
+               }
+               else if(this._state == IGNITION){
+                  Thread.sleep(10);
+               }
+               else if(this._state == LAUNCH){
+                  Thread.sleep(300);
+               }
+            }
+         }
+      }
+      catch(InterruptedException ie){}
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         System.exit();
+      }
+
+   }
 }
 //////////////////////////////////////////////////////////////////////

@@ -374,13 +374,29 @@ implements Runnable,Publisher,LaunchSimulator{
                //this.rocket.abort();-->TBD!!!
                throw new InterruptedException();
             }
-            Thread.sleep(100);
             if(this.start){
-               //Thread.sleep(50);
-               if(this.state() == PREL){
+               if(this.state() == INIT){
+                  md = this.launchingMechanism.monotorInitialization();
+                  //rd = this.rocket.monitorInitialization();
+                  //pd = this.payload.monitorInitializatoin();
+                  Thread.sleep(300);
+               }
+               else if(this.state() == PREL){
                   md = this.launchingMechanism.monitorPrelaunch();
                   rd = this.rocket.monitorPrelaunch();
                   pd = this.payload.monitorPrelaunch();
+                  if(this.prelaunchSubstate() == SET){
+                     Thread.sleep(300);
+                  }
+                  else if(this.prelaunchSubstate() == CONT){
+                     Thread.sleep(100);
+                  }
+                  else{
+                     //In the Hold State, monitor at a faster rate
+                     //Something may be wrong...
+                     Thread.sleep(50);
+                  }
+                  //Below is all temporary for the time being
                   if(++printCounter == 100){
                      //So far, just test prints
                      System.out.println("\n"+this.stateSubstate);
@@ -389,7 +405,15 @@ implements Runnable,Publisher,LaunchSimulator{
                      this.notify(null,md);
                   }
                }
+               else{
+                  //Default Monitoring Rate
+                  Thread.sleep(1000);
+               }
             }
+            //To be set up as part of development...
+            //this.notify(null,md);
+            //this.notify(null,rd);
+            //this.notify(null,pd);
          }
       }
       catch(InterruptedException ie){}
