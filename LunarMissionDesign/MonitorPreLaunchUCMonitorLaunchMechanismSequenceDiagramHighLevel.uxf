@@ -98,7 +98,7 @@ monitorPrelaunch():LaunchingMechanismData</panel_attributes>
     <coordinates>
       <x>510</x>
       <y>260</y>
-      <w>370</w>
+      <w>340</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -110,7 +110,7 @@ measuredWeight=measureWeight():double</panel_attributes>
     <coordinates>
       <x>510</x>
       <y>290</y>
-      <w>240</w>
+      <w>220</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -134,7 +134,7 @@ bg=red</panel_attributes>
     <coordinates>
       <x>510</x>
       <y>360</y>
-      <w>220</w>
+      <w>200</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -160,9 +160,10 @@ bg=red</panel_attributes>
       <x>510</x>
       <y>450</y>
       <w>310</w>
-      <h>40</h>
+      <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
+&lt;&lt;create&gt;&gt;
 ctor&lt;&gt;</panel_attributes>
     <additional_attributes>290.0;20.0;10.0;20.0</additional_attributes>
   </element>
