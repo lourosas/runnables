@@ -4,19 +4,19 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>160</x>
-      <y>90</y>
+      <x>90</x>
+      <y>80</y>
       <w>30</w>
-      <h>570</h>
+      <h>600</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;550.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;580.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>80</x>
-      <y>20</y>
+      <x>10</x>
+      <y>10</y>
       <w>190</w>
       <h>80</h>
     </coordinates>
@@ -31,10 +31,10 @@ bg=blue
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>40</x>
-      <y>120</y>
-      <w>1050</w>
-      <h>430</h>
+      <x>70</x>
+      <y>110</y>
+      <w>1530</w>
+      <h>520</h>
     </coordinates>
     <panel_attributes>loop(while(countdown &gt; 0))</panel_attributes>
     <additional_attributes/>
@@ -42,10 +42,10 @@ bg=blue
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>470</x>
-      <y>140</y>
-      <w>610</w>
-      <h>370</h>
+      <x>400</x>
+      <y>130</y>
+      <w>1160</w>
+      <h>470</h>
     </coordinates>
     <panel_attributes>par
 --
@@ -60,8 +60,8 @@ bg=blue
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>410</x>
-      <y>20</y>
+      <x>340</x>
+      <y>10</y>
       <w>230</w>
       <h>60</h>
     </coordinates>
@@ -73,19 +73,19 @@ bg=orange</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>510</x>
-      <y>70</y>
+      <x>440</x>
+      <y>60</y>
       <w>30</w>
-      <h>600</h>
+      <h>620</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;580.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;600.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>160</x>
-      <y>170</y>
+      <x>90</x>
+      <y>160</y>
       <w>380</w>
       <h>40</h>
     </coordinates>
@@ -96,9 +96,9 @@ monitorPrelaunch():LaunchingMechanismData</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>510</x>
-      <y>260</y>
-      <w>340</w>
+      <x>440</x>
+      <y>250</y>
+      <w>370</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -108,9 +108,9 @@ measuredWeight=measureWeight():double</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>510</x>
-      <y>290</y>
-      <w>220</w>
+      <x>440</x>
+      <y>280</y>
+      <w>240</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -118,34 +118,35 @@ isError=isError():boolean</panel_attributes>
     <additional_attributes>10.0;30.0;50.0;30.0;50.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
-    <id>UMLFrame</id>
+    <id>Relation</id>
     <coordinates>
-      <x>490</x>
-      <y>340</y>
-      <w>230</w>
-      <h>70</h>
+      <x>440</x>
+      <y>310</y>
+      <w>330</w>
+      <h>50</h>
     </coordinates>
-    <panel_attributes>if(isError==true)
-bg=red</panel_attributes>
-    <additional_attributes/>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+[isError==true]setError(error:String)</panel_attributes>
+    <additional_attributes>10.0;30.0;50.0;30.0;50.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>510</x>
-      <y>360</y>
-      <w>200</w>
+      <x>440</x>
+      <y>340</y>
+      <w>630</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-setError(error:String)</panel_attributes>
-    <additional_attributes>10.0;30.0;50.0;30.0;50.0;10.0;10.0;10.0</additional_attributes>
+&lt;&lt;create&gt;&gt;
+[isError==true]ErrorEvent(:SimpleLaunchingMechanism,error:String,time:String)</panel_attributes>
+    <additional_attributes>610.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>800</x>
-      <y>440</y>
+      <x>1300</x>
+      <y>480</y>
       <w>250</w>
       <h>50</h>
     </coordinates>
@@ -157,25 +158,133 @@ bg=red</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>510</x>
-      <y>450</y>
-      <w>310</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-&lt;&lt;create&gt;&gt;
-ctor&lt;&gt;</panel_attributes>
-    <additional_attributes>290.0;20.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>920</x>
-      <y>480</y>
+      <x>1420</x>
+      <y>520</y>
       <w>30</w>
       <h>80</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1050</x>
+      <y>340</y>
+      <w>110</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>_:ErrorEvent_
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1090</x>
+      <y>370</y>
+      <w>30</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>660</x>
+      <y>10</y>
+      <w>180</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;ErrorListener&gt;&gt;
+_:LaunchSimulatorZero_
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>740</x>
+      <y>60</y>
+      <w>30</w>
+      <h>610</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;590.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>380</y>
+      <w>330</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+[isError==true]errorOccurred(:ErrorEvent)</panel_attributes>
+    <additional_attributes>310.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>920</x>
+      <y>10</y>
+      <w>180</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;View&gt;&gt;
+&gt;&gt;Subscriber&gt;&gt;
+_:LaunchSimulatorView_
+bg=cyan</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1000</x>
+      <y>60</y>
+      <w>30</w>
+      <h>610</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;590.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>690</x>
+      <y>400</y>
+      <w>390</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+[isError==true]error(:RuntimeException,:ErrorEvent)</panel_attributes>
+    <additional_attributes>320.0;20.0;60.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>90</x>
+      <y>180</y>
+      <w>940</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+update(:LaunchingMechanismData)</panel_attributes>
+    <additional_attributes>920.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>470</y>
+      <w>880</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+&lt;&lt;create&gt;&gt;
+SimpleLaunchingMechanismData(:int,:int,:double,:double,:boolean:String,time:String,List&lt;MechanismSupportData&gt;)</panel_attributes>
+    <additional_attributes>860.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>
