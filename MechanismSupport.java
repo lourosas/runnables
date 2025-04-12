@@ -23,6 +23,7 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public interface MechanismSupport{
+   public void addErrorListener(ErrorListener e);
    public int id();
    public void initialize(String file);
    public MechanismSupportData monitorInitialization();

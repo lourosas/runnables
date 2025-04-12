@@ -26,7 +26,7 @@ import rosas.lou.clock.*;
 @Model
 */
 public class LaunchSimulatorZero
-implements Runnable,Publisher,LaunchSimulator{
+implements ErrorListener,Runnable,Publisher,LaunchSimulator{
    private LaunchSimulatorStateSubstate.State INIT             = null;
    private LaunchSimulatorStateSubstate.State PREL             = null;
    private LaunchSimulatorStateSubstate.State IGNI             = null;
@@ -143,6 +143,7 @@ implements Runnable,Publisher,LaunchSimulator{
          try{
             this.launchingMechanism = new GenericLaunchingMechanism();
             this.launchingMechanism.initialize(file);
+            this.launchingMechanism.addErrorListener(this);
             LaunchingMechanismData lm = null;
             lm = this.launchingMechanism.monitorInitialization();
             this.notify("Initialize",lm);
@@ -267,6 +268,14 @@ implements Runnable,Publisher,LaunchSimulator{
       return this.stateSubstate.state();
    }
 
+   ///////////////ErrorListener Interface Implementation//////////////
+   //
+   //
+   //
+   public void ErrorOccurred(ErrorEvent e){
+      this.error(e.getEvent(), e)
+   }
+
    ////////////LaunchSimulator Interface Implementation///////////////
    //
    //
@@ -379,22 +388,22 @@ implements Runnable,Publisher,LaunchSimulator{
                   md = this.launchingMechanism.monotorInitialization();
                   //rd = this.rocket.monitorInitialization();
                   //pd = this.payload.monitorInitializatoin();
-                  Thread.sleep(300);
+                  Thread.sleep(3000);
                }
                else if(this.state() == PREL){
                   md = this.launchingMechanism.monitorPrelaunch();
                   rd = this.rocket.monitorPrelaunch();
                   pd = this.payload.monitorPrelaunch();
                   if(this.prelaunchSubstate() == SET){
-                     Thread.sleep(300);
+                     Thread.sleep(3000);
                   }
                   else if(this.prelaunchSubstate() == CONT){
-                     Thread.sleep(100);
+                     Thread.sleep(1000);
                   }
                   else{
                      //In the Hold State, monitor at a faster rate
                      //Something may be wrong...
-                     Thread.sleep(50);
+                     Thread.sleep(500);
                   }
                   //Below is all temporary for the time being
                   if(++printCounter == 100){
@@ -407,7 +416,7 @@ implements Runnable,Publisher,LaunchSimulator{
                }
                else{
                   //Default Monitoring Rate
-                  Thread.sleep(1000);
+                  Thread.sleep(10000);
                }
             }
             //To be set up as part of development...
@@ -443,6 +452,7 @@ implements Runnable,Publisher,LaunchSimulator{
       }
       else{
          //TODO:  finish for here
+         this.subscriber.error(new RuntimeException(s), o);
       }
    }
 

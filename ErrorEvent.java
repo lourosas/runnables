@@ -24,15 +24,17 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 public class ErrorEvent extends EventObject{
    private String event;
+   private String time;
    {
-      event  = null;
+      event = null;
+      time  = null;
    };
 
    ////////////////////////////Constructors///////////////////////////
    //
    //
    //
-   public ErrorEvent(Object source, String event){
+   public ErrorEvent(Object source, String event, String time){
       super(source);
       this.event  = event;
    }
@@ -44,6 +46,23 @@ public class ErrorEvent extends EventObject{
    //
    public String getEvent(){
       return this.event;
+   }
+
+   //
+   //
+   //
+   public String getTime(){
+      return this.time;
+   }
+
+   //
+   //
+   //
+   public String toString(){
+      String returnString = new String(this.getSource());
+      returnString += ", "+this.getEvent();
+      returnString += ", "+this.getTime();
+      return returnString;
    }
 }
 //////////////////////////////////////////////////////////////////////

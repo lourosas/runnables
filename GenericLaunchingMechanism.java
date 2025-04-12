@@ -22,19 +22,25 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
+import java.text.*;
+import java.time.*;
+import java.time.format.*;
 
 public class GenericLaunchingMechanism implements LaunchingMechanism,
-Runnable{
+ErrorListener, Runnable{
    private static final int PRELAUNCH = -1; //All 0xF's...
    private static final int IGINTION  =  0;
    private static final int LAUNCH    =  1;
 
    private String                 _error;
+   private List<ErrorListener>    _errorListeners;
+   private String                 _errorTime;
    private int                    _holds;
    private boolean                _kill; //TBD to use correctly
    private int                    _state;
    private boolean                _isError;
    private int                    _model;
+   private LaunchingMechanismData _launchingMechanismData;
    private List<MechanismSupport> _supports; //Keep them in a list
    //This weight is to be calculated
    private double                 _measuredWeight;
@@ -44,17 +50,20 @@ Runnable{
    private double                 _tolerance;
 
    {
-      _error           = null;
-      _holds           = -1;
-      _kill            = false;
-      _isError         = false;
-      _model           = -1;
-      _supports        = null;
-      _start           = true;
-      _state           = PRELAUNCH;
-      _measuredWeight  = Double.NaN;
-      _inputWeight     = Double.NaN;
-      _tolerance       = Double.NaN;
+      _error                 = null;
+      _errorListeners        = null;
+      _errorTime             = null;
+      _holds                 = -1;
+      _kill                  = false;
+      _isError               = false;
+      _lanchingMechanismData = null;
+      _model                 = -1;
+      _supports              = null;
+      _start                 = true;
+      _state                 = PRELAUNCH;
+      _measuredWeight        = Double.NaN;
+      _inputWeight           = Double.NaN;
+      _tolerance             = Double.NaN;
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -67,21 +76,20 @@ Runnable{
    //
    //
    //
-   private boolean isError(){
+   private void isError(){
       double  edge      = Double.NaN;
       double  ul        = Double.NaN;
       double  ll        = Double.NaN;
       double  lim       = 1.- this._tolerance;
       boolean inputGood = (this._inputWeight    != Double.NaN);
       boolean measGood  = (this._measuredWeight != Double.NaN);
-      this._error       = new String();
       this._isError     = false;
 
       //TODO What happens if a Measurement is not good? Indicate an
       //error or not?
       if(inputGood && measGood){
          //Account for the State to determine errors...
-         if(this._state==PRELAUNCH){
+         if(this._state == PRELAUNCH){
             edge = this._inputWeight * lim;
             if(this._inputWeight < 0.){
                edge = this._inputWeight * -lim;
@@ -92,11 +100,10 @@ Runnable{
                this._isError = true;
             }
             if(this._isError){
-               this.setError("Measured Weight");
+               this.setError("Measured Weight",LocalDateTime.now());
             }
          }
       }
-      return this._isError;
    }
 
    //Measure the weight of the rocket based in terms of this
@@ -159,7 +166,12 @@ Runnable{
    //
    //
    //
-   private void setError(String errorType){
+   private void setError(String errorType, LocalDateTime dt){
+      this._error     = new String();
+      this._errorTime = new String();      
+      DateTimeFormatter dtf = null;
+      dtf = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
+      this._errorTime = dt.formate(dtf);
       if(errorType.toUpperCase().contains("MEASURED")){
          this._error += "\n";
          this._error += "Launching Mechanism Measured Weight";
@@ -167,9 +179,44 @@ Runnable{
          this._error += "\nMeasured: " + this._measuredWeight;
          this._error += "\nExpected: " + this._inputWeight;
       }
+      //Alert the ErrorListeners
+      ErrorEvent e = new ErrorEvent(this,this._error,this._errorTime);
+      try{
+         Iterator<ErrorListener> it = this._errorListeners.iterator();
+         while(it.hasNext()){
+            //Alert all the Listeners
+            it.next().errorOccurred(e);
+         }
+      }
+      catch(NullPointerException npe){
+         //Shold NEVER get here!!!
+         npe.printStackTrace();
+      }
+   }
+
+   ///////////////ErrorListener Interface Implementation//////////////
+   //
+   //
+   //
+   public void ErrorOccured(ErrorEvent e){
+      //Throw it up to the ErrorListeners...
+      //As well as handle it in this Object as needed...
    }
 
    /////////Launching Mechanism Interface Implementation//////////////
+   //
+   //
+   //
+   public void addErrorListener(ErrorListener e){
+      try{
+         this._errorListeners.add(e);
+      }
+      catch(NullPointerException npe){
+         this._errorListeners = new LinkedList<ErrorListener>();
+         this._errorListeners.add(e);
+      }
+   }
+
    //
    //
    //
@@ -188,6 +235,7 @@ Runnable{
          MechanismSupport support = null;
          support = new GenericMechanismSupport(i);
          support.initialize(file);
+         support.addErrorListener(this);
          try{
             this._supports.add(support);
          }
@@ -210,27 +258,7 @@ Runnable{
    //
    public LaunchingMechanismData monitorPrelaunch(){
       this._state = PRELAUNCH;
-      //Per the design, this needs to chnage...
-      /*
-      LaunchingMechanismData     data     = null;
-      List<MechanismSupportData> mechData = null;
-      mechData = new LinkedList<MechanismSupportData>();
-      for(int i = 0; i < this._supports.size(); ++i){
-         MechanismSupport support = this._supports.get(i);
-         mechData.add(support.monitorPrelaunch());
-      }
-      this.measureWeight();
-      this.isError(PRELAUNCH);
-      data = new GenericLaunchingMechanismData(this._error,
-                                               this._holds,
-                                               this._isError,
-                                               this._measuredWeight,
-                                               this._model,
-                                               this._tolerance,
-                                               mechData);
-      return data;
-      */
-      return null;
+      return this._launchingMechanismData;
    }
 
    //
@@ -280,6 +308,10 @@ Runnable{
          string += "\n" + this._supports.get(i).toString();
       }
       string += "\n" + this._tolerance;
+      if(this._isError){
+         string += "\nHas Error: "+this._isError;
+         string += "\n"+this._error;
+      }
       return string;
    }
 
@@ -295,17 +327,35 @@ Runnable{
                throw new InterruptedException();
             } 
             if(this._start){
+               //Will need to check the the Supports at this
+               //point...
+               List<MechanismSupportData> md = null;
+               md = new LinkedList<MechanismSupportData>();
+               for(int i = 0; i < this._supports.size(); ++i){
+                  MechanimsSupport sup = this._supports.get(i);
+                  if(this._state == PRELAUNCH){
+                     Thread.sleep(100);
+                     md.add(sup.monitorPrelaunch());
+                  }
+                  else if(this._state == IGNITION){
+                     Thread.sleep(10);
+                  }
+                  else if(this._state == LAUNCH){
+                     Thread.sleep(300);
+                  }
+               }
                this.measureWeight();
                this.isError();
-               if(this._state == PRELAUNCH){
-                  Thread.sleep(100);
-               }
-               else if(this._state == IGNITION){
-                  Thread.sleep(10);
-               }
-               else if(this._state == LAUNCH){
-                  Thread.sleep(300);
-               }
+               LaunchingMechanismData data = null;
+               data = new GenericLaunchingMechanismData(
+                                                  this._error,
+                                                  this._holds,
+                                                  this._isError,
+                                                  this._measuredWeight,
+                                                  this._model,
+                                                  this._tolerance,
+                                                  md);
+               this._launchingMechanismData = data;
             }
          }
       }

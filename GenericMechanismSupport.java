@@ -27,21 +27,23 @@ public class GenericMechanismSupport implements MechanismSupport{
    private static final int IGNITION  =  0;
    private static final int LAUNCH    =  1;
 
-   private double         _angle; //In Radians!!!
-   private double         _measuredAngle; //In Radians
-   private int            _id;
+   private double              _angle; //In Radians!!!
+   private List<ErrorListener> _errorListeners;
+   private double              _measuredAngle; //In Radians
+   private int                 _id;
    //What to measure periodically
-   private double         _measuredForce;
+   private double              _measuredForce;
    //Depends on the number of holds
-   private double         _armForce;
-   private String         _error;
-   private boolean        _isError;
-   private double         _tolerance;
-   private ForceVector    _measuredVector;
-   private ForceVector    _vector;
+   private double              _armForce;
+   private String              _error;
+   private boolean             _isError;
+   private double              _tolerance;
+   private ForceVector         _measuredVector;
+   private ForceVector         _vector;
 
    {
       _angle            = Double.NaN;
+      _errorListeners   = null;
       _measuredAngle    = Double.NaN;
       _id               = -1;
       _armForce         = Double.NaN;
@@ -316,6 +318,19 @@ public class GenericMechanismSupport implements MechanismSupport{
    }
 
    //////////////MechanismSupport Interface Implementation////////////
+   //
+   //
+   //
+   public void addErrorListener(ErrorListener e){
+      try{
+         this._errorListeners.add(e);
+      }
+      catch(NullPointerException npe){
+         this._errorListeners = new LinkedList<ErrorListener>();
+         this._errorListeners.add(e);
+      }
+   }
+
    //
    //
    //
