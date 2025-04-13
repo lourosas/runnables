@@ -272,8 +272,8 @@ implements ErrorListener,Runnable,Publisher,LaunchSimulator{
    //
    //
    //
-   public void ErrorOccurred(ErrorEvent e){
-      this.error(e.getEvent(), e)
+   public void errorOccurred(ErrorEvent e){
+      this.error(e.getEvent(), e);
    }
 
    ////////////LaunchSimulator Interface Implementation///////////////
@@ -326,6 +326,7 @@ implements ErrorListener,Runnable,Publisher,LaunchSimulator{
          String s = new String("State: "+state);
          s += " Prelaunch: " + null;
          this.notify(s, this.stateSubstate);
+         this.start = true;
       }
       catch(IOException ioe){}
    }
@@ -383,17 +384,20 @@ implements ErrorListener,Runnable,Publisher,LaunchSimulator{
                //this.rocket.abort();-->TBD!!!
                throw new InterruptedException();
             }
-            if(this.start){
+            if(!this.start){
+               Thread.sleep(1);
+            }
+            else{
                if(this.state() == INIT){
-                  md = this.launchingMechanism.monotorInitialization();
+                  md = this.launchingMechanism.monitorInitialization();
                   //rd = this.rocket.monitorInitialization();
                   //pd = this.payload.monitorInitializatoin();
                   Thread.sleep(3000);
                }
                else if(this.state() == PREL){
                   md = this.launchingMechanism.monitorPrelaunch();
-                  rd = this.rocket.monitorPrelaunch();
-                  pd = this.payload.monitorPrelaunch();
+                  //rd = this.rocket.monitorPrelaunch();
+                  //pd = this.payload.monitorPrelaunch();
                   if(this.prelaunchSubstate() == SET){
                      Thread.sleep(3000);
                   }
@@ -404,14 +408,6 @@ implements ErrorListener,Runnable,Publisher,LaunchSimulator{
                      //In the Hold State, monitor at a faster rate
                      //Something may be wrong...
                      Thread.sleep(500);
-                  }
-                  //Below is all temporary for the time being
-                  if(++printCounter == 100){
-                     //So far, just test prints
-                     System.out.println("\n"+this.stateSubstate);
-                     printCounter = 0;
-                     //Test this at the moment...
-                     this.notify(null,md);
                   }
                }
                else{

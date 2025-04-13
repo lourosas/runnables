@@ -48,6 +48,7 @@ ErrorListener, Runnable{
    private double                 _inputWeight;
    private boolean                _start;
    private double                 _tolerance;
+   private Thread                 _rt0;
 
    {
       _error                 = null;
@@ -56,7 +57,7 @@ ErrorListener, Runnable{
       _holds                 = -1;
       _kill                  = false;
       _isError               = false;
-      _lanchingMechanismData = null;
+      _launchingMechanismData = null;
       _model                 = -1;
       _supports              = null;
       _start                 = true;
@@ -70,7 +71,9 @@ ErrorListener, Runnable{
    //
    //
    //
-   public GenericLaunchingMechanism(){}
+   public GenericLaunchingMechanism(){
+      this.setUpThread();
+   }
 
    /////////////////////////Private Methods///////////////////////////
    //
@@ -171,7 +174,7 @@ ErrorListener, Runnable{
       this._errorTime = new String();      
       DateTimeFormatter dtf = null;
       dtf = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
-      this._errorTime = dt.formate(dtf);
+      this._errorTime = dt.format(dtf);
       if(errorType.toUpperCase().contains("MEASURED")){
          this._error += "\n";
          this._error += "Launching Mechanism Measured Weight";
@@ -194,11 +197,19 @@ ErrorListener, Runnable{
       }
    }
 
+   //
+   //
+   //
+   private void setUpThread(){
+      this._rt0 = new Thread(this, "Launching Mechanism");
+      this._rt0.start();
+   }
+
    ///////////////ErrorListener Interface Implementation//////////////
    //
    //
    //
-   public void ErrorOccured(ErrorEvent e){
+   public void errorOccurred(ErrorEvent e){
       //Throw it up to the ErrorListeners...
       //As well as handle it in this Object as needed...
    }
@@ -327,8 +338,13 @@ ErrorListener, Runnable{
                throw new InterruptedException();
             } 
             if(this._start){
+               //Debug Initial prints
+               Thread.sleep(1000);
+               System.out.println(Thread.currentThread().getName());
+               System.out.println(Thread.currentThread().getId());
                //Will need to check the the Supports at this
                //point...
+               /*
                List<MechanismSupportData> md = null;
                md = new LinkedList<MechanismSupportData>();
                for(int i = 0; i < this._supports.size(); ++i){
@@ -356,13 +372,14 @@ ErrorListener, Runnable{
                                                   this._tolerance,
                                                   md);
                this._launchingMechanismData = data;
+               */
             }
          }
       }
       catch(InterruptedException ie){}
       catch(NullPointerException npe){
          npe.printStackTrace();
-         System.exit();
+         System.exit(0);
       }
 
    }
