@@ -369,67 +369,7 @@ implements ErrorListener,Runnable,Publisher,LaunchSimulator{
       }
    }
 
-   ////////////////Runnable Interface Implementation//////////////////
-   //
-   //
-   //
-   public void run(){
-      int printCounter          = 0;
-      LaunchingMechanismData md = null;
-      RocketData rd             = null;
-      PayloadData pd            = null;
-      try{
-         while(true){
-            if(this.kill){
-               //this.rocket.abort();-->TBD!!!
-               throw new InterruptedException();
-            }
-            if(!this.start){
-               Thread.sleep(1);
-            }
-            else{
-               if(this.state() == INIT){
-                  md = this.launchingMechanism.monitorInitialization();
-                  //rd = this.rocket.monitorInitialization();
-                  //pd = this.payload.monitorInitializatoin();
-                  Thread.sleep(3000);
-               }
-               else if(this.state() == PREL){
-                  md = this.launchingMechanism.monitorPrelaunch();
-                  //rd = this.rocket.monitorPrelaunch();
-                  //pd = this.payload.monitorPrelaunch();
-                  if(this.prelaunchSubstate() == SET){
-                     Thread.sleep(3000);
-                  }
-                  else if(this.prelaunchSubstate() == CONT){
-                     Thread.sleep(1000);
-                  }
-                  else{
-                     //In the Hold State, monitor at a faster rate
-                     //Something may be wrong...
-                     Thread.sleep(500);
-                  }
-               }
-               else{
-                  //Default Monitoring Rate
-                  Thread.sleep(10000);
-               }
-            }
-            //To be set up as part of development...
-            //this.notify(null,md);
-            //this.notify(null,rd);
-            //this.notify(null,pd);
-         }
-      }
-      catch(InterruptedException ie){}
-      //Do NOT want this!  And, print this!!
-      catch(NullPointerException npe){
-         //If we get here, we are in trouble and need to kill the
-         //application
-         npe.printStackTrace();
-         System.exit(0);
-      }
-   }
+
 
    //////////////////////Publisher Interface//////////////////////////
    //
@@ -506,5 +446,66 @@ implements ErrorListener,Runnable,Publisher,LaunchSimulator{
    //
    //
    public void remove(Subscriber s){}
+   ////////////////Runnable Interface Implementation//////////////////
+   //
+   //
+   //
+   public void run(){
+      int printCounter          = 0;
+      LaunchingMechanismData md = null;
+      RocketData rd             = null;
+      PayloadData pd            = null;
+      try{
+         while(true){
+            if(this.kill){
+               //this.rocket.abort();-->TBD!!!
+               throw new InterruptedException();
+            }
+            if(!this.start){
+               Thread.sleep(1);
+            }
+            else{
+               if(this.state() == INIT){
+                  md =this.launchingMechanism.monitorInitialization();
+                  //rd = this.rocket.monitorInitialization();
+                  //pd = this.payload.monitorInitializatoin();
+                  Thread.sleep(3000);
+               }
+               else if(this.state() == PREL){
+                  md = this.launchingMechanism.monitorPrelaunch();
+                  //rd = this.rocket.monitorPrelaunch();
+                  //pd = this.payload.monitorPrelaunch();
+                  if(this.prelaunchSubstate() == SET){
+                     Thread.sleep(3000);
+                  }
+                  else if(this.prelaunchSubstate() == CONT){
+                     Thread.sleep(1000);
+                  }
+                  else{
+                     //In the Hold State, monitor at a faster rate
+                     //Something may be wrong...
+                     Thread.sleep(500);
+                  }
+               }
+               else{
+                  //Default Monitoring Rate
+                  Thread.sleep(10000);
+               }
+            }
+            //To be set up as part of development...
+            //this.notify(null,md);
+            //this.notify(null,rd);
+            //this.notify(null,pd);
+         }
+      }
+      catch(InterruptedException ie){}
+      //Do NOT want this!  And, print this!!
+      catch(NullPointerException npe){
+         //If we get here, we are in trouble and need to kill the
+         //application
+         npe.printStackTrace();
+         System.exit(0);
+      }
+   }
 }
 //////////////////////////////////////////////////////////////////////

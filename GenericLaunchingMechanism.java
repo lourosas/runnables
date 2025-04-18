@@ -40,6 +40,7 @@ ErrorListener, Runnable{
    private int                    _state;
    private boolean                _isError;
    private int                    _model;
+   private LaunchMechanismSimulator _sim;
    private LaunchingMechanismData _launchingMechanismData;
    private List<MechanismSupport> _supports; //Keep them in a list
    //This weight is to be calculated
@@ -49,7 +50,6 @@ ErrorListener, Runnable{
    private boolean                _start;
    private double                 _tolerance;
    private Thread                 _rt0;
-
    {
       _error                 = null;
       _errorListeners        = null;
@@ -59,6 +59,7 @@ ErrorListener, Runnable{
       _isError               = false;
       _launchingMechanismData = null;
       _model                 = -1;
+      _sim                   = null;
       _supports              = null;
       _start                 = true;
       _state                 = PRELAUNCH;
@@ -91,6 +92,7 @@ ErrorListener, Runnable{
       //TODO What happens if a Measurement is not good? Indicate an
       //error or not?
       if(inputGood && measGood){
+         System.out.println(this._measuredWeight);
          //Account for the State to determine errors...
          if(this._state == PRELAUNCH){
             edge = this._inputWeight * lim;
@@ -101,8 +103,6 @@ ErrorListener, Runnable{
             ul = this._inputWeight + edge;
             if(this._measuredWeight<ll || this._measuredWeight>ul){
                this._isError = true;
-            }
-            if(this._isError){
                this.setError("Measured Weight",LocalDateTime.now());
             }
          }
@@ -113,10 +113,8 @@ ErrorListener, Runnable{
    //Mechanism...will evolve...
    //
    private void measureWeight(){
-      //Make this more complex, based on release...for now, just get
-      //something working...
-      //_inputWeight IS the Rocket Weight!
-      this._measuredWeight = this._inputWeight;
+      //Set up a simple "simulation"
+      this._measuredWeight = this._sim.weight();
    }
 
    //Sets up/saves the mechanism data for the System
@@ -241,6 +239,9 @@ ErrorListener, Runnable{
          this.rocketData(ht);
          ht = read.readLaunchingMechanismInfo();
          this.mechanismData(ht);
+         //May need to come up with a better way to do this!!!
+         this._sim = new LaunchMechanismSimulator();
+         this._sim.initialize(file);
       }
       for(int i = 0; i < this._holds; ++i){
          MechanismSupport support = null;
@@ -360,8 +361,10 @@ ErrorListener, Runnable{
                      Thread.sleep(300);
                   }
                }
+               */
                this.measureWeight();
                this.isError();
+               /*
                LaunchingMechanismData data = null;
                data = new GenericLaunchingMechanismData(
                                                   this._error,
