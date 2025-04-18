@@ -425,10 +425,11 @@ r2=-List&lt;Subcriber&gt;
       <x>290</x>
       <y>620</y>
       <w>360</w>
-      <h>190</h>
+      <h>200</h>
     </coordinates>
     <panel_attributes>LaunchingMechanism
 --
++addErrorListener(e:ErrorListener)
 +initialize(file:String)
 +monitorPrelaunch():LaunchingMechanismData
 +monitorIgnition():LaunchingMechanismData
@@ -445,10 +446,11 @@ bg=pink</panel_attributes>
       <x>290</x>
       <y>1270</y>
       <w>340</w>
-      <h>170</h>
+      <h>190</h>
     </coordinates>
     <panel_attributes>MechanismSupport
 --
++addErrorListener(e:ErrorListener)
 +id():int
 +initialize(file:String)
 +monitorPrelaunch():MechanismSupportData

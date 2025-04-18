@@ -31,9 +31,9 @@ bg=blue
   <element>
     <id>UMLGeneric</id>
     <coordinates>
-      <x>310</x>
+      <x>300</x>
       <y>20</y>
-      <w>190</w>
+      <w>230</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>&lt;&lt;LaunchingMechanism&gt;&gt;
@@ -81,14 +81,14 @@ bg=orange</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>130</x>
+      <x>110</x>
       <y>150</y>
-      <w>310</w>
+      <w>350</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 monitorPrelaunch():LaunchingMechanismData</panel_attributes>
-    <additional_attributes>280.0;20.0;20.0;20.0</additional_attributes>
+    <additional_attributes>300.0;20.0;40.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
@@ -178,7 +178,7 @@ bg=yellow</panel_attributes>
     <coordinates>
       <x>400</x>
       <y>740</y>
-      <w>340</w>
+      <w>370</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -190,7 +190,7 @@ measuredWeight=measureWeight():double</panel_attributes>
     <coordinates>
       <x>400</x>
       <y>770</y>
-      <w>220</w>
+      <w>240</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -202,7 +202,7 @@ isError=isError():boolean</panel_attributes>
     <coordinates>
       <x>400</x>
       <y>800</y>
-      <w>290</w>
+      <w>330</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -224,15 +224,15 @@ bg=red</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>400</x>
+      <x>390</x>
       <y>830</y>
-      <w>510</w>
+      <w>530</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 &lt;&lt;create&gt;&gt;
 [isError==true]ErrorEvent(:LaunchingMechanism,error:String,time:String)</panel_attributes>
-    <additional_attributes>490.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>500.0;20.0;20.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -320,15 +320,15 @@ bg=red</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>370</x>
+      <x>320</x>
       <y>920</y>
-      <w>760</w>
+      <w>860</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 &lt;&lt;create&gt;&gt;
 SimpleLaunchingMechanismData(:int,:int,:double,:double,:booleean,:String,time:String,List&lt;MechanismSupportData&gt;)</panel_attributes>
-    <additional_attributes>710.0;20.0;40.0;20.0</additional_attributes>
+    <additional_attributes>760.0;20.0;90.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLFrame</id>
@@ -348,21 +348,21 @@ SimpleLaunchingMechanismData(:int,:int,:double,:double,:booleean,:String,time:St
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>400</x>
+      <x>380</x>
       <y>260</y>
-      <w>290</w>
+      <w>330</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 monitorPrelaunch():MechanismSupportData</panel_attributes>
-    <additional_attributes>270.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>290.0;20.0;30.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>660</x>
       <y>310</y>
-      <w>120</w>
+      <w>130</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -374,7 +374,7 @@ measure()</panel_attributes>
     <coordinates>
       <x>660</x>
       <y>340</y>
-      <w>260</w>
+      <w>290</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -386,7 +386,7 @@ weight=measureWeight():double</panel_attributes>
     <coordinates>
       <x>660</x>
       <y>370</y>
-      <w>270</w>
+      <w>300</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -398,7 +398,7 @@ armFource=measureArm():double</panel_attributes>
     <coordinates>
       <x>660</x>
       <y>400</y>
-      <w>250</w>
+      <w>270</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
@@ -410,11 +410,11 @@ angle=measureAngle():double</panel_attributes>
     <coordinates>
       <x>660</x>
       <y>430</y>
-      <w>370</w>
+      <w>400</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-forceVeector=measureForceVector():ForceVector</panel_attributes>
+forceVector=measureForceVector():ForceVector</panel_attributes>
     <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -422,11 +422,11 @@ forceVeector=measureForceVector():ForceVector</panel_attributes>
     <coordinates>
       <x>660</x>
       <y>460</y>
-      <w>340</w>
+      <w>380</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-[*all Measurements]isError=isError():boolean</panel_attributes>
+[*all measurements]isError=isError():boolean</panel_attributes>
     <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -434,11 +434,11 @@ forceVeector=measureForceVector():ForceVector</panel_attributes>
     <coordinates>
       <x>660</x>
       <y>490</y>
-      <w>400</w>
+      <w>460</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
-[*all Measurements][isError==true]setError(error:String)</panel_attributes>
+[*all measurements][isError==true]setError(error:String)</panel_attributes>
     <additional_attributes>10.0;30.0;40.0;30.0;40.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -502,15 +502,15 @@ bg=red</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>660</x>
+      <x>650</x>
       <y>520</y>
-      <w>510</w>
+      <w>530</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 &lt;&lt;create&gt;&gt;
 [isError==true]ErrorEvent(:MechanismSupport,error:String,time:String)</panel_attributes>
-    <additional_attributes>490.0;20.0;10.0;20.0</additional_attributes>
+    <additional_attributes>500.0;20.0;20.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -527,14 +527,14 @@ bg=red</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>860</x>
+      <x>840</x>
       <y>580</y>
-      <w>280</w>
+      <w>320</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 [isError==true]errorOccurred(:ErrorEvent)</panel_attributes>
-    <additional_attributes>20.0;20.0;250.0;20.0</additional_attributes>
+    <additional_attributes>40.0;20.0;270.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
