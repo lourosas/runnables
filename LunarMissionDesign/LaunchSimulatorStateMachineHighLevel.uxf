@@ -1,0 +1,22 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><help_text></help_text><element><id>UMLState</id><coordinates><x>290</x><y>130</y><w>90</w><h>50</h></coordinates><panel_attributes>Initialize
+bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLSpecialState</id><coordinates><x>320</x><y>30</y><w>20</w><h>20</h></coordinates><panel_attributes>type=initial</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>40</y><w>310</w><h>110</h></coordinates><panel_attributes>lt=-&gt;
+[INI File OR JSON File exits AND Read w/no errors]</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>UMLState</id><coordinates><x>280</x><y>250</y><w>120</w><h>60</h></coordinates><panel_attributes>Pre-Launch
+symbol=substate
+bg=magenta</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>170</y><w>250</w><h>100</h></coordinates><panel_attributes>lt=-&gt;
+[Countdown&gt;=01:00:00]/Set Pre-Launch
+</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>UMLState</id><coordinates><x>280</x><y>390</y><w>120</w><h>60</h></coordinates><panel_attributes>Ignition
+symbol=substate
+bg=green</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>300</y><w>250</w><h>110</h></coordinates><panel_attributes>lt=-&gt;
+[Countdown&gt;=01:00:00]/Set Pre-Launch
+</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>UMLState</id><coordinates><x>280</x><y>510</y><w>120</w><h>60</h></coordinates><panel_attributes>Launch/Liftoff
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>440</y><w>180</w><h>90</h></coordinates><panel_attributes>lt=-&gt;
+[force==adequate]/Release</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>UMLState</id><coordinates><x>280</x><y>630</y><w>120</w><h>60</h></coordinates><panel_attributes>Ascent
+symbol=substate
+bg=cyan</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>560</y><w>280</w><h>90</h></coordinates><panel_attributes>lt=-&gt;
+[Rocket Height &gt; Tower Height]/Clear Tower</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>680</y><w>530</w><h>160</h></coordinates><panel_attributes>lt=-&gt;
+[Current Stage == TOTALSTAGES &amp;&amp; Rocket Altitude == Release Altitude]/Release Capsule</panel_attributes><additional_attributes>10;10;10;140</additional_attributes></element><element><id>UMLSpecialState</id><coordinates><x>790</x><y>460</y><w>20</w><h>20</h></coordinates><panel_attributes>type=termination</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>260</y><w>430</w><h>220</h></coordinates><panel_attributes>lt=-&gt;
+/Abort</panel_attributes><additional_attributes>10;20;410;20;410;200</additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>380</y><w>420</w><h>110</h></coordinates><panel_attributes>lt=-&gt;
+/Abort</panel_attributes><additional_attributes>10;20;360;20;360;90;400;90</additional_attributes></element><element><id>Relation</id><coordinates><x>150</x><y>480</y><w>160</w><h>80</h></coordinates><panel_attributes>lt=-&gt;
+[Data Good]/Measure</panel_attributes><additional_attributes>140;30;140;10;10;10;10;60;130;60</additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>460</y><w>420</w><h>100</h></coordinates><panel_attributes>lt=-&gt;
+/Abort</panel_attributes><additional_attributes>10;80;360;80;360;10;400;10</additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>470</y><w>430</w><h>190</h></coordinates><panel_attributes>lt=-&gt;
+/Abort</panel_attributes><additional_attributes>10;170;410;170;410;10</additional_attributes></element><element><id>UMLSpecialState</id><coordinates><x>320</x><y>820</y><w>20</w><h>20</h></coordinates><panel_attributes>type=final</panel_attributes><additional_attributes></additional_attributes></element></diagram>
