@@ -51,6 +51,7 @@ implements ErrorListener,Runnable,Publisher,LaunchSimulator{
    private Thread             rt0;
    private boolean            start;
    private boolean            kill;
+   private DataFeeder         rocketDataFeeder;
 
    {
       INIT = LaunchSimulatorStateSubstate.State.INITIALIZE;
@@ -76,6 +77,7 @@ implements ErrorListener,Runnable,Publisher,LaunchSimulator{
       rt0                = null;
       start              = false;
       kill               = false;
+      rocketDataFeeder   = null;
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -144,6 +146,8 @@ implements ErrorListener,Runnable,Publisher,LaunchSimulator{
             this.launchingMechanism = new GenericLaunchingMechanism();
             this.launchingMechanism.initialize(file);
             this.launchingMechanism.addErrorListener(this);
+            RocketDataFeeder feeder = this.rockedDataFeeder;
+            this.launchingMechanism.setDataFeeder(feeder);
             LaunchingMechanismData lm = null;
             lm = this.launchingMechanism.monitorInitialization();
             this.notify("Initialize",lm);
@@ -182,6 +186,7 @@ implements ErrorListener,Runnable,Publisher,LaunchSimulator{
          try{
             this.rocket = new GenericRocket();
             this.rocket.initialize(file);
+            this.rocket.setDataFeeder(this.rocketDataFeeder);
             RocketData rd = null;
             rd = this.rocket.monitorInitialization();
             this.notify("Initialize", rd);
@@ -317,6 +322,8 @@ implements ErrorListener,Runnable,Publisher,LaunchSimulator{
          this.initializeRocket(file);
          this.initializeLaunchingMechanism(file);
          this.initializePayload(file);
+         this.rocketDataFeeder = new RocketDataFeeder();
+         this.rocketDataFeeder.initialize(file);
          //now, need to set the State, Substate...
          LaunchSimulatorStateSubstate.State state = INIT;
          this.stateSubstate = new LaunchSimulatorStateSubstate(state,

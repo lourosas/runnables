@@ -33,6 +33,7 @@ public interface Rocket extends Runnable{
    public RocketData monitorIgnition();
    public RocketData monitorLaunch();
    public RocketData monitorPostlaunch();
+   public void       setDataFeeder(DataFeeder feeder);
    //public int  stages();
 }
 //////////////////////////////////////////////////////////////////////

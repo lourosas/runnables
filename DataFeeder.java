@@ -23,18 +23,15 @@ import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
-public interface LaunchingMechanism{
-   public void addErrorListener(ErrorListener e);
-   public void initialize(String file)throws IOException;
-   public LaunchingMechanismData monitorInitialization();
-   public LaunchingMechanismData monitorPrelaunch();
-   public LaunchingMechanismData monitorIgnition();
-   public LaunchingMechanismData monitorLaunch();
-   public LaunchingMechanismData monitorPostlaunch();
-   public void release();
-   public void setDataFeeder(DataFeeder feeder);
-   public double supportedWeight();
-   public String toString();
+public interface DataFeeder{
+   public double angleOfHolds();
+   public double emptyWeight();
+   public double holdsTolerance();
+   public void   initialize(String file);
+   public double loadedWeight();
+   public int    numberOfHolds();
+   public int    numberOfStages();
+   public double platformTolerance();
+   public double weight();
 }
-
 //////////////////////////////////////////////////////////////////////
