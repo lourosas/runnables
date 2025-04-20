@@ -217,6 +217,7 @@ public class LaunchMechanismDataFeeder implements DataFeeder{
    //
    //
    public double weight(){
+      System.out.println(this._cond);
       return Double.NaN;
    }
 }

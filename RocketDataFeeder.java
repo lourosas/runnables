@@ -81,6 +81,12 @@ public class RocketDataFeeder implements DataFeeder{
    }
 
    ///////////////////////////Public Methods//////////////////////////
+   //
+   //
+   //
+   public DataFeeder getLaunchingMechanismDataFeeder(){
+      return this._lmdFeeder;
+   }
 
    //////////////////////////Private Methods//////////////////////////
    //
@@ -178,6 +184,7 @@ public class RocketDataFeeder implements DataFeeder{
    //
    //
    public double weight(){
+      System.out.println("RocketDataFeeder Cond: "+this._cond);
       return Double.NaN;
    }
 }

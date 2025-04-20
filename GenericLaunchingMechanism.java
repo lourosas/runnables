@@ -29,7 +29,7 @@ import java.time.format.*;
 public class GenericLaunchingMechanism implements LaunchingMechanism,
 ErrorListener, Runnable{
    private static final int INIT      =  0;
-   private static final int PRELAUNCH =  1; //All 0xF's...
+   private static final int PRELAUNCH =  1;
    private static final int IGNITION  =  2;
    private static final int LAUNCH    =  3;
 
@@ -122,9 +122,8 @@ ErrorListener, Runnable{
    //Mechanism...will evolve...
    //
    private void measureWeight(){
-      //Set up a simple "simulation"
-      //Use the Feeder instead...
-      //this._measuredWeight = this._sim.weight();
+      //Use the Feeder instead...to "feed the components data"
+      this._measuredWeight = this._feeder.weight();
    }
 
    //Sets up/saves the mechanism data for the System
@@ -216,6 +215,39 @@ ErrorListener, Runnable{
    //
    //
    //
+   private void setLaunchingMechanismData(){
+      /*
+      List<MechanismSupportData> md = null;
+      for(int i = 0; i < this._supports.size(); ++i){
+         MechanismSupport sup = this._supports.get(i);
+         if(this._state == INIT){
+            md.add(sup.monitorInitialization());
+         }
+         else if(this._state == PRELAUNCH){
+            md.add(sup.monitorPrelaunch());
+         }
+         else if(this._state == IGNITION){
+            md.add(sup.monitorIgnition());
+         }
+         else if(this._state == LAUNCH){
+            md.add(sup.monitorLaunch();
+         }
+      }
+      LaunchingMechanismData data = null;
+      data = new GenericLaunchingMechanismData(
+                                         this._error,
+                                         this._holds,
+                                         this._isError,
+                                         this._measuredWeight,
+                                         this._model,
+                                         md);
+      this._launchingMechanismData = data;
+      */
+   }
+
+   //
+   //
+   //
    private void setUpThread(){
       this._rt0 = new Thread(this, "Launching Mechanism");
       this._rt0.start();
@@ -271,6 +303,12 @@ ErrorListener, Runnable{
             this._supports.add(support);
          }
       }
+      //The initialization phase assumes NO fuel loaded in the Rocket
+      //ergo, the Rocket is at empty weght...this is PRIOR to actually
+      //measuring the System...which is about three seconds...or
+      //whenever the Threads start up--just so something is available
+      this._measuredWeight = this._emptyWeight;
+      this.setLaunchingMechanismData();
    }
 
    //
@@ -371,36 +409,22 @@ ErrorListener, Runnable{
                //Will need to check the the Supports at this
                //point...
                /*
-               List<MechanismSupportData> md = null;
-               md = new LinkedList<MechanismSupportData>();
-               for(int i = 0; i < this._supports.size(); ++i){
-                  MechanimsSupport sup = this._supports.get(i);
-                  if(this._state == PRELAUNCH){
-                     Thread.sleep(100);
-                     md.add(sup.monitorPrelaunch());
-                  }
-                  else if(this._state == IGNITION){
-                     Thread.sleep(10);
-                  }
-                  else if(this._state == LAUNCH){
-                     Thread.sleep(300);
-                  }
+               if(this._state == INIT){
+                  Thread.sleep(5000);
+               }
+               else if(this._state == PRELAUNCH){
+                  Thread.sleep(100);
+               }
+               else if(this._state == IGNITION){
+                  Thread.sleep(10);
+               }
+               else if(this._state == LAUNCH){
+                  Thread.sleep(300);
                }
                */
                this.measureWeight();
                this.isError();
-               /*
-               LaunchingMechanismData data = null;
-               data = new GenericLaunchingMechanismData(
-                                                  this._error,
-                                                  this._holds,
-                                                  this._isError,
-                                                  this._measuredWeight,
-                                                  this._model,
-                                                  this._tolerance,
-                                                  md);
-               this._launchingMechanismData = data;
-               */
+               this.setLaunchingMechanismData();
             }
          }
       }
