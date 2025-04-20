@@ -139,6 +139,8 @@ public class LaunchMechanismDataFeeder implements DataFeeder{
    //
    //
    //
-   public double weight(){ return Double.NaN; }
+   public double weight(LaunchSimulatorStateSubstate.State state){
+      return Double.NaN;
+   }
 }
 //////////////////////////////////////////////////////////////////////

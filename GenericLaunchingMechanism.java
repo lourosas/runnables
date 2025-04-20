@@ -49,6 +49,7 @@ ErrorListener, Runnable{
    private double                 _inputWeight;
    private boolean                _start;
    private double                 _tolerance;
+   private DataFeeder             _feeder;
    private Thread                 _rt0;
    {
       _error                 = null;
@@ -57,6 +58,7 @@ ErrorListener, Runnable{
       _holds                 = -1;
       _kill                  = false;
       _isError               = false;
+      _feeder                = null;
       _launchingMechanismData = null;
       _model                 = -1;
       _sim                   = null;
@@ -301,6 +303,13 @@ ErrorListener, Runnable{
    //
    //
    public void release(){}
+
+   //
+   //
+   //
+   public void setDataFeeder(DataFeeder feeder){
+      this._feeder = feeder;
+   }
 
    //Probably not needed...might be able to remove...
    //For the time being, return the Measured Weight...

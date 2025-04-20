@@ -34,6 +34,7 @@ public class GenericRocket implements Rocket, Runnable{
    //Accumulation of all the Weight of the Stages!!!
    private double      _calculatedWeight;
    private int         _currentStage;
+   private DataFeeder  _feeder;
    private double      _emptyWeight;
    private double      _loadedWeight;
    private List<Stage> _stages;
@@ -43,6 +44,7 @@ public class GenericRocket implements Rocket, Runnable{
       _calculatedWeight = Double.NaN;
       _currentStage     = -1;
       _error            = null;
+      _feeder           = null;
       _isError          = false;
       _numberOfStages   = -1;
       _emptyWeight      = Double.NaN;
@@ -295,6 +297,13 @@ public class GenericRocket implements Rocket, Runnable{
    //
    public RocketData monitorPostlaunch(){
       return null;
+   }
+
+   //
+   //
+   //
+   public void setDataFeeder(DataFeeder feeder){
+      this._feeder = feeder;
    }
 
    //
