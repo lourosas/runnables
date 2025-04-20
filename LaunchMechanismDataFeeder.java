@@ -41,6 +41,8 @@ public class LaunchMechanismDataFeeder implements DataFeeder{
    private LaunchSimulatorStateSubstate.AscentSubstate    STG  = null;
    private LaunchSimulatorStateSubstate.AscentSubstate    IGNE = null; 
 
+   private LaunchSimulatorStateSubstate _cond;
+
    private double _emptyWeight;
    private int    _holds;
    private double _holdsTolerance;
@@ -64,6 +66,7 @@ public class LaunchMechanismDataFeeder implements DataFeeder{
       STG  = LaunchSimulatorStateSubstate.AscentSubstate.STAGING;
       IGNE =LaunchSimulatorStateSubstate.AscentSubstate.IGNITEENGINES;
 
+      _cond              = null;
       _emptyWeight       = Double.NaN;
       _holds             = 0;
       _holdsTolerance    = Double.NaN;
@@ -93,6 +96,45 @@ public class LaunchMechanismDataFeeder implements DataFeeder{
       }
       catch(NumberFormatException nfe){
          this._emptyWeight = Double.NaN;
+      }
+   }
+
+   //
+   //
+   //
+   private void setHolds(Hashtable<String,String> ht){
+      String hlds = ht.get("number_of_holds");
+      try{
+         this._holds = Integer.parseInt(hlds);
+      }
+      catch(NumberFormatException nfe){
+         this._holds = 0;
+      }
+   }
+
+   //
+   //
+   //
+   private void setHoldsTolerance(Hashtable<String,String> ht){
+      String htol = ht.get("holds_tolerance");
+      try{
+         this._holdsTolerance = Double.parseDouble(htol);
+      }
+      catch(NumberFormatException nfe){
+         this._holdsTolerance = Double.NaN;
+      }
+   }
+
+   //
+   //
+   //
+   private void setTolerance(Hashtable<String,String> ht){
+      String tol = ht.get("total_tolerance");
+      try{
+         this._platformTolerance = Double.parseDouble(tol);
+      }
+      catch(NumberFormatException nfe){
+         this._platformTolerance = Double.NaN;
       }
    }
 
@@ -135,7 +177,7 @@ public class LaunchMechanismDataFeeder implements DataFeeder{
          Hashtable<String,String> ht = null;
          ht = read.readRocketInfo();
          this.setEmptyWeight(ht);
-         this.setLoadedWeith(ht);
+         this.setLoadedWeight(ht);
          ht = read.readLaunchingMechanismInfo();
          this.setHolds(ht);
          this.setTolerance(ht);
@@ -157,17 +199,24 @@ public class LaunchMechanismDataFeeder implements DataFeeder{
    //
    //
    //
-   public int numberOfStage(){ return 0; }
+   public int numberOfStages(){ return 0; }
 
    //
    //
    //
    public double platformTolerance(){ return Double.NaN; }
+   
+   //
+   //
+   //
+   public void setStateSubstate(LaunchSimulatorStateSubstate cond){
+      this._cond = cond;
+   }
 
    //
    //
    //
-   public double weight(LaunchSimulatorStateSubstate cond){
+   public double weight(){
       return Double.NaN;
    }
 }

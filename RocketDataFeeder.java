@@ -47,6 +47,7 @@ public class RocketDataFeeder implements DataFeeder{
    private double     _measuredWeight;
    private Random     _random;
    private int        _stages;
+   private LaunchSimulatorStateSubstate _cond;
 
    {
       INIT = LaunchSimulatorStateSubstate.State.INITIALIZE;
@@ -63,6 +64,7 @@ public class RocketDataFeeder implements DataFeeder{
       STG  = LaunchSimulatorStateSubstate.AscentSubstate.STAGING;
       IGNE =LaunchSimulatorStateSubstate.AscentSubstate.IGNITEENGINES;
 
+      _cond           = null;
       _emptyWeight    = Double.NaN;
       _loadedWeight   = Double.NaN;
       _lmdFeeder      = null;
@@ -129,7 +131,7 @@ public class RocketDataFeeder implements DataFeeder{
    //
    public void initialize(String file){
       try{
-         this._lmdFeeder = new LaunchingMechanismDataFeeder();
+         this._lmdFeeder = new LaunchMechanismDataFeeder();
          this._lmdFeeder.initialize(file);
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
@@ -164,7 +166,18 @@ public class RocketDataFeeder implements DataFeeder{
    //
    //
    //
-   public double weight(LaunchSimulatorStateSubstate cond){
+   public void setStateSubstate(LaunchSimulatorStateSubstate cond){
+      try{
+         this._cond = cond;
+         this._lmdFeeder.setStateSubstate(cond);
+      }
+      catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
+   public double weight(){
       return Double.NaN;
    }
 }

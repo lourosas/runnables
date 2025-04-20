@@ -148,8 +148,6 @@ implements ErrorListener,Runnable,Publisher,LaunchSimulator{
             this.launchingMechanism = new GenericLaunchingMechanism();
             this.launchingMechanism.initialize(file);
             this.launchingMechanism.addErrorListener(this);
-            RocketDataFeeder feeder = this.rockedDataFeeder;
-            this.launchingMechanism.setDataFeeder(feeder);
             LaunchingMechanismData lm = null;
             lm = this.launchingMechanism.monitorInitialization();
             this.notify("Initialize",lm);
@@ -188,7 +186,6 @@ implements ErrorListener,Runnable,Publisher,LaunchSimulator{
          try{
             this.rocket = new GenericRocket();
             this.rocket.initialize(file);
-            this.rocket.setDataFeeder(this.rocketDataFeeder);
             RocketData rd = null;
             rd = this.rocket.monitorInitialization();
             this.notify("Initialize", rd);
@@ -326,12 +323,17 @@ implements ErrorListener,Runnable,Publisher,LaunchSimulator{
          this.initializePayload(file);
          this.rocketDataFeeder = new RocketDataFeeder();
          this.rocketDataFeeder.initialize(file);
+         //Below is defeinitely part of the simulation
+         this.rocket.setDataFeeder(this.rocketDataFeeder);
+         this.launchingMechanism.setDataFeeder(this.rocketDataFeeder);
+         //this.payload.setDataFeeder(<TBDFeeder>)
          //now, need to set the State, Substate...
          LaunchSimulatorStateSubstate.State state = INIT;
          this.stateSubstate = new LaunchSimulatorStateSubstate(state,
                                                                null,
                                                                null,
                                                                null);
+         this.rocketDataFeeder.setStateSubstate(this.stateSubstate);
          String s = new String("State: "+state);
          s += " Prelaunch: " + null;
          this.notify(s, this.stateSubstate);

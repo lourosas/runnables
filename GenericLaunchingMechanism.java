@@ -29,7 +29,7 @@ import java.time.format.*;
 public class GenericLaunchingMechanism implements LaunchingMechanism,
 ErrorListener, Runnable{
    private static final int PRELAUNCH = -1; //All 0xF's...
-   private static final int IGINTION  =  0;
+   private static final int IGNITION  =  0;
    private static final int LAUNCH    =  1;
 
    private String                 _error;
@@ -40,7 +40,6 @@ ErrorListener, Runnable{
    private int                    _state;
    private boolean                _isError;
    private int                    _model;
-   private LaunchMechanismSimulator _sim;
    private LaunchingMechanismData _launchingMechanismData;
    private List<MechanismSupport> _supports; //Keep them in a list
    //This weight is to be calculated
@@ -61,7 +60,6 @@ ErrorListener, Runnable{
       _feeder                = null;
       _launchingMechanismData = null;
       _model                 = -1;
-      _sim                   = null;
       _supports              = null;
       _start                 = true;
       _state                 = PRELAUNCH;
@@ -116,7 +114,8 @@ ErrorListener, Runnable{
    //
    private void measureWeight(){
       //Set up a simple "simulation"
-      this._measuredWeight = this._sim.weight();
+      //Use the Feeder instead...
+      //this._measuredWeight = this._sim.weight();
    }
 
    //Sets up/saves the mechanism data for the System
@@ -242,8 +241,6 @@ ErrorListener, Runnable{
          ht = read.readLaunchingMechanismInfo();
          this.mechanismData(ht);
          //May need to come up with a better way to do this!!!
-         this._sim = new LaunchMechanismSimulator();
-         this._sim.initialize(file);
       }
       for(int i = 0; i < this._holds; ++i){
          MechanismSupport support = null;
@@ -279,6 +276,7 @@ ErrorListener, Runnable{
    //
    //
    public LaunchingMechanismData monitorIgnition(){
+      this._state = IGNITION;
       return null;
    }
 

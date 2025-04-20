@@ -32,6 +32,7 @@ public interface DataFeeder{
    public int    numberOfHolds();
    public int    numberOfStages();
    public double platformTolerance();
-   public double weight(LaunchSimulatorStateSubstate.State state);
+   public void   setStateSubstate(LaunchSimulatorStateSubstate cond);
+   public double weight();
 }
 //////////////////////////////////////////////////////////////////////
