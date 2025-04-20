@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 /*
-Copyright 2024 Lou Rosas
+Copyright 2025 Lou Rosas
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,19 +27,47 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public class LaunchMechanismDataFeeder implements DataFeeder{
-   public double _emptyWeight;
-   public int    _holds;
-   public double _holdsTolerance;
-   public double _inputWeight;
-   public double _measuredWeight;
-   public double _platformTolerance;
-   public Random _random;
+   private LaunchSimulatorStateSubstate.State INIT             = null;
+   private LaunchSimulatorStateSubstate.State PREL             = null;
+   private LaunchSimulatorStateSubstate.State IGNI             = null;
+   private LaunchSimulatorStateSubstate.State LAUN             = null;
+   private LaunchSimulatorStateSubstate.State ASCE             = null;
+   private LaunchSimulatorStateSubstate.PreLaunchSubstate SET  = null;
+   private LaunchSimulatorStateSubstate.PreLaunchSubstate CONT = null;
+   private LaunchSimulatorStateSubstate.PreLaunchSubstate FUEL = null;
+   private LaunchSimulatorStateSubstate.PreLaunchSubstate HOLD = null;
+   private LaunchSimulatorStateSubstate.IgnitionSubstate  IGN  = null;
+   private LaunchSimulatorStateSubstate.IgnitionSubstate  BUP  = null;
+   private LaunchSimulatorStateSubstate.AscentSubstate    STG  = null;
+   private LaunchSimulatorStateSubstate.AscentSubstate    IGNE = null; 
+
+   private double _emptyWeight;
+   private int    _holds;
+   private double _holdsTolerance;
+   private double _loadedWeight;
+   private double _measuredWeight;
+   private double _platformTolerance;
+   private Random _random;
 
    {
+      INIT = LaunchSimulatorStateSubstate.State.INITIALIZE;
+      PREL = LaunchSimulatorStateSubstate.State.PRELAUNCH;
+      IGNI = LaunchSimulatorStateSubstate.State.IGNITION;
+      LAUN = LaunchSimulatorStateSubstate.State.LAUNCH;
+      ASCE = LaunchSimulatorStateSubstate.State.ASCENT;
+      SET  = LaunchSimulatorStateSubstate.PreLaunchSubstate.SET;
+      CONT = LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE;
+      FUEL = LaunchSimulatorStateSubstate.PreLaunchSubstate.FUELING;
+      HOLD = LaunchSimulatorStateSubstate.PreLaunchSubstate.HOLD;
+      IGN  = LaunchSimulatorStateSubstate.IgnitionSubstate.IGNITION;
+      BUP  = LaunchSimulatorStateSubstate.IgnitionSubstate.BUILDUP;
+      STG  = LaunchSimulatorStateSubstate.AscentSubstate.STAGING;
+      IGNE =LaunchSimulatorStateSubstate.AscentSubstate.IGNITEENGINES;
+
       _emptyWeight       = Double.NaN;
       _holds             = 0;
       _holdsTolerance    = Double.NaN;
-      _inputWeight       = Double.NaN;
+      _loadedWeight      = Double.NaN;
       _measuredWeight    = Double.NaN;
       _platformTolerance = Double.NaN;
       _random            = null;
@@ -139,7 +167,7 @@ public class LaunchMechanismDataFeeder implements DataFeeder{
    //
    //
    //
-   public double weight(LaunchSimulatorStateSubstate.State state){
+   public double weight(LaunchSimulatorStateSubstate cond){
       return Double.NaN;
    }
 }

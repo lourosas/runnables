@@ -34,6 +34,7 @@ implements ErrorListener,Runnable,Publisher,LaunchSimulator{
    private LaunchSimulatorStateSubstate.State ASCE             = null;
    private LaunchSimulatorStateSubstate.PreLaunchSubstate SET  = null;
    private LaunchSimulatorStateSubstate.PreLaunchSubstate CONT = null;
+   private LaunchSimulatorStateSubstate.PreLaunchSubstate FUEL = null;
    private LaunchSimulatorStateSubstate.PreLaunchSubstate HOLD = null;
    private LaunchSimulatorStateSubstate.IgnitionSubstate  IGN  = null;
    private LaunchSimulatorStateSubstate.IgnitionSubstate  BUP  = null;
@@ -61,6 +62,7 @@ implements ErrorListener,Runnable,Publisher,LaunchSimulator{
       ASCE = LaunchSimulatorStateSubstate.State.ASCENT;
       SET  = LaunchSimulatorStateSubstate.PreLaunchSubstate.SET;
       CONT = LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE;
+      FUEL = LaunchSimulatorStateSubstate.PreLaunchSubstate.FUELING;
       HOLD = LaunchSimulatorStateSubstate.PreLaunchSubstate.HOLD;
       IGN  = LaunchSimulatorStateSubstate.IgnitionSubstate.IGNITION;
       BUP  = LaunchSimulatorStateSubstate.IgnitionSubstate.BUILDUP;
