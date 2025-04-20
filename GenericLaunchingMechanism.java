@@ -28,9 +28,10 @@ import java.time.format.*;
 
 public class GenericLaunchingMechanism implements LaunchingMechanism,
 ErrorListener, Runnable{
-   private static final int PRELAUNCH = -1; //All 0xF's...
-   private static final int IGNITION  =  0;
-   private static final int LAUNCH    =  1;
+   private static final int INIT      =  0;
+   private static final int PRELAUNCH =  1; //All 0xF's...
+   private static final int IGNITION  =  2;
+   private static final int LAUNCH    =  3;
 
    private String                 _error;
    private List<ErrorListener>    _errorListeners;
@@ -42,30 +43,33 @@ ErrorListener, Runnable{
    private int                    _model;
    private LaunchingMechanismData _launchingMechanismData;
    private List<MechanismSupport> _supports; //Keep them in a list
+   //Weight
+   private double                 _emptyWeight;
+   private double                 _loadedWeight;
    //This weight is to be calculated
    private double                 _measuredWeight;
    //Weight read in from the init file
-   private double                 _inputWeight;
    private boolean                _start;
    private double                 _tolerance;
    private DataFeeder             _feeder;
    private Thread                 _rt0;
    {
-      _error                 = null;
-      _errorListeners        = null;
-      _errorTime             = null;
-      _holds                 = -1;
-      _kill                  = false;
-      _isError               = false;
-      _feeder                = null;
+      _emptyWeight            = Double.NaN;
+      _error                  = null;
+      _errorListeners         = null;
+      _errorTime              = null;
+      _holds                  = -1;
+      _kill                   = false;
+      _isError                = false;
+      _feeder                 = null;
+      _loadedWeight           = Double.NaN;
       _launchingMechanismData = null;
-      _model                 = -1;
-      _supports              = null;
-      _start                 = true;
-      _state                 = PRELAUNCH;
-      _measuredWeight        = Double.NaN;
-      _inputWeight           = Double.NaN;
-      _tolerance             = Double.NaN;
+      _model                  = -1;
+      _supports               = null;
+      _start                  = true;
+      _state                  = PRELAUNCH;
+      _measuredWeight         = Double.NaN;
+      _tolerance              = Double.NaN;
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -85,16 +89,20 @@ ErrorListener, Runnable{
       double  ul        = Double.NaN;
       double  ll        = Double.NaN;
       double  lim       = 1.- this._tolerance;
-      boolean inputGood = (this._inputWeight    != Double.NaN);
+      boolean inputGood = (this._emptyWeight != Double.NaN);
+      inputGood &= (this._loadedWeight != Double.NaN);
       boolean measGood  = (this._measuredWeight != Double.NaN);
       this._isError     = false;
 
       //TODO What happens if a Measurement is not good? Indicate an
       //error or not?
       if(inputGood && measGood){
-         System.out.println(this._measuredWeight);
          //Account for the State to determine errors...
-         if(this._state == PRELAUNCH){
+         if(this._state == INIT){}
+         //This will need to change, from empty to loaded weigt for
+         //fueling...
+         else if(this._state == PRELAUNCH){
+            /*
             edge = this._inputWeight * lim;
             if(this._inputWeight < 0.){
                edge = this._inputWeight * -lim;
@@ -105,6 +113,7 @@ ErrorListener, Runnable{
                this._isError = true;
                this.setError("Measured Weight",LocalDateTime.now());
             }
+            */
          }
       }
    }
@@ -156,13 +165,20 @@ ErrorListener, Runnable{
       if(data.containsKey("loaded_weight")){
          try{
             String loadedWeight = data.get("loaded_weight");
-            this._inputWeight   = Double.parseDouble(loadedWeight);
+            this._loadedWeight  = Double.parseDouble(loadedWeight);
          }
          catch(NumberFormatException nfe){}
          catch(NullPointerException npe){}
       }
       //@TODO figure out where to save...
-      if(data.containsKey("empty_weight")){}
+      if(data.containsKey("empty_weight")){
+         try{
+            String emptyWeight = data.get("empty_weight");
+            this._emptyWeight  = Double.parseDouble(emptyWeight);
+         }
+         catch(NumberFormatException nfe){}
+         catch(NullPointerException  npe){}
+      }
    }
 
    //
@@ -179,7 +195,8 @@ ErrorListener, Runnable{
          this._error += "Launching Mechanism Measured Weight";
          this._error += " Error";
          this._error += "\nMeasured: " + this._measuredWeight;
-         this._error += "\nExpected: " + this._inputWeight;
+         this._error += "\nEmpty:    " + this._emptyWeight;
+         this._error += "\nLoaded:   " + this._loadedWeight;
       }
       //Alert the ErrorListeners
       ErrorEvent e = new ErrorEvent(this,this._error,this._errorTime);
@@ -240,7 +257,6 @@ ErrorListener, Runnable{
          this.rocketData(ht);
          ht = read.readLaunchingMechanismInfo();
          this.mechanismData(ht);
-         //May need to come up with a better way to do this!!!
       }
       for(int i = 0; i < this._holds; ++i){
          MechanismSupport support = null;
@@ -261,7 +277,8 @@ ErrorListener, Runnable{
    //
    //
    public LaunchingMechanismData monitorInitialization(){
-      return this.monitorPrelaunch();
+      this._state = INIT;
+      return this._launchingMechanismData;
    }
 
    //
@@ -322,7 +339,8 @@ ErrorListener, Runnable{
    public String toString(){
       String string = new String();
       string += "\n" + this._holds + ", "+this._model;
-      string += "\n" + this._measuredWeight + ", "+this._inputWeight;
+      string += "\n"+this._emptyWeight+", "+this._measuredWeight;
+      string += "\n"+this._loadedWeight;
       for(int i = 0; i < this._holds; ++i){
          string += "\n" + this._supports.get(i).toString();
       }
