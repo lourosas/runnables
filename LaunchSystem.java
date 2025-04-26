@@ -19,10 +19,9 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
-import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
-public interface ErrorListener{
-   public void errorOccurred(ErrorEvent e);
+
+public interface LaunchSystem{
+   public void initialize(String file);
 }
-//////////////////////////////////////////////////////////////////////

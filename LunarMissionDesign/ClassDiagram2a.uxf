@@ -1,0 +1,25 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>40</x><y>210</y><w>150</w><h>50</h></coordinates><panel_attributes>LaunchStateSubstate
+bg=pink</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>360</x><y>200</y><w>160</w><h>60</h></coordinates><panel_attributes>&lt;&lt;Model&gt;&gt;
+LaunchingSystemZero
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLInterface</id><coordinates><x>230</x><y>60</y><w>120</w><h>90</h></coordinates><panel_attributes>LaunchSystem
+--
+initialize(file:String)
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>280</x><y>60</y><w>180</w><h>160</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;160;140</additional_attributes></element><element><id>Relation</id><coordinates><x>180</x><y>220</y><w>200</w><h>40</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1</panel_attributes><additional_attributes>10;10;180;10</additional_attributes></element><element><id>UMLInterface</id><coordinates><x>340</x><y>10</y><w>200</w><h>90</h></coordinates><panel_attributes>ErrorLIstener
+--
+errorOccurred(event:ErrorEvent)
+bg=#00FF00</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>430</x><y>10</y><w>30</w><h>210</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;190</additional_attributes></element><element><id>UMLInterface</id><coordinates><x>550</x><y>60</y><w>180</w><h>90</h></coordinates><panel_attributes>SystemListener
+--
+update(event:SystemEvent)
+bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>70</x><y>430</y><w>200</w><h>140</h></coordinates><panel_attributes>SystemEvent
+--
+-event:String
+-state:LaunchStateSubstate
+-time:String
+--
++getEvent():String
++getSource():Object
++getState():LaunchStateSubstate
++getTime()String
+bg=cyan</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>430</x><y>60</y><w>230</w><h>160</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>210;10;10;140</additional_attributes></element></diagram>

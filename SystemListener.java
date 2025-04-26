@@ -22,7 +22,8 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
-public interface ErrorListener{
-   public void errorOccurred(ErrorEvent e);
+
+public interface SystemListener{
+   public void update(SystemEvent event);
 }
 //////////////////////////////////////////////////////////////////////

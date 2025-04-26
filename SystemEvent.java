@@ -22,7 +22,31 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
-public interface ErrorListener{
-   public void errorOccurred(ErrorEvent e);
+
+public class SystemEvent extends EventObject{
+   private String              event;
+   private LaunchStateSubstate state;
+   private String              time;
+
+   {
+      event = null;
+      state = null;
+      time  = null;
+   };
+
+   ////////////////////////////Constructors///////////////////////////
+   //
+   //
+   //
+   public SystemEvent
+   (
+      Object              source,
+      String              event,
+      String              time,
+      LaunchStateSubstate state
+   ){
+      
+   }
+
 }
 //////////////////////////////////////////////////////////////////////
