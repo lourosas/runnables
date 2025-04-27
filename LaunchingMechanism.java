@@ -24,7 +24,9 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public interface LaunchingMechanism{
+   public void addDataFeeder(DataFeeder f);
    public void addErrorListener(ErrorListener e);
+   public void addSystemListener(SystemListener s);
    public void initialize(String file)throws IOException;
    public LaunchingMechanismData monitorInitialization();
    public LaunchingMechanismData monitorPrelaunch();
@@ -32,7 +34,6 @@ public interface LaunchingMechanism{
    public LaunchingMechanismData monitorLaunch();
    public LaunchingMechanismData monitorPostlaunch();
    public void release();
-   public void setDataFeeder(DataFeeder feeder);
    public double supportedWeight();
    public String toString();
 }

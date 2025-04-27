@@ -24,6 +24,6 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public interface SystemListener{
-   public void update(SystemEvent event);
+   public void update(MissionSystemEvent event);
 }
 //////////////////////////////////////////////////////////////////////

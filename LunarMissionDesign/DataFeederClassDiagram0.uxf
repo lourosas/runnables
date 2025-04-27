@@ -1,4 +1,15 @@
-<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLInterface</id><coordinates><x>240</x><y>20</y><w>180</w><h>220</h></coordinates><panel_attributes>DataFeeder
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>230</x>
+      <y>20</y>
+      <w>180</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>DataFeeder
 --
 angleOfHolds():double
 emptyWeight():double
@@ -11,14 +22,47 @@ numberOfHolds():int
 platformTolerance():double
 weight():double
 bg=magenta
-transparency=0</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>60</x><y>360</y><w>140</w><h>100</h></coordinates><panel_attributes>RocketDataFeeder
+transparency=0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>30</x>
+      <y>260</y>
+      <w>140</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>RocketDataFeeder
 --
 -emptyWeight:double
 -loadedWeight:double
 --
 -setEmptyWeight()
 -setLoadedWeight()
-bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>140</x><y>20</y><w>210</w><h>360</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>190;10;10;340</additional_attributes></element><element><id>UMLClass</id><coordinates><x>530</x><y>360</y><w>190</w><h>140</h></coordinates><panel_attributes>LaunchMechanismDataFeeder
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>110</x>
+      <y>20</y>
+      <w>230</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>210.0;10.0;10.0;240.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>500</x>
+      <y>260</y>
+      <w>190</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>LaunchMechanismDataFeeder
 --
 -emptyWeight:double
 -loadedWeight:double
@@ -28,10 +72,68 @@ bg=yellow</panel_attributes><additional_attributes></additional_attributes></ele
 -setHoldsTolerance()
 -setLoadedWeight()
 -setTolerance()
-bg=#3c7aF0</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>20</y><w>310</w><h>360</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;290;340</additional_attributes></element><element><id>Relation</id><coordinates><x>190</x><y>430</y><w>360</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;</panel_attributes><additional_attributes>10;10;340;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>310</x><y>540</y><w>180</w><h>60</h></coordinates><panel_attributes>template=0:String,1:String
+bg=#3c7aF0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>310</x>
+      <y>20</y>
+      <w>290</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;270.0;240.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>160</x>
+      <y>330</y>
+      <w>360</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;340.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>280</x>
+      <y>440</y>
+      <w>180</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>template=0:String,1:String
 Hashtable
---</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>420</x><y>490</y><w>210</w><h>110</h></coordinates><panel_attributes>lt=-
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>390</y>
+      <w>210</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=-
 m1=1
-m2=1</panel_attributes><additional_attributes>10;80;180;80;180;10</additional_attributes></element><element><id>Relation</id><coordinates><x>160</x><y>450</y><w>170</w><h>150</h></coordinates><panel_attributes>lt=-
+m2=1</panel_attributes>
+    <additional_attributes>10.0;80.0;180.0;80.0;180.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>130</x>
+      <y>350</y>
+      <w>170</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=-
 m1=1
-m2=1</panel_attributes><additional_attributes>150;120;10;120;10;10</additional_attributes></element></diagram>
+m2=1</panel_attributes>
+    <additional_attributes>150.0;120.0;10.0;120.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

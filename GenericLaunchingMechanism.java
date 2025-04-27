@@ -28,10 +28,10 @@ import java.time.format.*;
 
 public class GenericLaunchingMechanism implements LaunchingMechanism,
 ErrorListener, Runnable{
-   private static final int INIT      =  0;
-   private static final int PRELAUNCH =  1;
-   private static final int IGNITION  =  2;
-   private static final int LAUNCH    =  3;
+   private LaunchStateSubstate.State  INIT      = null;
+   private LaunchStateSubstate.State  PRELAUNCH = null;
+   private LaunchStateSubstate.State  IGNITION  = null;
+   private LaunchStateSubstate.State  LAUNCH    = null;
 
    private String                 _error;
    private List<ErrorListener>    _errorListeners;
@@ -54,6 +54,11 @@ ErrorListener, Runnable{
    private DataFeeder             _feeder;
    private Thread                 _rt0;
    {
+      INIT      = LaunchStateSubstate.INITIALIZE;
+      PRELAUNCH = LaunchStateSubstate.PRELAUNCH;
+      IGNITION  = LaunchStateSubstate.IGNITION;
+      LAUNCH    = LaunchStateSubstate.LAUNCH;
+
       _emptyWeight            = Double.NaN;
       _error                  = null;
       _errorListeners         = null;
@@ -67,7 +72,7 @@ ErrorListener, Runnable{
       _model                  = -1;
       _supports               = null;
       _start                  = true;
-      _state                  = PRELAUNCH;
+      _state                  = INITIALIZE;
       _measuredWeight         = Double.NaN;
       _tolerance              = Double.NaN;
    };
@@ -266,6 +271,13 @@ ErrorListener, Runnable{
    //
    //
    //
+   public void addDataFeeder(DataFeeder feeder){
+      this._feeder = feeder;
+   }
+
+   //
+   //
+   //
    public void addErrorListener(ErrorListener e){
       try{
          this._errorListeners.add(e);
@@ -275,6 +287,11 @@ ErrorListener, Runnable{
          this._errorListeners.add(e);
       }
    }
+
+   //
+   //
+   //
+   public void addSystemListener(SystemListener sl){}
 
    //
    //
@@ -339,6 +356,7 @@ ErrorListener, Runnable{
    //
    //
    public LaunchingMechanismData monitorLaunch(){
+      this._state = LAUNCH;
       return null;
    }
 
@@ -357,12 +375,6 @@ ErrorListener, Runnable{
    //
    public void release(){}
 
-   //
-   //
-   //
-   public void setDataFeeder(DataFeeder feeder){
-      this._feeder = feeder;
-   }
 
    //Probably not needed...might be able to remove...
    //For the time being, return the Measured Weight...

@@ -32,7 +32,7 @@ public interface DataFeeder{
    public int    numberOfHolds();
    public int    numberOfStages();
    public double platformTolerance();
-   public void   setStateSubstate(LaunchSimulatorStateSubstate cond);
+   public void   setStateSubstate(LaunchStateSubstate cond);
    public double weight();
 }
 //////////////////////////////////////////////////////////////////////

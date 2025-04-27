@@ -22,11 +22,15 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
-public class ErrorEvent extends EventObject{
-   private String event;
-   private String time;
+
+public class MissionSystemEvent extends EventObject{
+   private String              event;
+   private LaunchStateSubstate state;
+   private String              time;
+
    {
       event = null;
+      state = null;
       time  = null;
    };
 
@@ -34,26 +38,39 @@ public class ErrorEvent extends EventObject{
    //
    //
    //
-   public ErrorEvent(Object source, String event, String time){
+   public MissionSystemEvent
+   (
+      Object source,
+      String event,
+      String time, 
+      LaunchStateSubstate state
+   ){
       super(source);
       this.event = event;
       this.time  = time;
+      this.state = state;
    }
-
 
    ///////////////////////////Public Methods//////////////////////////
    //
    //
    //
-   public String getEvent(){
+   public String event(){
       return this.event;
    }
 
    //
    //
    //
-   public String getTime(){
+   public String time(){
       return this.time;
+   }
+
+   //
+   //
+   //
+   public LaunchStateSubstate state(){
+      return this.state;
    }
 
    //
@@ -61,9 +78,10 @@ public class ErrorEvent extends EventObject{
    //
    public String toString(){
       String returnString = new String(this.getSource().toString());
-      returnString += ", "+this.getEvent();
-      returnString += ", "+this.getTime();
-      return returnString;
+      returnString += ", " + this.event();
+      returnString += ", " + this.time();
+      returnString += ", " + this.state.toString();
    }
+
 }
 //////////////////////////////////////////////////////////////////////
