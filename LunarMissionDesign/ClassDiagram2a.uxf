@@ -1,18 +1,117 @@
-<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>40</x><y>210</y><w>150</w><h>50</h></coordinates><panel_attributes>LaunchStateSubstate
-bg=pink</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>360</x><y>200</y><w>160</w><h>60</h></coordinates><panel_attributes>&lt;&lt;Model&gt;&gt;
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>30</x>
+      <y>210</y>
+      <w>160</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>LaunchStateSubstate
+bg=pink</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>360</x>
+      <y>200</y>
+      <w>180</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Model&gt;&gt;
 LaunchingSystemZero
-bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLInterface</id><coordinates><x>230</x><y>60</y><w>120</w><h>90</h></coordinates><panel_attributes>LaunchSystem
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>210</x>
+      <y>60</y>
+      <w>160</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>LaunchSystem
 --
 initialize(file:String)
-bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>280</x><y>60</y><w>180</w><h>160</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;160;140</additional_attributes></element><element><id>Relation</id><coordinates><x>180</x><y>220</y><w>200</w><h>40</h></coordinates><panel_attributes>lt=-
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>60</y>
+      <w>180</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;160.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>180</x>
+      <y>220</y>
+      <w>200</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-
 m1=1
-m2=1</panel_attributes><additional_attributes>10;10;180;10</additional_attributes></element><element><id>UMLInterface</id><coordinates><x>340</x><y>10</y><w>200</w><h>90</h></coordinates><panel_attributes>ErrorLIstener
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;180.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>320</x>
+      <y>10</y>
+      <w>240</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>ErrorLIstener
 --
 errorOccurred(event:ErrorEvent)
-bg=#00FF00</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>430</x><y>10</y><w>30</w><h>210</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;190</additional_attributes></element><element><id>UMLInterface</id><coordinates><x>550</x><y>60</y><w>180</w><h>90</h></coordinates><panel_attributes>SystemListener
+bg=#00FF00</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>430</x>
+      <y>10</y>
+      <w>30</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>530</x>
+      <y>60</y>
+      <w>220</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>SystemListener
 --
 update(event:SystemEvent)
-bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>70</x><y>430</y><w>200</w><h>140</h></coordinates><panel_attributes>SystemEvent
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1240</x>
+      <y>610</y>
+      <w>280</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>SystemEvent
 --
 -event:String
 -state:LaunchStateSubstate
@@ -22,4 +121,91 @@ bg=red</panel_attributes><additional_attributes></additional_attributes></elemen
 +getSource():Object
 +getState():LaunchStateSubstate
 +getTime()String
-bg=cyan</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>430</x><y>60</y><w>230</w><h>160</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>210;10;10;140</additional_attributes></element></diagram>
+bg=cyan</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>430</x>
+      <y>60</y>
+      <w>230</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>210.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>360</x>
+      <y>430</y>
+      <w>180</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Model&gt;&gt;
+LaunchingSystemZero
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>530</x>
+      <y>460</y>
+      <w>180</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=)-
+</panel_attributes>
+    <additional_attributes>150.0;30.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>690</x>
+      <y>450</y>
+      <w>240</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=-()
+m2=SimulationData
+</panel_attributes>
+    <additional_attributes>220.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>870</x>
+      <y>440</y>
+      <w>100</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>DataFeeder
+--
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1290</x>
+      <y>500</y>
+      <w>150</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>EventObject</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1360</x>
+      <y>520</y>
+      <w>30</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+</diagram>
