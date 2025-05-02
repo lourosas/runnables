@@ -23,5 +23,6 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public interface LaunchSystem{
+   public void addDataFeeder(DataFeeder feeder);
    public void initialize(String file);
 }

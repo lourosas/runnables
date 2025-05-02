@@ -27,5 +27,4 @@ public interface Publisher{
    public void notify(String s, Object o);
    public void error(String s, Object o);
 }
-
 //////////////////////////////////////////////////////////////////////

@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>420</x>
-      <y>900</y>
+      <x>470</x>
+      <y>870</y>
       <w>160</w>
       <h>50</h>
     </coordinates>
@@ -16,13 +16,14 @@ bg=pink</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>170</x>
-      <y>80</y>
-      <w>140</w>
-      <h>90</h>
+      <x>60</x>
+      <y>30</y>
+      <w>300</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>LaunchSystem
 --
+addDataFeeder(type:String,:DataFeeder)
 initialize(file:String)
 bg=blue</panel_attributes>
     <additional_attributes/>
@@ -30,19 +31,19 @@ bg=blue</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>230</x>
-      <y>80</y>
-      <w>180</w>
-      <h>160</h>
+      <x>200</x>
+      <y>30</y>
+      <w>260</w>
+      <h>180</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;160.0;140.0</additional_attributes>
+    <additional_attributes>10.0;10.0;240.0;160.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>150</x>
-      <y>240</y>
+      <x>200</x>
+      <y>210</y>
       <w>180</w>
       <h>40</h>
     </coordinates>
@@ -54,9 +55,9 @@ m2=1</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>310</x>
-      <y>30</y>
-      <w>220</w>
+      <x>350</x>
+      <y>0</y>
+      <w>240</w>
       <h>90</h>
     </coordinates>
     <panel_attributes>ErrorLIstener
@@ -68,8 +69,8 @@ bg=#00FF00</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>380</x>
-      <y>30</y>
+      <x>430</x>
+      <y>0</y>
       <w>60</w>
       <h>210</h>
     </coordinates>
@@ -79,9 +80,9 @@ bg=#00FF00</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>550</x>
-      <y>90</y>
-      <w>200</w>
+      <x>590</x>
+      <y>60</y>
+      <w>220</w>
       <h>90</h>
     </coordinates>
     <panel_attributes>SystemListener
@@ -93,8 +94,8 @@ bg=red</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1260</x>
-      <y>260</y>
+      <x>1310</x>
+      <y>230</y>
       <w>280</w>
       <h>150</h>
     </coordinates>
@@ -114,8 +115,8 @@ bg=cyan</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>380</x>
-      <y>90</y>
+      <x>430</x>
+      <y>60</y>
       <w>290</w>
       <h>150</h>
     </coordinates>
@@ -125,8 +126,8 @@ bg=cyan</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>800</x>
-      <y>40</y>
+      <x>850</x>
+      <y>10</y>
       <w>180</w>
       <h>60</h>
     </coordinates>
@@ -138,8 +139,8 @@ bg=blue</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>970</x>
-      <y>70</y>
+      <x>1020</x>
+      <y>40</y>
       <w>180</w>
       <h>60</h>
     </coordinates>
@@ -150,8 +151,8 @@ bg=blue</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1130</x>
-      <y>60</y>
+      <x>1180</x>
+      <y>30</y>
       <w>240</w>
       <h>70</h>
     </coordinates>
@@ -163,8 +164,8 @@ m2=SimulationData
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>1310</x>
-      <y>50</y>
+      <x>1360</x>
+      <y>20</y>
       <w>100</w>
       <h>70</h>
     </coordinates>
@@ -176,8 +177,8 @@ bg=green</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1310</x>
-      <y>150</y>
+      <x>1360</x>
+      <y>120</y>
       <w>150</w>
       <h>30</h>
     </coordinates>
@@ -187,8 +188,8 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1380</x>
-      <y>170</y>
+      <x>1430</x>
+      <y>140</y>
       <w>30</w>
       <h>110</h>
     </coordinates>
@@ -198,14 +199,14 @@ bg=green</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>240</x>
-      <y>560</y>
-      <w>300</w>
+      <x>270</x>
+      <y>530</y>
+      <w>340</w>
       <h>220</h>
     </coordinates>
     <panel_attributes>LaunchingMechanism
 --
-addDataFeedeer(:DataFeeder)
+addDataFeedeer(type:String,:DataFeeder)
 addErrorListener(:ErrorListener)
 addSystemListener(:SystemListener)
 initiallize(file:String)
@@ -219,8 +220,8 @@ toString():String</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>380</x>
-      <y>280</y>
+      <x>430</x>
+      <y>250</y>
       <w>40</w>
       <h>310</h>
     </coordinates>
@@ -232,8 +233,8 @@ m2=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>700</x>
-      <y>610</y>
+      <x>750</x>
+      <y>580</y>
       <w>290</w>
       <h>220</h>
     </coordinates>
@@ -257,8 +258,8 @@ bg=gray</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>390</x>
-      <y>570</y>
+      <x>440</x>
+      <y>540</y>
       <w>330</w>
       <h>70</h>
     </coordinates>
@@ -268,8 +269,8 @@ bg=gray</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>790</x>
-      <y>340</y>
+      <x>840</x>
+      <y>310</y>
       <w>80</w>
       <h>90</h>
     </coordinates>
@@ -281,8 +282,8 @@ run()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>820</x>
-      <y>340</y>
+      <x>870</x>
+      <y>310</y>
       <w>30</w>
       <h>290</h>
     </coordinates>
@@ -292,9 +293,9 @@ run()</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>900</x>
-      <y>390</y>
-      <w>200</w>
+      <x>940</x>
+      <y>360</y>
+      <w>220</w>
       <h>90</h>
     </coordinates>
     <panel_attributes>SystemListener
@@ -306,9 +307,9 @@ bg=red</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>550</x>
-      <y>400</y>
-      <w>220</w>
+      <x>590</x>
+      <y>370</y>
+      <w>240</w>
       <h>90</h>
     </coordinates>
     <panel_attributes>ErrorLIstener
@@ -320,8 +321,8 @@ bg=#00FF00</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>850</x>
-      <y>390</y>
+      <x>900</x>
+      <y>360</y>
       <w>170</w>
       <h>240</h>
     </coordinates>
@@ -331,8 +332,8 @@ bg=#00FF00</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>650</x>
-      <y>400</y>
+      <x>700</x>
+      <y>370</y>
       <w>160</w>
       <h>230</h>
     </coordinates>
@@ -342,8 +343,8 @@ bg=#00FF00</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>0</x>
-      <y>220</y>
+      <x>50</x>
+      <y>190</y>
       <w>160</w>
       <h>50</h>
     </coordinates>
@@ -354,8 +355,8 @@ bg=pink</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>490</x>
-      <y>770</y>
+      <x>540</x>
+      <y>740</y>
       <w>230</w>
       <h>150</h>
     </coordinates>
@@ -368,8 +369,8 @@ r2=-currentState</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>820</x>
-      <y>970</y>
+      <x>870</x>
+      <y>940</y>
       <w>100</w>
       <h>70</h>
     </coordinates>
@@ -381,23 +382,23 @@ bg=green</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>860</x>
-      <y>820</y>
-      <w>70</w>
+      <x>910</x>
+      <y>790</y>
+      <w>80</w>
       <h>180</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
-m2=1
+m2=2
 r1=-feeder</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;160.0</additional_attributes>
   </element>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>1110</x>
-      <y>660</y>
-      <w>240</w>
+      <x>1140</x>
+      <y>630</y>
+      <w>280</w>
       <h>200</h>
     </coordinates>
     <panel_attributes>LaunchingMechanismData
@@ -416,8 +417,8 @@ bg=light_gray</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>980</x>
-      <y>670</y>
+      <x>1030</x>
+      <y>640</y>
       <w>260</w>
       <h>40</h>
     </coordinates>
@@ -429,8 +430,8 @@ m2=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1300</x>
-      <y>870</y>
+      <x>1350</x>
+      <y>840</y>
       <w>240</w>
       <h>180</h>
     </coordinates>
@@ -451,8 +452,8 @@ m2=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1230</x>
-      <y>670</y>
+      <x>1280</x>
+      <y>640</y>
       <w>200</w>
       <h>220</h>
     </coordinates>
@@ -462,8 +463,8 @@ m2=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>310</x>
-      <y>220</y>
+      <x>360</x>
+      <y>190</y>
       <w>200</w>
       <h>70</h>
     </coordinates>

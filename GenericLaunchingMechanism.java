@@ -35,6 +35,7 @@ ErrorListener, Runnable{
 
    private String                 _error;
    private List<ErrorListener>    _errorListeners;
+   private List<SystemListener>   _systemListeners;
    private String                 _errorTime;
    private int                    _holds;
    private boolean                _kill; //TBD to use correctly
@@ -51,7 +52,8 @@ ErrorListener, Runnable{
    //Weight read in from the init file
    private boolean                _start;
    private double                 _tolerance;
-   private DataFeeder             _feeder;
+   private DataFeeder             _rocketDataFeeder;
+   private DataFeeder             _mechanismDataFeeder
    private Thread                 _rt0;
    {
       INIT      = LaunchStateSubstate.INITIALIZE;
@@ -62,17 +64,19 @@ ErrorListener, Runnable{
       _emptyWeight            = Double.NaN;
       _error                  = null;
       _errorListeners         = null;
+      _systemListeners        = null;
       _errorTime              = null;
       _holds                  = -1;
       _kill                   = false;
       _isError                = false;
-      _feeder                 = null;
+      _rocketDataFeeder       = null;
+      _mechanismDataFeeder    = null;
       _loadedWeight           = Double.NaN;
       _launchingMechanismData = null;
       _model                  = -1;
       _supports               = null;
       _start                  = true;
-      _state                  = INITIALIZE;
+      _state                  = INIT;
       _measuredWeight         = Double.NaN;
       _tolerance              = Double.NaN;
    };
@@ -220,39 +224,6 @@ ErrorListener, Runnable{
    //
    //
    //
-   private void setLaunchingMechanismData(){
-      /*
-      List<MechanismSupportData> md = null;
-      for(int i = 0; i < this._supports.size(); ++i){
-         MechanismSupport sup = this._supports.get(i);
-         if(this._state == INIT){
-            md.add(sup.monitorInitialization());
-         }
-         else if(this._state == PRELAUNCH){
-            md.add(sup.monitorPrelaunch());
-         }
-         else if(this._state == IGNITION){
-            md.add(sup.monitorIgnition());
-         }
-         else if(this._state == LAUNCH){
-            md.add(sup.monitorLaunch();
-         }
-      }
-      LaunchingMechanismData data = null;
-      data = new GenericLaunchingMechanismData(
-                                         this._error,
-                                         this._holds,
-                                         this._isError,
-                                         this._measuredWeight,
-                                         this._model,
-                                         md);
-      this._launchingMechanismData = data;
-      */
-   }
-
-   //
-   //
-   //
    private void setUpThread(){
       this._rt0 = new Thread(this, "Launching Mechanism");
       this._rt0.start();
@@ -271,8 +242,23 @@ ErrorListener, Runnable{
    //
    //
    //
-   public void addDataFeeder(DataFeeder feeder){
-      this._feeder = feeder;
+   public void addDataFeeder(String type, DataFeeder feeder){
+      try{
+         if(type.toUpperCase().contains("ROCKET")){
+            this._rocketDataFeeer = feeder;
+         }
+         else if(type.toUpperCase().contains("LAUNCHMECHANISM")){
+            this._mechanismDataFeeder = feeder;
+         }
+         /* TBD write later!!!
+         for(int i = 0; i < this._supports.size(); ++i){
+            MechanismSupport sup = null;
+            sup = (MechanismSupport)this._supports.get(i);
+            sup.addDataFeeder(type,feeder)
+         }
+         */
+      }
+      catch(NullPointerException npe){}
    }
 
    //
@@ -291,7 +277,15 @@ ErrorListener, Runnable{
    //
    //
    //
-   public void addSystemListener(SystemListener sl){}
+   public void addSystemListener(SystemListener sl){
+      try{
+         this._systemListeners.add(sl);
+      }
+      catch(NullPointerException npe){
+         this._systemListeners = new LinkedList<SystemListeners>();
+         this._systemListeners.add(sl);
+      }
+   }
 
    //
    //
@@ -325,7 +319,7 @@ ErrorListener, Runnable{
       //measuring the System...which is about three seconds...or
       //whenever the Threads start up--just so something is available
       this._measuredWeight = this._emptyWeight;
-      this.setLaunchingMechanismData();
+      this._state          = INIT;
    }
 
    //
@@ -418,25 +412,8 @@ ErrorListener, Runnable{
                Thread.sleep(1000);
                System.out.println(Thread.currentThread().getName());
                System.out.println(Thread.currentThread().getId());
-               //Will need to check the the Supports at this
-               //point...
-               /*
-               if(this._state == INIT){
-                  Thread.sleep(5000);
-               }
-               else if(this._state == PRELAUNCH){
-                  Thread.sleep(100);
-               }
-               else if(this._state == IGNITION){
-                  Thread.sleep(10);
-               }
-               else if(this._state == LAUNCH){
-                  Thread.sleep(300);
-               }
-               */
                this.measureWeight();
                this.isError();
-               this.setLaunchingMechanismData();
             }
          }
       }

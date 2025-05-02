@@ -27,19 +27,19 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public class RocketDataFeeder implements DataFeeder{
-   private LaunchSimulatorStateSubstate.State INIT             = null;
-   private LaunchSimulatorStateSubstate.State PREL             = null;
-   private LaunchSimulatorStateSubstate.State IGNI             = null;
-   private LaunchSimulatorStateSubstate.State LAUN             = null;
-   private LaunchSimulatorStateSubstate.State ASCE             = null;
-   private LaunchSimulatorStateSubstate.PreLaunchSubstate SET  = null;
-   private LaunchSimulatorStateSubstate.PreLaunchSubstate CONT = null;
-   private LaunchSimulatorStateSubstate.PreLaunchSubstate FUEL = null;
-   private LaunchSimulatorStateSubstate.PreLaunchSubstate HOLD = null;
-   private LaunchSimulatorStateSubstate.IgnitionSubstate  IGN  = null;
-   private LaunchSimulatorStateSubstate.IgnitionSubstate  BUP  = null;
-   private LaunchSimulatorStateSubstate.AscentSubstate    STG  = null;
-   private LaunchSimulatorStateSubstate.AscentSubstate    IGNE = null;
+   private LaunchStateSubstate.State INIT             = null;
+   private LaunchStateSubstate.State PREL             = null;
+   private LaunchStateSubstate.State IGNI             = null;
+   private LaunchStateSubstate.State LAUN             = null;
+   private LaunchStateSubstate.State ASCE             = null;
+   private LaunchStateSubstate.PreLaunchSubstate SET  = null;
+   private LaunchStateSubstate.PreLaunchSubstate CONT = null;
+   private LaunchStateSubstate.PreLaunchSubstate FUEL = null;
+   private LaunchStateSubstate.PreLaunchSubstate HOLD = null;
+   private LaunchStateSubstate.IgnitionSubstate  IGN  = null;
+   private LaunchStateSubstate.IgnitionSubstate  BUP  = null;
+   private LaunchStateSubstate.AscentSubstate    STG  = null;
+   private LaunchStateSubstate.AscentSubstate    IGNE = null;
 
    private double     _emptyWeight;
    private double     _loadedWeight;
@@ -50,19 +50,19 @@ public class RocketDataFeeder implements DataFeeder{
    private LaunchSimulatorStateSubstate _cond;
 
    {
-      INIT = LaunchSimulatorStateSubstate.State.INITIALIZE;
-      PREL = LaunchSimulatorStateSubstate.State.PRELAUNCH;
-      IGNI = LaunchSimulatorStateSubstate.State.IGNITION;
-      LAUN = LaunchSimulatorStateSubstate.State.LAUNCH;
-      ASCE = LaunchSimulatorStateSubstate.State.ASCENT;
-      SET  = LaunchSimulatorStateSubstate.PreLaunchSubstate.SET;
-      CONT = LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE;
-      FUEL = LaunchSimulatorStateSubstate.PreLaunchSubstate.FUELING;
-      HOLD = LaunchSimulatorStateSubstate.PreLaunchSubstate.HOLD;
-      IGN  = LaunchSimulatorStateSubstate.IgnitionSubstate.IGNITION;
-      BUP  = LaunchSimulatorStateSubstate.IgnitionSubstate.BUILDUP;
-      STG  = LaunchSimulatorStateSubstate.AscentSubstate.STAGING;
-      IGNE =LaunchSimulatorStateSubstate.AscentSubstate.IGNITEENGINES;
+      INIT = LaunchStateSubstate.State.INITIALIZE;
+      PREL = LaunchStateSubstate.State.PRELAUNCH;
+      IGNI = LaunchStateSubstate.State.IGNITION;
+      LAUN = LaunchStateSubstate.State.LAUNCH;
+      ASCE = LaunchStateSubstate.State.ASCENT;
+      SET  = LaunchStateSubstate.PreLaunchSubstate.SET;
+      CONT = LaunchStateSubstate.PreLaunchSubstate.CONTINUE;
+      FUEL = LaunchStateSubstate.PreLaunchSubstate.FUELING;
+      HOLD = LaunchStateSubstate.PreLaunchSubstate.HOLD;
+      IGN  = LaunchStateSubstate.IgnitionSubstate.IGNITION;
+      BUP  = LaunchStateSubstate.IgnitionSubstate.BUILDUP;
+      STG  = LaunchStateSubstate.AscentSubstate.STAGING;
+      IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
       _cond           = null;
       _emptyWeight    = Double.NaN;
