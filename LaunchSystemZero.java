@@ -118,6 +118,15 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
          this.launchingMechanism.initialize(file);
          this.launchingMechanism.addErrorListener(this);
          this.launchingMechanism.addSystemListener(this);
+         LaunchStateSustate state = this.stateSubstate;
+         DataFeeder feeder = this.rocketDataFeeder;
+         feeder.setStateSubstate(state);
+         this.launchingMechanism.addDataFeeder("ROCKET",feeder);
+         DataFeeder feeder = this.mechanismDataFeeder;
+         feeder.setStateSubstate(state);
+         Strin type = "LAUNCHMECHANISM";
+         this.launchingMechanism.addDataFeeder(type,feeder);
+         
          //LaunchingMechanismData lmd = null;
          //lm = this.launchingMechansim.monitorInitialization();
          //this.notify("Initilize",lmd);
@@ -151,12 +160,17 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    public void addDataFeeder(String type, DataFeeder feeder){
       try{
+         LaunchStateSubstate state = this.stateSubstate;
          if(type.toUpperCase().contains("ROCKET")){
             this.rocketDataFeeder = feeder;
+            this.rocketDataFeeder.setStateSubstate(state);
          }
          else if(type.toUpperCase().contains("LAUNCHMECHANISM")){
             this.mechanismDataFeeder = feeder;
+            this.mechanismDataFeeder.setStateSubstate(state);
          }
+         //Consider doing a litte different...
+         //this.rocket.addDataFeeder(type,feeder);
          this.launchingMechanism.addDataFeeder(type,feeder);
       }
       catch(NullPointerException npe){}
@@ -174,10 +188,6 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
          this.initilaizeRocket(file);
          this.initializeLaunchingMechanism(file);
          this.initializePayload(file);
-         //Go ahead and set this!!!
-         this.rocketDataFeeder = new RocketDataFeeder();
-         this.rocketDataFeeder.initialize(file);
-         this.launchingMechanism.setDataFeeder(this.rocketDataFeeder);
       }
       catch(IOException ioe){}
    }

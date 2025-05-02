@@ -131,8 +131,12 @@ ErrorListener, Runnable{
    //Mechanism...will evolve...
    //
    private void measureWeight(){
-      //Use the Feeder instead...to "feed the components data"
-      this._measuredWeight = this._feeder.weight();
+      try{
+         this._measuredWeight = this._rocketDataFeeder.weight();
+      }
+      catch(NullPointerException npe){
+         //Measure the Rocket DIRECTLY!!!!
+      }
    }
 
    //Sets up/saves the mechanism data for the System
@@ -408,12 +412,18 @@ ErrorListener, Runnable{
                throw new InterruptedException();
             } 
             if(this._start){
-               //Debug Initial prints
-               Thread.sleep(1000);
-               System.out.println(Thread.currentThread().getName());
-               System.out.println(Thread.currentThread().getId());
-               this.measureWeight();
-               this.isError();
+               if(this._state == INIT){
+                  //Debug Initial prints
+                  Thread.sleep(10000);//Sleep for 10 secs in INIT
+                  System.out.println(Thread.currentThread().getName());
+                  System.out.println(Thread.currentThread().getId());
+                  this.measureWeight();
+                  //Go ahead and change to a boolean return
+                  if(this.isError()){
+                  
+                  } 
+                  else{}
+               }
             }
          }
       }
