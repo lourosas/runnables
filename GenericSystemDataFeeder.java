@@ -26,7 +26,7 @@ import java.time.format.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
-public class RocketDataFeeder implements DataFeeder{
+public class GenericSystemDataFeeder implements DataFeeder{
    private LaunchStateSubstate.State INIT             = null;
    private LaunchStateSubstate.State PREL             = null;
    private LaunchStateSubstate.State IGNI             = null;
@@ -41,13 +41,17 @@ public class RocketDataFeeder implements DataFeeder{
    private LaunchStateSubstate.AscentSubstate    STG  = null;
    private LaunchStateSubstate.AscentSubstate    IGNE = null;
 
-   private double     _emptyWeight;
-   private double     _loadedWeight;
-   private DataFeeder _lmdFeeder; //LaunchMechanismDataFeeder
-   private double     _measuredWeight;
-   private Random     _random;
-   private int        _stages;
    private LaunchStateSubstate _cond;
+   private double              _angleOfHolds;
+   private double              _emptyWeight;
+   private double              _holdsTolerance;
+   private double              _loadedWeight;
+   private double              _measuredWeight;
+   private int                 _numberOfHolds;
+   private double              _platformTolerance;
+   private Random              _random;
+   private int                 _stages;
+   private double              _weight;
 
    {
       INIT = LaunchStateSubstate.State.INITIALIZE;
@@ -62,30 +66,27 @@ public class RocketDataFeeder implements DataFeeder{
       IGN  = LaunchStateSubstate.IgnitionSubstate.IGNITION;
       BUP  = LaunchStateSubstate.IgnitionSubstate.BUILDUP;
       STG  = LaunchStateSubstate.AscentSubstate.STAGING;
-      IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
-
-      _cond           = null;
-      _emptyWeight    = Double.NaN;
-      _loadedWeight   = Double.NaN;
-      _lmdFeeder      = null;
-      _measuredWeight = Double.NaN;
-      _random         = null;
-      _stages         = 0;
+      IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;   
+      
+      _cond                      = null;
+      _angleOfHolds              = -1;
+      _emptyWeight               = Double.NaN;
+      _holdsTolerance            = Double.NaN;
+      _loadedWeight              = Double.NaN;
+      _measuredWeight            = Double.NaN;
+      _numberOfHolds             = 0;
+      _platformTolerance         = Double.NaN;
+      _random                    = null;
+      _stages                    = 0;
+      _weight                    = Double.NaN;
    };
+
    ////////////////////////////Constructors///////////////////////////
    //
    //
    //
-   public RocketDataFeeder(){
+   public GenericSystemDataFeeder(){
       this._random = new Random();
-   }
-
-   ///////////////////////////Public Methods//////////////////////////
-   //
-   //
-   //
-   public DataFeeder getLaunchingMechanismDataFeeder(){
-      return this._lmdFeeder;
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -97,7 +98,7 @@ public class RocketDataFeeder implements DataFeeder{
       try{
          this._emptyWeight = Double.parseDouble(ew);
       }
-      catch(NumberFormatException nfe){
+      catch(NumberFormatExceptions nfe){
          this._emptyWeight = Double.NaN;
       }
    }
@@ -105,87 +106,86 @@ public class RocketDataFeeder implements DataFeeder{
    //
    //
    //
-   private void setLoadedWeight(Hashtable<String,String> ht){
-      String lw = ht.get("loaded_weight");
+   private void setHoldsAngle(Hashtable<String,String> ht){
+      String ha = ht.get("angle_of_holds");
       try{
-         this._loadedWeight = Double.parseDouble(lw);
+         this._angleOfHolds = Integer.parseInt(ha);
       }
       catch(NumberFormatException nfe){
-         this._loadedWeight = Double.NaN;
+         this._angleOfHolds = -1;
       }
    }
 
-   ////////////////DataFeeder Interface Implementation////////////////
    //
    //
    //
-   public double angleOfHolds(){ return Double.NaN; }
+   private void setHoldsTolerance(Hashtable<String,String> ht){}
 
    //
    //
    //
-   public double emptyWeight(){ return Double.NaN; }
+   private void setLoadedWeight(Hashtable<String,String> ht){}
 
    //
    //
    //
-   //
-   public double holdsTolerance(){ return Double.NaN; }
+   private void setNumberOfHolds(Hashtable<String,String> ht){}
 
    //
    //
    //
-   public void initialize(String file){
+   private void setPlatformTolerance(Hashtable<String,String> ht){}
+
+   //
+   //
+   //
+   private void setStages(Hashtable<String,String> ht){}
+
+   ////////////////DataFeeder Interface Implmentation/////////////////
+   //
+   //
+   //
+   public double angleOfHolds(){
+      return this._angleOfHolds;
+   }
+
+   //
+   //
+   //
+   public double emptyWeight(){
+      return this._emptyWeight;
+   }
+
+   //
+   //
+   //
+   public double holdsTolerance(){
+      return this._holdsTolerance;
+   }
+
+   //
+   //
+   //
+   public double initialize(String file){
       try{
-         this._lmdFeeder = new LaunchMechanismDataFeeder();
-         this._lmdFeeder.initialize(file);
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
          Hashtable<String,String> ht = null;
+         //Set up the Rocket Data
          ht = read.readRocketInfo();
          this.setEmptyWeight(ht);
          this.setLoadedWeight(ht);
+         this.setStages(ht);
+         //Set up the Launching Mechanism Data
+         ht = read.readLaunchingMechanismInfo();
+         this.setHoldsAngle(ht);
+         this.setNumberOfHolds(ht);
+         this.setPlatformTolerance(ht);
+         this.setHoldsTolerance(ht);
       }
-      catch(IOException ioe){ ioe.printStackTrace(); }
-   }
-
-   //
-   //
-   //
-   public double loadedWeight(){ return Double.NaN; }
-
-   //
-   //
-   //
-   public int numberOfHolds(){ return -1; }
-
-   //
-   //
-   //
-   public int numberOfStages(){ return -1; }
-
-   //
-   //
-   //
-   public double platformTolerance(){ return Double.NaN; }
-
-   //
-   //
-   //
-   public void setStateSubstate(LaunchSimulatorStateSubstate cond){
-      try{
-         this._cond = cond;
-         this._lmdFeeder.setStateSubstate(cond);
+      catch(IOException ioe){
+         ioe.printStackTrace();
       }
-      catch(NullPointerException npe){}
-   }
-
-   //
-   //
-   //
-   public double weight(){
-      System.out.println("RocketDataFeeder Cond: "+this._cond);
-      return Double.NaN;
    }
 }
 //////////////////////////////////////////////////////////////////////

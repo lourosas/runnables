@@ -41,7 +41,7 @@ public class LaunchMechanismDataFeeder implements DataFeeder{
    private LaunchStateSubstate.AscentSubstate    STG  = null;
    private LaunchStateSubstate.AscentSubstate    IGNE = null; 
 
-   private LaunchSimulatorStateSubstate _cond;
+   private LaunchStateSubstate _cond;
 
    private double _emptyWeight;
    private int    _holds;
@@ -209,7 +209,7 @@ public class LaunchMechanismDataFeeder implements DataFeeder{
    //
    //
    //
-   public void setStateSubstate(LaunchSimulatorStateSubstate cond){
+   public void setStateSubstate(LaunchStateSubstate cond){
       this._cond = cond;
    }
 

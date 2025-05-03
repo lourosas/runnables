@@ -24,6 +24,8 @@ import rosas.lou.clock.*;
 
 public class LaunchSystemZero
 implements ErrorListener,LaunchSystem,Publisher,SystemListener{
+   private enum Sim{NO, YES}
+
    private LaunchStateSubstate.State             INIT  = null;
    private LaunchStateSubstate.State             PREL  = null;
    private LaunchStateSubstate.State             IGNI  = null;
@@ -39,6 +41,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    private LaunchStateSubstate.AscentSubstate    IGNE  = null;
 
    private LaunchStateSubstate stateSubstate;
+   private Sim                 simState; //Set once, do NOT change!
 
    private ClockSubscriber     clockSubsciber;
    private Subscriber          subscriber;
@@ -68,6 +71,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
       stateSubstate       = null;
+      simState            = null;
       subscriber          = null;
       countdownTimer      = null;
       launchingMechanism  = null;
@@ -82,20 +86,28 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    //
-   public LaunchSystemZero(){}
-
-   //
-   //
-   //
-   public LaunchSystemZero(Subscriber sub){
-      this.addSubscriber(sub);
+   public LaunchSystemZero(DataFeeder feeder){
+      this(feeder, null, null);
    }
 
    //
    //
    //
-   public LaunchSystemZero(Subscriber sub, ClockSubscriber csub){
-      this.addSubscriber(sub);
+   public LaunchSystemZero(DataFeeder feeder, Subscriber sub){
+      this(feeder, sub, null);
+   }
+
+   //
+   //
+   //
+   public LaunchSystemZero
+   (
+      DataFeeder feeder,
+      Subscriber sub,
+      ClockSubscriber csub
+   ){
+      this.addFeeders(feeder);
+      this.add(sub);
       this.addClockSubscriber(csub);
    }
 
@@ -104,10 +116,29 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    public void addClockSubscriber(ClockSubscriber cs){
-      this.clockSubscriber = cs;
+      if(cs != null){
+         this.clockSubscriber = cs;
+      }
    }
 
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void addFeeders(DataFeeder feeder){
+      if(feeder != null){
+         this.simState            = Sim.YES;
+         //Set all the Simualation Feeder data
+         this.rocketDataFeeder    = feeder;
+         this.mechanismDataFeeder = feeder;
+      }
+      else{
+         this.simState = Sim.NO;
+         this.rocketDataFeeder    = null;
+         this.mechanismDataFeeder = null;
+      }
+   }
+
    //
    //
    //
@@ -118,14 +149,10 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
          this.launchingMechanism.initialize(file);
          this.launchingMechanism.addErrorListener(this);
          this.launchingMechanism.addSystemListener(this);
-         LaunchStateSustate state = this.stateSubstate;
-         DataFeeder feeder = this.rocketDataFeeder;
-         feeder.setStateSubstate(state);
-         this.launchingMechanism.addDataFeeder("ROCKET",feeder);
-         DataFeeder feeder = this.mechanismDataFeeder;
-         feeder.setStateSubstate(state);
-         Strin type = "LAUNCHMECHANISM";
-         this.launchingMechanism.addDataFeeder(type,feeder);
+         //No longer needed like this...lots to do to get this
+         //"right"
+         //this.launchingMechanism.addDataFeeder("ROCKET",feeder);
+         //this.launchingMechanism.addDataFeeder(type,feeder);
          
          //LaunchingMechanismData lmd = null;
          //lm = this.launchingMechansim.monitorInitialization();
@@ -158,36 +185,19 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    //
-   public void addDataFeeder(String type, DataFeeder feeder){
-      try{
-         LaunchStateSubstate state = this.stateSubstate;
-         if(type.toUpperCase().contains("ROCKET")){
-            this.rocketDataFeeder = feeder;
-            this.rocketDataFeeder.setStateSubstate(state);
-         }
-         else if(type.toUpperCase().contains("LAUNCHMECHANISM")){
-            this.mechanismDataFeeder = feeder;
-            this.mechanismDataFeeder.setStateSubstate(state);
-         }
-         //Consider doing a litte different...
-         //this.rocket.addDataFeeder(type,feeder);
-         this.launchingMechanism.addDataFeeder(type,feeder);
-      }
-      catch(NullPointerException npe){}
-   }
-
-   //
-   //
-   //
    public void initialize(String file){
       try{
-         this.stateSubstate = new LaunchStateSubstate(INIT,
-                                                      null,
-                                                      null,
-                                                      null);
+         LaunchStateSubste s = null;
+         s = new LaunchStateSubstate(INIT,null,null,null);
+         this.stateSubstate = s;
          this.initilaizeRocket(file);
          this.initializeLaunchingMechanism(file);
          this.initializePayload(file);
+         if(this.simState == Sim.YES){
+            LaunchStateSubstate state = this.stateSubstate;
+            this.rocketDataFeeder.setStateSubstate(state);
+            this.mechanismDataFeeder.setStateSubstate(state);
+         }
       }
       catch(IOException ioe){}
    }
@@ -197,7 +207,9 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    public void add(Subscriber s){
-      this.subscriber = s;
+      if(s != null){
+         this.subscriber = s;
+      }
    }
 
    //

@@ -246,14 +246,8 @@ ErrorListener, Runnable{
    //
    //
    //
-   public void addDataFeeder(String type, DataFeeder feeder){
+   public void addDataFeeder(DataFeeder feeder){
       try{
-         if(type.toUpperCase().contains("ROCKET")){
-            this._rocketDataFeeer = feeder;
-         }
-         else if(type.toUpperCase().contains("LAUNCHMECHANISM")){
-            this._mechanismDataFeeder = feeder;
-         }
          /* TBD write later!!!
          for(int i = 0; i < this._supports.size(); ++i){
             MechanismSupport sup = null;
