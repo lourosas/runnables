@@ -52,8 +52,7 @@ ErrorListener, Runnable{
    //Weight read in from the init file
    private boolean                _start;
    private double                 _tolerance;
-   private DataFeeder             _rocketDataFeeder;
-   private DataFeeder             _mechanismDataFeeder
+   private DataFeeder             _feeder;
    private Thread                 _rt0;
    {
       INIT      = LaunchStateSubstate.INITIALIZE;
@@ -69,8 +68,7 @@ ErrorListener, Runnable{
       _holds                  = -1;
       _kill                   = false;
       _isError                = false;
-      _rocketDataFeeder       = null;
-      _mechanismDataFeeder    = null;
+      _feeder                 = null;
       _loadedWeight           = Double.NaN;
       _launchingMechanismData = null;
       _model                  = -1;
@@ -107,11 +105,11 @@ ErrorListener, Runnable{
       //error or not?
       if(inputGood && measGood){
          //Account for the State to determine errors...
-         if(this._state == INIT){}
-         //This will need to change, from empty to loaded weigt for
-         //fueling...
+         if(this._state == INIT){
+         }
          else if(this._state == PRELAUNCH){
             /*
+             * For fueling, empty to loaded weight
             edge = this._inputWeight * lim;
             if(this._inputWeight < 0.){
                edge = this._inputWeight * -lim;
@@ -132,7 +130,7 @@ ErrorListener, Runnable{
    //
    private void measureWeight(){
       try{
-         this._measuredWeight = this._rocketDataFeeder.weight();
+         this._measuredWeight = this._feeder.weight();
       }
       catch(NullPointerException npe){
          //Measure the Rocket DIRECTLY!!!!
@@ -248,13 +246,18 @@ ErrorListener, Runnable{
    //
    public void addDataFeeder(DataFeeder feeder){
       try{
-         /* TBD write later!!!
-         for(int i = 0; i < this._supports.size(); ++i){
-            MechanismSupport sup = null;
-            sup = (MechanismSupport)this._supports.get(i);
-            sup.addDataFeeder(type,feeder)
+         if(feeder != null){
+            this._feeder = feeder;
+            /* TBD write later!!!
+            for(int i = 0; i < this._supports.size(); ++i){
+               MechanismSupport sup = null;
+               sup = (MechanismSupport)this._supports.get(i);
+               //Just make a fucking Generic Type Data Feeder for
+               //Simulation!
+               sup.addDataFeeder(feeder);
+            }
+            */
          }
-         */
       }
       catch(NullPointerException npe){}
    }

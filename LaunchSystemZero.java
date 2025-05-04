@@ -52,8 +52,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    private Thread              rt0;   //Probably not needed
    private boolean             start; //related to threading
    private boolean             kill;  //related to threading
-   private DataFeeder          mechanismDataFeeder;
-   private DataFeeder          rocketDataFeeder;
+   private DataFeeder          feeder;
 
    {
       INIT = LaunchStateSubstate.State.INITIALIZE;
@@ -78,8 +77,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
       rt0                 = null;
       start               = false;
       kill                = false;
-      mechanismDataFeeder = null;
-      rocketDataFeeder    = null;
+      feeder              = null;
    };
 
    ////////////////////////////Constructors///////////////////////////
@@ -129,13 +127,11 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
       if(feeder != null){
          this.simState            = Sim.YES;
          //Set all the Simualation Feeder data
-         this.rocketDataFeeder    = feeder;
-         this.mechanismDataFeeder = feeder;
+         this.feeder    = feeder;
       }
       else{
          this.simState = Sim.NO;
-         this.rocketDataFeeder    = null;
-         this.mechanismDataFeeder = null;
+         this.feeder    = null;
       }
    }
 
@@ -149,14 +145,10 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
          this.launchingMechanism.initialize(file);
          this.launchingMechanism.addErrorListener(this);
          this.launchingMechanism.addSystemListener(this);
-         //No longer needed like this...lots to do to get this
-         //"right"
-         //this.launchingMechanism.addDataFeeder("ROCKET",feeder);
-         //this.launchingMechanism.addDataFeeder(type,feeder);
-         
-         //LaunchingMechanismData lmd = null;
-         //lm = this.launchingMechansim.monitorInitialization();
-         //this.notify("Initilize",lmd);
+         if(this.simState == YES){
+            //Add the Data feeder to the Launching Mechanism...
+            this.launchingMechanism.addDataFeeder(this.feeder);
+         }
       }
       catch(IOException ioe){
          //this.error(ioe.getMessage(),null);--need to add!
@@ -194,9 +186,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
          this.initializeLaunchingMechanism(file);
          this.initializePayload(file);
          if(this.simState == Sim.YES){
-            LaunchStateSubstate state = this.stateSubstate;
-            this.rocketDataFeeder.setStateSubstate(state);
-            this.mechanismDataFeeder.setStateSubstate(state);
+            this.feeder.setStateSubstate(s);
          }
       }
       catch(IOException ioe){}
