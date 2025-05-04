@@ -20,6 +20,8 @@ package rosas.lou.runnables;
 import java.lang.*;
 import java.util.*;
 import java.io.*;
+import java.time.*;
+import java.time.format.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
@@ -42,13 +44,13 @@ public class MissionSystemEvent extends EventObject{
    (
       Object source,
       String event,
-      String time, 
       LaunchStateSubstate state
    ){
       super(source);
       this.event = event;
-      this.time  = time;
+      //this.time  = time; Set the time as part of the creation
       this.state = state;
+      this.setTime();
    }
 
    ///////////////////////////Public Methods//////////////////////////
@@ -81,7 +83,18 @@ public class MissionSystemEvent extends EventObject{
       returnString += ", " + this.event();
       returnString += ", " + this.time();
       returnString += ", " + this.state.toString();
+      return returnString;
    }
 
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void setTime(){
+      LocalDateTime now  = LocalDateTime.now();
+      DateTimeFormatter dtf = null;
+      dtf = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
+      this.time = now.format(dtf);
+   }
 }
 //////////////////////////////////////////////////////////////////////

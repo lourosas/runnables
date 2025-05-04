@@ -46,7 +46,7 @@ public class GenericSystemDataFeeder implements DataFeeder{
    private double              _emptyWeight;
    private double              _holdsTolerance;
    private double              _loadedWeight;
-   private double              _measuredWeight;
+   private double              _measuredWeight;//dont need if have weight!
    private int                 _numberOfHolds;
    private double              _platformTolerance;
    private Random              _random;
@@ -98,7 +98,7 @@ public class GenericSystemDataFeeder implements DataFeeder{
       try{
          this._emptyWeight = Double.parseDouble(ew);
       }
-      catch(NumberFormatExceptions nfe){
+      catch(NumberFormatException nfe){
          this._emptyWeight = Double.NaN;
       }
    }
@@ -120,9 +120,9 @@ public class GenericSystemDataFeeder implements DataFeeder{
    //
    //
    private void setHoldsTolerance(Hashtable<String,String> ht){
-      String ht = ht.get("holds_tolerance");
+      String hldt = ht.get("holds_tolerance");
       try{
-         this._holdsTolerance = Double.parseDouble(ht);
+         this._holdsTolerance = Double.parseDouble(hldt);
       }
       catch(NumberFormatException nfe){
          this._holdsTolerance = Double.NaN;
@@ -174,7 +174,7 @@ public class GenericSystemDataFeeder implements DataFeeder{
    private void setStages(Hashtable<String,String> ht){
       String st = ht.get("stages");
       try{
-         this._stages = Integer.parseInteger(st);
+         this._stages = Integer.parseInt(st);
       }
       catch(NumberFormatException nfe){
          this._stages = -1;
@@ -206,7 +206,7 @@ public class GenericSystemDataFeeder implements DataFeeder{
    //
    //
    //
-   public double initialize(String file){
+   public void initialize(String file){
       try{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
@@ -234,7 +234,7 @@ public class GenericSystemDataFeeder implements DataFeeder{
    public double loadedWeight(){
       //I am "thinking" the loaded weight and empty weight should
       //be consistent
-      return this._loaededWeight;
+      return this._loadedWeight;
    }
 
    //
@@ -264,6 +264,14 @@ public class GenericSystemDataFeeder implements DataFeeder{
    //
    public void setStateSubstate(LaunchStateSubstate cond){
       this._cond = cond;
+   }
+
+   //
+   //
+   //
+   public double weight(){
+      //Possibly will need to change base on state
+      return this._weight;
    }
 }
 //////////////////////////////////////////////////////////////////////

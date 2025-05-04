@@ -22,6 +22,9 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
+import java.text.*;
+import java.time.*;
+import java.time.format.*;
 public class ErrorEvent extends EventObject{
    private String event;
    private String time;
@@ -34,10 +37,11 @@ public class ErrorEvent extends EventObject{
    //
    //
    //
-   public ErrorEvent(Object source, String event, String time){
+   public ErrorEvent(Object source, String event/*, String time*/){
       super(source);
       this.event = event;
-      this.time  = time;
+      //this.time  = time; Set the time as part of the creation
+      this.setTime();
    }
 
 
@@ -64,6 +68,17 @@ public class ErrorEvent extends EventObject{
       returnString += ", "+this.getEvent();
       returnString += ", "+this.getTime();
       return returnString;
+   }
+
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void setTime(){
+      LocalDateTime now = LocalDateTime.now();
+      DateTimeFormatter dtf = null;
+      dtf = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
+      this.time = now.format(dtf);
    }
 }
 //////////////////////////////////////////////////////////////////////

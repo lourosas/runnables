@@ -31,6 +31,7 @@ public class LaunchSimulatorController implements ActionListener,
 KeyListener,ItemListener,WindowListener{
    private JFrame                  _frame;
    private LaunchSimulator         _simulator;
+   private LaunchSystem            _system;
    private Subscriber              _subscriber;
    private ClockSubscriber         _clockSubscriber;
    private CountdownTimerInterface _countdownTimer;
@@ -38,6 +39,7 @@ KeyListener,ItemListener,WindowListener{
    {
       _frame           = null;
       _simulator       = null;
+      _system          = null;
       _subscriber      = null;
       _clockSubscriber = null;
       _countdownTimer  = null;
@@ -60,6 +62,12 @@ KeyListener,ItemListener,WindowListener{
    public void addLaunchSimulator(LaunchSimulator ls){
       this._simulator = ls;
    }
+
+   /**/
+   public void addLaunchSystem(LaunchSystem ls){
+      this._system = ls;
+   }
+   
    /**/
    public void addSubscriber(Subscriber s){
       this._subscriber = s;
@@ -107,17 +115,20 @@ KeyListener,ItemListener,WindowListener{
    ////////////////////////////Private Methods////////////////////////
    /**/
    private void activatePrelaunchCountdown(){
-      this._simulator.startCountdown();
+      //this._simulator.startCountdown();
+      this._system.startCountdown();
    }
 
    /**/
    private void activatePrelaunchCountdownAbort(){
-      this._simulator.abortCountdown();
+      //this._simulator.abortCountdown();
+      this._system.abortCountdown();
    }
 
    /**/
    private void activatePrelaunchCountdownHold(){
-      this._simulator.holdCountdown();
+      //this._simulator.holdCountdown();
+      this._system.holdCountdown();
    }
 
    /**/
@@ -132,7 +143,8 @@ KeyListener,ItemListener,WindowListener{
 
    /**/
    private void activatePrelaunchResumeCountdown(){
-      this._simulator.resumeCountdown();
+      //this._simulator.resumeCountdown();
+      this._system.resumeCountdown();
    }
 
    /**/
@@ -236,7 +248,8 @@ KeyListener,ItemListener,WindowListener{
       int value = chooser.showOpenDialog(this._frame);
       if(value == 0){
          String file = chooser.getSelectedFile().getPath();
-         this._simulator.initialize(file);
+         //this._simulator.initialize(file);
+         this._system.initialize(file);
       }
    }
 
@@ -250,7 +263,8 @@ KeyListener,ItemListener,WindowListener{
       int value = chooser.showOpenDialog(this._frame);
       if(value == 0){
          String file = chooser.getSelectedFile().getPath();
-         this._simulator.initialize(file);
+         //this._simulator.initialize(file);
+         this._system.initialize(file);
       }
    }
 
@@ -266,7 +280,8 @@ KeyListener,ItemListener,WindowListener{
          mins  = l.get(1).intValue();
          hours = l.get(2).intValue();
 
-         this._simulator.preLaunchTime(hours,mins,secs);
+         //this._simulator.preLaunchTime(hours,mins,secs);
+         this._system.preLaunchTime(hours,mins,secs);
       }
       catch(NullPointerException npe){
          //If the GUI is NULL, indicate that, otherwise, ignore

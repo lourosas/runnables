@@ -54,7 +54,6 @@ implements LaunchingMechanismData{
       boolean                   iserr,
       double                       mw,
       int                         mdl,
-      String                     time,
       double                      tol,
       List<MechanismSupportData> data
    ){
@@ -63,7 +62,8 @@ implements LaunchingMechanismData{
       this._isError        = iserr;
       this._measuredWeight =    mw;
       this._model          =   mdl;
-      this._time           =  time;
+      //Time Calculated by Instance...
+      //this._time           =  time;
       this._tolerance      =   tol;
       this._supportData    =  data;
    }

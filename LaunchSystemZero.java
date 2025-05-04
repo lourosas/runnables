@@ -19,6 +19,7 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
+import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
@@ -43,7 +44,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    private LaunchStateSubstate stateSubstate;
    private Sim                 simState; //Set once, do NOT change!
 
-   private ClockSubscriber     clockSubsciber;
+   private ClockSubscriber     clockSubscriber;
    private Subscriber          subscriber;
    private CountdownTimer      countdownTimer;
    //private Rocket              rocket;
@@ -145,7 +146,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
          this.launchingMechanism.initialize(file);
          this.launchingMechanism.addErrorListener(this);
          this.launchingMechanism.addSystemListener(this);
-         if(this.simState == YES){
+         if(this.simState == Sim.YES){
             //Add the Data feeder to the Launching Mechanism...
             this.launchingMechanism.addDataFeeder(this.feeder);
          }
@@ -177,12 +178,27 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    //
+   public void abortCountdown(){}
+
+   //
+   //
+   //
+   public void holdCountdown(){}
+
+   //
+   //
+   //
+   public void ignite(){}
+
+   //
+   //
+   //
    public void initialize(String file){
       try{
-         LaunchStateSubste s = null;
+         LaunchStateSubstate s = null;
          s = new LaunchStateSubstate(INIT,null,null,null);
          this.stateSubstate = s;
-         this.initilaizeRocket(file);
+         this.initializeRocket(file);
          this.initializeLaunchingMechanism(file);
          this.initializePayload(file);
          if(this.simState == Sim.YES){
@@ -191,6 +207,21 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
       }
       catch(IOException ioe){}
    }
+
+   //
+   //
+   //
+   public void preLaunchTime(int hours, int mins, int secs){}
+
+   //
+   //
+   //
+   public void resumeCountdown(){}
+
+   //
+   //
+   //
+   public void startCountdown(){}
 
    ////////////////Publisher Interface Implementation/////////////////
    //

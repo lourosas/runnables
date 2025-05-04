@@ -39,7 +39,7 @@ ErrorListener, Runnable{
    private String                 _errorTime;
    private int                    _holds;
    private boolean                _kill; //TBD to use correctly
-   private int                    _state;
+   private LaunchStateSubstate    _state;
    private boolean                _isError;
    private int                    _model;
    private LaunchingMechanismData _launchingMechanismData;
@@ -55,10 +55,10 @@ ErrorListener, Runnable{
    private DataFeeder             _feeder;
    private Thread                 _rt0;
    {
-      INIT      = LaunchStateSubstate.INITIALIZE;
-      PRELAUNCH = LaunchStateSubstate.PRELAUNCH;
-      IGNITION  = LaunchStateSubstate.IGNITION;
-      LAUNCH    = LaunchStateSubstate.LAUNCH;
+      INIT      = LaunchStateSubstate.State.INITIALIZE;
+      PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
+      IGNITION  = LaunchStateSubstate.State.IGNITION;
+      LAUNCH    = LaunchStateSubstate.State.LAUNCH;
 
       _emptyWeight            = Double.NaN;
       _error                  = null;
@@ -74,7 +74,7 @@ ErrorListener, Runnable{
       _model                  = -1;
       _supports               = null;
       _start                  = true;
-      _state                  = INIT;
+      _state                  = null;
       _measuredWeight         = Double.NaN;
       _tolerance              = Double.NaN;
    };
@@ -106,32 +106,23 @@ ErrorListener, Runnable{
       //For ease, might consider the _inputWeight based on measure...
       if(inputGood && measGood){
          //Account for the State to determine errors...
-         if(this._state == INIT){
+         if(this._state.state() == INIT){
             //Weight should be based sole-ly on the empty weight...
             edge = this._emptyWeight * lim;
-            if(this._inputWeight < 0.){
+            if(this._emptyWeight < 0.){
                edge = this._emptyWeight * -lim;
             }
             //At the point of measure, should conform to the tolerance
             ll = this._emptyWeight - edge;
             ul = this._emptyWeight + edge;
             if(this._measuredWeight<ll || this._measuredWeight>ul){
-               this._error = true;
+               this._isError = true;
+               this.setError("Measured Weight");
             }
          }
-         else if(this._state == PRELAUNCH){
+         else if(this._state.state() == PRELAUNCH){
             /*
              * For fueling, empty to loaded weight
-            edge = this._inputWeight * lim;
-            if(this._inputWeight < 0.){
-               edge = this._inputWeight * -lim;
-            }
-            ll = this._inputWeight - edge;
-            ul = this._inputWeight + edge;
-            if(this._measuredWeight<ll || this._measuredWeight>ul){
-               this._isError = true;
-               this.setError("Measured Weight",LocalDateTime.now());
-            }
             */
          }
       }
@@ -206,12 +197,8 @@ ErrorListener, Runnable{
    //
    //
    //
-   private void setError(String errorType, LocalDateTime dt){
+   private void setError(String errorType){
       this._error     = new String();
-      this._errorTime = new String();      
-      DateTimeFormatter dtf = null;
-      dtf = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
-      this._errorTime = dt.format(dtf);
       if(errorType.toUpperCase().contains("MEASURED")){
          this._error += "\n";
          this._error += "Launching Mechanism Measured Weight";
@@ -219,19 +206,6 @@ ErrorListener, Runnable{
          this._error += "\nMeasured: " + this._measuredWeight;
          this._error += "\nEmpty:    " + this._emptyWeight;
          this._error += "\nLoaded:   " + this._loadedWeight;
-      }
-      //Alert the ErrorListeners
-      ErrorEvent e = new ErrorEvent(this,this._error,this._errorTime);
-      try{
-         Iterator<ErrorListener> it = this._errorListeners.iterator();
-         while(it.hasNext()){
-            //Alert all the Listeners
-            it.next().errorOccurred(e);
-         }
-      }
-      catch(NullPointerException npe){
-         //Shold NEVER get here!!!
-         npe.printStackTrace();
       }
    }
 
@@ -295,7 +269,7 @@ ErrorListener, Runnable{
          this._systemListeners.add(sl);
       }
       catch(NullPointerException npe){
-         this._systemListeners = new LinkedList<SystemListeners>();
+         this._systemListeners = new LinkedList<SystemListener>();
          this._systemListeners.add(sl);
       }
    }
@@ -332,14 +306,14 @@ ErrorListener, Runnable{
       //measuring the System...which is about three seconds...or
       //whenever the Threads start up--just so something is available
       this._measuredWeight = this._emptyWeight;
-      this._state          = INIT;
+      this._state = new LaunchStateSubstate(INIT,null,null,null);
    }
 
    //
    //
    //
    public LaunchingMechanismData monitorInitialization(){
-      this._state = INIT;
+      this._state = new LaunchStateSubstate(INIT,null,null,null);
       return this._launchingMechanismData;
    }
 
@@ -347,7 +321,7 @@ ErrorListener, Runnable{
    //
    //
    public LaunchingMechanismData monitorPrelaunch(){
-      this._state = PRELAUNCH;
+      this._state = new LaunchStateSubstate(PRELAUNCH,null,null,null);
       return this._launchingMechanismData;
    }
 
@@ -355,7 +329,7 @@ ErrorListener, Runnable{
    //
    //
    public LaunchingMechanismData monitorIgnition(){
-      this._state = IGNITION;
+      this._state = new LaunchStateSubstate(IGNITION,null,null,null);
       return null;
    }
 
@@ -363,7 +337,7 @@ ErrorListener, Runnable{
    //
    //
    public LaunchingMechanismData monitorLaunch(){
-      this._state = LAUNCH;
+      this._state = new LaunchStateSubstate(LAUNCH,null,null,null);
       return null;
    }
 
@@ -421,7 +395,7 @@ ErrorListener, Runnable{
                throw new InterruptedException();
             } 
             if(this._start){
-               if(this._state == INIT){
+               if(this._state.state() == INIT){
                   //Debug Initial prints
                   Thread.sleep(10000);//Sleep for 10 secs in INIT
                   System.out.println(Thread.currentThread().getName());
@@ -430,8 +404,30 @@ ErrorListener, Runnable{
                   //Go ahead and change to a boolean return
                   if(this._isError){
                      //Create an Error Event
+                     ErrorEvent e = new ErrorEvent(this,this._error);
+                     try{
+                        Iterator<ErrorListener> it = null;
+                        it = this._errorListeners.iterator();
+                        while(it.hasNext()){
+                           it.next().errorOccurred(e);
+                        }
+                     }
+                     catch(NullPointerException npe){
+                        //Should NEVER get here
+                        npe.printStackTrace();
+                     }
                   } 
-                  else{}
+                  //Create a System Event
+                  MissionSystemEvent event = null;
+                  LaunchingMechanismData lmd = null;
+                  lmd = this._launchingMechanismData;
+                  String s = new String("Rocket Weight on Platform");
+                  event = new MissionSystemEvent(lmd, s, this._state);
+                  Iterator<SystemListener> it = null;
+                  it = this._systemListeners.iterator();
+                  while(it.hasNext()){
+                     it.next().update(event);
+                  }
                }
             }
          }

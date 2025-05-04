@@ -24,12 +24,12 @@ import rosas.lou.runnables.*;
 public class LaunchStateSubstate{
    public enum State{INITIALIZE,PRELAUNCH,IGNITION,LAUNCH,ASCENT};
    public enum PreLaunchSubstate{SET,CONTINUE,FUELING,HOLD};
-   public enum IgnitionSubstate{INGNITION,BUILDUP};
+   public enum IgnitionSubstate{IGNITION,BUILDUP};
    public enum AscentSubstate{STAGING,IGNITEENGINES};
 
    private State                _state             = null;
    private AscentSubstate       _ascentSubstate    = null;
-   private IngntionSubstate     _ignitionSubstate  = null;
+   private IgnitionSubstate     _ignitionSubstate  = null;
    private PreLaunchSubstate    _preLaunchSubstate = null;
 
    ////////////////////////////Constructors///////////////////////////
@@ -49,7 +49,7 @@ public class LaunchStateSubstate{
       AscentSubstate     ascent
    ){
       this.state(state);
-      this.prelaunchSubstate(prelaunch);
+      this.preLaunchSubstate(prelaunch);
       this.ignitionSubstate(ignition);
       this.ascentSubstate(ascent);
    
@@ -73,7 +73,7 @@ public class LaunchStateSubstate{
    //
    //
    //
-   public IngitionSubstate ignitionSubstate(){
+   public IgnitionSubstate ignitionSubstate(){
       return this._ignitionSubstate;
    }
 
@@ -102,7 +102,7 @@ public class LaunchStateSubstate{
    //
    //
    //
-   private void ascentsSubstate(AscentSubstate ascent){
+   private void ascentSubstate(AscentSubstate ascent){
       this._ascentSubstate = ascent;
    }
 
@@ -123,7 +123,7 @@ public class LaunchStateSubstate{
    //
    //
    //
-   private void setState(State state){
+   private void state(State state){
       this._state = state;
    }
 }
