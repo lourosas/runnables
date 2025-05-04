@@ -119,27 +119,67 @@ public class GenericSystemDataFeeder implements DataFeeder{
    //
    //
    //
-   private void setHoldsTolerance(Hashtable<String,String> ht){}
+   private void setHoldsTolerance(Hashtable<String,String> ht){
+      String ht = ht.get("holds_tolerance");
+      try{
+         this._holdsTolerance = Double.parseDouble(ht);
+      }
+      catch(NumberFormatException nfe){
+         this._holdsTolerance = Double.NaN;
+      }
+   }
 
    //
    //
    //
-   private void setLoadedWeight(Hashtable<String,String> ht){}
+   private void setLoadedWeight(Hashtable<String,String> ht){
+      String lw = ht.get("loaded_weight");
+      try{
+         this._loadedWeight = Double.parseDouble(lw);
+      }
+      catch(NumberFormatException nfe){
+         this._loadedWeight = Double.NaN;
+      }
+   }
 
    //
    //
    //
-   private void setNumberOfHolds(Hashtable<String,String> ht){}
+   private void setNumberOfHolds(Hashtable<String,String> ht){
+      String nh = ht.get("number_of_holds");
+      try{
+         this._numberOfHolds = Integer.parseInt(nh);
+      }
+      catch(NumberFormatException nfe){
+         this._numberOfHolds = -1;
+      }
+   }
 
    //
    //
    //
-   private void setPlatformTolerance(Hashtable<String,String> ht){}
+   private void setPlatformTolerance(Hashtable<String,String> ht){
+      String pt = ht.get("total_tolerance");
+      try{
+         this._platformTolerance = Double.parseDouble(pt);
+      }
+      catch(NumberFormatException nfe){
+         this._platformTolerance = Double.NaN;
+      }
+   }
 
    //
    //
    //
-   private void setStages(Hashtable<String,String> ht){}
+   private void setStages(Hashtable<String,String> ht){
+      String st = ht.get("stages");
+      try{
+         this._stages = Integer.parseInteger(st);
+      }
+      catch(NumberFormatException nfe){
+         this._stages = -1;
+      }
+   }
 
    ////////////////DataFeeder Interface Implmentation/////////////////
    //
@@ -186,6 +226,44 @@ public class GenericSystemDataFeeder implements DataFeeder{
       catch(IOException ioe){
          ioe.printStackTrace();
       }
+   }
+
+   //
+   //
+   //
+   public double loadedWeight(){
+      //I am "thinking" the loaded weight and empty weight should
+      //be consistent
+      return this._loaededWeight;
+   }
+
+   //
+   //
+   //
+   public int numberOfHolds(){
+      return this._numberOfHolds;
+   }
+
+   //
+   //
+   //
+   public int numberOfStages(){
+      return this._stages;
+   }
+
+   //
+   //
+   //
+   public double platformTolerance(){
+      //Should remain consistant...
+      return this._platformTolerance;
+   }
+
+   //
+   //
+   //
+   public void setStateSubstate(LaunchStateSubstate cond){
+      this._cond = cond;
    }
 }
 //////////////////////////////////////////////////////////////////////
