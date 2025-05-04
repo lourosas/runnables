@@ -103,9 +103,21 @@ ErrorListener, Runnable{
 
       //TODO What happens if a Measurement is not good? Indicate an
       //error or not?
+      //For ease, might consider the _inputWeight based on measure...
       if(inputGood && measGood){
          //Account for the State to determine errors...
          if(this._state == INIT){
+            //Weight should be based sole-ly on the empty weight...
+            edge = this._emptyWeight * lim;
+            if(this._inputWeight < 0.){
+               edge = this._emptyWeight * -lim;
+            }
+            //At the point of measure, should conform to the tolerance
+            ll = this._emptyWeight - edge;
+            ul = this._emptyWeight + edge;
+            if(this._measuredWeight<ll || this._measuredWeight>ul){
+               this._error = true;
+            }
          }
          else if(this._state == PRELAUNCH){
             /*
@@ -416,8 +428,8 @@ ErrorListener, Runnable{
                   System.out.println(Thread.currentThread().getId());
                   this.measureWeight();
                   //Go ahead and change to a boolean return
-                  if(this.isError()){
-                  
+                  if(this._isError){
+                     //Create an Error Event
                   } 
                   else{}
                }
