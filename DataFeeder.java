@@ -27,12 +27,13 @@ public interface DataFeeder{
    public double angleOfHolds();
    public double emptyWeight();
    public double holdsTolerance();
-   public void   initialize(String file);
+   public void   initialize(String file)throws IOException;
    public double loadedWeight();
    public int    numberOfHolds();
    public int    numberOfStages();
    public double platformTolerance();
    public void   setStateSubstate(LaunchStateSubstate cond);
    public double weight();
+   public String toString();
 }
 //////////////////////////////////////////////////////////////////////

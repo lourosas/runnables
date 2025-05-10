@@ -623,7 +623,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       file.setMnemonic(KeyEvent.VK_F);
 
       JMenuItem open = new JMenuItem("Open", 'O');
-      open.setActionCommand("OpenINIFile");
+      open.setActionCommand("OpenJsonFile");
       ks = KeyStroke.getKeyStroke(KeyEvent.VK_O, ctrl);
       open.setAccelerator(ks);
       this._menuButtonGroup.add(open);

@@ -206,7 +206,7 @@ public class GenericSystemDataFeeder implements DataFeeder{
    //
    //
    //
-   public void initialize(String file){
+   public void initialize(String file)throws IOException{
       try{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
@@ -225,6 +225,7 @@ public class GenericSystemDataFeeder implements DataFeeder{
       }
       catch(IOException ioe){
          ioe.printStackTrace();
+         throw ioe;
       }
    }
 
@@ -272,6 +273,22 @@ public class GenericSystemDataFeeder implements DataFeeder{
    public double weight(){
       //Possibly will need to change base on state
       return this._weight;
+   }
+
+   //
+   //
+   //
+   public String toString(){
+      String s = new String(""+this.getClass().getName());
+      s += "\nHolds Angle:       " + this.angleOfHolds();
+      s += "\nEmpty Weight:      " + this.emptyWeight();
+      s += "\nHolds Tolerance:   " + this.holdsTolerance();
+      s += "\nLoaded Weight:     " + this.loadedWeight();
+      s += "\nHolds:             " + this.numberOfHolds();
+      s += "\nStages:            " + this.numberOfStages();
+      s += "\nPlatform Tolerance " + this.platformTolerance();
+      s += "\nWeight:            " + this.weight();
+      return s;
    }
 }
 //////////////////////////////////////////////////////////////////////

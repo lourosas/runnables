@@ -126,7 +126,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    private void addFeeders(DataFeeder feeder){
       if(feeder != null){
-         this.simState            = Sim.YES;
+         this.simState = Sim.YES;
          //Set all the Simualation Feeder data
          this.feeder    = feeder;
       }

@@ -194,7 +194,9 @@ KeyListener,ItemListener,WindowListener{
          JMenuItem m = (JMenuItem)e.getSource();
          String command = m.getActionCommand().toUpperCase();
          if(command.equals("OPENINIFILE")){
-            //this.openIniFile();
+            this.openIniFile();
+         }
+         else if(command.equals("OPENJSONFILE")){
             this.openJSONFile();
          }
       }
@@ -248,8 +250,12 @@ KeyListener,ItemListener,WindowListener{
       int value = chooser.showOpenDialog(this._frame);
       if(value == 0){
          String file = chooser.getSelectedFile().getPath();
-         //this._simulator.initialize(file);
-         this._system.initialize(file);
+         if(this._simulator != null){
+            this._simulator.initialize(file);
+         }
+         if(this._system != null){
+            this._system.initialize(file);
+         }
       }
    }
 
@@ -263,8 +269,15 @@ KeyListener,ItemListener,WindowListener{
       int value = chooser.showOpenDialog(this._frame);
       if(value == 0){
          String file = chooser.getSelectedFile().getPath();
-         //this._simulator.initialize(file);
-         this._system.initialize(file);
+         System.out.println(file);
+         /*
+         if(this._simulator != null){
+            this._simulator.initialize(file);
+         }
+         if(this._system != null){
+            this._system.initialize(file);
+         }
+         */
       }
    }
 
