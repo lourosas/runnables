@@ -269,15 +269,12 @@ KeyListener,ItemListener,WindowListener{
       int value = chooser.showOpenDialog(this._frame);
       if(value == 0){
          String file = chooser.getSelectedFile().getPath();
-         System.out.println(file);
-         /*
          if(this._simulator != null){
             this._simulator.initialize(file);
          }
          if(this._system != null){
             this._system.initialize(file);
          }
-         */
       }
    }
 

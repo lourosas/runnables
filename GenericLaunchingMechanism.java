@@ -73,7 +73,7 @@ ErrorListener, Runnable{
       _launchingMechanismData = null;
       _model                  = -1;
       _supports               = null;
-      _start                  = true;
+      _start                  = false;
       _state                  = null;
       _measuredWeight         = Double.NaN;
       _tolerance              = Double.NaN;
@@ -307,6 +307,8 @@ ErrorListener, Runnable{
       //whenever the Threads start up--just so something is available
       this._measuredWeight = this._emptyWeight;
       this._state = new LaunchStateSubstate(INIT,null,null,null);
+      //Once Initialized, can start the monitoring...
+      this._start = true;
    }
 
    //
@@ -314,6 +316,7 @@ ErrorListener, Runnable{
    //
    public LaunchingMechanismData monitorInitialization(){
       this._state = new LaunchStateSubstate(INIT,null,null,null);
+      this._start = true;
       return this._launchingMechanismData;
    }
 
@@ -322,6 +325,7 @@ ErrorListener, Runnable{
    //
    public LaunchingMechanismData monitorPrelaunch(){
       this._state = new LaunchStateSubstate(PRELAUNCH,null,null,null);
+      this._start = true;
       return this._launchingMechanismData;
    }
 
@@ -330,6 +334,7 @@ ErrorListener, Runnable{
    //
    public LaunchingMechanismData monitorIgnition(){
       this._state = new LaunchStateSubstate(IGNITION,null,null,null);
+      this._start = true;
       return null;
    }
 
@@ -338,6 +343,7 @@ ErrorListener, Runnable{
    //
    public LaunchingMechanismData monitorLaunch(){
       this._state = new LaunchStateSubstate(LAUNCH,null,null,null);
+      this._start = true;
       return null;
    }
 
@@ -395,11 +401,14 @@ ErrorListener, Runnable{
                throw new InterruptedException();
             } 
             if(this._start){
+               //Consider redoing this...make it simpler
                if(this._state.state() == INIT){
                   //Debug Initial prints
                   Thread.sleep(10000);//Sleep for 10 secs in INIT
                   System.out.println(Thread.currentThread().getName());
                   System.out.println(Thread.currentThread().getId());
+                  /*
+                   * To add in the imediate future!
                   this.measureWeight();
                   //Go ahead and change to a boolean return
                   if(this._isError){
@@ -428,7 +437,12 @@ ErrorListener, Runnable{
                   while(it.hasNext()){
                      it.next().update(event);
                   }
+                  */
                }
+            }
+            else{
+               //Monitor for change every 10^-3 secs
+               Thread.sleep(1);
             }
          }
       }
