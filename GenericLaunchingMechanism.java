@@ -128,6 +128,24 @@ ErrorListener, Runnable{
       }
    }
 
+   //
+   //
+   //
+   private void initializeINIFile(String file)throws IOException{}
+
+   //
+   //
+   //
+   private void initializeJSONFile(String file)throws IOException{
+      LaunchSimulatorJsonFileReader read = null;
+      read = new LaunchSimulatorJsonFileReader(file);
+      Hashtable<String,String> ht = null;
+      ht = read.readRocketInfo();
+      this.rocketData(ht);
+      ht = read.readLaunchingMechanismInfo();
+      this.mechanismData(ht);
+   }
+
    //Measure the weight of the rocket based in terms of this
    //Mechanism...will evolve...
    //
@@ -212,6 +230,26 @@ ErrorListener, Runnable{
    //
    //
    //
+   private void setUpMechanismSupports(String file){
+      for(int i = 0; i < this._holds; ++i){
+         MechanismSupport support = null;
+         support = new GenericMechanismSupport(i);
+         support.initialize(file);
+         support.addErrorListener(this);
+         //support.addSystemListener(this);
+         try{
+            this._supports.add(support);
+         }
+         catch(NullPointerException npe){
+            this._supports = new LinkedList<MechanismSupport>();
+            this._supports.add(support);
+         }
+      }
+   }
+
+   //
+   //
+   //
    private void setUpThread(){
       this._rt0 = new Thread(this, "Launching Mechanism");
       this._rt0.start();
@@ -278,16 +316,14 @@ ErrorListener, Runnable{
    //
    //
    public void initialize(String file)throws IOException{
-      if(file.toUpperCase().contains("INI")){}
-      else if(file.toUpperCase().contains("JSON")){
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         Hashtable<String,String> ht = null;
-         ht = read.readRocketInfo();
-         this.rocketData(ht);
-         ht = read.readLaunchingMechanismInfo();
-         this.mechanismData(ht);
+      if(file.toUpperCase().contains("INI")){
+         this.initializeINIFile(file);
       }
+      else if(file.toUpperCase().contains("JSON")){
+         this.initializeJSONFile(file);
+      }
+      this.setUpMechanismSupports(file);
+      /*
       for(int i = 0; i < this._holds; ++i){
          MechanismSupport support = null;
          support = new GenericMechanismSupport(i);
@@ -301,6 +337,7 @@ ErrorListener, Runnable{
             this._supports.add(support);
          }
       }
+      */
       //The initialization phase assumes NO fuel loaded in the Rocket
       //ergo, the Rocket is at empty weght...this is PRIOR to actually
       //measuring the System...which is about three seconds...or
