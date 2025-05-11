@@ -108,22 +108,23 @@ ErrorListener, Runnable{
          //Account for the State to determine errors...
          if(this._state.state() == INIT){
             //Weight should be based sole-ly on the empty weight...
-            edge = this._emptyWeight * lim;
-            if(this._emptyWeight < 0.){
-               edge = this._emptyWeight * -lim;
-            }
-            //At the point of measure, should conform to the tolerance
-            ll = this._emptyWeight - edge;
-            ul = this._emptyWeight + edge;
-            if(this._measuredWeight<ll || this._measuredWeight>ul){
-               this._isError = true;
-               this.setError("Measured Weight");
+            ll = this._emptyWeight*this._tolerance;
+            ul = this._emptyWeight*(2-this._tolerance);
+            //Will need to test to make sure this works
+            if(this._emptyWeight < 0){
+               double temp = ul;
+               ul = ll;
+               ll = temp;
             }
          }
          else if(this._state.state() == PRELAUNCH){
             /*
              * For fueling, empty to loaded weight
             */
+         }
+         if(this._measuredWeight < ll || this._measuredWeight > ul){
+            this._isError = true;
+            this.setError("Measured Weight");
          }
       }
    }
@@ -152,9 +153,6 @@ ErrorListener, Runnable{
    private void measureWeight(){
       try{
          this._measuredWeight = this._feeder.weight();
-         System.out.println("Measured Weight: "+this._measuredWeight);
-         //do a test print, first...
-         System.out.println(this._feeder);
       }
       catch(NullPointerException npe){
          //Measure the Rocket DIRECTLY!!!!
@@ -184,9 +182,9 @@ ErrorListener, Runnable{
          catch(NumberFormatException nfe){}
          catch(NullPointerException npe){}
       }
-      if(data.containsKey("total_tollerance")){
+      if(data.containsKey("total_tolerance")){
          try{
-            String sToll    = data.get("total_tollerance");
+            String sToll    = data.get("total_tolerance");
             this._tolerance = Double.parseDouble(sToll);
          }
          catch(NumberFormatException nfe){}
@@ -435,43 +433,47 @@ ErrorListener, Runnable{
                   Thread.sleep(10000);//Sleep for 10 secs in INIT
                   System.out.println(Thread.currentThread().getName());
                   System.out.println(Thread.currentThread().getId());
-                  /*
-                   * To add in the imediate future!
-                  this.measureWeight();
-                  //Go ahead and change to a boolean return
-                  if(this._isError){
-                     //Create an Error Event
-                     ErrorEvent e = new ErrorEvent(this,this._error);
-                     try{
-                        Iterator<ErrorListener> it = null;
-                        it = this._errorListeners.iterator();
-                        while(it.hasNext()){
-                           it.next().errorOccurred(e);
-                        }
-                     }
-                     catch(NullPointerException npe){
-                        //Should NEVER get here
-                        npe.printStackTrace();
-                     }
-                  } 
-                  //Create a System Event
-                  MissionSystemEvent event = null;
-                  LaunchingMechanismData lmd = null;
-                  lmd = this._launchingMechanismData;
-                  String s = new String("Rocket Weight on Platform");
-                  event = new MissionSystemEvent(lmd, s, this._state);
-                  Iterator<SystemListener> it = null;
-                  it = this._systemListeners.iterator();
-                  while(it.hasNext()){
-                     it.next().update(event);
-                  }
-                  */
                }
                //It appears going to do the same god damned thing the
                //whole time...so just "change sleep time" and others
                //as needed...
                this.measureWeight();
                this.isError();
+               if(this._isError){
+                  //Create an ErrorEvent
+                  ErrorEvent e = new ErrorEvent(this, this._error);
+                  try{
+                     Iterator<ErrorListener> it = null;
+                     it = this._errorListeners.iterator();
+                     while(it.hasNext()){
+                        it.next().errorOccurred(e);
+                     }
+                  }
+                  catch(NullPointerException npe){
+                     //Should NEVER get here
+                     npe.printStackTrace();
+                  }
+               }
+               else{
+                  //Create a SystemEvent
+                  MissionSystemEvent event = null;
+                  LaunchingMechanismData lmd = null;
+                  lmd = this._launchingMechanismData;
+                  String s = new String("Launching Mechanism Data");
+                  //Going to go ahead and send in the entire object
+                  event = new MissionSystemEvent(this,s,this._state);
+                  try{
+                     Iterator<SystemListener> it = null;
+                     it = this._systemListeners.iterator();
+                     while(it.hasNext()){
+                        it.next().update(event);
+                     }
+                  }
+                  catch(NullPointerException npe){
+                     //Should NEVER get here
+                     npe.printStackTrace();
+                  }
+               }
             }
             else{
                //Monitor for change every 10^-3 secs
