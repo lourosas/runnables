@@ -93,6 +93,13 @@ public class GenericSystemDataFeeder implements DataFeeder{
    //
    //
    //
+   private double lastMeasuredWeight(){
+      return this._weight;
+   }
+   
+   //
+   //
+   //
    private void setEmptyWeight(Hashtable<String,String> ht){
       String ew = ht.get("empty_weight");
       try{
@@ -179,6 +186,25 @@ public class GenericSystemDataFeeder implements DataFeeder{
       catch(NumberFormatException nfe){
          this._stages = -1;
       }
+   }
+
+   //
+   //
+   //
+   private double setWeight(){
+      double scale = Double.NaN;
+      int    min   = -1;
+      int    max   = -1;
+      int    value = -1;
+      //Set _weight;
+      if(this._cond.state() == INIT){
+         scale = 0.025;
+      }
+      min   = (int)(this.emptyWeight()*(1-scale));
+      max   = (int)(this.emptyWeight()*(1+scale));
+      value = this._random.nextInt(max - min + 1) + min; 
+      this._weight = (double)value;
+      return this._weight;
    }
 
    ////////////////DataFeeder Interface Implmentation/////////////////
@@ -272,7 +298,7 @@ public class GenericSystemDataFeeder implements DataFeeder{
    //
    public double weight(){
       //Possibly will need to change base on state
-      return this._weight;
+      return this.setWeight();
    }
 
    //
@@ -287,7 +313,7 @@ public class GenericSystemDataFeeder implements DataFeeder{
       s += "\nHolds:             " + this.numberOfHolds();
       s += "\nStages:            " + this.numberOfStages();
       s += "\nPlatform Tolerance " + this.platformTolerance();
-      s += "\nWeight:            " + this.weight();
+      s += "\nWeight:            " + this.lastMeasuredWeight();
       return s;
    }
 }

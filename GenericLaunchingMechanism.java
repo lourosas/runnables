@@ -152,9 +152,15 @@ ErrorListener, Runnable{
    private void measureWeight(){
       try{
          this._measuredWeight = this._feeder.weight();
+         System.out.println("Measured Weight: "+this._measuredWeight);
+         //do a test print, first...
+         System.out.println(this._feeder);
       }
       catch(NullPointerException npe){
          //Measure the Rocket DIRECTLY!!!!
+         if(this._state.state() == INIT){
+            this._measuredWeight = this._emptyWeight;
+         }
       }
    }
 
@@ -323,21 +329,6 @@ ErrorListener, Runnable{
          this.initializeJSONFile(file);
       }
       this.setUpMechanismSupports(file);
-      /*
-      for(int i = 0; i < this._holds; ++i){
-         MechanismSupport support = null;
-         support = new GenericMechanismSupport(i);
-         support.initialize(file);
-         support.addErrorListener(this);
-         try{
-            this._supports.add(support);
-         }
-         catch(NullPointerException npe){
-            this._supports = new LinkedList<MechanismSupport>();
-            this._supports.add(support);
-         }
-      }
-      */
       //The initialization phase assumes NO fuel loaded in the Rocket
       //ergo, the Rocket is at empty weght...this is PRIOR to actually
       //measuring the System...which is about three seconds...or
@@ -476,6 +467,11 @@ ErrorListener, Runnable{
                   }
                   */
                }
+               //It appears going to do the same god damned thing the
+               //whole time...so just "change sleep time" and others
+               //as needed...
+               this.measureWeight();
+               this.isError();
             }
             else{
                //Monitor for change every 10^-3 secs
