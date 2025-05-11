@@ -77,7 +77,7 @@ public class ErrorEvent extends EventObject{
    private void setTime(){
       LocalDateTime now = LocalDateTime.now();
       DateTimeFormatter dtf = null;
-      dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss.SSS");
+      dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss.SSS");
       this.time = now.format(dtf);
    }
 }

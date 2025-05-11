@@ -172,7 +172,10 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    //
-   public void errorOccurred(ErrorEvent e){}
+   public void errorOccurred(ErrorEvent e){
+      //Test Prints
+      System.out.println(e);
+   }
 
    //////////////LaunchSystem Interface Implementation////////////////
    //
@@ -256,6 +259,17 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    //
-   public void update(MissionSystemEvent event){}
+   public void update(MissionSystemEvent event){
+      try{
+         GenericLaunchingMechanism glm = null;
+         glm = (GenericLaunchingMechanism)event.getSource();
+         System.out.println(event.event());
+         System.out.println(event.state());
+         System.out.println(event.state().state());
+         System.out.println(event.time());
+
+      }
+      catch(ClassCastException cce){}
+   }
 }
 //////////////////////////////////////////////////////////////////////

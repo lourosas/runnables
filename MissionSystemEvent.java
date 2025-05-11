@@ -79,10 +79,11 @@ public class MissionSystemEvent extends EventObject{
    //
    //
    public String toString(){
-      String returnString = new String(this.getSource().toString());
-      returnString += ", " + this.event();
-      returnString += ", " + this.time();
-      returnString += ", " + this.state.toString();
+      String returnString =  new String("Source:  ");
+      returnString += this.getSource().toString();
+      returnString += "\n" + this.event();
+      returnString += "\n" + this.time();
+      returnString += "\n" + this.state.toString();
       return returnString;
    }
 
@@ -93,7 +94,7 @@ public class MissionSystemEvent extends EventObject{
    private void setTime(){
       LocalDateTime now  = LocalDateTime.now();
       DateTimeFormatter dtf = null;
-      dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss.SSS");
+      dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss.SSS");
       this.time = now.format(dtf);
    }
 }
