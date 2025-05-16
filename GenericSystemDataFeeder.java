@@ -198,7 +198,8 @@ public class GenericSystemDataFeeder implements DataFeeder{
       int    value = -1;
       //Set _weight;
       if(this._cond.state() == INIT){
-         scale = 0.025;
+         //scale = 0.025;
+         scale = 0.15;
       }
       min   = (int)(this.emptyWeight()*(1-scale));
       max   = (int)(this.emptyWeight()*(1+scale));

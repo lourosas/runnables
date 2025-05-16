@@ -254,6 +254,14 @@ ErrorListener, Runnable{
    //
    //
    //
+   private void setUpLaunchingMechanismData(){
+      System.out.println("Poop");
+      System.out.println(this._launchingMechanismData);
+   }
+
+   //
+   //
+   //
    private void setUpThread(){
       this._rt0 = new Thread(this, "Launching Mechanism");
       this._rt0.start();
@@ -341,8 +349,8 @@ ErrorListener, Runnable{
    //
    //
    public LaunchingMechanismData monitorInitialization(){
-      this._state = new LaunchStateSubstate(INIT,null,null,null);
-      this._start = true;
+      //this._state = new LaunchStateSubstate(INIT,null,null,null);
+      //this._start = true;
       return this._launchingMechanismData;
    }
 
@@ -439,6 +447,7 @@ ErrorListener, Runnable{
                //as needed...
                this.measureWeight();
                this.isError();
+               this.setUpLaunchingMechanismData();
                if(this._isError){
                   //Create an ErrorEvent
                   ErrorEvent e = new ErrorEvent(this, this._error);
@@ -459,7 +468,8 @@ ErrorListener, Runnable{
                   MissionSystemEvent event = null;
                   LaunchingMechanismData lmd = null;
                   lmd = this._launchingMechanismData;
-                  String s = new String("Launching Mechanism Data");
+                  String s = null;
+                  s = new String("Launching Mechanism Event");
                   //Going to go ahead and send in the entire object
                   event = new MissionSystemEvent(this,s,this._state);
                   try{

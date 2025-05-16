@@ -263,10 +263,11 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
       try{
          GenericLaunchingMechanism glm = null;
          glm = (GenericLaunchingMechanism)event.getSource();
-         System.out.println(event.event());
-         System.out.println(event.state());
-         System.out.println(event.state().state());
-         System.out.println(event.time());
+         System.out.println();
+         System.out.println("Event:         "+event.event());
+         System.out.println("StateSubstate\n"+event.state());
+         System.out.println("State:         "+event.state().state());
+         System.out.println("Time:          "+event.time());
 
       }
       catch(ClassCastException cce){}
