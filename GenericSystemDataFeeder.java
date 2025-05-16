@@ -46,7 +46,8 @@ public class GenericSystemDataFeeder implements DataFeeder{
    private double              _emptyWeight;
    private double              _holdsTolerance;
    private double              _loadedWeight;
-   private double              _measuredWeight;//dont need if have weight!
+   //dont need if have weight!
+   private double              _measuredWeight;
    private int                 _numberOfHolds;
    private double              _platformTolerance;
    private Random              _random;
@@ -198,8 +199,8 @@ public class GenericSystemDataFeeder implements DataFeeder{
       int    value = -1;
       //Set _weight;
       if(this._cond.state() == INIT){
-         //scale = 0.025;
-         scale = 0.15;
+         scale = 0.025;
+         //scale = 0.15;  //To test for errors
       }
       min   = (int)(this.emptyWeight()*(1-scale));
       max   = (int)(this.emptyWeight()*(1+scale));

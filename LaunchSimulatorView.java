@@ -192,6 +192,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    ////////////////////////Subscriber Methods/////////////////////////
    /**/
    public void update(Object o){
+      /*
       try{
          RocketData rd = (RocketData)o;
          this.handleRocketData(null, rd);
@@ -205,6 +206,12 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       try{
          PayloadData pd = (PayloadData)o;
          this.handlePayloadData(null, pd);
+      }
+      catch(ClassCastException cce){}
+      */
+      try{
+         MissionSystemEvent mse = (MissionSystemEvent)o;
+         System.out.println("<View>:  "+mse);
       }
       catch(ClassCastException cce){}
    }

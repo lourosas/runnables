@@ -91,6 +91,48 @@ ErrorListener, Runnable{
    //
    //
    //
+   private void alertErrorListeners(){
+      //Create an ErrorEvent
+      ErrorEvent e = new ErrorEvent(this, this._error);
+      try{
+         Iterator<ErrorListener> it = null;
+         it = this._errorListeners.iterator();
+         while(it.hasNext()){
+            it.next().errorOccurred(e);
+         }
+      }
+      catch(NullPointerException npe){
+         //Should NEVER get here
+         npe.printStackTrace();
+      }   
+   }
+
+   //
+   //
+   //
+   private void alertSystemListeners(){
+      //Create a SystemEvent
+      MissionSystemEvent event = null;
+      String s = new String("Launching Mechanism Event");
+      this.setUpLaunchingMechanismData();
+      //Going to go ahead and send in the entire object
+      event = new MissionSystemEvent(this,s,this._state);
+      try{
+         Iterator<SystemListener> it = null;
+         it = this._systemListeners.iterator();
+         while(it.hasNext()){
+            it.next().update(event);
+         }
+      }
+      catch(NullPointerException npe){
+         //Should NEVER get here
+         npe.printStackTrace();
+      }   
+   }
+
+   //
+   //
+   //
    private void isError(){
       double  edge      = Double.NaN;
       double  ul        = Double.NaN;
@@ -234,6 +276,29 @@ ErrorListener, Runnable{
    //
    //
    //
+   private void setUpLaunchingMechanismData(){
+      LaunchingMechanismData lmd     = null;
+      List<MechanismSupportData> msd = null;
+      msd = new LinkedList<MechanismSupportData>();
+      Iterator<MechanismSupport> it = this._supports.iterator();
+      while(it.hasNext()){
+         if(this._state.state() == INIT){
+            msd.add(it.next().monitorInitialization());
+         }
+      }
+      lmd = new GenericLaunchingMechanismData(this._error,
+                                              this._holds,
+                                              this._isError,
+                                              this._measuredWeight,
+                                              this._model,
+                                              this._tolerance,
+                                              msd);
+      this._launchingMechanismData = lmd;
+   }
+
+   //
+   //
+   //
    private void setUpMechanismSupports(String file){
       for(int i = 0; i < this._holds; ++i){
          MechanismSupport support = null;
@@ -249,14 +314,6 @@ ErrorListener, Runnable{
             this._supports.add(support);
          }
       }
-   }
-
-   //
-   //
-   //
-   private void setUpLaunchingMechanismData(){
-      System.out.println("Poop");
-      System.out.println(this._launchingMechanismData);
    }
 
    //
@@ -435,10 +492,7 @@ ErrorListener, Runnable{
                throw new InterruptedException();
             } 
             if(this._start){
-               //Consider redoing this...make it simpler
                if(this._state.state() == INIT){
-                  //Debug Initial prints
-                  Thread.sleep(10000);//Sleep for 10 secs in INIT
                   System.out.println(Thread.currentThread().getName());
                   System.out.println(Thread.currentThread().getId());
                }
@@ -447,43 +501,13 @@ ErrorListener, Runnable{
                //as needed...
                this.measureWeight();
                this.isError();
-               this.setUpLaunchingMechanismData();
                if(this._isError){
-                  //Create an ErrorEvent
-                  ErrorEvent e = new ErrorEvent(this, this._error);
-                  try{
-                     Iterator<ErrorListener> it = null;
-                     it = this._errorListeners.iterator();
-                     while(it.hasNext()){
-                        it.next().errorOccurred(e);
-                     }
-                  }
-                  catch(NullPointerException npe){
-                     //Should NEVER get here
-                     npe.printStackTrace();
-                  }
+                  this.alertErrorListeners();
                }
                else{
-                  //Create a SystemEvent
-                  MissionSystemEvent event = null;
-                  LaunchingMechanismData lmd = null;
-                  lmd = this._launchingMechanismData;
-                  String s = null;
-                  s = new String("Launching Mechanism Event");
-                  //Going to go ahead and send in the entire object
-                  event = new MissionSystemEvent(this,s,this._state);
-                  try{
-                     Iterator<SystemListener> it = null;
-                     it = this._systemListeners.iterator();
-                     while(it.hasNext()){
-                        it.next().update(event);
-                     }
-                  }
-                  catch(NullPointerException npe){
-                     //Should NEVER get here
-                     npe.printStackTrace();
-                  }
+                  this.alertSystemListeners();
                }
+               Thread.sleep(10000);//Sleep for 10 secs in INIT
             }
             else{
                //Monitor for change every 10^-3 secs
