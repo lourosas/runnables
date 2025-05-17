@@ -211,7 +211,8 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       */
       try{
          MissionSystemEvent mse = (MissionSystemEvent)o;
-         System.out.println("<View>:  "+mse);
+         System.out.println("<View>:  "+mse.getSource());
+         System.out.println(mse.state().state());
       }
       catch(ClassCastException cce){}
    }
