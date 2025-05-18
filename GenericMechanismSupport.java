@@ -22,10 +22,12 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 
-public class GenericMechanismSupport implements MechanismSupport{
-   private static final int PRELAUNCH = -1;
-   private static final int IGNITION  =  0;
-   private static final int LAUNCH    =  1;
+public class GenericMechanismSupport implements MechanismSupport,
+Runnable{
+   private LaunchStateSubstate.State INIT       = null;
+   private LaunchStateSubstate.State PRELAUNCH  = null;
+   private LaunchStateSubstate.State IGNITION   = null;
+   private LaunchStateSubstate.State LAUNCH     = null;
 
    private double              _angle; //In Radians!!!
    private List<ErrorListener> _errorListeners;
@@ -42,8 +44,16 @@ public class GenericMechanismSupport implements MechanismSupport{
    private DataFeeder          _feeder;
    private ForceVector         _measuredVector;
    private ForceVector         _vector;
+   private LaunchStateSubstate _state;
+   private MechanismSupportData _supportData;
+   private Thread              _rt0;
 
    {
+      INIT      = LaunchStateSubstate.State.INITIALIZE;
+      PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
+      IGNITION  = LaunchStateSubstate.State.IGNITION;
+      LAUNCH    = LaunchStateSubstate.State.LAUNCH;
+
       _angle            = Double.NaN;
       _errorListeners   = null;
       _measuredAngle    = Double.NaN;
@@ -56,6 +66,9 @@ public class GenericMechanismSupport implements MechanismSupport{
       _measuredVector   = null;
       _vector           = null;
       _feeder           = null;
+      _state            = null;
+      _rt0              = null;
+      _supportData      = null;
    };
 
    ////////////////////////Contructors////////////////////////////////
@@ -64,6 +77,7 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    public GenericMechanismSupport(int id){
       this._id = id;
+      this.setUpThread();
    }
 
    ////////////////////////Private Methods////////////////////////////
@@ -152,11 +166,13 @@ public class GenericMechanismSupport implements MechanismSupport{
       double ll   = this._angle - edge;
       double ul   = this._angle + edge;
       //Account for the State to determine errors
+      /*
       if(state  == PRELAUNCH){
          if(this._measuredAngle < ll || this._measuredAngle > ul){
             isError = true;
          }
       }
+      */
       return isError;
    }
 
@@ -210,6 +226,7 @@ public class GenericMechanismSupport implements MechanismSupport{
       boolean isError = false;
       double  lim     = 1. - this._tolerance;
       //Account for the state to determine errors...
+      /*
       if(state == PRELAUNCH){
          //first, check the i-hat direction
          //Will need to change for the different parts...
@@ -251,6 +268,7 @@ public class GenericMechanismSupport implements MechanismSupport{
             isError = true;
          }
       }
+      */
       return isError;
    }
 
@@ -265,11 +283,13 @@ public class GenericMechanismSupport implements MechanismSupport{
       double ll   = this._armForce - edge;
       double ul   = this._armForce + edge;
       //Account for state to determine errors...
+      /*
       if(state == PRELAUNCH){
          if(this._measuredForce < ll || this._measuredForce > ul){
             isError = true;
          }
       }
+      */
       return isError;
    }
 
@@ -298,6 +318,9 @@ public class GenericMechanismSupport implements MechanismSupport{
    private void measureAngle(){
       //Make this more complex based on release...for now, just
       //get something working
+      try{
+         this._measureAngle = this._feeder.angleOfHolds();
+      }
       this._measuredAngle = this._angle;
    }
 
@@ -318,6 +341,14 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    private void measureArm(){
       this._measuredForce = this._armForce;
+   }
+
+   //
+   //
+   //
+   private void setUpThread(){
+      this._rt0 = new Thread(this, "Mechanism Support" + this._id);
+      this._rt0.start();
    }
 
    //////////////MechanismSupport Interface Implementation////////////
@@ -373,6 +404,12 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    //
    //
+   public MechanismSupportData monitorData(){
+      return null;
+   }
+   //
+   //
+   //
    public MechanismSupportData monitorInitialization(){
       return null;
    }
@@ -381,7 +418,7 @@ public class GenericMechanismSupport implements MechanismSupport{
    //
    //
    public MechanismSupportData monitorPrelaunch(){
-      return(this.measure(PRELAUNCH));
+      return null;
    }
 
    //
@@ -416,5 +453,11 @@ public class GenericMechanismSupport implements MechanismSupport{
       string += "\n"+this._tolerance+"\n"+this._vector;
       return string;
    }
+
+   /////////////////Runnable Interface Implementation/////////////////
+   //
+   //
+   //
+   public void run(){}
 }
 //////////////////////////////////////////////////////////////////////

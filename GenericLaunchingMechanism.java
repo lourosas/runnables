@@ -490,10 +490,6 @@ ErrorListener, Runnable{
                throw new InterruptedException();
             } 
             if(this._start){
-               if(this._state.state() == INIT){
-                  System.out.println(Thread.currentThread().getName());
-                  System.out.println(Thread.currentThread().getId());
-               }
                //It appears going to do the same god damned thing the
                //whole time...so just "change sleep time" and others
                //as needed...
@@ -505,7 +501,11 @@ ErrorListener, Runnable{
                else{
                   this.alertSystemListeners();
                }
-               Thread.sleep(10000);//Sleep for 10 secs in INIT
+               if(this._state.state() == INIT){
+                  System.out.println(Thread.currentThread().getName());
+                  System.out.println(Thread.currentThread().getId());
+                  Thread.sleep(10000);//Sleep for 10 secs in INIT
+               }
             }
             else{
                //Monitor for change every 10^-3 secs

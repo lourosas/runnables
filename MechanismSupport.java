@@ -27,6 +27,7 @@ public interface MechanismSupport{
    public void addErrorListener(ErrorListener e);
    public int id();
    public void initialize(String file);
+   public MechanismSupportData monitorData();
    public MechanismSupportData monitorInitialization();
    public MechanismSupportData monitorPrelaunch();
    public MechanismSupportData monitorIgnition();
