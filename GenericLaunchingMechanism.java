@@ -341,7 +341,6 @@ ErrorListener, Runnable{
       try{
          if(feeder != null){
             this._feeder = feeder;
-            /* TBD write later!!!
             for(int i = 0; i < this._supports.size(); ++i){
                MechanismSupport sup = null;
                sup = (MechanismSupport)this._supports.get(i);
@@ -349,7 +348,6 @@ ErrorListener, Runnable{
                //Simulation!
                sup.addDataFeeder(feeder);
             }
-            */
          }
       }
       catch(NullPointerException npe){}

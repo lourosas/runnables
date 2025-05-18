@@ -38,6 +38,8 @@ public class GenericMechanismSupport implements MechanismSupport{
    private String              _error;
    private boolean             _isError;
    private double              _tolerance;
+
+   private DataFeeder          _feeder;
    private ForceVector         _measuredVector;
    private ForceVector         _vector;
 
@@ -53,6 +55,7 @@ public class GenericMechanismSupport implements MechanismSupport{
       _tolerance        = Double.NaN;
       _measuredVector   = null;
       _vector           = null;
+      _feeder           = null;
    };
 
    ////////////////////////Contructors////////////////////////////////
@@ -318,6 +321,15 @@ public class GenericMechanismSupport implements MechanismSupport{
    }
 
    //////////////MechanismSupport Interface Implementation////////////
+   //
+   //
+   //
+   public void addDataFeeder(DataFeeder feeder){
+      if(feeder != null){
+         this._feeder = feeder;
+      }
+   }
+
    //
    //
    //
