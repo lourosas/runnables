@@ -81,45 +81,21 @@ Runnable{
    }
 
    ////////////////////////Private Methods////////////////////////////
+   //Grab the force on the Arm
    //
    //
-   //
-   private void data(Hashtable<String,String> rocket,
-                Hashtable<String,String> mech){
-      int holds = -1;
-      if(mech.containsKey("number_of_holds")){
-         try{
-            String sHolds = mech.get("number_of_holds");
-            holds = Integer.parseInt(sHolds);
-         }
-         catch(NumberFormatException nfe){}
-         catch(NullPointerException  npe){}
-      }
-      if(mech.containsKey("angle_of_holds")){
-         try{
-            String sAoHolds = mech.get("angle_of_holds");
-            double degHolds = Double.parseDouble(sAoHolds);
-            //Convert to Radians
-            this._angle = ((Math.PI)/180.0 * degHolds);
-         }
-         catch(NumberFormatException nfe){}
-         catch(NullPointerException  npe){}
-      }
-      if(mech.containsKey("holds_tollerance")){
-         try{
-            String sToll = mech.get("holds_tollerance");
-            this._tolerance = Double.parseDouble(sToll);
-         }
-         catch(NumberFormatException nfe){}
-         catch(NullPointerException  npe){}
-      }
+   private void initializeForce
+   (
+      int                      holds,
+      Hashtable<String,String> rocket
+   ){
       if(rocket.containsKey("loaded_weight")){
          try{
             String sWeight = rocket.get("loaded_weight");
-            double weight = Double.parseDouble(sWeight);
+            double weight  = Double.parseDouble(sWeight);
             weight /= holds;
             weight /= Math.sin(this._angle);
-            //This is the weight that is calculated based on
+            //This is the weight that is calculated based on the
             //initialization data...
             this._armForce = weight;
          }
@@ -154,6 +130,37 @@ Runnable{
       else{}
       z = (-1.)*this._armForce*Math.sin(this._angle);
       this._vector = new GenericForceVector(x,y,z);
+   }
+
+   //
+   //
+   //
+   private void initializeHold
+   (
+      Hashtable<String,String> mech,
+      Hashtable<String,String> rocket
+   ){
+      int holds = -1;
+      if(mech.containsKey("number_of_holds")){
+         try{
+            String sHolds = mech.get("number_of_holds");
+            holds         = Integer.parseInt(sHolds);
+         }
+         catch(NumberFormatException nfe){}
+         catch(NullPointerException  npe){}
+      }
+      if(mech.containsKey("angle_of_holds")){
+         try{
+            String sAoHolds = mech.get("angle_of_holds");
+            double degHolds = Double.parseDouble(aAoHolds);
+            //Convert to Radians
+            this._angle = ((Math.PI)/180. * degHolds);
+         }
+         catch(NumberFormatException nfe){}
+         catch(NullPointerException  npe){}
+      }
+      this.initializeForce(holds);
+      this.initializeForceVector();
    }
 
    //
@@ -319,9 +326,11 @@ Runnable{
       //Make this more complex based on release...for now, just
       //get something working
       try{
-         this._measureAngle = this._feeder.angleOfHolds();
+         this._measuredAngle = this._feeder.angleOfHolds();
       }
-      this._measuredAngle = this._angle;
+      catch(NullPointerException npe){
+         this._measuredAngle = this._angle;
+      }
    }
 
    //
@@ -394,8 +403,8 @@ Runnable{
             rocketHt = read.readRocketInfo();
             Hashtable<String,String> mechHt = null;
             mechHt = read.readLaunchingMechanismInfo();
-            this.data(rocketHt, mechHt);
-            this.initializeForceVector();
+            //this.data(rocketHt, mechHt);
+            this.initializeHold(mechHt, rocketHt);
          }
          catch(IOException ioe){}
       }
