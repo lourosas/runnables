@@ -140,6 +140,15 @@ Runnable{
       Hashtable<String,String> mech,
       Hashtable<String,String> rocket
    ){
+      int holds = this.initializeHoldData(mech);
+      this.initializeForce(holds, rocket);
+      this.initializeForceVector();
+   }
+
+   //
+   //
+   //
+   private int initializeHoldData(Hashtable<String,String> mech){
       int holds = -1;
       if(mech.containsKey("number_of_holds")){
          try{
@@ -152,15 +161,14 @@ Runnable{
       if(mech.containsKey("angle_of_holds")){
          try{
             String sAoHolds = mech.get("angle_of_holds");
-            double degHolds = Double.parseDouble(aAoHolds);
+            double degHolds = Double.parseDouble(sAoHolds);
             //Convert to Radians
             this._angle = ((Math.PI)/180. * degHolds);
          }
          catch(NumberFormatException nfe){}
          catch(NullPointerException  npe){}
-      }
-      this.initializeForce(holds);
-      this.initializeForceVector();
+      }     
+      return holds;
    }
 
    //
@@ -403,7 +411,6 @@ Runnable{
             rocketHt = read.readRocketInfo();
             Hashtable<String,String> mechHt = null;
             mechHt = read.readLaunchingMechanismInfo();
-            //this.data(rocketHt, mechHt);
             this.initializeHold(mechHt, rocketHt);
          }
          catch(IOException ioe){}
