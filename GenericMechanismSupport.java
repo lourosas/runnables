@@ -20,6 +20,8 @@ package rosas.lou.runnables;
 import java.lang.*;
 import java.util.*;
 import java.io.*;
+import java.text.*;
+import java.math.*;
 import rosas.lou.runnables.*;
 
 public class GenericMechanismSupport implements MechanismSupport,
@@ -282,7 +284,9 @@ Runnable{
       //Make this more complex based on release...for now, just
       //get something working
       try{
-         this._angle = this._feeder.angleOfHolds();
+         double degHolds = this._feeder.holdAngle();
+         //Convert to Radians
+         this._angle = ((Math.PI)/180. * degHolds);
       }
       catch(NullPointerException npe){
          //Measure Directly!!!
@@ -294,6 +298,17 @@ Runnable{
    //
    //
    private void measureArmForce(){
+      try{
+         double weight  = this._feeder.weight();
+         int    holds   = this._feeder.numberOfHolds();
+         weight        /= holds;
+         weight        /= Math.sin(this._angle);
+         this._armForce = weight;
+      }
+      catch(NullPointerException npe){
+         //Put this in as a stop gap for the time being...
+         this._armForce = this._armForce;
+      }
       //TBD!!!
    }
 
@@ -301,12 +316,29 @@ Runnable{
    //
    //
    private void measureForceVector(){
-      //Make this more complex based on release...for now, just
-      //get something working
-      //TBD!!!!
-      double x = this._vector.x();
-      double y = this._vector.y();
-      double z = this._vector.z();
+      double x = Double.NaN;
+      double y = Double.NaN;
+      double z = Double.NaN;
+      switch(this.id()){
+         case 0:
+            x = this._armForce*Math.cos(this._angle);
+            y = 0.;
+            break;
+         case 1:
+            x = 0.;
+            y = this._armForce*Math.cos(this._angle);
+            break;
+         case 2:
+            x = (-1.)*this._armForce*Math.cos(this._angle);
+            y = 0;
+            break;
+         case 3:
+            x =  0.;
+            y = (-1.)*this._armForce*Math.cos(this._angle);
+            break;
+         default: ;
+      }
+      z = (-1.)*this._armForce*Math.sin(this._angle);
       this._vector = new GenericForceVector(x,y,z);
    }
 
@@ -434,30 +466,13 @@ Runnable{
                throw new InterruptedException();
             }
             if(this._start){
-               //Measure Angle
-               //Measure Arm Force
-               //Measure Force Vector
-               //Find if there is an error
                this.measureAngle();
                this.measureArmForce();
                this.measureForceVector();
                this.isError();
                if(this._state.state() == INIT){
-                  //Keep the Test prints in for now, but they will
-                  //be "odd" sometimes as threads collide...NO BIG
-                  //DEAL--conceptually...
-                  System.out.println("************************");
-                  System.out.print("*");
-                  System.out.print(Thread.currentThread().getName());
-                  System.out.println("*");
-                  System.out.print("*");
-                  System.out.print(Thread.currentThread().getId());
-                  System.out.println("*");
-                  System.out.println("************************");
-                  //For the purpose of initial development, just have
-                  //it sleep 5-seconds--change as development
-                  //progresses
                   Thread.sleep(5000);
+                  //Thread.sleep(10);
                }
             }
             else{

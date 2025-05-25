@@ -26,6 +26,7 @@ import rosas.lou.clock.*;
 public interface DataFeeder{
    public double angleOfHolds();
    public double emptyWeight();
+   public double holdAngle();
    public double holdsTolerance();
    public void   initialize(String file)throws IOException;
    public double loadedWeight();

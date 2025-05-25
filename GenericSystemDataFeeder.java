@@ -94,6 +94,25 @@ public class GenericSystemDataFeeder implements DataFeeder{
    //
    //
    //
+   private double setAngle(){
+      double scale = Double.NaN;
+      int    min   = -1;
+      int    max   = -1;
+      int    value = -1;
+      //Set Angle
+      if(this._cond.state() == INIT){
+         scale = 0.025;
+         //scale = 0.15; //To Test For Errors
+         min   = (int)(this.angleOfHolds()*(1-scale));
+         max   = (int)(this.angleOfHolds()*(1+scale));
+         value = this._random.nextInt(max - min + 1) + min;
+      }
+      return (double)value;
+   }
+
+   //
+   //
+   //
    private double lastMeasuredWeight(){
       return this._weight;
    }
@@ -222,6 +241,13 @@ public class GenericSystemDataFeeder implements DataFeeder{
    //
    public double emptyWeight(){
       return this._emptyWeight;
+   }
+
+   //
+   //
+   //
+   public double holdAngle(){
+      return this.setAngle();
    }
 
    //

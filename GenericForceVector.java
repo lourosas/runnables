@@ -19,6 +19,8 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
+import java.text.DecimalFormat;
+import java.math.RoundingMode;
 import rosas.lou.runnables.*;
 
 //Direction is determined based on sign of the force component
@@ -88,17 +90,19 @@ public class GenericForceVector implements ForceVector{
    //
    //
    public String toString(){
+      DecimalFormat df = new DecimalFormat("###.##");
+      df.setRoundingMode(RoundingMode.HALF_UP);
       String ret = new String("[ ");
-      ret += this.x() + "_i";
+      ret += df.format(this.x()) + "_i";
       if(this.y() >= 0){
          ret += "+";
       }
-      ret += this.y() + "_j";
+      ret += df.format(this.y()) + "_j";
       if(this.z() >= 0){
          ret += "+";
       }
-      ret += this.z() + "_k : ";
-      ret += this.magnitude() + " ]";
+      ret += df.format(this.z()) + "_k : ";
+      ret += df.format(this.magnitude()) + " ]";
       return ret;
    }
 }
