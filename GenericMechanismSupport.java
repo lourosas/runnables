@@ -191,7 +191,7 @@ Runnable{
    //Set the _isError boolean
    //call to determine/set the _error if _isError is true
    //
-   private boolean isError(int state){
+   private boolean isError(){
       this._isError = false; //Reset everytime...
       this._error   = null;
       return this._isError;
@@ -278,25 +278,6 @@ Runnable{
    //
    //
    //
-   private MechanismSupportData measure(int state){
-      this.measureAngle();
-      this.measureArm();
-      this.measureForceVector();
-      //After measurements, find the error...
-      this.isError(state);
-      MechanismSupportData data = null;
-      data = new GenericMechanismSupportData(this._angle,
-                                             this._error,
-                                             this._vector,
-                                             this._id,
-                                             this._isError,
-                                             this._armForce);
-      return data;
-   }
-
-   //
-   //
-   //
    private void measureAngle(){
       //Make this more complex based on release...for now, just
       //get something working
@@ -307,6 +288,13 @@ Runnable{
          //Measure Directly!!!
          this._angle = this._angle;
       }
+   }
+
+   //Measure the force on the Arm...
+   //
+   //
+   private void measureArmForce(){
+      //TBD!!!
    }
 
    //
@@ -320,13 +308,6 @@ Runnable{
       double y = this._vector.y();
       double z = this._vector.z();
       this._vector = new GenericForceVector(x,y,z);
-   }
-
-   //Measure the force on the Arm...
-   //
-   //
-   private void measureArm(){
-      //TBD!!!
    }
 
    //
@@ -457,6 +438,10 @@ Runnable{
                //Measure Arm Force
                //Measure Force Vector
                //Find if there is an error
+               this.measureAngle();
+               this.measureArmForce();
+               this.measureForceVector();
+               this.isError();
                if(this._state.state() == INIT){
                   //Keep the Test prints in for now, but they will
                   //be "odd" sometimes as threads collide...NO BIG

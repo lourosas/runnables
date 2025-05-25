@@ -201,10 +201,10 @@ public class GenericSystemDataFeeder implements DataFeeder{
       if(this._cond.state() == INIT){
          scale = 0.025;
          //scale = 0.15;  //To test for errors
+         min   = (int)(this.emptyWeight()*(1-scale));
+         max   = (int)(this.emptyWeight()*(1+scale));
+         value = this._random.nextInt(max - min + 1) + min; 
       }
-      min   = (int)(this.emptyWeight()*(1-scale));
-      max   = (int)(this.emptyWeight()*(1+scale));
-      value = this._random.nextInt(max - min + 1) + min; 
       this._weight = (double)value;
       return this._weight;
    }
