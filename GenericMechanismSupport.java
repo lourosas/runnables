@@ -412,6 +412,7 @@ Runnable{
             Hashtable<String,String> mechHt = null;
             mechHt = read.readLaunchingMechanismInfo();
             this.initializeHold(mechHt, rocketHt);
+            this._state=new LaunchStateSubstate(INIT,null,null,null);
          }
          catch(IOException ioe){}
       }
