@@ -30,13 +30,10 @@ Runnable{
    private LaunchStateSubstate.State LAUNCH     = null;
 
    private double              _angle; //In Radians!!!
-   private List<ErrorListener> _errorListeners;
-   private double              _measuredAngle; //In Radians
-   private int                 _id;
-   //What to measure periodically
-   private double              _measuredForce;
    //Depends on the number of holds
    private double              _armForce;
+   private List<ErrorListener> _errorListeners;
+   private int                 _id;
    private String              _error;
    private boolean             _isError;
    private boolean             _kill;
@@ -44,7 +41,6 @@ Runnable{
    private double              _tolerance;
 
    private DataFeeder          _feeder;
-   private ForceVector         _measuredVector;
    private ForceVector         _vector;
    private LaunchStateSubstate _state;
    private MechanismSupportData _supportData;
@@ -58,16 +54,13 @@ Runnable{
 
       _angle            = Double.NaN;
       _errorListeners   = null;
-      _measuredAngle    = Double.NaN;
       _id               = -1;
       _armForce         = Double.NaN;
-      _measuredForce    = Double.NaN;
       _error            = null;
       _isError          = false;
       _kill             = false;
       _start            = false;
       _tolerance        = Double.NaN;
-      _measuredVector   = null;
       _vector           = null;
       _feeder           = null;
       _state            = null;
@@ -200,37 +193,7 @@ Runnable{
    //
    private boolean isError(int state){
       this._isError = false; //Reset everytime...
-      //Initialize the Error String every invocation, but only use it
-      //upon actual error
-      this._error   = new String();
-      //mesure everything to make sure within tollerance...
-      //If out of tollerance, flag as an error...
-      //Start with the Angle Measurements
-      if(this._angle!=Double.NaN && this._measuredAngle!=Double.NaN){
-         this._isError = this.isAngleError(state);
-         if(this._isError){
-            this._error += "\nMeasured Angle Error: ";
-            this._error += this._measuredAngle + ", Expected:  ";
-            this._error += this._angle;
-         }
-      }
-      if((this._measuredForce != Double.NaN) &&
-         (this._armForce != Double.NaN)){
-         this._isError = this.isForceError(state);
-         if(this._isError){
-            this._error += "\nMeasured Weight Error:  ";
-            this._error += this._measuredForce + ", Expected: ";
-            this._error += this._armForce;
-         }
-      }
-      if((this._vector != null)&&(this._measuredVector != null)){
-         this._isError = this.isVectorError(state);
-         if(this._isError){
-            this._error += "\nMeasured Vector Error: ";
-            this._error += this._measuredVector + "\n\t\tExpected: ";
-            this._error += this._vector;
-         }
-      }
+      this._error   = null;
       return this._isError;
    }
 
@@ -322,12 +285,12 @@ Runnable{
       //After measurements, find the error...
       this.isError(state);
       MechanismSupportData data = null;
-      data = new GenericMechanismSupportData(this._measuredAngle,
+      data = new GenericMechanismSupportData(this._angle,
                                              this._error,
-                                             this._measuredVector,
+                                             this._vector,
                                              this._id,
                                              this._isError,
-                                             this._measuredForce);
+                                             this._armForce);
       return data;
    }
 
@@ -338,10 +301,11 @@ Runnable{
       //Make this more complex based on release...for now, just
       //get something working
       try{
-         this._measuredAngle = this._feeder.angleOfHolds();
+         this._angle = this._feeder.angleOfHolds();
       }
       catch(NullPointerException npe){
-         this._measuredAngle = this._angle;
+         //Measure Directly!!!
+         this._angle = this._angle;
       }
    }
 
@@ -351,17 +315,18 @@ Runnable{
    private void measureForceVector(){
       //Make this more complex based on release...for now, just
       //get something working
+      //TBD!!!!
       double x = this._vector.x();
       double y = this._vector.y();
       double z = this._vector.z();
-      this._measuredVector = new GenericForceVector(x,y,z);
+      this._vector = new GenericForceVector(x,y,z);
    }
 
    //Measure the force on the Arm...
    //
    //
    private void measureArm(){
-      this._measuredForce = this._armForce;
+      //TBD!!!
    }
 
    //
@@ -471,7 +436,7 @@ Runnable{
    public String toString(){
       String string = this.getClass().getName()+" : "+this.id();
       string += "\n"+this._angle;
-      string += "\n"+this._armForce+", "+this._measuredForce;
+      string += "\n"+this._armForce+", ";
       string += "\n"+this._isError+", "+this._error;
       string += "\n"+this._tolerance+"\n"+this._vector;
       return string;
