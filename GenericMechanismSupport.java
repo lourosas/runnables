@@ -39,6 +39,8 @@ Runnable{
    private double              _armForce;
    private String              _error;
    private boolean             _isError;
+   private boolean             _kill;
+   private boolean             _start;
    private double              _tolerance;
 
    private DataFeeder          _feeder;
@@ -62,6 +64,8 @@ Runnable{
       _measuredForce    = Double.NaN;
       _error            = null;
       _isError          = false;
+      _kill             = false;
+      _start            = false;
       _tolerance        = Double.NaN;
       _measuredVector   = null;
       _vector           = null;
@@ -413,6 +417,8 @@ Runnable{
             mechHt = read.readLaunchingMechanismInfo();
             this.initializeHold(mechHt, rocketHt);
             this._state=new LaunchStateSubstate(INIT,null,null,null);
+            //Once Initialized, can start the monitoring...
+            this._start = true;
          }
          catch(IOException ioe){}
       }
@@ -475,6 +481,46 @@ Runnable{
    //
    //
    //
-   public void run(){}
+   public void run(){
+      try{
+         while(true){
+            if(this._kill){
+               throw new InterruptedException();
+            }
+            if(this._start){
+               //Measure Angle
+               //Measure Arm Force
+               //Measure Force Vector
+               //Find if there is an error
+               if(this._state.state() == INIT){
+                  //Keep the Test prints in for now, but they will
+                  //be "odd" sometimes as threads collide...NO BIG
+                  //DEAL--conceptually...
+                  System.out.println("************************");
+                  System.out.print("*");
+                  System.out.print(Thread.currentThread().getName());
+                  System.out.println("*");
+                  System.out.print("*");
+                  System.out.print(Thread.currentThread().getId());
+                  System.out.println("*");
+                  System.out.println("************************");
+                  //For the purpose of initial development, just have
+                  //it sleep 5-seconds--change as development
+                  //progresses
+                  Thread.sleep(5000);
+               }
+            }
+            else{
+               //Monitor every 10^-3 seconds
+               Thread.sleep(1);
+            }
+         }
+      }
+      catch(InterruptedException ie){}
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         System.exit(0); //Not really needed...better way to implement
+      }
+   }
 }
 //////////////////////////////////////////////////////////////////////
