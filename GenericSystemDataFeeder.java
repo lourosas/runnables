@@ -26,7 +26,7 @@ import java.time.format.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
-public class GenericSystemDataFeeder implements DataFeeder{
+public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    private LaunchStateSubstate.State INIT             = null;
    private LaunchStateSubstate.State PREL             = null;
    private LaunchStateSubstate.State IGNI             = null;
@@ -53,6 +53,7 @@ public class GenericSystemDataFeeder implements DataFeeder{
    private Random              _random;
    private int                 _stages;
    private double              _weight;
+   private Thread              _rt0;
 
    {
       INIT = LaunchStateSubstate.State.INITIALIZE;
@@ -80,6 +81,7 @@ public class GenericSystemDataFeeder implements DataFeeder{
       _random                    = null;
       _stages                    = 0;
       _weight                    = Double.NaN;
+      _rt0                       = null;
    };
 
    ////////////////////////////Constructors///////////////////////////
@@ -88,6 +90,7 @@ public class GenericSystemDataFeeder implements DataFeeder{
    //
    public GenericSystemDataFeeder(){
       this._random = new Random();
+      this.setUpThread();
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -206,6 +209,11 @@ public class GenericSystemDataFeeder implements DataFeeder{
       catch(NumberFormatException nfe){
          this._stages = -1;
       }
+   }
+
+   private void setUpThread(){
+      this._rt0 = new Thread(this, "Generic System Data Feeder");
+      this._rt0.start();
    }
 
    //
@@ -344,5 +352,11 @@ public class GenericSystemDataFeeder implements DataFeeder{
       s += "\nWeight:            " + this.lastMeasuredWeight();
       return s;
    }
+
+   //////////////////Runnable Interface Implementation////////////////
+   //
+   //
+   //
+   public void run(){}
 }
 //////////////////////////////////////////////////////////////////////
