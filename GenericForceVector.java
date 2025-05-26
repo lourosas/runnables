@@ -95,11 +95,17 @@ public class GenericForceVector implements ForceVector{
       String ret = new String("[ ");
       ret += df.format(this.x()) + "_i";
       if(this.y() >= 0){
-         ret += "+";
+         ret += " +";
+      }
+      else{
+         ret += " ";
       }
       ret += df.format(this.y()) + "_j";
       if(this.z() >= 0){
-         ret += "+";
+         ret += " +";
+      }
+      else{ 
+         ret += " ";
       }
       ret += df.format(this.z()) + "_k : ";
       ret += df.format(this.magnitude()) + " ]";

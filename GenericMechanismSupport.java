@@ -31,22 +31,27 @@ Runnable{
    private LaunchStateSubstate.State IGNITION   = null;
    private LaunchStateSubstate.State LAUNCH     = null;
 
-   private double              _angle; //In Radians!!!
-   //Depends on the number of holds
-   private double              _armForce;
    private List<ErrorListener> _errorListeners;
    private int                 _id;
    private String              _error;
    private boolean             _isError;
    private boolean             _kill;
+   private double              _setAngle;
+   private double              _setArmForce;
+   private ForceVector         _setForceVector;
    private boolean             _start;
    private double              _tolerance;
 
    private DataFeeder          _feeder;
-   private ForceVector         _vector;
    private LaunchStateSubstate _state;
    private MechanismSupportData _supportData;
    private Thread              _rt0;
+   
+   //Derived
+   private double              _angle; //In Radians!!!
+   //Depends on the number of holds
+   private double              _armForce;
+   private ForceVector         _vector;
 
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
@@ -54,20 +59,24 @@ Runnable{
       IGNITION  = LaunchStateSubstate.State.IGNITION;
       LAUNCH    = LaunchStateSubstate.State.LAUNCH;
 
-      _angle            = Double.NaN;
       _errorListeners   = null;
       _id               = -1;
-      _armForce         = Double.NaN;
       _error            = null;
       _isError          = false;
       _kill             = false;
+      _setAngle         = Double.NaN;
+      _setArmForce      = Double.NaN;
+      _setForceVector   = null;
       _start            = false;
       _tolerance        = Double.NaN;
-      _vector           = null;
       _feeder           = null;
       _state            = null;
       _rt0              = null;
       _supportData      = null;
+
+      _angle            = Double.NaN;
+      _armForce         = Double.NaN;
+      _vector           = null;
    };
 
    ////////////////////////Contructors////////////////////////////////
@@ -96,9 +105,11 @@ Runnable{
             weight /= Math.sin(this._angle);
             //This is the weight that is calculated based on the
             //initialization data...
-            this._armForce = weight;
+            this._setArmForce = weight;
          }
-         catch(NumberFormatException nfe){}
+         catch(NumberFormatException nfe){
+            this._setArmForce = Double.NaN;
+         }
          catch(NullPointerException  npe){}
       }
    }
@@ -111,24 +122,24 @@ Runnable{
       double y = Double.NaN;
       double z = Double.NaN;
       if(this.id() == 0){
-         x = this._armForce*Math.cos(this._angle);
+         x = this._setArmForce*Math.cos(this._angle);
          y = 0.;
       }
       else if(this.id() == 1){
          x = 0.;
-         y = this._armForce*Math.cos(this._angle);
+         y = this._setArmForce*Math.cos(this._angle);
       }
       else if(this.id() == 2){
-         x = (-1.)*this._armForce*Math.cos(this._angle);
+         x = (-1.)*this._setArmForce*Math.cos(this._angle);
          y = 0;
       }
       else if(this.id() == 3){
          x = 0.;
-         y = (-1.)*this._armForce*Math.cos(this._angle);
+         y = (-1.)*this._setArmForce*Math.cos(this._angle);
       }
       else{}
-      z = (-1.)*this._armForce*Math.sin(this._angle);
-      this._vector = new GenericForceVector(x,y,z);
+      z = (-1.)*this._setArmForce*Math.sin(this._angle);
+      this._setForceVector = new GenericForceVector(x,y,z);
    }
 
    //
@@ -162,9 +173,11 @@ Runnable{
             String sAoHolds = mech.get("angle_of_holds");
             double degHolds = Double.parseDouble(sAoHolds);
             //Convert to Radians
-            this._angle = ((Math.PI)/180. * degHolds);
+            this._setAngle = ((Math.PI)/180. * degHolds);
          }
-         catch(NumberFormatException nfe){}
+         catch(NumberFormatException nfe){
+            this._setAngle = Double.NaN;
+         }
          catch(NullPointerException  npe){}
       }     
       return holds;
@@ -173,12 +186,25 @@ Runnable{
    //
    //
    //
-   private boolean isAngleError(int state){
-      boolean isError = false;
-      double lim  = 1. - this._tolerance;
-      double edge = this._angle * lim;
-      double ll   = this._angle - edge;
-      double ul   = this._angle + edge;
+   private boolean isAngleError(){
+      double  edge     = Double.NaN;
+      boolean isError  = false;
+      double  ll       = Double.NaN;
+      double  ul       = Double.NaN;
+      double  lim      = Double.NaN;
+
+      boolean measGood = (this._angle != Double.NaN);
+      measGood &= (this._armForce != Double.NaN);
+      measGood &= (this._vector != null);
+      if(measGood){
+         lim = 1. - this._tolerance;
+         //ll  = this._angle * this._tolerance;
+         //ul  = this._angle * (2 - this._tolerance);
+         if(this._angle < ll || this._angle > ul){
+            this._isError = true;
+            this.setError("Angle Error");
+         }
+      }
       //Account for the State to determine errors
       /*
       if(state  == PRELAUNCH){
@@ -193,22 +219,63 @@ Runnable{
    //Set the _isError boolean
    //call to determine/set the _error if _isError is true
    //
-   private boolean isError(){
-      this._isError = false; //Reset everytime...
-      this._error   = null;
-      return this._isError;
+   private void isError(){
+      this._isError  = false; //Reset everytime...
+      this._error    = null;  //Reset everytime...
+      this._isError |= this.isAngleError();
+      this._isError |= this.isForceError();
+      this._isError |= this.isVectorError();
+   }
+
+   //This is the measured downward weight, not related to the
+   //ForceVector, but will eventually be used for comparison...
+   //
+   //
+   private boolean isForceError(){
+      double  edge    = Double.NaN;
+      boolean isError = false;
+      double  ll      = Double.NaN;
+      double  ul      = Double.NaN;
+      double  lim     = Double.NaN;
+
+      boolean measGood = (this._angle != Double.NaN);
+      measGood &= (this._armForce != Double.NaN);
+      measGood &= (this._vector != null);
+      if(measGood){
+         lim  = 1. - this._tolerance;
+         edge = this._armForce * lim;
+         ll   = this._armForce - edge;
+         ul   = this._armForce + edge;
+         System.out.println("isForceError() MeasGood");
+      //Account for state to determine errors...
+      /*
+      if(state == PRELAUNCH){
+         if(this._measuredForce < ll || this._measuredForce > ul){
+            isError = true;
+         }
+      }
+      */
+      }
+      return isError;
    }
 
    //Need to measure the Vector Tolerances, in addition to the
    //Magnitude Tollerances in addtion to the Z-direction force vs.
    //the _measuredWeight-->those two need to be in tolerance, as well
    //
-   private boolean isVectorError(int state){
+   private boolean isVectorError(){
       double edge     = Double.NaN;
       double ul       = Double.NaN;
       double ll       = Double.NaN;
       boolean isError = false;
-      double  lim     = 1. - this._tolerance;
+      double  lim     = Double.NaN;
+
+      boolean measGood = (this._angle != Double.NaN);
+      measGood &= (this._armForce != Double.NaN);
+      measGood &= (this._vector != null);
+      if(measGood){
+         lim  = 1. - this._tolerance;
+      }
       //Account for the state to determine errors...
       /*
       if(state == PRELAUNCH){
@@ -256,27 +323,6 @@ Runnable{
       return isError;
    }
 
-   //This is the measured downward weight, not related to the
-   //ForceVector, but will eventually be used for comparison...
-   //
-   //
-   private boolean isForceError(int state){
-      boolean isError = false;
-      double lim  = 1. - this._tolerance;
-      double edge = this._armForce * lim;
-      double ll   = this._armForce - edge;
-      double ul   = this._armForce + edge;
-      //Account for state to determine errors...
-      /*
-      if(state == PRELAUNCH){
-         if(this._measuredForce < ll || this._measuredForce > ul){
-            isError = true;
-         }
-      }
-      */
-      return isError;
-   }
-
    //
    //
    //
@@ -309,7 +355,6 @@ Runnable{
          //Put this in as a stop gap for the time being...
          this._armForce = this._armForce;
       }
-      //TBD!!!
    }
 
    //
@@ -319,6 +364,7 @@ Runnable{
       double x = Double.NaN;
       double y = Double.NaN;
       double z = Double.NaN;
+      this._vector = null;
       switch(this.id()){
          case 0:
             x = this._armForce*Math.cos(this._angle);
@@ -340,6 +386,21 @@ Runnable{
       }
       z = (-1.)*this._armForce*Math.sin(this._angle);
       this._vector = new GenericForceVector(x,y,z);
+   }
+
+   //
+   //
+   //
+   private void setError(String errorType){
+      if(this._error == null){
+         this._error = new String();
+      }
+      if(errorType.toUpperCase().contains("ANGLE")){
+         this._error += "\n";
+         this._error += "Mechanism Support: "+this.id()+"\n";
+         this._error += "Error\nMeasured Angle: "+this._angle;
+         this._error += " rad\n";
+      }
    }
 
    //
@@ -447,9 +508,11 @@ Runnable{
    //
    //
    public String toString(){
+      DecimalFormat df = new DecimalFormat("###.##");
+      df.setRoundingMode(RoundingMode.HALF_UP);
       String string = this.getClass().getName()+" : "+this.id();
-      string += "\n"+this._angle;
-      string += "\n"+this._armForce+", ";
+      string += "\n"+df.format(this._angle);
+      string += "\n"+df.format(this._armForce)+", ";
       string += "\n"+this._isError+", "+this._error;
       string += "\n"+this._tolerance+"\n"+this._vector;
       return string;
@@ -470,6 +533,7 @@ Runnable{
                this.measureArmForce();
                this.measureForceVector();
                this.isError();
+               if(this._isError){}
                if(this._state.state() == INIT){
                   Thread.sleep(5000);
                   //Thread.sleep(10);

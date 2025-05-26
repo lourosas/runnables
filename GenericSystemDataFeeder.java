@@ -56,6 +56,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
 
    //Set Data
    private LaunchStateSubstate _cond;
+   private Object              _obj;
    private Random              _random;
    private Thread              _rt0;
 
@@ -80,11 +81,12 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       _holdsTolerance            = Double.NaN;
       _loadedWeight              = Double.NaN;
       _numberOfHolds             = 0;
+      _obj                       = null;
       _platformTolerance         = Double.NaN;
       _random                    = null;
       _stages                    = 0;
       _rt0                       = null;
-
+      //Calculated
       _holdAngle                 = Double.NaN;
       _weight                    = Double.NaN;
    };
@@ -95,6 +97,8 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    public GenericSystemDataFeeder(){
       this._random = new Random();
+      //Grab the Monitor for the Threads...
+      this._obj    = new Object();
       this.setUpThread();
    }
 
@@ -116,10 +120,14 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
             max   = (int)(this.angleOfHolds()*(1+scale));
             value = this._random.nextInt(max - min + 1) + min;
          }
-         this._holdAngle = value;
+         synchronized(this._obj){
+            this._holdAngle = value;
+         }
       }
       catch(NullPointerException npe){
-         this._holdAngle = Double.NaN;
+         synchronized(this._obj){
+            this._holdAngle = Double.NaN;
+         }
       }
    }
 
@@ -236,10 +244,14 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
             max   = (int)(this.emptyWeight()*(1+scale));
             value = this._random.nextInt(max - min + 1) + min; 
          }
-         this._weight = (double)value;
+         synchronized(this._obj){
+            this._weight = (double)value;
+         }
       }
       catch(NullPointerException npe){
-         this._weight = Double.NaN;
+         synchronized(this._obj){
+            this._weight = Double.NaN;
+         }
       }
    }
 
@@ -262,7 +274,9 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    //
    public double holdAngle(){
-      return this._holdAngle;
+      synchronized(this._obj){
+         return this._holdAngle;
+      }
    }
 
    //
@@ -340,7 +354,9 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    //
    public double weight(){
-      return this._weight;
+      synchronized(this._obj){
+         return this._weight;
+      }
    }
 
    //
