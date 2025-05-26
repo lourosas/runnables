@@ -41,18 +41,22 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    private LaunchStateSubstate.AscentSubstate    STG  = null;
    private LaunchStateSubstate.AscentSubstate    IGNE = null;
 
-   private LaunchStateSubstate _cond;
+   //Initialized Data
    private double              _angleOfHolds;
    private double              _emptyWeight;
    private double              _holdsTolerance;
    private double              _loadedWeight;
-   //dont need if have weight!
-   private double              _measuredWeight;
    private int                 _numberOfHolds;
    private double              _platformTolerance;
-   private Random              _random;
    private int                 _stages;
+   //dont need if have weight!
+   //Measured Data
    private double              _weight;
+   private double              _holdAngle;
+
+   //Set Data
+   private LaunchStateSubstate _cond;
+   private Random              _random;
    private Thread              _rt0;
 
    {
@@ -75,13 +79,14 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       _emptyWeight               = Double.NaN;
       _holdsTolerance            = Double.NaN;
       _loadedWeight              = Double.NaN;
-      _measuredWeight            = Double.NaN;
       _numberOfHolds             = 0;
       _platformTolerance         = Double.NaN;
       _random                    = null;
       _stages                    = 0;
-      _weight                    = Double.NaN;
       _rt0                       = null;
+
+      _holdAngle                 = Double.NaN;
+      _weight                    = Double.NaN;
    };
 
    ////////////////////////////Constructors///////////////////////////
@@ -97,29 +102,27 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    //
    //
-   private double setAngle(){
+   private void setAngle(){
       double scale = Double.NaN;
       int    min   = -1;
       int    max   = -1;
       int    value = -1;
       //Set Angle
-      if(this._cond.state() == INIT){
-         scale = 0.025;
-         //scale = 0.15; //To Test For Errors
-         min   = (int)(this.angleOfHolds()*(1-scale));
-         max   = (int)(this.angleOfHolds()*(1+scale));
-         value = this._random.nextInt(max - min + 1) + min;
+      try{
+         if(this._cond.state() == INIT){
+            scale = 0.025;
+            //scale = 0.15; //To Test For Errors
+            min   = (int)(this.angleOfHolds()*(1-scale));
+            max   = (int)(this.angleOfHolds()*(1+scale));
+            value = this._random.nextInt(max - min + 1) + min;
+         }
+         this._holdAngle = value;
       }
-      return (double)value;
+      catch(NullPointerException npe){
+         this._holdAngle = Double.NaN;
+      }
    }
 
-   //
-   //
-   //
-   private double lastMeasuredWeight(){
-      return this._weight;
-   }
-   
    //
    //
    //
@@ -219,21 +222,25 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    //
    //
-   private double setWeight(){
+   private void setWeight(){
       double scale = Double.NaN;
       int    min   = -1;
       int    max   = -1;
       int    value = -1;
-      //Set _weight;
-      if(this._cond.state() == INIT){
-         scale = 0.025;
-         //scale = 0.15;  //To test for errors
-         min   = (int)(this.emptyWeight()*(1-scale));
-         max   = (int)(this.emptyWeight()*(1+scale));
-         value = this._random.nextInt(max - min + 1) + min; 
+      try{
+         //Set _weight;
+         if(this._cond.state() == INIT){
+            scale = 0.025;
+            //scale = 0.15;  //To test for errors
+            min   = (int)(this.emptyWeight()*(1-scale));
+            max   = (int)(this.emptyWeight()*(1+scale));
+            value = this._random.nextInt(max - min + 1) + min; 
+         }
+         this._weight = (double)value;
       }
-      this._weight = (double)value;
-      return this._weight;
+      catch(NullPointerException npe){
+         this._weight = Double.NaN;
+      }
    }
 
    ////////////////DataFeeder Interface Implmentation/////////////////
@@ -255,7 +262,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    //
    public double holdAngle(){
-      return this.setAngle();
+      return this._holdAngle;
    }
 
    //
@@ -333,8 +340,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    //
    public double weight(){
-      //Possibly will need to change base on state
-      return this.setWeight();
+      return this._weight;
    }
 
    //
@@ -349,7 +355,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       s += "\nHolds:             " + this.numberOfHolds();
       s += "\nStages:            " + this.numberOfStages();
       s += "\nPlatform Tolerance " + this.platformTolerance();
-      s += "\nWeight:            " + this.lastMeasuredWeight();
+      s += "\nWeight:            " + this.weight();
       return s;
    }
 
@@ -357,6 +363,15 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    //
    //
-   public void run(){}
+   public void run(){
+      try{
+         while(true){
+            this.setWeight();
+            this.setAngle();
+            Thread.sleep(1);
+         }
+      }
+      catch(InterruptedException ie){}
+   }
 }
 //////////////////////////////////////////////////////////////////////
