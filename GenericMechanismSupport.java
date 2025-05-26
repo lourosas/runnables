@@ -198,21 +198,13 @@ Runnable{
       measGood &= (this._vector != null);
       if(measGood){
          lim = 1. - this._tolerance;
-         //ll  = this._angle * this._tolerance;
-         //ul  = this._angle * (2 - this._tolerance);
+         ll  = this._setAngle * this._tolerance;
+         ul  = this._setAngle * (2 - this._tolerance);
          if(this._angle < ll || this._angle > ul){
-            this._isError = true;
+            isError = true;
             this.setError("Angle Error");
          }
       }
-      //Account for the State to determine errors
-      /*
-      if(state  == PRELAUNCH){
-         if(this._measuredAngle < ll || this._measuredAngle > ul){
-            isError = true;
-         }
-      }
-      */
       return isError;
    }
 
@@ -242,19 +234,13 @@ Runnable{
       measGood &= (this._armForce != Double.NaN);
       measGood &= (this._vector != null);
       if(measGood){
-         lim  = 1. - this._tolerance;
-         edge = this._armForce * lim;
-         ll   = this._armForce - edge;
-         ul   = this._armForce + edge;
-         System.out.println("isForceError() MeasGood");
-      //Account for state to determine errors...
-      /*
-      if(state == PRELAUNCH){
-         if(this._measuredForce < ll || this._measuredForce > ul){
+         lim = 1. - this._tolerance;
+         ll  = this._setArmForce * this._tolerance;
+         ul  = this._setArmForce * (2 - this._tolerance);
+         if(this._armForce < ll || this._armForce > ul){
             isError = true;
+            this.setError("Force Error");
          }
-      }
-      */
       }
       return isError;
    }
@@ -274,52 +260,55 @@ Runnable{
       measGood &= (this._armForce != Double.NaN);
       measGood &= (this._vector != null);
       if(measGood){
-         lim  = 1. - this._tolerance;
-      }
-      //Account for the state to determine errors...
-      /*
-      if(state == PRELAUNCH){
-         //first, check the i-hat direction
-         //Will need to change for the different parts...
-         edge = this._vector.x() * lim;
-         if(this._vector.x() < 0.){
-            edge = this._vector.x() * -lim;
+         double set = this._setForceVector.x();
+         double mea = this._vector.x();
+         isError    = this.isVectorError(set,mea);
+         if(isError){
+            this.setError("Vector Error: x");
          }
-         ll = this._vector.x() - edge;
-         ul = this._vector.x() + edge;
-         if(this._measuredVector.x()<ll||this._measuredVector.x()>ul){
-            isError = true;
+         set     = this._setForceVector.y();
+         mea     = this._vector.y();
+         isError = this.isVectorError(set,mea);
+         if(isError){
+            this.setError("Vector Error: y");
+         } 
+         set     = this._setForceVector.z();
+         mea     = this._vector.z();
+         isError = this.isVectorError(set, mea);
+         if(isError){
+            this.setError("Vector Error: z");
          }
-         edge = this._vector.y() * lim;
-         if(this._vector.y() < 0.){
-            edge = this._vector.y() * -lim;
-         }
-         ll = this._vector.y() - edge;
-         ul = this._vector.y() + edge;
-         if(this._measuredVector.y()<ll||this._measuredVector.y()>ul){
-            isError = true;
-         }
-         edge = this._vector.z() * lim;
-         if(this._vector.z() < 0.){
-            edge = this._vector.z() * -lim;
-         }
-         ll = this._vector.z() - edge;
-         ul = this._vector.z() + edge;
-         if(this._measuredVector.z()<ll||this._measuredVector.z()>ul){
-            isError = true;
-         }
-         edge = this._vector.magnitude() * lim;
-         if(this._vector.magnitude() < 0.){
-            edge = this._vector.magnitude() * -lim;
-         }
-         ll = this._vector.magnitude() - edge;
-         ul = this._vector.magnitude() + edge;
-         double mMag = this._measuredVector.magnitude();
-         if((mMag < ll) || (mMag > ul)){
-            isError = true;
+         set     = this._setForceVector.magnitude();
+         mea     = this._vector.magnitude();
+         isError = this.isVectorError(set, mea);
+         is(isError){
+            this.setError("Magnitude Error");
          }
       }
-      */
+      return isError;
+   }
+
+   //
+   //
+   //
+   private boolean isVectorError(double set, double mea){
+      double edge      = Double.NaN;
+      double ll        = Double.NaN;
+      double ul        = Double.NaN;
+      double lim       = Double.NaN;
+      boolean isError  = false;
+      
+      lim = 1. - this._tolerance;
+      ll  = set * this._tolerance;
+      ul  = set * (2 - this._tolerance);
+      if(set < 0){
+         double temp = ul;
+         ul          = ll;
+         ll          = temp;
+      }
+      if(mea < ll || mea > ul){
+         isError = true;
+      }
       return isError;
    }
 
@@ -399,7 +388,37 @@ Runnable{
          this._error += "\n";
          this._error += "Mechanism Support: "+this.id()+"\n";
          this._error += "Error\nMeasured Angle: "+this._angle;
-         this._error += " rad\n";
+         this._error += " rad\nExpected Angle: "+this._setAngle;
+      }
+      else if(errorType.toUpperCase().contains("FORCE")){
+         this._error += "\nMechanism Support: "+this.id()+"\n";
+         this._error += "Error\nMeasured Arm Force: "+this._armForce;
+         this._error += " rad\nExpected Arm Force: "
+         this._error += this._setArmForce;
+      }
+      else if(errorType.toUpperCase().contains("VECTOR")){
+         this._error += "\nMechanism Support: "+this.id();+"\n";
+         this._error += "Error\nForce Direction: ";
+         if(errorType.toUpperCase().contains("X")){
+            this._error += "X direction\nMeasured: ";
+            this._error += this._vector.x() + "\nExpected: ";
+            this._error += this._setForceVector.x();
+         }
+         else if(errorType.toUpperCase().contains("Y")){
+            this._error += "Y direction\nMeasured: ";
+            this._error += this._vector.y() + "\nExpected: ";
+            this._error += this._setForceVector.y();
+         }
+         else if(errorType.toUpperCase().contains("Z")){
+            this._error += "Z direction\nMeasured: ";
+            this._error += this._vector.z() + "\nExpected: ";
+            this._error += this._setForceVector.z();
+         }
+      }
+      else if(errorType.toUpperCase().contains("MAGNITUDE")){
+         this._error += "Magnitude\nMeasured: ";
+         this._error += this._vector.magnitude()+"\nExpected: ";
+         this._error += this._setForceVector.magnitude();
       }
    }
 
