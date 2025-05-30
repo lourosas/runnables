@@ -89,6 +89,24 @@ Runnable{
    }
 
    ////////////////////////Private Methods////////////////////////////
+   //
+   //
+   //
+   private void alertErrorListeners(){
+      ErrorEvent e = new ErrorEvent(this, this._error);
+      try{
+         Iterator<ErrorListener> it = null;
+         it = this._errorListeners.iterator();
+         while(it.hasNext()){
+            it.next().errorOccurred(e);
+         }
+      }
+      catch(NullPointerException npe){
+         //Should NEVER get here
+         npe.printStackTrace();
+      }
+   }
+
    //Grab the force on the Arm
    //
    //
@@ -281,7 +299,7 @@ Runnable{
          set     = this._setForceVector.magnitude();
          mea     = this._vector.magnitude();
          isError = this.isVectorError(set, mea);
-         is(isError){
+         if(isError){
             this.setError("Magnitude Error");
          }
       }
@@ -393,11 +411,11 @@ Runnable{
       else if(errorType.toUpperCase().contains("FORCE")){
          this._error += "\nMechanism Support: "+this.id()+"\n";
          this._error += "Error\nMeasured Arm Force: "+this._armForce;
-         this._error += " rad\nExpected Arm Force: "
+         this._error += " rad\nExpected Arm Force: ";
          this._error += this._setArmForce;
       }
       else if(errorType.toUpperCase().contains("VECTOR")){
-         this._error += "\nMechanism Support: "+this.id();+"\n";
+         this._error += "\nMechanism Support: "+this.id()+"\n";
          this._error += "Error\nForce Direction: ";
          if(errorType.toUpperCase().contains("X")){
             this._error += "X direction\nMeasured: ";

@@ -241,12 +241,15 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    //
-   public void error(String s, Object o){}
+   public void error(String s, Object o){
+   }
 
    //
    //
    //
-   public void notify(String s, Object o){}
+   public void notify(String s, Object o){
+      this.subscriber.update(o,s);
+   }
 
    //
    //
@@ -262,7 +265,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    public void update(MissionSystemEvent event){
-      this.subscriber.update(event);
+      this.notify("Mission System Event", event);
    }
 }
 //////////////////////////////////////////////////////////////////////
