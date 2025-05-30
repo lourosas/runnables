@@ -246,6 +246,11 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
             this.handlePayloadData(s.toUpperCase(), pd);
          }
          catch(ClassCastException cce){ }
+         try{
+            MissionSystemEvent mse = (MissionSystemEvent)o;
+            this.handleMissionSystemEvent(s.toUpperCase(), mse);
+         }
+         catch(ClassCastException cce){}
       }
       else{
          this.getMessage(s);
@@ -446,6 +451,19 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       if(lmd.isError()){
          this.displayLaunchingMechanismError(lmd.error());
       }
+   }
+
+   /**/
+   private void handleMissionSystemEvent
+   (
+      String             message,
+      MissionSystemEvent event
+   ){
+      System.out.println(message);
+      System.out.println(event.state());
+      System.out.println(event.state().state());
+      System.out.println(event.event());
+      System.out.println(event.time());
    }
 
    /**/
