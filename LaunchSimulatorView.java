@@ -33,18 +33,18 @@ import rosas.lou.clock.*;
 
 public class LaunchSimulatorView extends GenericJFrame
 implements Subscriber, ClockSubscriber, CountdownTimerInterface{
-   private LaunchSimulatorStateSubstate.State             INIT = null;
-   private LaunchSimulatorStateSubstate.State             PREL = null;
-   private LaunchSimulatorStateSubstate.State             IGNI = null;
-   private LaunchSimulatorStateSubstate.State             LAUN = null;
-   private LaunchSimulatorStateSubstate.State             ASCE = null;
-   private LaunchSimulatorStateSubstate.PreLaunchSubstate SET  = null;
-   private LaunchSimulatorStateSubstate.PreLaunchSubstate CONT = null;
-   private LaunchSimulatorStateSubstate.PreLaunchSubstate HOLD = null;
-   private LaunchSimulatorStateSubstate.IgnitionSubstate  IGN  = null;
-   private LaunchSimulatorStateSubstate.IgnitionSubstate  BUP  = null;
-   private LaunchSimulatorStateSubstate.AscentSubstate    STG  = null;
-   private LaunchSimulatorStateSubstate.AscentSubstate    IGNE = null;
+   private LaunchStateSubstate.State             INIT = null;
+   private LaunchStateSubstate.State             PREL = null;
+   private LaunchStateSubstate.State             IGNI = null;
+   private LaunchStateSubstate.State             LAUN = null;
+   private LaunchStateSubstate.State             ASCE = null;
+   private LaunchStateSubstate.PreLaunchSubstate SET  = null;
+   private LaunchStateSubstate.PreLaunchSubstate CONT = null;
+   private LaunchStateSubstate.PreLaunchSubstate HOLD = null;
+   private LaunchStateSubstate.IgnitionSubstate  IGN  = null;
+   private LaunchStateSubstate.IgnitionSubstate  BUP  = null;
+   private LaunchStateSubstate.AscentSubstate    STG  = null;
+   private LaunchStateSubstate.AscentSubstate    IGNE = null;
 
    private LaunchSimulatorController     _controller;
    private LaunchSimulatorStateSubstate  _lsss;
@@ -52,18 +52,18 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    private ButtonGroup                   _menuButtonGroup;
 
    {
-      INIT = LaunchSimulatorStateSubstate.State.INITIALIZE;
-      PREL = LaunchSimulatorStateSubstate.State.PRELAUNCH;
-      IGNI = LaunchSimulatorStateSubstate.State.IGNITION;
-      LAUN = LaunchSimulatorStateSubstate.State.LAUNCH;
-      ASCE = LaunchSimulatorStateSubstate.State.ASCENT;
-      SET  = LaunchSimulatorStateSubstate.PreLaunchSubstate.SET;
-      CONT = LaunchSimulatorStateSubstate.PreLaunchSubstate.CONTINUE;
-      HOLD = LaunchSimulatorStateSubstate.PreLaunchSubstate.HOLD;
-      IGN  = LaunchSimulatorStateSubstate.IgnitionSubstate.IGNITION;
-      BUP  = LaunchSimulatorStateSubstate.IgnitionSubstate.BUILDUP;
-      STG  = LaunchSimulatorStateSubstate.AscentSubstate.STAGING;
-      IGNE =LaunchSimulatorStateSubstate.AscentSubstate.IGNITEENGINES;
+      INIT = LaunchStateSubstate.State.INITIALIZE;
+      PREL = LaunchStateSubstate.State.PRELAUNCH;
+      IGNI = LaunchStateSubstate.State.IGNITION;
+      LAUN = LaunchStateSubstate.State.LAUNCH;
+      ASCE = LaunchStateSubstate.State.ASCENT;
+      SET  = LaunchStateSubstate.PreLaunchSubstate.SET;
+      CONT = LaunchStateSubstate.PreLaunchSubstate.CONTINUE;
+      HOLD = LaunchStateSubstate.PreLaunchSubstate.HOLD;
+      IGN  = LaunchStateSubstate.IgnitionSubstate.IGNITION;
+      BUP  = LaunchStateSubstate.IgnitionSubstate.BUILDUP;
+      STG  = LaunchStateSubstate.AscentSubstate.STAGING;
+      IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
       _controller      = null;
       _lsss            = null;
@@ -413,6 +413,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    (
       LaunchSimulatorStateSubstate ss
    ){
+      //will need to create a State/Substate event...
       JPanel bp = this.getButtonPanel();
       for(int i = 0; i < bp.getComponentCount(); ++i){
          JButton b = (JButton)bp.getComponent(i);
@@ -421,6 +422,27 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
             b.setEnabled(true);
          }
       }
+   }
+
+   /**/
+   private void handleLaunchingMechanism(MissionSystemEvent event){
+      LaunchStateSubstate.State             state;
+      LaunchStateSubstate.PreLaunchSubstate prelaunch;
+      LaunchStateSubstate.IgnitionSubstate  ignition;
+      LaunchStateSubstate.AscentSubstate    ascent;
+      state     = event.state().state();
+      prelaunch = event.state().prelaunchSubstate();
+      ignition  = event.state().ignitionSubstate();
+      ascent    = event.state().ascentSubstate();
+      try{
+         LaunchingMechanism lm=(LaunchingMechanism)event.getSource();
+         if(state == INIT){
+            System.out.println(event.time());
+            System.out.println(event.state().state());
+            System.out.println(eve
+         }
+      }
+      catch(ClassCastException cce){}
    }
 
    /**/
@@ -459,11 +481,8 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       String             message,
       MissionSystemEvent event
    ){
-      System.out.println(message);
-      System.out.println(event.state());
-      System.out.println(event.state().state());
-      System.out.println(event.event());
-      System.out.println(event.time());
+      //For all MissionSystemEvents, just Blanket them all!!
+      this.handleLaunchingMechanism(event);
    }
 
    /**/
@@ -490,6 +509,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    (
       LaunchSimulatorStateSubstate.PreLaunchSubstate sub
    ){
+      /*
       try{
          if(sub == SET){
             this.setForCountdownStart();
@@ -504,6 +524,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
          }
       }
       catch(NullPointerException npe){}
+      */
    }
 
    /**/
@@ -557,6 +578,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       LaunchSimulatorStateSubstate lsss,
       String                       message
    ){
+      /*
       this._lsss = lsss;
       this.displayState(lsss.state());
       if(lsss.state() == INIT){
@@ -565,6 +587,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       else if(lsss.state() == PREL){
          this.handlePrelaunchState(lsss);
       }
+      */
    }
 
    /**/
