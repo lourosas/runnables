@@ -437,11 +437,16 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       try{
          LaunchingMechanism lm=(LaunchingMechanism)event.getSource();
          if(state == INIT){
+            /*
             System.out.println(event.time());
             System.out.println(state);
             System.out.println(event.event());
             System.out.println(lm.supportedWeight());
-            System.out.println(lm.monitorInitialization());
+            System.out.println(lm.monitor());
+            */
+            LaunchSimulatorMechanismPanel p = null;
+            p=(LaunchSimulatorMechanismPanel)this.getMechanismPanel();
+            p.initialize(lm.monitor());
          }
       }
       catch(ClassCastException cce){}

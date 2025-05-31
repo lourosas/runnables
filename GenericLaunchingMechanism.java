@@ -283,7 +283,7 @@ ErrorListener, Runnable{
       Iterator<MechanismSupport> it = this._supports.iterator();
       while(it.hasNext()){
          if(this._state.state() == INIT){
-            msd.add(it.next().monitorInitialization());
+            msd.add(it.next().monitor());
          }
       }
       lmd = new GenericLaunchingMechanismData(this._error,

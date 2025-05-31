@@ -67,10 +67,11 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    public void initialize(LaunchingMechanismData lmd){
       this._currentLMD = lmd;
-      this.deactivateButtonPanel();
-      this.initiateButtonPanel();
-      this.initiateCenterPanel();
-      this.updateMechanismSupportsJFrame();
+      System.out.println(this._currentLMD);
+      //this.deactivateButtonPanel();
+      //this.initiateButtonPanel();
+      //this.initiateCenterPanel();
+      //this.updateMechanismSupportsJFrame();
    }
 
    //////////////////////////Private Methods//////////////////////////

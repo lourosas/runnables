@@ -19,6 +19,8 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
+import java.text.DecimalFormat;
+import java.math.RoundingMode;
 import rosas.lou.runnables.*;
 
 public class GenericMechanismSupportData 
@@ -106,10 +108,13 @@ implements MechanismSupportData{
    //
    //
    public String toString(){
-      String string = "\n" + this.id() + "\n"+this.angle() + "rad\n";
-      string       += this.isError() + ":" + this.error() + "\n";
+      DecimalFormat df = new DecimalFormat("###.##");
+      df.setRoundingMode(RoundingMode.HALF_UP);
+      String string = "\n" + this.id() + "\n";
+      string       += df.format(this.angle())+"rad\n";
+      string       += this.isError()+": "+this.error()+"\n";
       string       += this.forceVector().toString() + "\n";
-      string       += this.measuredForce();
+      string       += df.format(this.measuredForce());
       
       return string;
    }
