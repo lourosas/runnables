@@ -443,6 +443,20 @@ Runnable{
    //
    //
    //
+   private void setUpMechanismSupportData(){
+      MechanismSupportData msd = null;
+      msd = new GenericMechanismSupportData(this._angle,
+                                            this._error,
+                                            this._vector,
+                                            this._id,
+                                            this._isError,
+                                            this._armForce);
+      this._supportData = msd;
+   }
+
+   //
+   //
+   //
    private void setUpThread(){
       this._rt0 = new Thread(this, "Mechanism Support" + this._id);
       this._rt0.start();
@@ -503,14 +517,14 @@ Runnable{
    //
    //
    //
-   public MechanismSupportData monitorData(){
-      return null;
+   public MechanismSupportData monitor(){
+      return this._supportData;
    }
    //
    //
    //
    public MechanismSupportData monitorInitialization(){
-      return null;
+      return this._supportData;
    }
 
    //
@@ -570,7 +584,13 @@ Runnable{
                this.measureArmForce();
                this.measureForceVector();
                this.isError();
-               if(this._isError){}
+               if(this._isError){
+                  //Alert Error Listeners--TBD
+               }
+               else{
+                  //Save off the data as needed...
+                  this.setUpMechanismSupportData();
+               }
                if(this._state.state() == INIT){
                   Thread.sleep(5000);
                   //Thread.sleep(10);

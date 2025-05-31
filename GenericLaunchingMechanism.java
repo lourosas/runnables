@@ -403,6 +403,13 @@ ErrorListener, Runnable{
    //
    //
    //
+   public LaunchingMechanismData monitor(){
+      return this._launchingMechanismData;
+   }
+
+   //
+   //
+   //
    public LaunchingMechanismData monitorInitialization(){
       //this._state = new LaunchStateSubstate(INIT,null,null,null);
       //this._start = true;

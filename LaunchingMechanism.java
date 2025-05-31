@@ -28,6 +28,7 @@ public interface LaunchingMechanism{
    public void addErrorListener(ErrorListener e);
    public void addSystemListener(SystemListener s);
    public void initialize(String file)throws IOException;
+   public LaunchingMechanismData monitor();
    public LaunchingMechanismData monitorInitialization();
    public LaunchingMechanismData monitorPrelaunch();
    public LaunchingMechanismData monitorIgnition();
