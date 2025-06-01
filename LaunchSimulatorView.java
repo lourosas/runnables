@@ -231,11 +231,11 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
             this.handleStateSubstate(lss, s);
          }
          catch(ClassCastException cce){}
-         try{
-            LaunchingMechanismData lm = (LaunchingMechanismData)o;
-            this.handleLaunchingMechanismData(s.toUpperCase(),lm);
-         }
-         catch(ClassCastException cce){}
+         //try{
+         //   LaunchingMechanismData lm = (LaunchingMechanismData)o;
+         //   this.handleLaunchingMechanismData(s.toUpperCase(),lm);
+         //}
+         //catch(ClassCastException cce){}
          try{
             RocketData rd = (RocketData)o;
             this.handleRocketData(s.toUpperCase(),rd);
@@ -437,16 +437,9 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       try{
          LaunchingMechanism lm=(LaunchingMechanism)event.getSource();
          if(state == INIT){
-            /*
-            System.out.println(event.time());
-            System.out.println(state);
-            System.out.println(event.event());
-            System.out.println(lm.supportedWeight());
-            System.out.println(lm.monitor());
-            */
             LaunchSimulatorMechanismPanel p = null;
             p=(LaunchSimulatorMechanismPanel)this.getMechanismPanel();
-            p.initialize(lm.monitor());
+            p.update(lm.monitor());
          }
       }
       catch(ClassCastException cce){}
@@ -470,7 +463,8 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
             //this._launchMechFrame.initialize(lmd);
             LaunchSimulatorMechanismPanel p = null;
             p=(LaunchSimulatorMechanismPanel)this.getMechanismPanel();
-            p.initialize(lmd);
+            //p.initialize(lmd);
+            p.update(lmd);
          }
       }
       else{
@@ -489,6 +483,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       MissionSystemEvent event
    ){
       //For all MissionSystemEvents, just Blanket them all!!
+      //Add to it handleRocket(event)...etc...
       this.handleLaunchingMechanism(event);
    }
 

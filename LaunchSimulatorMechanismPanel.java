@@ -65,13 +65,13 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    //
    //
-   public void initialize(LaunchingMechanismData lmd){
+   public void update(LaunchingMechanismData lmd){
       this._currentLMD = lmd;
+      this.deactivateButtonPanel();
+      this.updateButtonPanel();
+      this.updateCenterPanel();
       System.out.println(this._currentLMD);
-      //this.deactivateButtonPanel();
-      //this.initiateButtonPanel();
-      //this.initiateCenterPanel();
-      //this.updateMechanismSupportsJFrame();
+      this.updateMechanismSupportsJFrame();
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -190,54 +190,6 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    //
    //
-   private void initiateCenterPanel(){
-      try{
-         String n = new String();
-         NumberFormat format=NumberFormat.getNumberInstance(Locale.US);
-         JPanel panel = (JPanel)this.getComponent(0);
-
-         JPanel data  = (JPanel)panel.getComponent(0);
-         JLabel l=new JLabel("Platform Model: ",SwingConstants.RIGHT);
-         data.add(l);
-         l = new JLabel("" + this._currentLMD.model());
-         data.add(l);
-
-         data = (JPanel)panel.getComponent(1);
-         l = new JLabel("No. of Holds: ",SwingConstants.RIGHT);
-         data.add(l);
-         l = new JLabel("" + this._currentLMD.holds());
-         data.add(l);
-
-         data = (JPanel)panel.getComponent(2);
-         l = new JLabel("Measured Weight: ",SwingConstants.RIGHT);
-         data.add(l);
-         n = format.format(this._currentLMD.measuredWeight())+"N";
-         l = new JLabel(n);
-         data.add(l);
-
-         data = (JPanel)panel.getComponent(3);
-         if(this._currentLMD.isError()){
-            l = new JLabel("Error: ",SwingConstants.RIGHT);
-            l.setForeground(Color.RED);
-            data.add(l);
-            n = "" + this._currentLMD.isError();
-            l = new JLabel(n);
-            l.setForeground(Color.RED);
-            data.add(l);
-            this.activateButtonPanel("ERROR");
-         }
-         else{
-            l = new JLabel("");
-            data.add(l);
-            data.add(l); //Add the Label twice
-         }
-      }
-      catch(ClassCastException cce){ cce.printStackTrace(); }
-   }
-
-   //
-   //
-   //
    private JPanel setUpButtonPanel(){
       JPanel panel = new JPanel();
 
@@ -322,6 +274,105 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(1,2));
       return panel;
+   }
+
+   //
+   //
+   //
+   private void updateButtonPanel(){
+      //This will need to change somewhat based on errors...since
+      //errors are now relayed in a different mechanism--more real
+      //time
+      if(this._currentLMD.isError()){
+         this.activateButtonPanel("Error");
+      }
+      else if(this._mechanismsF != null){
+         //If the Launching Mechanisms Frame is active, do not
+         //actviate the Holds button
+         if(this._mechanismsF.isVisible()){
+            //If the Launching Mechanisms Frame is visible, indicate
+            //that
+            this.activateButtonPanel("Holds Pressed");
+         }
+         else{
+            //If the Launching Mechanism Frame is not visible,
+            //indicate Holds button should be active
+            this.activateButtonPanel("Holds Activate");
+         }
+      }
+      else{
+         //If Launching Mechanism Frame is null and there is no error,
+         //activate the Holds button--a Typical Update
+         this.activateButtonPanel("Holds Activate");
+      }
+   }
+
+   //
+   //
+   //
+   private void updateCenterPanel(){
+      try{
+         String n       = new String();
+         NumberFormat f = NumberFormat.getNumberInstance(Locale.US);
+         JPanel panel   = (JPanel)this.getComponent(0);
+
+         JPanel data    = (JPanel)panel.getComponent(0);
+         if(data.getComponentCount() > 0){
+            //Get rid of everything and start over...
+            data.removeAll();
+         }
+         JLabel l=new JLabel("Platform Model: ",SwingConstants.RIGHT);
+         data.add(l);
+         l = new JLabel(""+this._currentLMD.model());
+         data.add(l);
+
+         data = (JPanel)panel.getComponent(1);
+         if(data.getComponentCount() > 0){
+            data.removeAll();
+         }
+         l = new JLabel("No. of Holds: ",SwingConstants.RIGHT);
+         data.add(l);
+         l = new JLabel("" + this._currentLMD.holds());
+         data.add(l);
+
+         data = (JPanel)panel.getComponent(2);
+         if(data.getComponentCount() > 0){
+            data.removeAll();
+         }
+         l = new JLabel("Measured Weight: ", SwingConstants.RIGHT);
+         data.add(l);
+         n = f.format(this._currentLMD.measuredWeight())+"N";
+         l = new JLabel(n);
+         data.add(l);
+
+         //This will need to change accoringly for errors as
+         //appropriate
+         data = (JPanel)panel.getComponent(3);
+         if(data.getComponentCount() > 0){
+            data.removeAll();
+         }
+         //This WILL NEED TO CHANGE, since errors updated differently
+         if(this._currentLMD.isError()){
+            l = new JLabel("Error: ", SwingConstants.RIGHT);
+            l.setForeground(Color.RED);
+            data.add(l);
+            n = "" + this._currentLMD.isError();
+            l = new JLabel(n);
+            l.setForeground(Color.RED);
+            data.add(l);
+            this.activateButtonPanel("ERROR");
+         }
+         else{
+            l = new JLabel("");
+            data.add(l);
+            data.add(l);
+         }
+         panel.repaint();
+         panel.revalidate();
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+      }
    }
 
    //

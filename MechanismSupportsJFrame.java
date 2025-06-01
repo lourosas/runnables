@@ -122,7 +122,15 @@ GenericJInteractionFrame{
       int count = 0;
       int idx   = 0;
       JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+      //This will need to be improved!!!
       //The first update, and nothing is created...
+      if(panel.getComponentCount() > 0){
+         System.out.println("Component Count: ");
+         System.out.println(panel.getComponentCount());
+         panel.removeAll();
+         panel.repaint();//So much more to do here!!
+         panel.revalidate();
+      }
       if(panel.getComponentCount() == 0){
          while(count < list.size()){
             MechanismSupportData data = list.get(idx);
@@ -136,7 +144,6 @@ GenericJInteractionFrame{
             }
          }
       }
-      else{}
    }
 }
 //////////////////////////////////////////////////////////////////////
