@@ -113,6 +113,8 @@ ErrorListener, Runnable{
    private void alertSystemListeners(){
       //Create a SystemEvent
       MissionSystemEvent event = null;
+      this._isError = false;
+      this._error    = new String();
       String s = new String("Launching Mechanism Event");
       this.setUpLaunchingMechanismData();
       //Going to go ahead and send in the entire object
@@ -141,7 +143,9 @@ ErrorListener, Runnable{
       boolean inputGood = (this._emptyWeight != Double.NaN);
       inputGood &= (this._loadedWeight != Double.NaN);
       boolean measGood  = (this._measuredWeight != Double.NaN);
+      //Clear every time...
       this._isError     = false;
+      this._error       = new String();
 
       //TODO What happens if a Measurement is not good? Indicate an
       //error or not?

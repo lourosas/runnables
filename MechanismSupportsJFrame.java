@@ -59,7 +59,7 @@ GenericJInteractionFrame{
    //
    public void updateSupportsData(LaunchingMechanismData lmd){
       this.updateLaunchingMechanismData(lmd);
-      this.setVisual();
+      //this.setVisual();
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -128,8 +128,8 @@ GenericJInteractionFrame{
          System.out.println("Component Count: ");
          System.out.println(panel.getComponentCount());
          panel.removeAll();
-         panel.repaint();//So much more to do here!!
-         panel.revalidate();
+         //panel.repaint();//So much more to do here!!
+         //panel.revalidate();
       }
       if(panel.getComponentCount() == 0){
          while(count < list.size()){

@@ -261,8 +261,18 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    public void error(RuntimeException re){
       this.handleRuntimeException(re);
    }
+
    /**/
-   public void error(RuntimeException re, Object o){}
+   public void error(RuntimeException re, Object o){
+      try{
+         ErrorEvent e = (ErrorEvent)o;
+         //this.handleRocketError(re,e);
+         this.handleLaunchingMechanismError(re,e);
+         //this.handlePayloadError(re,e);
+      }
+      catch(ClassCastException cce){}
+   }
+
    /**/
    public void error(String error){
       //Fucking something else to go in here!
@@ -446,33 +456,16 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /**/
-   private void handleLaunchingMechanismData
+   private void handleLaunchingMechanismError
    (
-      String                 state,
-      LaunchingMechanismData lmd
+      RuntimeException re,
+      ErrorEvent       e
    ){
-      java.util.List<MechanismSupportData> list = lmd.supportData();
-      if(state != null){
-         //All States of "Concern" are Pre-Launch/Ignition...When in
-         //The Pre-Launch/Ignition state, just going to update
-         //the View with the appropriate data
-         //"INITIALIZE" is NOT a State...
-         if(state.toUpperCase().contains("INITIALIZE")){
-            //INITIALIZE is currently in a "No State" Condition
-            //this._launchMechFrame = new LaunchingMechanismJFrame();
-            //this._launchMechFrame.initialize(lmd);
-            LaunchSimulatorMechanismPanel p = null;
-            p=(LaunchSimulatorMechanismPanel)this.getMechanismPanel();
-            //p.initialize(lmd);
-            p.update(lmd);
-         }
-      }
-      else{
-         //
-         //this._launchMechFrame.setData(lmd);
-      }
-      if(lmd.isError()){
-         this.displayLaunchingMechanismError(lmd.error());
+      String event = e.getEvent();
+      if(event.toUpperCase().contains("MEASURED WEIGHT ERROR")){
+         LaunchSimulatorMechanismPanel p = null;
+         p=(LaunchSimulatorMechanismPanel)this.getMechanismPanel();
+         p.error(re,e);
       }
    }
 
@@ -484,7 +477,11 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    ){
       //For all MissionSystemEvents, just Blanket them all!!
       //Add to it handleRocket(event)...etc...
+      //Add to it handlePayload(event)...
       this.handleLaunchingMechanism(event);
+      this.repaint();
+      this.revalidate();
+      this.requestFocus(); //Put the focus back on the Frame...
    }
 
    /**/

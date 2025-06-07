@@ -65,6 +65,20 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    //
    //
+   public void error(RuntimeException re, ErrorEvent e){
+      try{
+         System.out.println(e.getEvent());
+         String err = e.getEvent();
+         if(err.toUpperCase().contains("MEASURED WEIGHT ERROR")){
+            System.out.println(this._mechanismsF.isVisible());
+         }
+      }
+      catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
    public void update(LaunchingMechanismData lmd){
       this._currentLMD = lmd;
       this.deactivateButtonPanel();

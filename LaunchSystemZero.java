@@ -173,8 +173,6 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    public void errorOccurred(ErrorEvent e){
-      //Test Prints
-      System.out.println(e);
       RuntimeException re = new RuntimeException(e.getEvent());
       this.subscriber.error(re, e);
    }
