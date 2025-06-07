@@ -67,13 +67,17 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    public void error(RuntimeException re, ErrorEvent e){
       try{
-         System.out.println(e.getEvent());
          String err = e.getEvent();
          if(err.toUpperCase().contains("MEASURED WEIGHT ERROR")){
+            System.out.println(err);
             System.out.println(this._mechanismsF.isVisible());
+            this.deactivateButtonPanel();
+            this.errorButtonPanel(re,e);
+            this.errorCenterPanel(re,e);
          }
       }
       catch(NullPointerException npe){}
+      catch(ClassCastException cce){}
    }
 
    //
@@ -187,6 +191,29 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
          this._mechanismsF.setVisible(true);
       }
    }
+
+   //
+   //
+   //
+   private void errorButtonPanel(RuntimeException re, ErrorEvent e){
+      this.activateButtonPanel("Error");
+      if(this._mechanismsF != null){
+         if(this._mechanismsF.isVisible()){
+            this.activateButtonPanel("Holds Pressed");
+         }
+         else{
+            this.activateButtonPanel("Holds Activate");
+         }
+      }
+      else{
+         this.activateButtonPanel("Holds Activate");
+      }
+   }
+
+   //
+   //
+   //
+   private void errorCenterPanel(RuntimeException re, ErrorEvent e){}
 
    //
    //

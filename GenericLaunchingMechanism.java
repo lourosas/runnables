@@ -113,8 +113,8 @@ ErrorListener, Runnable{
    private void alertSystemListeners(){
       //Create a SystemEvent
       MissionSystemEvent event = null;
-      this._isError = false;
-      this._error    = new String();
+      this._isError            = false;
+      this._error              = new String();
       String s = new String("Launching Mechanism Event");
       this.setUpLaunchingMechanismData();
       //Going to go ahead and send in the entire object
