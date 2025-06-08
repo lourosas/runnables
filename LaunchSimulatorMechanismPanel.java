@@ -68,13 +68,13 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    public void error(RuntimeException re, ErrorEvent e){
       try{
          String err = e.getEvent();
-         if(err.toUpperCase().contains("MEASURED WEIGHT ERROR")){
-            System.out.println(err);
-            //this.deactivateButtonPanel();
-            //this.errorButtonPanel(re,e);
-            //this.errorCenterPanel(re,e);
-            //System.out.println(this._mechanismsF.isVisible());
+         if(err.toUpperCase().contains("MEASURED WEIGHT")){
+            this.deactivateButtonPanel();
+            this.errorButtonPanel(re,e);
+            this.errorCenterPanel(re,e);
          }
+         //Arm measurement errors
+         //else if(){}
       }
       catch(NullPointerException npe){}
       catch(ClassCastException cce){}
@@ -213,7 +213,34 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    //
    //
-   private void errorCenterPanel(RuntimeException re, ErrorEvent e){}
+   private void errorCenterPanel(RuntimeException re, ErrorEvent e){
+      String error = e.getEvent();
+      String [] errors = error.split("\n");
+      String weight = null;
+      for(int i = 0; i < errors.length; ++i){
+         System.out.println(errors[i]);
+         if(errors[i].toUpperCase().contains("MEASURED:")){
+            String [] weightErrors = errors[i].split(":");
+            weight = weightErrors[1].trim();
+         }
+      }
+      JPanel panel = (JPanel)this.getComponent(0);
+      JPanel data  = (JPanel)panel.getComponent(2);
+      JLabel l     = (JLabel)data.getComponent(0);
+      l.setForeground(Color.RED);
+      l = (JLabel)data.getComponent(1);
+      l.setForeground(Color.RED);
+      l.setText(weight+"N");
+
+      data = (JPanel)panel.getComponent(3);
+      data.removeAll();
+      l = new JLabel("Error: ", SwingConstants.RIGHT);
+      l.setForeground(Color.RED);
+      data.add(l);
+      l = new JLabel(errors[0]);
+      l.setForeground(Color.RED);
+      data.add(l);
+   }
 
    //
    //

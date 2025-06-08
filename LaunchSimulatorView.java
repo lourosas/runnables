@@ -419,7 +419,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       ErrorEvent       e
    ){
       String event = e.getEvent();
-      if(event.toUpperCase().contains("MEASURED WEIGHT ERROR")){
+      if(event.toUpperCase().contains("MEASURED WEIGHT")){
          LaunchSimulatorMechanismPanel p = null;
          p=(LaunchSimulatorMechanismPanel)this.getMechanismPanel();
          p.error(re,e);

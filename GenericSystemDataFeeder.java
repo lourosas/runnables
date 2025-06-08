@@ -238,8 +238,8 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       try{
          //Set _weight;
          if(this._cond.state() == INIT){
-            scale = 0.01;
-            //scale = 0.15;  //To test for errors
+            //scale = 0.01;
+            scale = 0.15;  //To test for errors
             min   = (int)(this.emptyWeight()*(1-scale));
             max   = (int)(this.emptyWeight()*(1+scale));
             value = this._random.nextInt(max - min + 1) + min; 

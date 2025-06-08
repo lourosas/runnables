@@ -169,8 +169,11 @@ ErrorListener, Runnable{
             */
          }
          if(this._measuredWeight < ll || this._measuredWeight > ul){
+            String error = new String("Measured Weight: ");
             this._isError = true;
-            this.setError("Measured Weight");
+            if(this._measuredWeight < ll){error += "too low";}
+            else if(this._measuredWeight > ul){error += "too high";}
+            this.setError(error);
          }
       }
    }
@@ -268,9 +271,8 @@ ErrorListener, Runnable{
    private void setError(String errorType){
       this._error     = new String();
       if(errorType.toUpperCase().contains("MEASURED")){
-         this._error += "\n";
-         this._error += "Launching Mechanism Measured Weight";
-         this._error += " Error";
+         this._error =  errorType;
+         this._error += "\nState:    " + this._state.state();
          this._error += "\nMeasured: " + this._measuredWeight;
          this._error += "\nEmpty:    " + this._emptyWeight;
          this._error += "\nLoaded:   " + this._loadedWeight;
