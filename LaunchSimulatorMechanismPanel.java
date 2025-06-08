@@ -37,11 +37,14 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    private LaunchingMechanismData  _currentLMD;//May not need
    private JFrame                  _parent;
    private MechanismSupportsJFrame _mechanismsF;
+   //String for the current error
+   private ErrorEvent              _errorEvent;
 
    {
-      _currentLMD  = null;
-      _parent      = null;
-      _mechanismsF = null;
+      _currentLMD   = null;
+      _parent       = null;
+      _mechanismsF  = null;
+      _errorEvent   = null;
    };
    
    ////////////////////////////Constructors///////////////////////////
@@ -67,7 +70,8 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    public void error(RuntimeException re, ErrorEvent e){
       try{
-         String err = e.getEvent();
+         this._errorEvent = e;
+         String err = this._errorEvent.getEvent();
          if(err.toUpperCase().contains("MEASURED WEIGHT")){
             this.deactivateButtonPanel();
             this.errorButtonPanel(re,e);
@@ -84,11 +88,12 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    //
    public void update(LaunchingMechanismData lmd){
+      //Clear any errors if there were any...
+      this._errorEvent = null;
       this._currentLMD = lmd;
       this.deactivateButtonPanel();
       this.updateButtonPanel();
       this.updateCenterPanel();
-      System.out.println(this._currentLMD);
       this.updateMechanismSupportsJFrame();
    }
 
@@ -170,6 +175,32 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    //
    //
+   private void displayErrorData(){
+      String error = this._errorEvent.getEvent();
+      //Put the Time in the Title
+      String state = null;
+      String title = this._errorEvent.getTime();
+      String[] errors = error.split("\n");
+      error = new String(errors[0]);
+      for(int i = 0; i < errors.length; ++i){
+         if(errors[i].toUpperCase().contains("STATE")){
+            String[] states = errors[i].split(":");
+            state = states[1].trim();
+         }
+      }
+      if(state.toUpperCase().contains("INITIALIZE")){
+         error += "\nExpected: "+errors[3].split(":")[1].trim();
+      }
+      error += "\n"+errors[2];
+      JOptionPane.showMessageDialog(this._parent,
+                                    error,
+                                    title,
+                                    JOptionPane.ERROR_MESSAGE);
+   }
+
+   //
+   //
+   //
    private void displayMechanismsSupportsJFrame(){
       if(this._mechanismsF == null){
          MechanismSupportsJFrame f = null;
@@ -214,11 +245,12 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    //
    private void errorCenterPanel(RuntimeException re, ErrorEvent e){
+      //Still NEED TO HANDLE EXCEPTIONS When An error occures in
+      //FIRST UPDATE--Frame is not even set up...!!!
       String error = e.getEvent();
       String [] errors = error.split("\n");
       String weight = null;
       for(int i = 0; i < errors.length; ++i){
-         System.out.println(errors[i]);
          if(errors[i].toUpperCase().contains("MEASURED:")){
             String [] weightErrors = errors[i].split(":");
             weight = weightErrors[1].trim();
@@ -240,6 +272,10 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
       l = new JLabel(errors[0]);
       l.setForeground(Color.RED);
       data.add(l);
+      //See if this works...
+      panel.repaint();
+      panel.revalidate();
+      
    }
 
    //
@@ -272,8 +308,7 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
       });
       error.addActionListener(new ActionListener(){
          public void actionPerformed(ActionEvent e){
-            //TODO--figure out how to handle errors
-            System.out.println(e);
+            displayErrorData();
          }
       });
       panel.add(holds);
