@@ -192,23 +192,6 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    ////////////////////////Subscriber Methods/////////////////////////
    /**/
    public void update(Object o){
-      /*
-      try{
-         RocketData rd = (RocketData)o;
-         this.handleRocketData(null, rd);
-      }
-      catch(ClassCastException cce){}
-      try{
-         LaunchingMechanismData lm = (LaunchingMechanismData)o;
-         this.handleLaunchingMechanismData(null,lm);
-      }
-      catch(ClassCastException cce){}
-      try{
-         PayloadData pd = (PayloadData)o;
-         this.handlePayloadData(null, pd);
-      }
-      catch(ClassCastException cce){}
-      */
       try{
          MissionSystemEvent mse = (MissionSystemEvent)o;
          System.out.println("<View>:  "+mse.getSource());
@@ -220,32 +203,6 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    /**/
    public void update(Object o, String s){
       if(o != null){
-         try{
-            JTextField jtf = (JTextField)o;
-            this.handleJTextFieldEntry(jtf,s);
-         }
-         catch(ClassCastException cce){}
-         try{
-            LaunchSimulatorStateSubstate lss = null;
-            lss = (LaunchSimulatorStateSubstate)o;
-            this.handleStateSubstate(lss, s);
-         }
-         catch(ClassCastException cce){}
-         //try{
-         //   LaunchingMechanismData lm = (LaunchingMechanismData)o;
-         //   this.handleLaunchingMechanismData(s.toUpperCase(),lm);
-         //}
-         //catch(ClassCastException cce){}
-         try{
-            RocketData rd = (RocketData)o;
-            this.handleRocketData(s.toUpperCase(),rd);
-         }
-         catch(ClassCastException cce){}      
-         try{
-            PayloadData pd = (PayloadData)o;
-            this.handlePayloadData(s.toUpperCase(), pd);
-         }
-         catch(ClassCastException cce){ }
          try{
             MissionSystemEvent mse = (MissionSystemEvent)o;
             this.handleMissionSystemEvent(s.toUpperCase(), mse);

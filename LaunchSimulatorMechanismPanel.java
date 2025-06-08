@@ -70,10 +70,10 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
          String err = e.getEvent();
          if(err.toUpperCase().contains("MEASURED WEIGHT ERROR")){
             System.out.println(err);
-            System.out.println(this._mechanismsF.isVisible());
-            this.deactivateButtonPanel();
-            this.errorButtonPanel(re,e);
-            this.errorCenterPanel(re,e);
+            //this.deactivateButtonPanel();
+            //this.errorButtonPanel(re,e);
+            //this.errorCenterPanel(re,e);
+            //System.out.println(this._mechanismsF.isVisible());
          }
       }
       catch(NullPointerException npe){}
@@ -187,9 +187,9 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
             }
          });
       }
-      else{
+      //else{
          this._mechanismsF.setVisible(true);
-      }
+      //}
    }
 
    //

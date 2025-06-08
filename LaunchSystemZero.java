@@ -173,8 +173,8 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    public void errorOccurred(ErrorEvent e){
-      RuntimeException re = new RuntimeException(e.getEvent());
-      this.subscriber.error(re, e);
+      String event = e.getEvent();
+      this.error(event,e);
    }
 
    //////////////LaunchSystem Interface Implementation////////////////
@@ -240,6 +240,8 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    public void error(String s, Object o){
+      RuntimeException re = new RuntimeException(s);
+      this.subscriber.error(re, o);
    }
 
    //
