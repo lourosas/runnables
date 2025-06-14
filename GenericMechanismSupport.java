@@ -93,6 +93,9 @@ Runnable{
    //
    //
    private void alertErrorListeners(){
+      System.out.print("GenericMechanismSupport.alertErrorListener()");
+      System.out.println("  "+this._error);
+      /*
       ErrorEvent e = new ErrorEvent(this, this._error);
       try{
          Iterator<ErrorListener> it = null;
@@ -105,59 +108,7 @@ Runnable{
          //Should NEVER get here
          npe.printStackTrace();
       }
-   }
-
-   //Grab the force on the Arm
-   //
-   //
-   private void initializeForce
-   (
-      int                      holds,
-      Hashtable<String,String> rocket
-   ){
-      if(rocket.containsKey("loaded_weight")){
-         try{
-            String sWeight = rocket.get("loaded_weight");
-            double weight  = Double.parseDouble(sWeight);
-            weight /= holds;
-            weight /= Math.sin(this._angle);
-            //This is the weight that is calculated based on the
-            //initialization data...
-            this._setArmForce = weight;
-         }
-         catch(NumberFormatException nfe){
-            this._setArmForce = Double.NaN;
-         }
-         catch(NullPointerException  npe){}
-      }
-   }
-
-   //Initialze the ForceVector
-   //
-   //
-   private void initializeForceVector(){
-      double x = Double.NaN;
-      double y = Double.NaN;
-      double z = Double.NaN;
-      if(this.id() == 0){
-         x = this._setArmForce*Math.cos(this._angle);
-         y = 0.;
-      }
-      else if(this.id() == 1){
-         x = 0.;
-         y = this._setArmForce*Math.cos(this._angle);
-      }
-      else if(this.id() == 2){
-         x = (-1.)*this._setArmForce*Math.cos(this._angle);
-         y = 0;
-      }
-      else if(this.id() == 3){
-         x = 0.;
-         y = (-1.)*this._setArmForce*Math.cos(this._angle);
-      }
-      else{}
-      z = (-1.)*this._setArmForce*Math.sin(this._angle);
-      this._setForceVector = new GenericForceVector(x,y,z);
+      */
    }
 
    //
@@ -168,37 +119,10 @@ Runnable{
       Hashtable<String,String> mech,
       Hashtable<String,String> rocket
    ){
-      int holds = this.initializeHoldData(mech);
-      this.initializeForce(holds, rocket);
-      this.initializeForceVector();
-   }
-
-   //
-   //
-   //
-   private int initializeHoldData(Hashtable<String,String> mech){
-      int holds = -1;
-      if(mech.containsKey("number_of_holds")){
-         try{
-            String sHolds = mech.get("number_of_holds");
-            holds         = Integer.parseInt(sHolds);
-         }
-         catch(NumberFormatException nfe){}
-         catch(NullPointerException  npe){}
-      }
-      if(mech.containsKey("angle_of_holds")){
-         try{
-            String sAoHolds = mech.get("angle_of_holds");
-            double degHolds = Double.parseDouble(sAoHolds);
-            //Convert to Radians
-            this._setAngle = ((Math.PI)/180. * degHolds);
-         }
-         catch(NumberFormatException nfe){
-            this._setAngle = Double.NaN;
-         }
-         catch(NullPointerException  npe){}
-      }     
-      return holds;
+      //Need to make this more fucking robust!!!
+      this.setAngle(mech,rocket);
+      this.setArmForce(mech,rocket);
+      this.setForceVector(mech,rocket);
    }
 
    //
@@ -206,10 +130,10 @@ Runnable{
    //
    private boolean isAngleError(){
       double  edge     = Double.NaN;
-      boolean isError  = false;
       double  ll       = Double.NaN;
       double  ul       = Double.NaN;
       double  lim      = Double.NaN;
+      boolean isError  = false;
 
       boolean measGood = (this._angle != Double.NaN);
       measGood &= (this._armForce != Double.NaN);
@@ -243,10 +167,10 @@ Runnable{
    //
    private boolean isForceError(){
       double  edge    = Double.NaN;
-      boolean isError = false;
       double  ll      = Double.NaN;
       double  ul      = Double.NaN;
       double  lim     = Double.NaN;
+      boolean isError = false;
 
       boolean measGood = (this._angle != Double.NaN);
       measGood &= (this._armForce != Double.NaN);
@@ -268,11 +192,11 @@ Runnable{
    //the _measuredWeight-->those two need to be in tolerance, as well
    //
    private boolean isVectorError(){
-      double edge     = Double.NaN;
-      double ul       = Double.NaN;
-      double ll       = Double.NaN;
-      boolean isError = false;
+      double  edge    = Double.NaN;
+      double  ul      = Double.NaN;
+      double  ll      = Double.NaN;
       double  lim     = Double.NaN;
+      boolean isError = false;
 
       boolean measGood = (this._angle != Double.NaN);
       measGood &= (this._armForce != Double.NaN);
@@ -395,6 +319,72 @@ Runnable{
       this._vector = new GenericForceVector(x,y,z);
    }
 
+   //Sets the _setAngle property
+   //
+   //
+   private void setAngle
+   (
+      Hashtable<String,String> mech,
+      Hashtable<String,String> rocket
+   ){
+      if(Double.isNaN(this._tolerance)){
+         this.tolerance(mech,rocket);
+      }
+      if(mech.containsKey("angle_of_holds")){
+         try{
+            String sAoHolds = mech.get("angle_of_holds");
+            double degHolds = Double.parseDouble(sAoHolds);
+            //Convert to Radians
+            this._setAngle = ((Math.PI)/180.) * degHolds;
+         }
+         catch(NumberFormatException nfe){
+            this._setAngle = Double.NaN;
+         }
+         catch(NullPointerException  npe){}
+      }
+   }
+
+   //Set the _setArmForce Property
+   //
+   //
+   private void setArmForce
+   (
+      Hashtable<String,String> mech,
+      Hashtable<String,String> rocket
+   ){
+      int holds = -1;
+      if(this._setAngle == Double.NaN){
+         this.setAngle(mech,rocket);
+      }
+      if(Double.isNaN(this._tolerance)){
+         this.tolerance(mech,rocket);
+      }
+      if(mech.containsKey("number_of_holds")){
+         try{
+            String sHolds = mech.get("number_of_holds");
+            holds         = Integer.parseInt(sHolds);
+         }
+         catch(NumberFormatException nfe){}
+         catch(NullPointerException  npe){}
+      }
+      if(rocket.containsKey("empty_weight")){
+         try{
+            String sWeight = rocket.get("empty_weight");
+            double weight  = Double.parseDouble(sWeight);
+            weight /= holds;
+            weight /= Math.sin(this._setAngle);
+            //This is the weight that is calculated based on the
+            //initialization data...
+            this._setArmForce = weight;
+         }
+         catch(NumberFormatException nfe){
+            this._setArmForce = Double.NaN;
+         }
+         catch(NullPointerException npe){}
+      }
+
+   }
+
    //
    //
    //
@@ -434,10 +424,51 @@ Runnable{
          }
       }
       else if(errorType.toUpperCase().contains("MAGNITUDE")){
-         this._error += "Magnitude\nMeasured: ";
+         this._error += "\nMagnitude\nMeasured: ";
          this._error += this._vector.magnitude()+"\nExpected: ";
          this._error += this._setForceVector.magnitude();
       }
+   }
+
+   //Set the _setForceVector
+   //
+   //
+   private void setForceVector
+   (
+      Hashtable<String,String> mech,
+      Hashtable<String,String> rocket
+   ){
+      double x = Double.NaN;
+      double y = Double.NaN;
+      double z = Double.NaN;
+      if(this._setAngle == Double.NaN){
+         this.setAngle(mech,rocket);
+      }
+      if(this._setArmForce == Double.NaN){
+         this.setArmForce(mech,rocket);
+      }
+      if(Double.isNaN(this._tolerance)){
+         this.tolerance(mech,rocket);
+      }
+      if(this.id() == 0){
+         x = this._setArmForce*Math.cos(this._setAngle);
+         y = 0;
+      }
+      else if(this.id() == 1){
+         x = 0;
+         y = this._setArmForce*Math.cos(this._setAngle);
+      }
+      else if(this.id() == 2){
+         x = (-1.)*this._setArmForce*Math.cos(this._setAngle);
+         y = 0;
+      }
+      else if(this.id() == 3){
+         x = 0;
+         y = (-1)*this._setArmForce*Math.cos(this._setAngle);
+      }
+      else{}
+      z = (-1)*this._setArmForce*Math.sin(this._setAngle);
+      this._setForceVector = new GenericForceVector(x,y,z);
    }
 
    //
@@ -460,6 +491,27 @@ Runnable{
    private void setUpThread(){
       this._rt0 = new Thread(this, "Mechanism Support" + this._id);
       this._rt0.start();
+   }
+
+   //Swt the this._tolerance property
+   //
+   //
+   private void tolerance
+   (
+      Hashtable<String,String> mech,
+      Hashtable<String,String> rocket
+   ){
+      if(mech.containsKey("holds_tolerance")){
+         try{
+            String sTolerance = mech.get("holds_tolerance");
+            double tolerance  = Double.parseDouble(sTolerance);
+            this._tolerance   = tolerance;
+         }
+         catch(NumberFormatException npe){
+            this._tolerance = Double.NaN;
+         }
+         catch(NullPointerException npe){}
+      } 
    }
 
    //////////////MechanismSupport Interface Implementation////////////
@@ -585,7 +637,7 @@ Runnable{
                this.measureForceVector();
                this.isError();
                if(this._isError){
-                  //Alert Error Listeners--TBD
+                  this.alertErrorListeners();
                }
                else{
                   //Save off the data as needed...

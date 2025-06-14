@@ -438,7 +438,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       this.handleLaunchingMechanism(event);
       this.repaint();
       this.revalidate();
-      this.requestFocus(); //Put the focus back on the Frame...
+      //this.requestFocus(); //Put the focus back on the Frame...
    }
 
    /**/
