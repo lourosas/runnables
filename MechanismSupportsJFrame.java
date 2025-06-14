@@ -57,6 +57,14 @@ GenericJInteractionFrame{
    //
    //
    //
+   public void updateErrorData(RuntimeException re,ErrorEvent e){
+      this.updateLaunchingMechanismError(re,e);
+      this.setVisual();
+   }
+
+   //
+   //
+   //
    public void updateSupportsData(LaunchingMechanismData lmd){
       this.updateLaunchingMechanismData(lmd);
       this.setVisual();
@@ -108,6 +116,22 @@ GenericJInteractionFrame{
       this.setSize(WIDTH, HEIGHT);
       this.repaint();
       this.revalidate();
+   }
+
+   //
+   //
+   //
+   private void updateLaunchingMechanismError
+   (
+      RuntimeException re,
+      ErrorEvent       e
+   ){
+      try{
+         MechanismSupport support = (MechanismSupport)e.getSource();
+         System.out.println("ID:  "+support.id());
+      }
+      catch(ClassCastException cce){}
+      catch(NullPointerException npe){}
    }
 
    //

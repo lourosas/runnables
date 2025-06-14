@@ -65,8 +65,8 @@ public class ErrorEvent extends EventObject{
    //
    public String toString(){
       String returnString = new String(this.getSource().toString());
-      returnString += ", "+this.getEvent();
-      returnString += ", "+this.getTime();
+      returnString += "\n"+this.getEvent();
+      returnString += "\n "+this.getTime();
       return returnString;
    }
 

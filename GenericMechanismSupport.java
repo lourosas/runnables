@@ -93,8 +93,6 @@ Runnable{
    //
    //
    private void alertErrorListeners(){
-      //System.out.print("GenericMechanismSupport.alertErrorListener()");
-      //System.out.println("  "+this._error);
       ErrorEvent e = new ErrorEvent(this, this._error);
       try{
          Iterator<ErrorListener> it = null;
@@ -399,8 +397,8 @@ Runnable{
       else if(errorType.toUpperCase().contains("FORCE")){
          this._error += "\nMechanism Support: "+this.id()+"\n";
          this._error += "Error\nMeasured Arm Force: "+this._armForce;
-         this._error += " rad\nExpected Arm Force: ";
-         this._error += this._setArmForce;
+         this._error += "N\nExpected Arm Force: ";
+         this._error += this._setArmForce + "N";
       }
       else if(errorType.toUpperCase().contains("VECTOR")){
          this._error += "\nMechanism Support: "+this.id()+"\n";

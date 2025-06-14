@@ -107,6 +107,23 @@ ErrorListener, Runnable{
       }   
    }
 
+   //Just pass along the already created ErrorEvent to the
+   //ErrorListeners
+   //
+   private void alertErrorListeners(ErrorEvent e){
+      try{
+         Iterator<ErrorListener> it = null;
+         it = this._errorListeners.iterator();
+         while(it.hasNext()){
+            it.next().errorOccurred(e);
+         }
+      }
+      catch(NullPointerException npe){
+         //Should NEVER GET HERE
+         npe.printStackTrace();
+      }
+   }
+
    //
    //
    //
@@ -335,9 +352,7 @@ ErrorListener, Runnable{
    //
    //
    public void errorOccurred(ErrorEvent e){
-      //Throw it up to the ErrorListeners...
-      //As well as handle it in this Object as needed...
-      System.out.println(e);
+      this.alertErrorListeners(e);
    }
 
    /////////Launching Mechanism Interface Implementation//////////////

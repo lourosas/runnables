@@ -69,19 +69,17 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    //
    public void error(RuntimeException re, ErrorEvent e){
-      try{
-         this._errorEvent = e;
-         String err = this._errorEvent.getEvent();
-         if(err.toUpperCase().contains("MEASURED WEIGHT")){
-            this.deactivateButtonPanel();
-            this.errorButtonPanel(re,e);
-            this.errorCenterPanel(re,e);
-         }
-         //Arm measurement errors
-         //else if(){}
+      this._errorEvent = e;
+      String err = this._errorEvent.getEvent();
+      if(err.toUpperCase().contains("MEASURED WEIGHT")){
+         this.deactivateButtonPanel();
+         this.errorButtonPanel(re,e);
+         this.errorCenterPanel(re,e);
       }
-      catch(NullPointerException npe){}
-      catch(ClassCastException cce){}
+      //Arm measurement errors
+      else{
+         this.errorMechanismSupportsJFrame(re,this._errorEvent);
+      }
    }
 
    //
@@ -218,9 +216,7 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
             }
          });
       }
-      //else{
-         this._mechanismsF.setVisible(true);
-      //}
+      this._mechanismsF.setVisible(true);
    }
 
    //
@@ -276,6 +272,24 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
       panel.repaint();
       panel.revalidate();
       
+   }
+
+   //
+   //
+   //
+   private void errorMechanismSupportsJFrame
+   (
+      RuntimeException re,
+      ErrorEvent       e
+   ){
+      try{
+         MechanismSupport support = (MechanismSupport)e.getSource();
+         if(this._mechanismsF != null){
+            this._mechanismsF.updateErrorData(re,e);
+         }
+      }
+      catch(ClassCastException cce){}
+      catch(NullPointerException npe){}
    }
 
    //

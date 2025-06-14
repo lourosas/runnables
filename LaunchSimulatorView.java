@@ -418,12 +418,9 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       RuntimeException re,
       ErrorEvent       e
    ){
-      String event = e.getEvent();
-      if(event.toUpperCase().contains("MEASURED WEIGHT")){
-         LaunchSimulatorMechanismPanel p = null;
-         p=(LaunchSimulatorMechanismPanel)this.getMechanismPanel();
-         p.error(re,e);
-      }
+      LaunchSimulatorMechanismPanel p = null;
+      p=(LaunchSimulatorMechanismPanel)this.getMechanismPanel();
+      p.error(re,e);
    }
 
    /**/
