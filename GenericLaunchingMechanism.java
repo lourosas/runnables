@@ -337,6 +337,7 @@ ErrorListener, Runnable{
    public void errorOccurred(ErrorEvent e){
       //Throw it up to the ErrorListeners...
       //As well as handle it in this Object as needed...
+      System.out.println(e);
    }
 
    /////////Launching Mechanism Interface Implementation//////////////
@@ -531,7 +532,6 @@ ErrorListener, Runnable{
          npe.printStackTrace();
          System.exit(0);
       }
-
    }
 }
 //////////////////////////////////////////////////////////////////////

@@ -93,9 +93,8 @@ Runnable{
    //
    //
    private void alertErrorListeners(){
-      System.out.print("GenericMechanismSupport.alertErrorListener()");
-      System.out.println("  "+this._error);
-      /*
+      //System.out.print("GenericMechanismSupport.alertErrorListener()");
+      //System.out.println("  "+this._error);
       ErrorEvent e = new ErrorEvent(this, this._error);
       try{
          Iterator<ErrorListener> it = null;
@@ -108,7 +107,6 @@ Runnable{
          //Should NEVER get here
          npe.printStackTrace();
       }
-      */
    }
 
    //
