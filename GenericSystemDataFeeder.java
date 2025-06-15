@@ -113,14 +113,14 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       int    value = -1;
       //Set Angle
       try{
-         if(this._cond.state() == INIT){
-            scale = 0.025;
-            //scale = 0.15; //To Test For Errors
-            min   = (int)(this.angleOfHolds()*(1-scale));
-            max   = (int)(this.angleOfHolds()*(1+scale));
-            value = this._random.nextInt(max - min + 1) + min;
-         }
          synchronized(this._obj){
+            if(this._cond.state() == INIT){
+               scale = 0.025;
+               //scale = 0.15; //To Test For Errors
+               min   = (int)(this.angleOfHolds()*(1-scale));
+               max   = (int)(this.angleOfHolds()*(1+scale));
+               value = this._random.nextInt(max - min + 1) + min;
+            }
             this._holdAngle = value;
          }
       }
@@ -237,14 +237,14 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       int    value = -1;
       try{
          //Set _weight;
-         if(this._cond.state() == INIT){
-            //scale = 0.01;
-            scale = 0.15;  //To test for errors
-            min   = (int)(this.emptyWeight()*(1-scale));
-            max   = (int)(this.emptyWeight()*(1+scale));
-            value = this._random.nextInt(max - min + 1) + min; 
-         }
          synchronized(this._obj){
+            if(this._cond.state() == INIT){
+               //scale = 0.01;
+               scale = 0.15;  //To test for errors
+               min   = (int)(this.emptyWeight()*(1-scale));
+               max   = (int)(this.emptyWeight()*(1+scale));
+               value = this._random.nextInt(max - min + 1) + min; 
+            }
             this._weight = (double)value;
          }
       }

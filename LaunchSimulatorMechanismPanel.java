@@ -73,8 +73,8 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
       String err = this._errorEvent.getEvent();
       if(err.toUpperCase().contains("MEASURED WEIGHT")){
          this.deactivateButtonPanel();
-         this.errorButtonPanel(re,e);
-         this.errorCenterPanel(re,e);
+         this.errorButtonPanel(re,this._errorEvent);
+         this.errorCenterPanel(re,this._errorEvent);
       }
       //Arm measurement errors
       else{
@@ -254,11 +254,17 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
       }
       JPanel panel = (JPanel)this.getComponent(0);
       JPanel data  = (JPanel)panel.getComponent(2);
-      JLabel l     = (JLabel)data.getComponent(0);
+      if(data.getComponentCount() == 0){
+         JLabel l = null;
+         l = new JLabel("Measured Weight: ",SwingConstants.RIGHT);
+         data.add(l);
+         l = new JLabel(weight+"N");
+         data.add(l);
+      }
+      JLabel l = (JLabel)data.getComponent(0);
       l.setForeground(Color.RED);
       l = (JLabel)data.getComponent(1);
       l.setForeground(Color.RED);
-      l.setText(weight+"N");
 
       data = (JPanel)panel.getComponent(3);
       data.removeAll();
@@ -430,7 +436,8 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    private void updateCenterPanel(){
       try{
          String n       = new String();
-         NumberFormat f = NumberFormat.getNumberInstance(Locale.US);
+         java.text.DecimalFormat df = null;
+         df = new java.text.DecimalFormat("###,###,###.##");
          JPanel panel   = (JPanel)this.getComponent(0);
 
          JPanel data    = (JPanel)panel.getComponent(0);
@@ -458,12 +465,13 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
          }
          l = new JLabel("Measured Weight: ", SwingConstants.RIGHT);
          data.add(l);
-         n = f.format(this._currentLMD.measuredWeight())+"N";
+         n = df.format(this._currentLMD.measuredWeight())+"N";
          l = new JLabel(n);
          data.add(l);
 
          //This will need to change accoringly for errors as
          //appropriate
+         /*
          data = (JPanel)panel.getComponent(3);
          if(data.getComponentCount() > 0){
             data.removeAll();
@@ -484,6 +492,7 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
             data.add(l);
             data.add(l);
          }
+         */
          panel.repaint();
          panel.revalidate();
       }

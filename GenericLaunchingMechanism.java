@@ -157,9 +157,9 @@ ErrorListener, Runnable{
       double  ul        = Double.NaN;
       double  ll        = Double.NaN;
       double  lim       = 1.- this._tolerance;
-      boolean inputGood = (this._emptyWeight != Double.NaN);
-      inputGood &= (this._loadedWeight != Double.NaN);
-      boolean measGood  = (this._measuredWeight != Double.NaN);
+      boolean inputGood = !Double.isNaN(this._emptyWeight);
+      inputGood        &= !Double.isNaN(this._loadedWeight);
+      boolean measGood  = !Double.isNaN(this._measuredWeight);
       //Clear every time...
       this._isError     = false;
       this._error       = new String();
@@ -173,12 +173,19 @@ ErrorListener, Runnable{
             //Weight should be based sole-ly on the empty weight...
             ll = this._emptyWeight*this._tolerance;
             ul = this._emptyWeight*(2-this._tolerance);
+            System.out.println("******More Bullshit********");
+            System.out.println("tolerance: "+this._tolerance);
+            System.out.println("lower limit: "+ll);
+            System.out.println("upper limit: "+ul);
+            System.out.println("empty: "+ this._emptyWeight);
+            System.out.println("measured: "+this._measuredWeight);
             //Will need to test to make sure this works
             if(this._emptyWeight < 0){
                double temp = ul;
                ul = ll;
                ll = temp;
             }
+            System.out.println("******More Bullshit********");
          }
          else if(this._state.state() == PRELAUNCH){
             /*
@@ -213,18 +220,23 @@ ErrorListener, Runnable{
       this.mechanismData(ht);
    }
 
-   //Measure the weight of the rocket based in terms of this
-   //Mechanism...will evolve...
+   //Measure the weight of the rocket based on the Mechanism Supports
+   //
    //
    private void measureWeight(){
-      try{
-         this._measuredWeight = this._feeder.weight();
-      }
-      catch(NullPointerException npe){
-         //Measure the Rocket DIRECTLY!!!!
-         if(this._state.state() == INIT){
-            this._measuredWeight = this._emptyWeight;
+      //As always fucking reset
+      this._measuredWeight = 0.;
+      Iterator<MechanismSupport> it = this._supports.iterator();
+      //Fucking Piece of Shit error!!! Needs to be hunted down!!!
+      while(it.hasNext()){
+         try{
+            double currentForce = Double.NaN;
+            currentForce = it.next().monitor().measuredForce();
+            this._measuredWeight += currentForce;
          }
+         catch(NullPointerException npe){
+            this._measuredWeight = Double.NaN;
+         }  
       }
    }
 

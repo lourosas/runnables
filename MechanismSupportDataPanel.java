@@ -30,13 +30,23 @@ import myclasses.*;
 import javax.swing.border.*;
 
 public class MechanismSupportDataPanel extends JPanel{
+   private JFrame _parent = null;
+
    ///////////////////////////Constructors////////////////////////////
    //
    //
    //
    public MechanismSupportDataPanel(){
       super();
-      this.setUpGUI();
+      this.setUpGUI(null);
+   }
+
+   //
+   //
+   //
+   public MechanismSupportDataPanel(JFrame parent){
+      super();
+      this.setUpGUI(parent);
    }
 
    //////////////////////////Public Methods///////////////////////////
@@ -49,6 +59,22 @@ public class MechanismSupportDataPanel extends JPanel{
       this.setUpMeasuredForceData(data);
       this.setUpForceVectorData(data);
       this.setUpErrorData(data);
+   }
+
+   //
+   //
+   //
+   public void setUpError(RuntimeException re, ErrorEvent e){
+      /*
+       * Needs to be fucking better!
+       * Need to do this CORRECTLY!!!!!!!!!!!!!!!!
+      System.out.println("Error");
+      System.out.println(this);
+      JOptionPane.showMessageDialog(this._parent,
+                                    re,
+                                    re.getMessage(),
+                                    JOptionPane.ERROR_MESSAGE);
+      */
    }
 
    
@@ -214,7 +240,8 @@ public class MechanismSupportDataPanel extends JPanel{
    //
    //
    //
-   private void setUpGUI(){
+   private void setUpGUI(JFrame parent){
+      this._parent = parent;
       this.setBorder(BorderFactory.createEtchedBorder());
       this.setLayout(new GridLayout(0,1));
       this.add(this.setUpIDPanel());

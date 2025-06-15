@@ -127,8 +127,14 @@ GenericJInteractionFrame{
       ErrorEvent       e
    ){
       try{
+         MechanismSupportDataPanel mp = null;
          MechanismSupport support = (MechanismSupport)e.getSource();
-         System.out.println("ID:  "+support.id());
+         int id = support.id();
+         JPanel panel = (JPanel)this.getContentPane().getComponent(1);
+         if(id < panel.getComponentCount()){
+            mp = (MechanismSupportDataPanel)panel.getComponent(id);
+            mp.setUpError(re,e);
+         }
       }
       catch(ClassCastException cce){}
       catch(NullPointerException npe){}
@@ -158,7 +164,7 @@ GenericJInteractionFrame{
             MechanismSupportData data = list.get(idx);
             ++idx;
             if(data.id() == count){
-               mp = new MechanismSupportDataPanel();
+               mp = new MechanismSupportDataPanel(this);
                mp.setUpData(data);
                panel.add(mp);
                ++count;

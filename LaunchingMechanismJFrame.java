@@ -75,7 +75,7 @@ public class LaunchingMechanismJFrame extends GenericJInteractionFrame{
          MechanismSupportData data = list.get(idx);
          ++idx;
          if(data.id() == currentCount){
-            mp = new MechanismSupportDataPanel();
+            mp = new MechanismSupportDataPanel(this);
             mp.setUpData(data);
             this.add(mp);
             ++currentCount;
