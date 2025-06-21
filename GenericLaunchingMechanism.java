@@ -135,8 +135,9 @@ ErrorListener, Runnable{
    private void alertSystemListeners(){
       //Create a SystemEvent
       MissionSystemEvent event = null;
-      this._isError            = false;
-      this._error              = new String();
+      //Will NEED TO KEEP THE FUCKING ERROR mechanism in place!!
+      //this._isError            = false;
+      //this._error              = new String();
       String s = new String("Launching Mechanism Event");
       this.setUpLaunchingMechanismData();
       //Going to go ahead and send in the entire object
@@ -193,13 +194,6 @@ ErrorListener, Runnable{
          if(this._measuredWeight < ll || this._measuredWeight > ul){
             String error = new String("Measured Weight: ");
             this._isError = true;
-            System.out.println("******More Bullshit********");
-            System.out.println("tolerance: "+this._tolerance);
-            System.out.println("lower limit: "+ll);
-            System.out.println("upper limit: "+ul);
-            System.out.println("empty: "+ this._emptyWeight);
-            System.out.println("measured: "+this._measuredWeight);
-            System.out.println("******More Bullshit********");
             if(this._measuredWeight < ll){
                error += "too low";
             }
@@ -331,6 +325,7 @@ ErrorListener, Runnable{
                                               this._isError,
                                               this._measuredWeight,
                                               this._model,
+                                              this._state,
                                               this._tolerance,
                                               msd);
       this._launchingMechanismData = lmd;
@@ -443,7 +438,6 @@ ErrorListener, Runnable{
    //
    //
    public LaunchingMechanismData monitor(){
-      //AVOID A FUCKING RACE CONDTIION!  NEEDS FIXING
       return this._launchingMechanismData;
    }
 

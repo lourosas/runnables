@@ -28,6 +28,7 @@ implements LaunchingMechanismData{
    private boolean                    _isError;
    private double                     _measuredWeight;
    private int                        _model;
+   private LaunchStateSubstate        _state;
    private String                     _time;
    private double                     _tolerance;
    private List<MechanismSupportData> _supportData;
@@ -39,6 +40,7 @@ implements LaunchingMechanismData{
       _measuredWeight   = Double.NaN;
       _model            = -1;
       _tolerance        = Double.NaN;
+      _state            = null;
       _time             = null;
       _supportData      = null;
    }
@@ -54,6 +56,7 @@ implements LaunchingMechanismData{
       boolean                   iserr,
       double                       mw,
       int                         mdl,
+      LaunchStateSubstate       state,
       double                      tol,
       List<MechanismSupportData> data
    ){
@@ -64,6 +67,7 @@ implements LaunchingMechanismData{
       this._model          =   mdl;
       //Time Calculated by Instance...
       //this._time           =  time;
+      this._state          = state;
       this._tolerance      =   tol;
       this._supportData    =  data;
    }
@@ -111,6 +115,16 @@ implements LaunchingMechanismData{
       return this._supportData;
    }
 
+   //
+   //
+   //
+   public LaunchStateSubstate state(){
+      return this._state;
+   }
+
+   //
+   //
+   //
    public String time(){
       return this._time;
    }
@@ -130,6 +144,7 @@ implements LaunchingMechanismData{
       String string = this.model() + "\n" + this.holds() + "\n";
       string       += this.isError()+":"+this.error() + "\n";
       string       += this.measuredWeight() + "\n";
+      string       += this.state() + "\n";
       string       += this.tolerance() + "\n";
       for(int i = 0; i < data.size(); ++i){
          string += data.get(i) + "\n";

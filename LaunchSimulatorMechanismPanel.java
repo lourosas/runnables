@@ -355,6 +355,48 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    //
    //
+   private void setUpErrorInCenterPanel(){
+      java.text.DecimalFormat df = null;
+      df = new java.text.DecimalFormat("###,###,###.##");
+      try{
+         JPanel panel = (JPanel)this.getComponent(0);
+         JPanel data  = (JPanel)panel.getComponent(2);
+         JLabel l     = null;
+         if(data.getComponentCount() > 0){
+            l = (JLabel)data.getComponent(0);
+            l.setForeground(Color.RED);
+            l = (JLabel)data.getComponent(1);
+            l.setForeground(Color.RED);
+         }
+         else{
+            l = new JLabel("Measured Weight: ",SwingConstants.RIGHT);
+            l.setForeground(Color.RED);
+            data.add(l);
+            String n = null;
+            n = df.format(this._currentLMD.measuredWeight())+"N";
+            l = new JLabel(n);
+            l.setForeground(Color.RED);
+            data.add(l);
+         }
+         data = (JPanel)panel.getComponent(3);
+         if(data.getComponentCount() > 0){
+            data.removeAll();
+         }
+         l = new JLabel("Error: ",SwingConstants.RIGHT);
+         l.setForeground(Color.RED);
+         data.add(l);
+         l = new JLabel(""+this._currentLMD.isError());
+         l.setForeground(Color.RED);
+         data.add(l);
+         this.activateButtonPanel("ERROR");
+         System.out.println(this._currentLMD.error());
+      }
+      catch(ClassCastException cce){}
+   }
+
+   //
+   //
+   //
    private JPanel setUpErrorPanel(){
       JPanel panel = new JPanel();
       panel.setLayout(new GridLayout(1,2));
@@ -470,14 +512,16 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
          data.add(l);
 
          //This will need to change accoringly for errors as
-         //appropriate
-         /*
+         //appropriate Until I get the fucking Software Interrupt
+         //working, this is going to have to FUCKING STAY
          data = (JPanel)panel.getComponent(3);
          if(data.getComponentCount() > 0){
             data.removeAll();
          }
          //This WILL NEED TO CHANGE, since errors updated differently
          if(this._currentLMD.isError()){
+            this.setUpErrorInCenterPanel();
+            /*
             l = new JLabel("Error: ", SwingConstants.RIGHT);
             l.setForeground(Color.RED);
             data.add(l);
@@ -486,13 +530,14 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
             l.setForeground(Color.RED);
             data.add(l);
             this.activateButtonPanel("ERROR");
+            System.out.println(this._currentLMD.error());
+            */
          }
          else{
             l = new JLabel("");
             data.add(l);
             data.add(l);
          }
-         */
          panel.repaint();
          panel.revalidate();
       }
