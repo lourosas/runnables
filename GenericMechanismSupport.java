@@ -45,6 +45,7 @@ Runnable{
    private DataFeeder          _feeder;
    private LaunchStateSubstate _state;
    private MechanismSupportData _supportData;
+   private Object              _obj;
    private Thread              _rt0;
    
    //Derived
@@ -70,6 +71,7 @@ Runnable{
       _start            = false;
       _tolerance        = Double.NaN;
       _feeder           = null;
+      _obj              = null;
       _state            = null;
       _rt0              = null;
       _supportData      = null;
@@ -84,7 +86,8 @@ Runnable{
    //
    //
    public GenericMechanismSupport(int id){
-      this._id = id;
+      this._id  = id;
+      this._obj = new Object();
       this.setUpThread();
    }
 
@@ -94,6 +97,8 @@ Runnable{
    //
    private void alertErrorListeners(){
       ErrorEvent e = new ErrorEvent(this, this._error);
+      /*
+       * Worry about fucking software interrupts later!!!
       try{
          Iterator<ErrorListener> it = null;
          it = this._errorListeners.iterator();
@@ -105,6 +110,7 @@ Runnable{
          //Should NEVER get here
          npe.printStackTrace();
       }
+      */
    }
 
    //
@@ -472,13 +478,15 @@ Runnable{
    //
    private void setUpMechanismSupportData(){
       MechanismSupportData msd = null;
-      msd = new GenericMechanismSupportData(this._angle,
-                                            this._error,
-                                            this._vector,
-                                            this._id,
-                                            this._isError,
-                                            this._armForce);
-      this._supportData = msd;
+      synchronized(this._obj){
+         msd = new GenericMechanismSupportData(this._angle,
+                                               this._error,
+                                               this._vector,
+                                               this._id,
+                                               this._isError,
+                                               this._armForce);
+         this._supportData = msd;
+      }
    }
 
    //
@@ -566,41 +574,53 @@ Runnable{
    //
    //
    public MechanismSupportData monitor(){
-      return this._supportData;
+      synchronized(this._obj){
+         return this._supportData;
+      }
    }
    //
    //
    //
    public MechanismSupportData monitorInitialization(){
-      return this._supportData;
+      synchronized(this._obj){
+         return this._supportData;
+      }
    }
 
    //
    //
    //
    public MechanismSupportData monitorPrelaunch(){
-      return null;
+      synchronized(this._obj){
+         return null;
+      }
    }
 
    //
    //
    //
    public MechanismSupportData monitorIgnition(){
-      return null;
+      synchronized(this._obj){
+         return null;
+      }
    }
 
    //
    //
    //
    public MechanismSupportData monitorLaunch(){
-      return null;
+      synchronized(this._obj){
+         return null;
+      }
    }
 
    //
    //
    //
    public MechanismSupportData monitorPostlaunch(){
-      return null;
+      synchronized(this._obj){
+         return null;
+      }
    }
 
    //
@@ -632,13 +652,15 @@ Runnable{
                this.measureArmForce();
                this.measureForceVector();
                this.isError();
-               if(this._isError){
-                  this.alertErrorListeners();
-               }
-               else{
+               //if(this._isError){
+                  //not going to do this for the time being...
+                  //figure out HOW to implement software interrupts!
+                  //this.alertErrorListeners();
+               //}
+               //else{
                   //Save off the data as needed...
                   this.setUpMechanismSupportData();
-               }
+               //}
                if(this._state.state() == INIT){
                   Thread.sleep(5000);
                   //Thread.sleep(10);

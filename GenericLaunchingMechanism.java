@@ -44,6 +44,7 @@ ErrorListener, Runnable{
    private int                    _model;
    private LaunchingMechanismData _launchingMechanismData;
    private List<MechanismSupport> _supports; //Keep them in a list
+   private List<MechanismSupportData> _supportsData;
    //Weight
    private double                 _emptyWeight;
    private double                 _loadedWeight;
@@ -73,6 +74,7 @@ ErrorListener, Runnable{
       _launchingMechanismData = null;
       _model                  = -1;
       _supports               = null;
+      _supportsData           = null;
       _start                  = false;
       _state                  = null;
       _measuredWeight         = Double.NaN;
@@ -94,6 +96,8 @@ ErrorListener, Runnable{
    private void alertErrorListeners(){
       //Create an ErrorEvent
       ErrorEvent e = new ErrorEvent(this, this._error);
+      /*
+       * Worry about fucking software interrupts later!
       try{
          Iterator<ErrorListener> it = null;
          it = this._errorListeners.iterator();
@@ -104,7 +108,8 @@ ErrorListener, Runnable{
       catch(NullPointerException npe){
          //Should NEVER get here
          npe.printStackTrace();
-      }   
+      }
+      */   
    }
 
    //Just pass along the already created ErrorEvent to the
@@ -173,19 +178,12 @@ ErrorListener, Runnable{
             //Weight should be based sole-ly on the empty weight...
             ll = this._emptyWeight*this._tolerance;
             ul = this._emptyWeight*(2-this._tolerance);
-            System.out.println("******More Bullshit********");
-            System.out.println("tolerance: "+this._tolerance);
-            System.out.println("lower limit: "+ll);
-            System.out.println("upper limit: "+ul);
-            System.out.println("empty: "+ this._emptyWeight);
-            System.out.println("measured: "+this._measuredWeight);
             //Will need to test to make sure this works
             if(this._emptyWeight < 0){
                double temp = ul;
                ul = ll;
                ll = temp;
             }
-            System.out.println("******More Bullshit********");
          }
          else if(this._state.state() == PRELAUNCH){
             /*
@@ -195,8 +193,18 @@ ErrorListener, Runnable{
          if(this._measuredWeight < ll || this._measuredWeight > ul){
             String error = new String("Measured Weight: ");
             this._isError = true;
-            if(this._measuredWeight < ll){error += "too low";}
-            else if(this._measuredWeight > ul){error += "too high";}
+            System.out.println("******More Bullshit********");
+            System.out.println("tolerance: "+this._tolerance);
+            System.out.println("lower limit: "+ll);
+            System.out.println("upper limit: "+ul);
+            System.out.println("empty: "+ this._emptyWeight);
+            System.out.println("measured: "+this._measuredWeight);
+            System.out.println("******More Bullshit********");
+            if(this._measuredWeight < ll){
+               error += "too low";
+            }
+            else if(this._measuredWeight > ul){
+               error += "too high";}
             this.setError(error);
          }
       }
@@ -226,12 +234,14 @@ ErrorListener, Runnable{
    private void measureWeight(){
       //As always fucking reset
       this._measuredWeight = 0.;
+      this._supportsData = new LinkedList<MechanismSupportData>();
       Iterator<MechanismSupport> it = this._supports.iterator();
       //Fucking Piece of Shit error!!! Needs to be hunted down!!!
       while(it.hasNext()){
          try{
-            double currentForce = Double.NaN;
-            currentForce = it.next().monitor().measuredForce();
+            MechanismSupportData msd = it.next().monitor();
+            this._supportsData.add(msd);
+            double currentForce = msd.measuredForce();
             this._measuredWeight += currentForce;
          }
          catch(NullPointerException npe){
@@ -314,13 +324,8 @@ ErrorListener, Runnable{
    private void setUpLaunchingMechanismData(){
       LaunchingMechanismData lmd     = null;
       List<MechanismSupportData> msd = null;
-      msd = new LinkedList<MechanismSupportData>();
+      msd = this._supportsData;
       Iterator<MechanismSupport> it = this._supports.iterator();
-      while(it.hasNext()){
-         if(this._state.state() == INIT){
-            msd.add(it.next().monitor());
-         }
-      }
       lmd = new GenericLaunchingMechanismData(this._error,
                                               this._holds,
                                               this._isError,
@@ -438,6 +443,7 @@ ErrorListener, Runnable{
    //
    //
    public LaunchingMechanismData monitor(){
+      //AVOID A FUCKING RACE CONDTIION!  NEEDS FIXING
       return this._launchingMechanismData;
    }
 
@@ -536,12 +542,14 @@ ErrorListener, Runnable{
                //as needed...
                this.measureWeight();
                this.isError();
-               if(this._isError){
-                  this.alertErrorListeners();
-               }
-               else{
+               //if(this._isError){
+                  //Not going to do this for the time being...
+                  //figure out HOW to implement software interrupts!
+                  //this.alertErrorListeners();
+               //}
+               //else{
                   this.alertSystemListeners();
-               }
+               //}
                if(this._state.state() == INIT){
                   System.out.println(Thread.currentThread().getName());
                   System.out.println(Thread.currentThread().getId());
