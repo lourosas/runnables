@@ -196,10 +196,13 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
                                     title,
                                     JOptionPane.ERROR_MESSAGE);
       */
-      //Test Fucking prints for the fucking moment!!!
       if(this._currentLMD.isError()){
-         System.out.println(this._currentLMD.error());
-         System.out.println("Time: "+this._currentLMD.time());
+         String error = this._currentLMD.error();
+         String title = this._currentLMD.time();
+         JOptionPane.showMessageDialog(this._parent,
+                                       error,
+                                       title,
+                                       JOptionPane.ERROR_MESSAGE);
       }
    }
 

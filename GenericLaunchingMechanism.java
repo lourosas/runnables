@@ -304,10 +304,13 @@ ErrorListener, Runnable{
    //
    private void setError(String errorType){
       this._error     = new String();
+      java.text.DecimalFormat df = null;
+      df = new java.text.DecimalFormat("###,###,###.##");
       if(errorType.toUpperCase().contains("MEASURED")){
          this._error =  errorType;
          this._error += "\nState:    " + this._state.state();
-         this._error += "\nMeasured: " + this._measuredWeight;
+         String formattedWeight = df.format(this._measuredWeight);
+         this._error += "\nMeasured: " + formattedWeight;
          this._error += "\nEmpty:    " + this._emptyWeight;
          this._error += "\nLoaded:   " + this._loadedWeight;
       }
