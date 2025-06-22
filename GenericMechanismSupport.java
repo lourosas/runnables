@@ -484,7 +484,8 @@ Runnable{
                                                this._vector,
                                                this._id,
                                                this._isError,
-                                               this._armForce);
+                                               this._armForce,
+                                               this._tolerance);
          this._supportData = msd;
       }
    }

@@ -29,6 +29,8 @@ public interface MechanismSupportData{
    public int id();
    public boolean isError();
    public double measuredForce();
+   public double tolerance();
+   public String time();
    public String toString();
 }
 //////////////////////////////////////////////////////////////////////

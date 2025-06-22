@@ -155,21 +155,19 @@ GenericJInteractionFrame{
       //This will need to be improved!!!
       //The first update, and nothing is created...
       if(panel.getComponentCount() > 0){
-         System.out.println("Component Count: ");
-         System.out.println(panel.getComponentCount());
+         //System.out.println("Component Count: ");
+         //System.out.println(panel.getComponentCount());
          panel.removeAll();
       }
-      if(panel.getComponentCount() == 0){
-         while(count < list.size()){
-            MechanismSupportData data = list.get(idx);
-            ++idx;
-            if(data.id() == count){
-               mp = new MechanismSupportDataPanel(this);
-               mp.setUpData(data);
-               panel.add(mp);
-               ++count;
-               idx = 0;
-            }
+      while(count < list.size()){
+         MechanismSupportData data = list.get(idx);
+         ++idx;
+         if(data.id() == count){
+            mp = new MechanismSupportDataPanel(this);
+            mp.setUpData(data);
+            panel.add(mp);
+            ++count;
+            idx = 0;
          }
       }
       //panel.repaint();//So much more to do here!!

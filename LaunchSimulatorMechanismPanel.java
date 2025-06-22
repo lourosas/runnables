@@ -119,10 +119,11 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
          for(int i = 0; i < bp.getComponentCount(); ++i){
             try{
                JButton b = (JButton)bp.getComponent(i);
+               /*
                if(b.getText().toUpperCase().equals("HOLDS")){
                   b.setEnabled(true);
                }
-               else if(b.getText().toUpperCase().equals("ERROR")){
+               else*/ if(b.getText().toUpperCase().equals("ERROR")){
                   b.setEnabled(true);
                }
             }
@@ -398,7 +399,7 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
          l = new JLabel(""+this._currentLMD.isError());
          l.setForeground(Color.RED);
          data.add(l);
-         this.activateButtonPanel("ERROR");
+         //this.activateButtonPanel("ERROR");
       }
       catch(ClassCastException cce){}
    }
@@ -460,7 +461,7 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
       if(this._currentLMD.isError()){
          this.activateButtonPanel("Error");
       }
-      else if(this._mechanismsF != null){
+      if(this._mechanismsF != null){
          //If the Launching Mechanisms Frame is active, do not
          //actviate the Holds button
          if(this._mechanismsF.isVisible()){

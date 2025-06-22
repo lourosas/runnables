@@ -20,8 +20,11 @@ package rosas.lou.runnables;
 import java.lang.*;
 import java.util.*;
 import java.text.DecimalFormat;
+import java.time.format.*;
+import java.time.*;
 import java.math.RoundingMode;
 import rosas.lou.runnables.*;
+import rosas.lou.clock.*;
 
 public class GenericMechanismSupportData 
 implements MechanismSupportData{
@@ -31,6 +34,8 @@ implements MechanismSupportData{
    private int              _id;
    private boolean          _isError;
    private double           _measuredForce;
+   private String           _time;
+   private double           _tolerance;
 
    {
       _angle         = Double.NaN;
@@ -39,6 +44,8 @@ implements MechanismSupportData{
       _id            = -1;
       _isError       = false;
       _measuredForce = Double.NaN;
+      _tolerance     = Double.NaN;
+      _time          = null;
    };
    //////////////////////////Constructors/////////////////////////////
    //
@@ -51,7 +58,8 @@ implements MechanismSupportData{
       ForceVector fv,
       int id,
       boolean iserr,
-      double mf
+      double mf,
+      double tol
    ){
       this._angle         = an;
       this._error         = er;
@@ -59,6 +67,19 @@ implements MechanismSupportData{
       this._id            = id;
       this._isError       = iserr;
       this._measuredForce = mf;
+      this._tolerance     = tol;
+      this.setTime();
+   }
+
+   /////////////////////////Private Methods///////////////////////////
+   //
+   //
+   //
+   private void setTime(){
+      LocalDateTime       now = LocalDateTime.now();
+      DateTimeFormatter   dtf = null;
+      dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss.SSS");
+      this._time = now.format(dtf); 
    }
 
    /////////MechanismSupportData Interface Implementation/////////////
@@ -107,6 +128,20 @@ implements MechanismSupportData{
    //
    //
    //
+   public String time(){
+      return this._time;
+   }
+
+   //
+   //
+   //
+   public double tolerance(){
+      return this._tolerance;
+   }
+
+   //
+   //
+   //
    public String toString(){
       DecimalFormat df = new DecimalFormat("###.##");
       df.setRoundingMode(RoundingMode.HALF_UP);
@@ -114,6 +149,8 @@ implements MechanismSupportData{
       string       += df.format(this.angle())+"rad\n";
       string       += this.isError()+": "+this.error()+"\n";
       string       += this.forceVector().toString() + "\n";
+      string       += this.tolerance() + "\n";
+      string       += this.time() + "\n";
       string       += df.format(this.measuredForce());
       
       return string;
