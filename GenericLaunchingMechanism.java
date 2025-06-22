@@ -198,7 +198,8 @@ ErrorListener, Runnable{
                error += "too low";
             }
             else if(this._measuredWeight > ul){
-               error += "too high";}
+               error += "too high";
+            }
             this.setError(error);
          }
       }

@@ -65,7 +65,7 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    }
 
    ///////////////////////////Public Methods//////////////////////////
-   //
+   //This is part of the Software Interrupt shit...implement later
    //
    //
    public void error(RuntimeException re, ErrorEvent e){
@@ -174,6 +174,7 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
    //
    //
    private void displayErrorData(){
+      /* TBD Based on Software Interrupts!!!
       String error = this._errorEvent.getEvent();
       //Put the Time in the Title
       String state = null;
@@ -194,6 +195,12 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
                                     error,
                                     title,
                                     JOptionPane.ERROR_MESSAGE);
+      */
+      //Test Fucking prints for the fucking moment!!!
+      if(this._currentLMD.isError()){
+         System.out.println(this._currentLMD.error());
+         System.out.println("Time: "+this._currentLMD.time());
+      }
    }
 
    //
@@ -389,7 +396,6 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
          l.setForeground(Color.RED);
          data.add(l);
          this.activateButtonPanel("ERROR");
-         System.out.println(this._currentLMD.error());
       }
       catch(ClassCastException cce){}
    }
@@ -510,7 +516,6 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
          n = df.format(this._currentLMD.measuredWeight())+"N";
          l = new JLabel(n);
          data.add(l);
-
          //This will need to change accoringly for errors as
          //appropriate Until I get the fucking Software Interrupt
          //working, this is going to have to FUCKING STAY
@@ -521,17 +526,6 @@ public class LaunchSimulatorMechanismPanel extends JPanel{
          //This WILL NEED TO CHANGE, since errors updated differently
          if(this._currentLMD.isError()){
             this.setUpErrorInCenterPanel();
-            /*
-            l = new JLabel("Error: ", SwingConstants.RIGHT);
-            l.setForeground(Color.RED);
-            data.add(l);
-            n = "" + this._currentLMD.isError();
-            l = new JLabel(n);
-            l.setForeground(Color.RED);
-            data.add(l);
-            this.activateButtonPanel("ERROR");
-            System.out.println(this._currentLMD.error());
-            */
          }
          else{
             l = new JLabel("");

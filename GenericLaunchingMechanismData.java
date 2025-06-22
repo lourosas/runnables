@@ -19,7 +19,11 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
+import java.text.*;
+import java.time.*;
+import java.time.format.*;
 import rosas.lou.runnables.*;
+import rosas.lou.clock.*;
 
 public class GenericLaunchingMechanismData
 implements LaunchingMechanismData{
@@ -70,6 +74,18 @@ implements LaunchingMechanismData{
       this._state          = state;
       this._tolerance      =   tol;
       this._supportData    =  data;
+      this.setTime();
+   }
+
+   /////////////////////////Private Methods///////////////////////////
+   //
+   //
+   //
+   private void setTime(){
+      LocalDateTime     now = LocalDateTime.now();
+      DateTimeFormatter dtf = null;
+      dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss.SSS");
+      this._time = now.format(dtf);
    }
 
    /////////LaunchingMechanismData Interface Implementation///////////
@@ -146,6 +162,7 @@ implements LaunchingMechanismData{
       string       += this.measuredWeight() + "\n";
       string       += this.state() + "\n";
       string       += this.tolerance() + "\n";
+      string       += this.time() + "\n";
       for(int i = 0; i < data.size(); ++i){
          string += data.get(i) + "\n";
       }
