@@ -138,9 +138,10 @@ public class MechanismSupportDataPanel extends JPanel{
       JLabel errorLabel   = (JLabel)panel.getComponent(0);
       JLabel errorMessage = (JLabel)panel.getComponent(1);
       System.out.println("Mechanism Support Data Panel");
-      System.out.println(panel.getComponentCount());
-      System.out.println(data.id());
-      System.out.println(data.isError());
+      System.out.println("Count: "+panel.getComponentCount());
+      System.out.println("Id:    "+data.id());
+      System.out.println("Error: "+data.isError());
+      System.out.println("Data:  "+data.error());
 
       errorMessage.setText(""+data.isError());
       if(data.isError()){
