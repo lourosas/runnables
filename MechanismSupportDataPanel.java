@@ -140,13 +140,46 @@ public class MechanismSupportDataPanel extends JPanel{
       System.out.println("Mechanism Support Data Panel");
       System.out.println("Count: "+panel.getComponentCount());
       System.out.println("Id:    "+data.id());
-      System.out.println("Error: "+data.isError());
+      //System.out.println("Error: "+data.isError());
       System.out.println("Data:  "+data.error());
+      System.out.println("Time:  "+data.time());
 
       errorMessage.setText(""+data.isError());
       if(data.isError()){
          errorLabel.setForeground(Color.RED);
          errorMessage.setForeground(Color.RED);
+         String err = data.error();
+         if(err.toUpperCase().contains("ANGLE")){
+            panel        = (JPanel)this.getComponent(1);
+            errorLabel   = (JLabel)panel.getComponent(0);
+            errorMessage = (JLabel)panel.getComponent(1);
+            errorLabel.setForeground(Color.RED);
+            errorMessage.setForeground(Color.RED);
+         }
+         if(err.toUpperCase().contains("MAGNITUDE")){
+            panel        = (JPanel)this.getComponent(3);
+            errorLabel   = (JLabel)panel.getComponent(0);
+            errorMessage = (JLabel)panel.getComponent(1);
+            errorLabel.setForeground(Color.RED);
+            errorMessage.setForeground(Color.RED);
+         }
+         if(err.toUpperCase().contains("MECHANISM SUPPORT")){
+            panel        = (JPanel)this.getComponent(2);
+            errorLabel   = (JLabel)panel.getComponent(0);
+            errorLabel.setForeground(Color.RED);
+            if(err.toUpperCase().contains("X DIRECTION")){
+               errorMessage = (JLabel)panel.getComponent(1);
+               errorMessage.setForeground(Color.RED);
+            }
+            if(err.toUpperCase().contains("Y DIRECTION")){
+               errorMessage = (JLabel)panel.getComponent(2);
+               errorMessage.setForeground(Color.RED);
+            }
+            if(err.toUpperCase().contains("Z DIRECTION")){
+               errorMessage = (JLabel)panel.getComponent(3);
+               errorMessage.setForeground(Color.RED);
+            }
+         }
       }
       else{
          errorLabel.setForeground(Color.BLUE);
@@ -162,8 +195,12 @@ public class MechanismSupportDataPanel extends JPanel{
 
       JLabel forceVectorLble  = new JLabel("Force Vector: ");
       panel.add(forceVectorLble);
-      JLabel forceVectorMeas  = new JLabel("<Force Vector Value>");
-      panel.add(forceVectorMeas);
+      JLabel x = new JLabel(" <X> ");
+      panel.add(x);
+      JLabel y = new JLabel(" <Y> ");
+      panel.add(y);
+      JLabel z = new JLabel(" <Z> ");
+      panel.add(z);
 
       return panel;
    }
@@ -176,19 +213,20 @@ public class MechanismSupportDataPanel extends JPanel{
       df = new java.text.DecimalFormat("###,###,###.##");
 
       ForceVector fv = data.forceVector();
-      double x = fv.x();
-      double y = fv.y();
-      double z = fv.z();
+      double x       = fv.x();
+      double y       = fv.y();
+      double z       = fv.z();
 
-      JPanel panel = (JPanel)this.getComponent(2);
-      JLabel label = (JLabel)panel.getComponent(1);
-      String xs = df.format(x);
-      String ys = df.format(y);
-      String zs = df.format(z);
-      System.out.println(xs);
-      System.out.println(ys);
-      System.out.println(zs);
-      label.setText("x: "+xs+"N, y: "+ys+"N, z: "+zs+"N");
+      JPanel panel   = (JPanel)this.getComponent(2);
+      JLabel xl      = (JLabel)panel.getComponent(1);
+      String xs      = df.format(x);
+      xl.setText("x: " + xs + "N, ");
+      JLabel yl      = (JLabel)panel.getComponent(2);
+      String ys      = df.format(y);
+      yl.setText("y: " + ys + "N, ");
+      JLabel zl      = (JLabel)panel.getComponent(3);
+      String zs      = df.format(z);
+      zl.setText("z: " + zs + "N");
    }
 
    //
