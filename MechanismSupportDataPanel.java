@@ -137,46 +137,46 @@ public class MechanismSupportDataPanel extends JPanel{
       JPanel panel        = (JPanel)this.getComponent(4);
       JLabel errorLabel   = (JLabel)panel.getComponent(0);
       JLabel errorMessage = (JLabel)panel.getComponent(1);
+      System.out.println("Components:  "+this.getComponentCount());
       System.out.println("Mechanism Support Data Panel");
       System.out.println("Count: "+panel.getComponentCount());
       System.out.println("Id:    "+data.id());
-      //System.out.println("Error: "+data.isError());
       System.out.println("Data:  "+data.error());
       System.out.println("Time:  "+data.time());
-
       errorMessage.setText(""+data.isError());
+
       if(data.isError()){
-         errorLabel.setForeground(Color.RED);
-         errorMessage.setForeground(Color.RED);
-         String err = data.error();
-         if(err.toUpperCase().contains("ANGLE")){
-            panel        = (JPanel)this.getComponent(1);
-            errorLabel   = (JLabel)panel.getComponent(0);
-            errorMessage = (JLabel)panel.getComponent(1);
-            errorLabel.setForeground(Color.RED);
-            errorMessage.setForeground(Color.RED);
-         }
-         if(err.toUpperCase().contains("MAGNITUDE")){
-            panel        = (JPanel)this.getComponent(3);
-            errorLabel   = (JLabel)panel.getComponent(0);
-            errorMessage = (JLabel)panel.getComponent(1);
-            errorLabel.setForeground(Color.RED);
-            errorMessage.setForeground(Color.RED);
-         }
-         if(err.toUpperCase().contains("MECHANISM SUPPORT")){
-            panel        = (JPanel)this.getComponent(2);
-            errorLabel   = (JLabel)panel.getComponent(0);
-            errorLabel.setForeground(Color.RED);
-            if(err.toUpperCase().contains("X DIRECTION")){
-               errorMessage = (JLabel)panel.getComponent(1);
+         String err = data.error().toUpperCase();
+         for(int i = 0; i < this.getComponentCount(); ++i){
+            panel             = (JPanel)this.getComponent(i);
+            errorLabel        = (JLabel)panel.getComponent(0);
+            errorMessage      = (JLabel)panel.getComponent(1);
+            if(i == 1 && err.contains("ANGLE")){
+               errorLabel.setForeground(Color.RED);
                errorMessage.setForeground(Color.RED);
             }
-            if(err.toUpperCase().contains("Y DIRECTION")){
-               errorMessage = (JLabel)panel.getComponent(2);
+            if(i == 2 && err.contains("MECHANISM SUPPORT")){
+               errorLabel   = (JLabel)panel.getComponent(0);
+               errorLabel.setForeground(Color.RED);
+               for(int j = 0; j < panel.getComponentCount(); ++j){
+                  errorMessage = (JLabel)panel.getComponent(j);
+                  if(j == 1 && err.contains("X DIRECTION")){
+                     errorMessage.setForeground(Color.RED);
+                  }
+                  else if(j == 2 && err.contains("Y DIRECTION")){
+                     errorMessage.setForeground(Color.RED);
+                  }
+                  else if(j == 3 && err.contains("Z DIRECTION")){
+                     errorMessage.setForeground(Color.RED);
+                  }
+               }
+            }
+            if(i == 3 && err.contains("MAGNITUDE")){
+               errorLabel.setForeground(Color.RED);
                errorMessage.setForeground(Color.RED);
             }
-            if(err.toUpperCase().contains("Z DIRECTION")){
-               errorMessage = (JLabel)panel.getComponent(3);
+            if(i == 4){
+               errorLabel.setForeground(Color.RED);
                errorMessage.setForeground(Color.RED);
             }
          }
