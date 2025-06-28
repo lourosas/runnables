@@ -27,9 +27,11 @@ import java.time.*;
 import java.time.format.*;
 public class ErrorEvent extends EventObject{
    private String event;
+   private Object state;
    private String time;
    {
       event = null;
+      state = null;
       time  = null;
    };
 
@@ -37,9 +39,10 @@ public class ErrorEvent extends EventObject{
    //
    //
    //
-   public ErrorEvent(Object source, String event/*, String time*/){
+   public ErrorEvent(Object source, Object state, String event){
       super(source);
       this.event = event;
+      this.state = state;
       //this.time  = time; Set the time as part of the creation
       this.setTime();
    }
@@ -56,6 +59,13 @@ public class ErrorEvent extends EventObject{
    //
    //
    //
+   public Object getState(){
+      return this.state;
+   }
+
+   //
+   //
+   //
    public String getTime(){
       return this.time;
    }
@@ -66,6 +76,7 @@ public class ErrorEvent extends EventObject{
    public String toString(){
       String returnString = new String(this.getSource().toString());
       returnString += "\n"+this.getEvent();
+      returnString += "\n"+this.getState();
       returnString += "\n "+this.getTime();
       return returnString;
    }

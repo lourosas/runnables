@@ -139,6 +139,39 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    //
+   private void checkErrors(MissionSystemEvent event){
+      try{
+         boolean isError            = false;
+         String  errorString        = new String("");
+         LaunchingMechanismData lmd = null;
+         //Do this for EVERY component sendoing out
+         //MissionSystemEvent:  LaunchingMechanism,Rocket,payload
+         lmd = (LaunchingMechanismData)event.eventState();
+         List<MechanismSupportData> list = lmd.supportData();
+         isError |= lmd.isError();
+         if(isError){
+            errorString += "Launching Mechanism Error"; 
+         }
+         Iterator<MechanismSupportData> it = list.iterator();
+         while(it.hasNext()){
+            boolean error = false;
+            MechanismSupportData data = it.next();
+            error |= data.isError();
+            if(error){
+               errorString += "\nMechanism Support Error: "+data.id();
+            }
+            isError |= error;
+         }
+         if(isError){
+            this.errorOccurred(new ErrorEvent(event,lmd,errorString));
+         }
+      }
+      catch(ClassCastException cce){}
+   }
+
+   //
+   //
+   //
    private void initializeLaunchingMechanism(String file)
    throws IOException{
       try{
@@ -178,6 +211,16 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    }
 
    //////////////LaunchSystem Interface Implementation////////////////
+   //Completely ABORT!!!!!!
+   //
+   //
+   public void abort(){
+      System.out.println("SYSTEM ABORTING!!!");
+      //DO NOT DO THIS YET!!!  Figure out why ABORT BUTTON IS SET
+      //with GOOD data!!!
+      //System.exit(0);
+   }
+
    //
    //
    //
@@ -266,6 +309,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    public void update(MissionSystemEvent event){
       this.notify("Mission System Event", event);
+      this.checkErrors(event);
    }
 }
 //////////////////////////////////////////////////////////////////////

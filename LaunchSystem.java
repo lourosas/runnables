@@ -23,6 +23,7 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public interface LaunchSystem{
+   public void abort();
    public void abortCountdown();
    public void holdCountdown();
    public void ignite();

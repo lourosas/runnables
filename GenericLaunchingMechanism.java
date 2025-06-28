@@ -95,7 +95,8 @@ ErrorListener, Runnable{
    //
    private void alertErrorListeners(){
       //Create an ErrorEvent
-      ErrorEvent e = new ErrorEvent(this, this._error);
+      LaunchingMechanismData lmd = this._launchingMechanismData;
+      ErrorEvent e = new ErrorEvent(this, lmd, this._error);
       /*
        * Worry about fucking software interrupts later!
       try{

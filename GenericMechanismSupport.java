@@ -96,7 +96,7 @@ Runnable{
    //
    //
    private void alertErrorListeners(){
-      ErrorEvent e = new ErrorEvent(this, this._error);
+      ErrorEvent e = new ErrorEvent(this,this._supportData, this._error);
       /*
        * Worry about fucking software interrupts later!!!
       try{

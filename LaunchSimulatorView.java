@@ -223,8 +223,12 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    public void error(RuntimeException re, Object o){
       try{
          ErrorEvent e = (ErrorEvent)o;
+         //Activate the Abort Button (for the time being)
+         this.activateAbortButton();
+         //For the time being, going to activate the Abort...
+         //System.out.println(e);
          //this.handleRocketError(re,e);
-         this.handleLaunchingMechanismError(re,e);
+         //this.handleLaunchingMechanismError(re,e);
          //this.handlePayloadError(re,e);
       }
       catch(ClassCastException cce){}
@@ -236,6 +240,17 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /////////////////////////Private Methods///////////////////////////
+   /**/
+   private void activateAbortButton(){
+      JPanel btnPanel = this.getButtonPanel();
+      for(int i = 0; i < btnPanel.getComponentCount(); ++i){
+         JButton b = (JButton)btnPanel.getComponent(i);
+         if(b.getActionCommand().toUpperCase().contains("ABORT")){
+            b.setEnabled(true);
+         }
+      }
+   }
+
    /**/
    private void abortPrelaunch(){
       //Abort Goes back to the *Original State* of the View

@@ -114,6 +114,11 @@ KeyListener,ItemListener,WindowListener{
 
    ////////////////////////////Private Methods////////////////////////
    /**/
+   private void activateAbort(){
+      //Kill the system completely
+      this._system.abort();
+   }
+   /**/
    private void activatePrelaunchCountdown(){
       //this._simulator.startCountdown();
       this._system.startCountdown();
@@ -169,6 +174,9 @@ KeyListener,ItemListener,WindowListener{
          }
          else if(command.equals("COUNTDOWNABORT")){
             this.activatePrelaunchCountdownAbort();
+         }
+         else if(command.equals("ABORT")){
+            this.activateAbort();
          }
          else{
             System.out.println(command);
