@@ -27,13 +27,15 @@ import rosas.lou.clock.*;
 
 public class MissionSystemEvent extends EventObject{
    private String              event;
+   private Object              eventState;
    private LaunchStateSubstate state;
    private String              time;
 
    {
-      event = null;
-      state = null;
-      time  = null;
+      event      = null;
+      eventState = null;
+      state      = null;
+      time       = null;
    };
 
    ////////////////////////////Constructors///////////////////////////
@@ -43,13 +45,14 @@ public class MissionSystemEvent extends EventObject{
    public MissionSystemEvent
    (
       Object source,
+      Object eventState,//The data of the Event (not just the source)
       String event,
       LaunchStateSubstate state
    ){
       super(source);
-      this.event = event;
-      //this.time  = time; Set the time as part of the creation
-      this.state = state;
+      this.event      = event;
+      this.eventState = eventState;
+      this.state      = state;
       this.setTime();
    }
 
@@ -59,6 +62,13 @@ public class MissionSystemEvent extends EventObject{
    //
    public String event(){
       return this.event;
+   }
+
+   //
+   //
+   //
+   public Object eventState(){
+      return this.eventState;
    }
 
    //
@@ -82,6 +92,7 @@ public class MissionSystemEvent extends EventObject{
       String returnString =  new String("Source:  ");
       returnString += this.getSource().toString();
       returnString += "\n" + this.event();
+      returnString += "\n" + this.eventState();
       returnString += "\n" + this.time();
       returnString += "\n" + this.state.toString();
       return returnString;

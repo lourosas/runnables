@@ -402,11 +402,12 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       ignition  = event.state().ignitionSubstate();
       ascent    = event.state().ascentSubstate();
       try{
-         LaunchingMechanism lm=(LaunchingMechanism)event.getSource();
+         LaunchingMechanismData lmd = null;
+         lmd = (LaunchingMechanismData)event.eventState();
          if(state == INIT){
             LaunchSimulatorMechanismPanel p = null;
             p=(LaunchSimulatorMechanismPanel)this.getMechanismPanel();
-            p.update(lm.monitor());
+            p.update(lmd);
          }
       }
       catch(ClassCastException cce){}
@@ -435,7 +436,6 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       this.handleLaunchingMechanism(event);
       this.repaint();
       this.revalidate();
-      //this.requestFocus(); //Put the focus back on the Frame...
    }
 
    /**/

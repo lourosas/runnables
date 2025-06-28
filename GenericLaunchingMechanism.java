@@ -140,8 +140,9 @@ ErrorListener, Runnable{
       //this._error              = new String();
       String s = new String("Launching Mechanism Event");
       this.setUpLaunchingMechanismData();
+      LaunchingMechanismData lmd = this._launchingMechanismData;
       //Going to go ahead and send in the entire object
-      event = new MissionSystemEvent(this,s,this._state);
+      event = new MissionSystemEvent(this,lmd,s,this._state);
       try{
          Iterator<SystemListener> it = null;
          it = this._systemListeners.iterator();
