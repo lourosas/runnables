@@ -26,6 +26,8 @@ import rosas.lou.runnables.*;
 
 public class GenericMechanismSupport implements MechanismSupport,
 Runnable{
+   private static boolean TOPRINT               = true;
+
    private LaunchStateSubstate.State INIT       = null;
    private LaunchStateSubstate.State PRELAUNCH  = null;
    private LaunchStateSubstate.State IGNITION   = null;
@@ -96,7 +98,11 @@ Runnable{
    //
    //
    private void alertErrorListeners(){
-      ErrorEvent e = new ErrorEvent(this,this._supportData, this._error);
+      ErrorEvent e=new ErrorEvent(this,this._supportData,this._error);
+      //Part of determining if printing errors
+      if(this.TOPRINT){
+         this.printError(e);
+      }
       /*
        * Worry about fucking software interrupts later!!!
       try{
@@ -319,6 +325,27 @@ Runnable{
       }
       z = (-1.)*this._armForce*Math.sin(this._angle);
       this._vector = new GenericForceVector(x,y,z);
+   }
+
+   //
+   //
+   //
+   private void printError(ErrorEvent e){
+      String fileName = this.getClass().getName()+"_"+e.getDate();
+      fileName       += "_error.txt";
+      FileWriter  fw  = null;
+      PrintWriter pw  = null;
+      try{
+         fw = new FileWriter(fileName, true);
+         pw = new PrintWriter(fw,true);
+         pw.println("\n"+e);
+      }
+      catch(IOException ioe){
+         ioe.printStackTrace();
+      }
+      finally{
+         pw.close();
+      }
    }
 
    //Sets the _setAngle property
@@ -653,11 +680,12 @@ Runnable{
                this.measureArmForce();
                this.measureForceVector();
                this.isError();
-               //if(this._isError){
+               if(this._isError){
                   //not going to do this for the time being...
                   //figure out HOW to implement software interrupts!
-                  //this.alertErrorListeners();
-               //}
+                  //Record the error, in addition...
+                  this.alertErrorListeners();
+               }
                //else{
                   //Save off the data as needed...
                   this.setUpMechanismSupportData();

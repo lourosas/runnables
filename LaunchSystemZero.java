@@ -155,12 +155,16 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
          Iterator<MechanismSupportData> it = list.iterator();
          while(it.hasNext()){
             boolean error = false;
-            MechanismSupportData data = it.next();
-            error |= data.isError();
-            if(error){
-               errorString += "\nMechanism Support Error: "+data.id();
+            try{
+               MechanismSupportData data = it.next();
+               error |= data.isError();
+               if(error){
+                  errorString += "\nMechanism Support Error: ";
+                  errorString += data.id();
+               }
+               isError |= error;
             }
-            isError |= error;
+            catch(NullPointerException npe){}
          }
          if(isError){
             this.errorOccurred(new ErrorEvent(event,lmd,errorString));

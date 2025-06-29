@@ -28,6 +28,8 @@ import java.time.format.*;
 
 public class GenericLaunchingMechanism implements LaunchingMechanism,
 ErrorListener, Runnable{
+   private static boolean TOPRINT = true;
+
    private LaunchStateSubstate.State  INIT      = null;
    private LaunchStateSubstate.State  PRELAUNCH = null;
    private LaunchStateSubstate.State  IGNITION  = null;
@@ -97,6 +99,9 @@ ErrorListener, Runnable{
       //Create an ErrorEvent
       LaunchingMechanismData lmd = this._launchingMechanismData;
       ErrorEvent e = new ErrorEvent(this, lmd, this._error);
+      if(this.TOPRINT){
+         this.printError(e);
+      }
       /*
        * Worry about fucking software interrupts later!
       try{
@@ -274,6 +279,27 @@ ErrorListener, Runnable{
          }
          catch(NumberFormatException nfe){}
          catch(NullPointerException npe){}
+      }
+   }
+
+   //
+   //
+   //
+   private void printError(ErrorEvent e){
+      String fileName = this.getClass().getName()+"_"+e.getDate();
+      fileName       += "_error.txt";
+      FileWriter  fw  = null;
+      PrintWriter pw  = null;
+      try{
+         fw = new FileWriter(fileName, true);
+         pw = new PrintWriter(fw,true);
+         pw.println("\n"+e);
+      }
+      catch(IOException ioe){
+         ioe.printStackTrace();
+      }
+      finally{
+         pw.close();
       }
    }
 
@@ -542,11 +568,11 @@ ErrorListener, Runnable{
                //as needed...
                this.measureWeight();
                this.isError();
-               //if(this._isError){
+               if(this._isError){
                   //Not going to do this for the time being...
                   //figure out HOW to implement software interrupts!
-                  //this.alertErrorListeners();
-               //}
+                  this.alertErrorListeners();
+               }
                //else{
                   this.alertSystemListeners();
                //}

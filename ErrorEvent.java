@@ -26,10 +26,12 @@ import java.text.*;
 import java.time.*;
 import java.time.format.*;
 public class ErrorEvent extends EventObject{
+   private String date;
    private String event;
    private Object state;
    private String time;
    {
+      date  = null;
       event = null;
       state = null;
       time  = null;
@@ -49,6 +51,13 @@ public class ErrorEvent extends EventObject{
 
 
    ///////////////////////////Public Methods//////////////////////////
+   //
+   //
+   //
+   public String getDate(){
+      return this.date;
+   }
+
    //
    //
    //
@@ -90,6 +99,8 @@ public class ErrorEvent extends EventObject{
       DateTimeFormatter dtf = null;
       dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss.SSS");
       this.time = now.format(dtf);
+      dtf = DateTimeFormatter.ofPattern("MM_dd_yyyy");
+      this.date = now.format(dtf);
    }
 }
 //////////////////////////////////////////////////////////////////////
