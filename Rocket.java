@@ -24,16 +24,17 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public interface Rocket extends Runnable{
-   //public double emptyWeight();
+   public void addDataFeeder(DataFeeder feeder);
+   public void addErrorListener(ErrorListener listener);
+   public void addSystemListener(SystemListener listener);
+   public int currentStage();
    public void initialize(String file)throws IOException;
-   //public double loadedWeight();
-   //public String model();
+   public RocketData monitor();
    public RocketData monitorInitialization();
    public RocketData monitorPrelaunch();
    public RocketData monitorIgnition();
    public RocketData monitorLaunch();
    public RocketData monitorPostlaunch();
-   public void       setDataFeeder(DataFeeder feeder);
-   //public int  stages();
+   public int totalStages();
 }
 //////////////////////////////////////////////////////////////////////

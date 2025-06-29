@@ -23,15 +23,17 @@ import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
-public class GenericRocket implements Rocket, Runnable{
-   private static final int PRELAUNCH = -1;
-   private static final int IGNITION  =  0;
-   private static final int LAUNCH    =  1;
+public class GenericRocket implements Rocket, Runnable, ErrorListener{
+   private LaunchStateSubstate.State INIT      = null;
+   private LaunchStateSubstate.State PRELAUNCH = null;
+   private LaunchStateSubstate.State IGNITION  = null;
+   private LaunchStateSubstate.State LAUNCH    = null;
 
    private String      _error;
    private boolean     _isError;
    private int         _numberOfStages;
    //Accumulation of all the Weight of the Stages!!!
+   //Get rid of Calculated Weight
    private double      _calculatedWeight;
    private int         _currentStage;
    private DataFeeder  _feeder;
@@ -41,6 +43,11 @@ public class GenericRocket implements Rocket, Runnable{
    private String      _model;
 
    {
+      INIT      = LaunchStateSubstate.State.INITIALIZE;
+      PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
+      IGNITION  = LaunchStateSubstate.State.IGNITION;
+      LAUNCH    = LaunchStateSubstate.State.LAUNCH;
+
       _calculatedWeight = Double.NaN;
       _currentStage     = -1;
       _error            = null;
@@ -61,7 +68,7 @@ public class GenericRocket implements Rocket, Runnable{
 
    /////////////////////////Private Methods///////////////////////////
    //Calculate the Agregate weight of all the Stages...for comparison
-   //
+   //THIS HAS GOT TO GO AWAY!!!  Rely COMPLETELY ON THE FEEDER!!!
    //
    private void calculateWeight(List<StageData> data){
       this._calculatedWeight = 0.;
@@ -191,15 +198,36 @@ public class GenericRocket implements Rocket, Runnable{
       }
    }
 
+   ////////////////////ErrorListener Implementation///////////////////
+   //
+   //
+   //
+   public void errorOccurred(ErrorEvent e){}
+
    //////////////////Rocket Interface Implementation//////////////////
    //
    //
    //
-   /*
-   public double emptyWeight(){
-      return this._emptyWeight;
+   public void addDataFeeder(DataFeeder feeder){
+      this._feeder = feeder;
    }
-   */
+
+   //
+   //
+   //
+   public void addErrorListener(ErrorListner listener){}
+
+   //
+   //
+   //
+   public void addSystemListener(SystemListener listener){}
+
+   //
+   //
+   //
+   public int currentStage(){
+      return -1;
+   }
 
    //
    //
@@ -213,23 +241,13 @@ public class GenericRocket implements Rocket, Runnable{
       this.stageData(file);
    }
 
-   //
-   //
-   //
-   /*
-   public double loadedWeight(){
-      return this._loadedWeight;
-   }
-   */
 
    //
    //
    //
-   /*
-   public String model(){
-      return this._model;
+   public RocketData montitor(){
+      return null;
    }
-   */
 
    //
    //
@@ -237,6 +255,7 @@ public class GenericRocket implements Rocket, Runnable{
    public RocketData monitorInitialization(){
       //@TODO Monitor Initialization for all the Stages and
       //capture the data!!!!!!
+      /* NEEDS TO CHANGE!!!
       List<StageData> stageData = new LinkedList<StageData>();
       try{
          Iterator<Stage> it = this._stages.iterator();
@@ -269,6 +288,8 @@ public class GenericRocket implements Rocket, Runnable{
                                     this._isError,
                                     this._error,
                                     stageData);
+      */
+      return null;
    }
 
    //
@@ -302,19 +323,9 @@ public class GenericRocket implements Rocket, Runnable{
    //
    //
    //
-   public void setDataFeeder(DataFeeder feeder){
-      this._feeder = feeder;
-   }
-
-   //
-   //
-   //
-   /*
-   public int stages(){
+   public int totalStages(){
       return this._stages;
    }
-   */
-
    ///////////////Runnable Interface Implementation///////////////////
    //
    //
