@@ -216,9 +216,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    public void abort(){
       System.out.println("SYSTEM ABORTING!!!");
-      //DO NOT DO THIS YET!!!  Figure out why ABORT BUTTON IS SET
-      //with GOOD data!!!
-      //System.exit(0);
+      System.exit(0);
    }
 
    //
