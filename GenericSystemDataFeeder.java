@@ -115,8 +115,8 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       try{
          synchronized(this._obj){
             if(this._cond.state() == INIT){
-               scale = 0.025;
-               //scale = 0.15; //To Test For Errors
+               //scale = 0.025;
+               scale = 0.01;
                min   = (int)(this.angleOfHolds()*(1-scale));
                max   = (int)(this.angleOfHolds()*(1+scale));
                value = this._random.nextInt(max - min + 1) + min;
@@ -239,8 +239,8 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
          //Set _weight;
          synchronized(this._obj){
             if(this._cond.state() == INIT){
-               //scale = 0.01;
-               scale = 0.15;  //To test for errors
+               //scale = 0.025;
+               scale = 0.01;
                min   = (int)(this.emptyWeight()*(1-scale));
                max   = (int)(this.emptyWeight()*(1+scale));
                value = this._random.nextInt(max - min + 1) + min; 
