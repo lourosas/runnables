@@ -47,7 +47,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    private ClockSubscriber     clockSubscriber;
    private Subscriber          subscriber;
    private CountdownTimer      countdownTimer;
-   //private Rocket              rocket;
+   private Rocket              rocket;
    private LaunchingMechanism  launchingMechanism;
    //private Payload             payload;
    private Thread              rt0;   //Probably not needed
@@ -75,6 +75,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
       subscriber          = null;
       countdownTimer      = null;
       launchingMechanism  = null;
+      rocket              = null;
       rt0                 = null;
       start               = false;
       kill                = false;
@@ -202,7 +203,18 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    //
-   private void initializeRocket(String file){}
+   private void initializeRocket(String file) throws IOException{
+      System.out.println(file);
+      //try{
+         //this.rocket = new GenericRocket();
+         //if(this.simState == Sim.YES){
+            //Add the Data Feeder to the Launching Mechanism...
+         //}
+      //}
+      //catch(IOException ioe){
+      //   throw ioe;
+      //}
+   }
    
    
    /////////////ErrorListener Interface Implementation////////////////
@@ -253,7 +265,9 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
             this.feeder.setStateSubstate(s);
          }
       }
-      catch(IOException ioe){}
+      catch(IOException ioe){
+         //TODO need to handle exception!
+      }
    }
 
    //
