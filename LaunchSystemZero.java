@@ -204,7 +204,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    private void initializeRocket(String file) throws IOException{
-      System.out.println(file);
+      System.out.println("file name: "+file);
       //try{
          //this.rocket = new GenericRocket();
          //if(this.simState == Sim.YES){
