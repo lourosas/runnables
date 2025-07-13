@@ -24,23 +24,30 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public class GenericRocket implements Rocket, Runnable, ErrorListener{
+   private static boolean TOPRINT = true;
+
    private LaunchStateSubstate.State INIT      = null;
    private LaunchStateSubstate.State PRELAUNCH = null;
    private LaunchStateSubstate.State IGNITION  = null;
    private LaunchStateSubstate.State LAUNCH    = null;
 
-   private String      _error;
-   private boolean     _isError;
-   private int         _numberOfStages;
+   private String             _error;
+   private boolean            _isError;
+   private int                _numberOfStages;
    //Accumulation of all the Weight of the Stages!!!
    //Get rid of Calculated Weight
-   private double      _calculatedWeight;
-   private int         _currentStage;
-   private DataFeeder  _feeder;
-   private double      _emptyWeight;
-   private double      _loadedWeight;
-   private List<Stage> _stages;
-   private String      _model;
+   private double              _calculatedWeight;
+   private int                 _currentStage;
+   private double              _emptyWeight;
+   private List<ErrorListener> _errorListeners;
+   private DataFeeder          _feeder;
+   private boolean             _kill;
+   private double              _loadedWeight;
+   private Thread              _rt0;
+   private List<Stage>         _stages;
+   private boolean             _start;
+   private LaunchStateSubstate _state;
+   private String              _model;
 
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
@@ -50,21 +57,28 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
 
       _calculatedWeight = Double.NaN;
       _currentStage     = -1;
+      _emptyWeight      = Double.NaN;
       _error            = null;
+      _errorListeners   = null;
       _feeder           = null;
+      _kill             = false;
       _isError          = false;
       _numberOfStages   = -1;
-      _emptyWeight      = Double.NaN;
       _loadedWeight     = Double.NaN;
       _model            = null;
+      _rt0              = null;
       _stages           = null;
+      _start            = false;
+      _state            = null;
    };
 
    /////////////////////////Constructors//////////////////////////////
    //
    //
    //
-   public GenericRocket(){}
+   public GenericRocket(){
+      this.setUpThread();
+   }
 
    /////////////////////////Private Methods///////////////////////////
    //Calculate the Agregate weight of all the Stages...for comparison
@@ -190,6 +204,14 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
+   private void setUpThread(){
+      this._rt0 = new Thread(this, "Generic Rocket");
+      this._rt0.start();
+   }
+
+   //
+   //
+   //
    private void stageData(String file)throws IOException{
       this._stages = new LinkedList<Stage>();
       for(int i = 0; i < this._numberOfStages; ++i){
@@ -212,13 +234,23 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    public void addDataFeeder(DataFeeder feeder){
-      this._feeder = feeder;
+      if(feeder != null){
+         this._feeder = feeder;
+      }
    }
 
    //
    //
    //
-   public void addErrorListener(ErrorListener listener){}
+   public void addErrorListener(ErrorListener listener){
+      try{
+         this._errorListeners.add(listener);
+      }
+      catch(NullPointerException npe){
+         this._errorListeners = new LinkedList<ErrorListener>();
+         this._errorListeners.add(listener);
+      }
+   }
 
    //
    //
@@ -242,6 +274,14 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
       this._currentStage = 1;
       this.rocketData(file);
       this.stageData(file);
+      //As with all components, the initialization phase assumes NO
+      //fuel loaded, THEREFORE, the Rocket (calculated or not) is at
+      //empty weight...this is PRIOR to actually measuring the System
+      //which is about three seconds...or, whenever the Thread starts
+      //up--so something is available...
+      this._calculatedWeight = this._emptyWeight;
+      this._state = new LaunchStateSubstate(INIT,null,null,null);
+      this._start = true;
    }
 
 
@@ -333,6 +373,32 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
-   public void run(){}
+   public void run(){
+      try{
+         while(true){
+            if(this._kill){
+               throw new InterruptedException();
+            }
+            if(this._start){
+               if(this._state.state() == INIT){
+                  System.out.print("*****Rocket: ");
+                  System.out.println(Thread.currentThread().getName());
+                  System.out.print("*****Rocket: ");
+                  System.out.println(Thread.currentThread().getId());
+                  Thread.sleep(10000);
+               }
+            }
+            else{
+               Thread.sleep(1);
+            }
+         }
+      }
+      catch(InterruptedException ie){}
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         System.exit(0);
+      }
+   
+   }
 }
 //////////////////////////////////////////////////////////////////////
