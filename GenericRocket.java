@@ -43,11 +43,12 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    private DataFeeder          _feeder;
    private boolean             _kill;
    private double              _loadedWeight;
+   private String              _model;
    private Thread              _rt0;
    private List<Stage>         _stages;
    private boolean             _start;
    private LaunchStateSubstate _state;
-   private String              _model;
+   private List<SystemListener>_systemListeners;
 
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
@@ -70,6 +71,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
       _stages           = null;
       _start            = false;
       _state            = null;
+      _systemListeners  = null;
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -81,6 +83,30 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    }
 
    /////////////////////////Private Methods///////////////////////////
+   //
+   //
+   //
+   private void alertErrorListeners(){}
+
+   //
+   //
+   //
+   private void alertSystemListeners(){}
+
+   //
+   //
+   //
+   private void calculateWeight(){
+      //do this for the time being...
+      this._calculatedWeight = this._emptyWeight;
+      try{
+         //Simple Debug Prints
+         System.out.print("====Rocket Stages: ");
+         System.out.println(this._stages.size());
+      }
+      catch(NullPointerException npe){}
+   }
+
    //Calculate the Agregate weight of all the Stages...for comparison
    //THIS HAS GOT TO GO AWAY!!!  Rely COMPLETELY ON THE FEEDER!!!
    //
@@ -143,6 +169,11 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
          }
       }
    }
+
+   //
+   //
+   //
+   private void isError(){}
 
    //For the given State, check to see if there is an error
    //
@@ -255,7 +286,15 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
-   public void addSystemListener(SystemListener listener){}
+   public void addSystemListener(SystemListener listener){
+      try{
+         this._systemListeners.add(listener);
+      }
+      catch(NullPointerException npe){
+         this._systemListeners = new LinkedList<SystemListener>();
+         this._systemListeners.add(listener);
+      }
+   }
 
    //
    //
@@ -380,7 +419,15 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
                throw new InterruptedException();
             }
             if(this._start){
+               //Everthing else comes directly from the Stages
+               this.calculateWeight();
+               this.isError();
+               if(this._isError){
+                  this.alertErrorListeners();
+               }
+               this.alertSystemListeners();
                if(this._state.state() == INIT){
+                  //Temporary Prints, need to remove...
                   System.out.print("*****Rocket: ");
                   System.out.println(Thread.currentThread().getName());
                   System.out.print("*****Rocket: ");

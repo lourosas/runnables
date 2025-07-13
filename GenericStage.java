@@ -151,6 +151,14 @@ public class GenericStage implements Stage, Runnable{
    //
    //
    //
+   public StageData monitor(){
+      //return null for the time being...TBD...
+      return null;
+   }
+
+   //
+   //
+   //
    public StageData monitorPrelaunch(){
       boolean isError = false;
       String error    = null;
