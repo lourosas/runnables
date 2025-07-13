@@ -204,16 +204,19 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    private void initializeRocket(String file) throws IOException{
-      System.out.println("file name: "+file);
-      //try{
-         //this.rocket = new GenericRocket();
-         //if(this.simState == Sim.YES){
+      try{
+         this.rocket = new GenericRocket();
+         this.rocket.initialize(file);
+         this.rocket.addErrorListener(this);
+         this.rocket.addSystemListener(this);
+         if(this.simState == Sim.YES){
             //Add the Data Feeder to the Launching Mechanism...
-         //}
-      //}
-      //catch(IOException ioe){
-      //   throw ioe;
-      //}
+            this.rocket.addDataFeeder(this.feeder);
+         }
+      }
+      catch(IOException ioe){
+         throw ioe;
+      }
    }
    
    

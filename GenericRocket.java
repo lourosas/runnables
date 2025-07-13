@@ -86,7 +86,10 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
-   private void isCalculatedWeightError(int state){
+   private void isCalculatedWeightError
+   (
+      LaunchStateSubstate.State state
+   ){
       if(state == PRELAUNCH){
          double tolerance = .95; //95% of loaded weight
          double wl = this._loadedWeight * tolerance;
@@ -111,7 +114,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
-   private void isCurrentStageError(int state){
+   private void isCurrentStageError(LaunchStateSubstate.State state){
       if(state == PRELAUNCH){
          if(this._currentStage != 1){
             if(this._error == null){
@@ -130,7 +133,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //For the given State, check to see if there is an error
    //
    //
-   private void isError(int state){
+   private void isError(LaunchStateSubstate.State state){
       this.isCurrentStageError(state);
       this.isCalculatedWeightError(state);
       //more to come as needed...     
@@ -215,7 +218,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
-   public void addErrorListener(ErrorListner listener){}
+   public void addErrorListener(ErrorListener listener){}
 
    //
    //
@@ -245,7 +248,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
-   public RocketData montitor(){
+   public RocketData monitor(){
       return null;
    }
 
@@ -324,7 +327,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    public int totalStages(){
-      return this._stages;
+      return this._numberOfStages;
    }
    ///////////////Runnable Interface Implementation///////////////////
    //
