@@ -49,6 +49,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    private boolean             _start;
    private LaunchStateSubstate _state;
    private List<SystemListener>_systemListeners;
+   private double              _tolerance;
 
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
@@ -72,6 +73,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
       _start            = false;
       _state            = null;
       _systemListeners  = null;
+      _tolerance        = null;
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -98,13 +100,22 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    private void calculateWeight(){
       //do this for the time being...
-      this._calculatedWeight = this._emptyWeight;
+      //this._calculatedWeight = this._emptyWeight;
+      this._calculatedWeight = 0.;
+      Iterator<Stage> it     = this._stages.iterator();
       try{
-         //Simple Debug Prints
-         System.out.print("====Rocket Stages: ");
-         System.out.println(this._stages.size());
+         while(it.hasNext()){
+            Stage s                 = it.next();
+            StageData sd            = s.monitor();
+            this._calculatedWeight += sd.weight();
+         }
+         System.out.print("====Rocket Weight: ");
+         System.out.println(this._calculatedWeight);
       }
-      catch(NullPointerException npe){}
+      catch(NullPointerException npe){
+         //Temporary for the time being
+         npe.printStackTrace();
+      }
    }
 
    //Calculate the Agregate weight of all the Stages...for comparison
@@ -173,7 +184,12 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
-   private void isError(){}
+   private void isError(){
+      double edge      = Double.NaN;
+      double ul        = Double.NaN;
+      double ll        = Double.NaN;
+      double lim       = 1. - this._tolerance;
+   }
 
    //For the given State, check to see if there is an error
    //
@@ -226,6 +242,14 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
          try{
             double v = Double.parseDouble(data.get("loaded_weight"));
             this._loadedWeight = v;
+         }
+         catch(NumberFormatException nfe){}
+         catch(NullPointerException npe){}
+      }
+      if(data.contains("tolerance")){
+         try{
+            double t = Double.parseDouble(data.get("tolerance"));
+            this._tolerance = t;
          }
          catch(NumberFormatException nfe){}
          catch(NullPointerException npe){}
