@@ -73,7 +73,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
       _start            = false;
       _state            = null;
       _systemListeners  = null;
-      _tolerance        = null;
+      _tolerance        = Double.NaN;
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -115,6 +115,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
       catch(NullPointerException npe){
          //Temporary for the time being
          npe.printStackTrace();
+         this._calculatedWeight = Double.NaN;
       }
    }
 
@@ -185,10 +186,22 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    private void isError(){
-      double edge      = Double.NaN;
-      double ul        = Double.NaN;
-      double ll        = Double.NaN;
-      double lim       = 1. - this._tolerance;
+      double  edge      = Double.NaN;
+      double  ul        = Double.NaN;
+      double  ll        = Double.NaN;
+      double  lim       = 1. - this._tolerance;
+      boolean inputGood = !Double.isNaN(this._emptyWeight);
+      inputGood        &= !Double.isNaN(this._loadedWeight);
+      boolean measGood  = !Double.isNaN(this._calculatedWeight);
+      //Test Prints to remove!!
+      System.out.print("+++++Generic Rocket: ");
+      System.out.print(this._emptyWeight+", "+this._loadedWeight);
+      System.out.println(", "+this._calculatedWeight);
+      System.out.println(inputGood+", "+measGood);
+      System.out.println(this._state.state());
+      if(inputGood && measGood){
+      }
+
    }
 
    //For the given State, check to see if there is an error
