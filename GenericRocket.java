@@ -119,69 +119,6 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
       }
    }
 
-   //Calculate the Agregate weight of all the Stages...for comparison
-   //THIS HAS GOT TO GO AWAY!!!  Rely COMPLETELY ON THE FEEDER!!!
-   //
-   private void calculateWeight(List<StageData> data){
-      this._calculatedWeight = 0.;
-      //Everything but the fuel
-      this._calculatedWeight += this._emptyWeight;
-      Iterator<StageData> it = data.iterator();
-      while(it.hasNext()){
-         StageData sd = it.next();
-         this._calculatedWeight += sd.weight();
-         //The Dry Weight already taken into account in the dry weight
-         this._calculatedWeight -= sd.dryWeight();
-      }
-   }
-
-   //
-   //
-   //
-   private void isCalculatedWeightError
-   (
-      LaunchStateSubstate.State state
-   ){
-      if(state == PRELAUNCH){
-         double tolerance = .95; //95% of loaded weight
-         double wl = this._loadedWeight * tolerance;
-         double ul = this._loadedWeight + wl;
-         double ll = this._loadedWeight - wl;
-         if(this._calculatedWeight<ll || this._calculatedWeight>ul){
-            if(this._error == null){
-               this._error = new String("\nCalculated Weight Error");
-            }
-            else{
-               this._error += "\nCalculated Weight Error";
-            }
-            this._error += "\nCalculated Weight: ";
-            this._error += ""+this._calculatedWeight;
-            this._error += "\nLoaded Weight: " + this._loadedWeight;
-            this._error += "\n";
-            this._isError = true;
-         }
-      }
-   }
-
-   //
-   //
-   //
-   private void isCurrentStageError(LaunchStateSubstate.State state){
-      if(state == PRELAUNCH){
-         if(this._currentStage != 1){
-            if(this._error == null){
-               this._error = new String("\nStage Reporting Error");
-            }
-            else{
-               this._error += "\nStage Reporting Error";
-            }
-            this._error += "\nReporting Stage: "+this._currentStage;
-            this._error += "\nExpected Stage: 1\n";
-            this._isError = true;
-         }
-      }
-   }
-
    //
    //
    //
@@ -193,24 +130,34 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
       boolean inputGood = !Double.isNaN(this._emptyWeight);
       inputGood        &= !Double.isNaN(this._loadedWeight);
       boolean measGood  = !Double.isNaN(this._calculatedWeight);
-      //Test Prints to remove!!
-      System.out.print("+++++Generic Rocket: ");
-      System.out.print(this._emptyWeight+", "+this._loadedWeight);
-      System.out.println(", "+this._calculatedWeight);
-      System.out.println(inputGood+", "+measGood);
-      System.out.println(this._state.state());
+
+      this._isError = false;
+      this._error   = new String();
+
       if(inputGood && measGood){
+         if(this._state.state() == INIT){
+            ll = this._emptyWeight*this._tolerance;
+            ul = this._emptyWeight*(2-this._tolerance);
+            if(this._emptyWeight < 0){
+               double temp = ul;
+               ul = ll;
+               ll = temp;
+            }
+         }
+         else if(this._state.state() == PRELAUNCH){
+         }
+         if(this._calculatedWeight<ll || this._calculatedWeight>ul){
+            this._isError = true;
+            String error  = new String("Calculated Weight: ");
+            if(this._calculatedWeight < ll){
+               error += "too low";
+            }
+            else if(this._calculatedWeight > ul){
+               error += "too high";
+            }
+            this.setError(error);
+         }
       }
-
-   }
-
-   //For the given State, check to see if there is an error
-   //
-   //
-   private void isError(LaunchStateSubstate.State state){
-      this.isCurrentStageError(state);
-      this.isCalculatedWeightError(state);
-      //more to come as needed...     
    }
 
    //
@@ -225,6 +172,23 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
          this.setRocketData(read.readRocketInfo());
+      }
+   }
+
+   //
+   //
+   //
+   private void setError(String errorType){
+      this._error = new String();
+      java.text.DecimalFormat df = null;
+      df = new java.text.DecimalFormat("###,###,###.##");
+      if(errorType.toUpperCase().contains("CALCULATED")){
+         this._error  = errorType;
+         this._error += "\nState:      "+this._state.state();
+         String formatted = df.format(this._calculatedWeight);
+         this._error += "\nCalculated: "+formatted;
+         this._error += "\nEmpty:      "+this._emptyWeight;
+         this._error += "\nLoaded:     "+this._loadedWeight;
       }
    }
 
@@ -259,7 +223,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
          catch(NumberFormatException nfe){}
          catch(NullPointerException npe){}
       }
-      if(data.contains("tolerance")){
+      if(data.containsKey("tolerance")){
          try{
             double t = Double.parseDouble(data.get("tolerance"));
             this._tolerance = t;

@@ -551,8 +551,9 @@ public class LaunchSimulatorJsonFileReader{
                         sel[l] = sel[l].strip();
                         if(sel[l].length() > 0){
                            char c = sel[l].charAt(0);
-                           if(Character.isLetter(c) ||
-                              Character.isDigit(c)){
+                           boolean isChar = Character.isLetter(c);
+                           boolean isNum  = Character.isDigit(c);
+                           if(isChar||isNum||c=='.'){
                               saves[savesCount] = sel[l];
                            }
                            else{
