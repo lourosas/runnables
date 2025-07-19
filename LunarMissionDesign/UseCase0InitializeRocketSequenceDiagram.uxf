@@ -151,7 +151,8 @@ stageData(:Hashtable&lt;String,String)</panel_attributes>
       <w>190</w>
       <h>50</h>
     </coordinates>
-    <panel_attributes>_:Instance_
+    <panel_attributes>&lt;&lt;Stage&gt;&gt;
+_:GenericStage_
 bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
@@ -230,7 +231,7 @@ addSystemListner(:SystemListener)</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>690</x>
-      <y>600</y>
+      <y>590</y>
       <w>200</w>
       <h>60</h>
     </coordinates>
