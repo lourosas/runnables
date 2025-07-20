@@ -23,6 +23,8 @@ import rosas.lou.runnables.*;
 import java.io.IOException;
 
 public interface Stage{
+   public void addDataFeeder(DataFeeder feeder);
+   public void addErrorListener(ErrorListener listener);
    public void initialize(String file) throws IOException;
    public StageData monitor();
    public StageData monitorPrelaunch();

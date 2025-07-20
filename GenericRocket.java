@@ -251,6 +251,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
          GenericStage stage = new GenericStage(i+1);
          //Initialize the stage
          stage.initialize(file);
+         stage.addErrorListener(this);
          this._stages.add(stage);
       }
    }
@@ -268,6 +269,18 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    public void addDataFeeder(DataFeeder feeder){
       if(feeder != null){
          this._feeder = feeder;
+         try{
+            //Add the Components
+            Iterator it = this._stages.iterator();
+            while(it.hasNext()){
+               Stage stage = (Stage)it.next();
+               stage.addDataFeeder(this._feeder);
+            }
+         }
+         catch(NullPointerException npe){
+            //Should never get here!!!
+            npe.printStackTrace();
+         }
       }
    }
 

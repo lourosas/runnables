@@ -22,27 +22,57 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 
-public class GenericStage implements Stage, Runnable{
-   private double        _dryweight;
-   private List<Engine>  _engines;
-   private String        _error;  //currently, not using, but keep
-   private FuelSystem    _fuelSystem;
-   private int           _stageNumber;
-   private long          _modelNumber;
-   private int           _totalEngines;
-   private boolean       _isError;//Currently, not using, but keep
-   private double        _weight; //Dry weight + wet weight
+public class GenericStage implements Stage, Runnable, ErrorListener{
+   private static boolean TOPRINT = true;
+
+   private LaunchStateSubstate.State INIT      = null; 
+   private LaunchStateSubstate.State PRELAUNCH = null;
+   private LaunchStateSubstate.State IGNITION  = null;
+   private LaunchStateSubstate.State LAUNCH    = null;
+
+   private double              _calculatedWeight;
+   private double              _dryweight;
+   private List<Engine>        _engines;
+   private String              _error;//currently, not using, but keep
+   private List<ErrorListener> _errorListeners;
+   private DataFeeder          _feeder;
+   private FuelSystem          _fuelSystem;
+   private boolean             _kill;
+   private double              _maxWeight;
+   private int                 _stageNumber;
+   private long                _modelNumber;
+   private int                 _totalEngines;
+   private boolean             _isError;//Currently not using,but keep
+   private Thread              _rt0;
+   private boolean             _start;
+   private LaunchStateSubstate _state;
+   private double              _tolerance;
+   private double              _weight; //Dry weight + wet weight
 
    {
-      _dryweight    = Double.NaN;
-      _engines      = null;
-      _error        = null;
-      _fuelSystem   = null;
-      _stageNumber  = -1;
-      _modelNumber  = -1;
-      _totalEngines = -1;
-      _isError      = false;
-      _weight       = Double.NaN;
+      INIT      = LaunchStateSubstate.State.INITIALIZE;
+      PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
+      IGNITION  = LaunchStateSubstate.State.IGNITION;
+      LAUNCH    = LaunchStateSubstate.State.LAUNCH;
+
+      _calculatedWeight = Double.NaN;
+      _dryweight        = Double.NaN;
+      _engines          = null;
+      _error            = null;
+      _errorListeners   = null;
+      _feeder           = null;
+      _fuelSystem       = null;
+      _kill             = false;
+      _maxWeight        = Double.NaN;
+      _stageNumber      = -1;
+      _modelNumber      = -1;
+      _totalEngines     = -1;
+      _isError          = false;
+      _rt0              = null;
+      _start            = false;
+      _state            = null;
+      _tolerance        = Double.NaN;
+      _weight           = Double.NaN;
    };
 
    /////////////////////////////Constructor///////////////////////////
@@ -53,6 +83,7 @@ public class GenericStage implements Stage, Runnable{
       if(number > 0){
          this._stageNumber = number;
       }
+      this.setUpThread();
    }
 
    ///////////////////////////Private Methods/////////////////////////
@@ -103,22 +134,35 @@ public class GenericStage implements Stage, Runnable{
    (
       List<Hashtable<String,String>> data
    ){
-      System.out.println(data);
+      //System.out.println(data);
       //will need to figure out which Stage it is...pretty simple
       for(int i = 0; i < data.size(); ++i){
          Hashtable<String,String> ht = data.get(i);
          try{
             String num = ht.get("number");
             if(Integer.parseInt(num) == this._stageNumber){
+               this._totalEngines=Integer.parseInt(ht.get("engines"));
                double dw = Double.parseDouble(ht.get("dryweight"));
                this._dryweight = dw;
-               this._totalEngines=Integer.parseInt(ht.get("engines"));
+               double mw = Double.parseDouble(ht.get("maxweight"));
+               this._maxWeight = mw;
                int v = Integer.parseUnsignedInt(ht.get("model"),16);
                this._modelNumber = Integer.toUnsignedLong(v);
+               double tol = Double.parseDouble(ht.get("tolerance"));
+               this._tolerance = tol;
             }
          }
          catch(NumberFormatException npe){}
       }
+   }
+
+   //
+   //
+   //
+   private void setUpThread(){
+      String name = new String("Generic Stage "+ this._stageNumber);
+      this._rt0   = new Thread(this, name);
+      this._rt0.start();
    }
 
    //
@@ -136,7 +180,38 @@ public class GenericStage implements Stage, Runnable{
       }
    }
 
+   ///////////////ErrorListener Interface Implementation//////////////
+   //
+   //
+   //
+   public void errorOccurred(ErrorEvent e){}
+
    ///////////////////Stage Interface Implementation//////////////////
+   //
+   //
+   //
+   public void addDataFeeder(DataFeeder feeder){
+      if(feeder != null){
+         this._feeder = feeder;
+         //Add Components as needed
+      }
+   }
+
+   //
+   //
+   //
+   public void addErrorListener(ErrorListener listener){
+      try{
+         if(listener != null){
+            this._errorListeners.add(listener);
+         }
+      }
+      catch(NullPointerException npe){
+         this._errorListeners = new LinkedList<ErrorListener>();
+         this._errorListeners.add(listener);
+      }
+   }
+
    //
    //
    //
@@ -145,6 +220,11 @@ public class GenericStage implements Stage, Runnable{
          this.stageData(file);
          this.engineData(file);
          this.fuelSystem(file);
+         
+         this._calculatedWeight = this._dryweight;
+
+         this._state = new LaunchStateSubstate(INIT,null,null,null);
+         this._start = true;
       }
    }
 
@@ -212,7 +292,38 @@ public class GenericStage implements Stage, Runnable{
    //
    //
    //
-   public void run(){}
+   public void run(){
+      try{
+         while(true){
+            if(this._kill){
+               throw new InterruptedException();
+            }
+            if(this._start){
+               //this.calculateWeight();
+               //this.isError()
+               //if(this._isError){
+               //   this.aleatErrorListeners();
+               //}
+               if(this._state.state() == INIT){
+                  //Temporary Prints NEED TO REMOVE!
+                  System.out.print("****Stage: ");
+                  System.out.println(Thread.currentThread().getName());
+                  System.out.print("****Stage: ");
+                  System.out.println(Thread.currentThread().getId());
+                  Thread.sleep(10000);
+               }
+            }
+            else{
+               Thread.sleep(1);
+            }
+         }
+      }
+      catch(InterruptedException ie){}
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         System.exit(0);
+      }
+   }
 }
 
 //////////////////////////////////////////////////////////////////////
