@@ -27,6 +27,7 @@ public interface StageData{
    public List<EngineData> engineData();
    public FuelSystemData   fuelSystemData();
    public boolean          isError();
+   public double           maxWeight();
    public long             model();
    public int              numberOfEngines();
    public int              stageNumber();

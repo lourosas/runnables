@@ -25,6 +25,7 @@ public class GenericStageData implements StageData{
    private double           _dryWeight;
    private String           _error;
    private boolean          _isError;
+   private double           _maxWeight;
    private long             _model;
    private int              _number;
    private int              _engines;
@@ -36,6 +37,7 @@ public class GenericStageData implements StageData{
       _dryWeight      = Double.NaN;
       _error          = null;
       _isError        = false;
+      _maxWeight      = Double.NaN;
       _model          = -1;
       _number         = -1;
       _engines        = -1;
@@ -56,6 +58,7 @@ public class GenericStageData implements StageData{
       boolean          isError,
       int              number,
       int              engines,
+      double           maxWeight,
       double           weight,
       List<EngineData> engineData,
       FuelSystemData   fuelSystemData
@@ -66,6 +69,7 @@ public class GenericStageData implements StageData{
       this.isError(isError);
       this.stageNumber(number);
       this.engines(engines);
+      this.maxWeight(maxWeight);
       this.weight(weight);
       this.engineData(engineData);
       this.fuelSystemData(fuelSystemData);
@@ -130,6 +134,13 @@ public class GenericStageData implements StageData{
    //
    //
    //
+   private void maxWeight(maxWeight){
+      this._maxWeight = maxWeight;
+   }
+
+   //
+   //
+   //
    private void stageNumber(int stagenumber){
       if(stagenumber > 0){
          this._number = stagenumber;
@@ -175,6 +186,11 @@ public class GenericStageData implements StageData{
    //
    //
    public boolean isError(){ return this._isError; }
+
+   //
+   //
+   //
+   public double maxWeight(){ return this._maxWeight; }
 
    //
    //

@@ -98,7 +98,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
-   private void calculateWeight(){
+   private void calculateWeight(RocketData rd){
       //do this for the time being...
       //this._calculatedWeight = this._emptyWeight;
       this._calculatedWeight = 0.;
@@ -158,6 +158,15 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
             this.setError(error);
          }
       }
+   }
+
+   //
+   //
+   //
+   private RocketData monitorRocket(){
+      Iterator<Stage> it = this._stages.iterator();
+      while(it.hasNext()){}
+      
    }
 
    //
@@ -434,7 +443,9 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
             }
             if(this._start){
                //Everthing else comes directly from the Stages
-               this.calculateWeight();
+               //this.monitorRocket();//Set Up the RocketData
+               //RocketData rd = this.monitorRocket()
+               this.calculateWeight(rd);
                this.isError();
                if(this._isError){
                   this.alertErrorListeners();
