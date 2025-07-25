@@ -134,7 +134,7 @@ public class GenericStageData implements StageData{
    //
    //
    //
-   private void maxWeight(maxWeight){
+   private void maxWeight(double maxWeight){
       this._maxWeight = maxWeight;
    }
 

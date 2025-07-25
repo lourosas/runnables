@@ -98,16 +98,14 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
-   private void calculateWeight(RocketData rd){
+   private void calculateWeight(List<StageData> list/*,CapsuleData*/){
       //do this for the time being...
       //this._calculatedWeight = this._emptyWeight;
       this._calculatedWeight = 0.;
-      Iterator<Stage> it     = this._stages.iterator();
       try{
+         Iterator<StageData> it = list.iterator();
          while(it.hasNext()){
-            Stage s                 = it.next();
-            StageData sd            = s.monitor();
-            this._calculatedWeight += sd.weight();
+            this._calculatedWeight += it.next().weight();
          }
          System.out.print("====Rocket Weight: ");
          System.out.println(this._calculatedWeight);
@@ -164,9 +162,28 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    private RocketData monitorRocket(){
-      Iterator<Stage> it = this._stages.iterator();
-      while(it.hasNext()){}
-      
+      RocketData      rd   = null;
+      List<StageData> list = new LinkedList<StageData>();
+      Iterator<Stage> it   = this._stages.iterator();
+      while(it.hasNext()){
+         //Just get the fucking data
+         StageData data = it.next().monitor();
+         list.add(data);
+      }
+      //To Capture the fucking weight, going to need the weight of the
+      //Stages AND the weight of the Capsule--TBD!!!
+      this.calculateWeight(list, /*CapsuleData*/);
+      this.isError();
+      rd = new GenericRocketData(this._model,
+                                 this._currentStage,
+                                 this._numberOfStages,
+                                 this._emptyWeight,
+                                 this._loadedWeight,
+                                 this._calculatedWeight,
+                                 this._isError,
+                                 this._error,
+                                 list);
+      return rd;
    }
 
    //
@@ -443,10 +460,11 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
             }
             if(this._start){
                //Everthing else comes directly from the Stages
-               //this.monitorRocket();//Set Up the RocketData
-               //RocketData rd = this.monitorRocket()
+               RocketData rd = this.monitorRocket();
+               /* This all can fucking go away
                this.calculateWeight(rd);
                this.isError();
+               */
                if(this._isError){
                   this.alertErrorListeners();
                }
