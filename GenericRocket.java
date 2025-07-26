@@ -95,27 +95,6 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    private void alertSystemListeners(){}
 
-   //
-   //
-   //
-   private void calculateWeight(List<StageData> list/*,CapsuleData*/){
-      //do this for the time being...
-      //this._calculatedWeight = this._emptyWeight;
-      this._calculatedWeight = 0.;
-      try{
-         Iterator<StageData> it = list.iterator();
-         while(it.hasNext()){
-            this._calculatedWeight += it.next().weight();
-         }
-         System.out.print("====Rocket Weight: ");
-         System.out.println(this._calculatedWeight);
-      }
-      catch(NullPointerException npe){
-         //Temporary for the time being
-         npe.printStackTrace();
-         this._calculatedWeight = Double.NaN;
-      }
-   }
 
    //
    //
@@ -161,29 +140,51 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
-   private RocketData monitorRocket(){
-      RocketData      rd   = null;
-      List<StageData> list = new LinkedList<StageData>();
-      Iterator<Stage> it   = this._stages.iterator();
-      while(it.hasNext()){
-         //Just get the fucking data
-         StageData data = it.next().monitor();
-         list.add(data);
+   private void measureWeight(List<StageData> sd/*,CasuledData cap*/){
+      this._calculatedWeight = 0;
+      try{
+         Iterator<StageData> it = sd.iterator();
+         while(it.hasNext()){
+            this._calculatedWeight += it.next().weight();
+         }
+         //this._calculatedWeight += cap.weight(); //TBD
       }
-      //To Capture the fucking weight, going to need the weight of the
-      //Stages AND the weight of the Capsule--TBD!!!
-      this.calculateWeight(list, /*CapsuleData*/);
-      this.isError();
-      rd = new GenericRocketData(this._model,
-                                 this._currentStage,
-                                 this._numberOfStages,
-                                 this._emptyWeight,
-                                 this._loadedWeight,
-                                 this._calculatedWeight,
-                                 this._isError,
-                                 this._error,
-                                 list);
-      return rd;
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         this._calculatedWeight = Double.NaN;
+      }
+   }
+
+   //
+   //
+   //
+   private RocketData monitorRocket(){
+      RocketData data = null;
+      try{
+         Iterator<Stage> it   = this._stages.iterator();
+         List<StageData> list = new LinkedList<StageData>();
+         while(it.hasNext()){
+            list.add(it.next().monitor());
+         }
+         this.measureWeight(list/*,this.capsuleData*/); //TBD
+         this.isError();
+         data = new GenericRocketData(this._model,
+                                      this._currentStage,
+                                      this._numberOfStages,
+                                      this._emptyWeight,
+                                      this._loadedWeight,
+                                      this._calculatedWeight,
+                                      this._isError,
+                                      this._error,
+                                      list);
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         data = null;
+      }
+      finally{
+         return data;
+      }
    }
 
    //
@@ -297,7 +298,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
          this._feeder = feeder;
          try{
             //Add the Components
-            Iterator it = this._stages.iterator();
+            Iterator<Stage> it = this._stages.iterator();
             while(it.hasNext()){
                Stage stage = (Stage)it.next();
                stage.addDataFeeder(this._feeder);
@@ -459,15 +460,10 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
                throw new InterruptedException();
             }
             if(this._start){
-               //Everthing else comes directly from the Stages
-               RocketData rd = this.monitorRocket();
-               /* This all can fucking go away
-               this.calculateWeight(rd);
-               this.isError();
-               */
                if(this._isError){
                   this.alertErrorListeners();
                }
+               RocketData rd = this.monitorRocket();
                this.alertSystemListeners();
                if(this._state.state() == INIT){
                   //Temporary Prints, need to remove...

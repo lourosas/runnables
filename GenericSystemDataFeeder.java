@@ -27,6 +27,44 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public class GenericSystemDataFeeder implements DataFeeder,Runnable{
+   private class InnerRocketData{
+      private String model        = null;
+      private int    stages       = 0;
+      private double emptyWeight  = Double.NaN;
+      private double loadedWeight = Double.NaN;
+      public InnerRocketData(String m,String st,String ew,String lw){
+         this.setModel(m);
+         this.setStages(st);
+         this.setEmptyWeight(ew);
+         this.setLoadedWeight(lw);
+      }
+      private void setModel(String m){ this.model = m; }
+      private void setStages(String st){
+         try{
+            this.stages = Integer.parseInt(st);
+         }
+         catch(NumberFormatException nfe){this.stages = -1;}
+      }
+      private void setEmptyWeight(String ew){
+         try{
+            this.emptyWeight = Double.parseDouble(ew);
+         }
+         catch(NumberFormatException nfe){
+            this.emptyWeight = Double.NaN;
+         }
+      }
+      private void setLoadedWeight(String lw){
+         try{
+            this.loadedWeight = Double.parseDouble(lw);
+         }
+         catch(NumberFormatException nfe){
+            this.emptyWeight = Double.NaN;
+         }
+      }
+   }
+
+   private class InnerLaunchingMechanismData{}
+
    private LaunchStateSubstate.State INIT             = null;
    private LaunchStateSubstate.State PREL             = null;
    private LaunchStateSubstate.State IGNI             = null;
@@ -60,6 +98,9 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    private Random              _random;
    private Thread              _rt0;
 
+   //Inner Classes
+   private InnerRocketData     _rocketData;
+   private InnerLaunchingMechanismData _mechData;
    {
       INIT = LaunchStateSubstate.State.INITIALIZE;
       PREL = LaunchStateSubstate.State.PRELAUNCH;
@@ -80,10 +121,12 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       _emptyWeight               = Double.NaN;
       _holdsTolerance            = Double.NaN;
       _loadedWeight              = Double.NaN;
+      _mechData                  = null;
       _numberOfHolds             = 0;
       _obj                       = null;
       _platformTolerance         = Double.NaN;
       _random                    = null;
+      _rocketData                = null;
       _stages                    = 0;
       _rt0                       = null;
       //Calculated
@@ -103,6 +146,50 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    }
 
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void readLaunchingMechanismData(String file)
+   throws IOException{
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         Hashtable<String,String> ht = null;
+         ht = read.readLaunchingMechanismInfo();
+         String ha = ht.get("angle_of_holds");
+         String nh = ht.get("number_of_holds");
+         String ht = ht.get("holds_tolerance");
+         String tt = ht.get("total_tolerance");
+         this._mechData=new InnerLaunchingMechanismData(ha,nh,ht,tt);
+      }
+      catch(IOException ioe){
+         ioe.printStackTrace();
+         throw ioe;
+      }
+   }
+
+   //
+   //
+   //
+   private void readRocketData(String file)throws IOException{
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         Hashtable<String,String> ht = null;
+         ht = read.readRocketInfo();
+         //Now try to set everything up...
+         String ew = ht.get("empty_weight");
+         String lw = ht.get("loaded wieght");
+         String st = ht.get("stages");
+         String m  = ht.get("model");
+         this._rocketData = new InnerRocketData(m,st,ew,lw);
+      }
+      catch(IOException ioe){
+         ioe.printStackTrace();
+         throw ioe;
+      }
+   }
+
    //
    //
    //
@@ -291,6 +378,10 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    public void initialize(String file)throws IOException{
       try{
+         this.readRocketData(file);
+         this.readLaunchingMechanismData(file);
+         /*
+         this.readTankData(file);
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
          Hashtable<String,String> ht = null;
@@ -300,11 +391,15 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
          this.setLoadedWeight(ht);
          this.setStages(ht);
          //Set up the Launching Mechanism Data
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         Hashtable<String,String> ht = null;
          ht = read.readLaunchingMechanismInfo();
          this.setHoldsAngle(ht);
          this.setNumberOfHolds(ht);
          this.setPlatformTolerance(ht);
          this.setHoldsTolerance(ht);
+         */
       }
       catch(IOException ioe){
          ioe.printStackTrace();

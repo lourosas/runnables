@@ -233,6 +233,9 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    public StageData monitor(){
       //return null for the time being...TBD...
+      //Component Data will be fucking fed in...
+      System.out.print("GenericStage"+this._stageNumber);
+      System.out.println(".monitor()");
       return null;
    }
 
