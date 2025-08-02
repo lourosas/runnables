@@ -24,20 +24,14 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public interface DataFeeder{
+   //Calculated Returns
+   public LaunchingMechanismData launchMechData();
+   public RocketData rocketData();
    //Initialized Returns
-   public double angleOfHolds();
-   public double emptyWeight();
-   public double holdsTolerance();
    public void   initialize(String file)throws IOException;
-   public double loadedWeight();
-   public int    numberOfHolds();
-   public int    numberOfStages();
-   public double platformTolerance();
-   //Set Returns
+   //Returns
    public void   setStateSubstate(LaunchStateSubstate cond);
    //Calculated Returns
-   public double holdAngle();
-   public double weight();
    public String toString();
 }
 //////////////////////////////////////////////////////////////////////

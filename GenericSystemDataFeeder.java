@@ -27,158 +27,6 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public class GenericSystemDataFeeder implements DataFeeder,Runnable{
-   public class InnerRocketData{
-      private String model        = null;
-      private int    stages       = 0;
-      private double emptyWeight  = Double.NaN;
-      private double loadedWeight = Double.NaN;
-      private double measWeight   = Double.NaN;//Measured Weight
-      private double tolerance    = Double.NaN;
-      public InnerRocketData
-      (
-         String m,
-         String st,
-         String ew,
-         String lw,
-         String to
-      ){
-         this(m,st,ew,lw,to,Double.NaN);
-      }
-      public InnerRocketData
-      (
-         String model,
-         String stages,
-         String emptyWeight,
-         String loadedWeight,
-         String tolerance,
-         double measuredWeight
-
-      ){
-         this.model(model);
-         this.stages(stages);
-         this.emptyWeight(emptyWeight);
-         this.loadedWeight(loadedWeight);
-         this.tolerance(tolerance);
-         this.measuredWeight(measuredWeight);
-      }
-      public double emptyWeight(){return this.emptyWeight;}
-      public double loadedWeight(){return this.loadedWeight;}
-      public double measuredWeight(){return this.measuredWeight;}
-      public String model(){return this.model;}
-      public double tolerance(){return this.tolerance;}
-      public int stages(){return this.stages;}
-      private void model(String m){ this.model = m; }
-      private void stages(String st){
-         try{
-            this.stages = Integer.parseInt(st);
-         }
-         catch(NumberFormatException nfe){this.stages = -1;}
-      }
-      private void emptyWeight(String ew){
-         try{
-            this.emptyWeight = Double.parseDouble(ew);
-         }
-         catch(NumberFormatException nfe){
-            this.emptyWeight = Double.NaN;
-         }
-      }
-      private void loadedWeight(String lw){
-         try{
-            this.loadedWeight = Double.parseDouble(lw);
-         }
-         catch(NumberFormatException nfe){
-            this.emptyWeight = Double.NaN;
-         }
-      }
-      private void measuredWeight(double mw){
-         this.measuredWeight = mw;
-      }
-      private void tolerance(string t){
-         try{
-            this.tolerance = Double.parseDouble(t);
-         }
-         catch(NumberFormatException nfe){
-            this.tolerace = Double.NaN;
-         }
-      }
-   }
-
-   public class InnerLaunchingMechanismData{
-      private String   model          = null;
-      private int      holds          = -1;
-      private double   holdsAngle     = Double.NaN;
-      private double   holdsTolerance = Double.NaN;
-      private double   measuredAngle  = Double.NaN;
-      private double   totalTolerance = Double.NaN;
-
-      public InnerLaunchingMechanismData
-      (
-         String m,
-         String a,
-         String h,
-         String hT,
-         String tT
-      ){
-         this(m,a,h,hT,tT,Double.NaN);
-      }
-      public InnerLaunchingMechanismData
-      (
-         String model,
-         String angle,
-         String holds,
-         String hTolerance,
-         String tTolerance,
-         double measuredAngle
-      ){
-         this.model(model);
-         this.holdsAngle(angle);
-         this.holds(holds);
-         this.holdsTolerance(hTolerance);
-         this.totalTolerance(tTolerance);
-         this.measuredAngle(measuredAngle);
-      }
-      public int holds(){return this.holds;}
-      public double holdsAngle(){return this.holdsAngle;}
-      public double holdsTolerance{return this.holdsTolerance;}
-      public double measuredAngle(){return this.measuredAngle;}
-      public String model(){return this.model;}
-      public double totalTolerance(){return this.totalTolerance;}
-      private void holds(String holds){
-         try{
-            this.holds = Integer.parseInt(holds);
-         }
-         catch(NumberFormatException nfe){ this.holds = -1;}
-      }
-      private void holdsAngle(String angle){
-         try{
-            this.holdsAngle = Double.parseDouble(angle);
-         }
-         catch(NumberFormatException nfe){this.holdsAngle=Double.NaN;}
-      }
-      private void holdsTolerance(String ht){
-         try{
-            this.holdsTolerance = Double.parseDouble(ht);
-         }
-         catch(NumberFormatException nfe){
-            this.holdsTolerance = Double.NaN;
-         }
-      }
-      private void measuredAngle(Double ma){
-         this.measuredAngle = ma;
-      }
-      private void model(String model){
-         this.model = model;
-      }
-      private void totalTolerance(String tt){
-         try{
-            this.totalTolerance = Double.parseDouble(tt);
-         }
-         catch(NumberFormatException nfe){
-            this.totalTolerance = Double.NaN;
-         }
-      }
-   }
-
    private LaunchStateSubstate.State INIT             = null;
    private LaunchStateSubstate.State PREL             = null;
    private LaunchStateSubstate.State IGNI             = null;
@@ -197,6 +45,8 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //Measured Data
    private double                   _weight;
    private double                   _holdAngle;
+   private LaunchingMechanismData   _mechData;
+   private RocketData               _rocketData;
 
    //Set Data
    private LaunchStateSubstate _cond;
@@ -205,8 +55,6 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    private Thread              _rt0;
 
    //Inner Classes
-   private InnerRocketData             _rocketData;
-   private InnerLaunchingMechanismData _mechData;
 
    {
       INIT = LaunchStateSubstate.State.INITIALIZE;
@@ -224,21 +72,21 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;   
       
       _cond                      = null;
-      _angleOfHolds              = -1;
-      _emptyWeight               = Double.NaN;
-      _holdsTolerance            = Double.NaN;
-      _loadedWeight              = Double.NaN;
-      _mechData                  = null;
-      _numberOfHolds             = 0;
+      //_angleOfHolds              = -1;
+      //_emptyWeight               = Double.NaN;
+      //_holdsTolerance            = Double.NaN;
+      //_loadedWeight              = Double.NaN;
+      //_mechData                  = null;
+      //_numberOfHolds             = 0;
       _obj                       = null;
-      _platformTolerance         = Double.NaN;
+      //_platformTolerance         = Double.NaN;
       _random                    = null;
       _rocketData                = null;
-      _stages                    = 0;
+      //_stages                    = 0;
       _rt0                       = null;
       //Calculated--these two NO LONGER NEEDED!!!
-      _holdAngle                 = Double.NaN;
-      _weight                    = Double.NaN;
+      //_holdAngle                 = Double.NaN;
+      //_weight                    = Double.NaN;
    };
 
    ////////////////////////////Constructors///////////////////////////
@@ -263,12 +111,28 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
          read = new LaunchSimulatorJsonFileReader(file);
          Hashtable<String,String> ht = null;
          ht = read.readLaunchingMechanismInfo();
-         String m  = ht.get("model");
-         String ha = ht.get("angle_of_holds");
-         String nh = ht.get("number_of_holds");
-         String ho = ht.get("holds_tolerance");
-         String tt = ht.get("total_tolerance");
-         this._mechData=new InnerLaunchingMechanismData(m,ha,nh,ho,tt);
+         List<MechanismSupportData> l = null;
+         String m  = null;       //Model
+         int    nh = -1;         //Number of Holds
+         double ha = Double.NaN; //Holds Angle
+         double ho = Double.NaN; //Holds Tolerance
+         double tt = Double.NaN; //Total Tolerance
+         m = ht.get("model");
+         try{nh = Integer.parseInt(ht.get("number_of_holds"));}
+         catch(NumberFormatException nfe){nh = -1;}
+         try{ha = Double.parseDouble(ht.get("angle_of_holds"));}
+         catch(NumberFormatException nfe){ha = Double.NaN;}
+         try{ho = Double.parseDouble(ht.get("holds_tolerance"));}
+         catch(NumberFormatException nfe){ho = Double.NaN;}
+         try{tt = Double.parseDouble(ht.get("total_tolerance"));}
+         catch(){tt = Double.NaN;}
+         l = new LinkedList<MechanismSupportData>();
+         for(int i = 0; i < nh; ++i){
+            MechanismSupportData msd = null;
+            msd = new GenericMechanismSupportData(ha,   //Hold Angle
+                                                  null, //Error
+                                                  null, //Force Vec);
+         }
       }
       catch(IOException ioe){
          ioe.printStackTrace();
@@ -285,13 +149,31 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
          read = new LaunchSimulatorJsonFileReader(file);
          Hashtable<String,String> ht = null;
          ht = read.readRocketInfo();
-         //Now try to set everything up...
-         String ew = ht.get("empty_weight");
-         String lw = ht.get("loaded wieght");
-         String st = ht.get("stages");
-         String m  = ht.get("model");
-         String t  = ht.get("tolerance");
-         this._rocketData = new InnerRocketData(m,st,ew,lw,t);
+         double ew = Double.NaN;  //Empty  Weight
+         double lw = Double.NaN;  //Loaded Weight
+         int    ns = -1;          //Number of Stages
+         String m  = null;        //Model
+         double t  = Double.NaN;  //Tolerance
+         try{ew = Double.parseDouble(ht.get("empty_weight"));}
+         catch(NumberFormatException nfe){ew = Double.NaN;}
+         try{lw = Double.parseDouble(ht.get("loaded_weight"));}
+         catch(NumberFormatException nfe){lw = Double.NaN;}
+         try{ns = Integer.parseInt(ht.get("stages"));}
+         catch(NumberFormatException nfe){ns = -1;}
+         m = ht.get("model");
+         try{Double.parseDouble(ht.get("tolerance"));}
+         catch(NumberFormatException nfe){t = Double.NaN; }
+         //Try to set up everything...
+         this._rocketData = new GenericRocketData(m, //model
+                                                 -1, //current stage
+                                                  ns,//No. of Stages
+                                                  ew,//empty
+                                                  lw,//loaded
+                                                  Double.NaN,//calc W
+                                                  false,//isError
+                                                  null,//Error
+                                                  null,//stages List
+                                                  t);//Tolerance
       }
       catch(IOException ioe){
          ioe.printStackTrace();
@@ -486,7 +368,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
                double emptyWeight = this._rocketData.emptyWeight();
                min   = (int)(emptyWeight*(1-scale));
                max   = (int)(emptyWeight*(1+scale));
-               value = (this._random.nextInt(max - min +1) + min;
+               value = (this._random.nextInt(max - min +1) + min);
             }
             weight = (double)value;
          }
@@ -530,32 +412,40 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    //
    //
+   /*
    public double angleOfHolds(){
       return this._angleOfHolds;
    }
+   */
 
    //
    //
    //
+   /*
    public double emptyWeight(){
       return this._emptyWeight;
    }
+   */
 
    //
    //
    //
+   /*
    public double holdAngle(){
       synchronized(this._obj){
          return this._holdAngle;
       }
    }
+   */
 
    //
    //
    //
+   /*
    public double holdsTolerance(){
       return this._holdsTolerance;
    }
+   */
 
    //
    //
@@ -564,9 +454,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       try{
          this.readRocketData(file);
          this.readLaunchingMechanismData(file);
-         /*
-         this.readTankData(file);
-         */
+         //this.readTankData(file);
       }
       catch(IOException ioe){
          ioe.printStackTrace();
@@ -577,32 +465,54 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    //
    //
+   public LaunchingMechanismData launchMechData(){
+      return _mechData;
+   }
+
+   //
+   //
+   //
+   /*
    public double loadedWeight(){
       //I am "thinking" the loaded weight and empty weight should
       //be consistent
       return this._loadedWeight;
    }
+   */
 
    //
    //
    //
+   /*
    public int numberOfHolds(){
       return this._numberOfHolds;
    }
+   */
 
    //
    //
    //
+   /*
    public int numberOfStages(){
       return this._stages;
    }
+   */
 
    //
    //
    //
+   /*
    public double platformTolerance(){
       //Should remain consistant...
       return this._platformTolerance;
+   }
+   */
+
+   //
+   //
+   //
+   public RocketData rocketData(){
+      return this._rocketData;
    }
 
    //
@@ -615,11 +525,13 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    //
    //
+   /*
    public double weight(){
       synchronized(this._obj){
          return this._weight;
       }
    }
+   */
 
    //
    //

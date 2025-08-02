@@ -32,6 +32,7 @@ public interface RocketData{
    public int numberOfStages();
    public StageData stage(int stage);
    public List<StageData> stages();
+   public double tolerance();
    public String toString();
 }
 //////////////////////////////////////////////////////////////////////

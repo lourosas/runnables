@@ -32,6 +32,7 @@ public class GenericRocketData implements RocketData{
    private String                 _model;
    private int                    _numberOfStages;
    private List<StageData>        _stageData;
+   private double                 _tolerance;
 
    {
       _calculatedWeight = Double.NaN;
@@ -43,6 +44,7 @@ public class GenericRocketData implements RocketData{
       _model            = null;
       _numberOfStages   = -1;
       _stageData        = null;
+      _tolerance        = Double.NaN;
    };
 
    //////////////////////////Constructor//////////////////////////////
@@ -59,7 +61,8 @@ public class GenericRocketData implements RocketData{
       double          calculatedWeight,
       boolean         isError,
       String          error,
-      List<StageData> stages
+      List<StageData> stages,
+      double          tolerance
    ){
       this.model(model);
       this.currentStage(currentStage);
@@ -70,6 +73,7 @@ public class GenericRocketData implements RocketData{
       this.isError(isError);
       this.error(error);
       this.stages(stages);
+      this.tolerance(tolerance);
    }
 
    ////////////////////////////Private Methods////////////////////////
@@ -137,6 +141,15 @@ public class GenericRocketData implements RocketData{
    private void stages(List<StageData> data){
       if(data != null){
         this._stageData = data;
+      }
+   }
+
+   //
+   //
+   //
+   private void tolerance(double tolerance){
+      if(tolerance > 0.){
+         this._tolerance = tolerance;
       }
    }
 
@@ -223,6 +236,13 @@ public class GenericRocketData implements RocketData{
    //
    //
    //
+   public double tolerance(){
+      return this._tolerance;
+   }
+
+   //
+   //
+   //
    public String toString(){
       String value = new String("\nRocket Data: ");
       value += "\nEmpty Weight: "+this.emptyWeight();
@@ -234,6 +254,7 @@ public class GenericRocketData implements RocketData{
       value += "\nCalculated Weight: "+this.calculatedWeight();
       value += "\nModel:             "+ this.model();
       value += "\nCurrent Stage:     "+this.currentStage();
+      value += "\nTolerance:         "+this.tolerance();
       value += "\nNumber of Stages:  " + this.numberOfStages();
       try{
          for(int i = 0; i < this._stageData.size(); ++i){
