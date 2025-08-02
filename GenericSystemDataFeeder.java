@@ -53,9 +53,6 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    private Object              _obj;
    private Random              _random;
    private Thread              _rt0;
-
-   //Inner Classes
-
    {
       INIT = LaunchStateSubstate.State.INITIALIZE;
       PREL = LaunchStateSubstate.State.PRELAUNCH;
@@ -76,7 +73,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       //_emptyWeight               = Double.NaN;
       //_holdsTolerance            = Double.NaN;
       //_loadedWeight              = Double.NaN;
-      //_mechData                  = null;
+      _mechData                  = null;
       //_numberOfHolds             = 0;
       _obj                       = null;
       //_platformTolerance         = Double.NaN;
@@ -112,12 +109,13 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
          Hashtable<String,String> ht = null;
          ht = read.readLaunchingMechanismInfo();
          List<MechanismSupportData> l = null;
-         String m  = null;       //Model
+         int    m  = -1;       //Model
          int    nh = -1;         //Number of Holds
          double ha = Double.NaN; //Holds Angle
          double ho = Double.NaN; //Holds Tolerance
          double tt = Double.NaN; //Total Tolerance
-         m = ht.get("model");
+         try{m = Integer.parseInt(ht.get("model"));}
+         catch(NumberFormatException npe){ m = -1;}
          try{nh = Integer.parseInt(ht.get("number_of_holds"));}
          catch(NumberFormatException nfe){nh = -1;}
          try{ha = Double.parseDouble(ht.get("angle_of_holds"));}
@@ -125,14 +123,30 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
          try{ho = Double.parseDouble(ht.get("holds_tolerance"));}
          catch(NumberFormatException nfe){ho = Double.NaN;}
          try{tt = Double.parseDouble(ht.get("total_tolerance"));}
-         catch(){tt = Double.NaN;}
+         catch(NumberFormatException nfe){tt = Double.NaN;}
          l = new LinkedList<MechanismSupportData>();
          for(int i = 0; i < nh; ++i){
             MechanismSupportData msd = null;
             msd = new GenericMechanismSupportData(ha,   //Hold Angle
                                                   null, //Error
-                                                  null, //Force Vec);
+                                                  null, //Force Vec
+                                                  i,    //ID
+                                                  false,//error
+                                                  Double.NaN,//Force
+                                                  ho);  //holds tol
+            l.add(msd);
          }
+         LaunchingMechanismData mech = null;
+         mech = new GenericLaunchingMechanismData(
+                                         null,       //error
+                                         nh,         //number of holds
+                                         false,      //Is Error
+                                         Double.NaN, //Calc Weight
+                                         m,          //model
+                                         this._cond, //State/Substate
+                                         tt,         //Total Tolerance
+                                         l);         //Mech Supp List
+         this._mechData = mech;
       }
       catch(IOException ioe){
          ioe.printStackTrace();
@@ -189,110 +203,38 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    //
    //
-   private void setAngle(){
-      double scale = Double.NaN;
-      int    min   = -1;
-      int    max   = -1;
-      int    value = -1;
-      //Set Angle
-      try{
-         synchronized(this._obj){
-            if(this._cond.state() == INIT){
-               //scale = 0.025;
-               scale = 0.01;
-               min   = (int)(this.angleOfHolds()*(1-scale));
-               max   = (int)(this.angleOfHolds()*(1+scale));
-               value = this._random.nextInt(max - min + 1) + min;
-            }
-            this._holdAngle = value;
-         }
-      }
-      catch(NullPointerException npe){
-         synchronized(this._obj){
-            this._holdAngle = Double.NaN;
-         }
-      }
-   }
-
-   //
-   //
-   //
-   private void setEmptyWeight(Hashtable<String,String> ht){
-      String ew = ht.get("empty_weight");
-      try{
-         this._emptyWeight = Double.parseDouble(ew);
-      }
-      catch(NumberFormatException nfe){
-         this._emptyWeight = Double.NaN;
-      }
-   }
-
-   //
-   //
-   //
-   private void setHoldsAngle(Hashtable<String,String> ht){
-      String ha = ht.get("angle_of_holds");
-      try{
-         this._angleOfHolds = Integer.parseInt(ha);
-      }
-      catch(NumberFormatException nfe){
-         this._angleOfHolds = -1;
-      }
-   }
-
-   //
-   //
-   //
-   private void setHoldsTolerance(Hashtable<String,String> ht){
-      String hldt = ht.get("holds_tolerance");
-      try{
-         this._holdsTolerance = Double.parseDouble(hldt);
-      }
-      catch(NumberFormatException nfe){
-         this._holdsTolerance = Double.NaN;
-      }
-   }
-
-   //
-   //
-   //
-   private void setLoadedWeight(Hashtable<String,String> ht){
-      String lw = ht.get("loaded_weight");
-      try{
-         this._loadedWeight = Double.parseDouble(lw);
-      }
-      catch(NumberFormatException nfe){
-         this._loadedWeight = Double.NaN;
-      }
-   }
-
-   //
-   //
-   //
    private void setMechanism(){
       double scale = Double.NaN;
       int    min   = -1;
       int    max   = -1;
       int    value = -1;
       double angle = Double.NaN;
-      String m  = "";
-      String nh = "";
-      String ah = "";
-      String ht = "";
-      String tt = "";
+      int     m    = -1;         //Model
+      int     nh   = -1;         //Number of holds
+      double  ah   = Double.NaN; //Angle of Holds
+      double  ht   = Double.NaN; //Holds Tolerance
+      double  tt   = Double.NaN; //Totla Tolerance
+      
+      List<MechanismSupportData> l = null; //Mechanism Support Data
+
       try{
          //Set the Mechanism Data
          synchronized(this){
             m  = this._mechData.model();
-            nh = this._mechData.holds() + "";
-            ah = this._mechData.holdsAngle() + "";
-            ht = this._mechData.holdsTolerance() + "";
-            tt = this._mechData.totalTolerance() + "";
+            nh = this._mechData.holds();
+            //Holds Angle will need to be determine via the List!!
+            //ah = this._mechData.holdsAngle() + "";
+            //Holds Tolerance will need to be determined via the List!
+            //ht = this._mechData.holdsTolerance() + "";
+            tt = this._mechData.tolerance();
             if(this._cond.state() == INIT){
                scale        = 0.01;
-               double angle = this._mechData.holdsAngle();
+               //Determined VIA THE List
+               //double angle = this._mechData.holdsAngle();
                min   = (int)(angle*(1-scale));
                max   = (int)(angle*(1+scale));
+               //Just GET ALL OF THE HOLDS ANGLES and Store in the
+               //LIST!!!!  that is LITERALLY THE BEST way to do it!
                value = this._random.nextInt(max - min + 1) + min;
             }
             angle = (double)value;
@@ -312,32 +254,6 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
             md = new InnerLaunchingMechansismData(m,nh,ah,ht,tt,angle);
             this._mechData = md;
          }
-      }
-   }
-
-   //
-   //
-   //
-   private void setNumberOfHolds(Hashtable<String,String> ht){
-      String nh = ht.get("number_of_holds");
-      try{
-         this._numberOfHolds = Integer.parseInt(nh);
-      }
-      catch(NumberFormatException nfe){
-         this._numberOfHolds = -1;
-      }
-   }
-
-   //
-   //
-   //
-   private void setPlatformTolerance(Hashtable<String,String> ht){
-      String pt = ht.get("total_tolerance");
-      try{
-         this._platformTolerance = Double.parseDouble(pt);
-      }
-      catch(NumberFormatException nfe){
-         this._platformTolerance = Double.NaN;
       }
    }
 
@@ -393,16 +309,6 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    //
    //
-   private void setStages(Hashtable<String,String> ht){
-      String st = ht.get("stages");
-      try{
-         this._stages = Integer.parseInt(st);
-      }
-      catch(NumberFormatException nfe){
-         this._stages = -1;
-      }
-   }
-
    private void setUpThread(){
       this._rt0 = new Thread(this, "Generic System Data Feeder");
       this._rt0.start();
