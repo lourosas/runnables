@@ -205,102 +205,120 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    private void setMechanism(){
       double scale = Double.NaN;
-      int    min   = -1;
-      int    max   = -1;
-      int    value = -1;
-      double angle = Double.NaN;
-      int     m    = -1;         //Model
-      int     nh   = -1;         //Number of holds
+      int min   = -1; int max   = -1;
+      int value = -1; int  m    = -1; //Model
+      int nh       = -1;         //Number of holds
       double  ah   = Double.NaN; //Angle of Holds
       double  ht   = Double.NaN; //Holds Tolerance
-      double  tt   = Double.NaN; //Totla Tolerance
+      double  tt   = Double.NaN; //Total Tolerance
       
       List<MechanismSupportData> l = null; //Mechanism Support Data
+      List<MechanismSupportData> t = null;
 
       try{
          //Set the Mechanism Data
          synchronized(this){
+            l  = new LinkedList<MechanismSupportData>();
             m  = this._mechData.model();
             nh = this._mechData.holds();
-            //Holds Angle will need to be determine via the List!!
-            //ah = this._mechData.holdsAngle() + "";
-            //Holds Tolerance will need to be determined via the List!
-            //ht = this._mechData.holdsTolerance() + "";
             tt = this._mechData.tolerance();
-            if(this._cond.state() == INIT){
-               scale        = 0.01;
-               //Determined VIA THE List
-               //double angle = this._mechData.holdsAngle();
-               min   = (int)(angle*(1-scale));
-               max   = (int)(angle*(1+scale));
-               //Just GET ALL OF THE HOLDS ANGLES and Store in the
-               //LIST!!!!  that is LITERALLY THE BEST way to do it!
-               value = this._random.nextInt(max - min + 1) + min;
+            //Grab the supports!!!
+            t = this._mechData.supportData();
+            Iterator<MechanismSupportData> it = t.iterator();
+            while(it.hasNext()){
+               int id = it.next().id();
+               ah     = it.next().angle();
+               if(this._cond.state() == INIT){
+                  scale = 0.01;
+               }
+               min   = (int)(ah*(1-scale));
+               max   = (int)(ah*(1+scale));
+               value = this._random.nextInt(max - min +1) + min; 
+               ah    = (double)value;
+               MechanismSupportData msd = null;
+               msd = new GenericMechanismSupportData(ah,
+                                                     null,
+                                                     null,
+                                                     id,
+                                                     false,
+                                                     Double.NaN,
+                                                     ht);
+               l.add(msd);
             }
-            angle = (double)value;
          }
       }
       catch(NullPointerException npe){
-         m      = "";
-         nh     = "";
-         ah     = "";
-         ht     = "";
-         tt     = "";
-         angle  = Double.NaN;
+         m = -1; nh = -1; ah = Double.NaN; ht = Double.NaN;
+         tt = Double.NaN; l  = null;
       }
       finally{
          synchronized(this._obj){
-            InnerLaunchingMechanismData md = null;
-            md = new InnerLaunchingMechansismData(m,nh,ah,ht,tt,angle);
+            LaunchingMechanismData md = null;
+            md = new GenericLaunchingMechanismData(
+                                       null,      //error
+                                       nh,        //number of holds
+                                       false,     //Is Error
+                                       Double.NaN,//Calc Weight
+                                       m,         //model
+                                       this._cond,//State/Substate
+                                       tt,        //total tolerance
+                                       l);        //Mech Supp List
             this._mechData = md;
          }
       }
    }
+
+   /*Separate out the components...definitely easier and a task I
+    * have started to undertake
+   //
+   //
+   //
+   private void setMechanismSupports(){}
+   */
 
    //
    //
    //
    private void setRocket(){
       double scale = Double.NaN;
-      int    min   = -1;
-      int    max   = -1;
-      int    value = -1;
-      double weight= Double.NaN;
-      String m  = "";
-      String st = "";
-      String ew = "";
-      String lw = "";
-      String to = "";
+      int min = -1;int max   = -1;int value = -1; String m = "";
+      int st  = -1;double ew = Double.NaN;double lw = Double.NaN;
+      double to = Double.NaN;double weight= Double.NaN;
       try{
          //set the rocket weight as needed
          synchronized(this._obj){
             m  = this._rocketData.model();
-            st = this._rocketData.stages() + "";
-            ew = this._rocketData.emptyWeight() + "";
-            lw = this._rocketData.loadedWeight() + "";
-            to = this._rocketData.tolerance() + "";
+            st = this._rocketData.numberOfStages();
+            ew = this._rocketData.emptyWeight();
+            lw = this._rocketData.loadedWeight();
+            to = this._rocketData.tolerance();
             if(this._cond.state() == INIT){
                scale = 0.01;
-               double emptyWeight = this._rocketData.emptyWeight();
-               min   = (int)(emptyWeight*(1-scale));
-               max   = (int)(emptyWeight*(1+scale));
-               value = (this._random.nextInt(max - min +1) + min);
+               min   = (int)(ew*(1-scale));
+               max   = (int)(ew*(1+scale));
             }
+            value  = (this._random.nextInt(max - min +1) + min);
             weight = (double)value;
          }
       }
       catch(NullPointerException npe){
-         m      = "";
-         st     = "";
-         ew     = "";
-         lw     = "";
-         to     = "";
-         weight = Double.NaN;
+         m  = ""; st = -1; ew = Double.NaN; lw = Double.NaN;
+         value = -1; to = Double.NaN; weight = Double.NaN;
       }
       finally{
          synchronized(this._obj){
-            InnerRocketData rd = null;
-            rd = new InnerRocketData(m,st,ew,lw,to,weight);
+            RocketData rd = null;
+            //rd = new GenericRocketData(...);
+            rd = new GenericRocketData(m,       //model
+                                       -1,      //Current Stage
+                                       st,      //Number of Stages
+                                       ew,      //empty weight
+                                       lw,      //loaded weight
+                                       weight,  //Calculated weight
+                                       false,   //Is Error
+                                       null,    //Error
+                                       null,    //Stages List
+                                       to);     //tolerance
             this._rocketData = rd;
          }
       }
@@ -467,6 +485,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
             //Do this right!!!
             this.setRocket();
             //this.setMechanism();
+            //this.setMechanismSupports();
             //this.setStage();
             Thread.sleep(1);
          }

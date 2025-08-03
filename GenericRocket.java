@@ -176,7 +176,8 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
                                       this._calculatedWeight,
                                       this._isError,
                                       this._error,
-                                      list);
+                                      list,
+                                      this._tolerance);
       }
       catch(NullPointerException npe){
          npe.printStackTrace();
