@@ -25,8 +25,9 @@ import rosas.lou.clock.*;
 
 public interface DataFeeder{
    //Calculated Returns
-   public LaunchingMechanismData launchMechData();
-   public RocketData rocketData();
+   public LaunchingMechanismData     launchMechData();
+   public List<MechanismSupportData> mechSuppData();
+   public RocketData                 rocketData();
    //Initialized Returns
    public void   initialize(String file)throws IOException;
    //Returns

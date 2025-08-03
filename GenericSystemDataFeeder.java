@@ -43,10 +43,11 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
 
    //dont need if have weight!
    //Measured Data
-   private double                   _weight;
-   private double                   _holdAngle;
-   private LaunchingMechanismData   _mechData;
-   private RocketData               _rocketData;
+   private double                     _weight;
+   private double                     _holdAngle;
+   private LaunchingMechanismData     _mechData;
+   private RocketData                 _rocketData;
+   private List<MechanismSupportData> _suppData;
 
    //Set Data
    private LaunchStateSubstate _cond;
@@ -79,6 +80,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       //_platformTolerance         = Double.NaN;
       _random                    = null;
       _rocketData                = null;
+      _suppData                  = null;
       //_stages                    = 0;
       _rt0                       = null;
       //Calculated--these two NO LONGER NEEDED!!!
@@ -147,9 +149,51 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
                                          tt,         //Total Tolerance
                                          l);         //Mech Supp List
          this._mechData = mech;
+         this._suppData = l;//Get the Support Data, as well
       }
       catch(IOException ioe){
          ioe.printStackTrace();
+         throw ioe;
+      }
+   }
+
+   //KEEP
+   //
+   //
+   private void readMechanismSupportData(String file)
+   throws IOException{
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         Hashtable<String,String> ht = null;
+         ht = read.readLaunchingMechanismInfo();
+         List<MechanismSupportData> l = null;
+         int     nh = -1;        //Number of Holds
+         double  ha = Double.NaN;//Holds angle
+         double  ho = Double.NaN;//Holds Tolerance
+         try{nh = Integer.parseInt(ht.get("number_of_holds"));}
+         catch(NumberFormatException nfe){nh = -1;}
+         try{ha = Double.parseDouble(ht.get("angle_of_holds"));}
+         catch(NumberFormatException nfe){ha = Double.NaN;}
+         try{ho = Double.parseDouble(ht.get("holds_tolerance"));}
+         catch(NumberFormatException nfe){ho = Double.NaN;}
+         l = new LinkedList<MechanismSupportData>();
+         for(int i = 0; i < nh; ++i){
+            MechanismSupportData msd = null;
+            msd = new GenericMechanismSupportData(ha,  //Hold Angle
+                                                  null,//Error
+                                                  null,//Force Vec
+                                                  i,   //ID
+                                                  false,//Error
+                                                  Double.NaN,//Force
+                                                  ho); //Hold tol
+            l.add(msd);
+         }
+         this._suppData = l;
+      }
+      catch(IOException ioe){
+         ioe.printStackTrace();
+         this._suppData = null;
          throw ioe;
       }
    }
@@ -217,7 +261,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
 
       try{
          //Set the Mechanism Data
-         synchronized(this){
+         synchronized(this._obj){
             l  = new LinkedList<MechanismSupportData>();
             m  = this._mechData.model();
             nh = this._mechData.holds();
@@ -226,8 +270,9 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
             t = this._mechData.supportData();
             Iterator<MechanismSupportData> it = t.iterator();
             while(it.hasNext()){
-               int id = it.next().id();
-               ah     = it.next().angle();
+               MechanismSupportData data = it.next();
+               int id = data.id();
+               ah     = data.angle();
                if(this._cond.state() == INIT){
                   scale = 0.01;
                }
@@ -264,17 +309,61 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
                                        tt,        //total tolerance
                                        l);        //Mech Supp List
             this._mechData = md;
+            this._suppData = l;
          }
       }
    }
 
-   /*Separate out the components...definitely easier and a task I
-    * have started to undertake
    //
    //
    //
-   private void setMechanismSupports(){}
-   */
+   private void setMechanismSupports(){
+      double scale = Double.NaN;
+      int id    = -1; int min = -1;
+      int value = -1; int max = -1;  
+      double ah = Double.NaN; //Angle of Holds
+      double ht = Double.NaN; //Holds Tolerance
+
+      List<MechanismSupportData> l = null;
+      List<MechanismSupportData> t = null;
+
+      try{
+         synchronized(this._obj){
+            l = new LinkedList<MechanismSupportData>();
+            t = this._suppData;
+            Iterator<MechanismSupportData> it = t.iterator();
+            while(it.hasNext()){
+               MechanismSupportData data = it.next();
+               id = data.id();
+               ah     = data.angle();
+               if(this._cond.state() == INIT){
+                  scale = 0.01;
+               }
+               min   = (int)(ah*(1-scale));
+               max   = (int)(ah*(1+scale));
+               value = this._random.nextInt(max - min + 1) + min;
+               ah    = (double)value;
+               MechanismSupportData msd = null;
+               msd = new GenericMechanismSupportData(ah,
+                                                     null,
+                                                     null,
+                                                     id,
+                                                     false,
+                                                     Double.NaN,
+                                                     ht);
+               l.add(msd);
+            }
+         }
+      }
+      catch(NullPointerException npe){
+         ah = Double.NaN; ht = Double.NaN; id = -1; l = null;
+      }
+      finally{
+         synchronized(this._obj){
+            this._suppData = l;
+         }
+      }
+   }
 
    //
    //
@@ -378,6 +467,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       try{
          this.readRocketData(file);
          this.readLaunchingMechanismData(file);
+         this.readMechanismSupportData(file);
          //this.readTankData(file);
       }
       catch(IOException ioe){
@@ -390,7 +480,15 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    //
    public LaunchingMechanismData launchMechData(){
-      return _mechData;
+      return this._mechData;
+   }
+
+   //Going to go ahead do this correctly and less complex
+   //The MechanismSupportData is Separate!!!
+   //
+   //
+   public List<MechanismSupportData> mechSuppData(){
+      return this._suppData;
    }
 
    //

@@ -266,10 +266,17 @@ Runnable{
    //
    //
    private void measureAngle(){
-      //Make this more complex based on release...for now, just
-      //get something working
       try{
-         double degHolds = this._feeder.holdAngle();
+         double degHolds = Double.NaN;
+         List<MechanismSupportData> list = null;
+         list = this._feeder.mechSuppData();
+         Iterator<MechanismSupportData> it = list.iterator();
+         while(it.hasNext()){
+            MechanismSupportData data = it.next();
+            if(data.id() == this._id){
+               degHolds = data.angle(); 
+            }
+         }
          //Convert to Radians
          this._angle = ((Math.PI)/180. * degHolds);
       }
@@ -284,8 +291,10 @@ Runnable{
    //
    private void measureArmForce(){
       try{
-         double weight  = this._feeder.weight();
-         int    holds   = this._feeder.numberOfHolds();
+         RocketData rd              = this._feeder.rocketData();
+         LaunchingMechanismData lmd = this._feeder.launchMechData();
+         double weight  = rd.calculatedWeight();
+         int    holds   = lmd.holds();
          weight        /= holds;
          weight        /= Math.sin(this._angle);
          this._armForce = weight;
