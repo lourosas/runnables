@@ -270,11 +270,20 @@ Runnable{
          double degHolds = Double.NaN;
          List<MechanismSupportData> list = null;
          list = this._feeder.mechSuppData();
+         System.out.println("GMS 1================");
+         System.out.println(list.size());
+         System.out.println("GMS 2================");
          Iterator<MechanismSupportData> it = list.iterator();
          while(it.hasNext()){
             MechanismSupportData data = it.next();
             if(data.id() == this._id){
+         System.out.println("GMS 3================");
+         System.out.println(data.id());
+         System.out.println("GMS 4================");
                degHolds = data.angle(); 
+         System.out.println("GMS 5================");
+         System.out.println(degHolds);
+         System.out.println("GMS 6================");
             }
          }
          //Convert to Radians
@@ -686,6 +695,7 @@ Runnable{
             }
             if(this._start){
                this.measureAngle();
+               /*
                this.measureArmForce();
                this.measureForceVector();
                this.isError();
@@ -695,13 +705,13 @@ Runnable{
                   //Record the error, in addition...
                   this.alertErrorListeners();
                }
+               */
                //else{
                   //Save off the data as needed...
                   this.setUpMechanismSupportData();
                //}
                if(this._state.state() == INIT){
                   Thread.sleep(5000);
-                  //Thread.sleep(10);
                }
             }
             else{

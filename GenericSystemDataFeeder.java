@@ -54,6 +54,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    private Object              _obj;
    private Random              _random;
    private Thread              _rt0;
+   private boolean             _start;
    {
       INIT = LaunchStateSubstate.State.INITIALIZE;
       PREL = LaunchStateSubstate.State.PRELAUNCH;
@@ -83,6 +84,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       _suppData                  = null;
       //_stages                    = 0;
       _rt0                       = null;
+      _start                     = false;
       //Calculated--these two NO LONGER NEEDED!!!
       //_holdAngle                 = Double.NaN;
       //_weight                    = Double.NaN;
@@ -196,6 +198,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
          this._suppData = null;
          throw ioe;
       }
+      catch(NullPointerException npe){npe.printStackTrace();}
    }
 
    //KEEP
@@ -335,7 +338,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
             while(it.hasNext()){
                MechanismSupportData data = it.next();
                id = data.id();
-               ah     = data.angle();
+               ah = data.angle();
                if(this._cond.state() == INIT){
                   scale = 0.01;
                }
@@ -356,6 +359,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
          }
       }
       catch(NullPointerException npe){
+         npe.printStackTrace();
          ah = Double.NaN; ht = Double.NaN; id = -1; l = null;
       }
       finally{
@@ -468,6 +472,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
          this.readRocketData(file);
          this.readLaunchingMechanismData(file);
          this.readMechanismSupportData(file);
+         this._start = true;
          //this.readTankData(file);
       }
       catch(IOException ioe){
@@ -480,7 +485,9 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    //
    public LaunchingMechanismData launchMechData(){
-      return this._mechData;
+      synchronized(this._obj){
+         return this._mechData;
+      }
    }
 
    //Going to go ahead do this correctly and less complex
@@ -488,7 +495,9 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    //
    public List<MechanismSupportData> mechSuppData(){
-      return this._suppData;
+      synchronized(this._obj){
+         return this._suppData;
+      }
    }
 
    //
@@ -534,7 +543,9 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    //
    public RocketData rocketData(){
-      return this._rocketData;
+      synchronized(this._obj){
+         return this._rocketData;
+      }
    }
 
    //
@@ -580,12 +591,14 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    public void run(){
       try{
          while(true){
-            //Do this right!!!
-            this.setRocket();
-            //this.setMechanism();
-            //this.setMechanismSupports();
-            //this.setStage();
-            Thread.sleep(1);
+            if(this._cond != null){
+               //Do this right!!!
+               //this.setRocket();
+               //this.setMechanism();
+               this.setMechanismSupports();
+               //this.setStage();
+            }
+            Thread.sleep(1000);
          }
       }
       catch(InterruptedException ie){}
