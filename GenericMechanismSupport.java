@@ -167,6 +167,10 @@ Runnable{
       this._isError |= this.isAngleError();
       this._isError |= this.isForceError();
       this._isError |= this.isVectorError();
+      System.out.println("GMS 1\n---------------------------------");
+      System.out.println(this._isError);
+      System.out.println(this._error);
+      System.out.println("---------------------------------\nGMS 2");
    }
 
    //This is the measured downward weight, not related to the
@@ -534,7 +538,7 @@ Runnable{
       this._rt0.start();
    }
 
-   //Swt the this._tolerance property
+   //Set the this._tolerance property
    //
    //
    private void tolerance
@@ -687,9 +691,9 @@ Runnable{
             if(this._start){
                this.measureAngle();
                this.measureArmForce();
-               /*
                this.measureForceVector();
                this.isError();
+               /*
                if(this._isError){
                   //not going to do this for the time being...
                   //figure out HOW to implement software interrupts!
