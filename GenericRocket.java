@@ -140,7 +140,11 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
-   private void measureWeight(List<StageData> sd/*,CasuledData cap*/){
+   private void measureWeight
+   (
+      List<StageData> sd
+      /*,CapsuleData cap*/
+   ){
       this._calculatedWeight = 0;
       try{
          Iterator<StageData> it = sd.iterator();
@@ -468,10 +472,12 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
                this.alertSystemListeners();
                if(this._state.state() == INIT){
                   //Temporary Prints, need to remove...
-                  System.out.print("*****Rocket: ");
+                  System.out.println("GR 1\n+++++++++++++++++++++++");
+                  System.out.print("Rocket: ");
                   System.out.println(Thread.currentThread().getName());
-                  System.out.print("*****Rocket: ");
+                  System.out.print("Rocket: ");
                   System.out.println(Thread.currentThread().getId());
+                  System.out.println("+++++++++++++++++++++++\nGR 2");
                   Thread.sleep(10000);
                }
             }
