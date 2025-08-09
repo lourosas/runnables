@@ -238,7 +238,6 @@ ErrorListener, Runnable{
       this._measuredWeight = 0.;
       this._supportsData = new LinkedList<MechanismSupportData>();
       Iterator<MechanismSupport> it = this._supports.iterator();
-      //Fucking Piece of Shit error!!! Needs to be hunted down!!!
       while(it.hasNext()){
          try{
             MechanismSupportData msd = it.next().monitor();

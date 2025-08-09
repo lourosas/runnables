@@ -50,6 +50,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
 
    //Measured Data
    private LaunchingMechanismData     _measMechData;
+   private RocketData                 _measRocketData;
    private List<MechanismSupportData> _measSuppData;
 
    //Set Data
@@ -76,6 +77,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       _cond                      = null;
       _mechData                  = null;
       _measMechData              = null;
+      _measRocketData            = null;
       _measSuppData              = null;
       _obj                       = null;
       _random                    = null;
@@ -356,7 +358,6 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
          }
       }
       catch(NullPointerException npe){
-         npe.printStackTrace();
          ah = Double.NaN; ht = Double.NaN; id = -1; l = null;
       }
       finally{
@@ -410,7 +411,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
                                        null,    //Error
                                        null,    //Stages List
                                        to);     //tolerance
-            this._rocketData = rd;
+            this._measRocketData = rd;
          }
       }
    }
@@ -424,44 +425,6 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    }
 
    ////////////////DataFeeder Interface Implmentation/////////////////
-   //
-   //
-   //
-   /*
-   public double angleOfHolds(){
-      return this._angleOfHolds;
-   }
-   */
-
-   //
-   //
-   //
-   /*
-   public double emptyWeight(){
-      return this._emptyWeight;
-   }
-   */
-
-   //
-   //
-   //
-   /*
-   public double holdAngle(){
-      synchronized(this._obj){
-         return this._holdAngle;
-      }
-   }
-   */
-
-   //
-   //
-   //
-   /*
-   public double holdsTolerance(){
-      return this._holdsTolerance;
-   }
-   */
-
    //
    //
    //
@@ -484,7 +447,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    public LaunchingMechanismData launchMechData(){
       synchronized(this._obj){
-         return this._mechData;
+         return this._measMechData;
       }
    }
 
@@ -501,48 +464,9 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    //
    //
-   /*
-   public double loadedWeight(){
-      //I am "thinking" the loaded weight and empty weight should
-      //be consistent
-      return this._loadedWeight;
-   }
-   */
-
-   //
-   //
-   //
-   /*
-   public int numberOfHolds(){
-      return this._numberOfHolds;
-   }
-   */
-
-   //
-   //
-   //
-   /*
-   public int numberOfStages(){
-      return this._stages;
-   }
-   */
-
-   //
-   //
-   //
-   /*
-   public double platformTolerance(){
-      //Should remain consistant...
-      return this._platformTolerance;
-   }
-   */
-
-   //
-   //
-   //
    public RocketData rocketData(){
       synchronized(this._obj){
-         return this._rocketData;
+         return this._measRocketData;
       }
    }
 
@@ -552,17 +476,6 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    public void setStateSubstate(LaunchStateSubstate cond){
       this._cond = cond;
    }
-
-   //
-   //
-   //
-   /*
-   public double weight(){
-      synchronized(this._obj){
-         return this._weight;
-      }
-   }
-   */
 
    //
    //
@@ -591,12 +504,12 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
          while(true){
             if(this._cond != null){
                //Do this right!!!
-               //this.setRocket();
+               this.setRocket();
                //this.setMechanism();
                this.setMechanismSupports();
                //this.setStage();
             }
-            Thread.sleep(1000);
+            Thread.sleep(1);
          }
       }
       catch(InterruptedException ie){}
