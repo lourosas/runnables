@@ -167,10 +167,6 @@ Runnable{
       this._isError |= this.isAngleError();
       this._isError |= this.isForceError();
       this._isError |= this.isVectorError();
-      System.out.println("GMS 1\n---------------------------------");
-      System.out.println(this._isError);
-      System.out.println(this._error);
-      System.out.println("---------------------------------\nGMS 2");
    }
 
    //This is the measured downward weight, not related to the

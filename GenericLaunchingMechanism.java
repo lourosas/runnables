@@ -576,8 +576,10 @@ ErrorListener, Runnable{
                   this.alertSystemListeners();
                //}
                if(this._state.state() == INIT){
+                  System.out.println("GLM 1\n----------------------");
                   System.out.println(Thread.currentThread().getName());
                   System.out.println(Thread.currentThread().getId());
+                  System.out.println("----------------------\nGLM 2");
                   Thread.sleep(10000);//Sleep for 10 secs in INIT
                }
             }
