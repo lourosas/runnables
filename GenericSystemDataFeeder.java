@@ -505,7 +505,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
             if(this._cond != null){
                //Do this right!!!
                this.setRocket();
-               //this.setMechanism();
+               this.setMechanism();
                this.setMechanismSupports();
                //this.setStage();
             }

@@ -291,23 +291,15 @@ Runnable{
    //
    private void measureArmForce(){
       try{
-         System.out.println("What the Fuck?!");
          RocketData rd              = this._feeder.rocketData();
-         //LaunchingMechanismData lmd = this._feeder.launchMechData();
+         LaunchingMechanismData lmd = this._feeder.launchMechData();
          double weight = rd.calculatedWeight();
-         System.out.println("GMS\n-----------------------");
-         System.out.println(weight);
-         System.out.println("-----------------------\nGMS");
-
-         /* temporary
          int    holds   = lmd.holds();
          weight        /= holds;
          weight        /= Math.sin(this._angle);
          this._armForce = weight;
-         */
       }
       catch(NullPointerException npe){
-         npe.printStackTrace();
          //Put in as a stop gap for the time being...
          this._armForce = this._armForce;
       }
