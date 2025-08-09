@@ -42,12 +42,15 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    private LaunchStateSubstate.AscentSubstate    IGNE = null;
 
    //dont need if have weight!
-   //Measured Data
    private double                     _weight;
    private double                     _holdAngle;
    private LaunchingMechanismData     _mechData;
    private RocketData                 _rocketData;
    private List<MechanismSupportData> _suppData;
+
+   //Measured Data
+   private LaunchingMechanismData     _measMechData;
+   private List<MechanismSupportData> _measSuppData;
 
    //Set Data
    private LaunchStateSubstate _cond;
@@ -71,23 +74,15 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;   
       
       _cond                      = null;
-      //_angleOfHolds              = -1;
-      //_emptyWeight               = Double.NaN;
-      //_holdsTolerance            = Double.NaN;
-      //_loadedWeight              = Double.NaN;
       _mechData                  = null;
-      //_numberOfHolds             = 0;
+      _measMechData              = null;
+      _measSuppData              = null;
       _obj                       = null;
-      //_platformTolerance         = Double.NaN;
       _random                    = null;
       _rocketData                = null;
       _suppData                  = null;
-      //_stages                    = 0;
       _rt0                       = null;
       _start                     = false;
-      //Calculated--these two NO LONGER NEEDED!!!
-      //_holdAngle                 = Double.NaN;
-      //_weight                    = Double.NaN;
    };
 
    ////////////////////////////Constructors///////////////////////////
@@ -97,7 +92,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    public GenericSystemDataFeeder(){
       this._random = new Random();
       //Grab the Monitor for the Threads...
-      this._obj    = new Object();
+      this._obj = new Object();
       this.setUpThread();
    }
 
@@ -155,6 +150,8 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       }
       catch(IOException ioe){
          ioe.printStackTrace();
+         this._mechData = null;
+         this._suppData = null;
          throw ioe;
       }
    }
@@ -311,8 +308,8 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
                                        this._cond,//State/Substate
                                        tt,        //total tolerance
                                        l);        //Mech Supp List
-            this._mechData = md;
-            this._suppData = l;
+            this._measMechData = md;
+            this._measSuppData =  l;
          }
       }
    }
@@ -364,7 +361,8 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       }
       finally{
          synchronized(this._obj){
-            this._suppData = l;
+            //Measured has GOT to be different than what is saved off
+            this._measSuppData = l;
          }
       }
    }
@@ -496,7 +494,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    public List<MechanismSupportData> mechSuppData(){
       synchronized(this._obj){
-         return this._suppData;
+         return this._measSuppData;
       }
    }
 
