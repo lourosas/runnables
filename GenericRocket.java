@@ -93,7 +93,26 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
-   private void alertSystemListeners(){}
+   private void alertSystemListeners(RocketData rd){
+      //Create A System Evvent
+      MissionSystemEvent event = null;
+      //WILL NEED TO KEEP THE FUCKING ERROR mechanism in place!!!
+      //this._isError = false;
+      //this._error   = new String();
+      String s = new String("Rocket Event");
+      event = new MissionSystemEvent(this,rd,s,this._state);
+      try{
+         Iterator<SystemListener> it =  null;
+         it = this._systemListeners.iterator();
+         while(it.hasNext()){
+            it.next().update(event);
+         }
+      }
+      catch(NullPointerException npe){
+         //Should NEVER get here!!!
+         npe.printStackTrace();
+      }
+   }
 
 
    //
@@ -469,7 +488,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
                   this.alertErrorListeners();
                }
                RocketData rd = this.monitorRocket();
-               this.alertSystemListeners();
+               this.alertSystemListeners(rd);
                if(this._state.state() == INIT){
                   //Temporary Prints, need to remove...
                   System.out.println("GR 1\n+++++++++++++++++++++++");

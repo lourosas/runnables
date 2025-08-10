@@ -448,7 +448,12 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       //For all MissionSystemEvents, just Blanket them all!!
       //Add to it handleRocket(event)...etc...
       //Add to it handlePayload(event)...
-      this.handleLaunchingMechanism(event);
+      if(event.event().toUpperCase().contains("ROCKET EVENT")){
+         this.handleRocket(event);
+      }
+      else if(event.event().toUpperCase().contains("LAUNCHING MECH")){
+         this.handleLaunchingMechanism(event);
+      }
       this.repaint();
       this.revalidate();
    }
@@ -493,6 +498,13 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       }
       catch(NullPointerException npe){}
       */
+   }
+
+   /**/
+   private void handleRocket(MissionSystemEvent event){
+      System.out.println("=========================================");
+      System.out.println(event.event());
+      System.out.println("=========================================");
    }
 
    /**/
