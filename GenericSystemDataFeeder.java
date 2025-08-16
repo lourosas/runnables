@@ -47,11 +47,13 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    private LaunchingMechanismData     _mechData;
    private RocketData                 _rocketData;
    private List<MechanismSupportData> _suppData;
+   private List<StageData>            _stageData;
 
    //Measured Data
    private LaunchingMechanismData     _measMechData;
    private RocketData                 _measRocketData;
    private List<MechanismSupportData> _measSuppData;
+   private List<StageData>            _measStageData;
 
    //Set Data
    private LaunchStateSubstate _cond;
@@ -79,11 +81,13 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       _measMechData              = null;
       _measRocketData            = null;
       _measSuppData              = null;
+      _measStageData             = null;
       _obj                       = null;
       _random                    = null;
       _rocketData                = null;
-      _suppData                  = null;
       _rt0                       = null;
+      _suppData                  = null;
+      _stageData                 = null;
       _start                     = false;
    };
 
@@ -223,6 +227,8 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
          m = ht.get("model");
          try{Double.parseDouble(ht.get("tolerance"));}
          catch(NumberFormatException nfe){t = Double.NaN; }
+         //Will need to read the Stage Data to get the Stage info...
+
          //Try to set up everything...
          this._rocketData = new GenericRocketData(m, //model
                                                  -1, //current stage
@@ -240,11 +246,6 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
          throw ioe;
       }
    }
-
-   //KEEP
-   //
-   //
-   private void readTankData(String file){}
 
    //
    //
