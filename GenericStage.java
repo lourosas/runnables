@@ -87,6 +87,11 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    }
 
    ///////////////////////////Private Methods/////////////////////////
+   //
+   //
+   //
+   private void calculateWeight(){}
+
    //Calculated the weight of the entire stage...
    //
    //
@@ -234,8 +239,11 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    public StageData monitor(){
       //return null for the time being...TBD...
       //Component Data will be fucking fed in...
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
       System.out.print("GenericStage"+this._stageNumber);
       System.out.println(".monitor()");
+      System.out.println(this._feeder);
+      System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
       return null;
    }
 

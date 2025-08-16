@@ -503,6 +503,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    /**/
    private void handleRocket(MissionSystemEvent event){
       System.out.println("=========================================");
+      System.out.println("View");
       System.out.println(event.event());
       System.out.println("=========================================");
    }
