@@ -47,13 +47,14 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    private LaunchingMechanismData     _mechData;
    private RocketData                 _rocketData;
    private List<MechanismSupportData> _suppData;
-   private List<StageData>            _stageData;
+   //It doe not look as if this is needed...
+   private List<StageData>            _stageData;//do not need?
 
    //Measured Data
    private LaunchingMechanismData     _measMechData;
    private RocketData                 _measRocketData;
    private List<MechanismSupportData> _measSuppData;
-   private List<StageData>            _measStageData;
+   private List<StageData>            _measStageData;//do not need?
 
    //Set Data
    private LaunchStateSubstate _cond;
@@ -228,7 +229,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
          try{Double.parseDouble(ht.get("tolerance"));}
          catch(NumberFormatException nfe){t = Double.NaN; }
          //Will need to read the Stage Data to get the Stage info...
-
+         List<StageData> sd = this.readStageData(file);
          //Try to set up everything...
          this._rocketData = new GenericRocketData(m, //model
                                                  -1, //current stage
@@ -238,12 +239,76 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
                                                   Double.NaN,//calc W
                                                   false,//isError
                                                   null,//Error
-                                                  null,//stages List
+                                                  sd,//Stage Data
                                                   t);//Tolerance
       }
       catch(IOException ioe){
          ioe.printStackTrace();
          throw ioe;
+      }
+   }
+
+   //SO MUCH MORE TO DO...to get the ENGINE DATA AND the FUEL SYSTEM
+   //DATA!!!! Need to put together the Fuel System Data, Engine Data
+   //
+   private List<StageData> readStageData(String file)
+   throws IOException{
+      List<StageData> l = null;
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         List<Hashtable<String,String>> lht = read.readStageInfo();
+         Hashtable<String,String>       sht = read.readRocketInfo();
+         int totalStages = -1;
+         try{totalStages = Integer.parseInt(sht.get("stages"));}
+         catch(NumberFormatException nfe){ totalStages = -1; }
+         Iterator<Hashtable<String,String>> it = lht.iterator();
+         int count = 0;
+         while(it.hasNext()){
+            Hashtable<String,String> ht = it.next();
+            int    cs = -1;         //current stage
+            int    en = -1;         //engines
+            double dw = Double.NaN; //Dryweight
+            double mw = Double.NaN; //Maxweight
+            long   md = -1;         //Model
+            double tl = Double.NaN; //tolerance
+            try{cs=Integer.parseInt(ht.get("number"));}
+            catch(NumberFormatException nfe){cs = -1;}
+            if(cs > 0 && cs < totalStages+1){
+               //Save the data off...
+               try{en=Integer.parseInt(ht.get("engines"));}
+               catch(NumberFormatException nfe){en = -1;}
+               try{dw=Double.parseDouble(ht.get("dryweight"));}
+               catch(NumberFormatException nfe){dw = Double.NaN;}
+               try{mw=Double.parseDouble(ht.get("maxweight"));}
+               catch(NumberFormatException nfe){mw = Double.NaN;}
+               try{md=Long.parseLong(ht.get("model"),16);}
+               catch(NumberFormatException nfe){md = -1;}
+               try{tl=Double.parseDouble(ht.get("tolerance"));}
+               catch(NumberFormatException nfe){tl = Double.NaN;}
+               StageData sd = new GenericStageData(dw,//Dry Weight
+                                                   null,//error
+                                                   md,//model
+                                                   false,//isError
+                                                   cs,//Current stage
+                                                   en,//engines
+                                                   mw,//Max Weight
+                                                   Double.NaN,//weight
+                                                   null,//engines
+                                                   null//fuel system
+                                                   );
+               if(l == null){l = new LinkedList<StageData>();}
+               l.add(sd);
+            }
+         }
+      }
+      catch(IOException ioe){
+         ioe.printStackTrace();
+         l = null;
+         throw ioe;
+      }
+      finally{
+         return l;
       }
    }
 
@@ -392,6 +457,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
             }
             value  = (this._random.nextInt(max - min +1) + min);
             weight = (double)value;
+            List<StageData> l = this.setStage();
          }
       }
       catch(NullPointerException npe){
@@ -414,6 +480,36 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
                                        to);     //tolerance
             this._measRocketData = rd;
          }
+      }
+   }
+
+   //
+   //
+   //
+   private List<StageData> setStage(){
+      List<StageData> list = null;
+      double scale = Double.NaN;
+      int min = -1; int max = -1; int value = -1;
+      double dw = Double.NaN;  double mw = Double.NaN;
+      long model = -1; int en = -1; int sn = -1;
+      double weight = Double.NaN; //What needs calculation!
+      try{
+         List<StageData> temp   = this._rocketData.stages();
+         Iterator<StageData> it = temp.iterator();
+         while(it.hasNext()){
+            StageData sd = it.next();
+            dw = sd.dryWeight();
+            mw = sd.maxWeight();
+            model = sd.model();
+            en = sd.numberOfEngines();
+            System.out.println("+++++++++++++++++++++++++++++++++++");
+            System.out.println(en);
+            System.out.println("+++++++++++++++++++++++++++++++++++");
+         }
+      }
+      catch(NullPointerException npe){}
+      finally{
+         return list;
       }
    }
 
@@ -510,7 +606,8 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
                this.setMechanismSupports();
                //this.setStage();
             }
-            Thread.sleep(1);
+            //Thread.sleep(1);
+            Thread.sleep(1000); //Temp Value
          }
       }
       catch(InterruptedException ie){}
