@@ -292,6 +292,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
                                           this._stageNumber,
                                           this._engines.size(),
                                           this._maxWeight,
+                                          this._tolerance,
                                           this._weight,
                                           engineData,
                                           fsd);

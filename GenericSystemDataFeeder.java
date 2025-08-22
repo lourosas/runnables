@@ -293,6 +293,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
                                                    cs,//Current stage
                                                    en,//engines
                                                    mw,//Max Weight
+                                                   tl,//tolerance
                                                    Double.NaN,//weight
                                                    null,//engines
                                                    null//fuel system
@@ -442,6 +443,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       int min = -1;int max   = -1;int value = -1; String m = "";
       int st  = -1;double ew = Double.NaN;double lw = Double.NaN;
       double to = Double.NaN;double weight= Double.NaN;
+      List<StageData> stgs = null;
       try{
          //set the rocket weight as needed
          synchronized(this._obj){
@@ -457,27 +459,29 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
             }
             value  = (this._random.nextInt(max - min +1) + min);
             weight = (double)value;
-            List<StageData> l = this.setStage();
+            stgs   = this.setStage();
          }
       }
       catch(NullPointerException npe){
          m  = ""; st = -1; ew = Double.NaN; lw = Double.NaN;
          value = -1; to = Double.NaN; weight = Double.NaN;
+         stgs = null;
       }
       finally{
          synchronized(this._obj){
             RocketData rd = null;
             //rd = new GenericRocketData(...);
             rd = new GenericRocketData(m,       //model
-                                       -1,      //Current Stage
+                                       st,      //Current Stage
                                        st,      //Number of Stages
                                        ew,      //empty weight
                                        lw,      //loaded weight
                                        weight,  //Calculated weight
                                        false,   //Is Error
                                        null,    //Error
-                                       null,    //Stages List
+                                       stgs,    //Stages List
                                        to);     //tolerance
+            Iterator<StageData> it = stgs.iterator();
             this._measRocketData = rd;
          }
       }
@@ -490,24 +494,60 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       List<StageData> list = null;
       double scale = Double.NaN;
       int min = -1; int max = -1; int value = -1;
-      double dw = Double.NaN;  double mw = Double.NaN;
+      double dw = Double.NaN; double mw = Double.NaN;
       long model = -1; int en = -1; int sn = -1;
+      double to = Double.NaN; 
       double weight = Double.NaN; //What needs calculation!
-      try{
-         List<StageData> temp   = this._rocketData.stages();
-         Iterator<StageData> it = temp.iterator();
-         while(it.hasNext()){
+      List<StageData> temp = this._rocketData.stages();
+      list = new LinkedList<StageData>();
+      Iterator<StageData> it = temp.iterator();
+      while(it.hasNext()){
+         try{
             StageData sd = it.next();
-            dw = sd.dryWeight();
-            mw = sd.maxWeight();
-            model = sd.model();
-            en = sd.numberOfEngines();
+            dw    = sd.dryWeight();   mw = sd.maxWeight();
+            model = sd.model();       en = sd.numberOfEngines();
+            sn    = sd.stageNumber(); to = sd.tolerance();
+            /*TO BE REMOVED below*/
+            //In Lieu of Engine and FuelSystem Data, the Weight value
+            //and everything associated shall GO AWAY for ENGINE
+            //SYSTEMS DATA COLLECTION AND FUEL SYSTEM data the
+            //weight SHALL BE CALCULATED by the stage and compared
+            //based on TOLERANCE!!!
+            if(this._cond.state() == INIT){
+               scale = 0.01;
+               min   = (int)(dw*(1-scale));
+               max   = (int)(dw*(1+scale));
+            }
+            value  = (this._random.nextInt(max-min+1)+min);
+            weight = (double)value;
+            //In Lieu of Engine and FuelSystem Data, the Weight value
+            //and everything associated shall GO AWAY for ENGINE
+            //SYSTEMS DATA COLLECTION AND FUEL SYSTEM data the
+            //weight SHALL BE CALCULATED by the stage and compared
+            //based on TOLERANCE!!!
+            /*TO BE REMOVED above*/
+         }
+         catch(NullPointerException npe){
+            dw = Double.NaN; mw = Double.NaN; model = -1; en = -1;
+            sn = -1; to = Double.NaN; weight = Double.NaN;
+         }
+         finally{
+            StageData sd = new GenericStageData(dw,    //Dry Weight
+                                                null,  //Error
+                                                model, //Model Number
+                                                false, //isError
+                                                sn,    //Stage Number
+                                                en,    //No. Engines
+                                                mw,    //Max Weight
+                                                to,    //Tolerance
+                                                weight,//Curr Weight
+         /*Will change once developed*/         null,  //Engine Data
+         /*Will change once developed*/         null   //FuelSystem
+                                                );
+            list.add(sd);
          }
       }
-      catch(NullPointerException npe){}
-      finally{
-         return list;
-      }
+      return list;
    }
 
    //
