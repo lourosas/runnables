@@ -502,9 +502,6 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
             mw = sd.maxWeight();
             model = sd.model();
             en = sd.numberOfEngines();
-            System.out.println("+++++++++++++++++++++++++++++++++++");
-            System.out.println(en);
-            System.out.println("+++++++++++++++++++++++++++++++++++");
          }
       }
       catch(NullPointerException npe){}
@@ -604,7 +601,6 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
                this.setRocket();
                this.setMechanism();
                this.setMechanismSupports();
-               //this.setStage();
             }
             //Thread.sleep(1);
             Thread.sleep(1000); //Temp Value
