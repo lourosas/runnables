@@ -43,6 +43,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    private long                _modelNumber;
    private int                 _totalEngines;
    private boolean             _isError;//Currently not using,but keep
+   private Object              _obj;
    private Thread              _rt0;
    private boolean             _start;
    private LaunchStateSubstate _state;
@@ -68,6 +69,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       _modelNumber      = -1;
       _totalEngines     = -1;
       _isError          = false;
+      _obj              = null;
       _rt0              = null;
       _start            = false;
       _state            = null;
@@ -83,6 +85,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       if(number > 0){
          this._stageNumber = number;
       }
+      this._obj = new Object();
       this.setUpThread();
    }
 
@@ -90,7 +93,36 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
-   private void calculateWeight(){}
+   private void calculateWeight(){
+      synchronized(this._obj){
+         this._weight = this._dryweight;  //For the Time Being
+         try{
+            //Need to get the entire Rocket Data...
+            RocketData rd = this._feeder.rocketData();
+            //From there, get the StageData!!!
+            List<StageData> sdl = rd.stages();
+            Iterator<StageData> it = sdl.iterator();
+            while(it.hasNext()){
+               StageData sd = it.next();
+               if(sd.stageNumber() == this._stageNumber){
+                  //THIS IS A COMPLETELY TEMPORARY WAY of getting the
+                  //STAGE WEIGHT!!!  It WILL BE CALCULATED FROM the
+                  //FuelSystemData! as well as the DryWeight AND the
+                  //ENGINE WEIGHT!!!  It will NEED TO BE Calculated!!
+                  this._weight = sd.weight();
+                  System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+                  System.out.println("GenericStage"+this._stageNumber);
+                  System.out.println("Feeder "+this._feeder);
+                  System.out.println("Weight "+this._weight);
+                  System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+               }
+            }
+         }
+         catch(NullPointerException npe){
+            this._weight = this._weight; //for the time being!
+         }
+      }
+   }
 
    //Calculated the weight of the entire stage...
    //
@@ -238,20 +270,20 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    public StageData monitor(){
       StageData sd = null;
-      try{
-         //return null for the time being...TBD...
-         //Component Data will be fucking fed in...
-         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-         System.out.print("GenericStage"+this._stageNumber);
-         System.out.println(".monitor()");
-         System.out.println(this._feeder);
-         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-      }
-      catch(NullPointerException npe){
-         
-      }
-      finally{
-         return sd;
+      synchronized(this._obj){
+         try{
+            //return null for the time being...TBD...
+            //Component Data will be fucking fed in...
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            System.out.print("GenericStage"+this._stageNumber);
+            System.out.println(".monitor()");
+            System.out.println(this._feeder);
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+         }
+         catch(NullPointerException npe){}
+         finally{
+            return sd;
+         }
       }
    }
 
@@ -320,7 +352,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
                throw new InterruptedException();
             }
             if(this._start){
-               //this.calculateWeight();
+               this.calculateWeight();
                //this.isError()
                //if(this._isError){
                //   this.aleatErrorListeners();

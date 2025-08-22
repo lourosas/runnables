@@ -642,8 +642,8 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
                this.setMechanism();
                this.setMechanismSupports();
             }
-            //Thread.sleep(1);
-            Thread.sleep(1000); //Temp Value
+            Thread.sleep(1);
+            //Thread.sleep(1000); //Temp Value
          }
       }
       catch(InterruptedException ie){}
