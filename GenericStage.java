@@ -30,7 +30,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    private LaunchStateSubstate.State IGNITION  = null;
    private LaunchStateSubstate.State LAUNCH    = null;
 
-   private double              _calculatedWeight;
+   private double              _calculatedWeight;//Dry+Wet Weight
    private double              _dryweight;
    private List<Engine>        _engines;
    private String              _error;//currently, not using, but keep
@@ -46,9 +46,9 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    private Object              _obj;
    private Thread              _rt0;
    private boolean             _start;
+   private StageData           _stageData;
    private LaunchStateSubstate _state;
    private double              _tolerance;
-   private double              _weight; //Dry weight + wet weight
 
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
@@ -72,9 +72,9 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       _obj              = null;
       _rt0              = null;
       _start            = false;
+      _stageData        = null;
       _state            = null;
       _tolerance        = Double.NaN;
-      _weight           = Double.NaN;
    };
 
    /////////////////////////////Constructor///////////////////////////
@@ -95,7 +95,8 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    private void calculateWeight(){
       synchronized(this._obj){
-         this._weight = this._dryweight;  //For the Time Being
+         //For the Time Being
+         this._calculatedWeight = this._dryweight;
          try{
             //Need to get the entire Rocket Data...
             RocketData rd = this._feeder.rocketData();
@@ -109,17 +110,18 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
                   //STAGE WEIGHT!!!  It WILL BE CALCULATED FROM the
                   //FuelSystemData! as well as the DryWeight AND the
                   //ENGINE WEIGHT!!!  It will NEED TO BE Calculated!!
-                  this._weight = sd.weight();
+                  this._calculatedWeight = sd.weight();
                   System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
                   System.out.println("GenericStage"+this._stageNumber);
                   System.out.println("Feeder "+this._feeder);
-                  System.out.println("Weight "+this._weight);
+                  System.out.println("Weight "+this._calculatedWeight);
                   System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
                }
             }
          }
          catch(NullPointerException npe){
-            this._weight = this._weight; //for the time being!
+            //For the time being!!
+            this._calculatedWeight = this._calculatedWeight;
          }
       }
    }
@@ -128,12 +130,12 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    private void calculateWeight(FuelSystemData fsd){
-      this._weight = this._dryweight;
+      this._calculatedWeight = this._dryweight;
       List<TankData> data = fsd.tankData();
       Iterator<TankData> it = data.iterator();
       while(it.hasNext()){
          //4.  Add the Weight to the tank Weight
-         this._weight += it.next().weight();
+         this._calculatedWeight = this._calculatedWeight;
       }
    }
 
@@ -167,17 +169,26 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
+   private void monitorStage(){
+       
+   }
+
+   //
+   //
+   //
    private void setStageData
    (
       List<Hashtable<String,String>> data
    ){
       //System.out.println(data);
       //will need to figure out which Stage it is...pretty simple
+      this._stageData = null;  //Erase all previous data
       for(int i = 0; i < data.size(); ++i){
          Hashtable<String,String> ht = data.get(i);
          try{
             String num = ht.get("number");
             if(Integer.parseInt(num) == this._stageNumber){
+               /*
                this._totalEngines=Integer.parseInt(ht.get("engines"));
                double dw = Double.parseDouble(ht.get("dryweight"));
                this._dryweight = dw;
@@ -187,9 +198,30 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
                this._modelNumber = Integer.toUnsignedLong(v);
                double tol = Double.parseDouble(ht.get("tolerance"));
                this._tolerance = tol;
+               */
+               //Total Engines
+               int te    = Integer.parseInt(he.get("engines"));
+               //Dry Weight
+               double dw = Double.parseDouble(ht.get("dryweight"));
+               //Max Weight
+               double mw = Double.parseDouble(ht.get("maxweight"));
+               //Model Number
+               String model = ht.get("model");
+               long mn      = Integer.parseUnsignedInt(model,16);
+               //Tolerance
+               double tol   = Double.parseDouble(ht.get("tolerance"));
+               //Stage Number
+               int sn = this._stageNumber;
+               this._stageData = new GenericStageData(
+                        dw,   //Dry Weight
+                        null, //Error (Init to NUll)
+
+                     );
             }
          }
-         catch(NumberFormatException npe){}
+         catch(NumberFormatException npe){
+            this._stageData = null;
+         }
       }
    }
 
@@ -325,7 +357,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
                                           this._engines.size(),
                                           this._maxWeight,
                                           this._tolerance,
-                                          this._weight,
+                                          this._calculatedWeight,
                                           engineData,
                                           fsd);
       return sd;
@@ -352,7 +384,8 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
                throw new InterruptedException();
             }
             if(this._start){
-               this.calculateWeight();
+               this.monitorStage();
+               //this.calculateWeight();
                //this.isError()
                //if(this._isError){
                //   this.aleatErrorListeners();
