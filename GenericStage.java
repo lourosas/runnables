@@ -32,7 +32,6 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
 
    private double              _calculatedWeight;//Dry+Wet Weight
    private List<Engine>        _engines;
-   private String              _error;//currently, not using, but keep
    private List<ErrorListener> _errorListeners;
    private DataFeeder          _feeder;
    private FuelSystem          _fuelSystem;
@@ -52,7 +51,6 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
 
       _calculatedWeight = Double.NaN;
       _engines          = null;
-      _error            = null;
       _errorListeners   = null;
       _feeder           = null;
       _fuelSystem       = null;
@@ -81,36 +79,45 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
-   private void calculateWeight(){
+   private double calculateWeight
+   (
+      List<EngineData> list,
+      FuelSystemData   fuelSystem
+   ){
       synchronized(this._obj){
          double calcWeight = Double.NaN;
-         //Need to get the entire Rocket Data...
-         RocketData rd = this._feeder.rocketData();
-         //From there, get the StageData!!!
-         System.out.println("Rocket Data: "+rd);
-         List<StageData> sdl = rd.stages();
-         Iterator<StageData> it = sdl.iterator();
-         while(it.hasNext()){
-            StageData sd = it.next();
-            if(sd.stageNumber() == this._stageData.stageNumber()){
-               try{
-                  //THIS IS A COMPLETELY TEMPORARY WAY of getting the
-                  //STAGE WEIGHT!!!  It WILL BE CALCULATED FROM the
-                  //FuelSystemData! as well as the DryWeight AND the
-                  //ENGINE WEIGHT!!!  It will NEED TO BE Calculated!!
-                  calcWeight = sd.weight();
-               }
-               catch(NullPointerException npe){
-                  //For the time being!!
-                  calcWeight = this._stageData.dryWeight();
-               }
-               finally{
-                  double dw = this._stageData.dryWeight();
-                  System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-                  System.out.println("Dry Weight "+dw);
-                  System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+         try{
+            //Need to get the entire Rocket Data...
+            RocketData rd = this._feeder.rocketData();
+            //From there, get the StageData!!!
+            List<StageData> sdl    = rd.stages();
+            Iterator<StageData> it = sdl.iterator();
+            while(it.hasNext()){
+               StageData sd = it.next();
+               if(sd.stageNumber() == this._stageData.stageNumber()){
+                  try{
+                     //THIS IS A COMPLETELY TEMPORARY WAY of getting 
+                     //the STAGE WEIGHT!!!  It WILL BE CALCULATED FROM
+                     //the FuelSystemData! as well as the DryWeight
+                     //AND the ENGINE WEIGHT!!!  It will NEED TO BE
+                     //Calculated!!
+                     //MONITOR ALL THE WAY DOWN!!!
+                     calcWeight = sd.weight();
+                  }
+                  catch(NullPointerException npe){
+                     //For the time being!!
+                     calcWeight = this._stageData.dryWeight();
+                  }
                }
             }
+         }
+         catch(NullPointerException npe){
+            //A fix for the time being--when not being simulated,
+            //but ACTUALLY Meeasured!!!
+            calcWeight = this._stageData.weight();
+         }
+         finally{
+            return calcWeight;
          }
       }
    }
@@ -141,6 +148,63 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
+   String error(double dw,double mw,double cw,double tol){
+      String error = null;
+      double ll    = Double.NaN;
+      double ul    = Double.NaN;
+      double lim   = 1. - tol;
+      lim          = Math.round(lim*100.)/100.;
+      boolean inputGood = !Double.isNaN(dw) && !Double.isNaN(mw);
+      boolean measGood  = !Double.isNaN(cw);
+
+      if(inputGood && measGood){
+         if(this._state.state() == INIT){
+            ll = dw * tol;
+            ul = dw * (2. - tol);
+         }
+         else if(this._state.state() == PRELAUNCH){}
+         if(cw < ll || cw > ul){
+            error = new String("Calculated Weight:  ");
+            if(cw < ll){
+               error += "too low";
+            }
+            else if(cw > ul){
+               error += "too high";
+            }
+         }
+      }
+      return error;
+   }
+
+   //
+   //
+   //
+   private boolean  isError(double dw,double mw,double cw,double tol){
+      boolean isError    = false;
+      double  edge       = Double.NaN;
+      double  ul         = Double.NaN;
+      double  ll         = Double.NaN;
+      double  lim        = 1. - tol;
+      lim                = Math.round(lim*100.)/100.;
+      boolean inputGood  = !Double.isNaN(dw) && !Double.isNaN(mw);
+      boolean measGood   = !Double.isNaN(cw);
+
+      if(inputGood && measGood){
+         if(this._state.state() == INIT){
+            ll = dw * tol;
+            ul = dw *(2.-tol);
+         }
+         else if(this._state.state() == PRELAUNCH){}
+         if(cw < ll || cw > ul){
+            isError = true;
+         }
+      }
+      return isError;
+   }
+
+   //
+   //
+   //
    private void fuelSystem(String file)throws IOException{
       int stage = this._stageData.stageNumber();
       int engs  = this._stageData.numberOfEngines();
@@ -151,9 +215,24 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
+   private List<EngineData> monitorEngines(){
+      //For the Time Being return null
+      return null;
+   }
+
+   private FuelSystemData monitorFuelSystem(){
+      //For the Time Being, reutrn null
+      return null;
+   }
+
+   //
+   //
+   //
    private void monitorStage(){
-       //Temporary Fix
-       this.calculateWeight();
+      List<EngineData> eng = this.monitorEngines();
+      FuelSystemData   fs  = this.monitorFuelSystem();
+      double weight        = this.calculateWeight(eng, fs);
+      this.setStageData(eng,fs,weight);
    }
 
    //
@@ -203,6 +282,43 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
             this._stageData = null;
          }
       }
+   }
+
+   //
+   //
+   //
+   private void setStageData
+   (
+      List<EngineData> engines,
+      FuelSystemData fuelSystem,
+      Double          calcWeight
+   ){
+      double dw       = this._stageData.dryWeight();
+      //Somehow, will need to set the error in addition
+      double mw       = this._stageData.maxWeight();
+      long   model    = this._stageData.model();
+      int    en       = this._stageData.numberOfEngines();
+      int    sn       = this._stageData.stageNumber();
+      double to       = this._stageData.tolerance();
+      String error    = null;
+      boolean isError = this.isError(dw,mw,calcWeight,to);
+      if(isError){
+         //Set the error String
+         error = this.error(dw,mw,calcWeight,to);
+      }
+      StageData sd = new GenericStageData(dw,    //Dry Weight
+                                          error, //error
+                                          model, //Model
+                                          isError, //Is Error
+                                          sn,    //Stage Number
+                                          en,    //No. Engines
+                                          mw,    //Max Weight
+                                          to,    //Tolerance
+                                          calcWeight, //Calc Weight
+                                          engines,//Engines List
+                                          fuelSystem//Fuel System
+                                          );
+      this._stageData = sd;
    }
 
    //
