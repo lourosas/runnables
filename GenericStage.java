@@ -150,31 +150,33 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    String error(double weight){
       String  error      = null;
-      double  dw         = this._stageData.dryWeight();
-      double  mw         = this._stageData.maxWeight();
-      double  tol        = this._stageData.tolerance();
-      boolean isError    = false;
-      double  edge       = Double.NaN;
-      double  ul         = Double.NaN;
-      double  ll         = Double.NaN;
-      double  lim        = 1. - tol;
-      lim                = Math.round(lim*100.)/100.;
-      boolean inputGood  = !Double.isNaN(dw) && !Double.isNaN(mw);
-      boolean measGood   = !Double.isNaN(weight);
+      synchronized(this._obj){
+         double  dw         = this._stageData.dryWeight();
+         double  mw         = this._stageData.maxWeight();
+         double  tol        = this._stageData.tolerance();
+         boolean isError    = false;
+         double  edge       = Double.NaN;
+         double  ul         = Double.NaN;
+         double  ll         = Double.NaN;
+         double  lim        = 1. - tol;
+         lim                = Math.round(lim*100.)/100.;
+         boolean inputGood  = !Double.isNaN(dw) && !Double.isNaN(mw);
+         boolean measGood   = !Double.isNaN(weight);
 
-      if(inputGood && measGood){
-         if(this._state.state() == INIT){
-            ll = dw * tol;
-            ul = dw * (2. - tol);
-         }
-         else if(this._state.state() == PRELAUNCH){}
-         if(weight < ll || weight > ul){
-            error = new String("Calculated Weight:  ");
-            if(weight < ll){
-               error += "too low";
+         if(inputGood && measGood){
+            if(this._state.state() == INIT){
+               ll = dw * tol;
+               ul = dw * (2. - tol);
             }
-            else if(weight > ul){
-               error += "too high";
+            else if(this._state.state() == PRELAUNCH){}
+            if(weight < ll || weight > ul){
+               error = new String("Calculated Weight:  ");
+               if(weight < ll){
+                  error += "too low";
+               }
+               else if(weight > ul){
+                  error += "too high";
+               }
             }
          }
       }
@@ -185,26 +187,28 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    private boolean  isError(double weight){
-      double  dw         = this._stageData.dryWeight();
-      double  mw         = this._stageData.maxWeight();
-      double  tol        = this._stageData.tolerance();
-      boolean isError    = false;
-      double  edge       = Double.NaN;
-      double  ul         = Double.NaN;
-      double  ll         = Double.NaN;
-      double  lim        = 1. - tol;
-      lim                = Math.round(lim*100.)/100.;
-      boolean inputGood  = !Double.isNaN(dw) && !Double.isNaN(mw);
-      boolean measGood   = !Double.isNaN(weight);
+      boolean isError = false;
+      synchronized(this._obj){
+         double  dw         = this._stageData.dryWeight();
+         double  mw         = this._stageData.maxWeight();
+         double  tol        = this._stageData.tolerance();
+         double  edge       = Double.NaN;
+         double  ul         = Double.NaN;
+         double  ll         = Double.NaN;
+         double  lim        = 1. - tol;
+         lim                = Math.round(lim*100.)/100.;
+         boolean inputGood  = !Double.isNaN(dw) && !Double.isNaN(mw);
+         boolean measGood   = !Double.isNaN(weight);
 
-      if(inputGood && measGood){
-         if(this._state.state() == INIT){
-            ll = dw * tol;
-            ul = dw *(2.-tol);
-         }
-         else if(this._state.state() == PRELAUNCH){}
-         if(weight < ll || weight > ul){
-            isError = true;
+         if(inputGood && measGood){
+            if(this._state.state() == INIT){
+               ll = dw * tol;
+               ul = dw *(2.-tol);
+            }
+            else if(this._state.state() == PRELAUNCH){}
+            if(weight < ll || weight > ul){
+               isError = true;
+            }
          }
       }
       return isError;
@@ -224,13 +228,17 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    private List<EngineData> monitorEngines(){
-      //For the Time Being return null
-      return null;
+      synchronized(this._obj){
+         //For the Time Being return null
+         return null;
+      }
    }
 
    private FuelSystemData monitorFuelSystem(){
-      //For the Time Being, reutrn null
-      return null;
+      synchronized(this._obj){
+         //For the Time Being, reutrn null
+         return null;
+      }
    }
 
    //
