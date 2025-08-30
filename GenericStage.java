@@ -403,21 +403,16 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    public StageData monitor(){
-      StageData sd = null;
+      //This needs to be fucking fixed!!!!
       synchronized(this._obj){
-         try{
-            //return null for the time being...TBD...
-            //Component Data will be fucking fed in...
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-            System.out.print("GenericStage"+this._stageNumber);
-            System.out.println(".monitor()");
-            System.out.println(this._feeder);
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-         }
-         catch(NullPointerException npe){}
-         finally{
-            return sd;
-         }
+         //return null for the time being...TBD...
+         //Component Data will be fucking fed in...
+         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+         System.out.print("GenericStage"+this._stageNumber);
+         System.out.println(".monitor()");
+         System.out.println(this._feeder);
+         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+         return this._stageData;
       }
    }
 
