@@ -76,8 +76,8 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    }
 
    ///////////////////////////Private Methods/////////////////////////
-   //
-   //
+   //This whole thing will FUCKING CHANGE!! As Design/Development
+   //Progresses!!!
    //
    private double calculateWeight
    (
@@ -148,14 +148,19 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
-   String error(double dw,double mw,double cw,double tol){
-      String error = null;
-      double ll    = Double.NaN;
-      double ul    = Double.NaN;
-      double lim   = 1. - tol;
-      lim          = Math.round(lim*100.)/100.;
-      boolean inputGood = !Double.isNaN(dw) && !Double.isNaN(mw);
-      boolean measGood  = !Double.isNaN(cw);
+   String error(double weight){
+      String  error      = null;
+      double  dw         = this._stageData.dryWeight();
+      double  mw         = this._stageData.maxWeight();
+      double  tol        = this._stageData.tolerance();
+      boolean isError    = false;
+      double  edge       = Double.NaN;
+      double  ul         = Double.NaN;
+      double  ll         = Double.NaN;
+      double  lim        = 1. - tol;
+      lim                = Math.round(lim*100.)/100.;
+      boolean inputGood  = !Double.isNaN(dw) && !Double.isNaN(mw);
+      boolean measGood   = !Double.isNaN(weight);
 
       if(inputGood && measGood){
          if(this._state.state() == INIT){
@@ -163,12 +168,12 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
             ul = dw * (2. - tol);
          }
          else if(this._state.state() == PRELAUNCH){}
-         if(cw < ll || cw > ul){
+         if(weight < ll || weight > ul){
             error = new String("Calculated Weight:  ");
-            if(cw < ll){
+            if(weight < ll){
                error += "too low";
             }
-            else if(cw > ul){
+            else if(weight > ul){
                error += "too high";
             }
          }
@@ -179,7 +184,10 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
-   private boolean  isError(double dw,double mw,double cw,double tol){
+   private boolean  isError(double weight){
+      double  dw         = this._stageData.dryWeight();
+      double  mw         = this._stageData.maxWeight();
+      double  tol        = this._stageData.tolerance();
       boolean isError    = false;
       double  edge       = Double.NaN;
       double  ul         = Double.NaN;
@@ -187,7 +195,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       double  lim        = 1. - tol;
       lim                = Math.round(lim*100.)/100.;
       boolean inputGood  = !Double.isNaN(dw) && !Double.isNaN(mw);
-      boolean measGood   = !Double.isNaN(cw);
+      boolean measGood   = !Double.isNaN(weight);
 
       if(inputGood && measGood){
          if(this._state.state() == INIT){
@@ -195,7 +203,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
             ul = dw *(2.-tol);
          }
          else if(this._state.state() == PRELAUNCH){}
-         if(cw < ll || cw > ul){
+         if(weight < ll || weight > ul){
             isError = true;
          }
       }
@@ -229,10 +237,15 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    private void monitorStage(){
+      String         error = null;
       List<EngineData> eng = this.monitorEngines();
       FuelSystemData   fs  = this.monitorFuelSystem();
       double weight        = this.calculateWeight(eng, fs);
-      this.setStageData(eng,fs,weight);
+      boolean isError      = this.isError(weight);
+      if(isError){
+         this.error(weight);   
+      }
+      this.setStageData(eng,fs,weight,isError,error);
    }
 
    //
@@ -289,9 +302,11 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    private void setStageData
    (
-      List<EngineData> engines,
-      FuelSystemData fuelSystem,
-      Double          calcWeight
+      List<EngineData>   engines,
+      FuelSystemData  fuelSystem,
+      Double          calcWeight,
+      boolean            isError,
+      String               error
    ){
       double dw       = this._stageData.dryWeight();
       //Somehow, will need to set the error in addition
@@ -300,12 +315,6 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       int    en       = this._stageData.numberOfEngines();
       int    sn       = this._stageData.stageNumber();
       double to       = this._stageData.tolerance();
-      String error    = null;
-      boolean isError = this.isError(dw,mw,calcWeight,to);
-      if(isError){
-         //Set the error String
-         error = this.error(dw,mw,calcWeight,to);
-      }
       StageData sd = new GenericStageData(dw,    //Dry Weight
                                           error, //error
                                           model, //Model
