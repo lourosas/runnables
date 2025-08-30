@@ -170,10 +170,6 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
          while(it.hasNext()){
             this._calculatedWeight += it.next().weight();
          }
-         //this._calculatedWeight += cap.weight(); //TBD
-         System.out.println("++++++++++++++++Rocket++++++++++++++++");
-         System.out.println(this._calculatedWeight);
-         System.out.println("++++++++++++++++Rocket++++++++++++++++");
       }
       catch(NullPointerException npe){
          npe.printStackTrace();

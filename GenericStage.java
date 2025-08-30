@@ -122,12 +122,6 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       }
    }
 
-   //Calculated the weight of the entire stage...
-   //
-   //
-   private void calculateWeight(FuelSystemData fsd){
-   }
-
    //
    //
    //
@@ -251,9 +245,9 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       double weight        = this.calculateWeight(eng, fs);
       boolean isError      = this.isError(weight);
       if(isError){
-         this.error(weight);   
+         error = this.error(weight);   
       }
-      this.setStageData(eng,fs,weight,isError,error);
+      this.setUpStageData(eng,fs,weight,isError,error);
    }
 
    //
@@ -308,7 +302,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
-   private void setStageData
+   private void setUpStageData
    (
       List<EngineData>   engines,
       FuelSystemData  fuelSystem,
@@ -493,11 +487,6 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
             }
             if(this._start){
                this.monitorStage();
-               //this.calculateWeight();
-               //this.isError()
-               //if(this._isError){
-               //   this.aleatErrorListeners();
-               //}
                if(this._state.state() == INIT){
                   //Temporary Prints NEED TO REMOVE!
                   System.out.print("****Stage: ");
