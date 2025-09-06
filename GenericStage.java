@@ -228,11 +228,17 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       }
    }
 
+   //
+   //
+   //
    private FuelSystemData monitorFuelSystem(){
+      FuelSystemData fsd = null;
       synchronized(this._obj){
-         //For the Time Being, reutrn null
-         return null;
+         System.out.println("&&&&&&&&&&&&&&Generic Stage&&&&&&&&&&&");
+         System.out.println(fsd);
+         System.out.println("&&&&&&&&&&&&&&Generic Stage&&&&&&&&&&&");
       }
+      return fsd;
    }
 
    //
@@ -310,26 +316,28 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       boolean            isError,
       String               error
    ){
-      double dw       = this._stageData.dryWeight();
-      //Somehow, will need to set the error in addition
-      double mw       = this._stageData.maxWeight();
-      long   model    = this._stageData.model();
-      int    en       = this._stageData.numberOfEngines();
-      int    sn       = this._stageData.stageNumber();
-      double to       = this._stageData.tolerance();
-      StageData sd = new GenericStageData(dw,    //Dry Weight
-                                          error, //error
-                                          model, //Model
-                                          isError, //Is Error
-                                          sn,    //Stage Number
-                                          en,    //No. Engines
-                                          mw,    //Max Weight
-                                          to,    //Tolerance
-                                          calcWeight, //Calc Weight
-                                          engines,//Engines List
-                                          fuelSystem//Fuel System
-                                          );
-      this._stageData = sd;
+      synchronized(this._obj){
+         double dw    = this._stageData.dryWeight();
+         //Somehow, will need to set the error in addition
+         double mw    = this._stageData.maxWeight();
+         long   model = this._stageData.model();
+         int    en    = this._stageData.numberOfEngines();
+         int    sn    = this._stageData.stageNumber();
+         double to    = this._stageData.tolerance();
+         StageData sd = new GenericStageData(dw,    //Dry Weight
+                                             error, //error
+                                             model, //Model
+                                             isError, //Is Error
+                                             sn,    //Stage Number
+                                             en,    //No. Engines
+                                             mw,    //Max Weight
+                                             to,    //Tolerance
+                                             calcWeight, //Calc Weight
+                                             engines,//Engines List
+                                             fuelSystem//Fuel System
+                                             );
+         this._stageData = sd;
+      }
    }
 
    //
@@ -370,6 +378,14 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       if(feeder != null){
          this._feeder = feeder;
          //Add Components as needed
+         try{
+            this._fuelSystem.addDataFeeder(this._feeder);
+         }
+         catch(NullPointerException npe){
+            //Should never get here
+            npe.printStackTrace();
+         }
+         //Add the Data Feeder for the Engines eventually
       }
    }
 

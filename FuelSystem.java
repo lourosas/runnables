@@ -23,8 +23,8 @@ import java.io.IOException;
 
 public interface FuelSystem{
    public void initialize(String file)throws IOException;
-   public FuelSystemData monitorPrelaunch();
-   public FuelSystemData monitorIgnition();
-   public FuelSystemData monitorLaunch();
+   public FuelSystemData monitor();
+   public void addDataFeeder(DataFeeder feeder);
+   public void addErrorListener(ErrorListener listener);
 }
 //////////////////////////////////////////////////////////////////////

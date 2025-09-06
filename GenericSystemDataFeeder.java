@@ -115,7 +115,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
          Hashtable<String,String> ht = null;
          ht = read.readLaunchingMechanismInfo();
          List<MechanismSupportData> l = null;
-         int    m  = -1;       //Model
+         int    m  = -1;         //Model
          int    nh = -1;         //Number of Holds
          double ha = Double.NaN; //Holds Angle
          double ho = Double.NaN; //Holds Tolerance

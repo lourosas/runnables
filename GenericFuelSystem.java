@@ -22,24 +22,36 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 
-public class GenericFuelSystem implements FuelSystem{
+public class GenericFuelSystem implements FuelSystem, Runnable{
    
-   private int        _stageNumber;
-   private int        _engines;
-   private Tank       _fuel;
-   private Tank       _oxidizer;
-   private List<Pipe> _pipes;
-   private Pump       _fuelPump;
-   private Pump       _oxidizerPump;
+   private int                 _engines;
+   private boolean             _kill;
+   private int                 _stageNumber;
+   private boolean             _start;
+   private List<ErrorListener> _errorListeners;
+   private DataFeeder          _feeder;
+   private Object              _obj;
+   private Tank                _fuel;
+   private Tank                _oxidizer;
+   private List<Pipe>          _pipes;
+   private Pump                _fuelPump;
+   private Pump                _oxidizerPump;
+   private Thread              _rt0;
 
    {
-      _engines       = -1;
-      _stageNumber   = -1;
-      _fuel          = null;
-      _oxidizer      = null;
-      _pipes         = null;
-      _oxidizerPump  = null;
-      _fuelPump      = null;
+      _engines        = -1;
+      _kill           = false;
+      _stageNumber    = -1;
+      _start          = false;
+      _errorListeners = null;
+      _feeder         = null;
+      _fuel           = null;
+      _obj            = null;
+      _oxidizer       = null;
+      _pipes          = null;
+      _oxidizerPump   = null;
+      _fuelPump       = null;
+      _rt0            = null;
    };
 
    ////////////////////////////Constructor////////////////////////////
@@ -55,6 +67,8 @@ public class GenericFuelSystem implements FuelSystem{
          //Needed to determine the number of pipes...
          this._engines = engines;
       }
+      this._obj = new Object();
+      this.setUpThread();
    }
 
    ////////////////////Private Methods////////////////////////////////
@@ -62,6 +76,7 @@ public class GenericFuelSystem implements FuelSystem{
    //
    //
    private void setUpPipes(String file)throws IOException{
+      //Number of Engines X 2(tanks)
       //Two Pipes Per Engine, per Stage, per Tank
       for(int i = 0; i < this._engines; ++i){
          //Tanks--For this Fuel System, the Tanks are assumed to be
@@ -104,8 +119,45 @@ public class GenericFuelSystem implements FuelSystem{
       this._fuel.initialize(file);
       this._oxidizer.initialize(file);
    }
+
+   //
+   //
+   //
+   private void setUpThread(){
+      String name = new String("Fuel System "+this._stageNumber);
+      name += (", "+this._engines);
+      this._rt0 = new Thread(this, name);
+      this._rt0.start();
+   }
    
    /////////////////Fuel System Interface Implementation//////////////
+   //
+   //
+   //
+   public void addDataFeeder(DataFeeder feeder){
+      if(feeder != null){
+         this._feeder = feeder;
+         System.out.println("!!!!!!!!!!!!!!Fuel System!!!!!!!!!!!!!");
+         System.out.println(this._feeder);
+         System.out.println("!!!!!!!!!!!!!!Fuel System!!!!!!!!!!!!!");
+      }
+   }
+
+   //
+   //
+   //
+   public void addErrorListener(ErrorListener listener){
+      try{
+         if(listener != null){
+            this._errorListeners.add(listener);
+         }
+      }
+      catch(NullPointerException npe){
+         this._errorListeners = new LinkedList<ErrorListener>();
+         this._errorListeners.add(listener);
+      }
+   }
+
    //
    //
    //
@@ -114,12 +166,22 @@ public class GenericFuelSystem implements FuelSystem{
       this.setUpTanks(file);
       this.setUpPumps(file);
       this.setUpPipes(file);
+      this._start = true;
+   }
+
+   //
+   //
+   //
+   public FuelSystemData monitor(){
+      FuelSystemData fsd = null;
+      return fsd;
    }
 
    //
    //
    //
    public FuelSystemData monitorPrelaunch(){
+      /*
       FuelSystemData fsd = null;
       List<TankData> td  = new LinkedList<TankData>();
       List<PumpData> pd  = new LinkedList<PumpData>();
@@ -136,6 +198,8 @@ public class GenericFuelSystem implements FuelSystem{
       }
       fsd = new GenericFuelSystemData(pi,pd,td);
       return fsd;
+      */
+      return null;
    }
 
    //
@@ -147,5 +211,33 @@ public class GenericFuelSystem implements FuelSystem{
    //
    //
    public FuelSystemData monitorLaunch(){ return null; }
+
+   //////////////////////Runnable Implementation//////////////////////
+   //
+   //
+   //
+   public void run(){
+      try{
+         while(true){
+            if(this._kill){
+               throw new InterruptedException();
+            }
+            if(this._start){
+               //Monitor at a constant pace regardless of
+               //State/Substate
+               Thread.sleep(10);
+            }
+            else{ 
+               Thread.sleep(1);
+            }
+         }
+      }
+      catch(InterruptedException ie){}
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         System.exit(0);
+      }
+   
+   }
 }
 //////////////////////////////////////////////////////////////////////
