@@ -90,6 +90,15 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    //
    //
    //
+   private List<PumpData> monitorPumps(){
+      List<PumpData> pd = null;
+
+      return pd;
+   }
+
+   //
+   //
+   //
    private List<TankData> monitorTanks(){
       List<TankData> td = null;
       try{
@@ -269,6 +278,7 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
                //Monitor at a constant pace regardless of
                //State/Substate
                List<TankData> tankData = this.monitorTanks();
+               List<PumpData> pumpData = this.monitorPumps();
                Thread.sleep(10);
                if(count%100 == 0){
                   System.out.println("**********FuelSystem**********");

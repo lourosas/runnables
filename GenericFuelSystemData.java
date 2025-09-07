@@ -144,20 +144,26 @@ public class GenericFuelSystemData implements FuelSystemData{
    //
    public String toString(){
       String value = new String("\nFuel System:  ");
-      Iterator<PipeData> it = this._pipes.iterator();
-      while(it.hasNext()){
-         value += it.next().toString();
+      try{
+         Iterator<PipeData> it = this._pipes.iterator();
+         while(it.hasNext()){
+            value += it.next().toString();
+         }
+         Iterator<PumpData> ip = this._pumps.iterator();
+         while(ip.hasNext()){
+            value += ip.next().toString();
+         }
+         Iterator<TankData> is = this._tanks.iterator();
+         while(is.hasNext()){
+            value += is.next().toString();
+         }
       }
-      Iterator<PumpData> ip = this._pumps.iterator();
-      while(ip.hasNext()){
-         value += ip.next().toString();
+      catch(NullPointerException npe){
+         value += "\n" + npe.getMessage();
       }
-      Iterator<TankData> is = this._tanks.iterator();
-      while(is.hasNext()){
-         value += is.next().toString();
+      finally{
+         return value;
       }
-      //Add ERROR Data!!!!
-      return value;
    }
 }
 //////////////////////////////////////////////////////////////////////

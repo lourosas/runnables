@@ -179,16 +179,7 @@ public class GenericPump implements Pump{
    //
    //
    //
-   public void initialize(String file)throws IOException{
-      if((this._stage > 0) && (this._tank > 0)){
-         this.pumpData(file);
-      }
-   }
-
-   //
-   //
-   //
-   public PumpData monitorPrelaunch(){
+   public PumpData monitor(){
       PumpData data = null;
       this.measureFlow();
       this.measureTemperature();
@@ -208,11 +199,20 @@ public class GenericPump implements Pump{
    //
    //
    //
-   public PumpData monitorIgnition(){ return null; }
+   public void initialize(String file)throws IOException{
+      if((this._stage > 0) && (this._tank > 0)){
+         this.pumpData(file);
+      }
+   }
 
    //
    //
    //
-   public PumpData monitorLaunch(){ return null; }
+   public void addDataFeeder(DataFeeder feeder){}
+
+   //
+   //
+   //
+   public void addErrorListener(ErrorListener listener){}
 }
 //////////////////////////////////////////////////////////////////////
