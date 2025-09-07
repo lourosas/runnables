@@ -21,27 +21,43 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 
-public class GenericTank implements Tank{
-   private static final int PRELAUNCH = -1;
-   private static final int IGNITION  =  0;
-   private static final int LAUNCH    =  1;
+public class GenericTank implements Tank, Runnable{
+   private static boolean TOPRINT = true;
 
-   private double  _capacity; //In Liters
-   private double  _density;
-   private double  _measuredCapacity; //In Liters
-   private String  _error;
-   private String  _fuel;
-   private long    _model;
-   private double  _emptyRate; //Liters/Sec
-   private double  _measuredEmptyRate; //Liters/Sec
-   private boolean _isError;
-   private int     _stageNumber;
-   private int     _tankNumber;
-   private double  _temperature;
-   private double  _measuredTemperature;
-   private double  _tolerance;
+   private LaunchStateSubstate.State INIT      = null; 
+   private LaunchStateSubstate.State PRELAUNCH = null;
+   private LaunchStateSubstate.State IGNITION  = null;
+   private LaunchStateSubstate.State LAUNCH    = null; 
+
+   private double     _capacity; //In Liters
+   private double     _density;
+   private double     _measuredCapacity; //In Liters
+   private String     _error;
+   private String     _fuel;
+   private boolean    _kill;
+   private long       _model;
+   private double     _emptyRate; //Liters/Sec
+   private double     _measuredEmptyRate; //Liters/Sec
+   private boolean    _isError;
+   private Object     _obj;
+   private int        _stageNumber;
+   private int        _tankNumber;
+   private double     _temperature;
+   private double     _measuredTemperature;
+   private Thread     _rt0;
+   private boolean    _start;
+   private double     _tolerance;
+
+   private DataFeeder          _feeder;
+   private List<ErrorListener> _errorListeners; 
+   private LaunchStateSubstate _state;
 
    {
+      INIT      = LaunchStateSubstate.State.INITIALIZE;
+      PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
+      IGNITION  = LaunchStateSubstate.State.IGNITION;
+      LAUNCH    = LaunchStateSubstate.State.LAUNCH;
+
       _capacity                = Double.NaN;
       _density                 = Double.NaN;
       _measuredCapacity        = Double.NaN;
@@ -51,11 +67,18 @@ public class GenericTank implements Tank{
       _emptyRate               = Double.NaN;
       _measuredEmptyRate       = Double.NaN;
       _isError                 = false;
+      _kill                    = false;
+      _obj                     = null;
       _stageNumber             = -1;
       _tankNumber              = -1;
       _temperature             = Double.NaN;
       _measuredTemperature     = Double.NaN;
       _tolerance               = Double.NaN;
+      _feeder                  = null;
+      _errorListeners          = null;
+      _rt0                     = null;
+      _start                   = false;
+      _state                   = null;
    };
 
    ///////////////////////////Constructor/////////////////////////////
@@ -69,6 +92,8 @@ public class GenericTank implements Tank{
       if(number > 0){
          this._tankNumber  = number;
       }
+      this._obj = new Object();
+      this.setUpThread();
    }
 
    ////////////////////////////Private Methods////////////////////////
@@ -97,9 +122,10 @@ public class GenericTank implements Tank{
    //
    //
    //
-   private void isCapacityError(int state){
+   private void isCapacityError(){
       double g = 9.81;
-      if(state == PRELAUNCH){
+      if(this._state.state() == INIT){}
+      if(this._state.state() == PRELAUNCH){
          //Durring Prelaunch, the capacity must be with in tolerance,
          //since there should be NO FLOW in the Tank in Pre-Launch!
          double limit  = this._capacity * this._tolerance;
@@ -127,19 +153,20 @@ public class GenericTank implements Tank{
    //
    //
    //
-   private void isError(int state){
+   private void isError(){
       this._error   = null;
       this._isError = false;
-      this.isCapacityError(state);
-      this.isFlowError(state);
-      this.isTemperatureError(state);
+      this.isCapacityError();
+      this.isFlowError();
+      this.isTemperatureError();
    }
 
    //
    //
    //
-   private void isFlowError(int state){
-      if(state == PRELAUNCH){
+   private void isFlowError(){
+      if(this._state.state() == INIT){}
+      else if(this._state.state() == PRELAUNCH){
          //At prelaunch, there literally better not be ANY flow!
          double err = 0.05;
          if(this._measuredEmptyRate >= err){
@@ -162,7 +189,7 @@ public class GenericTank implements Tank{
    //Fuel Temp MUST be the same regargless of State!!!
    //
    //
-   private void isTemperatureError(int state){
+   private void isTemperatureError(){
       double ul = this._temperature*(2 - this._tolerance);
       double ll = this._temperature*this._tolerance;
       double m  = this._measuredTemperature;
@@ -242,6 +269,16 @@ public class GenericTank implements Tank{
    //
    //
    //
+   private void setUpThread(){
+      String name = new String("Tank: "+this._stageNumber+", ");
+      name += this._tankNumber;
+      this._rt0 = new Thread(this, name);
+      this._rt0.start();
+   }
+
+   //
+   //
+   //
    private void tankData(String file)throws IOException{
       if(file.toUpperCase().contains("INI")){
          LaunchSimulatorIniFileReader read = null;
@@ -258,21 +295,12 @@ public class GenericTank implements Tank{
    //
    //
    //
-   public void initialize(String file)throws IOException{
-      if(this._stageNumber > 0 && this._tankNumber > 0){
-         this.tankData(file);
-      }
-   }
-
-   //
-   //
-   //
-   public TankData monitorPrelaunch(){ 
+   public TankData monitor(){
       TankData tankData = null;
       this.measureCapacity();
       this.measureEmptyRate();
       this.measureTemperature();
-      this.isError(PRELAUNCH);
+      this.isError();
       tankData = new GenericTankData(
                               this._measuredCapacity,
                               this._density,
@@ -289,11 +317,65 @@ public class GenericTank implements Tank{
    //
    //
    //
-   public TankData monitorIgnition(){ return null; }
+   public void initialize(String file)throws IOException{
+      if(this._stageNumber > 0 && this._tankNumber > 0){
+         this.tankData(file);
+      }
+      this._state = new LaunchStateSubstate(INIT,null,null,null);
+      this._start = true;
+   }
 
    //
    //
    //
-   public TankData monitorLaunch(){ return null; }
+   public void addDataFeeder(DataFeeder feeder){
+      if(feeder != null){
+         this._feeder = feeder;
+      }
+   }
+
+   //
+   //
+   //
+   public void addErrorListener(ErrorListener listener){
+      try{
+         if(listener != null){
+            this._errorListeners.add(listener);
+         }
+      }
+      catch(NullPointerException npe){
+         this._errorListeners = new LinkedList<ErrorListener>();
+         this._errorListeners.add(listener);
+      }
+   }
+
+   //////////////////////////Runnble Interface////////////////////////
+   //
+   //
+   //
+   public void run(){
+      try{
+         while(true){
+            if(this._kill){
+               throw new InterruptedException();
+            }
+            if(this._start){
+               if(this._state.state() == INIT){
+                  //For later determiniation
+                  Thread.sleep(5000);
+               }
+            }
+            else{
+               Thread.sleep(1);
+            }
+            
+         }
+      }
+      catch(InterruptedException ie){}
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         System.exit(0);
+      }
+   }
 }
 //////////////////////////////////////////////////////////////////////

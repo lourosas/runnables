@@ -23,11 +23,18 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class GenericFuelSystem implements FuelSystem, Runnable{
-   
+   private static boolean TOPRINT = true;
+
+   private LaunchStateSubstate.State INIT      = null; 
+   private LaunchStateSubstate.State PRELAUNCH = null;
+   private LaunchStateSubstate.State IGNITION  = null;
+   private LaunchStateSubstate.State LAUNCH    = null; 
+
    private int                 _engines;
    private boolean             _kill;
    private int                 _stageNumber;
    private boolean             _start;
+
    private List<ErrorListener> _errorListeners;
    private DataFeeder          _feeder;
    private Object              _obj;
@@ -37,8 +44,14 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    private Pump                _fuelPump;
    private Pump                _oxidizerPump;
    private Thread              _rt0;
-
+   private FuelSystemData      _fuelSystemData;
+   private LaunchStateSubstate _state;
    {
+      INIT      = LaunchStateSubstate.State.INITIALIZE;
+      PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
+      IGNITION  = LaunchStateSubstate.State.IGNITION;
+      LAUNCH    = LaunchStateSubstate.State.LAUNCH;
+
       _engines        = -1;
       _kill           = false;
       _stageNumber    = -1;
@@ -52,6 +65,8 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
       _oxidizerPump   = null;
       _fuelPump       = null;
       _rt0            = null;
+      _fuelSystemData = null;
+      _state          = null;
    };
 
    ////////////////////////////Constructor////////////////////////////
@@ -72,6 +87,15 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    }
 
    ////////////////////Private Methods////////////////////////////////
+   //
+   //
+   //
+   private List<TankData> monitorTanks(){
+      List<TankData> td = null;
+
+      return td;
+   }
+
    //
    //
    //
@@ -166,6 +190,7 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
       this.setUpTanks(file);
       this.setUpPumps(file);
       this.setUpPipes(file);
+      this._state = new LaunchStateSubstate(INIT,null,null,null);
       this._start = true;
    }
 
@@ -225,6 +250,7 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
             if(this._start){
                //Monitor at a constant pace regardless of
                //State/Substate
+               List<TankData> tankData = this.monitorTanks();
                Thread.sleep(10);
             }
             else{ 

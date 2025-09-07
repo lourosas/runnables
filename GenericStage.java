@@ -234,6 +234,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    private FuelSystemData monitorFuelSystem(){
       FuelSystemData fsd = null;
       synchronized(this._obj){
+         fsd = this._fuelSystem.monitor();
          System.out.println("&&&&&&&&&&&&&&Generic Stage&&&&&&&&&&&");
          System.out.println(fsd);
          System.out.println("&&&&&&&&&&&&&&Generic Stage&&&&&&&&&&&");

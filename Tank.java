@@ -22,9 +22,9 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public interface Tank{
+   public TankData monitor();
    public void initialize(String file)throws IOException;
-   public TankData monitorPrelaunch();
-   public TankData monitorIgnition();
-   public TankData monitorLaunch();
+   public void addDataFeeder(DataFeeder feeder);
+   public void addErrorListener(ErrorListener listener);
 }
 //////////////////////////////////////////////////////////////////////
