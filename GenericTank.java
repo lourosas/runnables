@@ -39,18 +39,18 @@ public class GenericTank implements Tank, Runnable{
    private double     _emptyRate; //Liters/Sec
    private double     _measuredEmptyRate; //Liters/Sec
    private boolean    _isError;
-   private Object     _obj;
    private int        _stageNumber;
    private int        _tankNumber;
    private double     _temperature;
    private double     _measuredTemperature;
-   private Thread     _rt0;
    private boolean    _start;
    private double     _tolerance;
 
    private DataFeeder          _feeder;
    private List<ErrorListener> _errorListeners; 
    private LaunchStateSubstate _state;
+   private Object              _obj;
+   private Thread              _rt0;
 
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
