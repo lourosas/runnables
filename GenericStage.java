@@ -261,7 +261,6 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    (
       List<Hashtable<String,String>> data
    ){
-      //System.out.println(data);
       //will need to figure out which Stage it is...pretty simple
       this._stageData = null;  //Erase all previous data
       for(int i = 0; i < data.size(); ++i){

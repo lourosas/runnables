@@ -51,6 +51,7 @@ public class GenericTank implements Tank, Runnable{
    private LaunchStateSubstate _state;
    private Object              _obj;
    private Thread              _rt0;
+   private TankData            _tankData;
 
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
@@ -79,6 +80,7 @@ public class GenericTank implements Tank, Runnable{
       _rt0                     = null;
       _start                   = false;
       _state                   = null;
+      _tankData                = null;
    };
 
    ///////////////////////////Constructor/////////////////////////////
@@ -236,6 +238,31 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    //
+   private void monitorTank(){
+      /*
+       * WILL NEED TO CHANGE TO SOMETHING SIMILAR TO GenericStage!!!
+      */
+      TankData tankData = null;
+      this.measureCapacity();
+      this.measureEmptyRate();
+      this.measureTemperature();
+      this.isError();
+      tankData = new GenericTankData(
+                              this._measuredCapacity,
+                              this._density,
+                              this._measuredEmptyRate,
+                              this._error,
+                              this._fuel,
+                              this._isError,
+                              this._tankNumber,
+                              this._stageNumber,
+                              this._measuredTemperature);
+      this._tankData = tankData;
+   }
+
+   //
+   //
+   //
    private void setTankData
    (
       List<Hashtable<String,String>> data
@@ -296,22 +323,7 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    public TankData monitor(){
-      TankData tankData = null;
-      this.measureCapacity();
-      this.measureEmptyRate();
-      this.measureTemperature();
-      this.isError();
-      tankData = new GenericTankData(
-                              this._measuredCapacity,
-                              this._density,
-                              this._measuredEmptyRate,
-                              this._error,
-                              this._fuel,
-                              this._isError,
-                              this._tankNumber,
-                              this._stageNumber,
-                              this._measuredTemperature);
-      return tankData;
+      return this._tankData;
    }
 
    //
@@ -360,6 +372,8 @@ public class GenericTank implements Tank, Runnable{
                throw new InterruptedException();
             }
             if(this._start){
+               //Something different to do...
+               this.monitorTank();
                if(this._state.state() == INIT){
                   //For later determiniation
                   Thread.sleep(5000);
