@@ -92,8 +92,20 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    //
    private List<TankData> monitorTanks(){
       List<TankData> td = null;
-
-      return td;
+      try{
+         td = new LinkedList<TankData>();
+         synchronized(this._obj){
+            td.add(this._fuel.monitor());
+            td.add(this._oxidizer.monitor());
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         td = null;
+      }
+      finally{
+         return td;
+      }
    }
 
    //
@@ -161,9 +173,14 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    public void addDataFeeder(DataFeeder feeder){
       if(feeder != null){
          this._feeder = feeder;
-         System.out.println("!!!!!!!!!!!!!!Fuel System!!!!!!!!!!!!!");
-         System.out.println(this._feeder);
-         System.out.println("!!!!!!!!!!!!!!Fuel System!!!!!!!!!!!!!");
+         try{
+            this._fuel.addDataFeeder(this._feeder);
+            this._oxidizer.addDataFeeder(this._feeder);
+         }
+         catch(NullPointerException npe){
+            //Should NEVER GET here!!!
+            npe.printStackTrace();
+         }
       }
    }
 
@@ -243,6 +260,7 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    //
    public void run(){
       try{
+         int count = 0;
          while(true){
             if(this._kill){
                throw new InterruptedException();
@@ -252,6 +270,13 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
                //State/Substate
                List<TankData> tankData = this.monitorTanks();
                Thread.sleep(10);
+               if(count%100 == 0){
+                  System.out.println("**********FuelSystem**********");
+                  System.out.println(tankData);
+                  System.out.println("Count: "+count);
+                  System.out.println("**********FuelSystem**********");
+               }
+               ++count;
             }
             else{ 
                Thread.sleep(1);
