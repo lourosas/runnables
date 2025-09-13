@@ -261,7 +261,11 @@ public class GenericPump implements Pump, Runnable{
    //
    //
    //
-   public void addDataFeeder(DataFeeder feeder){}
+   public void addDataFeeder(DataFeeder feeder){
+      if(feeder != null){
+         this._feeder = feeder;
+      }
+   }
 
    //
    //

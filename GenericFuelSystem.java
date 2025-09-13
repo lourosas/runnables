@@ -185,6 +185,13 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
          try{
             this._fuel.addDataFeeder(this._feeder);
             this._oxidizer.addDataFeeder(this._feeder);
+            this._fuelPump.addDataFeeder(this._feeder);
+            this._oxidizerPump.addDataFeeder(this._feeder);
+            Iterator<Pipe> it = this._pipes.iterator();
+            while(it.hasNext()){
+               Pipe p = it.next();
+               p.addDataFeeder(this._feeder);
+            }
          }
          catch(NullPointerException npe){
             //Should NEVER GET here!!!
