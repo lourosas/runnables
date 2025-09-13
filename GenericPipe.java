@@ -301,7 +301,7 @@ public class GenericPipe implements Pipe, Runnable{
                //this.monitorPipe();
                if(this._state.state() == INIT){
                   //For later determination
-                  Thread.sleep(5000);
+                  Thread.sleep(7500);
                }
             }
             else{

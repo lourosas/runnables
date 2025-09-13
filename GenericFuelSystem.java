@@ -90,6 +90,15 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    //
    //
    //
+   private List<PipeData> monitorPipes(){
+      List<PipeData> pd = null;
+
+      return pd;
+   }
+
+   //
+   //
+   //
    private List<PumpData> monitorPumps(){
       List<PumpData> pd = null;
 
@@ -286,12 +295,22 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
                //State/Substate
                List<TankData> tankData = this.monitorTanks();
                List<PumpData> pumpData = this.monitorPumps();
+               List<PipeData> pipeData = this.monitorPipes();
                Thread.sleep(10);
                if(count%100 == 0){
-                  System.out.println("**********FuelSystem**********");
+                  System.out.println("******FuelSystem TankData*****");
                   System.out.println(tankData);
                   System.out.println("Count: "+count);
-                  System.out.println("**********FuelSystem**********");
+                  System.out.println("******FuelSystem TankData*****");
+                  System.out.println("******PumpSystem TankData*****");
+                  System.out.println("Count: "+count);
+                  System.out.println(pumpData);
+                  System.out.println("******PumpSystem TankData*****");
+                  System.out.println("******PipeSystem TankData*****");
+                  System.out.println("Count: "+count);
+                  System.out.println(pipeData);
+                  System.out.println("******PipeSystem TankData*****");
+
                }
                ++count;
             }
