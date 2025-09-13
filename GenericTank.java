@@ -257,7 +257,9 @@ public class GenericTank implements Tank, Runnable{
                               this._tankNumber,
                               this._stageNumber,
                               this._measuredTemperature);
-      this._tankData = tankData;
+      synchronized(this._obj){
+         this._tankData = tankData;
+      }
    }
 
    //
@@ -323,7 +325,9 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    public TankData monitor(){
-      return this._tankData;
+      synchronized(this._obj){
+         return this._tankData;
+      }
    }
 
    //

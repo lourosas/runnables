@@ -46,6 +46,7 @@ public class GenericPump implements Pump, Runnable{
    private List<ErrorListener> _errorListeners;
    private LaunchStateSubstate _state;
    private Object              _obj;
+   private PumpData            _pumpData;
    private Thread              _rt0;
 
    {
@@ -70,6 +71,7 @@ public class GenericPump implements Pump, Runnable{
       _errorListeners      = null;
       _state               = null;
       _obj                 = null;
+      _pumpData            = null;
       _rt0                 = null;
    };
 
@@ -169,6 +171,29 @@ public class GenericPump implements Pump, Runnable{
    //
    //
    //
+   private void monitorPump(){
+      //WILL NEED TO CHANGE TO SOMETHING SIMILAR TO GenericStage!!!
+      //writing just for reference!
+      PumpData pd = null;
+      this.measureFlow();
+      this.measureTemperature();
+      this.isError();
+      pd = new GenericPumpData(this._error,
+                               this._measuredRate,
+                               this._tank,
+                               this._isError,
+                               this._stage,
+                               this._measuredTemperature,
+                               this._tolerance,
+                               null);
+      synchronized(this._obj){
+         this._pumpData = pd;
+      }
+   }
+
+   //
+   //
+   //
    private void pumpData(String file)throws IOException{
       if(file.toUpperCase().contains("INI")){
          LaunchSimulatorIniFileReader read = null;
@@ -217,20 +242,9 @@ public class GenericPump implements Pump, Runnable{
    //
    //
    public PumpData monitor(){
-      PumpData data = null;
-      this.measureFlow();
-      this.measureTemperature();
-      this.isError();
-      data = new GenericPumpData(
-                            this._error,
-                            this._measuredRate,
-                            this._tank,
-                            this._isError,
-                            this._stage,
-                            this._measuredTemperature,
-                            this._tolerance,
-                            null);
-      return data;
+      synchronized(this._obj){
+         return this._pumpData;
+      }
    }
 
    //
@@ -254,7 +268,7 @@ public class GenericPump implements Pump, Runnable{
    //
    public void addErrorListener(ErrorListener listener){}
 
-   //////////////////////////Runnble Interface////////////////////////
+   /////////////////////////Runnable Interface////////////////////////
    //
    //
    //
@@ -265,6 +279,7 @@ public class GenericPump implements Pump, Runnable{
                throw new InterruptedException();
             }
             if(this._start){
+               //this.monitorPump();
                if(this._state.state() == INIT){
                   //For later determination
                   Thread.sleep(15000);

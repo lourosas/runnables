@@ -22,15 +22,20 @@ import java.util.*;
 import java.io.IOException;
 import rosas.lou.runnables.*;
 
-public class GenericPipe implements Pipe{
-   private static final int PRELAUNCH = -1;
-   private static final int IGNITION  =  0;
-   private static final int LAUNCH    =  1;
+public class GenericPipe implements Pipe, Runnable{
+   private static boolean TOPRINT = true;
+   
+   private LaunchStateSubstate.State INIT      = null; 
+   private LaunchStateSubstate.State PRELAUNCH = null;
+   private LaunchStateSubstate.State IGNITION  = null;
+   private LaunchStateSubstate.State LAUNCH    = null;
 
    private String   _error;
    private boolean  _isError;
+   private boolean  _kill;
    private int      _tank;  //Tank Number (1,2)
    private int      _stage; //Stage Number (1...total stages)
+   private boolean  _start;
    //Pipe Number for the Tank (1,2)--corresponds to the engine...
    private int      _number; 
    private double   _rate;
@@ -39,17 +44,38 @@ public class GenericPipe implements Pipe{
    private double   _measuredTemperature;
    private double   _tolerance;
 
+   private DataFeeder          _feeder;
+   private List<ErrorListener> _errorListeners;
+   private LaunchStateSubstate _state;
+   private Object              _obj;
+   private PipeData            _pipeData;
+   private Thread              _rt0;
+
    {
+      INIT      = LaunchStateSubstate.State.INITIALIZE;
+      PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
+      IGNITION  = LaunchStateSubstate.State.IGNITION;
+      LAUNCH    = LaunchStateSubstate.State.LAUNCH;
+
       _error               = null;
       _isError             = false;
+      _kill                = false;
       _tank                = -1;
       _stage               = -1;
+      _start               = false;
       _number              = -1;
       _rate                = Double.NaN;
       _measuredRate        = Double.NaN;
       _temperature         = Double.NaN;
       _measuredTemperature = Double.NaN;
       _tolerance           = Double.NaN;
+
+      _feeder              = null;
+      _errorListeners      = null;
+      _state               = null;
+      _obj                 = null;
+      _pipeData            = null;
+      _rt0                 = null;
    };
 
    ///////////////////////////Constructor/////////////////////////////
@@ -66,24 +92,27 @@ public class GenericPipe implements Pipe{
       if(number > 0){
          this._number = number;
       }
+      this._obj = new Object();
+      this.setUpThread();
    }
 
    //////////////////////////Private Methods//////////////////////////
    //
    //
    //
-   private void isError(int state){
+   private void isError(){
       this._error    = null;
       this._isError  = false;
-      this.isFlowError(state);
-      this.isTemperatureError(state);
+      this.isFlowError();
+      this.isTemperatureError();
    }
 
    //
    //
    //
-   private void isFlowError(int state){
-      if(state == PRELAUNCH){
+   private void isFlowError(){
+      if(this._state.state() == INIT){}
+      else if(this._state.state() == PRELAUNCH){
          //At Prelaunch, there litterally better not be any Flow!
          double err = 0.05;
          if(this._measuredRate >= err){
@@ -107,8 +136,9 @@ public class GenericPipe implements Pipe{
    //
    //
    //
-   private void isTemperatureError(int state){
-      if(state == PRELAUNCH){
+   private void isTemperatureError(){
+      if(this._state.state() == INIT){}
+      else if(this._state.state() == PRELAUNCH){
          double ul = this._temperature*(2-this._tolerance);
          double ll = this._temperature*this._tolerance;
          double m  = this._measuredTemperature;
@@ -146,6 +176,28 @@ public class GenericPipe implements Pipe{
    //
    //
    //
+   private void monitorPipe(){
+      PipeData pd = null;
+      this.measureFlow();
+      this.measureTemperature();
+      this.isError();
+      pd = new GenericPipeData(this._error,
+                               this._measuredRate,
+                               this._number, //Pipe Number
+                               this._isError,
+                               this._stage,
+                               this._tank,   //Tank Number
+                               this._measuredTemperature,
+                               this._tolerance,
+                               null);   
+      synchronized(this._obj){
+         this._pipeData = pd;
+      }
+   }
+
+   //
+   //
+   //
    private void pipeData(String file)throws IOException{
       if(file.toUpperCase().contains("INI")){
          LaunchSimulatorIniFileReader read = null;
@@ -163,6 +215,8 @@ public class GenericPipe implements Pipe{
    //
    private void setPipeData(List<Hashtable<String,String>> data ){
       System.out.println("Pipes: "+data);
+      //This will need to change similar to GenericStage!
+      //Use PipeData
       for(int i = 0; i < data.size(); ++i){
          Hashtable<String,String> ht = data.get(i);
          try{
@@ -185,6 +239,16 @@ public class GenericPipe implements Pipe{
       }
    }
 
+   //
+   //
+   //
+   private void setUpThread(){
+      String name = new String("Pipe: "+this._stage+", "+this._tank);
+      name += ", "+this._number;
+      this._rt0 = new Thread(this, name);
+      this._rt0.start();
+   }
+
    ////////////////////Pipe Interface Implementation//////////////////
    //
    //
@@ -195,38 +259,58 @@ public class GenericPipe implements Pipe{
       int num   = this._number;
       if((tank > 0) && (stage > 0) && (num > 0)){
          this.pipeData(file);
+         this._state = new LaunchStateSubstate(INIT,null,null,null);
+         this._start = true;
       }
    }
 
    //
    //
    //
-   public PipeData monitorPrelaunch(){
-      PipeData data = null;
-      this.measureFlow();
-      this.measureTemperature();
-      this.isError(PRELAUNCH);
-      data = new GenericPipeData(
-                                 this._error,
-                                 this._measuredRate,
-                                 this._number, //Pipe Number
-                                 this._isError,
-                                 this._stage,
-                                 this._tank,   //Tank Number
-                                 this._measuredTemperature,
-                                 this._tolerance,
-                                 null);
-      return data;
+   public PipeData monitor(){
+      synchronized(this._obj){
+         return this._pipeData;
+      }
    }
 
    //
    //
    //
-   public PipeData monitorIgnition(){ return null; }
+   public void addDataFeeder(DataFeeder feeder){}
 
    //
    //
    //
-   public PipeData monitorLaunch(){ return null; }
+   public void addErrorListener(ErrorListener listener){}
+
+   ///////////////////Runnable Interface Implementation///////////////
+   //
+   //
+   //
+   public void run(){
+      try{
+         while(true){
+            if(this._kill){
+               throw new InterruptedException();
+            }
+            if(this._start){
+               //this.monitorPipe();
+               if(this._state.state() == INIT){
+                  //For later determination
+                  Thread.sleep(5000);
+               }
+            }
+            else{
+               Thread.sleep(1);
+            }
+         }
+      }
+      catch(InterruptedException ie){}
+      catch(NullPointerException npe){
+         //Should NEVER GET HERE!!!
+         npe.printStackTrace();
+         System.exit(0);
+      }
+   }
 }
 //////////////////////////////////////////////////////////////////////
