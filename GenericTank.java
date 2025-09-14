@@ -29,22 +29,10 @@ public class GenericTank implements Tank, Runnable{
    private LaunchStateSubstate.State IGNITION  = null;
    private LaunchStateSubstate.State LAUNCH    = null; 
 
-   private double     _capacity; //In Liters
-   private double     _density;
-   private double     _measuredCapacity; //In Liters
-   private String     _error;
-   private String     _fuel;
    private boolean    _kill;
-   private long       _model;
-   private double     _emptyRate; //Liters/Sec
-   private double     _measuredEmptyRate; //Liters/Sec
-   private boolean    _isError;
    private int        _stageNumber;
    private int        _tankNumber;
-   private double     _temperature;
-   private double     _measuredTemperature;
    private boolean    _start;
-   private double     _tolerance;
 
    private DataFeeder          _feeder;
    private List<ErrorListener> _errorListeners; 
@@ -64,7 +52,6 @@ public class GenericTank implements Tank, Runnable{
       _obj                 = null;
       _stageNumber         = -1;
       _tankNumber          = -1;
-      _measuredTemperature = Double.NaN;
       _start               = false;
 
       _feeder           = null;
@@ -107,7 +94,7 @@ public class GenericTank implements Tank, Runnable{
    private double convertToMass(double volume){
       //Convert from Liters to cubic meters...
       //Multiply by density to get mass...
-      double mass = (volume/1000)*this._density;
+      double mass = (volume/1000)*this._tankData.density();
       return mass;
    }
 
@@ -119,14 +106,15 @@ public class GenericTank implements Tank, Runnable{
       //Convert from Liters to cubic meters...
       //Multiply by desnsity to get mass...
       //Multiply by g to get weight-->F = ma...
-      double weight = (volume/1000)*this._density*g;
+      double weight = (volume/1000)*this._tankData.density()*g;
       return weight;
    }
 
    //
    //
    //
-   private void isCapacityError(){
+   private boolean isCapacityError(){
+      /*
       double g = 9.81;
       if(this._state.state() == INIT){}
       if(this._state.state() == PRELAUNCH){
@@ -152,23 +140,29 @@ public class GenericTank implements Tank, Runnable{
             this._error += "\nExpected Weight:   "+weight;
          }
       }
+      */
+      return false;
    }
 
    //
    //
    //
    private void isError(){
-      this._error   = null;
-      this._isError = false;
-      this.isCapacityError();
-      this.isFlowError();
-      this.isTemperatureError();
+      boolean isError = false;
+      String  error   = null;
+      //Determine the Error For all the Measured data...
+      isError |= this.isCapacityError();
+      isError |= this.isFlowError();
+      isError |= this.isTemperatureError();
+      isError |= this.isWeightError();
+      if(isError){}
    }
 
    //
    //
    //
-   private void isFlowError(){
+   private boolean isFlowError(){
+      /*
       if(this._state.state() == INIT){}
       else if(this._state.state() == PRELAUNCH){
          //At prelaunch, there literally better not be ANY flow!
@@ -188,12 +182,15 @@ public class GenericTank implements Tank, Runnable{
             this._error += "\nMeasured Mass Loss: " + mass;
          }
       }
+      */
+      return false;
    }
 
    //Fuel Temp MUST be the same regargless of State!!!
    //
    //
-   private void isTemperatureError(){
+   private boolean isTemperatureError(){
+      /*
       double ul = this._temperature*(2 - this._tolerance);
       double ll = this._temperature*this._tolerance;
       double m  = this._measuredTemperature;
@@ -210,6 +207,15 @@ public class GenericTank implements Tank, Runnable{
          this._error += "\nRequired Temp:  "+this._temperature;
          this._error += "\nMeasured Temp:  "+m;
       }
+      */
+      return false;
+   }
+
+   //
+   //
+   //
+   private  boolean isWeightError(){
+      return false;
    }
 
    //The Capacity is measured in liters--converted into m^3
