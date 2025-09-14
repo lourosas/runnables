@@ -24,6 +24,7 @@ import rosas.lou.runnables.*;
 public interface TankData{
    public double   capacity();
    public double   density();
+   public double   dryWeight();
    public double   emptyRate();
    public String   error();
    public String   fuel(); //Fuel Type...
@@ -32,7 +33,8 @@ public interface TankData{
    public int      number();
    public int      stage();
    public double   temperature();
-   public double   weight(); //Derived...
+   public double   tolerance();
+   public double   weight(); //Measured
    public String   toString();
 }
 //////////////////////////////////////////////////////////////////////

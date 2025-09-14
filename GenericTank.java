@@ -52,6 +52,7 @@ public class GenericTank implements Tank, Runnable{
    private Object              _obj;
    private Thread              _rt0;
    private TankData            _tankData;
+   private TankData            _measuredTankData;
 
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
@@ -59,28 +60,19 @@ public class GenericTank implements Tank, Runnable{
       IGNITION  = LaunchStateSubstate.State.IGNITION;
       LAUNCH    = LaunchStateSubstate.State.LAUNCH;
 
-      _capacity                = Double.NaN;
-      _density                 = Double.NaN;
-      _measuredCapacity        = Double.NaN;
-      _error                   = null;
-      _fuel                    = null;
-      _model                   = -1;
-      _emptyRate               = Double.NaN;
-      _measuredEmptyRate       = Double.NaN;
-      _isError                 = false;
-      _kill                    = false;
-      _obj                     = null;
-      _stageNumber             = -1;
-      _tankNumber              = -1;
-      _temperature             = Double.NaN;
-      _measuredTemperature     = Double.NaN;
-      _tolerance               = Double.NaN;
-      _feeder                  = null;
-      _errorListeners          = null;
-      _rt0                     = null;
-      _start                   = false;
-      _state                   = null;
-      _tankData                = null;
+      _kill                = false;
+      _obj                 = null;
+      _stageNumber         = -1;
+      _tankNumber          = -1;
+      _measuredTemperature = Double.NaN;
+      _start               = false;
+
+      _feeder           = null;
+      _errorListeners   = null;
+      _rt0              = null;
+      _state            = null;
+      _measuredTankData = null;
+      _tankData         = null;
    };
 
    ///////////////////////////Constructor/////////////////////////////
@@ -99,6 +91,16 @@ public class GenericTank implements Tank, Runnable{
    }
 
    ////////////////////////////Private Methods////////////////////////
+   //
+   //
+   //
+   private double calculateWeight(){
+      //Stop Gap for now...will need to calculate the weight (and
+      //eventually the mass) based on the density and measured
+      //volume...return the dry weight for the time being...
+      return this._tankData.dryWeight();
+   }
+
    //
    //
    //
@@ -213,53 +215,39 @@ public class GenericTank implements Tank, Runnable{
    //The Capacity is measured in liters--converted into m^3
    //
    //
-   private void measureCapacity(){
+   private double measureCapacity(){
       double g = 9.81;
       //Stop Gap for the time being...
-      this._measuredCapacity = this._capacity;
+      return 0.;
    }
 
    //
    //
    //
-   private void measureEmptyRate(){
+   private double measureEmptyRate(){
       //Need to figure out how to measure
-      this._measuredEmptyRate = 0;
+      return 0.;
    }
 
    //
    //
    //
-   private void measureTemperature(){
+   private double measureTemperature(){
       //Stop Gap for now
-      this._measuredTemperature = this._temperature;
+      return this._tankData.temperature();
    }
 
    //
    //
    //
    private void monitorTank(){
-      /*
-       * WILL NEED TO CHANGE TO SOMETHING SIMILAR TO GenericStage!!!
-      */
-      TankData tankData = null;
-      this.measureCapacity();
-      this.measureEmptyRate();
-      this.measureTemperature();
+      double cap    = this.measureCapacity();
+      double er     = this.measureEmptyRate();
+      double temp   = this.measureTemperature();
+      double weight = this.calculateWeight();
+      //Determine the Error based on setting the data...
+      this.setUpTankData(cap,er,temp,weight);
       this.isError();
-      tankData = new GenericTankData(
-                              this._measuredCapacity,
-                              this._density,
-                              this._measuredEmptyRate,
-                              this._error,
-                              this._fuel,
-                              this._isError,
-                              this._tankNumber,
-                              this._stageNumber,
-                              this._measuredTemperature);
-      synchronized(this._obj){
-         this._tankData = tankData;
-      }
    }
 
    //
@@ -276,22 +264,71 @@ public class GenericTank implements Tank, Runnable{
             int stage = Integer.parseInt(ht.get("stage"));
             int num   = Integer.parseInt(ht.get("number"));
             if((stage==this._stageNumber) && (num==this._tankNumber)){
+               double den = Double.parseDouble(ht.get("density"));
                int x = Integer.parseUnsignedInt(ht.get("model"),16);
-               this._model = Integer.toUnsignedLong(x);
-               double d = Double.parseDouble(ht.get("capacity"));
-               this._capacity = d;
-               d = Double.parseDouble(ht.get("density"));
-               this._density = d;
-               this._fuel = ht.get("fuel");
-               d = Double.parseDouble(ht.get("rate"));
-               this._emptyRate = d;
-               d = Double.parseDouble(ht.get("temperature"));
-               this._temperature = d;
-               d = Double.parseDouble(ht.get("tolerance"));
-               this._tolerance = d;
+               long model = Integer.toUnsignedLong(x);
+               double cap = Double.parseDouble(ht.get("capacity"));
+               double dw  = Double.parseDouble(ht.get("dryweight"));
+               String fuel= ht.get("fuel");
+               double rate= Double.parseDouble(ht.get("rate"));
+               double temp=Double.parseDouble(ht.get("temperature"));
+               double tol = Double.parseDouble(ht.get("tolerance"));
+               //Since it is initialized...weight = dryweight
+               TankData td = new GenericTankData(cap, //Capacity
+                                                 den, //Density
+                                                 dw,  //Dry Weight
+                                                 rate,//Empty Rate
+                                                 null,//Error
+                                                 fuel,
+                                                 false,//isError
+                                                 num,  //Tank Number
+                                                 stage,//Stage
+                                                 temp,
+                                                 tol,
+                                                 dw    //Init weight
+                                                 );
+               this._tankData = td;
             }
          }
-         catch(NumberFormatException nfe){}
+         catch(NumberFormatException nfe){
+            this._tankData = null;
+         }
+      }
+   }
+
+   //
+   //
+   //
+   private void setUpTankData
+   (
+      double capacity,
+      double emptyRate,
+      double temp,
+      double weight
+   ){
+      TankData td = null;
+      double den  = this._tankData.density();
+      double dw   = this._tankData.dryWeight();
+      String fuel = this._tankData.fuel();
+      int    num  = this._tankData.number();
+      int    stage= this._tankData.stage();
+      double tol  = this._tankData.tolerance();
+      
+      td = new GenericTankData(capacity,  //Measure Capacity
+                               den,       //Density
+                               dw,        //Dry Weight
+                               emptyRate, //Empty Rate
+                               null,      //error (TBD)
+                               fuel,      //fuel type
+                               false,     //no errors (yet)
+                               num,       //tank number
+                               stage,     //Current Stage
+                               temp,      //measured temperature
+                               tol,       //tolerance
+                               weight     //measured weight
+                               );
+      synchronized(this._obj){
+         this._measuredTankData = td;
       }
    }
 
@@ -326,7 +363,7 @@ public class GenericTank implements Tank, Runnable{
    //
    public TankData monitor(){
       synchronized(this._obj){
-         return this._tankData;
+         return this._measuredTankData;
       }
    }
 

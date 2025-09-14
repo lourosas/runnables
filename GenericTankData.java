@@ -24,6 +24,7 @@ import rosas.lou.runnables.*;
 public class GenericTankData implements TankData{
    private double    _capacity; //Will change based on State
    private double    _density;  //Density of the fuel
+   private double    _dryWeight;
    private double    _emptyRate;
    private String    _error;
    private String    _fuel;     //The Fuel Type
@@ -31,10 +32,13 @@ public class GenericTankData implements TankData{
    private int       _number;   //Tank Number for the Stage
    private int       _stage;    //This is needed!!!
    private double    _temperature;
+   private double    _tolerance;
+   private double    _weight;
 
    {
       _capacity       = Double.NaN;
       _density        = Double.NaN;
+      _dryWeight      = Double.NaN;
       _emptyRate      = Double.NaN;
       _error          = null;
       _fuel           = null;
@@ -42,6 +46,8 @@ public class GenericTankData implements TankData{
       _number         = -1;
       _stage          = -1;
       _temperature    = Double.NaN;
+      _tolerance      = Double.NaN;
+      _weight         = Double.NaN;
    };
    
    ////////////////////////////Constructor////////////////////////////
@@ -52,16 +58,20 @@ public class GenericTankData implements TankData{
    (
       double   capacity,
       double   density,
+      double   dryWeight,
       double   emptyRate,
       String   error,
       String   fuel,
       boolean  isError,
       int      number,
       int      stage,
-      double   temperature
+      double   temperature,
+      double   tolerance,
+      double   weight
    ){
       this.capacity(capacity);
       this.density(density);
+      this.dryWeight(dryWeight);
       this.emptyRate(emptyRate);
       this.error(error);
       this.fuel(fuel);
@@ -69,6 +79,8 @@ public class GenericTankData implements TankData{
       this.number(number);
       this.stage(stage);
       this.temperature(temperature);
+      this.tolerance(tolerance);
+      this.weight(weight);
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -87,6 +99,15 @@ public class GenericTankData implements TankData{
    private void density(double dens){
       if(dens >= 0.){
          this._density = dens;
+      }
+   }
+
+   //
+   //
+   //
+   private void dryWeight(double dw){
+      if(dw >= 0.){
+         this._dryWeight = dw;
       }
    }
    //
@@ -144,6 +165,24 @@ public class GenericTankData implements TankData{
       this._temperature = temp;
    }
 
+   //
+   //
+   //
+   private void tolerance(double tol){
+      if(tol >= 0.){
+         this._tolerance = tol;
+      }
+   }
+
+   //
+   //
+   //
+   private void weight(double w){
+      if(w >= 0.){
+         this._weight = w;
+      }
+   }
+
    //////////////////TankData Interface Implementation////////////////
    //
    //
@@ -154,6 +193,11 @@ public class GenericTankData implements TankData{
    //
    //
    public double density(){ return this._density; }
+
+   //
+   //
+   //
+   public double dryWeight(){ return this._dryWeight; }
 
    //
    //
@@ -203,11 +247,19 @@ public class GenericTankData implements TankData{
    //
    //
    //
+   public double tolerance(){ return this._tolerance; }
+
+   //
+   //
+   //
    public double weight(){
+      /*
       double g      = 9.81;
       double mass   = (this.capacity()/1000.)*this.density();
       double weight = mass * g;
       return weight;
+      */
+      return this._weight;
    }
 
    //
@@ -222,10 +274,12 @@ public class GenericTankData implements TankData{
       }
       value += "\nCapacity:         " + this.capacity();
       value += "\nDensity:          " + this.density();
+      value += "\nDry Weight:       " + this.dryWeight();
       value += "\nWeight:           " + this.weight();
       value += "\nEmpty Rate:       " + this.emptyRate();
       value += "\nMass Loss Rate:   " + this.massLossRate();
       value += "\nTemperature:      " + this.temperature();
+      value += "\nTolerance:        " + this.tolerance();
       value += "\nFuel Type:        " + this.fuel();
       return value;
    }

@@ -101,8 +101,21 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    //
    private List<PumpData> monitorPumps(){
       List<PumpData> pd = null;
+      try{
+         pd = new LinkedList<PumpData>();
+         synchronized(this._obj){
+            pd.add(this._fuelPump.monitor());
+            pd.add(this._oxidizerPump.monitor());
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         pd = null;
+      }
+      finally{
+         return pd;
+      }
 
-      return pd;
    }
 
    //
