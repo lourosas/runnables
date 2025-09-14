@@ -91,29 +91,10 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    //
-   private double convertToMass(double volume){
-      //Convert from Liters to cubic meters...
-      //Multiply by density to get mass...
-      double mass = (volume/1000)*this._tankData.density();
-      return mass;
-   }
-
-   //Take a volume and convert to weight (Newtons)
-   //Volume in Liters
-   //
-   private double convertToWeight(double volume){
-      double g = 9.81;
-      //Convert from Liters to cubic meters...
-      //Multiply by desnsity to get mass...
-      //Multiply by g to get weight-->F = ma...
-      double weight = (volume/1000)*this._tankData.density()*g;
-      return weight;
-   }
-
-   //
-   //
-   //
-   private boolean isCapacityError(){
+   private String capacityError(){
+      String error = null;
+      //This will need to change...do not need to do this...
+      //this is more about weight...
       /*
       double g = 9.81;
       if(this._state.state() == INIT){}
@@ -141,27 +122,36 @@ public class GenericTank implements Tank, Runnable{
          }
       }
       */
-      return false;
+      return error;
    }
 
    //
    //
    //
-   private void isError(){
-      boolean isError = false;
-      String  error   = null;
-      //Determine the Error For all the Measured data...
-      isError |= this.isCapacityError();
-      isError |= this.isFlowError();
-      isError |= this.isTemperatureError();
-      isError |= this.isWeightError();
-      if(isError){}
+   private double convertToMass(double volume){
+      //Convert from Liters to cubic meters...
+      //Multiply by density to get mass...
+      double mass = (volume/1000)*this._tankData.density();
+      return mass;
+   }
+
+   //Take a volume and convert to weight (Newtons)
+   //Volume in Liters
+   //
+   private double convertToWeight(double volume){
+      double g = 9.81;
+      //Convert from Liters to cubic meters...
+      //Multiply by desnsity to get mass...
+      //Multiply by g to get weight-->F = ma...
+      double weight = (volume/1000)*this._tankData.density()*g;
+      return weight;
    }
 
    //
    //
    //
-   private boolean isFlowError(){
+   private String flowError(){
+      String error = null;
       /*
       if(this._state.state() == INIT){}
       else if(this._state.state() == PRELAUNCH){
@@ -183,39 +173,54 @@ public class GenericTank implements Tank, Runnable{
          }
       }
       */
-      return false;
+      return error;
    }
 
-   //Fuel Temp MUST be the same regargless of State!!!
    //
    //
-   private boolean isTemperatureError(){
-      /*
-      double ul = this._temperature*(2 - this._tolerance);
-      double ll = this._temperature*this._tolerance;
-      double m  = this._measuredTemperature;
-      //Error out based on tradtional limit ranges...
-      if(m < ll || m > ul){
-         this._isError = true;
-         String s = new String("\nTank Tempearture Error:  ");
-         if(this._error == null){
-            this._error = new String(s);
-         }
-         else{
-            this._error += s;
-         }
-         this._error += "\nRequired Temp:  "+this._temperature;
-         this._error += "\nMeasured Temp:  "+m;
+   //
+   private void isError(){
+      boolean isError = false;
+      String  error   = new String();
+      //Determine the Error For all the Measured data...
+      String capError = this.capacityError();
+      if(capError != null){
+         error   = capError;
+         isError = true;
       }
-      */
-      return false;
-   }
-
-   //
-   //
-   //
-   private  boolean isWeightError(){
-      return false;
+      String flowError = this.flowError();
+      if(flowError != null){
+         error  +=  flowError;
+         isError = true;
+      }
+      String tempError = this.temperatureError();
+      if(tempError != null){
+         error  += tempError;
+         isError = true;
+      }
+      String weightError = this.weightError();
+      if(weightError != null){
+         error += weightError;
+         isError = true;
+      }
+      if(isError){
+         double cap  = this._measuredTankData.capacity();
+         double den  = this._measuredTankData.density();
+         double dw   = this._measuredTankData.dryWeight();
+         double er   = this._measuredTankData.emptyRate();
+         String fuel = this._measuredTankData.fuel();
+         int    tn   = this._measuredTankData.number();
+         int    sn   = this._measuredTankData.stage();
+         double te   = this._measuredTankData.temperature();
+         double to   = this._measuredTankData.tolerance();
+         double we   = this._measuredTankData.weight();
+         TankData td = new GenericTankData(cap,den,dw,er,error,
+                                           fuel,isError,tn,sn,te,
+                                           to,we);
+         synchronized(this._obj){
+            this._measuredTankData = td;
+         }
+      }
    }
 
    //The Capacity is measured in liters--converted into m^3
@@ -363,6 +368,39 @@ public class GenericTank implements Tank, Runnable{
       }
    }
 
+   //Fuel Temp MUST be the same regargless of State!!!
+   //
+   //
+   private String temperatureError(){
+      String tempError = null;
+      /*
+      double ul = this._temperature*(2 - this._tolerance);
+      double ll = this._temperature*this._tolerance;
+      double m  = this._measuredTemperature;
+      //Error out based on tradtional limit ranges...
+      if(m < ll || m > ul){
+         this._isError = true;
+         String s = new String("\nTank Tempearture Error:  ");
+         if(this._error == null){
+            this._error = new String(s);
+         }
+         else{
+            this._error += s;
+         }
+         this._error += "\nRequired Temp:  "+this._temperature;
+         this._error += "\nMeasured Temp:  "+m;
+      }
+      */
+      return tempError;
+   }
+
+   //
+   //
+   //
+   private  String weightError(){
+      String weightError = null;
+      return weightError;
+   }
    ///////////////////////Tank Interface Methods//////////////////////
    //
    //
