@@ -263,6 +263,24 @@ public class GenericTank implements Tank, Runnable{
    private double measureEmptyRate(){
       double emptyRate = 0.;
       try{
+         RocketData      rd     = this._feeder.rocketData();
+         List<StageData> list   = rd.stages();
+         Iterator<StageData> it = list.iterator();
+         while(it.hasNext()){
+            StageData sd = it.next();
+            if(sd.stageNumber() == this._stageNumber){
+               FuelSystemData fsd       = sd.fuelSystemData();
+               List<TankData> tdList    = fsd.tankData();
+               Iterator<TankData> t_it  = tdList.iterator();
+               while(t_it.hasNext()){
+                  TankData td = t_it.next();
+                  if(td.number() == this._tankNumber){
+                     //Get the current empty rate
+                     emptyRate = td.emptyRate();
+                  }
+               }
+            }
+         }
       }
       catch(NullPointerException npe){
          emptyRate = this._tankData.emptyRate();
@@ -276,8 +294,33 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    private double measureTemperature(){
-      //Stop Gap for now
-      return this._tankData.temperature();
+      double temperature = 0.;
+      try{
+         RocketData       rd    = this._feeder.rocketData();
+         List<StageData>  list  = rd.stages();
+         Iterator<StageData> it = list.iterator();
+         while(it.hasNext()){
+            StageData sd = it.next();
+            if(sd.stageNumber() == this._stageNumber){
+               FuelSystemData fsd        = sd.fuelSystemData();
+               List<TankData> tdList     = fsd.tankData();
+               Iterator<TankData> t_it   = tdList.iterator();
+               while(t_it.hasNext()){
+                  TankData td = t_it.next();
+                  if(td.number() == this._tankNumber){
+                     //Get the current temprature
+                     temperature = td.temperature();
+                  }
+               }
+            }
+         }
+      }
+      catch(NullPointerException npe){
+         temperature = this._tankData.temperature();
+      }
+      finally{
+         return temperature;
+      }
    }
 
    //
