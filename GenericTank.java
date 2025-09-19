@@ -227,8 +227,8 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    private double measureCapacity(){
-      double capacity = 0.;
-      double g = 9.81;
+      double capacity =   0.;
+      double g        = 9.81;
       try{
          RocketData        rd   = this._feeder.rocketData();
          List<StageData> list   = rd.stages();
@@ -241,7 +241,10 @@ public class GenericTank implements Tank, Runnable{
                Iterator<TankData> t_it = tdList.iterator(); 
                while(t_it.hasNext()){
                   TankData td = t_it.next();
-                  if(td.number() == this._tankNumber){}
+                  if(td.number() == this._tankNumber){
+                     //Get the current capacity
+                     capacity = td.capacity();
+                  }
                }
             }
          }
@@ -258,8 +261,15 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    private double measureEmptyRate(){
-      //Need to figure out how to measure
-      return 0.;
+      double emptyRate = 0.;
+      try{
+      }
+      catch(NullPointerException npe){
+         emptyRate = this._tankData.emptyRate();
+      }
+      finally{
+         return emptyRate;
+      }
    }
 
    //
