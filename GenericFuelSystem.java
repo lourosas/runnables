@@ -309,6 +309,7 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
                List<TankData> tankData = this.monitorTanks();
                List<PumpData> pumpData = this.monitorPumps();
                List<PipeData> pipeData = this.monitorPipes();
+               //if(isError()){ this.alertErrorListeners(); }
                Thread.sleep(10);
                if(count%100 == 0){
                   System.out.println("******FuelSystem TankData*****");

@@ -113,46 +113,58 @@ public class GenericTank implements Tank, Runnable{
       finally{
          return weight;
       }
-      //Stop Gap for now...will need to calculate the weight (and
-      //eventually the mass) based on the density and measured
-      //volume...return the dry weight for the time being...
    }
 
    //
    //
    //
-   private String capacityError(){
-      String error = null;
-      //This will need to change...do not need to do this...
-      //this is more about weight...
-      /*
-      double g = 9.81;
-      if(this._state.state() == INIT){}
-      if(this._state.state() == PRELAUNCH){
-         //Durring Prelaunch, the capacity must be with in tolerance,
-         //since there should be NO FLOW in the Tank in Pre-Launch!
-         double limit  = this._capacity * this._tolerance;
-         //F = ma measured in Newtons...weight capcity
-         double weight = this.convertToWeight(this._capacity);
-         double mw     = this.convertToWeight(this._measuredCapacity);
-         double mc     = this._measuredCapacity;
-         if(this._measuredCapacity < limit){
-            this._isError  = true;
-            String s = new String("\nPre-Launch Error: Tank too low");
-            if(this._error == null){
-               this._error = new String(s);
+   private String capacityError(double capacity){
+      double edge      = Double.NaN;
+      double ul        = Double.NaN;
+      double ll        = Double.NaN;
+      double tolerance = Double.NaN;
+      String error     = null;
+      try{
+         //I should this make this a fucking method!!!
+         RocketData        rd   = this._feeder.rocketData();
+         List<StageData>   list = rd.stages();
+         Iterator<StageData> it = list.iterator();  
+         while(it.hasNext()){
+            StageData sd = it.next();
+            if(sd.stageNumber() == this._stageNumber){
+               FuelSystemData fsd      = sd.fuelSystemData();
+               List<TankData> tdList   = fsd.tankData();
+               Iterator<TankData> t_it = tdList.iterator();
+               while(t_it.hasNext()){
+                  TankData td = t_it.next();
+                  if(td.number() == this._tankNumber){
+                     tolerance = td.tolerance();
+                  }
+               }
             }
-            else{
-               this._error += s;
+         }
+         if(!Double.isNaN(capacity) && !Double.isNaN(tolerance)){
+            //Will need to separate this out by state!!
+            if(this._state.state() == INIT){
+               //Durring the INIT, the TANK SHOULD BE EMPTY!!
+               ll = tolerance - 1.;
+               ul = 1 - tolerance;
             }
-            this._error += "\nMeasured Capacity: "+mc;
-            this._error += "\nExpected Capacity: "+this._capacity;
-            this._error += "\nMeasured Weight:   "+mw;
-            this._error += "\nExpected Weight:   "+weight;
+            else if(this._state.state() == PRELAUNCH){}
+            if(capacity < ll || capacity > ul){
+               error = new String("Measured Capacity: ");
+               if(capacity < ll){ error += "too low";}
+               else if (capacity > ul){error += "too high";}
+            }
          }
       }
-      */
-      return error;
+      catch(NullPointerException npe){
+         tolerance = Double.NaN;
+         error     = new String(npe.getMessage()+" error unknown");
+      }
+      finally{
+         return error;
+      }
    }
 
    //
@@ -209,11 +221,17 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    //
-   private void isError(){
+   private void isError
+   (
+      double capacity,
+      double emptyRate,
+      double temperature,
+      double weight
+   ){
       boolean isError = false;
       String  error   = new String();
       //Determine the Error For all the Measured data...
-      String capError = this.capacityError();
+      String capError = this.capacityError(capacity);
       if(capError != null){
          error   = capError;
          isError = true;
@@ -367,7 +385,7 @@ public class GenericTank implements Tank, Runnable{
       double weight = this.calculateWeight(cap);
       //Determine the Error based on setting the data...
       this.setUpTankData(cap,er,temp,weight);
-      this.isError();
+      this.isError(cap, er, temp, weight);
    }
 
    //
