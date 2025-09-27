@@ -470,7 +470,6 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       finally{
          synchronized(this._obj){
             RocketData rd = null;
-            //rd = new GenericRocketData(...);
             rd = new GenericRocketData(m,       //model
                                        st,      //Current Stage
                                        st,      //Number of Stages

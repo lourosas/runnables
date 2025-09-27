@@ -78,14 +78,44 @@ public class GenericTank implements Tank, Runnable{
    }
 
    ////////////////////////////Private Methods////////////////////////
-   //
-   //
-   //
-   private double calculateWeight(){
+   private double calculateWeight(double cap){
+      double weight = 0.;
+      double g      = 9.81;  //Acceleration of Gravity...
+      try{
+         RocketData          rd = this._feeder.rocketData();
+         List<StageData>   list = rd.stages();
+         Iterator<StageData> it = list.iterator();
+         while(it.hasNext()){
+            StageData sd = it.next();
+            if(sd.stageNumber() == this._stageNumber){
+               FuelSystemData   fsd    = sd.fuelSystemData();
+               List<TankData>   tdList = fsd.tankData();
+               Iterator<TankData> t_it = tdList.iterator();   
+               while(it.hasNext()){
+                  TankData td = t_it.next();
+                  if(td.number() == this._tankNumber){
+                     //Measured Capacity(in Liters)*density(in kg/l)
+                     //* 9.81 to Netons + empty weight(in Newtons)
+                     double dryWeight = td.dryWeight();
+                     double den       = td.density();
+                     double mass      = cap * den; 
+                     weight           = mass * g + dryWeight;
+                  }
+               }
+            }
+         }
+      }
+      catch(NullPointerException npe){
+         //Default value for now...stop gap...until hardare can
+         //be queried
+         weight = this._tankData.dryWeight();
+      }
+      finally{
+         return weight;
+      }
       //Stop Gap for now...will need to calculate the weight (and
       //eventually the mass) based on the density and measured
       //volume...return the dry weight for the time being...
-      return this._tankData.dryWeight();
    }
 
    //
@@ -334,7 +364,7 @@ public class GenericTank implements Tank, Runnable{
       double cap    = this.measureCapacity();
       double er     = this.measureEmptyRate();
       double temp   = this.measureTemperature();
-      double weight = this.calculateWeight();
+      double weight = this.calculateWeight(cap);
       //Determine the Error based on setting the data...
       this.setUpTankData(cap,er,temp,weight);
       this.isError();
