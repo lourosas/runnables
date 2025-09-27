@@ -250,6 +250,8 @@ public class GenericTank implements Tank, Runnable{
          }
       }
       catch(NullPointerException npe){
+         //Default the value for now...stop gap...until hardware
+         //Can be queried
          capacity = this._tankData.capacity();
       }
       finally{
@@ -283,6 +285,7 @@ public class GenericTank implements Tank, Runnable{
          }
       }
       catch(NullPointerException npe){
+         //Stop Gap...until connected up to actual hardware...
          emptyRate = this._tankData.emptyRate();
       }
       finally{
@@ -316,6 +319,7 @@ public class GenericTank implements Tank, Runnable{
          }
       }
       catch(NullPointerException npe){
+         //Temporary Stop Gap...until can test with real HW...
          temperature = this._tankData.temperature();
       }
       finally{
