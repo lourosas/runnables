@@ -126,23 +126,8 @@ public class GenericTank implements Tank, Runnable{
       String error     = null;
       try{
          //I should this make this a fucking method!!!
-         RocketData        rd   = this._feeder.rocketData();
-         List<StageData>   list = rd.stages();
-         Iterator<StageData> it = list.iterator();  
-         while(it.hasNext()){
-            StageData sd = it.next();
-            if(sd.stageNumber() == this._stageNumber){
-               FuelSystemData fsd      = sd.fuelSystemData();
-               List<TankData> tdList   = fsd.tankData();
-               Iterator<TankData> t_it = tdList.iterator();
-               while(t_it.hasNext()){
-                  TankData td = t_it.next();
-                  if(td.number() == this._tankNumber){
-                     tolerance = td.tolerance();
-                  }
-               }
-            }
-         }
+         TankData td = this.myTankData();
+         tolerance   = td.tolerance();
          if(!Double.isNaN(capacity) && !Double.isNaN(tolerance)){
             //Will need to separate this out by state!!
             if(this._state.state() == INIT){
@@ -152,16 +137,19 @@ public class GenericTank implements Tank, Runnable{
             }
             else if(this._state.state() == PRELAUNCH){}
             if(capacity < ll || capacity > ul){
-               error = new String("Measured Capacity: ");
-               if(capacity < ll){ error += "too low";}
-               else if (capacity > ul){error += "too high";}
+               error = new String("Measured Capacity: "+capacity);
+               if(capacity < ll){
+                  error += " too low";
+               }
+               else if (capacity > ul){
+                  error += " too high";
+               }
             }
          }
       }
       catch(NullPointerException npe){
-         tolerance = Double.NaN;
          error     = new String(npe.getMessage());
-         error    += ":  No Tolerance Data";
+         error    += ":  Capacity Error Unkdown";
       }
       finally{
          return error;
@@ -193,30 +181,41 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    //
-   private String flowError(){
-      String error = null;
-      /*
-      if(this._state.state() == INIT){}
-      else if(this._state.state() == PRELAUNCH){
-         //At prelaunch, there literally better not be ANY flow!
-         double err = 0.05;
-         if(this._measuredEmptyRate >= err){
-            double er = this._measuredEmptyRate;
-            this._isError = true;
-            double mass = this.convertToMass(this._measuredEmptyRate);
-            String s = new String("\nTank Pre-Launch Error: Flow");
-            if(this._error == null){
-               this._error = new String(s);
+   private String flowError(double rate){
+      double edge      = Double.NaN;
+      double ul        = Double.NaN;
+      double ll        = Double.NaN;
+      double tolerance = Double.NaN;
+      String error     = null;
+      try{
+         TankData td = this.myTankData();
+         tolerance   = td.tolerance();
+         if(!Double.isNaN(rate) && !Double.isNaN(tolerance)){
+            //Separate out by state Tank instance determines this...
+            if(this._state.state() == INIT){
+               //Durring INIT, rate should be 0!!!
+               ll = tolerance - 1.;
+               ul = 1 - tolerance;
             }
-            else{
-               this._error += s;
+            else if(this._state.state() == PRELAUNCH){}
+            if(rate < ll || rate > ul){
+               error = new String("Measured Flow Rate: "+rate);
+               if(rate < ll){
+                  error += " too low";
+               }
+               else if(rate > ul){
+                  error += " too high";
+               }
             }
-            this._error += "\nMeasured Flow:      " + er;
-            this._error += "\nMeasured Mass Loss: " + mass;
          }
       }
-      */
-      return error;
+      catch(NullPointerException npe){
+         error  = new String(npe.getMessage());
+         error += ":  Rate Error Unknown";
+      }
+      finally{
+         return error;
+      }
    }
 
    //
@@ -234,15 +233,15 @@ public class GenericTank implements Tank, Runnable{
       //Determine the Error For all the Measured data...
       String capError = this.capacityError(capacity);
       if(capError != null){
-         error   = capError;
+         error   = " " + capError;
          isError = true;
       }
-      String flowError = this.flowError();
+      String flowError = this.flowError(emptyRate);
       if(flowError != null){
-         error  +=  flowError;
+         error  += " "+flowError;
          isError = true;
       }
-      String tempError = this.temperatureError();
+      String tempError = this.temperatureError(temperature);
       if(tempError != null){
          error  += tempError;
          isError = true;
@@ -389,8 +388,8 @@ public class GenericTank implements Tank, Runnable{
       this.isError(cap, er, temp, weight);
    }
 
-   //
-   //
+   //The only way to do this to keep the code from exploding and 
+   //repeating the same code in several methods...!!!
    //
    private TankData myTankData() throws NullPointerException{
       TankData tankData = null;
@@ -536,27 +535,9 @@ public class GenericTank implements Tank, Runnable{
    //Fuel Temp MUST be the same regargless of State!!!
    //
    //
-   private String temperatureError(){
-      String tempError = null;
-      /*
-      double ul = this._temperature*(2 - this._tolerance);
-      double ll = this._temperature*this._tolerance;
-      double m  = this._measuredTemperature;
-      //Error out based on tradtional limit ranges...
-      if(m < ll || m > ul){
-         this._isError = true;
-         String s = new String("\nTank Tempearture Error:  ");
-         if(this._error == null){
-            this._error = new String(s);
-         }
-         else{
-            this._error += s;
-         }
-         this._error += "\nRequired Temp:  "+this._temperature;
-         this._error += "\nMeasured Temp:  "+m;
-      }
-      */
-      return tempError;
+   private String temperatureError(double temp){
+      String error = null;
+      return error;
    }
 
    //
