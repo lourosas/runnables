@@ -313,6 +313,28 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       }
    }
 
+   //Set up the FuelSystem Data for the Given Stage
+   //
+   //
+   private FuelSystemData setFuelSystemData(StageData sd){
+      FuelSystemData fsd    = null;
+      List<PipeData> pipeDL = null;
+      List<PumpData> pumpDL = null;
+      List<TankData> tankDL = null;
+      try{
+         tankDL = this.setTankData(sd.fuelSystemData());
+      }
+      catch(NullPointerException npe){
+         pipeDL = null;
+         pumpDL = null;
+         tankDL = null;
+      }
+      finally{
+         fsd = new FuelSystemData(pipeDL, pumpDL, tamkDL);
+         return fsd;
+      }
+   }
+
    //
    //
    //
@@ -491,6 +513,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    private List<StageData> setStage(){
       List<StageData> list = null;
+      FuelSystemData  fsd  = null;
       double scale = Double.NaN;
       int min = -1; int max = -1; int value = -1;
       double dw = Double.NaN; double mw = Double.NaN;
@@ -506,10 +529,12 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
             dw    = sd.dryWeight();   mw = sd.maxWeight();
             model = sd.model();       en = sd.numberOfEngines();
             sn    = sd.stageNumber(); to = sd.tolerance();
+            //Grab the Fuel System Data for the Current Stage
+            fsd = this.setFuelSystemData(sd);
             /*TO BE REMOVED below*/
             //In Lieu of Engine and FuelSystem Data, the Weight value
             //and everything associated shall GO AWAY for ENGINE
-            //SYSTEMS DATA COLLECTION AND FUEL SYSTEM data the
+            //DATA COLLECTION AND FUEL SYSTEM data the
             //weight SHALL BE CALCULATED by the stage and compared
             //based on TOLERANCE!!!
             if(this._cond.state() == INIT){
@@ -519,12 +544,8 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
             }
             value  = (this._random.nextInt(max-min+1)+min);
             weight = (double)value;
-            //In Lieu of Engine and FuelSystem Data, the Weight value
-            //and everything associated shall GO AWAY for ENGINE
-            //SYSTEMS DATA COLLECTION AND FUEL SYSTEM data the
-            //weight SHALL BE CALCULATED by the stage and compared
-            //based on TOLERANCE!!!
-            /*TO BE REMOVED above*/
+            //Instead of doing what is above, grab the FuelSystemData
+            //and the Engine data to calculate the current weighe!!
          }
          catch(NullPointerException npe){
             dw = Double.NaN; mw = Double.NaN; model = -1; en = -1;
@@ -546,7 +567,21 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
             list.add(sd);
          }
       }
+      this._measStageData = list;
       return list;
+   }
+
+   //
+   //
+   //
+   private List<TankData> setTankData(FuelSystemData fsd){
+      //Grab the Static Data
+      List<TankData> setTanks = fsd.tankData();
+      //Put the return data
+      List<TankData> tanks    = null;
+      //0.  Grab the Static Data!
+
+      return tanks;
    }
 
    //

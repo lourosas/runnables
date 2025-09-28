@@ -248,7 +248,7 @@ public class GenericTank implements Tank, Runnable{
       }
       String weightError = this.weightError(weight);
       if(weightError != null){
-         error += weightError;
+         error += " " + weightError;
          isError = true;
       }
       if(isError){
