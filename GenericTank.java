@@ -160,7 +160,8 @@ public class GenericTank implements Tank, Runnable{
       }
       catch(NullPointerException npe){
          tolerance = Double.NaN;
-         error     = new String(npe.getMessage()+" error unknown");
+         error     = new String(npe.getMessage());
+         error    += ":  No Tolerance Data";
       }
       finally{
          return error;
@@ -386,6 +387,43 @@ public class GenericTank implements Tank, Runnable{
       //Determine the Error based on setting the data...
       this.setUpTankData(cap,er,temp,weight);
       this.isError(cap, er, temp, weight);
+   }
+
+   //
+   //
+   //
+   private TankData myTankData() throws NullPointerException{
+      TankData tankData = null;
+      try{
+         RocketData            rd = this._feeder.rocketData();
+         List<StageData>     list = rd.stages();
+         Iterator<StageData>   it = list.iterator();
+         boolean found            = false;
+         while(!found && it.hasNext()){
+            StageData sd = it.next();
+            if(sd.stageNumber() == this._stageNumber){
+               FuelSystemData  fsd      = sd.fuelSystemData();
+               List<TankData>  tdList   = fsd.tankData();
+               Iterator<TankData> t_it  = tdList.iterator();
+               while(t_it.hasNext() && !found){
+                  TankData td = t_it.next();
+                  if(td.number() == this._tankNumber){
+                     tankData = td;
+                     found    = true;
+                  }
+               }
+            }
+         }
+         if(!found){
+            throw new NullPointerException();
+         }
+      }
+      catch(NullPointerException npe){
+         throw npe;
+      }
+      finally{
+         return tankData;
+      }
    }
 
    //
