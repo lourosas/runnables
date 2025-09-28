@@ -243,7 +243,7 @@ public class GenericTank implements Tank, Runnable{
       }
       String tempError = this.temperatureError(temperature);
       if(tempError != null){
-         error  += tempError;
+         error  += " " + tempError;
          isError = true;
       }
       String weightError = this.weightError();
@@ -536,8 +536,40 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    private String temperatureError(double temp){
-      String error = null;
-      return error;
+      double ll        = Double.NaN;
+      double ul        = Double.NaN;
+      double tolerance = Double.NaN;
+      String error     = null;
+      try{
+         TankData td = this.myTankData();
+         tolerance = td.tolerance();
+         if(!Double.isNaN(temp) && !Double.isNaN(tolerance)){
+            //Separate out by State
+            if(this._state.state() == INIT){
+               //Since there is nothing in the tank...ul, ll could be
+               //anything within reason--no need to worry about tol
+               ul = 373.15; //Boiling pt of water in K
+               ll = 273.15l //Freezing pt of water in K
+            }
+            else if(this._state.state() == PRELAUNCH){}
+            if(temp < ll || temp > ul){
+               error = new String("Measured Temperature:  "+temp);
+               if(temp < ll){
+                  error += " too low";
+               }
+               else if(temp > ul){
+                  error += " too high";
+               }
+            }
+         }
+      }
+      catch(NullPointerException npe){
+         error  = new String(npe.getMessage());
+         error += ": Temperature Error Unknown";
+      }
+      finally{
+         return error;
+      }
    }
 
    //
