@@ -246,7 +246,7 @@ public class GenericTank implements Tank, Runnable{
          error  += " " + tempError;
          isError = true;
       }
-      String weightError = this.weightError();
+      String weightError = this.weightError(weight);
       if(weightError != null){
          error += weightError;
          isError = true;
@@ -549,7 +549,7 @@ public class GenericTank implements Tank, Runnable{
                //Since there is nothing in the tank...ul, ll could be
                //anything within reason--no need to worry about tol
                ul = 373.15; //Boiling pt of water in K
-               ll = 273.15l //Freezing pt of water in K
+               ll = 273.15; //Freezing pt of water in K
             }
             else if(this._state.state() == PRELAUNCH){}
             if(temp < ll || temp > ul){
@@ -575,9 +575,40 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    //
-   private  String weightError(){
-      String weightError = null;
-      return weightError;
+   private  String weightError(double weight){
+      double ll        = Double.NaN;
+      double ul        = Double.NaN;
+      double tolerance = Double.NaN;
+      double refWeight = Double.NaN; //Referenced
+      String error     = null;
+      try{
+         TankData td = this.myTankData();
+         tolerance   = td.tolerance();
+         refWeight   = td.weight(); //Get weight from Feeder
+         boolean inputGood = !Double.isNaN(weight);
+         inputGood &= !Double.isNaN(tolerance);
+         inputGood &= !Double.isNaN(refWeight);
+         if(inputGood){
+            //Compare Calculated Weight to the referenced weight
+            ll = refWeight*tolerance;
+            ul = refWeight*(2-tolerance);
+            if(weight < ll || weight > ul){
+               error = new String("Measured Weight: "+weight);
+               if(weight < ll){
+                  error += "too low expected:  ";
+               }
+               else if(weight > ul){
+                  error += "too high expected:  ";
+               }
+               //This is the current weight the tank should be
+               error += refWeight;
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+      finally{
+         return error;
+      }
    }
    ///////////////////////Tank Interface Methods//////////////////////
    //
