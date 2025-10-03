@@ -47,6 +47,7 @@ public class GenericPump implements Pump, Runnable{
    private LaunchStateSubstate _state;
    private Object              _obj;
    private PumpData            _pumpData;
+   private PumpData            _measuredPumpData;
    private Thread              _rt0;
 
    {
@@ -72,6 +73,7 @@ public class GenericPump implements Pump, Runnable{
       _state               = null;
       _obj                 = null;
       _pumpData            = null;
+      _measuredPumpData    = null;
       _rt0                 = null;
    };
 

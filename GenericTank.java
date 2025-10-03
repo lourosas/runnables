@@ -82,28 +82,11 @@ public class GenericTank implements Tank, Runnable{
       double weight = 0.;
       double g      = 9.81;  //Acceleration of Gravity...
       try{
-         RocketData          rd = this._feeder.rocketData();
-         List<StageData>   list = rd.stages();
-         Iterator<StageData> it = list.iterator();
-         while(it.hasNext()){
-            StageData sd = it.next();
-            if(sd.stageNumber() == this._stageNumber){
-               FuelSystemData   fsd    = sd.fuelSystemData();
-               List<TankData>   tdList = fsd.tankData();
-               Iterator<TankData> t_it = tdList.iterator();   
-               while(it.hasNext()){
-                  TankData td = t_it.next();
-                  if(td.number() == this._tankNumber){
-                     //Measured Capacity(in Liters)*density(in kg/l)
-                     //* 9.81 to Netons + empty weight(in Newtons)
-                     double dryWeight = td.dryWeight();
-                     double den       = td.density();
-                     double mass      = cap * den; 
-                     weight           = mass * g + dryWeight;
-                  }
-               }
-            }
-         }
+         TankData td      = this.myTankData();
+         double dryWeight = td.dryWeight();
+         double den       = td.density();
+         double mass      = cap * den;
+         weight           = mass * g * dryWeight;
       }
       catch(NullPointerException npe){
          //Default value for now...stop gap...until hardare can
@@ -278,24 +261,8 @@ public class GenericTank implements Tank, Runnable{
       double capacity =   0.;
       double g        = 9.81;
       try{
-         RocketData        rd   = this._feeder.rocketData();
-         List<StageData> list   = rd.stages();
-         Iterator<StageData> it = list.iterator();
-         while(it.hasNext()){
-            StageData sd = it.next();
-            if(sd.stageNumber() == this._stageNumber){
-               FuelSystemData fsd      = sd.fuelSystemData();
-               List<TankData> tdList   = fsd.tankData();
-               Iterator<TankData> t_it = tdList.iterator(); 
-               while(t_it.hasNext()){
-                  TankData td = t_it.next();
-                  if(td.number() == this._tankNumber){
-                     //Get the current capacity
-                     capacity = td.capacity();
-                  }
-               }
-            }
-         }
+         TankData td = this.myTankData();
+         capacity    = td.capacity();
       }
       catch(NullPointerException npe){
          //Default the value for now...stop gap...until hardware
@@ -313,24 +280,8 @@ public class GenericTank implements Tank, Runnable{
    private double measureEmptyRate(){
       double emptyRate = 0.;
       try{
-         RocketData      rd     = this._feeder.rocketData();
-         List<StageData> list   = rd.stages();
-         Iterator<StageData> it = list.iterator();
-         while(it.hasNext()){
-            StageData sd = it.next();
-            if(sd.stageNumber() == this._stageNumber){
-               FuelSystemData fsd       = sd.fuelSystemData();
-               List<TankData> tdList    = fsd.tankData();
-               Iterator<TankData> t_it  = tdList.iterator();
-               while(t_it.hasNext()){
-                  TankData td = t_it.next();
-                  if(td.number() == this._tankNumber){
-                     //Get the current empty rate
-                     emptyRate = td.emptyRate();
-                  }
-               }
-            }
-         }
+         TankData td = this.myTankData();
+         emptyRate   = td.emptyRate();
       }
       catch(NullPointerException npe){
          //Stop Gap...until connected up to actual hardware...
@@ -347,24 +298,8 @@ public class GenericTank implements Tank, Runnable{
    private double measureTemperature(){
       double temperature = 0.;
       try{
-         RocketData       rd    = this._feeder.rocketData();
-         List<StageData>  list  = rd.stages();
-         Iterator<StageData> it = list.iterator();
-         while(it.hasNext()){
-            StageData sd = it.next();
-            if(sd.stageNumber() == this._stageNumber){
-               FuelSystemData fsd        = sd.fuelSystemData();
-               List<TankData> tdList     = fsd.tankData();
-               Iterator<TankData> t_it   = tdList.iterator();
-               while(t_it.hasNext()){
-                  TankData td = t_it.next();
-                  if(td.number() == this._tankNumber){
-                     //Get the current temprature
-                     temperature = td.temperature();
-                  }
-               }
-            }
-         }
+         TankData td = this.myTankData();
+         temperature = td.temperature();
       }
       catch(NullPointerException npe){
          //Temporary Stop Gap...until can test with real HW...
@@ -666,7 +601,6 @@ public class GenericTank implements Tank, Runnable{
                throw new InterruptedException();
             }
             if(this._start){
-               //Something different to do...
                this.monitorTank();
                if(this._state.state() == INIT){
                   //For later determiniation
