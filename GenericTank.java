@@ -353,6 +353,7 @@ public class GenericTank implements Tank, Runnable{
          }
       }
       catch(NullPointerException npe){
+         tankData = null;
          throw npe;
       }
       finally{

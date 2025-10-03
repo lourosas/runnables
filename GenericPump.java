@@ -36,11 +36,7 @@ public class GenericPump implements Pump, Runnable{
    private int     _stage;
    private boolean _start;
    private int     _tank;
-   private double  _rate;
-   private double  _measuredRate;
-   private double  _temperature;
    private double  _measuredTemperature;
-   private double  _tolerance;
 
    private DataFeeder          _feeder;
    private List<ErrorListener> _errorListeners;
@@ -62,11 +58,7 @@ public class GenericPump implements Pump, Runnable{
       _stage               = -1;
       _start               = false;
       _tank                = -1;
-      _rate                = Double.NaN;
-      _measuredRate        = Double.NaN;
-      _temperature         = Double.NaN;
       _measuredTemperature = Double.NaN;
-      _tolerance           = Double.NaN;
 
       _feeder              = null;
       _errorListeners      = null;
@@ -111,6 +103,7 @@ public class GenericPump implements Pump, Runnable{
       if(this._state.state() == PRELAUNCH){
          //At prelaunch, there literally better not be ANY Flow!!!
          double err = 0.05;
+         /*
          if(this._measuredRate >= err){
             double er      = this._measuredRate;
             //convert to m^3
@@ -126,6 +119,7 @@ public class GenericPump implements Pump, Runnable{
             this._error += "\nMeasured Flow:     " + er;
             this._error += "\nMeasured Flow m^3: " + ercubic;
          }
+         */
       }
    }
 
@@ -134,6 +128,7 @@ public class GenericPump implements Pump, Runnable{
    //
    //
    private void isTemperatureError(){
+      /*
       if(this._state.state() == INIT){}
       else if(this._state.state() == PRELAUNCH){
          double ul = this._temperature*(2 - this._tolerance);
@@ -152,6 +147,7 @@ public class GenericPump implements Pump, Runnable{
             this._error += "\nMeasured Temp: "+m;
          }
       }
+      */
    }
 
    //The flow is measured in Liters/sec...converted to m^3/sec
@@ -159,7 +155,6 @@ public class GenericPump implements Pump, Runnable{
    //
    private void measureFlow(){
       //Stop gap for now...for Prelaunch, there should be NO flow...
-      this._measuredRate = 0.;
    }
 
    //
@@ -167,7 +162,7 @@ public class GenericPump implements Pump, Runnable{
    //
    private void measureTemperature(){
       //Stop gap for now...
-      this._measuredTemperature = this._temperature;
+      //this._measuredTemperature = this._temperature;
    }
 
    //
@@ -176,6 +171,7 @@ public class GenericPump implements Pump, Runnable{
    private void monitorPump(){
       //WILL NEED TO CHANGE TO SOMETHING SIMILAR TO GenericStage!!!
       //writing just for reference!
+      /*
       PumpData pd = null;
       this.measureFlow();
       this.measureTemperature();
@@ -190,6 +186,46 @@ public class GenericPump implements Pump, Runnable{
                                null);
       synchronized(this._obj){
          this._pumpData = pd;
+      }
+      */
+   }
+
+
+   //
+   //
+   //
+   private PumpData myPumpData()throws NullPointerException{
+      PumpData pumpData = null;
+      try{
+         RocketData            rd = this._feeder.rocketData();
+         List<StageData>     list = rd.stages();
+         Iterator<StageData>   it = list.iterator();
+         boolean            found = false;
+         while(!found && it.hasNext()){
+            StageData sd = it.next();
+            if(sd.stageNumber() == this._stage){
+               FuelSystemData     fsd    = sd.fuelSystemData();
+               List<PumpData>     pdList = fsd.pumpData();
+               Iterator<PumpData> p_it   = pdList.iterator();
+               while(p_it.hasNext() && !found){
+                  PumpData pd = p_it.next();
+                  if(pd.index() == this._tank){
+                     pumpData = pd;
+                     found    = true;
+                  }
+               }
+            }
+         }
+         if(!found){
+            throw new NullPointerException();
+         }
+      }
+      catch(NullPointerException npe){
+         pumpData = null;
+         throw npe;
+      }
+      finally{
+         return pumpData;
       }
    }
 
@@ -208,7 +244,7 @@ public class GenericPump implements Pump, Runnable{
       }
    }
 
-   //
+   //This this going to need to change!!!!
    //
    //
    private void setPumpData(List<Hashtable<String,String>> data){
@@ -219,14 +255,26 @@ public class GenericPump implements Pump, Runnable{
             int tank  = Integer.parseInt(ht.get("tanknumber"));
             if((this._tank == tank) && (this._stage == stage)){
                System.out.println("Pump: "+ht);
-               this._rate = Double.parseDouble(ht.get("rate"));
+               double rate = Double.parseDouble(ht.get("rate"));
                Double d   = Double.parseDouble(ht.get("temperature"));
-               this._temperature = d;
+               double temp = d;
                d = Double.parseDouble(ht.get("tolerance"));
-               this._tolerance = d;
+               double tol = d;
+               PumpData pd = new GenericPumpData(null,  //Error
+                                                 rate,  //rate
+                                                 tank,  //Tank Number
+                                                 false, //isError
+                                                 stage, //Stage
+                                                 temp,  //Temperature
+                                                 tol,   //Tolerance
+                                                 null   //Fuel Type
+                                                 );
+               this._pumpData = pd;
             }
          }
-         catch(NumberFormatException nfe){}
+         catch(NumberFormatException nfe){
+            this._pumpData = null;
+         }
       }
    }
 
