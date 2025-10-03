@@ -316,14 +316,14 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
                   System.out.println(tankData);
                   System.out.println("Count: "+count);
                   System.out.println("******FuelSystem TankData*****");
-                  System.out.println("******PumpSystem TankData*****");
+                  System.out.println("******FuelSystem PumpData*****");
                   System.out.println("Count: "+count);
                   System.out.println(pumpData);
-                  System.out.println("******PumpSystem TankData*****");
-                  System.out.println("******PipeSystem TankData*****");
+                  System.out.println("******FuelSystem PumpData*****");
+                  System.out.println("******FuelSystem PipeData*****");
                   System.out.println("Count: "+count);
                   System.out.println(pipeData);
-                  System.out.println("******PipeSystem TankData*****");
+                  System.out.println("******FuelSystem PipeData*****");
 
                }
                ++count;

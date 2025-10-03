@@ -330,7 +330,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
          tankDL = null;
       }
       finally{
-         fsd = new FuelSystemData(pipeDL, pumpDL, tamkDL);
+         fsd = new GenericFuelSystemData(pipeDL, pumpDL, tankDL);
          return fsd;
       }
    }
