@@ -86,46 +86,35 @@ public class GenericPump implements Pump, Runnable{
    //
    //
    //
-   private void isError(){
-     this._error   = null;
-     this._isError = false;
-     this.isFlowError();
-     this.isTemperatureError();
+   private void isError(double flow, double temperature){
+     this._error      = null;
+     this._isError    = false;
+     String flowError = this.flowError(flow);
+     String tempError = this.temperatureError(temperature);
    }
 
    //
    //
    //
-   private void isFlowError(){
+   private String flowError(){
+      double ul        = Double.NaN;
+      double ll        = Double.NaN;
+      double tolerance = Double.NaN;
+      String error     = null;
+
+      try{
       if(this._state.state() == INIT){}
       if(this._state.state() == PRELAUNCH){
-         //At prelaunch, there literally better not be ANY Flow!!!
-         double err = 0.05;
-         /*
-         if(this._measuredRate >= err){
-            double er      = this._measuredRate;
-            //convert to m^3
-            double ercubic = this._measuredRate/1000.;
-            this._isError = true;
-            String s = new String("\nPump Pre-Launch Error: Flow");
-            if(this._error == null){
-               this._error = new String(s);
-            }
-            else{
-               this._error += s;
-            }
-            this._error += "\nMeasured Flow:     " + er;
-            this._error += "\nMeasured Flow m^3: " + ercubic;
-         }
-         */
       }
+      }
+      catch(NullPointerException npe){}
    }
 
    //The Fuel temperature in the pump MUST be within rage
    //REGARLESS of State!!!
    //
    //
-   private void isTemperatureError(){
+   private String temperatureError(){
       /*
       if(this._state.state() == INIT){}
       else if(this._state.state() == PRELAUNCH){
@@ -213,6 +202,7 @@ public class GenericPump implements Pump, Runnable{
       //Measure the Temperature
       double temp = this.measureTemperature();
       this.setUpPumpData(flow, temp);
+      this.isError(flow, temp);
 
    }
 
