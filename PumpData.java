@@ -28,6 +28,7 @@ public interface PumpData{
    public boolean  isError();
    public int      stage();
    public double   temperature();
+   public double   tolerance();
    public String   type();
    public String   toString();
 }

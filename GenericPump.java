@@ -36,7 +36,6 @@ public class GenericPump implements Pump, Runnable{
    private int     _stage;
    private boolean _start;
    private int     _tank;
-   private double  _measuredTemperature;
 
    private DataFeeder          _feeder;
    private List<ErrorListener> _errorListeners;
@@ -58,7 +57,6 @@ public class GenericPump implements Pump, Runnable{
       _stage               = -1;
       _start               = false;
       _tank                = -1;
-      _measuredTemperature = Double.NaN;
 
       _feeder              = null;
       _errorListeners      = null;
@@ -150,19 +148,18 @@ public class GenericPump implements Pump, Runnable{
       */
    }
 
-   //The flow is measured in Liters/sec...converted to m^3/sec
+   //The flow is measured in Liters/sec...
    //
    //
-   private void measureFlow(){
-      //Stop gap for now...for Prelaunch, there should be NO flow...
+   private double measureFlow(){
+      return Double.NaN;
    }
 
    //
    //
    //
-   private void measureTemperature(){
-      //Stop gap for now...
-      //this._measuredTemperature = this._temperature;
+   private double measureTemperature(){
+      return Double.NaN;
    }
 
    //
@@ -188,6 +185,11 @@ public class GenericPump implements Pump, Runnable{
          this._pumpData = pd;
       }
       */
+      //Measure the Current Flow
+      double flow = this.measureFlow();
+      //Measure the Temperature
+      double temp = this.measureTemperature();
+
    }
 
 
