@@ -152,14 +152,37 @@ public class GenericPump implements Pump, Runnable{
    //
    //
    private double measureFlow(){
-      return Double.NaN;
+      double flow = 0.;
+      try{
+         PumpData pd = this.myPumpData();
+         flow        = pd.flow();
+      }
+      catch(NullPointerException npe){
+         //Temporary until actual Hardware is available...
+         flow = this._pumpData.flow();
+      }
+      finally{
+         return flow;
+      }
    }
 
    //
    //
    //
    private double measureTemperature(){
-      return Double.NaN;
+      double temperature = Double.NEGATIVE_INFINITY;
+      try{
+         PumpData pd = this.myPumpData();
+         temperature = pd.temperature();
+      
+      }
+      catch(NullPointerException npe){
+         //Temporary until actual Hardware is available...
+         temperature = this._pumpData.temperature();
+      }
+      finally{
+         return temperature;
+      }
    }
 
    //
@@ -189,6 +212,7 @@ public class GenericPump implements Pump, Runnable{
       double flow = this.measureFlow();
       //Measure the Temperature
       double temp = this.measureTemperature();
+      this.setUpPumpData(flow, temp);
 
    }
 
@@ -283,6 +307,30 @@ public class GenericPump implements Pump, Runnable{
    //
    //
    //
+   private void setUpPumpData(double flow, double temp){
+      PumpData      pd = null;
+      int         tank = this._pumpData.index(); //Tank Number
+      int        stage = this._pumpData.stage();
+      double tolerance = this._pumpData.tolerance();
+      String type      = this._pumpData.type();
+
+      pd = new GenericPumpData(null,       //error
+                               flow,       //rate
+                               tank,       //tank
+                               false,      //isError
+                               stage,      //stage
+                               temp,       //temperature
+                               tolerance,  //tolerance
+                               type        //Fuel Type
+                               );
+      synchronized(this._obj){
+         this._measuredPumpData = pd;
+      }
+   }
+
+   //
+   //
+   //
    private void setUpThread(){
       String name = new String("Pump: "+this._stage+", "+this._tank);
       this._rt0 = new Thread(this,name);
@@ -335,7 +383,7 @@ public class GenericPump implements Pump, Runnable{
                throw new InterruptedException();
             }
             if(this._start){
-               //this.monitorPump();
+               this.monitorPump();
                if(this._state.state() == INIT){
                   //For later determination
                   Thread.sleep(15000);
