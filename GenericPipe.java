@@ -38,10 +38,6 @@ public class GenericPipe implements Pipe, Runnable{
    private boolean  _start;
    //Pipe Number for the Tank (1,2)--corresponds to the engine...
    private int      _number; 
-   private double   _rate;
-   private double   _measuredRate;
-   private double   _temperature;
-   private double   _measuredTemperature;
    private double   _tolerance;
 
    private DataFeeder          _feeder;
@@ -65,10 +61,6 @@ public class GenericPipe implements Pipe, Runnable{
       _stage               = -1;
       _start               = false;
       _number              = -1;
-      _rate                = Double.NaN;
-      _measuredRate        = Double.NaN;
-      _temperature         = Double.NaN;
-      _measuredTemperature = Double.NaN;
       _tolerance           = Double.NaN;
 
       _feeder              = null;
@@ -118,6 +110,7 @@ public class GenericPipe implements Pipe, Runnable{
       else if(this._state.state() == PRELAUNCH){
          //At Prelaunch, there litterally better not be any Flow!
          double err = 0.05;
+         /*
          if(this._measuredRate >= err){
             double er      = this._measuredRate;
             //convert to m^3
@@ -133,6 +126,7 @@ public class GenericPipe implements Pipe, Runnable{
             this._error += "\nMeasured Flow:     " + er;
             this._error += "\nMeasured Flow m^3: " + ercubic;
          }
+         */
       }
    }
 
@@ -142,6 +136,7 @@ public class GenericPipe implements Pipe, Runnable{
    private void isTemperatureError(){
       if(this._state.state() == INIT){}
       else if(this._state.state() == PRELAUNCH){
+         /*
          double ul = this._temperature*(2-this._tolerance);
          double ll = this._temperature*this._tolerance;
          double m  = this._measuredTemperature;
@@ -157,6 +152,7 @@ public class GenericPipe implements Pipe, Runnable{
             this._error += "\nRequired Temp: "+this._temperature;
             this._error += "\nMeasured Temp: "+m;
          }
+         */
       }
    }
 
@@ -165,7 +161,6 @@ public class GenericPipe implements Pipe, Runnable{
    //
    private void measureFlow(){
       //Stop gap for now...for Prelaunch, there should be NO Flow!
-      this._measuredRate = 0.;
    }
 
    //
@@ -173,13 +168,13 @@ public class GenericPipe implements Pipe, Runnable{
    //
    private void measureTemperature(){
       //Stop Gap for the time being...
-      this._measuredTemperature = this._temperature;
    }
 
    //
    //
    //
    private void monitorPipe(){
+      /*
       PipeData pd = null;
       this.measureFlow();
       this.measureTemperature();
@@ -196,6 +191,7 @@ public class GenericPipe implements Pipe, Runnable{
       synchronized(this._obj){
          this._pipeData = pd;
       }
+      */
    }
 
    //
@@ -225,15 +221,15 @@ public class GenericPipe implements Pipe, Runnable{
          try{
             int tk     = this._tank;
             int st     = this._stage;
-            int num    = this._number;
+            int num    = this._number;//Engine
             int tank   = Integer.parseInt(ht.get("tanknumber"));
             int stage  = Integer.parseInt(ht.get("stage"));
             if((tk == tank) && (st == stage)){
-               System.out.println("Engine:  "+this._number);
+               System.out.println("Engine:  "+num);
                System.out.println(ht);
-               this._rate = Double.parseDouble(ht.get("rate"));
+               //this._rate = Double.parseDouble(ht.get("rate"));
                Double d = Double.parseDouble(ht.get("temperature"));
-               this._temperature = d;
+               //this._temperature = d;
                d = Double.parseDouble(ht.get("tolerance"));
                this._tolerance = d;
             }
