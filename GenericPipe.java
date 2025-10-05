@@ -155,39 +155,53 @@ public class GenericPipe implements Pipe, Runnable{
    //The flow is measured in Liters/sec...converted to m^3/sec
    //
    //
-   private void measureFlow(){
+   private double measureFlow(){
       //Stop gap for now...for Prelaunch, there should be NO Flow!
    }
 
    //
    //
    //
-   private void measureTemperature(){
-      //Stop Gap for the time being...
+   private double measureTemperature(){
+      double flow = 0.;
+      try{
+         PipeData = this.myPipeData();
+      }
+      catch(NullPOinterExepti9on npe){}
+      finally{}
    }
 
    //
    //
    //
    private void monitorPipe(){
-      /*
-      PipeData pd = null;
-      this.measureFlow();
-      this.measureTemperature();
-      this.isError();
-      pd = new GenericPipeData(this._error,
-                               this._measuredRate,
-                               this._number, //Pipe Number
-                               this._isError,
-                               this._stage,
-                               this._tank,   //Tank Number
-                               this._measuredTemperature,
-                               this._tolerance,
-                               null);   
-      synchronized(this._obj){
-         this._pipeData = pd;
+      //Measure the Current Flow
+      double flow = this.measureFlow();
+      //Measure the Temperature
+      double temp - this.measureTemperature();
+      this.setUpPipeData(flow, temp);
+      this.isError(flow, temp);
+
+   }
+
+   //
+   //
+   //
+   private PipeData myPipeData()throws NullPointerException{
+      PipeData pipeData = null;
+      try{
+         RocketData          rd = this._feeder.rocketData();
+         List<StageData>   list = rd.stages();
+         Iterator<StageData> it = list.iterator();
+         boolean          found = false;
       }
-      */
+      catch(NullPointerException npe){
+         pipeData = null;
+         throw npe;
+      }
+      finally{
+         return pipeData;
+      }
    }
 
    //
@@ -304,7 +318,7 @@ public class GenericPipe implements Pipe, Runnable{
                throw new InterruptedException();
             }
             if(this._start){
-               //this.monitorPipe();
+               this.monitorPipe();
                if(this._state.state() == INIT){
                   //For later determination
                   Thread.sleep(7500);
