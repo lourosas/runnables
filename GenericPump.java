@@ -134,6 +134,10 @@ public class GenericPump implements Pump, Runnable{
          error   += " " + flowError;
          isError  = true;
       }
+      if(tempError != null){
+         error  += " " + tempError;
+         isError = true;
+      }
       if(isError){
          int    idx  = this._measuredPumpData.index();
          int    stg  = this._measuredPumpData.stage(); 
@@ -234,25 +238,6 @@ public class GenericPump implements Pump, Runnable{
    //
    //
    private void monitorPump(){
-      //WILL NEED TO CHANGE TO SOMETHING SIMILAR TO GenericStage!!!
-      //writing just for reference!
-      /*
-      PumpData pd = null;
-      this.measureFlow();
-      this.measureTemperature();
-      this.isError();
-      pd = new GenericPumpData(this._error,
-                               this._measuredRate,
-                               this._tank,
-                               this._isError,
-                               this._stage,
-                               this._measuredTemperature,
-                               this._tolerance,
-                               null);
-      synchronized(this._obj){
-         this._pumpData = pd;
-      }
-      */
       //Measure the Current Flow
       double flow = this.measureFlow();
       //Measure the Temperature
