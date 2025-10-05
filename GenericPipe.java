@@ -30,8 +30,6 @@ public class GenericPipe implements Pipe, Runnable{
    private LaunchStateSubstate.State IGNITION  = null;
    private LaunchStateSubstate.State LAUNCH    = null;
 
-   private String   _error;
-   private boolean  _isError;
    private boolean  _kill;
    private int      _tank;  //Tank Number (1,2)
    private int      _stage; //Stage Number (1...total stages)
@@ -54,13 +52,11 @@ public class GenericPipe implements Pipe, Runnable{
       IGNITION  = LaunchStateSubstate.State.IGNITION;
       LAUNCH    = LaunchStateSubstate.State.LAUNCH;
 
-      _error               = null;
-      _isError             = false;
       _kill                = false;
       _tank                = -1;
       _stage               = -1;
       _start               = false;
-      _number              = -1;
+      _number              = -1; //Engine
       _tolerance           = Double.NaN;
 
       _feeder              = null;
@@ -96,8 +92,8 @@ public class GenericPipe implements Pipe, Runnable{
    //
    //
    private void isError(){
-      this._error    = null;
-      this._isError  = false;
+      String  error   = new String();
+      boolean isError = false;
       this.isFlowError();
       this.isTemperatureError();
    }
