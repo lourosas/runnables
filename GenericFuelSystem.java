@@ -91,12 +91,12 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    //
    //
    private List<PipeData> monitorPipes(){
-      List<PipeData> pd = null;
+      List<PipeData> pd = new LinkedList<PipeData>(); 
+      Iterator<Pipe> it = this._pipes.iterator();
       try{
-         Iterator<Pipe> it = this._pipes.iterator();
          while(it.hasNext()){
             synchronized(this._obj){
-               pd.add(it.next().monitor());
+               pd.add((it.next()).monitor());
             }
          }
       }

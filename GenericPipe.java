@@ -215,22 +215,33 @@ public class GenericPipe implements Pipe, Runnable{
       for(int i = 0; i < data.size(); ++i){
          Hashtable<String,String> ht = data.get(i);
          try{
-            int tk     = this._tank;
-            int st     = this._stage;
-            int num    = this._number;//Engine
+            int tk     = this._tank;   //Tank Number
+            int st     = this._stage;  //Stage Number
+            int num    = this._number; //Engine Number
             int tank   = Integer.parseInt(ht.get("tanknumber"));
             int stage  = Integer.parseInt(ht.get("stage"));
             if((tk == tank) && (st == stage)){
                System.out.println("Engine:  "+num);
                System.out.println(ht);
-               //this._rate = Double.parseDouble(ht.get("rate"));
-               Double d = Double.parseDouble(ht.get("temperature"));
-               //this._temperature = d;
-               d = Double.parseDouble(ht.get("tolerance"));
-               this._tolerance = d;
+               double rate=Double.parseDouble(ht.get("rate"));
+               double temp=Double.parseDouble(ht.get("temperature"));
+               double tol = Double.parseDouble(ht.get("tolerance"));
+               PipeData pd = new GenericPipeData(null,  //Error
+                                                 rate,  //Flow
+                                                 num,   //Engine Number
+                                                 false, //isError
+                                                 st,    //Stage Number
+                                                 tk,    //Tank Number
+                                                 temp,  //Temperature
+                                                 tol,   //Tolerance
+                                                 null   //Fuel Type
+                                                 );
+               this._pipeData = pd;
             }
          }
-         catch(NumberFormatException nfe){}
+         catch(NumberFormatException nfe){
+            this._pipeData = null;
+         }
       }
    }
 

@@ -196,14 +196,15 @@ public class GenericPipeData implements PipeData{
       String value = new String("\nPipe:         "+this.number());
       value += "\nStage:        "+this.stage();
       value += "\nTank:         "+this.tank();
+      value += "\nEngine:       "+this.number();
       value += "\nError?        "+this.isError();
       if(this.isError()){
          value += "\nError(s) "+this.error();
       }
-      value += "\nFuel Flow:     "+this.flow();
+      value += "\nFuel Flow:    "+this.flow();
       if(this._type != null){value += "\n Fuel Type:   "+this.type();}
-      value += "\nTempearture: "+this.temp();
-      value += "\nTolerance:   "+this.tolerance();
+      value += "\nTempearture:  "+this.temp();
+      value += "\nTolerance:    "+this.tolerance();
       return value;
    }
 }
