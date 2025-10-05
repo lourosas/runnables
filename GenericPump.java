@@ -374,7 +374,7 @@ public class GenericPump implements Pump, Runnable{
    //
    public PumpData monitor(){
       synchronized(this._obj){
-         return this._pumpData;
+         return this._measuredPumpData;
       }
    }
 

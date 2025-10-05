@@ -92,8 +92,21 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    //
    private List<PipeData> monitorPipes(){
       List<PipeData> pd = null;
-
-      return pd;
+      try{
+         Iterator<Pipe> it = this._pipes.iterator();
+         while(it.hasNext()){
+            synchronized(this._obj){
+               pd.add(it.next().monitor());
+            }
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         pd = null;
+      }
+      finally{
+         return pd;
+      }
    }
 
    //
@@ -115,7 +128,6 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
       finally{
          return pd;
       }
-
    }
 
    //

@@ -49,6 +49,7 @@ public class GenericPipe implements Pipe, Runnable{
    private LaunchStateSubstate _state;
    private Object              _obj;
    private PipeData            _pipeData;
+   private PipeData            _measuredPipeData;
    private Thread              _rt0;
 
    {
@@ -75,6 +76,7 @@ public class GenericPipe implements Pipe, Runnable{
       _state               = null;
       _obj                 = null;
       _pipeData            = null;
+      _measuredPipeData    = null;
       _rt0                 = null;
    };
 
@@ -90,6 +92,7 @@ public class GenericPipe implements Pipe, Runnable{
          this._stage = stage;
       }
       if(number > 0){
+         //Essentially, this is the Rocket Engine the Pipe Feeds...
          this._number = number;
       }
       this._obj = new Object();
@@ -269,7 +272,7 @@ public class GenericPipe implements Pipe, Runnable{
    //
    public PipeData monitor(){
       synchronized(this._obj){
-         return this._pipeData;
+         return this._measuredPipeData;
       }
    }
 
