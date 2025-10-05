@@ -30,8 +30,6 @@ public class GenericPump implements Pump, Runnable{
    private LaunchStateSubstate.State IGNITION  = null;
    private LaunchStateSubstate.State LAUNCH    = null;
 
-   private String  _error;
-   private boolean _isError;
    private boolean _kill;
    private int     _stage;
    private boolean _start;
@@ -51,8 +49,6 @@ public class GenericPump implements Pump, Runnable{
       IGNITION  = LaunchStateSubstate.State.IGNITION;
       LAUNCH    = LaunchStateSubstate.State.LAUNCH;
       
-      _error               = null;
-      _isError             = false;
       _kill                = false;
       _stage               = -1;
       _start               = false;
@@ -86,55 +82,115 @@ public class GenericPump implements Pump, Runnable{
    //
    //
    //
-   private void isError(double flow, double temperature){
-     this._error      = null;
-     this._isError    = false;
-     String flowError = this.flowError(flow);
-     String tempError = this.temperatureError(temperature);
-   }
-
-   //
-   //
-   //
-   private String flowError(){
+   private String flowError(double flow){
       double ul        = Double.NaN;
       double ll        = Double.NaN;
       double tolerance = Double.NaN;
       String error     = null;
+      PumpData pd      = this.myPumpData();
 
       try{
-      if(this._state.state() == INIT){}
-      if(this._state.state() == PRELAUNCH){
+         tolerance   = pd.tolerance();
+         if(!Double.isNaN(flow) && !Double.isNaN(tolerance)){
+            //Separate out by State
+            if(this._state.state() == INIT){
+               //INIT there should be NO FLOW through the pump
+               //ANY FLOW through the pump is an error!!!
+               ll = tolerance - 1.;
+               ul = 1 - tolerance;
+            }
+            else if(this._state.state() == PRELAUNCH){}
+            if(flow < ll || flow > ul){
+               error  = new String("Stage "+pd.stage());
+               error += "Tank: "+pd.index()+" Pump Flow Error: ";
+               if(flow < ll){
+                  error += "too low";
+               }
+               else if(flow > ul){
+                  error += "too high";
+               }
+            }
+         }
       }
+      catch(NullPointerException npe){
+         error  = new String(npe.getMessage());
+         error += "\nStage "+pd.stage()+"Tank "+pd.index();
+         error += " Pump Error Unknown";
       }
-      catch(NullPointerException npe){}
+      finally{
+         return error;
+      }
    }
+
+   //
+   //
+   //
+   private void isError(double flow, double temperature){
+      boolean isError  = false;
+      String  error    = new String();
+      String flowError = this.flowError(flow);
+      String tempError = this.temperatureError(temperature);
+      if(flowError != null){
+         error   += " " + flowError;
+         isError  = true;
+      }
+      if(isError){
+         int    idx  = this._measuredPumpData.index();
+         int    stg  = this._measuredPumpData.stage(); 
+         double tol  = this._measuredPumpData.tolerance();
+         String typ  = this._measuredPumpData.type();
+         PumpData pd = new GenericPumpData(error,flow,idx,isError,
+                                           stg,temperature,tol,typ);
+         synchronized(this._obj){
+            this._measuredPumpData = pd;
+         }
+      }
+   }
+
 
    //The Fuel temperature in the pump MUST be within rage
    //REGARLESS of State!!!
    //
    //
-   private String temperatureError(){
-      /*
-      if(this._state.state() == INIT){}
-      else if(this._state.state() == PRELAUNCH){
-         double ul = this._temperature*(2 - this._tolerance);
-         double ll = this._temperature*this._tolerance;
-         double m  = this._measuredTemperature;
-         if(m > ul){
-            this._isError = true;
-            String s = new String("\nTank Temperature Error:  ");
-            if(this._error == null){
-               this._error = new String(s);
+   private String temperatureError(double temp){
+      double ul        = Double.NaN;
+      double ll        = Double.NaN;
+      double tolerance = Double.NaN;
+      String error     = null;
+      PumpData pd      = this.myPumpData();
+      
+      try{
+         tolerance  = pd.tolerance();
+         if(!Double.isNaN(temp) && !Double.isNaN(tolerance)){
+            //Separate out by State
+            if(this._state.state() == INIT){
+               //Since there is nothing in the Tank..and thuns,
+               //nothing in the pump, no need to worry about tol
+               ul = 373.15; //Boiling Point of Water in K
+               ll = 273.15; //Freezing Point of Water in K
             }
-            else{
-               this._error += s;
+            else if(this._state.state() == PRELAUNCH){}
+            if(temp < ll || temp > ul){
+               error  = new String("Stage "+pd.stage());
+               error += "Tank: "+pd.index();
+               error += " Pump Temerature Error: ";
+               if(temp < ll){
+                  error += " too low";
+               }
+               else if(temp > ul){
+                  error += " too high";
+               }
             }
-            this._error += "\nRequired Temp: "+this._temperature;
-            this._error += "\nMeasured Temp: "+m;
          }
       }
-      */
+      catch(NullPointerException npe){
+         error  = new String(npe.getMessage());
+         error += "\nStage "+pd.stage()+"Tank "+pd.index();
+         error += " Pump Error Unknown";
+      }
+      finally{
+         return error;
+      }
    }
 
    //The flow is measured in Liters/sec...
