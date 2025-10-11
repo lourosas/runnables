@@ -114,7 +114,7 @@ public class GenericPump implements Pump, Runnable{
       }
       catch(NullPointerException npe){
          error  = new String(npe.getMessage());
-         error += "\nStage "+pd.stage()+"Tank "+pd.index();
+         error += "\nStage "+pd.stage()+" Tank "+pd.index();
          error += " Pump Error Unknown";
       }
       finally{
@@ -189,7 +189,7 @@ public class GenericPump implements Pump, Runnable{
       }
       catch(NullPointerException npe){
          error  = new String(npe.getMessage());
-         error += "\nStage "+pd.stage()+"Tank "+pd.index();
+         error += "\nStage "+pd.stage()+" Tank "+pd.index();
          error += " Pump Error Unknown";
       }
       finally{

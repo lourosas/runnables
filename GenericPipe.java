@@ -92,40 +92,73 @@ public class GenericPipe implements Pipe, Runnable{
    //
    //
    private String flowError(double flow){
-      String error = null;
-      if(this._state.state() == INIT){}
-      else if(this._state.state() == PRELAUNCH){
-         //At Prelaunch, there litterally better not be any Flow!
-         double err = 0.05;
-         /*
-         if(this._measuredRate >= err){
-            double er      = this._measuredRate;
-            //convert to m^3
-            double ercubic = this._measuredRate/1000;
-            this._isError  = true;
-            String s = new String("\nPipe Pre-Launch Error:  Flow");
-            if(this._error == null){
-               this._error = new String(s);
+      double ll          = Double.NaN;
+      double ul          = Double.NaN;
+      String error       = null;
+      double tolerance   = Double.NaN;
+      PipeData pd        = this.myPipeData();
+      try{
+         tolerance = pd.tolerance();
+         if(!Double.isNaN(flow) && !Double.isNaN(tolerance)){
+            if(this._state.state() == INIT){
+               //INIT there should be NO FLOW through the pipe
+               //ANY FLOW throgh the pipe is an error!!!
+               ll = tolerance - 1.;
+               ul = 1. - tolerance;
             }
-            else{
-               this._error += s;
+            else if(this._state.state() == PRELAUNCH){}
+            if(flow < ll || flow > ul){
+               error  = new String("Stage "+pd.stage());
+               error += " Tank "+pd.tank()+" Pipe "+pd.number();
+               error += " Pipe Flow Error: ";
+               if(flow < ll){
+                  error += "too low";
+               }
+               else{
+                  error += "too high";
+               }
             }
-            this._error += "\nMeasured Flow:     " + er;
-            this._error += "\nMeasured Flow m^3: " + ercubic;
          }
-         */
       }
-      return error;
+      catch(NullPointerException npe){
+         error  = new String(npe.getMessage());
+         error += "\nStage "+pd.stage()+" Tank "+pd.tank();
+         error += " Number "+pd.number();
+         error += " Pipe Error Unknown";
+      }
+      finally{
+         return error;
+      }
    }
 
    //
    //
    //
    private void isError(double flow, double temp){
-      String  error   = new String();
-      boolean isError = false;
-      this.flowError(flow);
-      this.temperatureError(temp);
+      boolean isError    = false;
+      String  error      = new String();
+      String  flowError  = this.flowError(flow);
+      String  tempError  = this.temperatureError(temp);
+      if(flowError != null){
+         error  += " " + flowError;
+         isError = true;
+      }
+      if(tempError != null){
+         error   += " " + tempError;
+         isError  = true;
+      }
+      if(isError){
+         int     number= this._measuredPipeData.number();
+         int     stage = this._measuredPipeData.stage();
+         int     tank  = this._measuredPipeData.tank();
+         double  tol   = this._measuredPipeData.tolerance();
+         String  type  = this._measuredPipeData.type();
+         PipeData pd   = new GenericPipeData(error,flow,number,isError,
+                                             stage,tank,temp,tol,type);
+         synchronized(this._obj){
+            this._measuredPipeData = pd;
+         }
+      }
    }
 
 
@@ -274,6 +307,9 @@ public class GenericPipe implements Pipe, Runnable{
                                tolerance,  //Tolerance
                                fuelType    //Fuel Type (can be null)
                                );
+      synchronized(this._obj){
+         this._measuredPipeData = pd;
+      }
    }
 
    //
@@ -290,28 +326,43 @@ public class GenericPipe implements Pipe, Runnable{
    //
    //
    private String temperatureError(double temp){
-      String error = null;
-      if(this._state.state() == INIT){}
-      else if(this._state.state() == PRELAUNCH){
-         /*
-         double ul = this._temperature*(2-this._tolerance);
-         double ll = this._temperature*this._tolerance;
-         double m  = this._measuredTemperature;
-         if(m > ul){
-            this._isError = true;
-            String s = new String("\nPipe Temperature Error: ");
-            if(this._error == null){
-               this._error = new String(s);
+      double ll        = Double.NaN;
+      double ul        = Double.NaN;
+      double tolerance = Double.NaN;
+      String error     = null;
+      PipeData pd      = this.myPipeData();
+
+      try{
+         if(!Double.isNaN(temp) && !Double.isNaN(tolerance)){
+            if(this._state.state() == INIT){
+               //Since there is NOTHING in the Tank, there should be
+               //NOTHING in the Pipe!!!
+               ul = 373.15; //Boiling point of Water in K
+               ll = 273.15; //Freezing point of Water in K
             }
-            else{
-               this._error += s;
+            else if(this._state.state() == PRELAUNCH){}
+            if(temp < ll || temp > ul){
+               error  = new String("Stage "+pd.stage());
+               error += " Tank "+pd.tank()+" Pipe "+pd.number();
+               error += " Pipe Temperature Error: ";
+               if(temp < ll){
+                  error += " too low ";
+               }
+               else{
+                  error += "too high ";
+               }
             }
-            this._error += "\nRequired Temp: "+this._temperature;
-            this._error += "\nMeasured Temp: "+m;
          }
-         */
       }
-      return error;
+      catch(NullPointerException npe){
+         error  = new String(npe.getMessage());
+         error += "\nStage "+pd.stage()+" Tank "+pd.tank();
+         error += " Number "+pd.number();
+         error += " Pipe Error Unknown";
+      }
+      finally{
+         return error;
+      }
    }
    ////////////////////Pipe Interface Implementation//////////////////
    //
