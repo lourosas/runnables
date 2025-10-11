@@ -265,44 +265,10 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    //
    //
    public FuelSystemData monitor(){
+      //To be determined...
       FuelSystemData fsd = null;
       return fsd;
    }
-
-   //
-   //
-   //
-   public FuelSystemData monitorPrelaunch(){
-      /*
-      FuelSystemData fsd = null;
-      List<TankData> td  = new LinkedList<TankData>();
-      List<PumpData> pd  = new LinkedList<PumpData>();
-      List<PipeData> pi  = new LinkedList<PipeData>();
-
-      td.add(this._fuel.monitorPrelaunch());
-      td.add(this._oxidizer.monitorPrelaunch());
-      pd.add(this._fuelPump.monitorPrelaunch());
-      pd.add(this._oxidizerPump.monitorPrelaunch());
-
-      Iterator<Pipe> it = this._pipes.iterator();
-      while(it.hasNext()){
-         pi.add(it.next().monitorPrelaunch());
-      }
-      fsd = new GenericFuelSystemData(pi,pd,td);
-      return fsd;
-      */
-      return null;
-   }
-
-   //
-   //
-   //
-   public FuelSystemData monitorIgnition(){ return null; }
-
-   //
-   //
-   //
-   public FuelSystemData monitorLaunch(){ return null; }
 
    //////////////////////Runnable Implementation//////////////////////
    //

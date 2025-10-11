@@ -513,7 +513,8 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    private List<StageData> setStage(){
       List<StageData> list = null;
-      FuelSystemData  fsd  = null;
+      FuelSystemData   fsd = null;
+      //EngineSystemData esd = null;
       double scale = Double.NaN;
       int min = -1; int max = -1; int value = -1;
       double dw = Double.NaN; double mw = Double.NaN;
@@ -529,23 +530,12 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
             dw    = sd.dryWeight();   mw = sd.maxWeight();
             model = sd.model();       en = sd.numberOfEngines();
             sn    = sd.stageNumber(); to = sd.tolerance();
-            //Grab the Fuel System Data for the Current Stage
-            fsd = this.setFuelSystemData(sd);
-            /*TO BE REMOVED below*/
-            //In Lieu of Engine and FuelSystem Data, the Weight value
-            //and everything associated shall GO AWAY for ENGINE
-            //DATA COLLECTION AND FUEL SYSTEM data the
-            //weight SHALL BE CALCULATED by the stage and compared
-            //based on TOLERANCE!!!
-            if(this._cond.state() == INIT){
-               scale = 0.01;
-               min   = (int)(dw*(1-scale));
-               max   = (int)(dw*(1+scale));
-            }
-            value  = (this._random.nextInt(max-min+1)+min);
-            weight = (double)value;
-            //Instead of doing what is above, grab the FuelSystemData
+            //Grab the FuelSystemData for the Current Stage
             //and the Engine data to calculate the current weighe!!
+            fsd = this.setFuelSystemData(sd);
+            //Grab Engine Data-->TBD
+            //esd = this.setEngineSystemData(sd)
+
          }
          catch(NullPointerException npe){
             dw = Double.NaN; mw = Double.NaN; model = -1; en = -1;
@@ -580,6 +570,9 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       //Put the return data
       List<TankData> tanks    = null;
       //0.  Grab the Static Data!
+      //NOTE:
+      //Capacity, Rate, Temperature are to be Determined...weight will
+      //be calculated Everything determined by randomizaton
 
       return tanks;
    }
