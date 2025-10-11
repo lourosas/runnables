@@ -91,17 +91,8 @@ public class GenericPipe implements Pipe, Runnable{
    //
    //
    //
-   private void isError(){
-      String  error   = new String();
-      boolean isError = false;
-      this.isFlowError();
-      this.isTemperatureError();
-   }
-
-   //
-   //
-   //
-   private void isFlowError(){
+   private String flowError(double flow){
+      String error = null;
       if(this._state.state() == INIT){}
       else if(this._state.state() == PRELAUNCH){
          //At Prelaunch, there litterally better not be any Flow!
@@ -124,12 +115,24 @@ public class GenericPipe implements Pipe, Runnable{
          }
          */
       }
+      return error;
    }
 
    //
    //
    //
-   private void isTemperatureError(){
+   private void isError(double flow, double temp){
+      String  error   = new String();
+      boolean isError = false;
+      this.flowError(flow);
+      this.temperatureError(temp);
+   }
+
+   //
+   //
+   //
+   private String temperatureError(double temp){
+      String error = null;
       if(this._state.state() == INIT){}
       else if(this._state.state() == PRELAUNCH){
          /*
@@ -150,25 +153,30 @@ public class GenericPipe implements Pipe, Runnable{
          }
          */
       }
+      return error;
    }
 
    //The flow is measured in Liters/sec...converted to m^3/sec
    //
    //
    private double measureFlow(){
+      double flow = 0.;
       //Stop gap for now...for Prelaunch, there should be NO Flow!
+      return flow;
    }
 
    //
    //
    //
    private double measureTemperature(){
-      double flow = 0.;
+      double temp = 0.;
       try{
-         PipeData = this.myPipeData();
+         PipeData pd = this.myPipeData();
       }
-      catch(NullPOinterExepti9on npe){}
-      finally{}
+      catch(NullPointerException npe){}
+      finally{
+         return temp;
+      }
    }
 
    //
@@ -178,7 +186,7 @@ public class GenericPipe implements Pipe, Runnable{
       //Measure the Current Flow
       double flow = this.measureFlow();
       //Measure the Temperature
-      double temp - this.measureTemperature();
+      double temp = this.measureTemperature();
       this.setUpPipeData(flow, temp);
       this.isError(flow, temp);
 
@@ -258,6 +266,11 @@ public class GenericPipe implements Pipe, Runnable{
          }
       }
    }
+
+   //
+   //
+   //
+   private void setUpPipeData(double flow, double temp){}
 
    //
    //
