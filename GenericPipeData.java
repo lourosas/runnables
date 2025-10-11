@@ -66,7 +66,7 @@ public class GenericPipeData implements PipeData{
       this.isError(isError);
       this.stage(stage);
       this.tank(tank);
-      this.temp(temp);
+      this.temperature(temp);
       this.tolerance(tolerance);
       this.type(fuelType);
    }
@@ -125,7 +125,7 @@ public class GenericPipeData implements PipeData{
    //
    //
    //
-   private void temp(double temperature){
+   private void temperature(double temperature){
       this._temp = temperature;
    }
 
@@ -182,7 +182,7 @@ public class GenericPipeData implements PipeData{
    //
    //
    //
-   public double temp(){ return this._temp; }
+   public double temperature(){ return this._temp; }
 
    //Return the Fuel Type in the Pipe
    //
@@ -203,7 +203,7 @@ public class GenericPipeData implements PipeData{
       }
       value += "\nFuel Flow:    "+this.flow();
       if(this._type != null){value += "\n Fuel Type:   "+this.type();}
-      value += "\nTempearture:  "+this.temp();
+      value += "\nTempearture:  "+this.temperature();
       value += "\nTolerance:    "+this.tolerance();
       return value;
    }

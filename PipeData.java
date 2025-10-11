@@ -29,7 +29,7 @@ public interface PipeData{
    public int      stage();
    public int      tank();
    public double   tolerance();
-   public double   temp();
+   public double   temperature();
    public String   type();
    public String   toString();
 }

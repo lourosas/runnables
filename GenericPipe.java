@@ -128,52 +128,38 @@ public class GenericPipe implements Pipe, Runnable{
       this.temperatureError(temp);
    }
 
-   //
-   //
-   //
-   private String temperatureError(double temp){
-      String error = null;
-      if(this._state.state() == INIT){}
-      else if(this._state.state() == PRELAUNCH){
-         /*
-         double ul = this._temperature*(2-this._tolerance);
-         double ll = this._temperature*this._tolerance;
-         double m  = this._measuredTemperature;
-         if(m > ul){
-            this._isError = true;
-            String s = new String("\nPipe Temperature Error: ");
-            if(this._error == null){
-               this._error = new String(s);
-            }
-            else{
-               this._error += s;
-            }
-            this._error += "\nRequired Temp: "+this._temperature;
-            this._error += "\nMeasured Temp: "+m;
-         }
-         */
-      }
-      return error;
-   }
 
    //The flow is measured in Liters/sec...converted to m^3/sec
    //
    //
    private double measureFlow(){
       double flow = 0.;
-      //Stop gap for now...for Prelaunch, there should be NO Flow!
-      return flow;
+      try{
+         PipeData pd = this.myPipeData();
+         flow        = pd.flow();
+      }
+      catch(NullPointerException npe){
+         //Temporary until actual hardware is available...
+         flow = this._pipeData.flow();
+      }
+      finally{
+         return flow;
+      }
    }
 
    //
    //
    //
    private double measureTemperature(){
-      double temp = 0.;
+      double temp = Double.NEGATIVE_INFINITY;
       try{
          PipeData pd = this.myPipeData();
+         temp        = pd.temperature();
       }
-      catch(NullPointerException npe){}
+      catch(NullPointerException npe){
+         //Temporary until actual hardware is available...
+         temp = this._pipeData.temperature();
+      }
       finally{
          return temp;
       }
@@ -270,7 +256,25 @@ public class GenericPipe implements Pipe, Runnable{
    //
    //
    //
-   private void setUpPipeData(double flow, double temp){}
+   private void setUpPipeData(double flow, double temp){
+      PipeData  pd        = null;
+      int number          = this._pipeData.number(); //Engine Number
+      int stage           = this._pipeData.stage();
+      int tank            = this._pipeData.tank();   //Tank Number
+      double tolerance    = this._pipeData.tolerance();
+      String fuelType     = this._pipeData.type();   //Fuel Type
+
+      pd = new GenericPipeData(null,       //error
+                               flow,       //flow
+                               number,     //Engine Number
+                               false,      //isError
+                               stage,      //Stage Number
+                               tank,       //Tank Number
+                               temp,       //Temperature
+                               tolerance,  //Tolerance
+                               fuelType    //Fuel Type (can be null)
+                               );
+   }
 
    //
    //
@@ -282,6 +286,33 @@ public class GenericPipe implements Pipe, Runnable{
       this._rt0.start();
    }
 
+   //
+   //
+   //
+   private String temperatureError(double temp){
+      String error = null;
+      if(this._state.state() == INIT){}
+      else if(this._state.state() == PRELAUNCH){
+         /*
+         double ul = this._temperature*(2-this._tolerance);
+         double ll = this._temperature*this._tolerance;
+         double m  = this._measuredTemperature;
+         if(m > ul){
+            this._isError = true;
+            String s = new String("\nPipe Temperature Error: ");
+            if(this._error == null){
+               this._error = new String(s);
+            }
+            else{
+               this._error += s;
+            }
+            this._error += "\nRequired Temp: "+this._temperature;
+            this._error += "\nMeasured Temp: "+m;
+         }
+         */
+      }
+      return error;
+   }
    ////////////////////Pipe Interface Implementation//////////////////
    //
    //

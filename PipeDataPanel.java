@@ -363,7 +363,7 @@ public class PipeDataPanel extends JPanel{
                JLabel temp = null;
                temp = new JLabel("Temperature:  ",RIGHT);
                tdp.add(temp);
-               JLabel data = new JLabel(pd.temp()+"K");
+               JLabel data = new JLabel(pd.temperature()+"K");
                tdp.add(data);
             }
             //Update
