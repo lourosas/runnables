@@ -104,6 +104,15 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    }
 
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private FuelSystemData readFuelSystemData(String file){
+      FuelSystemData fsd = null;
+
+      return fsd;
+   }
+
    //KEEP
    //
    //
@@ -286,6 +295,8 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
                catch(NumberFormatException nfe){md = -1;}
                try{tl=Double.parseDouble(ht.get("tolerance"));}
                catch(NumberFormatException nfe){tl = Double.NaN;}
+               //Read the Fuel System data...
+               FuelSystemData fsd = this.readFuelSystemData(file);
                StageData sd = new GenericStageData(dw,//Dry Weight
                                                    null,//error
                                                    md,//model
@@ -570,7 +581,7 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       //Grab the Static Data
       List<TankData> setTanks = fsd.tankData();
       //Put the return data
-      List<TankData> tanks    = new LinkedList<Tanks>();
+      List<TankData> tanks    = new LinkedList<TankData>();
       //0.  Grab the Static Data!
       //NOTE:
       //Capacity, Rate, Temperature are to be Determined...weight will
@@ -600,6 +611,14 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       this._rt0.start();
    }
 
+   //Randomly, calculate the capacity...
+   //
+   //
+   private double tankCapacity(TankData td){
+      double capacity = Double.NaN;
+      return capacity;
+   }
+
    ////////////////DataFeeder Interface Implmentation/////////////////
    //
    //
@@ -610,7 +629,6 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
          this.readLaunchingMechanismData(file);
          this.readMechanismSupportData(file);
          this._start = true;
-         //this.readTankData(file);
       }
       catch(IOException ioe){
          ioe.printStackTrace();
