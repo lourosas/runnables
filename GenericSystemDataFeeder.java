@@ -323,6 +323,8 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       List<TankData> tankDL = null;
       try{
          tankDL = this.setTankData(sd.fuelSystemData());
+         //pumpDL = this.setPumpData(sd.fuelSystemData());
+         //pipeDl = this.setPipeData(sd.fuelSystemData());
       }
       catch(NullPointerException npe){
          pipeDL = null;
@@ -568,12 +570,25 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
       //Grab the Static Data
       List<TankData> setTanks = fsd.tankData();
       //Put the return data
-      List<TankData> tanks    = null;
+      List<TankData> tanks    = new LinkedList<Tanks>();
       //0.  Grab the Static Data!
       //NOTE:
       //Capacity, Rate, Temperature are to be Determined...weight will
       //be calculated Everything determined by randomizaton
-
+      Iterator<TankData> it = setTanks.iterator();
+      while(it.hasNext()){
+         TankData td = it.next();
+         double dwg  = td.dryWeight();
+         double emr  = td.emptyRate();
+         String fue  = td.fuel();
+         int    num  = td.number(); //Tank Number
+         int    stg  = td.stage();  //Stage Number
+         double tol  = td.tolerance(); //Tolerance
+         //Go ahead and calculate the weight from the desisty...
+         //0.  Calculate the Tank Capacity
+         double cap = this.tankCapacity(td);
+         //Finally, put it all in a TamkData instance...
+      }
       return tanks;
    }
 
