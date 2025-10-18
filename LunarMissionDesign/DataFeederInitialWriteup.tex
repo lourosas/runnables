@@ -66,14 +66,53 @@ Request.
 \\The Data Feeder will calculate all the needed System Data for
 the aggregate components for every phase (State) in the System.
 
-\section{Stakeholders \& Interrests}
+\section{Stakeholders \& Interests}
 \begin{enumerate}
 \item Flight Controller--Want System Data related to the particular
-Phase (state) of the mission
+Phase (state) of the mission.  Want accurate simulation to possible
+events and occurences.
 \item Engineers/Technicians--Want System Data for their component(s)
-of interrest in the Mission Phase (state).
+of interest in the target Mission Phase (state).  Want data accuracy
+in relation to possible Mission Type Events.
+\item Systems Engineers--want accurate simulation for cost
+effectiveness.
 \end{enumerate}
 
 \section{Typical Success Scenario}
+\begin{enumerate}
+   \item  The (Lunar Mission) System is running
+   \item  The (Lunar Mission) System is running in Simulation Mode
+   \item  The Data Feeder is started
+      \begin{enumerate}
+         \item The Mission Parameters File is loaded
+         \item The System/Components Fiel is loaded
+      \end{enumerate}
+   \item The Data Feeder Continuously Calculates the System Mission
+      Data
+   \item The Data Feeder Independently Calculates the System Mission
+      Data
+   \item The System Periodically requests Mission Data
+   \item The Data Feeder returns requested Mission Data
+\end{enumerate}
+\section{Special Notes}
+\begin{itemize}
+   \item The Data Feeder works independently and asynchronously from
+      the (Lunar Mission) System.
+   \item Mission Data is based on what the (Lunar Mission) System
+      monitors
+      \begin{itemize}
+         \item Based solely on the System incarnation
+         \item Subject to change
+         \item Pertinent Data dependent on Mission Parameters
+      \end{itemize}
+   \item In the current incarnation, the System monitors and requests
+      data from the Feeder
+      \begin{itemize}
+         \item While this allows both loose association, there is a
+            stronger association as opposed to implementing the 
+            \textit{Publish/Subscribe} design patter
+         \item Should be considered for future development and work
+      \end{itemize}
+\end{itemize}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
