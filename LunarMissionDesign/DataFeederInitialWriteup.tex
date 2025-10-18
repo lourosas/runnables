@@ -28,13 +28,6 @@ Since the System is data driven, that means a Simulation must
 emulate real events via data.  Hence the Simulation is Data Driven,
 in addition.
 
-\noindent
-\\The System is to be tested in Simulation Mode.  Simulation mode, is
-to model real events and data in as accurate a model as possible.
-Since the System is data driven, that means a Simulation must
-emulate real events via data.  Hence the Simulation is Data Driven, in
-addition.
-
 \section{Concept}
 Create a Data Feeder that emulates data for all components in all
 phases (states) of the Sytem to the point the System and Stake Holders
@@ -80,12 +73,18 @@ effectiveness.
 
 \section{Typical Success Scenario}
 \begin{enumerate}
+   \item  The (Lunar Mission) System Administor Starts the (Lunar
+      Mission) System
    \item  The (Lunar Mission) System is running
+   \item  The (Lunar Mission) System Administrator requests the
+      (Lunar Mission) System to run in simulation: sending the path to
+      the Mission Parameters and System/Components file to the Data
+      Feeder
    \item  The (Lunar Mission) System is running in Simulation Mode
    \item  The Data Feeder is started
       \begin{enumerate}
          \item The Mission Parameters File is loaded
-         \item The System/Components Fiel is loaded
+         \item The System/Components File is loaded
       \end{enumerate}
    \item The Data Feeder Continuously Calculates the System Mission
       Data
