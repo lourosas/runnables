@@ -1,0 +1,53 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case 3:  Start Data Feeder}\\
+\textbf{Scope:  }Data Feeder\\
+\textbf{Primary Actor:  }System Administrator\\
+\textbf{Secondary Actor:  }(Lunar Mission)System\\
+\textbf{Related Use Cases:  }\textit{Use Case 2:  Request to Load
+Parameter File}\\
+\textbf{Stakeholders \& Interrests:}
+\begin{itemize}
+   \item (Lunar Mission)System:  Wants Mission Data to request
+   \item Flight Controller:  Wants a Mission Started
+   \item Engineer/Technician:  Wants a Mission Started
+\end{itemize}
+\textbf{Pre-Conditions:  }(Lunar Mission)System is started\\
+\textbf{Post-Conditions:  }The Data Feeder is started, possibly with
+a Parameter File Already loaded (\textit{See Use Case 2:  Request to
+Load Parameter File})\\\\
+\textbf{Flow of Events:}\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+   \textbf{System Administrator}&\textbf{Data Feeder}\\\hline
+   1.  Starts the Data Feeder &\\\hline
+   &2. Initializes Data Structures and Generic Data Common to all
+   missions\\\hline
+   &3. Monitors for an input file\\\hline
+   &4. Continues monitoring for an input file until one is loaded (See
+   \textit{Use Case 2:  Request to Load Parameter File})\\\hline
+\end{tabular}
+\textbf{Alternative Flows/Extensions:}
+\begin{itemize}
+   \item[1a-3a]If the Parameter File is loaded as part of the Process
+      of starting the Data Feeder, then the Data feeder still
+      initializes the Data Structures and Generic Data Common to all
+      missions, and loads the Parameter file (See \textit{Use Case 2:
+      Request to Load Parameter File})
+\end{itemize}
+\textbf{Special Requirements}
+\begin{itemize}
+\item None
+\end{itemize}
+\textbf{Open Issues}
+\begin{itemize}
+   \item[1a.]  The Data Feeder can be started with or withoout the
+      loading of a Parameter File.  A Paremeter File needs loading for
+      the Data Feeder to generate Mission Data
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
