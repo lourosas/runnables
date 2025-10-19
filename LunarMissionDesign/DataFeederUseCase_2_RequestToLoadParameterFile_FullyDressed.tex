@@ -1,0 +1,65 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case 2:  Request to Load Parameter File}\\
+\textbf{Scope:  }Data Feeder\\
+\textbf{Primiary Actor:  }System Administrator\\
+\textbf{Secondary Actor:  }(Lunar Mission)System\\
+\textbf{Related Use Cases:  }\textit{Use Case 3: Start the Data
+Feeder}\\
+\textbf{Stakeholders \& Interrests:}
+\begin{itemize}
+   \item (Lunar Mision)System:  Wants to load a parameter file to
+      monitor the current Mission
+   \item System Administrator:  Wants to load a parameter file to
+      start the current Mission
+\end{itemize}
+\textbf{Pre-Conditions:  }Data Feeder is started (see \textit{Use
+Case 3:  Start the Data Feeder})\\
+\textbf{Post-Conditions:  }The Parameter File is loaded, the Data
+Feeder is generating Mission Data based on the Parameters in the
+Parameter File\\\\
+\textbf{Flow of Events:}\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+   \textbf{System Administrator}&\textbf{Data Feeder}\\\hline
+   1.  Enters the Parameter File Path &\\\hline
+   2.  Enters the Parameter File Name &\\\hline
+   & 3.  Opens the Parameter File\\\hline
+   & 4.  Reads the Parameter File\\\hline
+   & 5.  Loads the Mission Data Parameters with the data from the
+   Parameter file\\\hline
+   & 6.  Periodically generates Mission Data based on the Parameter
+   File Inputs\\\hline
+\end{tabular}\\\\
+\textbf{Alternative Flows:}
+\begin{itemize}
+   \item[3a]If the file is not available, the Data Feeder alerts the
+      Primary and Secondary actors and no data is loaded
+   \item[4a]If any of the Parameters are unreadable by the Data
+      Feeder, then the Data Feeder ingnores the values, setting the
+      values to the default(error) value
+   \item[5a]If the Data Feeder attempts to load a parameter that is
+      not in the Parameter File, then the Data Feeder sets that value
+      to the Default(error) Value
+   \item[5b]If there are paremeters in the Parameter File not loaded
+      by the Data Feeder, then those Parameters are ignored
+   \item[5c]If any of the Data Feeder Parameters are not of the
+      correct number format, then the Data Feeder ignores the value,
+      setting the value to the default(error) value
+\end{itemize}
+\textbf{Special Requirements}
+\begin{itemize}
+   \item None
+\end{itemize}
+\textbf{Open Issues}
+\begin{itemize}
+   \item[6a]  Technically this Flow is an addition to the Use Case
+      Flow of events, and would be metioned in this section (as it
+      is now)
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
