@@ -8,18 +8,24 @@
 \textbf{Request Mission Data--Casual Format}\\
 \textit{Main Success Scenario}
 \begin{enumerate}
-\item With the (Lunar Mission) System running and with the Data
-Feeder running, querry the desired data
-\begin{enumerate}
-\item Data Feeder returns the latest of the requested data
-\end{enumerate}
-\item System periodically continues to query the required data by
-returning to number 1
-\begin{enumerate}
-\item Depending on the Current Sequence, Phase or State
-\item For the durration of the Current Sequence, Phase or State
-\end{enumerate}
+\item With the Data Feeder running, querry the desired data
+\item Data Feeder returns the requested data last saved
+\item Depending on the Current Sequence, Phase or State, go to
+\textit{1} and continue for the required amount of time desiring
+requested data.
 \end{enumerate}
 \textit{Alternative Scenarios}
+\begin{enumerate}
+   \item[1a]  If the data is not available then the Data Feeder
+      returns an error
+   \item[1b]  If the there is an error in acquiring the data, then
+      the Data Feeder returns as error
+\end{enumerate}
+\textit{Notes/Constraints}
+\begin{enumerate}
+   \item[2a]  If the querry rate is faster than the Data Feeder update
+      rate, then the querried data could be the same as previously
+      quierried
+\end{enumerate}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

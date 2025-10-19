@@ -1,0 +1,55 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case 1:  Request Mission Data}\\
+\textbf{Scope:  }Data Feeder\\
+\textbf{Primary Actor:  }none\\
+\textbf{Secondary Actor:  }(Lunar Mission)System\\
+\textbf{Related Use Cases:  }\textit{Use Case 2:  Request to Load a
+Parameter File},\textit{Use Case 3:  Start the Data Feeder}\\
+\textbf{Stakeholders \& Interrests:  }
+\begin{itemize}
+   \item (Lunar Mission) System:  Requests Mission Data for current
+      mission
+   \item Flight Controller:  Wants a simulation with as similar as
+      possible to an actual mission
+   \item Engineers/Tecnincians:  Wants a simulation agnostic to source
+\end{itemize}
+\textbf{Pre-Conditions:  }Data Feeder is started, Parameter File is
+loaded, Data Feeder is generating required mission data, (Lunaar
+Mission) System is running.\\
+\textbf{Post-Conditions:  }Requested Data Returned to the (Lunar
+Mission) System\\\\
+\textbf{Flow of Events:}\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+\textbf{(Lunar Mission)System}&\textbf{Data Feeder}\\\hline
+   1.  Request selected Mission Data &\\\hline
+   & 2. Returns the requested data as Specified\\\hline
+   3. Periodically loops back to \textit{1} for the durration of
+   the Phase, State or Mission & \\\hline
+   4. Stops collecting data upon completion of Phase, State or
+   Mission & \\\hline
+\end{tabular}\\\\
+\textbf{Alternative Flows: }
+\begin{itemize}
+   \item[2a]If the data is not available, then the Data Feeder returns
+      an error
+   \item[2b]If the Data Feeder encounters an error while generating
+      requested data, then the Data Feeder returns an error
+\end{itemize}
+\textbf{Special Requirements: }
+\begin{itemize}
+   \item None
+\end{itemize}
+\textbf{Open Issues}
+\begin{itemize}
+   \item[2a] If the querry rate is faster than the Data Feeder update
+      rate, then the current queried data could be similar to the
+      previous queried data.
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
