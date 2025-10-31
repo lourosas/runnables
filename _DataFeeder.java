@@ -23,11 +23,16 @@ import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
-public interface DataFeeder{
-   public void initialize(String file) throws IOException;
-   public Object monitor();
-   public void setStateSubstate(LaunchStateSubstate cond);
-   protected void setData();
-   protected void setData(String type);
+public interface _DataFeeder{
+   //Calculated Returns
+   public LaunchingMechanismData     launchMechData();
+   public List<MechanismSupportData> mechSuppData();
+   public RocketData                 rocketData();
+   //Initialized Returns
+   public void   initialize(String file)throws IOException;
+   //Returns
+   public void   setStateSubstate(LaunchStateSubstate cond);
+   //Calculated Returns
+   public String toString();
 }
 //////////////////////////////////////////////////////////////////////

@@ -276,6 +276,11 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    //
+   public void initialize(String file, boolean initFeeder){}
+
+   //
+   //
+   //
    public void preLaunchTime(int hours, int mins, int secs){}
 
    //

@@ -28,6 +28,7 @@ public interface LaunchSystem{
    public void holdCountdown();
    public void ignite();
    public void initialize(String file);
+   public void initialize(String file, boolean initFeeder);
    public void preLaunchTime(int hours, int mins, int secs);
    public void resumeCountdown();
    public void startCountdown();
