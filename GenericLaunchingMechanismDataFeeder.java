@@ -87,6 +87,132 @@ DataFeeder,Runnable{
    //
    //
    //
+   private void initialzeLaunchingMechanismData(String file)
+   throws IOException{
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonfFileReader(file);
+         List<MechanismSupportData> l = null;
+         l = this.initializeMechanismSupportData(file);
+         Hashtable<String, String> ht = null;
+         ht = read.readLaunchingMechanismInfo();
+         int    mod = -1;         //Model
+         int    nh  = -1;         //Number of Holds
+         double tol = Double.NaN; //Total Tolerance
+         try{ mod = Integer.parseInt(ht.get("model")); }
+         catch(NumberFormatException nfe){ mod = -1; }
+         try{ nh = Integer.parseInt(ht.get("number_of_holds")); }
+         catch(NumberFormatException nfe){ nh = -1; }
+         try{ tol = Double.parseDouble(ht.get("total_tolerance")); }
+         catch(NumberFormatException nfe){ tol = Double.NaN; }
+         LaunchingMechanismData mech = null;
+         mech = new GenericLaunchingMechansismData(
+                                null,      //error
+                                nh,        //Number of Holds
+                                false,     //Is Error
+                                Double.NaN,//Calc Weight
+                                mod,       //Model
+                                this._stateSubstate,
+                                tol,       //Total Tolerance
+                                l);        //Mechanism Support List
+         this._initMechData = mech;
+      }
+      catch(IOException ioe){
+         ioe.printStackTrace();
+         this._initMechData = null;
+         throw ioe;
+      }
+   }
+
+   //
+   //
+   //
+   private List<MechanismSupportData>
+   initializeMechanismSupportData(String file) throws IOException{
+      List<MechanismSupportData> list = null;
+      list = new LinkedList<MechanismSupportData>();
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         Hashtable<String, String> ht = null;
+         ht = read.readLaunchingMechanismInfo();
+         int    nh  = -1;         //Number of Holds
+         double tol = Double.NaN; //Holds Tolerance
+         try{
+            nh = Integer.parseInt(ht.get("number_of_holds"));
+         }
+         catch(NumberFormatException nfe){
+            nh = -1;
+         }
+         try{
+            tol = Double.parseDouble(ht.get("holds_tolerance"));
+         }
+         catch(NumberFormatException nfe){
+            tol = Double.NaN;
+         }
+         for(int i = 0; i < nh; ++i){
+            MechanismSupportData msd = null;
+            msd = new GenericMechanismSupportData(ha, //Hold Angle
+                                           null,  //Error
+                                           null,  //Force Vector
+                                           i,     //ID
+                                           false, //Is Error
+                                           Double.NaN, //Meas Force
+                                           tol,   //Holds Tolerance
+                                           );
+            list.add(msd);
+         }
+      }
+      catch(IOException ioe){
+         list = null;
+         ioe.printStackTrace();
+         throw ioe;
+      }
+      finally{
+         return list;
+      }
+   }
+
+   //
+   //
+   //
+   private void measureMechanismData(){
+      double scale = Double.NaN;
+      int min    = -1; int max    = -1;
+      int mod    = -1; //Model
+      int nh     = -1; //Number of Holds
+      double tol = Double.NaN; //total tolerance
+
+      //Uused to collect the Mechanism Support data
+      List<MechanismSupportData> list = null;
+      List<MechanismSupportData> temp = null;
+      try{
+         list = this.measureMechanismSupports();
+         mod  = this._initMechData.model();
+         nh   = this._initMechData.holds();
+         tol  = this._initMechData.tolerance();
+      }
+      catch(NullPointerException npe){
+         scale = Double.NaN; max = -1; min = -1;
+         mod   = -1; nh = -1; tol = Double.NaN;
+      }
+      finally{
+         synchronized(this._obj){
+         }
+      }
+   }
+
+   //
+   //
+   //
+   private List<MechanismSupportData> measureMechanismSupports(){
+      //Temporary
+      return null;
+   }
+
+   //
+   //
+   //
    private void setUpThread(){
       this._obj = new Object();
       this._t0  = new Thread(this);
@@ -97,7 +223,15 @@ DataFeeder,Runnable{
    //
    //
    //
-   public void initialize(String file)throws IOException{}
+   public void initialize(String file)throws IOException{
+      try{
+         this.initializeLaunchingMechanismData(file);
+      }
+      catch(IOException ioe){i
+         ioe.printStackTrace();
+         throw ioe;
+      }
+   }
 
    //
    //
@@ -122,7 +256,9 @@ DataFeeder,Runnable{
       try{
          while(true){
             if(this._stateSubstate != null){
-               //Collect Data
+               //Measure the endire  Data needed
+               //Measure all the Launching Mechanism Data
+               this.measureMechanismData();
             }
             Thread.sleep(1);
          }

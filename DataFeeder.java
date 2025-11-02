@@ -27,7 +27,5 @@ public interface DataFeeder{
    public void initialize(String file) throws IOException;
    public Object monitor();
    public void setStateSubstate(LaunchStateSubstate cond);
-   protected void setData();
-   protected void setData(String type);
 }
 //////////////////////////////////////////////////////////////////////
