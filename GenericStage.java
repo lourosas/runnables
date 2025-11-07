@@ -84,6 +84,8 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       List<EngineData> list,
       FuelSystemData   fuelSystem
    ){
+      //Needs redoing to update to the new DataFeeder
+      /*
       synchronized(this._obj){
          double calcWeight = Double.NaN;
          try{
@@ -120,6 +122,8 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
             return calcWeight;
          }
       }
+      */
+      return Double.NaN;
    }
 
    //

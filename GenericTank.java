@@ -327,6 +327,9 @@ public class GenericTank implements Tank, Runnable{
    //repeating the same code in several methods...!!!
    //
    private TankData myTankData() throws NullPointerException{
+      return null;
+      /*
+       * Need to update to the new DataFeeder Interface
       TankData tankData = null;
       try{
          RocketData            rd = this._feeder.rocketData();
@@ -359,6 +362,7 @@ public class GenericTank implements Tank, Runnable{
       finally{
          return tankData;
       }
+      */
    }
 
    //

@@ -269,7 +269,8 @@ Runnable{
       try{
          double degHolds = Double.NaN;
          List<MechanismSupportData> list = null;
-         list = this._feeder.mechSuppData();
+         //need to work with the new DataFeeder implementation
+         //list = this._feeder.mechSuppData();
          Iterator<MechanismSupportData> it = list.iterator();
          while(it.hasNext()){
             MechanismSupportData data = it.next();
@@ -290,6 +291,8 @@ Runnable{
    //
    //
    private void measureArmForce(){
+      //Will need to alter to work with the new DataFeeder
+      /*
       try{
          RocketData rd              = this._feeder.rocketData();
          LaunchingMechanismData lmd = this._feeder.launchMechData();
@@ -303,6 +306,7 @@ Runnable{
          //Put in as a stop gap for the time being...
          this._armForce = this._armForce;
       }
+      */
    }
 
    //

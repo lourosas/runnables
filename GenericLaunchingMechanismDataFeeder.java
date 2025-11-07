@@ -256,7 +256,7 @@ DataFeeder,Runnable{
       try{
          while(true){
             if(this._stateSubstate != null){
-               //Measure the endire  Data needed
+               //Measure all the Data needed
                //Measure all the Launching Mechanism Data
                this.measureMechanismData();
             }

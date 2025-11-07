@@ -252,6 +252,9 @@ public class GenericPump implements Pump, Runnable{
    //
    //
    private PumpData myPumpData()throws NullPointerException{
+      return null;
+      /*
+       * Need to redo to fit the new DataFeeder Interface
       PumpData pumpData = null;
       try{
          RocketData            rd = this._feeder.rocketData();
@@ -284,6 +287,7 @@ public class GenericPump implements Pump, Runnable{
       finally{
          return pumpData;
       }
+      */
    }
 
    //

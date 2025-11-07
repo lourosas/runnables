@@ -215,6 +215,9 @@ public class GenericPipe implements Pipe, Runnable{
    //
    //
    private PipeData myPipeData()throws NullPointerException{
+      /*
+       * This needs redoing to fit into the new DataFeeder
+       * Implementation
       PipeData pipeData = null;
       try{
          RocketData          rd = this._feeder.rocketData();
@@ -229,6 +232,8 @@ public class GenericPipe implements Pipe, Runnable{
       finally{
          return pipeData;
       }
+      */
+      return null;
    }
 
    //

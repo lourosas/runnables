@@ -658,6 +658,11 @@ public class GenericSystemDataFeeder implements DataFeeder,Runnable{
    //
    //
    //
+   public Object monitor(){ return null; }
+
+   //
+   //
+   //
    public RocketData rocketData(){
       synchronized(this._obj){
          return this._measRocketData;
