@@ -779,6 +779,12 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       abort.setEnabled(false);
       panel.add(abort);
 
+      JCheckBox simulation = new JCheckBox("Run Simulation");
+      simulation.addItemListener(this._controller);
+      simulation.addKeyListener(this._controller);
+      simulation.addActionListener(this._controller);
+      panel.add(simulation);
+
       return panel;
    }
 }

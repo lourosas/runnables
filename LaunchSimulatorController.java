@@ -79,11 +79,13 @@ KeyListener,ItemListener,WindowListener{
       this.handleJButton(e);
       this.handleJMenuItem(e);
       this.handleJTextField(e);
+      this.handleJCheckBox(e);
    }
    ///////////////////////////////Key Listener////////////////////////
    /**/
    public void keyPressed(KeyEvent ke){
       this.handleJButton(ke);
+      this.handleJCheckBox(ke);
    }
 
    /**/
@@ -95,7 +97,9 @@ KeyListener,ItemListener,WindowListener{
    }
    /////////////////////////////Item Listener/////////////////////////
    /**/
-   public void itemStateChanged(ItemEvent ie){}
+   public void itemStateChanged(ItemEvent ie){
+      this.handleJCheckBox(ie);
+   }
    ///////////////////////////Window Listener/////////////////////////
    /**/
    public void windowActivated(WindowEvent we){}
@@ -191,6 +195,37 @@ KeyListener,ItemListener,WindowListener{
          if(ke.getKeyCode() == KeyEvent.VK_ENTER){
             JButton b = (JButton)ke.getSource();
             b.doClick(250);
+         }
+      }
+      catch(ClassCastException cce){}
+   }
+
+   /**/
+   private void handleJCheckBox(ActionEvent ae){}
+
+   /**/
+   private void handleJCheckBox(ItemEvent ie){
+      try{
+         JCheckBox jcb = (JCheckBox)ie.getSource();
+         if(jcb.isSelected()){
+            //Will need to set the Simulation State
+            System.out.println(jcb); //Do a test print
+            //System.out.println(ie); //Do a test print
+         }
+         else{
+            //Clear the Simulation State...
+            System.out.println("poop");
+         }
+      }
+      catch(ClassCastException cce){}
+   }
+
+   /*Not really needed, but keeping, regardless*/
+   private void handleJCheckBox(KeyEvent ke){
+      try{
+         JCheckBox jcb = (JCheckBox)ke.getSource();
+         if(ke.getKeyCode() == KeyEvent.VK_ENTER){
+            jcb.doClick();
          }
       }
       catch(ClassCastException cce){}
