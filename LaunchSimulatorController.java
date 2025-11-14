@@ -208,13 +208,12 @@ KeyListener,ItemListener,WindowListener{
       try{
          JCheckBox jcb = (JCheckBox)ie.getSource();
          if(jcb.isSelected()){
-            //Will need to set the Simulation State
-            System.out.println(jcb); //Do a test print
-            //System.out.println(ie); //Do a test print
+            //Will need to set the Simulation State to YES
+            this._system.simulation(true);
          }
          else{
-            //Clear the Simulation State...
-            System.out.println("poop");
+            //Set the Simulation State to NO...
+            this._system.simulation(false);
          }
       }
       catch(ClassCastException cce){}

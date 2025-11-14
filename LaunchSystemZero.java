@@ -126,6 +126,9 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    private void addFeeders(DataFeeder feeder){
+      //This is no longer needed...
+      //simState set by the input of this.simulation(...) method
+      /*
       if(feeder != null){
          this.simState = Sim.YES;
          //Set all the Simualation Feeder data
@@ -135,6 +138,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
          this.simState = Sim.NO;
          this.feeder    = null;
       }
+      */
    }
 
    //
@@ -264,19 +268,18 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
          this.initializeRocket(file);
          this.initializeLaunchingMechanism(file);
          this.initializePayload(file);
+         //This will need to change--communicate the state to all
+         //the Components of the System...
          if(this.simState == Sim.YES){
             this.feeder.setStateSubstate(s);
          }
+         //Need to alert the Subscribers of the Init State--if for
+         //no other reason than to disable the simuulation check box
       }
       catch(IOException ioe){
          //TODO need to handle exception!
       }
    }
-
-   //
-   //
-   //
-   public void initialize(String file, boolean initFeeder){}
 
    //
    //
@@ -287,6 +290,14 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    public void resumeCountdown(){}
+
+   //
+   //
+   //
+   public void simulation(boolean isSim){
+      this.simState = isSim ? Sim.YES : Sim.NO;
+      System.out.println(this.simState);
+   }
 
    //
    //
