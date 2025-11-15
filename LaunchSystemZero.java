@@ -71,7 +71,8 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
       stateSubstate       = null;
-      simState            = null;
+      //Unfortunately, need to initialize the State to Sim.NO
+      simState            = Sim.NO;
       subscriber          = null;
       countdownTimer      = null;
       launchingMechanism  = null;
@@ -208,15 +209,18 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    private void initializeRocket(String file) throws IOException{
+      System.out.println("Initialize Rocket: "+file);
       try{
          this.rocket = new GenericRocket();
          this.rocket.initialize(file);
+         /*  Pretty basic, but will need to change...
          this.rocket.addErrorListener(this);
          this.rocket.addSystemListener(this);
          if(this.simState == Sim.YES){
             //Add the Data Feeder to the Launching Mechanism...
             this.rocket.addDataFeeder(this.feeder);
          }
+         */
       }
       catch(IOException ioe){
          throw ioe;
@@ -261,6 +265,12 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    public void initialize(String file){
+      //Do some test prints, first...
+      System.out.println(file);
+      System.out.println(this.simState);
+      //This will need changing...
+      //Transition to INITIALIZE, regardless...alert the Subscribers
+      /*
       try{
          LaunchStateSubstate s = null;
          s = new LaunchStateSubstate(INIT,null,null,null);
@@ -279,6 +289,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
       catch(IOException ioe){
          //TODO need to handle exception!
       }
+      */
    }
 
    //
@@ -296,7 +307,6 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    public void simulation(boolean isSim){
       this.simState = isSim ? Sim.YES : Sim.NO;
-      System.out.println(this.simState);
    }
 
    //
