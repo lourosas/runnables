@@ -185,6 +185,9 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    private void initializeLaunchingMechanism(String file)
    throws IOException{
       try{
+         System.out.println("Initialize Launching Mech: "+file);
+         throw new IOException();
+         /*
          this.launchingMechanism = new GenericLaunchingMechanism();
          this.launchingMechanism.initialize(file);
          this.launchingMechanism.addErrorListener(this);
@@ -193,6 +196,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
             //Add the Data feeder to the Launching Mechanism...
             this.launchingMechanism.addDataFeeder(this.feeder);
          }
+         */
       }
       catch(IOException ioe){
          //this.error(ioe.getMessage(),null);--need to add!
@@ -209,7 +213,6 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    private void initializeRocket(String file) throws IOException{
-      System.out.println("Initialize Rocket: "+file);
       try{
          this.rocket = new GenericRocket();
          this.rocket.initialize(file);
@@ -268,26 +271,26 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
       System.out.println(this.simState);
       //This will need changing...
       //Transition to INITIALIZE, regardless...alert the Subscribers
-      /*
       try{
          LaunchStateSubstate s = null;
          s = new LaunchStateSubstate(INIT,null,null,null);
          this.stateSubstate = s;
-         this.initializeRocket(file);
+         //Comment out what is not needed at the moment while I figure
+         //this shit out...
+         //this.initializeRocket(file);
          this.initializeLaunchingMechanism(file);
-         this.initializePayload(file);
+         //this.initializePayload(file);
          //This will need to change--communicate the state to all
          //the Components of the System...
-         if(this.simState == Sim.YES){
-            this.feeder.setStateSubstate(s);
-         }
+         //if(this.simState == Sim.YES){
+         //   this.feeder.setStateSubstate(s);
+         //}
          //Need to alert the Subscribers of the Init State--if for
          //no other reason than to disable the simuulation check box
       }
       catch(IOException ioe){
          //TODO need to handle exception!
       }
-      */
    }
 
    //
