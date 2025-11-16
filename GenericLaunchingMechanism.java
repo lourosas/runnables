@@ -227,15 +227,14 @@ ErrorListener, Runnable{
       read = new LaunchSimulatorJsonFileReader(file);
       Hashtable<String,String> ht = null;
       ht = read.readPathInfo();
-      System.out.println(ht);
-      System.out.println(ht.get("parameter"));
-      System.exit(0);
-      /*
+      //1.  Open the Parameter file to read the Rocket and
+      //    LaunchingMechanism data
+      read = new LaunchSimulatorJsonFileReader(ht.get("parameter"));
       ht = read.readRocketInfo();
+      //2.  Save Off
       this.rocketData(ht);
       ht = read.readLaunchingMechanismInfo();
       this.mechanismData(ht);
-      */
    }
 
    //Measure the weight of the rocket based on the Mechanism Supports
@@ -431,6 +430,8 @@ ErrorListener, Runnable{
    //
    public void addDataFeeder(String feederFile){
       //Will need to do a fucking lot for this!!!
+      System.out.println(feederfile);
+      System.exit(0);
    }
 
    //
