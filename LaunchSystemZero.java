@@ -213,14 +213,12 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
       try{
          this.rocket = new GenericRocket();
          this.rocket.initialize(file);
-         /*  Pretty basic, but will need to change...
          this.rocket.addErrorListener(this);
          this.rocket.addSystemListener(this);
          if(this.simState == Sim.YES){
             //Add the Data Feeder to the Launching Mechanism...
             this.rocket.addDataFeeder(this.feeder);
          }
-         */
       }
       catch(IOException ioe){
          throw ioe;
