@@ -176,9 +176,11 @@ public class LaunchMechanismDataFeeder implements DataFeeder{
          read = new LaunchSimulatorJsonFileReader(file);
          Hashtable<String,String> ht = null;
          ht = read.readRocketInfo();
+         System.out.println(ht);
          this.setEmptyWeight(ht);
          this.setLoadedWeight(ht);
          ht = read.readLaunchingMechanismInfo();
+         System.out.println(ht);
          this.setHolds(ht);
          this.setTolerance(ht);
          this.setHoldsTolerance(ht);

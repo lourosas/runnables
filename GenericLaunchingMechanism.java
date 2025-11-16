@@ -428,9 +428,17 @@ ErrorListener, Runnable{
    //
    //
    //
-   public void addDataFeeder(String feederFile){
+   public void addDataFeeder(String pathFile)throws IOException{
       //Will need to do a fucking lot for this!!!
-      System.out.println(feederfile);
+      System.out.println(pathFile);
+      LaunchSimulatorJsonFileReader read = null;
+      read = new LaunchSimulatorJsonFileReader(pathFile);
+      Hashtable<String,String> ht = null;
+      ht = read.readPathInfo();
+      System.out.println(ht);
+      System.out.println(ht.get("launching_mechanism"));
+      this._feeder = new GenericLaunchingMechanismDataFeeder();
+      //this._feeder.initialize(ht.get("launching_mechanism"));
       System.exit(0);
    }
 

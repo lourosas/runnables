@@ -191,7 +191,8 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
          this.launchingMechanism.addSystemListener(this);
          if(this.simState == Sim.YES){
             //Add the Data feeder to the Launching Mechanism...
-            this.launchingMechanism.addDataFeeder(this.feeder);
+            //this.launchingMechanism.addDataFeeder(this.feeder);
+            this.launchingMechanism.addDataFeeder(file);
          }
       }
       catch(IOException ioe){

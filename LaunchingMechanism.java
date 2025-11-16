@@ -25,7 +25,7 @@ import rosas.lou.clock.*;
 
 public interface LaunchingMechanism{
    public void addDataFeeder(DataFeeder f);
-   public void addDataFeeder(String feederFile);
+   public void addDataFeeder(String feederFile)throws IOException;
    public void addErrorListener(ErrorListener e);
    public void addSystemListener(SystemListener s);
    public void initialize(String file)throws IOException;

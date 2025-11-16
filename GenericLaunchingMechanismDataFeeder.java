@@ -91,7 +91,7 @@ DataFeeder,Runnable{
    throws IOException{
       try{
          LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonfFileReader(file);
+         read = new LaunchSimulatorJsonFileReader(file);
          List<MechanismSupportData> l = null;
          l = this.initializeMechanismSupportData(file);
          Hashtable<String, String> ht = null;
@@ -106,7 +106,7 @@ DataFeeder,Runnable{
          try{ tol = Double.parseDouble(ht.get("total_tolerance")); }
          catch(NumberFormatException nfe){ tol = Double.NaN; }
          LaunchingMechanismData mech = null;
-         mech = new GenericLaunchingMechansismData(
+         mech = new GenericLaunchingMechanismData(
                                 null,      //error
                                 nh,        //Number of Holds
                                 false,     //Is Error
@@ -158,7 +158,7 @@ DataFeeder,Runnable{
                                            i,     //ID
                                            false, //Is Error
                                            Double.NaN, //Meas Force
-                                           tol,   //Holds Tolerance
+                                           tol   //Holds Tolerance
                                            );
             list.add(msd);
          }
@@ -227,7 +227,7 @@ DataFeeder,Runnable{
       try{
          this.initializeLaunchingMechanismData(file);
       }
-      catch(IOException ioe){i
+      catch(IOException ioe){
          ioe.printStackTrace();
          throw ioe;
       }
