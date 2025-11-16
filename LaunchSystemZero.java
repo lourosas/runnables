@@ -185,9 +185,6 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    private void initializeLaunchingMechanism(String file)
    throws IOException{
       try{
-         System.out.println("Initialize Launching Mech: "+file);
-         throw new IOException();
-         /*
          this.launchingMechanism = new GenericLaunchingMechanism();
          this.launchingMechanism.initialize(file);
          this.launchingMechanism.addErrorListener(this);
@@ -196,7 +193,6 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
             //Add the Data feeder to the Launching Mechanism...
             this.launchingMechanism.addDataFeeder(this.feeder);
          }
-         */
       }
       catch(IOException ioe){
          //this.error(ioe.getMessage(),null);--need to add!

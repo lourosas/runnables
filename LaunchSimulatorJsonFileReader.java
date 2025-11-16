@@ -78,6 +78,22 @@ public class LaunchSimulatorJsonFileReader{
    //
    //
    //
+   public Hashtable<String,String>readPathInfo()throws IOException{
+      try{
+         Hashtable<String,String> data=new Hashtable<String,String>();
+
+         String fileData = this.grabJSONFileData();
+         return this.parsePathData(fileData);
+      }
+      catch(IOException ioe){
+         this.closeFile();
+         throw ioe;
+      }
+   }
+
+   //
+   //
+   //
    public Hashtable<String,String>readPayloadInfo()throws IOException{
       try{
          String jsonData = this.grabJSONFileData();
@@ -341,7 +357,45 @@ public class LaunchSimulatorJsonFileReader{
    //
    //
    //
-//   private List<Hashtable<String,String>>
+   private Hashtable<String,String> parsePathData(String data){
+      Hashtable<String,String> ht = null;
+      if(data.contains("parameter")){
+         ht = new Hashtable<String,String>();
+         for(int i = 0; i < data.split(",").length; ++i){
+            String key     = null;
+            String value   = null;
+            String current = data.split(",")[i];
+            if(current.contains("{")){
+               int len = current.split(" ").length;
+               current = current.split(" ")[len-1].strip();
+            }
+            else if(current.contains("}")){
+               int len = current.split(" ").length;
+               current = current.split(" ")[len-1];
+               current = current.substring(0,current.length()-1);
+            }
+            try{
+               key    = current.split(":")[0].strip();
+               value  = current.split(":")[1].strip();
+               value += ":"+current.split(":")[2].strip();
+               key    = key.substring(1,key.length()-1);
+               value  = value.substring(1,value.length()-1);
+               ht.put(key,value);
+            }
+            catch(ArrayIndexOutOfBoundsException e){
+               ht.put(key,"<No Data>");
+            }
+            catch(NullPointerException npe){
+               ht.put(key,"<No Data>");
+            }
+         }
+      }
+      return ht;
+   }
+
+   //
+   //
+   //
    private Hashtable<String,String> parsePayloadData(String data){
       Hashtable<String,String> ht = null;
       boolean found               = data.contains("payload");
