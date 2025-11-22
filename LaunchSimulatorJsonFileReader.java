@@ -222,8 +222,8 @@ public class LaunchSimulatorJsonFileReader{
    //
    //
    private void openFile() throws IOException{
+      System.out.println(this._pathAndFile);
       try{
-         System.out.println("openFile():  "+this._pathAndFile);
          this._fr = new FileReader(this._pathAndFile);
          this._br = new BufferedReader(this._fr);
       }
