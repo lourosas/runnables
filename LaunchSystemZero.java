@@ -287,6 +287,8 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
       }
       catch(IOException ioe){
          //TODO need to handle exception!
+         //Temporary--need a more permanent fix!!
+         ioe.printStackTrace();
       }
    }
 
