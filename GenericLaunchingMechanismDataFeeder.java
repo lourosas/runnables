@@ -87,7 +87,8 @@ DataFeeder,Runnable{
    //
    //
    //
-   private void initialzeLaunchingMechanismData(String file)
+   //
+   private void initializeLaunchingMechanismData(String file)
    throws IOException{
       try{
          LaunchSimulatorJsonFileReader read = null;
@@ -138,6 +139,7 @@ DataFeeder,Runnable{
          ht = read.readLaunchingMechanismInfo();
          int    nh  = -1;         //Number of Holds
          double tol = Double.NaN; //Holds Tolerance
+         double ha  = Double.NaN; //Holds Angle
          try{
             nh = Integer.parseInt(ht.get("number_of_holds"));
          }
@@ -150,6 +152,12 @@ DataFeeder,Runnable{
          catch(NumberFormatException nfe){
             tol = Double.NaN;
          }
+         try{
+            ha  = Double.parseDouble(ht.get("angle_of_holds"));
+         }
+         catch(NumberFormatException nfe){
+            ha  = Double.NaN;
+         }
          for(int i = 0; i < nh; ++i){
             MechanismSupportData msd = null;
             msd = new GenericMechanismSupportData(ha, //Hold Angle
@@ -158,8 +166,7 @@ DataFeeder,Runnable{
                                            i,     //ID
                                            false, //Is Error
                                            Double.NaN, //Meas Force
-                                           tol   //Holds Tolerance
-                                           );
+                                           tol);  //Holds Tolerance
             list.add(msd);
          }
       }
@@ -244,7 +251,7 @@ DataFeeder,Runnable{
    //
    //
    //
-   public void setStateSubstate(LaunchStateSubstate statesubstate){
+   public void setStateSubstate(LaunchStateSubstate stateSubstate){
       this._stateSubstate = stateSubstate;
    }
 
