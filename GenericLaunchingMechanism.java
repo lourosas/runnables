@@ -225,12 +225,11 @@ ErrorListener, Runnable{
       //0.  Get the Parameter File
       LaunchSimulatorJsonFileReader read = null;
       read = new LaunchSimulatorJsonFileReader(file);
-      //System.out.println(file);
-      //System.exit(0);
       Hashtable<String,String> ht = null;
       ht = read.readPathInfo();
-      //System.out.println(ht); save these for later...
-      //System.exit(0);
+      System.out.println(ht);
+      System.out.println(ht.get("parameter"));
+      System.exit(0);
       //1.  Open the Parameter file to read the Rocket and
       //    LaunchingMechanism data
       read = new LaunchSimulatorJsonFileReader(ht.get("parameter"));

@@ -222,7 +222,7 @@ public class LaunchSimulatorJsonFileReader{
    //
    //
    private void openFile() throws IOException{
-      System.out.println(this._pathAndFile);
+      System.out.println("Fucking openFile() "+this._pathAndFile);
       try{
          this._fr = new FileReader(this._pathAndFile);
          this._br = new BufferedReader(this._fr);
@@ -379,15 +379,20 @@ public class LaunchSimulatorJsonFileReader{
                key    = current.split(":")[0].strip();
                value  = current.split(":")[1].strip();
                value += ":"+current.split(":")[2].strip();
+            }
+            catch(ArrayIndexOutOfBoundsException e){
+               if(value.length() == 0){
+                  value = new String("<No Data>");
+               }
+            }
+            catch(NullPointerException npe){
+               value = new String("<No Data>");
+            }
+            finally{
+               //Strip off the quotes
                key    = key.substring(1,key.length()-1);
                value  = value.substring(1,value.length()-1);
                ht.put(key,value);
-            }
-            catch(ArrayIndexOutOfBoundsException e){
-               ht.put(key,"<No Data>");
-            }
-            catch(NullPointerException npe){
-               ht.put(key,"<No Data>");
             }
          }
       }
