@@ -36,6 +36,7 @@ public interface LaunchingMechanism{
    public LaunchingMechanismData monitorLaunch();
    public LaunchingMechanismData monitorPostlaunch();
    public void release();
+   public void setStateSubstate(LaunchStateSubstate cond);
    public double supportedWeight();
    public String toString();
 }

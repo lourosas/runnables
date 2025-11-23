@@ -33,6 +33,7 @@ public interface MechanismSupport{
    public MechanismSupportData monitorIgnition();
    public MechanismSupportData monitorLaunch();
    public MechanismSupportData monitorPostlaunch();
+   public void setStateSubstate(LaunchStateSubstate cond);
    public String toString();
 }
 

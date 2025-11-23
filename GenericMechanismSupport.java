@@ -667,6 +667,11 @@ Runnable{
    //
    //
    //
+   public void setStateSubstate(LaunchStateSubstate stateSubstate){}
+
+   //
+   //
+   //
    public String toString(){
       DecimalFormat df = new DecimalFormat("###.##");
       df.setRoundingMode(RoundingMode.HALF_UP);
