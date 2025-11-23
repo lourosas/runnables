@@ -222,24 +222,32 @@ ErrorListener, Runnable{
    //    LaunchingMechanism data
    //2.  Save off
    private void initializeJSONFile(String file)throws IOException{
-      //0.  Get the Parameter File
-      LaunchSimulatorJsonFileReader read = null;
-      read = new LaunchSimulatorJsonFileReader(file);
-      Hashtable<String,String> ht = null;
-      ht = read.readPathInfo();
-      System.out.println(ht);
-      System.out.println(ht.get("parameter"));
-      System.exit(0);
-      //1.  Open the Parameter file to read the Rocket and
-      //    LaunchingMechanism data
-      read = new LaunchSimulatorJsonFileReader(ht.get("parameter"));
-      ht = read.readRocketInfo();
-      //2.  Save Off
-      this.rocketData(ht);
-      ht = read.readLaunchingMechanismInfo();
-      //System.out.println(ht); for later
-      //System.exit(0);  for later
-      this.mechanismData(ht);
+      try{
+         //0.  Get the Parameter File
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         Hashtable<String,String> ht = null;
+         ht = read.readPathInfo();
+         //1.  Open the Parameter file to read the Rocket and
+         //    LaunchingMechanism data
+         String parameter = ht.get("parameter");
+         if(parameter.toUpperCase().contains("NO DATA")){
+            String error = "Parameter File Not Available ";
+            error += parameter;
+            throw new NullPointerException(error);
+         }
+         read=new LaunchSimulatorJsonFileReader(parameter);
+         ht = read.readRocketInfo();
+         //2.  Save Off
+         this.rocketData(ht);
+         ht = read.readLaunchingMechanismInfo();
+         this.mechanismData(ht);
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         System.out.println(npe.getMessage()+"\nExiting");
+         System.exit(0);
+      }
    }
 
    //Measure the weight of the rocket based on the Mechanism Supports
