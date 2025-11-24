@@ -443,16 +443,19 @@ ErrorListener, Runnable{
    //
    public void addDataFeeder(String pathFile)throws IOException{
       //Will need to do a fucking lot for this!!!
-      System.out.println(pathFile);
       LaunchSimulatorJsonFileReader read = null;
       read = new LaunchSimulatorJsonFileReader(pathFile);
       Hashtable<String,String> ht = null;
       ht = read.readPathInfo();
-      System.out.println(ht);
-      System.out.println(ht.get("launching_mechanism"));
       this._feeder = new GenericLaunchingMechanismDataFeeder();
-      //this._feeder.initialize(ht.get("launching_mechanism"));
-      System.exit(0);
+      this._feeder.initialize(ht.get("launching_mechanism"));
+      for(int i = 0; i < this._supports.size(); ++i){
+         MechanismSupport sup = null;
+         sup = (MechanismSupport)this._supports.get(i);
+         //TBD-->add the have the supports manage their own
+         //DataFeeders (Will Need a Supports Data Feeder)
+         //sup.addDataFeeder(pathFile)
+      }
    }
 
    //
@@ -498,6 +501,7 @@ ErrorListener, Runnable{
       //whenever the Threads start up--just so something is available
       this._measuredWeight = this._emptyWeight;
       //this may need to be removed!!  Injected into by the Model
+      //This will be injected...from the Model
       this._state = new LaunchStateSubstate(INIT,null,null,null);
       //Once Initialized, can start the monitoring...
       this._start = true;
@@ -520,6 +524,11 @@ ErrorListener, Runnable{
    //
    public void setStateSubstate(LaunchStateSubstate stateSubstate){
       this._state = stateSubstate;
+      for(int i = 0; i < this._supports.size(); ++i){
+         MechanismSupport sup = null;
+         sup = (MechanismSupport)this._supports.get(i);
+         sup.setStateSubstate(stateSubstate);
+      }
    }
 
 

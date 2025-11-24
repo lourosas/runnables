@@ -232,6 +232,7 @@ DataFeeder,Runnable{
    //
    public void initialize(String file)throws IOException{
       try{
+         System.out.println(file); System.exit(0);
          this.initializeLaunchingMechanismData(file);
       }
       catch(IOException ioe){

@@ -619,50 +619,6 @@ Runnable{
          return this._supportData;
       }
    }
-   //
-   //
-   //
-   public MechanismSupportData monitorInitialization(){
-      synchronized(this._obj){
-         return this._supportData;
-      }
-   }
-
-   //
-   //
-   //
-   public MechanismSupportData monitorPrelaunch(){
-      synchronized(this._obj){
-         return null;
-      }
-   }
-
-   //
-   //
-   //
-   public MechanismSupportData monitorIgnition(){
-      synchronized(this._obj){
-         return null;
-      }
-   }
-
-   //
-   //
-   //
-   public MechanismSupportData monitorLaunch(){
-      synchronized(this._obj){
-         return null;
-      }
-   }
-
-   //
-   //
-   //
-   public MechanismSupportData monitorPostlaunch(){
-      synchronized(this._obj){
-         return null;
-      }
-   }
 
    //
    //
