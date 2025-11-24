@@ -28,11 +28,6 @@ public interface MechanismSupport{
    public int id();
    public void initialize(String file);
    public MechanismSupportData monitor();
-   public MechanismSupportData monitorInitialization();
-   public MechanismSupportData monitorPrelaunch();
-   public MechanismSupportData monitorIgnition();
-   public MechanismSupportData monitorLaunch();
-   public MechanismSupportData monitorPostlaunch();
    public void setStateSubstate(LaunchStateSubstate cond);
    public String toString();
 }

@@ -513,52 +513,6 @@ ErrorListener, Runnable{
    //
    //
    //
-   public LaunchingMechanismData monitorInitialization(){
-      //this._state = new LaunchStateSubstate(INIT,null,null,null);
-      //this._start = true;
-      return this._launchingMechanismData;
-   }
-
-   //
-   //
-   //
-   public LaunchingMechanismData monitorPrelaunch(){
-      this._state = new LaunchStateSubstate(PRELAUNCH,null,null,null);
-      this._start = true;
-      return this._launchingMechanismData;
-   }
-
-   //
-   //
-   //
-   public LaunchingMechanismData monitorIgnition(){
-      this._state = new LaunchStateSubstate(IGNITION,null,null,null);
-      this._start = true;
-      return null;
-   }
-
-   //
-   //
-   //
-   public LaunchingMechanismData monitorLaunch(){
-      this._state = new LaunchStateSubstate(LAUNCH,null,null,null);
-      this._start = true;
-      return null;
-   }
-
-   //
-   //
-   //
-   public LaunchingMechanismData monitorPostlaunch(){
-      //Once the Transition out of Launch State, no need to monitor
-      //the Launching Mechanism
-      this._start = false;
-      return null;
-   }
-
-   //
-   //
-   //
    public void release(){}
 
    //

@@ -30,11 +30,6 @@ public interface LaunchingMechanism{
    public void addSystemListener(SystemListener s);
    public void initialize(String file)throws IOException;
    public LaunchingMechanismData monitor();
-   public LaunchingMechanismData monitorInitialization();
-   public LaunchingMechanismData monitorPrelaunch();
-   public LaunchingMechanismData monitorIgnition();
-   public LaunchingMechanismData monitorLaunch();
-   public LaunchingMechanismData monitorPostlaunch();
    public void release();
    public void setStateSubstate(LaunchStateSubstate cond);
    public double supportedWeight();
