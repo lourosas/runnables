@@ -210,7 +210,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
          catch(ClassCastException cce){}
          try{
             LaunchStateSubstate lss = (LaunchStateSubstate)o;
-            System.out.println(s);
+            this.handleStateSubstate(lss, s);
          }
          catch(ClassCastException cce){}
       }
@@ -565,6 +565,8 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       String              message
    ){
       this._lss = stateSubstate;
+      System.out.println(message.toUpperCase());
+      System.out.println(this._lss);
       /*
       this.displayState(lsss.state());
       if(this._lss.state() == INIT){
@@ -735,6 +737,12 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       JLabel stateLabel = new JLabel("(Current State)");
       panel.add(stateLabel);
 
+      JCheckBox simulation = new JCheckBox("Run Simulation");
+      simulation.addItemListener(this._controller);
+      simulation.addKeyListener(this._controller);
+      simulation.addActionListener(this._controller);
+      panel.add(simulation);
+
       return panel;
    }
 
@@ -785,12 +793,6 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       abort.addKeyListener(this._controller);
       abort.setEnabled(false);
       panel.add(abort);
-
-      JCheckBox simulation = new JCheckBox("Run Simulation");
-      simulation.addItemListener(this._controller);
-      simulation.addKeyListener(this._controller);
-      simulation.addActionListener(this._controller);
-      panel.add(simulation);
 
       return panel;
    }
