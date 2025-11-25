@@ -542,6 +542,10 @@ ErrorListener, Runnable{
          sup = (MechanismSupport)this._supports.get(i);
          sup.setStateSubstate(stateSubstate);
       }
+      //Alert the DataFeeder
+      if(this._feeder != null){
+         this._feeder.setStateSubstate(stateSubstate);
+      }
    }
 
 

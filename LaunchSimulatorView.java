@@ -47,7 +47,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    private LaunchStateSubstate.AscentSubstate    IGNE = null;
 
    private LaunchSimulatorController     _controller;
-   private LaunchSimulatorStateSubstate  _lsss;
+   private LaunchStateSubstate           _lss;
    private LaunchingMechanismJFrame      _launchMechFrame;
    private ButtonGroup                   _menuButtonGroup;
 
@@ -66,7 +66,7 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
       _controller      = null;
-      _lsss            = null;
+      _lss             = null;
       _launchMechFrame = null;
       _menuButtonGroup = null;
    };
@@ -97,8 +97,8 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    public void update(String time){
       //This will fucking need to change BIGTIME!!!
       try{
-         LaunchSimulatorStateSubstate.State state=this._lsss.state();
-         if(state==LaunchSimulatorStateSubstate.State.PRELAUNCH){
+         LaunchStateSubstate.State state=this._lss.state();
+         if(state==LaunchStateSubstate.State.PRELAUNCH){
             //Start with the Countdown Panel first, amoung other
             //things that will need to happen
             LaunchSimulatorCountdownPanel p=this.getCountdownPanel();
@@ -206,6 +206,11 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
          try{
             MissionSystemEvent mse = (MissionSystemEvent)o;
             this.handleMissionSystemEvent(s.toUpperCase(), mse);
+         }
+         catch(ClassCastException cce){}
+         try{
+            LaunchStateSubstate lss = (LaunchStateSubstate)o;
+            System.out.println(s);
          }
          catch(ClassCastException cce){}
       }
@@ -556,16 +561,18 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    /**/
    private void handleStateSubstate
    (
-      LaunchSimulatorStateSubstate lsss,
-      String                       message
+      LaunchStateSubstate stateSubstate,
+      String              message
    ){
+      this._lss = stateSubstate;
       /*
-      this._lsss = lsss;
       this.displayState(lsss.state());
-      if(lsss.state() == INIT){
+      if(this._lss.state() == INIT){
+         change this
          this.handleInitializationState(lsss);
       }
-      else if(lsss.state() == PREL){
+      else if(this._lss.state() == PREL){
+         change this
          this.handlePrelaunchState(lsss);
       }
       */

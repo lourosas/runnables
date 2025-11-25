@@ -194,6 +194,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
             //this.launchingMechanism.addDataFeeder(this.feeder);
             this.launchingMechanism.addDataFeeder(file);
          }
+         this.launchingMechanism.setStateSubstate(this.stateSubstate);
       }
       catch(IOException ioe){
          //this.error(ioe.getMessage(),null);--need to add!
@@ -263,17 +264,12 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
    //
    //
    public void initialize(String file){
-      //Do some test prints, first...
-      System.out.println(file);
-      System.out.println(this.simState);
       //This will need changing...
       //Transition to INITIALIZE, regardless...alert the Subscribers
       try{
          LaunchStateSubstate s = null;
          s = new LaunchStateSubstate(INIT,null,null,null);
          this.stateSubstate = s;
-         //Comment out what is not needed at the moment while I figure
-         //this shit out...
          //this.initializeRocket(file);
          this.initializeLaunchingMechanism(file);
          //this.initializePayload(file);
@@ -284,6 +280,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
          //}
          //Need to alert the Subscribers of the Init State--if for
          //no other reason than to disable the simuulation check box
+         this.notify("State Change",this.stateSubstate);
       }
       catch(IOException ioe){
          //TODO need to handle exception!
