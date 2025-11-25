@@ -91,6 +91,7 @@ DataFeeder,Runnable{
    private void initializeLaunchingMechanismData(String file)
    throws IOException{
       try{
+         System.out.println(file); System.exit(0);
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
          List<MechanismSupportData> l = null;
@@ -232,7 +233,6 @@ DataFeeder,Runnable{
    //
    public void initialize(String file)throws IOException{
       try{
-         System.out.println(file); System.exit(0);
          this.initializeLaunchingMechanismData(file);
       }
       catch(IOException ioe){

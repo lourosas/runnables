@@ -442,19 +442,32 @@ ErrorListener, Runnable{
    //
    //
    public void addDataFeeder(String pathFile)throws IOException{
-      //Will need to do a fucking lot for this!!!
-      LaunchSimulatorJsonFileReader read = null;
-      read = new LaunchSimulatorJsonFileReader(pathFile);
-      Hashtable<String,String> ht = null;
-      ht = read.readPathInfo();
-      this._feeder = new GenericLaunchingMechanismDataFeeder();
-      this._feeder.initialize(ht.get("launching_mechanism"));
-      for(int i = 0; i < this._supports.size(); ++i){
-         MechanismSupport sup = null;
-         sup = (MechanismSupport)this._supports.get(i);
-         //TBD-->add the have the supports manage their own
-         //DataFeeders (Will Need a Supports Data Feeder)
-         //sup.addDataFeeder(pathFile)
+      try{
+         //Will need to do a fucking lot for this!!!
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(pathFile);
+         Hashtable<String,String> ht = null;
+         ht = read.readPathInfo();
+         String launchingMechanism = ht.get("launching_mechanism");
+         if(launchingMechanism.toUpperCase().contains("NO DATA")){
+            String e = "Launching Mechanism not Available ";
+            e += launchingMechanism;
+            throw new NullPointerException(e);
+         }
+         this._feeder = new GenericLaunchingMechanismDataFeeder();
+         this._feeder.initialize(launchingMechanism);
+         for(int i = 0; i < this._supports.size(); ++i){
+            MechanismSupport sup = null;
+            sup = (MechanismSupport)this._supports.get(i);
+            //TBD-->add the have the supports manage their own
+            //DataFeeders (Will Need a Supports Data Feeder)
+            //sup.addDataFeeder(pathFile)
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         System.out.println(npe.getMessage()+"\nExiting");
+         System.exit(0);
       }
    }
 
