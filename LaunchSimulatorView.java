@@ -294,6 +294,16 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
    }
 
    /**/
+   private void displayState(LaunchStateSubstate stateSubstate){
+      JPanel panel = (JPanel)this.getContentPane().getComponent(0);
+      panel.remove(panel.getComponent(1));
+      JLabel label = (JLabel)panel.getComponent(0);
+      label.setText(""+stateSubstate.state());
+      panel.revalidate();
+      panel.repaint();
+   }
+
+   /**/
    private void displayState(LaunchSimulatorStateSubstate.State s){
       JPanel panel=(JPanel)this.getContentPane().getComponent(0);
       JLabel label=(JLabel)panel.getComponent(0);
@@ -564,11 +574,14 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       LaunchStateSubstate stateSubstate,
       String              message
    ){
-      this._lss = stateSubstate;
+      //Might not need so many globals
+      //this._lss = stateSubstate;
       System.out.println(message.toUpperCase());
-      System.out.println(this._lss);
+      System.out.println(stateSubstate);
+      this.displayState(stateSubstate);
       /*
-      this.displayState(lsss.state());
+      if(stateSubstate.state() == INIT){}
+      No longer need what is below...
       if(this._lss.state() == INIT){
          change this
          this.handleInitializationState(lsss);
