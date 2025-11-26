@@ -581,6 +581,8 @@ implements Subscriber, ClockSubscriber, CountdownTimerInterface{
       this.displayState(stateSubstate);
       /*
       if(stateSubstate.state() == INIT){}
+      else if(stateSubstate.state() == PREL){}
+
       No longer need what is below...
       if(this._lss.state() == INIT){
          change this

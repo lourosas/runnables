@@ -52,6 +52,9 @@ DataFeeder,Runnable{
    private Thread                     _t0;
 
    private boolean                    _toStart;
+   //Feeders Needed
+   private DataFeeder                 _mechanismSupportDataFeeder;
+   private DataFeeder                 _rocketDataFeeder;
 
    {
       INIT = LaunchStateSubstate.State.INITIALIZE;
@@ -68,11 +71,14 @@ DataFeeder,Runnable{
       STG  = LaunchStateSubstate.AscentSubstate.STAGING;
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES; 
 
-      _initMechData   = null;
-      _calcMechData   = null;
-      _stateSubstate  = null;
-      _obj            = null;
-      _t0             = null;
+      _initMechData               = null;
+      _calcMechData               = null;
+      _stateSubstate              = null;
+      _obj                        = null;
+      _t0                         = null;
+
+      _mechanismSupportDataFeeder = null;
+      _rocketDataFeeder           = null;
    };
 
    ////////////////////////////Constructors///////////////////////////
@@ -190,7 +196,7 @@ DataFeeder,Runnable{
       int nh     = -1; //Number of Holds
       double tol = Double.NaN; //total tolerance
 
-      //Uused to collect the Mechanism Support data
+      //Used to collect the Mechanism Support data
       List<MechanismSupportData> list = null;
       List<MechanismSupportData> temp = null;
       try{
@@ -204,8 +210,7 @@ DataFeeder,Runnable{
          mod   = -1; nh = -1; tol = Double.NaN;
       }
       finally{
-         synchronized(this._obj){
-         }
+         synchronized(this._obj){}
       }
    }
 
@@ -227,6 +232,10 @@ DataFeeder,Runnable{
    }
 
    //////////////////////DataFeeder Implementation////////////////////
+   //Inject either the Rocket or the Mechanism Support Data Feeder
+   //
+   //
+   public void addDataFeeder(DataFeeder feeder, String type){}
    //
    //
    //
@@ -244,6 +253,7 @@ DataFeeder,Runnable{
    //
    //
    public Object monitor(){
+      sychronized(this._obj){}
       //Temp for now...
       return null;
    }

@@ -194,6 +194,7 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
             //this.launchingMechanism.addDataFeeder(this.feeder);
             this.launchingMechanism.addDataFeeder(file);
          }
+         this.launchingMechanism.setStateSubstate(this.stateSubstate);
       }
       catch(IOException ioe){
          //this.error(ioe.getMessage(),null);--need to add!
@@ -277,7 +278,6 @@ implements ErrorListener,LaunchSystem,Publisher,SystemListener{
          //if(this.simState == Sim.YES){
          //   this.feeder.setStateSubstate(s);
          //}
-         this.launchingMechanism.setStateSubstate(this.stateSubstate);
          //Need to alert the Subscribers of the Init State--if for
          //no other reason than to disable the simuulation check box
          this.notify("State Change",this.stateSubstate);

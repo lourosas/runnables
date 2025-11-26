@@ -513,9 +513,6 @@ ErrorListener, Runnable{
       //measuring the System...which is about three seconds...or
       //whenever the Threads start up--just so something is available
       this._measuredWeight = this._emptyWeight;
-      //this may need to be removed!!  Injected into by the Model
-      //This will be injected...from the Model
-      this._state = new LaunchStateSubstate(INIT,null,null,null);
       //Once Initialized, can start the monitoring...
       this._start = true;
    }
