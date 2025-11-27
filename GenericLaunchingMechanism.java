@@ -454,7 +454,7 @@ ErrorListener, Runnable{
             e += launchingMechanism;
             throw new NullPointerException(e);
          }
-         this._feeder = new GenericLaunchingMechanismDataFeeder();
+         this._feeder=GenericLaunchingMechanismDataFeeder.instance();
          this._feeder.initialize(launchingMechanism);
          for(int i = 0; i < this._supports.size(); ++i){
             MechanismSupport sup = null;

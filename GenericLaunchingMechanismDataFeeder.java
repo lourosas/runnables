@@ -55,6 +55,8 @@ DataFeeder,Runnable{
    //Feeders Needed
    private DataFeeder                 _mechanismSupportDataFeeder;
    private DataFeeder                 _rocketDataFeeder;
+   //Singleton Implementation
+   private static DataFeeder          _instance;
 
    {
       INIT = LaunchStateSubstate.State.INITIALIZE;
@@ -79,17 +81,20 @@ DataFeeder,Runnable{
 
       _mechanismSupportDataFeeder = null;
       _rocketDataFeeder           = null;
+      //Singleton
+      _instance                   = null;
    };
 
+
+   /////////////////////////Private Methods///////////////////////////
    ////////////////////////////Constructors///////////////////////////
    //
    //
    //
-   public GenericLaunchingMechanismDataFeeder(){
+   private GenericLaunchingMechanismDataFeeder(){
       this.setUpThread();
    }
 
-   /////////////////////////Private Methods///////////////////////////
    //
    //
    //
@@ -236,6 +241,7 @@ DataFeeder,Runnable{
    //
    //
    public void addDataFeeder(DataFeeder feeder, String type){}
+
    //
    //
    //
@@ -252,8 +258,18 @@ DataFeeder,Runnable{
    //
    //
    //
+   static public DataFeeder instance(){
+      if(_instance == null){
+         _instance = new GenericLaunchingMechanismDataFeeder();
+      }
+      return _instance;
+   } 
+
+   //
+   //
+   //
    public Object monitor(){
-      sychronized(this._obj){}
+      synchronized(this._obj){}
       //Temp for now...
       return null;
    }
