@@ -86,6 +86,17 @@ DataFeeder,Runnable{
    };
 
 
+   /////////////////////////Public  Methods///////////////////////////
+   //
+   //
+   //
+   static public DataFeeder instance(){
+      if(_instance == null){
+         _instance = new GenericLaunchingMechanismDataFeeder();
+      }
+      return _instance;
+   } 
+
    /////////////////////////Private Methods///////////////////////////
    ////////////////////////////Constructors///////////////////////////
    //
@@ -240,7 +251,16 @@ DataFeeder,Runnable{
    //Inject either the Rocket or the Mechanism Support Data Feeder
    //
    //
-   public void addDataFeeder(DataFeeder feeder, String type){}
+   public void addDataFeeder(DataFeeder feeder){
+      if(feeder != null){
+         if(feeder instanceof MechanismSupportDataFeeder){
+            this._mechanismSupprtDataFeeder = feeder;
+         }
+         else if(feeder instanceof RockedDataFeeder){
+            this._rocketDataFeeder = feeder;
+         }
+      }
+   }
 
    //
    //
@@ -255,15 +275,6 @@ DataFeeder,Runnable{
       }
    }
 
-   //
-   //
-   //
-   static public DataFeeder instance(){
-      if(_instance == null){
-         _instance = new GenericLaunchingMechanismDataFeeder();
-      }
-      return _instance;
-   } 
 
    //
    //
