@@ -108,7 +108,7 @@ DataFeeder,Runnable{
       this.setUpThread();
    }
 
-   //
+   //Will need changing!!!
    //
    //
    //
@@ -117,6 +117,7 @@ DataFeeder,Runnable{
       try{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
+         //this probably DOES NOT NEED to be done anymore!!!
          List<MechanismSupportData> l = null;
          l = this.initializeMechanismSupportData(file);
          Hashtable<String, String> ht = null;
@@ -260,7 +261,14 @@ DataFeeder,Runnable{
          }
          else if(feeder instanceof RockedDataFeeder){
             this._rocketDF = feeder;
-         
+            try{
+               this._mechSuppDF.addFeeder(this._rocketDF);
+            }
+            catch(NullPointerException npe){
+               this._mechSuppDF=MechanismSupportDataFeeder.instance();
+               this._mechSuppDF.addFeeder(feeder);
+            }
+         }
       }
    }
 
@@ -269,9 +277,12 @@ DataFeeder,Runnable{
    //
    public void initialize(String file)throws IOException{
       try{
-         this.initializeLaunchingMechanismData(file);
-         this._mechSuppDF = MechanismSupportDataFeeder.intance();
+         //MechanismData aggregates the SupportData:  Go ahead and
+         //Initialize first so as to have Support Data for the
+         //MechanismData initialization
+         this._mechSuppDF = MechanismSupportDataFeeder.instance();
          this._mechSuppDF.initialize(file);
+         this.initializeLaunchingMechanismData(file);
       }
       catch(IOException ioe){
          ioe.printStackTrace();

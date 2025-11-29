@@ -54,6 +54,7 @@ Runnable{
    private boolean                        _toStart;
    //Singleton Implementation
    private static DataFeeder              _instance;
+   private static DataFeeder              _rocketDF;
 
    {
       INIT = LaunchStateSubstate.INITIALIZE;
@@ -75,8 +76,10 @@ Runnable{
       _stateSubstate = null;
       _obj           = null;
       _t0            = null;
+      _toStart       = false;
       //Singleton
       _instance      = null;
+      _rocketDF      = null;
    };
 
    ///////////////////////////Public Methods//////////////////////////
@@ -102,17 +105,30 @@ Runnable{
    //
    //
    //
+   private void measureSupportData(){
+      //NEED ROCKET DATA!!!!
+   }
+
+   //
+   //
+   //
    private void setUpThread(){
       this._obj = new Object();
       this._t0  = new Thread(this);
-      this._to.start();
+      this._t0.start();
    }
 
    //////////////////////DataFeeder Implementation////////////////////
    //
    //
    //
-   public void addDataFeeder(DataFeeder feeder){}
+   public void addDataFeeder(DataFeeder feeder){
+      if(feeder != null){
+         if(feeder instanceof RocketDataFeeder){
+            this._rocketDF = feeder;
+         }
+      }
+   }
 
 
    //
@@ -138,7 +154,17 @@ Runnable{
    //
    //
    //
-   public void run(){}
+   public void run(){
+      try{
+         while(true){
+            if(this._stateSubstate != null){
+               this.measureSupportData();
+            }
+            Thread.sleep(1);
+         }
+      }
+      catch(InterruptedException ie){}
+   }
 
 }
 //////////////////////////////////////////////////////////////////////

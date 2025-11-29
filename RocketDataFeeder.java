@@ -26,35 +26,39 @@ import java.time.format.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
-public class RocketDataFeeder implements DataFeeder{
-   private LaunchStateSubstate.State INIT             = null;
-   private LaunchStateSubstate.State PREL             = null;
-   private LaunchStateSubstate.State IGNI             = null;
-   private LaunchStateSubstate.State LAUN             = null;
-   private LaunchStateSubstate.State ASCE             = null;
-   private LaunchStateSubstate.PreLaunchSubstate SET  = null;
-   private LaunchStateSubstate.PreLaunchSubstate CONT = null;
-   private LaunchStateSubstate.PreLaunchSubstate FUEL = null;
-   private LaunchStateSubstate.PreLaunchSubstate HOLD = null;
-   private LaunchStateSubstate.IgnitionSubstate  IGN  = null;
-   private LaunchStateSubstate.IgnitionSubstate  BUP  = null;
-   private LaunchStateSubstate.AscentSubstate    STG  = null;
-   private LaunchStateSubstate.AscentSubstate    IGNE = null;
+public class RocketDataFeeder implements DataFeeder, Runnable{
+   private LaunchStateSubstate.State INIT              = null;
+   private LaunchStateSubstate.State PREl              = null;
+   private LaunchStateSubstate.State IGNI              = null;
+   private LaunchStateSubstate.State LAUN              = null;
+   private LaunchStateSubstate.State ASCE              = null;
+   private LaunchStateSubstate.PreLaunchSubstate SET   = null;
+   private LaunchStateSubstate.PreLaunchSubstate CONT  = null;
+   private LaunchStateSubstate.PreLaunchSubstate FUEL  = null;
+   private LaunchStateSubstate.PreLaunchSubstate HOLD  = null;
+   private LaunchStateSubstate.IgnitionSubstate  IGN   = null;
+   private LaunchStateSubstate.IgnitionSubstate  BUP   = null;
+   private LaunchStateSubstate.AscentSubstate    STG   = null;
+   private LaunchStateSubstate.AscentSubstate    IGNE  = null;
 
-   private double     _emptyWeight;
-   private double     _loadedWeight;
-   private DataFeeder _lmdFeeder; //LaunchMechanismDataFeeder
-   private double     _measuredWeight;
-   private Random     _random;
-   private int        _stages;
-   private LaunchStateSubstate _cond;
+   //Read In
+   private RocketData              _initRocketData;
+   //Calculated
+   private RocketData              _calcRocketData;
 
+   private LaunchStateSubstate     _stateSubstate;
+   private Object                  _obj; //Threading
+   private Thread                  _t0;
+
+   private boolean                 _toStart;
+   //Sigleton Implmentation
+   private static DataFeeder       _instance;
    {
-      INIT = LaunchStateSubstate.State.INITIALIZE;
-      PREL = LaunchStateSubstate.State.PRELAUNCH;
-      IGNI = LaunchStateSubstate.State.IGNITION;
-      LAUN = LaunchStateSubstate.State.LAUNCH;
-      ASCE = LaunchStateSubstate.State.ASCENT;
+      INIT = LaunchStateSubstate.INITIALIZE;
+      PREL = LaunchStateSubstate.PRELAUNCH;
+      IGNI = LaunchStateSubstate.IGNITION;
+      LAUN = LaunchStateSubstate.LAUNCH;
+      ASCE = LaunchStateSubstate.ASCENT;
       SET  = LaunchStateSubstate.PreLaunchSubstate.SET;
       CONT = LaunchStateSubstate.PreLaunchSubstate.CONTINUE;
       FUEL = LaunchStateSubstate.PreLaunchSubstate.FUELING;
@@ -64,128 +68,75 @@ public class RocketDataFeeder implements DataFeeder{
       STG  = LaunchStateSubstate.AscentSubstate.STAGING;
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
-      _cond           = null;
-      _emptyWeight    = Double.NaN;
-      _loadedWeight   = Double.NaN;
-      _lmdFeeder      = null;
-      _measuredWeight = Double.NaN;
-      _random         = null;
-      _stages         = 0;
+      _initRocketData  = null;
+      _calcRocketData  = null;
+      _stateSubstate   = null;
+      _obj             = null;
+      _t0              = null;
+      _toStart         = false;
+      //Singleton
+      _instance        = null;
+      _rocketDF        = null;
    };
-   ////////////////////////////Constructors///////////////////////////
-   //
-   //
-   //
-   public RocketDataFeeder(){
-      this._random = new Random();
-   }
 
    ///////////////////////////Public Methods//////////////////////////
    //
    //
    //
-   public DataFeeder getLaunchingMechanismDataFeeder(){
-      return this._lmdFeeder;
+   static public DataFeeder instance(){
+      if(_instance == null){
+         _instance = new RocketDataFeeder();
+      }
+      return _instance;
    }
 
    //////////////////////////Private Methods//////////////////////////
+   ////////////////////////////Constructors///////////////////////////
    //
    //
    //
-   private void setEmptyWeight(Hashtable<String,String> ht){
-      String ew = ht.get("empty_weight");
-      try{
-         this._emptyWeight = Double.parseDouble(ew);
-      }
-      catch(NumberFormatException nfe){
-         this._emptyWeight = Double.NaN;
-      }
+   private RocketDataFeeder(){
+      this.setUpThread();
    }
 
    //
    //
    //
-   private void setLoadedWeight(Hashtable<String,String> ht){
-      String lw = ht.get("loaded_weight");
-      try{
-         this._loadedWeight = Double.parseDouble(lw);
-      }
-      catch(NumberFormatException nfe){
-         this._loadedWeight = Double.NaN;
-      }
+   private void setUpThread(){
+      this._obj   = new Object();
+      this._t0    = new Thread(this);
+      this._t0.start();
    }
 
-   ////////////////DataFeeder Interface Implementation////////////////
+   /////////////////////DataFeeder Implementation/////////////////////
    //
    //
    //
-   public double angleOfHolds(){ return Double.NaN; }
+   public void addDataFeeder(DataFeeder feeder){}
 
    //
    //
    //
-   public double emptyWeight(){ return Double.NaN; }
+   public void initialize(String file)throws IOException{}
 
    //
    //
    //
-   //
-   public double holdsTolerance(){ return Double.NaN; }
-
-   //
-   //
-   //
-   public void initialize(String file){
-      try{
-         this._lmdFeeder = new LaunchMechanismDataFeeder();
-         this._lmdFeeder.initialize(file);
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         Hashtable<String,String> ht = null;
-         ht = read.readRocketInfo();
-         this.setEmptyWeight(ht);
-         this.setLoadedWeight(ht);
-      }
-      catch(IOException ioe){ ioe.printStackTrace(); }
+   public Object monitor(){
+      synchronized(this._obj){}
+      //Temp For now
+      return null;
    }
 
    //
    //
    //
-   public double loadedWeight(){ return Double.NaN; }
+   public void setStateSubstate(LaunchStateSubstate stateSubstate){}
 
+   /////////////////Runnable Interface Implementattion////////////////
    //
    //
    //
-   public int numberOfHolds(){ return -1; }
-
-   //
-   //
-   //
-   public int numberOfStages(){ return -1; }
-
-   //
-   //
-   //
-   public double platformTolerance(){ return Double.NaN; }
-
-   //
-   //
-   //
-   public void setStateSubstate(LaunchSimulatorStateSubstate cond){
-      try{
-         this._cond = cond;
-         this._lmdFeeder.setStateSubstate(cond);
-      }
-      catch(NullPointerException npe){}
-   }
-
-   //
-   //
-   //
-   public double weight(){
-      System.out.println("RocketDataFeeder Cond: "+this._cond);
-      return Double.NaN;
-   }
+   public void run(){}
 }
 //////////////////////////////////////////////////////////////////////
