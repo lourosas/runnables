@@ -28,7 +28,7 @@ import rosas.lou.clock.*;
 
 public class RocketDataFeeder implements DataFeeder, Runnable{
    private LaunchStateSubstate.State INIT              = null;
-   private LaunchStateSubstate.State PREl              = null;
+   private LaunchStateSubstate.State PREL              = null;
    private LaunchStateSubstate.State IGNI              = null;
    private LaunchStateSubstate.State LAUN              = null;
    private LaunchStateSubstate.State ASCE              = null;
@@ -54,11 +54,11 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //Sigleton Implmentation
    private static DataFeeder       _instance;
    {
-      INIT = LaunchStateSubstate.INITIALIZE;
-      PREL = LaunchStateSubstate.PRELAUNCH;
-      IGNI = LaunchStateSubstate.IGNITION;
-      LAUN = LaunchStateSubstate.LAUNCH;
-      ASCE = LaunchStateSubstate.ASCENT;
+      INIT = LaunchStateSubstate.State.INITIALIZE;
+      PREL = LaunchStateSubstate.State.PRELAUNCH;
+      IGNI = LaunchStateSubstate.State.IGNITION;
+      LAUN = LaunchStateSubstate.State.LAUNCH;
+      ASCE = LaunchStateSubstate.State.ASCENT;
       SET  = LaunchStateSubstate.PreLaunchSubstate.SET;
       CONT = LaunchStateSubstate.PreLaunchSubstate.CONTINUE;
       FUEL = LaunchStateSubstate.PreLaunchSubstate.FUELING;
@@ -76,7 +76,6 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
       _toStart         = false;
       //Singleton
       _instance        = null;
-      _rocketDF        = null;
    };
 
    ///////////////////////////Public Methods//////////////////////////
