@@ -53,8 +53,10 @@ DataFeeder,Runnable{
 
    private boolean                    _toStart;
    //Feeders Needed
-   private DataFeeder                 _mechanismSupportDataFeeder;
-   private DataFeeder                 _rocketDataFeeder;
+   //MechanismSupportDataFeeder
+   private DataFeeder                 _mechSuppDF;
+   //RocketDataFeeder
+   private DataFeeder                 _rocketDF;
    //Singleton Implementation
    private static DataFeeder          _instance;
 
@@ -73,16 +75,16 @@ DataFeeder,Runnable{
       STG  = LaunchStateSubstate.AscentSubstate.STAGING;
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES; 
 
-      _initMechData               = null;
-      _calcMechData               = null;
-      _stateSubstate              = null;
-      _obj                        = null;
-      _t0                         = null;
+      _initMechData   = null;
+      _calcMechData   = null;
+      _stateSubstate  = null;
+      _obj            = null;
+      _t0             = null;
 
-      _mechanismSupportDataFeeder = null;
-      _rocketDataFeeder           = null;
+      _mechSuppDF     = null;
+      _rocketDF       = null;
       //Singleton
-      _instance                   = null;
+      _instance       = null;
    };
 
 
@@ -148,8 +150,8 @@ DataFeeder,Runnable{
    }
 
    //
-   //
-   //
+   //PROBABLY NOT NEEDED ANY MORE BY THIS FEEDER!!  GET FROM
+   //THE ACTUAL FEEDER!!!
    private List<MechanismSupportData>
    initializeMechanismSupportData(String file) throws IOException{
       List<MechanismSupportData> list = null;
@@ -254,11 +256,11 @@ DataFeeder,Runnable{
    public void addDataFeeder(DataFeeder feeder){
       if(feeder != null){
          if(feeder instanceof MechanismSupportDataFeeder){
-            this._mechanismSupprtDataFeeder = feeder;
+            this._mechSuppDF = feeder;
          }
          else if(feeder instanceof RockedDataFeeder){
-            this._rocketDataFeeder = feeder;
-         }
+            this._rocketDF = feeder;
+         
       }
    }
 
@@ -268,6 +270,8 @@ DataFeeder,Runnable{
    public void initialize(String file)throws IOException{
       try{
          this.initializeLaunchingMechanismData(file);
+         this._mechSuppDF = MechanismSupportDataFeeder.intance();
+         this._mechSuppDF.initialize(file);
       }
       catch(IOException ioe){
          ioe.printStackTrace();

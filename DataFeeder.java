@@ -24,7 +24,7 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public interface DataFeeder{
-   public void addDataFeeder(DataFeeder feeder, String type);
+   public void addDataFeeder(DataFeeder feeder);
    public void initialize(String file) throws IOException;
    public Object monitor();
    public void setStateSubstate(LaunchStateSubstate cond);
