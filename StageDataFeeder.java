@@ -1,0 +1,80 @@
+//////////////////////////////////////////////////////////////////////
+/*
+Copyright 2025 Lou Rosas
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+package rosas.lou.runnables;
+
+import java.lang.*;
+import java.util.*;
+import java.io.*;
+import java.text.*;
+import java.time.*;
+import java.time.format.*;
+import rosas.lou.runnables.*;
+import rosas.lou.clock.*;
+
+public class StageDataFeeder implements DataFeeder, Runnable{
+   ///////////////////////////Public Methods//////////////////////////
+   //
+   //
+   //
+   static public DataFeeder instance(){}
+
+   //////////////////////////Private Methods//////////////////////////
+   ////////////////////////////Constructors///////////////////////////
+   //
+   //
+   //
+   private RocketDataFeeder(){
+      this.setUpThread();
+   }
+
+   //
+   //
+   //
+   private void setUpThread(){}
+
+   /////////////////////DataFeeder Implementation/////////////////////
+   //
+   //
+   //
+   public void addDataFeeder(DataFeeder feeder){}
+
+   //
+   //
+   //
+   public void initialize(String file)throws IOException{}
+
+   //
+   //
+   //
+   public Object monitor(){
+      //null for now
+      return null;
+   }
+
+   //
+   //
+   //
+   public void setStateSubstate(LaunchStateSubstate stateSubstate){}
+
+   /////////////////Runnable Interface Implementation/////////////////
+   //
+   //
+   //
+   public void run(){}
+}
+//////////////////////////////////////////////////////////////////////

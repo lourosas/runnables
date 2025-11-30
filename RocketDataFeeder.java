@@ -55,6 +55,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //Sigleton Implmentation
    private static DataFeeder       _instance;
 
+   //This is going have to be a LIST!!!  Based on stages!!!!
    private DataFeeder              _stageDF;
    {
       INIT = LaunchStateSubstate.State.INITIALIZE;
