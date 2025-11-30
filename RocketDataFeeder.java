@@ -41,6 +41,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    private LaunchStateSubstate.AscentSubstate    STG   = null;
    private LaunchStateSubstate.AscentSubstate    IGNE  = null;
 
+   private int                     _currentStage;
    //Read In
    private RocketData              _initRocketData;
    //Calculated
@@ -53,6 +54,8 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    private boolean                 _toStart;
    //Sigleton Implmentation
    private static DataFeeder       _instance;
+
+   private DataFeeder              _stageDF;
    {
       INIT = LaunchStateSubstate.State.INITIALIZE;
       PREL = LaunchStateSubstate.State.PRELAUNCH;
@@ -68,6 +71,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
       STG  = LaunchStateSubstate.AscentSubstate.STAGING;
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
+      _currentStage    = 1;
       _initRocketData  = null;
       _calcRocketData  = null;
       _stateSubstate   = null;
@@ -76,6 +80,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
       _toStart         = false;
       //Singleton
       _instance        = null;
+      _stageDF         = null;
    };
 
    ///////////////////////////Public Methods//////////////////////////
@@ -101,15 +106,46 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private double calculateCurrentWeight(){
+      //If the System not initialized, no current weight at the moment
+      double currentWeight = Double.NaN;
+      if(this._stateSubstate != null){}
+      return currentWeight;
+   }
+
+   //
+   //
+   //
    private void initializeRocketData(String file)throws IOException{
       try{
+         String mdl = null;       int    stg = -1;
+         double eW  = Double.NaN; double lW  = Double.NaN;;
+         double tol = Double.NaN;
+         
+
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
-         System.out.println(read.readRocketInfo());
+         Hashtable<String, String> ht = read.readRocketInfo();
+         mdl = ht.get("model");
+         try{ stg = Integer.parseInt(ht.get("stages")); }
+         catch(NumberFormatException nfe){ stg = -1; }
+         try{ eW = Double.parseDouble(ht.get("empty_weight")); }
+         catch(NumberFormatException nfe){ eW = Double.NaN; }
+         try{ lW = Double.parseDouble(ht.get("loaded_weight")); }
+         catch(NumberFormatException nfe){ lW = Double.NaN; }
+         try{ tol = Double.parseDouble(ht.get("tolerance")); }
+         catch(NumberFormatException nfe){ tol = Double.NaN; }
+         //Grab the Stage Data
+         List<StageData> sd = this.monitorStages(stg);
+         double calW = this.calculateCurrentWeight();
+         RocketData rd = new GenericRocketData(mdl,
+                                               this._currentStage,stg,
+                                               eW,lW,calW,false,null,
+                                               sd,tol);
       }
       catch(IOException ioe){
          ioe.printStackTrace();
-         //Do some other stuff TBD
+         this._initRocketData = null;
          throw ioe;
       }
    }
@@ -144,6 +180,20 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private List<StageData> monitorStages(int numStages){
+      /*
+      List<StageData> stageData = new LinkedList<StageData>();
+      for(int i = 0; i < numStages; ++i){
+         stageData.add(this._stageDF.monitor());
+      }
+      return stageData;
+      */
+      return null; //Stop Gap for the time...
+   }
+
+   //
+   //
+   //
    private void setUpThread(){
       this._obj   = new Object();
       this._t0    = new Thread(this);
@@ -160,6 +210,10 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    public void initialize(String file)throws IOException{
+      
+      //this._stageDF = StageDataFeeder.instance();
+      //this._stageDF.initialize(file);
+
       String rocketFile = file;
       if(isPathFile(file)){
          LaunchSimulatorJsonFileReader read = null;
@@ -181,7 +235,10 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void setStateSubstate(LaunchStateSubstate stateSubstate){}
+   public void setStateSubstate(LaunchStateSubstate stateSubstate){
+      this._stateSubstate = stateSubstate;
+      System.out.println(this._stateSubstate);
+   }
 
    /////////////////Runnable Interface Implementattion////////////////
    //
