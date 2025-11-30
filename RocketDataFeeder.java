@@ -102,10 +102,42 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    private void initializeRocketData(String file)throws IOException{
-      System.out.println(file);
-      try{}
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         System.out.println(read.readRocketInfo());
+      }
       catch(IOException ioe){
          ioe.printStackTrace();
+         //Do some other stuff TBD
+         throw ioe;
+      }
+   }
+
+   //
+   //
+   //
+   private boolean isPathFile(String file)throws IOException{
+      boolean isPath = false;
+      System.out.println(file);
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         System.out.println(read.readPathInfo().get("parameter"));
+         isPath = true;
+      }
+      catch(IOException ioe){
+         isPath = false;
+         ioe.printStackTrace();
+         //Do more stuff
+         throw ioe;
+      }
+      catch(NullPointerException e){
+         isPath = false;
+         e.printStackTrace();
+      }
+      finally{
+         return isPath;
       }
    }
 
@@ -128,7 +160,13 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    public void initialize(String file)throws IOException{
-      this.initializeRocketData(file);
+      String rocketFile = file;
+      if(isPathFile(file)){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         rocketFile = read.readPathInfo().get("rocket");
+      }
+      this.initializeRocketData(rocketFile);
    }
 
    //
