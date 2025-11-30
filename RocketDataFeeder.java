@@ -101,6 +101,17 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private void initializeRocketData(String file)throws IOException{
+      System.out.println(file);
+      try{}
+      catch(IOException ioe){
+         ioe.printStackTrace();
+      }
+   }
+
+   //
+   //
+   //
    private void setUpThread(){
       this._obj   = new Object();
       this._t0    = new Thread(this);
@@ -116,7 +127,9 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void initialize(String file)throws IOException{}
+   public void initialize(String file)throws IOException{
+      this.initializeRocketData(file);
+   }
 
    //
    //
