@@ -237,6 +237,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    public void setStateSubstate(LaunchStateSubstate stateSubstate){
       this._stateSubstate = stateSubstate;
+      //this._stageDF.setStateSubstate(this._stateSubstate);
       System.out.println(this._stateSubstate);
    }
 
