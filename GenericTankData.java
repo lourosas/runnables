@@ -29,6 +29,7 @@ public class GenericTankData implements TankData{
    private String    _error;
    private String    _fuel;     //The Fuel Type
    private boolean   _isError;
+   private long      _model;
    private int       _number;   //Tank Number for the Stage
    private int       _stage;    //This is needed!!!
    private double    _temperature;
@@ -43,6 +44,7 @@ public class GenericTankData implements TankData{
       _error          = null;
       _fuel           = null;
       _isError        = false;
+      _model          = Long.MIN_VALUE;
       _number         = -1;
       _stage          = -1;
       _temperature    = Double.NaN;
@@ -63,6 +65,7 @@ public class GenericTankData implements TankData{
       String   error,
       String   fuel,
       boolean  isError,
+      long     model,
       int      number,
       int      stage,
       double   temperature,
@@ -76,6 +79,7 @@ public class GenericTankData implements TankData{
       this.error(error);
       this.fuel(fuel);
       this.isError(isError);
+      this.model(model);
       this.number(number);
       this.stage(stage);
       this.temperature(temperature);
@@ -232,6 +236,11 @@ public class GenericTankData implements TankData{
    //
    //
    //
+   public long model(){ return this._model; }
+
+   //
+   //
+   //
    public int number(){ return this._number; }
 
    //
@@ -268,6 +277,7 @@ public class GenericTankData implements TankData{
    public String toString(){
       String value = new String("\nTank: "+this.number());
       value += "\nStage: "+this.stage();
+      value += "\nModel: "+String.format("0x08X",this.model());
       value += "\nError?           " + this.isError();
       if(this.isError()){
          value += "\nErrors:   "+this.error() + "\n"; 

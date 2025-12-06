@@ -30,6 +30,7 @@ public interface TankData{
    public String   fuel(); //Fuel Type...
    public boolean  isError();
    public double   massLossRate(); //Derived...
+   public long     model();
    public int      number();
    public int      stage();
    public double   temperature();

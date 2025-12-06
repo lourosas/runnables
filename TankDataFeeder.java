@@ -54,6 +54,9 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //Singleton Implementation
    private static TankDataFeeder  _instance;
 
+   private int                    _stage;
+   private int                    _number;
+
    {
       INIT = LaunchStateSubstate.State.INITIALIZE;
       PREL = LaunchStateSubstate.State.PRELAUNCH;
@@ -76,17 +79,120 @@ public class TankDataFeeder implements DataFeeder, Runnable{
       _t0               = null;
       _start            = false;
       _instance         = null;
+      _stage            = -1;
+      _number           = -1;
    };
 
-   ///////////////////////////Public Methods//////////////////////////
+   ////////////////////////////Constructors///////////////////////////
    //
    //
    //
-   static public DataFeeder instance(){
-      if(_instance == null){
-         _instance = new TankDataFeeder();
-      }
-      return _instance;
+   public TankDataFeeder(int stage, int number){
+      this.setUpNumber(number);
+      this.setUpStage(stage);
+      this.setUpThread();
    }
+
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void initializeTankData(String file)throws IOException{
+      //Start a test print
+      System.out.println(file);
+   }
+
+   //
+   //
+   //
+   private boolean isPathFile(String file)throws IOException{
+      boolean isPath = false;
+      System.out.println(file); //Fucking test print
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         //Test Print!
+         System.out.println(read.readPathInfo().get("paramenter"));
+         isPath = true;
+      }
+      catch(IOException ioe){
+         isPath = false;
+         ieo.printStackTrace(); //Temporary
+         //Do more stuff
+         throw ioe;
+      }
+      catch(NullPointerException npe){
+         isPath = false;
+         npe.printStackTrace(); //Temporary
+      }
+      finally{
+         return isPath;
+      }
+   }
+
+   //
+   //
+   //
+   private void setUpNumber(int tankNumber){
+      this._number = tankNumber > -1 ? tankNumber : -1;
+   }
+
+   //
+   //
+   //
+   private void setUpStage(int stageNumber){
+      this._stage = stageNumber > -1 ? stageNumber : -1;
+   }
+
+   //
+   //
+   //
+   private void setUpThread(){
+      this._obj    = new Object();
+      this._t0     = new Thread(this);
+      this._t0.start();
+   }
+
+
+   ////////////////////DataFeeder Interface Methods///////////////////
+   //
+   //
+   //
+   public void addDataFeeder(DataFeeder feeder){}
+
+   //
+   //
+   //
+   public void initialize(String file)throws IOException{
+      //Tank Data File
+      String tdFile = file;
+      if(this.isPathFile(tdFile)){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(tdFile);
+         tdFile = read.readPathInfo().get("stage");
+      }
+      this.initializeTankData(tdFile);
+   }
+
+   //
+   //
+   //
+   public Object monitor(){
+      synchronized(this._obj){}
+      //Temp for now
+      return null;
+   }
+
+   //
+   //
+   //
+   public void setStateSubstate(LaunchStateSubstate stateSubstate){}
+
+   /////////////////Runnable Inteface Implementation//////////////////
+   //
+   //
+   //
+   public void run(){}
+
 }
 //////////////////////////////////////////////////////////////////////

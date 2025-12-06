@@ -160,7 +160,8 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
       try{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
-         System.out.println(read.readPathInfo().get("parameter"));
+         //Test Print
+         //System.out.println(read.readPathInfo().get("parameter"));
          isPath = true;
       }
       catch(IOException ioe){
