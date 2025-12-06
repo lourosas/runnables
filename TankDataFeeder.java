@@ -73,7 +73,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
       _initTankData     = null;
-      _caclTankData     = null;
+      _calcTankData     = null;
       _stateSubstate    = null;
       _obj              = null;
       _t0               = null;
@@ -98,8 +98,32 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    private void initializeTankData(String file)throws IOException{
+      double cap = Double.NaN; double den = Double.NaN; int num = -1;
+      double dw  = Double.NaN; double er  = Double.NaN; int stg = -1;
+      String err = null; String fue = null; boolean isE = true;
+      long mod = Long.MIN_VALUE; double temp = Double.NaN;
+      double tol = Double.NaN; double wgt = Double.NaN;
       //Start a test print
       System.out.println(file);
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         List<Hashtable<String,String>> lst = read.readTankDataInfo();
+         Iterator<Hashtable<String,String>> it = lst.iterator();
+         while(it.hasNext()){
+            Hashtable<String,String> ht = it.next();
+            try{ stg = Integer.parseInt(ht.get("stage")); }
+            catch(NumberFormatException nfe){ stg = -1; }
+            try{ num = Integer.parseInt(ht.get("number")); }
+            catch(NumberFormatException nfe){ num = -1; }
+            if(this._stage == stg && this._number == num){
+            }
+         }
+      }
+      catch(IOException ioe){
+         ioe.printStackTrace();
+         this._initTankData = null;
+      }
    }
 
    //
@@ -107,17 +131,18 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    private boolean isPathFile(String file)throws IOException{
       boolean isPath = false;
-      System.out.println(file); //Fucking test print
       try{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
-         //Test Print!
-         System.out.println(read.readPathInfo().get("paramenter"));
+         Hashtable<String,String> ht = read.readPathInfo();
+         if(read.readPathInfo().get("parameter") == null){
+            throw new NullPointerException("Not a Path File");
+         }
          isPath = true;
       }
       catch(IOException ioe){
          isPath = false;
-         ieo.printStackTrace(); //Temporary
+         ioe.printStackTrace(); //Temporary
          //Do more stuff
          throw ioe;
       }
