@@ -26,7 +26,7 @@ import java.time.format.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
-public class TankDataFeeder implements DataFeeder, Runnable{
+public class PipeDataFeeder implements DataFeeder, Runnable{
    private LaunchStateSubstate.State INIT              = null;
    private LaunchStateSubstate.State PREL              = null;
    private LaunchStateSubstate.State IGNI              = null;
@@ -42,20 +42,17 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    private LaunchStateSubstate.AscentSubstate    IGNE  = null;
 
    //Read In
-   private TankData               _initTankData;
-   //Calculated
-   private TankData               _calcTankData;
+   private PipeData            _initPipeData;
+   //Derived
+   private PipeData            _calcPipeData;
 
-   private LaunchStateSubstate    _stateSubstate;
-   private Object                 _obj; //Threading
-   private Thread                 _t0;
+   private LaunchStateSubstate _stateSubstate;
+   private Object              _obj;
+   private Thread              _t0;
 
-   private boolean                _start;
-   //Singleton Implementation
-   private static TankDataFeeder  _instance;
-
-   private int                    _stage;
-   private int                    _number;
+   private int                 _number; //Engine Number
+   private int                 _stage;
+   private int                 _tank;  //Tank number...
 
    {
       INIT = LaunchStateSubstate.State.INITIALIZE;
@@ -71,25 +68,24 @@ public class TankDataFeeder implements DataFeeder, Runnable{
       BUP  = LaunchStateSubstate.IgnitionSubstate.BUILDUP;
       STG  = LaunchStateSubstate.AscentSubstate.STAGING;
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
-
-      _initTankData     = null;
-      _calcTankData     = null;
-      _stateSubstate    = null;
-      _obj              = null;
-      _t0               = null;
-      _start            = false;
-      _instance         = null;
-      _stage            = -1;
-      _number           = -1;
+   
+      _initPipeData       = null;
+      _calcPipeData       = null;
+      _stateSubstate      = null;
+      _obj                = null;
+      _t0                 = null;
+      _number             = -1; //Pipe number tank-engine
+      _stage              = -1;
+      _tank               = -1;
    };
-
    ////////////////////////////Constructors///////////////////////////
    //
    //
    //
-   public TankDataFeeder(int stage, int number){
-      this.setUpNumber(number);
-      this.setUpStage(stage);
+   public PipeDataFeeder(int stage, int tank, int number){
+      this.setStageNumber(stage);
+      this.setTankNumber(tank);
+      this.setNumber(number);
       this.setUpThread();
    }
 
@@ -97,69 +93,58 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private void initializeTankData(String file)throws IOException{
-      double cap = Double.NaN; double den = Double.NaN; int num = -1;
-      double dw  = Double.NaN; double er  = Double.NaN; int stg = -1;
-      String err = null; String fue = null; boolean isE = false;
-      long mod = Long.MIN_VALUE; double temp = Double.NaN;
-      double tol = Double.NaN; double wgt = Double.NaN;
-      //Start a test print
-      System.out.println("Tank Data: "+file);
+   private void initializePipeData(String file){
+      String err = null; double flw = Double.NaN; //Derived
+      int num = this._number; boolean isE = false; int stg = -1;
+      int tnk = -1; double temp = Double.NaN;
+      double tol = Double.NaN; String ft = null;//Fuel Type
+      //Test Print
+      System.out.println("Pipe Data: "+file); //Test Print
       try{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
-         List<Hashtable<String,String>> lst = read.readTankDataInfo();
+         List<Hashtable<String,String>> lst = read.readPipeDataInfo();
          Iterator<Hashtable<String,String>> it = lst.iterator();
          while(it.hasNext()){
             Hashtable<String,String> ht = it.next();
+            //First, get Stage and Tank
             try{ stg = Integer.parseInt(ht.get("stage")); }
-            catch(NumberFormatException nfe){ stg = -1; }
-            try{ num = Integer.parseInt(ht.get("number")); }
-            catch(NumberFormatException nfe){ num = -1; }
-            if(this._stage == stg && this._number == num){
-               try{ cap = Double.parseDouble(ht.get("capacity"));}
-               catch(NumberFormatException nfe){ cap = Double.NaN; }
-               try{ den = Double.parseDouble(ht.get("density")); }
-               catch(NumberFormatException nfe){ den = Double.NaN; }
-               try{ dw = Double.parseDouble(ht.get("dryweight")); }
-               catch(NumberFormatException nfe){ dw = Double.NaN; }
-               try{ er = Double.parseDouble(ht.get("rate")); }
-               catch(NumberFormatException  nfe){ er = Double.NaN; }
-               fue = ht.get("fuel"); 
-               try{ mod = Long.parseLong(ht.get("model"),16); }
-               catch(NumberFormatException nfe){ mod=Long.MIN_VALUE; }
-               try{ temp=Double.parseDouble(ht.get("temperature")); }
-               catch(NumberFormatException nfe){ temp=Double.NaN; }
+            catch(NumberFormatException npe){ stg = -1; }
+            try{ tnk = Integer.parseInt(ht.get("tanknumber")); }
+            catch(NumberFormatException npe){ tnk = -1; }
+            if(this._stage == stg && this._tank == tnk){
+               try{ flw = Double.parseDouble(ht.get("rate"));}
+               catch(NumberFormatException nfe){ flw = Double.NaN; }
+               try{ temp = Double.parseDouble(ht.get("temperature"));}
+               catch(NumberFormatException nfe){ temp = Double.NaN; }
                try{ tol = Double.parseDouble(ht.get("tolerance")); }
                catch(NumberFormatException nfe){ tol = Double.NaN; }
-               //Weight needs calculation...init to Double.NaN!!
-               this._initTankData = new GenericTankData(
-                                                cap,//Capcity
-                                                den,//Density
-                                                dw, //Dry Weight
-                                                er, //Empty Rate
-                                                err,//Error
-                                                fue,//Fuel
-                                                isE,//isError
-                                                mod,//
-                                                num,
-                                                stg,
-                                                temp,
-                                                tol,
-                                                wgt);
+               this._initPipeData = new GenericPipeData(
+                                             err, //error
+                                             flw, //Flow
+                                             num, //engine num
+                                             isE, //is Error
+                                             stg, //stage
+                                             tnk, //tank
+                                             temp,//temperature
+                                             tol, //tolerance
+                                             ft);
+               System.out.println(this._initPipeData);
             }
          }
       }
       catch(IOException ioe){
          ioe.printStackTrace();
-         this._initTankData = null;
+         this._initPipeData = null;
       }
+
    }
 
    //
    //
    //
-   private boolean isPathFile(String file)throws IOException{
+   private boolean isPathFile(String file){
+      System.out.println("Pipe Data: "+file);
       boolean isPath = false;
       try{
          LaunchSimulatorJsonFileReader read = null;
@@ -173,12 +158,11 @@ public class TankDataFeeder implements DataFeeder, Runnable{
       catch(IOException ioe){
          isPath = false;
          ioe.printStackTrace(); //Temporary
-         //Do more stuff
          throw ioe;
       }
       catch(NullPointerException npe){
          isPath = false;
-         npe.printStackTrace(); //Temporary
+         npe.printStackTrace();  //Temporary
       }
       finally{
          return isPath;
@@ -188,27 +172,32 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private void setUpNumber(int tankNumber){
-      this._number = tankNumber > -1 ? tankNumber : -1;
+   private void setNumber(int number){
+      this._number = number;
    }
 
    //
    //
    //
-   private void setUpStage(int stageNumber){
-      this._stage = stageNumber > -1 ? stageNumber : -1;
+   private void setStageNumber(int stage){
+      this._stage = stage;
+   }
+
+   //
+   //
+   //
+   private void setTankNumber(int tank){
+      this._tank = tank;
    }
 
    //
    //
    //
    private void setUpThread(){
-      this._obj    = new Object();
-      this._t0     = new Thread(this);
+      this._obj  = new Object();
+      this._t0   = new Thread(this);
       this._t0.start();
    }
-
-
    ////////////////////DataFeeder Interface Methods///////////////////
    //
    //
@@ -219,14 +208,14 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    public void initialize(String file)throws IOException{
-      //Tank Data File
-      String tdFile = file;
-      if(this.isPathFile(tdFile)){
+      //Pipe Data File
+      String pdFile = file;
+      if(this.isPathFile(pdFile)){
          LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(tdFile);
-         tdFile = read.readPathInfo().get("stage");
+         read = new LaunchSimulatorJsonFileReader(pdFile);
+         pdFile = read.readPathInfo().get("tank");
       }
-      this.initializeTankData(tdFile);
+      this.initializePipeData(pdFile);
    }
 
    //
@@ -234,7 +223,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    public Object monitor(){
       synchronized(this._obj){}
-      //Temp for now
+      //temp for now
       return null;
    }
 
@@ -249,18 +238,6 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void run(){
-      try{
-         int counter = 0;
-         while(true){
-            if(this._stateSubstate != null){
-               //this.measureData();
-            }
-            Thread.sleep(1);
-         }
-      }
-      catch(InterruptedException ie){}
-   }
-
+   public void run(){}
 }
 //////////////////////////////////////////////////////////////////////
