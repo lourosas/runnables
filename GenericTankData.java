@@ -144,6 +144,15 @@ public class GenericTankData implements TankData{
       this._isError = error;
    }
 
+   //
+   //
+   //
+   private void model(long model){
+      if(model > 0){
+         this._model = model;
+      }
+   }
+
    //Save off the Tank Number in the Stage
    //
    //
@@ -275,10 +284,11 @@ public class GenericTankData implements TankData{
    //
    //
    public String toString(){
-      String value = new String("\nTank: "+this.number());
-      value += "\nStage: "+this.stage();
-      value += "\nModel: "+String.format("0x08X",this.model());
-      value += "\nError?           " + this.isError();
+      String value = new String("\nTank:             "+this.number());
+      value += "\nStage:            "+this.stage();
+      value += "\nModel:            "
+         +String.format("0x%08X",this.model());
+      value += "\nError?            " + this.isError();
       if(this.isError()){
          value += "\nErrors:   "+this.error() + "\n"; 
       }

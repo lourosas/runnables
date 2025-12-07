@@ -100,7 +100,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    private void initializeTankData(String file)throws IOException{
       double cap = Double.NaN; double den = Double.NaN; int num = -1;
       double dw  = Double.NaN; double er  = Double.NaN; int stg = -1;
-      String err = null; String fue = null; boolean isE = true;
+      String err = null; String fue = null; boolean isE = false;
       long mod = Long.MIN_VALUE; double temp = Double.NaN;
       double tol = Double.NaN; double wgt = Double.NaN;
       //Start a test print
@@ -117,6 +117,37 @@ public class TankDataFeeder implements DataFeeder, Runnable{
             try{ num = Integer.parseInt(ht.get("number")); }
             catch(NumberFormatException nfe){ num = -1; }
             if(this._stage == stg && this._number == num){
+               try{ cap = Double.parseDouble(ht.get("capacity"));}
+               catch(NumberFormatException nfe){ cap = Double.NaN; }
+               try{ den = Double.parseDouble(ht.get("density")); }
+               catch(NumberFormatException nfe){ den = Double.NaN; }
+               try{ dw = Double.parseDouble(ht.get("dryweight")); }
+               catch(NumberFormatException nfe){ dw = Double.NaN; }
+               try{ er = Double.parseDouble(ht.get("rate")); }
+               catch(NumberFormatException  nfe){ er = Double.NaN; }
+               fue = ht.get("fuel"); 
+               try{ mod = Long.parseLong(ht.get("model"),16); }
+               catch(NumberFormatException nfe){ mod=Long.MIN_VALUE; }
+               try{ temp=Double.parseDouble(ht.get("temperature")); }
+               catch(NumberFormatException nfe){ temp=Double.NaN; }
+               try{ tol = Double.parseDouble(ht.get("tolerance")); }
+               catch(NumberFormatException nfe){ tol = Double.NaN; }
+               //Weight needs calculation...init to Double.NaN!!
+               this._initTankData = new GenericTankData(
+                                                cap,//Capcity
+                                                den,//Density
+                                                dw, //Dry Weight
+                                                er, //Empty Rate
+                                                err,//Error
+                                                fue,//Fuel
+                                                isE,//isError
+                                                mod,//
+                                                num,
+                                                stg,
+                                                temp,
+                                                tol,
+                                                wgt);
+               System.out.println(this._initTankData);
             }
          }
       }
