@@ -147,7 +147,6 @@ public class TankDataFeeder implements DataFeeder, Runnable{
                                                 temp,
                                                 tol,
                                                 wgt);
-               System.out.println(this._initTankData);
             }
          }
       }
