@@ -241,13 +241,26 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void setStateSubstate(LaunchStateSubstate stateSubstate){}
+   public void setStateSubstate(LaunchStateSubstate stateSubstate){
+      this._stateSubstate = stateSubstate;
+   }
 
    /////////////////Runnable Inteface Implementation//////////////////
    //
    //
    //
-   public void run(){}
+   public void run(){
+      try{
+         int counter = 0;
+         while(true){
+            if(this._stateSubstate != null){
+               //this.measureData();
+            }
+            Thread.sleep(1);
+         }
+      }
+      catch(InterruptedException ie){}
+   }
 
 }
 //////////////////////////////////////////////////////////////////////
