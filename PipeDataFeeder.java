@@ -169,25 +169,31 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
       }
    }
 
-   //
+   //Associated Engine Number
    //
    //
    private void setNumber(int number){
-      this._number = number;
+      if(number > -1){
+         this._number = number;
+      }
    }
 
    //
    //
    //
    private void setStageNumber(int stage){
-      this._stage = stage;
+      if(stage > 0){
+        this._stage = stage;
+      }
    }
 
    //
    //
    //
    private void setTankNumber(int tank){
-      this._tank = tank;
+      if(tank > -1){
+         this._tank = tank;
+      }
    }
 
    //

@@ -26,7 +26,7 @@ import java.time.format.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
-public class PumpDataFeeder implements DataFeeder, Rummable{
+public class PumpDataFeeder implements DataFeeder, Runnable{
    private LaunchStateSubstate.State INIT              = null;
    private LaunchStateSubstate.State PREL              = null;
    private LaunchStateSubstate.State IGNI              = null;
@@ -81,7 +81,116 @@ public class PumpDataFeeder implements DataFeeder, Rummable{
    //
    //
    //
-   public PumpDataFeeder(int stage, int tank){}
+   public PumpDataFeeder(int stage, int tank){
+      this.setStageNumber(stage);
+      this.setTankNumber(tank);
+      this.setUpThread();
+   }
+
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void initializePumpData(String file){
+      String err = null; double flw = Double.NaN; //Derived
+      int tnk = this._tank;  boolean isE = false;
+      int stg = this._stage; double temp = Double.NaN;
+      double tol = Double.NaN; String ft = null; //Fuel Type
+      //Test Print
+      System.out.println("Pump Data:  "+file);
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         List<Hashtable<String,String>> lst = read.readPumpDataInfo();
+         Iterator<Hashtable<String,String>> it = lst.iterator();
+         while(it.hasNext()){
+            Hashtable<String,String> ht = it.next();
+            //First, get the Stage and Tank
+            try{ stg = Integer.parseInt(ht.get("stage")); }
+            catch(NumberFormatException nfe){ stg = -1; }
+            try{ tnk = Integer.parseInt(ht.get("tanknumber"));}
+            catch(NumberFormatException nfe){ tnk = -1; }
+            if(this._stage == stg && this._tank == tnk){
+               try{ flw = Double.parseDouble(ht.get("rate")); }
+               catch(NumberFormatException nfe){ flw = Double.NaN; }
+               try{ temp = Double.parseDouble(ht.get("temperature"));}
+               catch(NumberFormatException nfe){ temp = Double.NaN; }
+               try{ tol = Double.parseDouble(ht.get("tolerance")); }
+               catch(NumberFormatException nfe){ tol = Double.NaN; }
+               this._initPumpData = new GenericPumpData(
+                                            err,  //error
+                                            flw,  //Flow Rate
+                                            tnk,  //Tank
+                                            isE,  //Is Error
+                                            stg,  //Stage
+                                            temp, //Temperature
+                                            tol,  //tolerance
+                                            ft);
+               System.out.println(this._initPumpData);
+            }
+         }
+      }
+      catch(IOException ioe){
+         ioe.printStackTrace();
+         this._initPumpData = null;
+      }
+   }
+
+   //
+   //
+   //
+   private boolean isPathFile(String file){
+      System.out.println("Pump Data: "+file);
+      boolean isPath = false;
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         Hashtable<String,String> ht = read.readPathInfo();
+         if(read.readPathInfo().get("parameter") == null){
+            throw new NullPointerException("Not a Path File");
+         }
+         isPath = true;
+      }
+      catch(IOException ioe){
+         isPath = false;
+         ioe.printStackTrace();  //Temporary
+         throw ioe;
+      }
+      catch(NullPointerException npe){
+         isPath = false;
+         npe.printStackTrace();  //Temporary
+      }
+      finally{
+         return isPath;
+      }
+   }
+
+   //
+   //
+   //
+   private void setStageNumber(int stage){
+      if(stage > 0){
+         this._stage = stage;
+      }
+   }
+
+   //
+   //
+   //
+   private void setTankNumber(int tank){
+      if(tank > -1){
+         this._tank = tank;
+      }
+   }
+
+   //
+   //
+   //
+   private void setUpThread(){
+      this._obj    = new Object();
+      this._t0     = new Thread(this);
+      this._t0.start();
+   }
 
    ////////////////////DataFeeder Interface Methods///////////////////
    //
@@ -92,16 +201,24 @@ public class PumpDataFeeder implements DataFeeder, Rummable{
    //
    //
    //
-   public void initialize(String file)throws IOException{}
+   public void initialize(String file)throws IOException{
+      //Pump Data File
+      String pdFile = file;
+      if(this.isPathFile(pdFile)){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(pdFile);
+         pdFile = read.readPathInfo().get("pump");
+      }
+      this.initializePumpData(pdFile);
+   }
 
    //
    //
    //
-   public object monitor(){
+   public Object monitor(){
       synchronized(this._obj){}
       //temp for now
       return null;
-
    }
 
    //
