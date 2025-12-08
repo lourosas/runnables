@@ -238,6 +238,21 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void run(){}
+   public void run(){
+      int counter = 0;
+      try{
+         while(true){
+            if(this._stateSubstate != null){
+               //this.measureData();
+               if(counter++%1000 == 0){
+                  System.out.println(Thread.currentThread().getName());
+                  System.out.println(Thread.currentThread().getId());
+               }
+            }
+            Thread.sleep(1);
+         }
+      }
+      catch(InterruptedException ie){}
+   }
 }
 //////////////////////////////////////////////////////////////////////
