@@ -255,6 +255,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
          while(true){
             if(this._stateSubstate != null){
                //this.measureData();
+               //Test Prints
                if(counter++%1000 == 0){
                   System.out.println(Thread.currentThread().getName());
                   System.out.println(Thread.currentThread().getId());
