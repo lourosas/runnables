@@ -74,7 +74,7 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
       _stateSubstate      = null;
       _obj                = null;
       _t0                 = null;
-      _number             = -1; //Pipe number tank-engine
+      _number             = -1; //Engine
       _stage              = -1;
       _tank               = -1;
    };
