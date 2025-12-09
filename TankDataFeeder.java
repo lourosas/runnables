@@ -189,14 +189,14 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    private void setUpNumber(int tankNumber){
-      this._number = tankNumber > -1 ? tankNumber : -1;
+      this._number = tankNumber > 0 ? tankNumber : -1;
    }
 
    //
    //
    //
    private void setUpStage(int stageNumber){
-      this._stage = stageNumber > -1 ? stageNumber : -1;
+      this._stage = stageNumber > 0 ? stageNumber : -1;
    }
 
    //

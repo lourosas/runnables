@@ -178,7 +178,7 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
    //
    //
    private void setTankNumber(int tank){
-      if(tank > -1){
+      if(tank > 0){
          this._tank = tank;
       }
    }

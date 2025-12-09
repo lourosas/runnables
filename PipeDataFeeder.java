@@ -173,7 +173,7 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
    //
    //
    private void setNumber(int number){
-      if(number > -1){
+      if(number > 0){
          this._number = number;
       }
    }
@@ -191,7 +191,7 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
    //
    //
    private void setTankNumber(int tank){
-      if(tank > -1){
+      if(tank > 0){
          this._tank = tank;
       }
    }
