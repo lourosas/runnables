@@ -96,20 +96,60 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    //
    private void initializeEngines(String file)throws IOException{
       System.out.println("StageDataFeeder Engines: "+file);
+      //this._engines = new LinkedList<EnginDataFeeder>()
+      //...
+      //...
    }
 
    //
    //
    //
-   private void initializeFuelSystem(String file){
+   private void initializeFuelSystem(String file)throws IOException{
       System.out.println("StageDataFeeder FuelSystem: "+file);
+      FuelSystemDataFeeder f = null;
+      f = new FuelSystemDataFeeder(this._stage, this._numEngines);
+      f.initialize(file);
+      this._fuelSystemDataFeeder = f;
    }
 
    //
    //
    //
-   private void initializeStageData(String file){
+   private void initializeStageData(String file)throws IOException{
+      double dw = Double.NaN; int stg = -1; long mod = Long.MIN_VALUE;
+      String err = null; boolean isE = false; double mw = Double.NaN;
+      int egs = -1; double tol = Double.NaN;
+      double wgt = Double.NaN;//calculated
+      //Need to grab engine data (currently null) and Fuel System Data
+      //test print
       System.out.println("StageDataFeeder StageData: "+file);
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         List<Hashtable<String,String>> lst = read.readStageInfo();
+         Iterator<Hashtable<String,String>> it = lst.iterator();
+         while(it.hasNext()){
+            Hashtable<String,String> ht = it.next();
+            try{stg = Integer.parseInt(ht.get("number")); }
+            catch(NumberFormatException nfe){ stg = -1; }
+            if(stg == this._stage){
+               //Do not need to get stage number, nor engines
+               try{ dw = Double.parseDouble(ht.get("dryweight")); }
+               catch(NumberFormatException npe){ dw = Double.NaN;}
+               try{ mw = Double.parseDouble(ht.get("maxweight"));}
+               catch(NumberFormatException npe){ mw = Double.NaN; }
+               try{ mod = Long.parseLong(ht.get("model"),16); }
+               catch(NumberFormatException nfe){ mod=Long.MIN_VALUE; }
+               try{ tol = Double.parseDouble(ht.get("tolerance")); }
+               catch(NumberFormatException nfe){ tol = Double.NaN; }
+            }
+         }
+      }
+      catch(IOException ioe){
+         ioe.printStackTrace();
+         this._initStageData = null;
+         throw ioe;
+      }
    }
 
    //
@@ -144,11 +184,22 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    //
    //
    private void setEngineNumber(String file)throws IOException{
+      int stage = -1; int engines = 1;
       try{
          LaunchSimulatorJsonFileReader read = null;
-         read = new LauchSimulatorJsonFileReader(file);
+         read = new LaunchSimulatorJsonFileReader(file);
          List<Hashtable<String,String>> lst = read.readStageInfo();
-
+         Iterator<Hashtable<String,String>> it = lst.iterator();
+         while(it.hasNext()){
+            Hashtable<String,String> ht = it.next();
+            try{stage = Integer.parseInt(ht.get("number"));}
+            catch(NumberFormatException npe){ stage = -1; }
+            if(this._stage == stage){
+               try{ engines=Integer.parseInt(ht.get("engines")); }
+               catch(NumberFormatException npe){ engines = -1; }
+               this._numEngines = engines;
+            }
+         }
       }
       catch(IOException ioe){
          ioe.printStackTrace();
