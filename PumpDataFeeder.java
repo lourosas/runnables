@@ -91,7 +91,7 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private void initializePumpData(String file){
+   private void initializePumpData(String file)throws IOException{
       String err = null; double flw = Double.NaN; //Derived
       int tnk = this._tank;  boolean isE = false;
       int stg = this._stage; double temp = Double.NaN;
@@ -133,6 +133,7 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
       catch(IOException ioe){
          ioe.printStackTrace();
          this._initPumpData = null;
+         throw ioe;
       }
    }
 

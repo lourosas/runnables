@@ -50,9 +50,10 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    private Object                 _obj;
    private Thread                 _t0;
 
-   private FuelSystemData         _fuelSystemData;
+   private FuelSystemDataFeeder   _fuelSystemDataFeeder;
+   //private List<EngineDataFeeder> _engines;
 
-   private int                    _engines;
+   private int                    _numEngines;
    private int                    _stage;
 
    {
@@ -75,8 +76,8 @@ public class StageDataFeeder implements DataFeeder, Runnable{
       _stateSubstate        = null;
       _obj                  = null;
       _t0                   = null;
-      _fuelSystemData       = null;
-      _engines              = -1;
+      _fuelSystemDataFeeder = null;
+      _numEngines           = -1;
       _stage                = -1;
    };
 
@@ -89,13 +90,73 @@ public class StageDataFeeder implements DataFeeder, Runnable{
       this.setUpThread();
    }
 
-   ///////////////////////////Public Methods//////////////////////////
-   //
-   //
-   //
-   static public DataFeeder instance(){}
-
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void initializeEngines(String file)throws IOException{
+      System.out.println("StageDataFeeder Engines: "+file);
+   }
+
+   //
+   //
+   //
+   private void initializeFuelSystem(String file){
+      System.out.println("StageDataFeeder FuelSystem: "+file);
+   }
+
+   //
+   //
+   //
+   private void initializeStageData(String file){
+      System.out.println("StageDataFeeder StageData: "+file);
+   }
+
+   //
+   //
+   //
+   private boolean isPathFile(String file){
+      System.out.println("StageDataFeeder Path: "+file);
+      boolean isPath = false;
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         Hashtable<String,String> ht = read.readPathInfo();
+         if(read.readPathInfo().get("parameter") == null){
+            throw new NullPointerException("Not a Path File");
+         }
+         isPath = true;
+      }
+      catch(IOException ioe){
+         isPath = false;
+         ioe.printStackTrace(); //Temporary
+      }
+      catch(NullPointerException npe){
+         isPath = false;
+         npe.printStackTrace(); //Temporary
+      }
+      finally{
+         return isPath;
+      }
+   }
+
+   //
+   //
+   //
+   private void setEngineNumber(String file)throws IOException{
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LauchSimulatorJsonFileReader(file);
+         List<Hashtable<String,String>> lst = read.readStageInfo();
+
+      }
+      catch(IOException ioe){
+         ioe.printStackTrace();
+         this._numEngines = -1;
+         throw ioe;
+      }
+   }
+   
    //
    //
    //
@@ -122,7 +183,19 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void initialize(String file)throws IOException{}
+   public void initialize(String file)throws IOException{
+      //Stage Data File
+      String stgFile = file;
+      if(this.isPathFile(stgFile)){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         stgFile = read.readPathInfo().get("stage");
+      }
+      this.setEngineNumber(stgFile);
+      this.initializeEngines(file);
+      this.initializeFuelSystem(file);
+      this.initializeStageData(stgFile);
+   }
 
    //
    //
