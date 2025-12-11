@@ -282,12 +282,39 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void setStateSubstate(LaunchStateSubstate stateSubstate){}
+   public void setStateSubstate(LaunchStateSubstate stateSubstate){
+      this._fuelSystemDataFeeder.setStateSubstate(stateSubstate);
+      /*
+      Iterator<EngineDataFeeder> it = this._engines.iterator();
+      while(it.hasNext()){
+         it.next().setStateSubstate(stateSubstate);
+      }
+      */
+      this._stateSubstate = stateSubstate;
+
+   }
 
    /////////////////Runnable Interface Implementation/////////////////
    //
    //
    //
-   public void run(){}
+   public void run(){
+      try{
+         int counter = 0;
+         while(true){
+            if(this._stateSubstate != null){
+               //this.measureFuelSystem();
+               //this.measureEngines();
+               //Test Prints
+               if(counter++%1000 == 0){
+                  System.out.println(Thread.currentThread().getName());
+                  System.out.println(Thread.currentThread().getId());
+               }
+            }
+            Thread.sleep(1);
+         }
+      }
+      catch(InterruptedException ie){}
+   }
 }
 //////////////////////////////////////////////////////////////////////
