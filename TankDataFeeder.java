@@ -153,6 +153,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
       catch(IOException ioe){
          ioe.printStackTrace();
          this._initTankData = null;
+         throw ioe;
       }
    }
 

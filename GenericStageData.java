@@ -240,11 +240,21 @@ public class GenericStageData implements StageData{
       data += "Engines:    " + this.numberOfEngines() + "\n";
       data += "Dry Weight: " + this.dryWeight() + "\n";
       data += "Weight:     " + this.weight() + "\n";
-      Iterator<EngineData> it = this.engineData().iterator();
-      while(it.hasNext()){
-         data += it.next().toString() + "\n";
+      try{
+         Iterator<EngineData> it = this.engineData().iterator();
+         while(it.hasNext()){
+            data += it.next().toString() + "\n";
+         }
       }
-      data += this.fuelSystemData().toString() + "\n";
+      catch(NullPointerException npe){
+         data += "Engine Data: null\n";
+      }
+      try{
+         data += this.fuelSystemData().toString() + "\n";
+      }
+      catch(NullPointerException npe){
+         data += "Fuel System Data: null\n";
+      }
       data += "Error: " + this.isError() + "\n";
       if(this.isError()){
          data += this.error();

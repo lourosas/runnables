@@ -142,6 +142,29 @@ public class StageDataFeeder implements DataFeeder, Runnable{
                catch(NumberFormatException nfe){ mod=Long.MIN_VALUE; }
                try{ tol = Double.parseDouble(ht.get("tolerance")); }
                catch(NumberFormatException nfe){ tol = Double.NaN; }
+               egs = this._numEngines;
+               /*
+               List<EngineData> lst = new LinkedList();
+               Iterator<EngineDataFeeder> it=this._engines.iterator();
+               while(it.hasNext()){
+                  lst.add(it.next().monitor());
+               }
+               */
+               FuelSystemData f = null;
+               f=(FuelSystemData)this._fuelSystemDataFeeder.monitor();
+               this._initStageData = new GenericStageData(
+                                                 dw,   //Dry Weight
+                                                 err,  //Error
+                                                 mod,  //Model
+                                                 isE,  //Is Error
+                                                 stg,  //Stage
+                                                 egs,  //Engines
+                                                 mw,   //Max Weight
+                                                 tol,  //Tolerance
+                                                 wgt,  //Calc Weight
+                                                 null, //Engines
+                                                 f);   //Fuel System
+               System.out.println(this._initStageData);
             }
          }
       }
