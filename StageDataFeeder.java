@@ -51,7 +51,7 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    private Thread                 _t0;
 
    private FuelSystemDataFeeder   _fuelSystemDataFeeder;
-   //private List<EngineDataFeeder> _engines;
+   private List<EngineDataFeeder> _engines;
 
    private int                    _numEngines;
    private int                    _stage;
@@ -96,9 +96,12 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    //
    private void initializeEngines(String file)throws IOException{
       System.out.println("StageDataFeeder Engines: "+file);
-      //this._engines = new LinkedList<EnginDataFeeder>()
-      //...
-      //...
+      this._engines = new LinkedList<EngineDataFeeder>();
+      for(int i = 0; i < this._numEngines; ++i){
+         EngineDataFeeder e = new EngineDataFeeder(this._stage, i);
+         e.initialize(file);
+         this._engines.add(e);
+      }
    }
 
    //
@@ -275,6 +278,7 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    //
    //
    public Object monitor(){
+      synchronized(this._obj){}
       //null for now
       return null;
    }

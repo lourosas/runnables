@@ -31,6 +31,7 @@ public class GenericEngineData implements EngineData{
    private double         _fuelRate;
    private long           _model;
    private int            _stage;
+   private double         _tolerance;
 
    {
       _currentTemp  = Double.NaN;
@@ -42,6 +43,7 @@ public class GenericEngineData implements EngineData{
       _fuelRate     = Double.NaN;
       _model        = -1;
       _stage        = -1;
+      _tolerance    = Double.NaN;
    };
 
    ////////////////////////////Constructor////////////////////////////
@@ -58,7 +60,8 @@ public class GenericEngineData implements EngineData{
       boolean isError,
       String  error,
       boolean isIgnited,
-      double  temperature
+      double  temperature,
+      double  tolerance
    ){
       this.stage(stage);
       this.index(number); //Index--number of Engine
@@ -69,6 +72,7 @@ public class GenericEngineData implements EngineData{
       this.error(error);
       this.isIgnited(isIgnited);
       this.temperature(temperature);
+      this.tolerance(tolerance);
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -111,7 +115,7 @@ public class GenericEngineData implements EngineData{
    //
    //
    private void index(int number){
-      if(number > 0){
+      if(number > -1){
          this._index = number;
       }
    }
@@ -136,6 +140,13 @@ public class GenericEngineData implements EngineData{
    //
    private void temperature(double temp){
       this._currentTemp = temp;
+   }
+
+   //
+   //
+   //
+   private void tolerance(double tol){
+      this._tolerance = tol;
    }
 
    /////////////EngineData Interface Implementation///////////////////
@@ -187,6 +198,11 @@ public class GenericEngineData implements EngineData{
    //
    //
    //
+   public double tolerance(){ return this._tolerance; }
+
+   //
+   //
+   //
    public String toString(){
       String value = new String("Engine: ");
       value += "\nStage:               "+this.stage();
@@ -201,6 +217,7 @@ public class GenericEngineData implements EngineData{
       value += "\nExhaust Flow Rate:   "+this.exhaustFlowRate();
       value += "\nFuel Flow Rate:      "+this.fuelFlowRate();
       value += "\nIgnited:             "+this.isIgnited();
+      value += "\nTolerance:           "+this.tolerance();
       return value;
    }
 }
