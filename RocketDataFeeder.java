@@ -120,7 +120,24 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    private void grabNumberOfStages(String file)throws IOException{
-      System.out.println(file);
+      System.out.println("path: "+file);
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         Hashtable<String,String> ht = read.readRocketInfo();
+         System.out.println(ht);
+         try{
+            this._numStages = Integer.parseInt(ht.get("stages"));
+         }
+         catch(NumberFormatException nfe){
+            this._numStages = -1;
+         }
+      }
+      catch(IOException ioe){
+         ioe.printStackTrace();
+         this._numStages = -1;
+         throw ioe;
+      }
    }
 
    //
@@ -163,7 +180,17 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private void initializeStageData(String file)throws IOException{}
+   private void initializeStageData(String file)throws IOException{
+      System.out.println(file);
+      this._stages = new LinkedList<StageDataFeeder>();
+      for(int i = 0; i < this._numStages; ++i){
+         //Since Zero based loop, and there is no "Stage 0", the Stage
+         //is One ahead of the Loop Counter
+         StageDataFeeder f = new StageDataFeeder(i+1);
+         f.initialize(file);
+         this._stages.add(f);
+      }
+   }
 
    //
    //
@@ -174,8 +201,10 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
       try{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
-         //Test Print
-         System.out.println(read.readPathInfo().get("parameter"));
+         Hashtable<String,String> ht = read.readPathInfo();
+         if(read.readPathInfo().get("parameter") == null){
+            throw new NullPointerException("Not a Path File");
+         }
          isPath = true;
       }
       catch(IOException ioe){
@@ -226,12 +255,8 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    public void initialize(String file)throws IOException{
-      
-      //this._stageDF = StageDataFeeder.instance();
-      //this._stageDF.initialize(file);
-
       String rocketFile = file;
-      if(isPathFile(file)){
+      if(this.isPathFile(file)){
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
          rocketFile = read.readPathInfo().get("rocket");
