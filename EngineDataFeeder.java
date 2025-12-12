@@ -111,7 +111,7 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
                catch(NumberFormatException nfe){ exf = Double.NaN; }
                try{ ff = Double.parseDouble(ht.get("fuel_flow"));}
                catch(NumberFormatException nfe){ ff = Double.NaN; }
-               try{ mod = Long.parseLong(ht.get("nodel"), 16); }
+               try{ mod = Long.parseLong(ht.get("model"), 16); }
                catch(NumberFormatException nfe){ mod=Long.MIN_VALUE; }
                try{temp=Double.parseDouble(ht.get("temperature"));}
                catch(NumberFormatException nfe){ temp = Double.NaN; }
