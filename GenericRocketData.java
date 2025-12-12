@@ -261,7 +261,9 @@ public class GenericRocketData implements RocketData{
             value += this._stageData.get(i).toString();
          }
       }
-      catch(NullPointerException npe){}
+      catch(NullPointerException npe){
+         value += "\nnull";
+      }
 
       return value;
    }

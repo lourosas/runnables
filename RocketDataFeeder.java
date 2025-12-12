@@ -73,7 +73,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
       STG  = LaunchStateSubstate.AscentSubstate.STAGING;
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
-      _currentStage    = 1;
+      _currentStage    = -1;
       _numStages       = -1;
       _initRocketData  = null;
       _calcRocketData  = null;
@@ -106,9 +106,9 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
       this.setUpThread();
    }
 
-   //
-   //
-   //
+   //Technically, do not need this...will keep here "just in case"
+   //The rest of the components should have the data and the System
+   //is responsible for calculating the weight...
    private double calculateCurrentWeight(){
       //If the System not initialized, no current weight at the moment
       double currentWeight = Double.NaN;
@@ -145,10 +145,12 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    private void initializeRocketData(String file)throws IOException{
       try{
-         String mdl = null;       int    stg = -1;
-         double eW  = Double.NaN; double lW  = Double.NaN;;
-         double tol = Double.NaN;
-         
+         String mdl  = null;       int    stg = -1;
+         double eW   = Double.NaN; double lW  = Double.NaN;;
+         double tol  = Double.NaN; this._currentStage = 1;
+         double calW = Double.NaN;
+
+         int cs = this._currentStage;
 
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
@@ -164,11 +166,19 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
          catch(NumberFormatException nfe){ tol = Double.NaN; }
          //Grab the Stage Data
          List<StageData> sd = this.monitorStages(stg);
-         double calW = this.calculateCurrentWeight();
-         RocketData rd = new GenericRocketData(mdl,
-                                               this._currentStage,stg,
-                                               eW,lW,calW,false,null,
-                                               sd,tol);
+         RocketData rd = new GenericRocketData(
+                                           mdl, //Model
+                                           cs,  //Current Stage
+                                           stg, //Number of Stages
+                                           eW,  //Empty Weight
+                                           lW,  //Loaded Weight
+                                           calW,//Calculated Weight
+                                           false,//Is Error
+                                           null,//Error String
+                                           sd,  //Stage Data
+                                           tol);//Tolerance
+         this._initRocketData = rd;
+         System.out.println(this._initRocketData);
       }
       catch(IOException ioe){
          ioe.printStackTrace();
@@ -226,14 +236,17 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    private List<StageData> monitorStages(int numStages){
-      /*
       List<StageData> stageData = new LinkedList<StageData>();
-      for(int i = 0; i < numStages; ++i){
-         stageData.add(this._stageDF.monitor());
+      Iterator<StageDataFeeder> it = this._stages.iterator();
+      while(it.hasNext()){
+         try{
+            stageData.add((StageData)it.next().monitor());
+         }
+         catch(ClassCastException cce){
+            stageData.add(null);
+         }
       }
       return stageData;
-      */
-      return null; //Stop Gap for the time...
    }
 
    //
@@ -279,15 +292,34 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    public void setStateSubstate(LaunchStateSubstate stateSubstate){
+      Iterator<StageDataFeeder> it = this._stages.iterator();
+      while(it.hasNext()){
+         it.next().setStateSubstate(stateSubstate);
+      }
       this._stateSubstate = stateSubstate;
-      //this._stageDF.setStateSubstate(this._stateSubstate);
-      System.out.println(this._stateSubstate);
    }
 
    /////////////////Runnable Interface Implementattion////////////////
    //
    //
    //
-   public void run(){}
+   public void run(){
+      try{
+         int counter = 0;
+         while(true){
+            if(this._stateSubstate != null){
+               //this.measureStages();
+               //this.measureRocket();
+               //Test Prints
+               if(counter++%1000 == 0){
+                  System.out.println(Thread.currentThread().getName());
+                  System.out.println(Thread.currentThread().getId());
+               }
+            }
+            Thread.sleep(1);
+         }
+      }
+      catch(InterruptedException ie){}
+   }
 }
 //////////////////////////////////////////////////////////////////////
