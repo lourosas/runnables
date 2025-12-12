@@ -42,6 +42,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    private LaunchStateSubstate.AscentSubstate    IGNE  = null;
 
    private int                     _currentStage;
+   private int                     _numStages;
    //Read In
    private RocketData              _initRocketData;
    //Calculated
@@ -56,7 +57,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    private static DataFeeder       _instance;
 
    //This is going have to be a LIST!!!  Based on stages!!!!
-   private DataFeeder              _stageDF;
+   private List<StageDataFeeder>   _stages;
    {
       INIT = LaunchStateSubstate.State.INITIALIZE;
       PREL = LaunchStateSubstate.State.PRELAUNCH;
@@ -73,6 +74,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
       _currentStage    = 1;
+      _numStages       = -1;
       _initRocketData  = null;
       _calcRocketData  = null;
       _stateSubstate   = null;
@@ -81,7 +83,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
       _toStart         = false;
       //Singleton
       _instance        = null;
-      _stageDF         = null;
+      _stages          = null;
    };
 
    ///////////////////////////Public Methods//////////////////////////
@@ -112,6 +114,13 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
       double currentWeight = Double.NaN;
       if(this._stateSubstate != null){}
       return currentWeight;
+   }
+
+   //
+   //
+   //
+   private void grabNumberOfStages(String file)throws IOException{
+      System.out.println(file);
    }
 
    //
@@ -154,6 +163,11 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private void initializeStageData(String file)throws IOException{}
+
+   //
+   //
+   //
    private boolean isPathFile(String file)throws IOException{
       boolean isPath = false;
       System.out.println(file);
@@ -161,7 +175,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
          //Test Print
-         //System.out.println(read.readPathInfo().get("parameter"));
+         System.out.println(read.readPathInfo().get("parameter"));
          isPath = true;
       }
       catch(IOException ioe){
@@ -222,6 +236,8 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
          read = new LaunchSimulatorJsonFileReader(file);
          rocketFile = read.readPathInfo().get("rocket");
       }
+      this.grabNumberOfStages(rocketFile);
+      this.initializeStageData(file);
       this.initializeRocketData(rocketFile);
    }
 
