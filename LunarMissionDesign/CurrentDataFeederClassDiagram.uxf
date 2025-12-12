@@ -1,49 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="15.1">
   <zoom_level>10</zoom_level>
-  <element>
-    <id>UMLInterface</id>
-    <coordinates>
-      <x>200</x>
-      <y>50</y>
-      <w>300</w>
-      <h>140</h>
-    </coordinates>
-    <panel_attributes>DataFeeder
---
-addDataFeeder(:DataFeeder)
-initialize(:String)
-monitor():Object
-setStateSubstate(:LaunchStateSubstate)</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>230</x>
-      <y>280</y>
-      <w>230</w>
-      <h>120</h>
-    </coordinates>
-    <panel_attributes>TankDataFeeder
---
--_stage:int
--_number:int
---
--setUpNumber(:int)
--setUpStage(:int)
-bg=red</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>340</x>
-      <y>50</y>
-      <w>30</w>
-      <h>250</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;230.0</additional_attributes>
-  </element>
 </diagram>
