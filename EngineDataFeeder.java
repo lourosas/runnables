@@ -84,6 +84,7 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    public EngineDataFeeder(int stage, int number){
       this.setStageNumber(stage);
       this.setEngineNumber(number);
+      this.setUpThread();
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -186,6 +187,15 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
       }
    }
 
+   //
+   //
+   //
+   private void setUpThread(){
+      this._obj = new Object();
+      this._t0  = new Thread(this);
+      this._t0.start();
+   }
+
    /////////////////////DataFeeder Implementation/////////////////////
    //
    //
@@ -226,7 +236,22 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void run(){}
+   public void run(){
+      try{
+         int counter = 0;
+         while(true){
+            if(this._stateSubstate != null){
+               //this.measureEngineData()
+               if(counter++%1000 == 0){
+                  System.out.println(Thread.currentThread().getName());
+                  System.out.println(Thread.currentThread().getId());
+               }
+            }
+            Thread.sleep(1);
+         }
+      }
+      catch(InterruptedException ie){}
+   }
 }
 
 //////////////////////////////////////////////////////////////////////

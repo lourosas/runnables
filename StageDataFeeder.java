@@ -288,12 +288,10 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    //
    public void setStateSubstate(LaunchStateSubstate stateSubstate){
       this._fuelSystemDataFeeder.setStateSubstate(stateSubstate);
-      /*
       Iterator<EngineDataFeeder> it = this._engines.iterator();
       while(it.hasNext()){
          it.next().setStateSubstate(stateSubstate);
       }
-      */
       this._stateSubstate = stateSubstate;
 
    }
