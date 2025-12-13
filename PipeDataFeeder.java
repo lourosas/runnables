@@ -169,6 +169,36 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
       }
    }
 
+   //
+   //
+   //
+   private double measureFlow(){
+     System.out.println(this._stateSubstate);
+     System.out.println(this._initPipeData.flow());
+      //Stop gap for now...
+      return Double.NaN;
+   }
+
+   //
+   //
+   //
+   private double measureTemp(){
+      System.out.println(this._stateSubstate);
+      System.out.println(this._initPipeData.temperature());
+      //Stop Gap for now...
+      return Double.NaN;
+   }
+
+   //
+   //
+   //
+   private void setMeasuredData(double flow, double temp){
+      System.out.println(flow);
+      System.out.println(temp);
+      System.out.println(this._initPipeData);
+      synchronized(this._obj){}
+   }
+
    //Associated Engine Number
    //
    //
@@ -249,11 +279,15 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
       try{
          while(true){
             if(this._stateSubstate != null){
-               //this.measureData();
-               //Test Prints
+               //Test Prints--will be removed soon!
                if(counter++%1000 == 0){
                   System.out.println(Thread.currentThread().getName());
                   System.out.println(Thread.currentThread().getId());
+                  //All will go on the outside post initial testing
+                  //And setting up the approriate states...
+                  double measuredFlow = this.measureFlow();
+                  double measuredTemp = this.measureTemp();
+                  this.setMeasuredData(measuredFlow, measuredTemp);
                }
             }
             Thread.sleep(1);
