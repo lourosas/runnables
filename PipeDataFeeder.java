@@ -48,6 +48,7 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
 
    private LaunchStateSubstate _stateSubstate;
    private Object              _obj;
+   private Random              _random;
    private Thread              _t0;
 
    private int                 _number; //Engine Number
@@ -73,6 +74,7 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
       _calcPipeData       = null;
       _stateSubstate      = null;
       _obj                = null;
+      _random             = null;
       _t0                 = null;
       _number             = -1; //Engine
       _stage              = -1;
@@ -83,6 +85,7 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
    //
    //number = Engine Number
    public PipeDataFeeder(int stage, int tank, int number){
+      this._random = new Random();
       this.setStageNumber(stage);
       this.setTankNumber(tank);
       this.setNumber(number);
@@ -98,8 +101,6 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
       int num = this._number; boolean isE = false; int stg = -1;
       int tnk = -1; double temp = Double.NaN;
       double tol = Double.NaN; String ft = null;//Fuel Type
-      //Test Print
-      System.out.println("Pipe Data: "+file); //Test Print
       try{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
@@ -129,7 +130,6 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
                                              temp,//temperature
                                              tol, //tolerance
                                              ft);
-               System.out.println(this._initPipeData);
             }
          }
       }
@@ -144,7 +144,6 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
    //
    //
    private boolean isPathFile(String file){
-      System.out.println("Pipe Data: "+file);
       boolean isPath = false;
       try{
          LaunchSimulatorJsonFileReader read = null;
@@ -172,31 +171,69 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private double measureFlow(){
-     System.out.println(this._stateSubstate);
-     System.out.println(this._initPipeData.flow());
-      //Stop gap for now...
-      return Double.NaN;
-   }
-
-   //
-   //
-   //
-   private double measureTemp(){
-      System.out.println(this._stateSubstate);
-      System.out.println(this._initPipeData.temperature());
-      //Stop Gap for now...
-      return Double.NaN;
+   private double setFlow(){
+      double flow  = Double.NaN; double scale = Double.NaN;
+      double min   = Double.NaN; double max   = Double.NaN;
+      if(this._stateSubstate.state() == INIT){
+         //In the Initialize State, the flow SHOULD BE ZERO
+         //regardless of Substate!!!
+         //Cannot have a negative flow...
+         max = 1. - this._initPipeData.tolerance();
+         do{
+            flow = this._random.nextDouble();
+         }while(flow > max);
+      }
+      return flow;
    }
 
    //
    //
    //
    private void setMeasuredData(double flow, double temp){
-      System.out.println(flow);
-      System.out.println(temp);
-      System.out.println(this._initPipeData);
-      synchronized(this._obj){}
+      String err = null; //Error
+      String ft  = null; //Fuel Type
+      int round = (int)(flow*100);
+      flow  = round*0.01;
+      round = (int)(temp*100);
+      temp  = round*0.01;
+      synchronized(this._obj){
+         //Get the Approriate data from the Initialized Pipe Data...
+         //Error is not determined by the DataFeeder
+         //Flow and Temperature is determined...
+         int eng    = this._initPipeData.number();
+         int stg    = this._initPipeData.stage();
+         int tnk    = this._initPipeData.tank();
+         double tol = this._initPipeData.tolerance();
+         this._calcPipeData = new GenericPipeData(
+                                          err,    //error
+                                          flow,   //flow
+                                          eng,    //engine number
+                                          false,  //is Error
+                                          stg,    //stage
+                                          tnk,    //tank
+                                          temp,   //Temperature
+                                          tol,    //tolerance
+                                          ft);    //Fuel Type
+      }
+   }
+
+   //
+   //
+   //
+   private double setTemp(){
+      double temp = Double.NaN; double min  = Double.NaN;
+      double max  = Double.NaN; 
+      if(this._stateSubstate.state() == INIT){
+         //Temperature is insignificant in the Initialize State...
+         //Can literally return anything within reason...since
+         //measured in Kelvin, keep between 273-373...
+         do{
+            min = 273.; max = 373.;
+            temp = (double)this._random.nextInt((int)(max+1));
+            temp += this._random.nextDouble();
+         }while(temp < 273 || temp > 373);
+      }
+      return temp;
    }
 
    //Associated Engine Number
@@ -275,19 +312,25 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
    //
    //
    public void run(){
-      int counter = 0;
+      int counter   = 0;
+      boolean check = false;
       try{
          while(true){
             if(this._stateSubstate != null){
-               //Test Prints--will be removed soon!
-               if(counter++%1000 == 0){
-                  System.out.println(Thread.currentThread().getName());
-                  System.out.println(Thread.currentThread().getId());
-                  //All will go on the outside post initial testing
-                  //And setting up the approriate states...
-                  double measuredFlow = this.measureFlow();
-                  double measuredTemp = this.measureTemp();
-                  this.setMeasuredData(measuredFlow, measuredTemp);
+               if(this._stateSubstate.state() == INIT){
+                  //In Initialize State, set data every second
+                  //(regardless of Substate)
+                  if(counter++%1000 == 0){
+                     //Counter should just roll over...
+                     check = true;
+                  }
+               }
+               if(check){
+                  //Test Prints--will be removed soon!
+                  double flow = this.setFlow();
+                  double temp = this.setTemp();
+                  this.setMeasuredData(flow, temp);
+                  check = false;
                }
             }
             Thread.sleep(1);
