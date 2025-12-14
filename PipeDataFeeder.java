@@ -192,18 +192,18 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
    private void setMeasuredData(double flow, double temp){
       String err = null; //Error
       String ft  = null; //Fuel Type
-      int round = (int)(flow*100);
-      flow  = round*0.01;
-      round = (int)(temp*100);
-      temp  = round*0.01;
+      //Get the Approriate data from the Initialized Pipe Data...
+      //Error is not determined by the DataFeeder
+      //Flow and Temperature is determined...
+      int eng    = this._initPipeData.number();
+      int stg    = this._initPipeData.stage();
+      int tnk    = this._initPipeData.tank();
+      double tol = this._initPipeData.tolerance();
       synchronized(this._obj){
-         //Get the Approriate data from the Initialized Pipe Data...
-         //Error is not determined by the DataFeeder
-         //Flow and Temperature is determined...
-         int eng    = this._initPipeData.number();
-         int stg    = this._initPipeData.stage();
-         int tnk    = this._initPipeData.tank();
-         double tol = this._initPipeData.tolerance();
+         int round = (int)(flow*100);
+         flow  = round*0.01;
+         round = (int)(temp*100);
+         temp  = round*0.01;
          this._calcPipeData = new GenericPipeData(
                                           err,    //error
                                           flow,   //flow
@@ -295,9 +295,9 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
    //
    //
    public Object monitor(){
-      synchronized(this._obj){}
-      //temp for now
-      return null;
+      synchronized(this._obj){
+         return this._calcPipeData;
+      }
    }
 
    //
