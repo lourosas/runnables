@@ -231,7 +231,7 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
             min = 273.; max = 373.;
             temp = (double)this._random.nextInt((int)(max+1));
             temp += this._random.nextDouble();
-         }while(temp < 273 || temp > 373);
+         }while(temp < min || temp > max);
       }
       return temp;
    }

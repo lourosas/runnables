@@ -48,6 +48,7 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
 
    private LaunchStateSubstate _stateSubstate;
    private Object              _obj;
+   private Random              _random;
    private Thread              _t0;
 
    private int                 _stage; //Stage Number
@@ -72,6 +73,7 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
       _calcPumpData      = null;
       _stateSubstate     = null;
       _obj               = null;
+      _random            = null;
       _t0                = null;
       _stage             = -1;
       _tank              = -1;
@@ -82,6 +84,7 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
    //
    //
    public PumpDataFeeder(int stage, int tank){
+      this._random = new Random();
       this.setStageNumber(stage);
       this.setTankNumber(tank);
       this.setUpThread();
@@ -165,6 +168,52 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
          return isPath;
       }
    }
+   
+   //
+   //
+   //
+   private void setMeasuredData(double flow, double temp){
+      String err = null; //Error
+      String ft  = null; //Fuel Type
+      //Get the appropriate data from the initialized pump data...
+      //error is not determined by the DataFeeder...
+      //Flow and Temp are determined...
+      int tnk    = this._initPumpData.index();
+      int stg    = this._initPumpData.stage();
+      double tol = this._initPumpData.tolerance();
+      synchronized(this._obj){
+         int round = (int)(flow*100);
+         flow      = round*0.01;
+         round     = (int)(temp*100);
+         temp      = round*0.01;
+         this._calcPumpData = new GenericPumpData(
+                                          err,   //error
+                                          flow,  //flow
+                                          tnk,   //Tank Number
+                                          false, //is Error
+                                          stg,   //Stage
+                                          temp,  //Temperature
+                                          tol,   //Tolerance
+                                          ft);   //Fuel Type
+      }
+   }
+
+   //
+   //
+   //
+   private double setFlow(){
+      double flow = Double.NaN; double scale = Double.NaN;
+      double min  = Double.NaN; double max   = Double.NaN;
+      if(this._stateSubstate.state() == INIT){
+         //In the Initialize State, the Pump should not be pumping!
+         //Regardless of Substate...and cannot have a Negative flow...
+         max = 1. - this._initPumpData.tolerance();
+         do{
+            flow = this._random.nextDouble();
+         }while(flow > max);
+      }
+      return flow;
+   }
 
    //
    //
@@ -182,6 +231,24 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
       if(tank > 0){
          this._tank = tank;
       }
+   }
+
+   //
+   //
+   //
+   private double setTemp(){
+      double temp = Double.NaN; double min = Double.NaN;
+      double max  = Double.NaN;
+      if(this._stateSubstate.state() == INIT){
+         //Temperature is insignificant in the Initialize State...
+         //put between the boiling and freezing point of water...
+         do{
+            min = 273.; max = 373.;
+            temp  = (double)this._random.nextInt((int)(max + 1));
+            temp += this._random.nextDouble();
+         }while(temp < min || temp > max);
+      }
+      return temp;
    }
 
    //
@@ -217,9 +284,9 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
    //
    //
    public Object monitor(){
-      synchronized(this._obj){}
-      //temp for now
-      return null;
+      synchronized(this._obj){
+         return this._calcPumpData;
+      }
    }
 
    //
@@ -234,13 +301,25 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
    //
    //
    public void run(){
+      int counter   = 0;
+      boolean check = false;
       try{
-         int counter = 0;
          while(true){
             if(this._stateSubstate != null){
-               //this.measureData
-               //Test Prints
-               if(counter++%1000 == 0){
+               if(this._stateSubstate.state() == INIT){
+                  //In Initialize State, set the data every second
+                  //(regardless of Substate)
+                  //Test Prints
+                  if(counter++%1000 == 0){
+                     check = true;
+                  }
+               }
+               if(check){
+                  double flow = this.setFlow();
+                  double temp = this.setTemp();
+                  this.setMeasuredData(flow, temp);
+                  check = false;
+                  //temp prints--remove
                   System.out.println(Thread.currentThread().getName());
                   System.out.println(Thread.currentThread().getId());
                }
