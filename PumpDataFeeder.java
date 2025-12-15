@@ -309,7 +309,6 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
                if(this._stateSubstate.state() == INIT){
                   //In Initialize State, set the data every second
                   //(regardless of Substate)
-                  //Test Prints
                   if(counter++%1000 == 0){
                      check = true;
                   }
@@ -319,9 +318,6 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
                   double temp = this.setTemp();
                   this.setMeasuredData(flow, temp);
                   check = false;
-                  //temp prints--remove
-                  System.out.println(Thread.currentThread().getName());
-                  System.out.println(Thread.currentThread().getId());
                }
             }
             Thread.sleep(1);

@@ -48,6 +48,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
 
    private LaunchStateSubstate    _stateSubstate;
    private Object                 _obj; //Threading
+   private Random                 _random;
    private Thread                 _t0;
 
    private boolean                _start;
@@ -77,6 +78,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
       _stateSubstate    = null;
       _obj              = null;
       _t0               = null;
+      _random           = null;
       _start            = false;
       _instance         = null;
       _stage            = -1;
@@ -88,6 +90,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    public TankDataFeeder(int stage, int number){
+      this._random = new Random();
       this.setUpNumber(number);
       this.setUpStage(stage);
       this.setUpThread();
@@ -189,6 +192,104 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private double setCapacity(){
+      double capacity = Double.NaN; double scale = Double.NaN;
+      double min      = Double.NaN; double max   = Double.NaN;
+      if(this._stateSubstate.state() == INIT){
+         //In the Initialize State, the Capacity should be 0!
+         //regardless of Substate...and no negative capacity...
+         max = 1. - this._initTankData.tolerance();
+         do{
+            capacity = this._random.nextDouble();
+         }while(capacity > max);
+      }
+      return capacity;
+   }
+
+   //
+   //
+   //
+   private double setEmptyRate(){
+      double rate = Double.NaN; double scale = Double.NaN;
+      double min  = Double.NaN; double max   = Double.NaN;
+      if(this._stateSubstate.state() == INIT){
+         //In the Initialize State, no Empty Rate regardless of
+         //Substate...and no negative rate
+         max = 1. - this._initTankData.tolerance();
+         do{
+            rate = this._random.nextDouble();
+         }while(rate > max);
+      }
+      return rate;
+   }
+
+   //
+   //
+   //
+   private void setMeasuredData
+   (
+     double capacity,
+     double rate,
+     double temp
+   ){
+      String err = null; //Error
+      //Get the needed initialized data...error is not determined by
+      //the DataFeeder...temperature, rate and capacity are determined
+      double den  = this._initTankData.density();
+      double dw   = this._initTankData.dryWeight();
+      String fue  = this._initTankData.fuel();
+      boolean isE = false;
+      double mlr  = Double.NaN;//Mass Loss Rate--Derived by the Tank
+      long   mdl  = this._initTankData.model();
+      int    tnk  = this._initTankData.number();
+      int    stg  = this._initTankData.stage();
+      double tol  = this._initTankData.tolerance();
+      double wgt  = Double.NaN;//Weght--Dervifed by the Tank
+      synchronized(this._obj){
+         int round = (int)(capacity*100);
+         capacity  = round*0.01;
+         round     = (int)(rate*100);
+         rate      = round*0.01;
+         round     = (int)(temp*100);
+         temp      = round*0.01;
+         this._calcTankData = new GenericTankData(
+                                       capacity, //capacity
+                                       den,      //density
+                                       dw,       //dry weight
+                                       rate,     //empty rate
+                                       err,      //error
+                                       fue,      //fuel
+                                       isE,      //isError
+                                       mdl,      //model
+                                       tnk,      //tank num
+                                       stg,      //stage
+                                       temp,     //Temperature
+                                       tol,      //Tolerance
+                                       wgt);     //Weight
+      }
+   }
+
+   //
+   //
+   //
+   private double setTemp(){
+      double temp = Double.NaN;  double min   = Double.NaN;
+      double max  = Double.NaN;  double scale = Double.NaN;
+      if(this._stateSubstate.state() == INIT){
+         //Temperature is insignificant in the Initialize State...
+         //put between the boiling and freezing point of water...
+         do{
+            min   = 273; max = 373;
+            temp  = (double)this._random.nextInt((int)(max + 1));
+            temp += this._random.nextDouble();
+         }while(temp < min || temp > max);
+      }
+      return temp;
+   }
+
+   //
+   //
+   //
    private void setUpNumber(int tankNumber){
       this._number = tankNumber > 0 ? tankNumber : -1;
    }
@@ -234,9 +335,9 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    public Object monitor(){
-      synchronized(this._obj){}
-      //Temp for now
-      return null;
+      synchronized(this._obj){
+         return this._calcTankData;
+      }
    }
 
    //
@@ -251,16 +352,28 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    public void run(){
+      int counter   = 0;
+      boolean check = false;
       try{
-         int counter = 0;
          while(true){
             if(this._stateSubstate != null){
-               //this.measureData();
-               //Test Prints
                if(counter++%1000 == 0){
-                  System.out.println(Thread.currentThread().getName());
-                  System.out.println(Thread.currentThread().getId());
+                  //In Initialize State, set the data every second
+                  //regardless of substate
+                  if(counter++%1000 == 0){
+                     check = true;
+                  }
                }
+            }
+            if(check){
+               double capacity = this.setCapacity();
+               double rate     = this.setEmptyRate();
+               double temp     = this.setTemp();
+               this.setMeasuredData(capacity, rate, temp);
+               check = false;
+               //Test Prints--remove
+               System.out.println(Thread.currentThread().getName());
+               System.out.println(Thread.currentThread().getId());
             }
             Thread.sleep(1);
          }
