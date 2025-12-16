@@ -145,9 +145,61 @@ public class FuelSystemDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private List<PipeData> measurePipes(){
+      List<PipeData> lst          = new LinkedList<PipeData>();
+      Iterator<PipeDataFeeder> it = this._pipes.iterator();
+      while(it.hasNext()){
+         lst.add((PipeData)(it.next().monitor()));
+      }
+      return lst;
+   }
+
+   //
+   //
+   //
+   private List<PumpData> measurePumps(){
+      List<PumpData> lst          = new LinkedList<PumpData>();
+      Iterator<PumpDataFeeder> it = this._pumps.iterator();
+      while(it.hasNext()){
+         lst.add((PumpData)(it.next().monitor()));
+      }
+      return lst;
+   }
+
+   //
+   //
+   //
+   private List<TankData> measureTanks(){
+      List<TankData> lst          = new LinkedList<TankData>();
+      Iterator<TankDataFeeder> it = this._tanks.iterator();
+      while(it.hasNext()){
+         lst.add((TankData)(it.next().monitor()));
+      }
+      return lst;
+   }
+
+   //
+   //
+   //
    private void setEngineNumber(int engines){
       if(engines > 0){
          this._engines = engines;
+      }
+   }
+
+   //
+   //
+   //
+   private void setMeasuredData
+   (
+      List<PipeData> pipes,
+      List<PumpData> pumps,
+      List<TankData> tanks
+   ){
+      FuelSystemData f = null;
+      f = new GenericFuelSystemData(pipes,pumps,tanks);
+      synchronized(this._obj){
+         this._calcFuelSystemData = f;
       }
    }
 
@@ -188,9 +240,9 @@ public class FuelSystemDataFeeder implements DataFeeder, Runnable{
    //
    //
    public Object monitor(){
-      synchronized(this._obj){}
-      //temp for now
-      return null;
+      synchronized(this._obj){
+         return this._calcFuelSystemData;
+      }
    }
 
    //
@@ -221,17 +273,26 @@ public class FuelSystemDataFeeder implements DataFeeder, Runnable{
    //
    public void run(){
       try{
-         int counter = 0;
+         int counter   = 0;
+         boolean check = false;
          while(true){
             if(this._stateSubstate != null){
-               //this.measurePipes();
-               //this.measurePumps();
-               //this.measureTanks();
-               //Test Prints
-               if(counter++%1000 == 0){
-                  System.out.println(Thread.currentThread().getName());
-                  System.out.println(Thread.currentThread().getId());
+               if(this._stateSubstate.state() == INIT){
+                  //Monitor every half-second
+                  if(counter++%500 == 0){
+                     check = true;
+                  }
                }
+            }
+            if(check){
+               List<PipeData> pipes = this.measurePipes();
+               List<PumpData> pumps = this.measurePumps();
+               List<TankData> tanks = this.measureTanks();
+               this.setMeasuredData(pipes,pumps,tanks);
+               //Test Prints
+               System.out.println(Thread.currentThread().getName());
+               System.out.println(Thread.currentThread().getId());
+               check = false;
             }
             Thread.sleep(1);
          }

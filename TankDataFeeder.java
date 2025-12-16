@@ -356,10 +356,12 @@ public class TankDataFeeder implements DataFeeder, Runnable{
       try{
          while(true){
             if(this._stateSubstate != null){
-               if(counter++%1000 == 0){
-                  //In Initialize State, set the data every second
-                  //regardless of substate
-                  check = true;
+               if(this._stateSubstate.state() == INIT){
+                  if(counter++%1000 == 0){
+                     //In Initialize State, set the data every second
+                     //regardless of substate
+                     check = true;
+                  }
                }
             }
             if(check){
@@ -368,9 +370,6 @@ public class TankDataFeeder implements DataFeeder, Runnable{
                double temp     = this.setTemp();
                this.setMeasuredData(capacity, rate, temp);
                check = false;
-               //Test Prints--remove
-               System.out.println(Thread.currentThread().getName());
-               System.out.println(Thread.currentThread().getId());
             }
             Thread.sleep(1);
          }
