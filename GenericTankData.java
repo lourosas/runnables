@@ -238,7 +238,9 @@ public class GenericTankData implements TankData{
    public double massLossRate(){
       //Convert from Liters to m^3
       //Convert to mass by multiplying by density...
-      double mass = (this.emptyRate()/1000.)*this.density();
+      double mass = this.emptyRate()*this.density();
+      int temp = (int)(mass * 100);
+      mass = temp * 0.01;
       return mass;
    }
 
@@ -273,10 +275,18 @@ public class GenericTankData implements TankData{
    public double weight(){
       /*
       double g      = 9.81;
-      double mass   = (this.capacity()/1000.)*this.density();
+      mass   = L*kg/L
+      weight = mass*9.81
+      double mass   = this.capacity()*this.density();
       double weight = mass * g;
       return weight;
       */
+      double mass = this.capacity()*this.density();
+      double weight = mass * 9.81;
+      int temp = (int)(weight * 100);
+      weight = temp * 0.01;
+      //Weight of fuel plus the weight of the empty tank
+      this._weight = weight + this.dryWeight();
       return this._weight;
    }
 

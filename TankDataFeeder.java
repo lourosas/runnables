@@ -239,7 +239,6 @@ public class TankDataFeeder implements DataFeeder, Runnable{
       double dw   = this._initTankData.dryWeight();
       String fue  = this._initTankData.fuel();
       boolean isE = false;
-      double mlr  = Double.NaN;//Mass Loss Rate--Derived by the Tank
       long   mdl  = this._initTankData.model();
       int    tnk  = this._initTankData.number();
       int    stg  = this._initTankData.stage();
@@ -326,7 +325,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
       if(this.isPathFile(tdFile)){
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(tdFile);
-         tdFile = read.readPathInfo().get("stage");
+         tdFile = read.readPathInfo().get("tank");
       }
       this.initializeTankData(tdFile);
    }
@@ -360,9 +359,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
                if(counter++%1000 == 0){
                   //In Initialize State, set the data every second
                   //regardless of substate
-                  if(counter++%1000 == 0){
-                     check = true;
-                  }
+                  check = true;
                }
             }
             if(check){
