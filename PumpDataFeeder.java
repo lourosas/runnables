@@ -181,11 +181,8 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
       int tnk    = this._initPumpData.index();
       int stg    = this._initPumpData.stage();
       double tol = this._initPumpData.tolerance();
+
       synchronized(this._obj){
-         int round = (int)(flow*100);
-         flow      = round*0.01;
-         round     = (int)(temp*100);
-         temp      = round*0.01;
          this._calcPumpData = new GenericPumpData(
                                           err,   //error
                                           flow,  //flow
@@ -212,6 +209,7 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
             flow = this._random.nextDouble();
          }while(flow > max);
       }
+      flow = Math.round(flow * 100.) * 0.01;
       return flow;
    }
 
@@ -248,6 +246,7 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
             temp += this._random.nextDouble();
          }while(temp < min || temp > max);
       }
+      temp = Math.round(temp * 100.) * 0.01;
       return temp;
    }
 

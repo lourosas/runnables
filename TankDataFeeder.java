@@ -20,6 +20,8 @@ package rosas.lou.runnables;
 import java.lang.*;
 import java.util.*;
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.*;
 import java.time.*;
 import java.time.format.*;
@@ -203,6 +205,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
             capacity = this._random.nextDouble();
          }while(capacity > max);
       }
+      capacity = Math.round(capacity * 100.)/100.;
       return capacity;
    }
 
@@ -220,6 +223,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
             rate = this._random.nextDouble();
          }while(rate > max);
       }
+      rate     = Math.round(rate * 100.)/100.;
       return rate;
    }
 
@@ -244,13 +248,8 @@ public class TankDataFeeder implements DataFeeder, Runnable{
       int    stg  = this._initTankData.stage();
       double tol  = this._initTankData.tolerance();
       double wgt  = Double.NaN;//Weght--Dervifed by the Tank
+
       synchronized(this._obj){
-         int round = (int)(capacity*100);
-         capacity  = round*0.01;
-         round     = (int)(rate*100);
-         rate      = round*0.01;
-         round     = (int)(temp*100);
-         temp      = round*0.01;
          this._calcTankData = new GenericTankData(
                                        capacity, //capacity
                                        den,      //density
@@ -283,6 +282,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
             temp += this._random.nextDouble();
          }while(temp < min || temp > max);
       }
+      temp = Math.round(temp*100.)/100.;
       return temp;
    }
 

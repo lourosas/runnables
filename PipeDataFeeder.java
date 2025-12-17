@@ -183,6 +183,7 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
             flow = this._random.nextDouble();
          }while(flow > max);
       }
+      flow = Math.round(flow * 100.) * 0.01;
       return flow;
    }
 
@@ -199,11 +200,8 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
       int stg    = this._initPipeData.stage();
       int tnk    = this._initPipeData.tank();
       double tol = this._initPipeData.tolerance();
+
       synchronized(this._obj){
-         int round = (int)(flow*100);
-         flow  = round*0.01;
-         round = (int)(temp*100);
-         temp  = round*0.01;
          this._calcPipeData = new GenericPipeData(
                                           err,    //error
                                           flow,   //flow
@@ -233,6 +231,7 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
             temp += this._random.nextDouble();
          }while(temp < min || temp > max);
       }
+      temp = Math.round(temp * 100.) * 0.01;
       return temp;
    }
 

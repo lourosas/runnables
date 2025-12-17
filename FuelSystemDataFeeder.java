@@ -289,9 +289,6 @@ public class FuelSystemDataFeeder implements DataFeeder, Runnable{
                List<PumpData> pumps = this.measurePumps();
                List<TankData> tanks = this.measureTanks();
                this.setMeasuredData(pipes,pumps,tanks);
-               //Test Prints
-               System.out.println(Thread.currentThread().getName());
-               System.out.println(Thread.currentThread().getId());
                check = false;
             }
             Thread.sleep(1);
