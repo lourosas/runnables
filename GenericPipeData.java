@@ -203,7 +203,8 @@ public class GenericPipeData implements PipeData{
       }
       value += "\nFuel Flow:    "+this.flow();
       if(this._type != null){value += "\n Fuel Type:   "+this.type();}
-      value += "\nTempearture:  "+this.temperature();
+      value += "\nTempearture:  "+
+                             String.format("%.2f",this.temperature());
       value += "\nTolerance:    "+this.tolerance();
       return value;
    }

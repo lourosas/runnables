@@ -308,7 +308,8 @@ public class GenericTankData implements TankData{
       value += "\nWeight:           " + this.weight();
       value += "\nEmpty Rate:       " + this.emptyRate();
       value += "\nMass Loss Rate:   " + this.massLossRate();
-      value += "\nTemperature:      " + this.temperature();
+      value += "\nTemperature:      " + 
+                            String.format("%.2f", this.temperature());
       value += "\nTolerance:        " + this.tolerance();
       value += "\nFuel Type:        " + this.fuel();
       return value;

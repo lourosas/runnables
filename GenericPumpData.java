@@ -182,7 +182,8 @@ public class GenericPumpData implements PumpData{
       if(this.isError()){value += "\nError(s): "+this.error();}
       value += "\nFuel Flow:   "+this.flow();
       if(this._type != null){value += "\nFuel Type:   "+this.type();}
-      value += "\nTemperature: "+this.temperature();
+      value += "\nTemperature: "+
+                             String.format("%.2f",this.temperature());
       value += "\nTolerance:   "+this.tolerance();
       return value;
    }

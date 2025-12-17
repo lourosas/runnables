@@ -48,8 +48,10 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
 
    private LaunchStateSubstate _stateSubstate;
    private Object              _obj;
+   private Random              _random;
    private Thread              _t0;
 
+   private boolean             _isIgnited;
    private int                 _number; //Current Engine Number
    private int                 _stage;  //Current Rocket Stage
 
@@ -72,7 +74,9 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
       _calcEngineData     = null;
       _stateSubstate      = null;
       _obj                = null;
+      _random             = null;
       _t0                 = null;
+      _isIgnited          = false;
       _number             = -1;
       _stage              = -1;
    };
@@ -82,6 +86,7 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    //
    public EngineDataFeeder(int stage, int number){
+      this._random = new Random();
       this.setStageNumber(stage);
       this.setEngineNumber(number);
       this.setUpThread();
@@ -181,10 +186,96 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private void setExhaustFlow(){
+      double exhaustFlow = Double.NaN; double scale = Double.NaN;
+      double min         = Double.NaN; double max   = Double.NaN;
+      if(this._stateSubstate.state() == INIT){
+         //In the Initialize State, the Flows should be 0!
+         //regardless of Substate
+         max = 1. - this._initEngineData.tolerance();
+         do{
+            exhaustFlow = this._random.nextDouble();
+         }while(exhaustFlow > max);
+      }
+      exhaustFlow = Math.round(capacity * 100.)*0.01;
+      return exhaustFlow;
+   }
+
+   //
+   //
+   //
+   private void setFuelFlow(){
+      double fuelFlow = Double.NaN;  double scale = Double.NaN;
+      double min      = Double.NaN;  double max   = Double.NaN;
+      if(this._stateSubstate.state() == INIT){
+         //In the Initialization State, no Fuel Flow...
+         //regardless of Substate...and not negative fuel flow
+         max = 1. - this._initEngineData.tolerance();
+         do{
+            fuelFlow = this._random.nextDouble();
+         }while(fuelFlow > max);
+      }
+      fuelFlow = Math.round(fuelFlow * 100.)*0.01;
+      return fuelFlow;
+   }
+
+   //
+   //
+   //
+   private void setMeasuredData
+   (
+      double exhaustFlow,
+      double fuelFlow,
+      double temp
+   ){
+      String  err = null; //Error
+      boolean isE = false;
+      //Get the needed initialzed data...error is not determined by
+      //the DataFeeder...exhaust flow, fuel flow, temperature are...
+      long mdl    = this._initEngineData.model();
+      int  idx    = this._initEngineData.index();
+      int  stg    = this._initEngineData.stage();
+      int  tol    = this._intiEngineData.tolerance();
+      boolean ign = this._isIngnited;
+      EngineData e = new GenericEngineData(
+                                    stg,   //Stage
+                                    idx,   //number
+                                    exhaustFlow,
+                                    fuelFlow,
+                                    mdl    //Model
+                                    isE,   //Is Error
+                                    err,   //error
+                                    ign,   //is Ignited
+                                    temp,  //Temperature
+                                    tol);  //Tolerance 
+   }
+
+   //
+   //
+   //
    private void setStageNumber(int stage){
       if(stage > 0){
          this._stage = stage;
       }
+   }
+
+   //
+   //
+   //
+   private double setTemp(){
+      double temp = Double.NaN;  double scale = Double.NaN;
+      double min  = Double.NaN;  double max   = Double.NaN;
+      if(this._stateSubstate.state() == INIT){
+         //Temperature is insignificant in the initialization state...
+         //put between the boiling and freezing point of water...
+         min = 273; max = 373l
+      }
+      do{
+         temp  = (double)this._random.nextInt((int)(max + 1));
+         temp += this._random.nextDouble();
+      }while(temp < min || temp > max);
+      temp = Math.round(temp * 100)*0.01;
+      return temp;
    }
 
    //
@@ -238,14 +329,26 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    public void run(){
       try{
-         int counter = 0;
+         int counter   = 0;
+         boolean check = false;
          while(true){
             if(this._stateSubstate != null){
-               //this.measureEngineData()
-               if(counter++%1000 == 0){
-                  System.out.println(Thread.currentThread().getName());
-                  System.out.println(Thread.currentThread().getId());
+               if(this._stateSubstate.state() == INIT){
+                  //In Initialize, query at 1/10 a second
+                  if(counter++%100 == 0){
+                     check = true;
+                  }
                }
+            }
+            if(check){
+               double exhFlow    = this.setExhaustFlow();
+               double fuelFlow   = this.setFuelFlow();
+               double temp       = this.setTemp();
+               this.setMeasuredData(exhFlow, fuelFlow, temp); 
+               check = false;
+               //Test Prints
+               System.out.println(Thread.currentThread().getName());
+               System.out.println(Thread.currentThread().getId());
             }
             Thread.sleep(1);
          }
