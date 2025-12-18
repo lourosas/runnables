@@ -213,7 +213,8 @@ public class GenericEngineData implements EngineData{
       }
       value += "\nModel:               ";
       value += String.format("0x%X",this.model());
-      value += "\nTemperature:         "+this.temperature();
+      value += "\nTemperature:         "+
+                             String.format("%.2f",this.temperature());
       value += "\nExhaust Flow Rate:   "+this.exhaustFlowRate();
       value += "\nFuel Flow Rate:      "+this.fuelFlowRate();
       value += "\nIgnited:             "+this.isIgnited();

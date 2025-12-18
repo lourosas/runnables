@@ -31,6 +31,7 @@ public interface EngineData{
    public double  fuelFlowRate();
    public int     stage();
    public double  temperature();
+   public double  tolerance();
    public String  toString();
 }
 //////////////////////////////////////////////////////////////////////

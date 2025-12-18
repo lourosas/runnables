@@ -186,7 +186,7 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private void setExhaustFlow(){
+   private double setExhaustFlow(){
       double exhaustFlow = Double.NaN; double scale = Double.NaN;
       double min         = Double.NaN; double max   = Double.NaN;
       if(this._stateSubstate.state() == INIT){
@@ -197,14 +197,14 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
             exhaustFlow = this._random.nextDouble();
          }while(exhaustFlow > max);
       }
-      exhaustFlow = Math.round(capacity * 100.)*0.01;
+      exhaustFlow = Math.round(exhaustFlow * 100.)*0.01;
       return exhaustFlow;
    }
 
    //
    //
    //
-   private void setFuelFlow(){
+   private double setFuelFlow(){
       double fuelFlow = Double.NaN;  double scale = Double.NaN;
       double min      = Double.NaN;  double max   = Double.NaN;
       if(this._stateSubstate.state() == INIT){
@@ -232,22 +232,25 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
       boolean isE = false;
       //Get the needed initialzed data...error is not determined by
       //the DataFeeder...exhaust flow, fuel flow, temperature are...
-      long mdl    = this._initEngineData.model();
-      int  idx    = this._initEngineData.index();
-      int  stg    = this._initEngineData.stage();
-      int  tol    = this._intiEngineData.tolerance();
-      boolean ign = this._isIngnited;
-      EngineData e = new GenericEngineData(
+      long    mdl = this._initEngineData.model();
+      int     idx = this._initEngineData.index();
+      int     stg = this._initEngineData.stage();
+      double  tol = this._initEngineData.tolerance();
+      boolean ign = this._isIgnited;
+      synchronized(this._obj){
+         EngineData e = new GenericEngineData(
                                     stg,   //Stage
                                     idx,   //number
                                     exhaustFlow,
                                     fuelFlow,
-                                    mdl    //Model
+                                    mdl,   //Model
                                     isE,   //Is Error
                                     err,   //error
                                     ign,   //is Ignited
                                     temp,  //Temperature
                                     tol);  //Tolerance 
+         this._calcEngineData = e;
+      }
    }
 
    //
@@ -268,7 +271,7 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
       if(this._stateSubstate.state() == INIT){
          //Temperature is insignificant in the initialization state...
          //put between the boiling and freezing point of water...
-         min = 273; max = 373l
+         min = 273; max = 373;
       }
       do{
          temp  = (double)this._random.nextInt((int)(max + 1));
@@ -311,9 +314,9 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    //
    public Object monitor(){
-      synchronized(this._obj){}
-      //null for now
-      return null;
+      synchronized(this._obj){
+         return this._calcEngineData;
+      }
    }
 
    //
@@ -346,9 +349,6 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
                double temp       = this.setTemp();
                this.setMeasuredData(exhFlow, fuelFlow, temp); 
                check = false;
-               //Test Prints
-               System.out.println(Thread.currentThread().getName());
-               System.out.println(Thread.currentThread().getId());
             }
             Thread.sleep(1);
          }
