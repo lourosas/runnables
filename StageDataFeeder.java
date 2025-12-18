@@ -260,7 +260,30 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    ){
       String  err = null;  //Error
       boolean isE = false;
+      double  wgt = Double.NaN;
       //Get the needed initialized data
+      double  dw = this._initStageData.dryWeight();
+      long   mdl = this._initStageData.model();
+      int    stg = this._initStageData.stageNumber();
+      int    egs = this._numEngines;
+      double  mw = this._initStageData.maxWeight();
+      double tol = this._initStageData.tolerance();
+
+      synchronized(this._obj){
+         StageData d = new GenericStageData(
+                                  dw,      //Dry Weight
+                                  err,     //Error
+                                  mdl,     //Model
+                                  isE,     //Is Error
+                                  stg,     //Stage
+                                  egs,     //Engines
+                                  mw,      //Max Weight
+                                  tol,     //Tolerance
+                                  wgt,     //Calculated Weight
+                                  engines, //Engines
+                                  fsd);    //Fuel System Data
+         this._calcStageData = d;
+      }
    }
    
    //
@@ -307,9 +330,9 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    //
    //
    public Object monitor(){
-      synchronized(this._obj){}
-      //null for now
-      return null;
+      synchronized(this._obj){
+         return this._calcStageData;
+      }
    }
 
    //
@@ -337,7 +360,7 @@ public class StageDataFeeder implements DataFeeder, Runnable{
             if(this._stateSubstate != null){
                if(this._stateSubstate.state() == INIT){
                   //Querry at every second
-                  if(counter++%1000){
+                  if(counter++%1000 == 0){
                      check = true;
                   }
                }
@@ -347,9 +370,6 @@ public class StageDataFeeder implements DataFeeder, Runnable{
                List<EngineData> l = this.measureEngines();
                this.setMeasuredData(f, l);
                check = false;
-               //Test Prints
-               System.out.println(Thread.currentThread().getName());
-               System.out.println(Thread.currentThread().getId());
             }
             Thread.sleep(1);
          }

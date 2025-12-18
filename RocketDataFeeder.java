@@ -165,7 +165,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
          try{ tol = Double.parseDouble(ht.get("tolerance")); }
          catch(NumberFormatException nfe){ tol = Double.NaN; }
          //Grab the Stage Data
-         List<StageData> sd = this.monitorStages(stg);
+         List<StageData> sd = this.monitorStages();
          RocketData rd = new GenericRocketData(
                                            mdl, //Model
                                            cs,  //Current Stage
@@ -235,7 +235,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private List<StageData> monitorStages(int numStages){
+   private List<StageData> monitorStages(){
       List<StageData> stageData = new LinkedList<StageData>();
       Iterator<StageDataFeeder> it = this._stages.iterator();
       while(it.hasNext()){
@@ -247,6 +247,38 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
          }
       }
       return stageData;
+   }
+
+   //
+   //
+   //
+   private void setMeasuredData(List<StageData> sd){
+      String  err = null; //Error
+      boolean isE = false;
+      double  wgt = Double.NaN; //Calculated Weight
+      //Get teh needed initialized data...error is not determined by
+      //the DataFeeder...Stage Data is...
+      String mdl = this._initRocketData.model();
+      int    cs  = this._currentStage;
+      int    ns  = this._initRocketData.numberOfStages();
+      double ew  = this._initRocketData.emptyWeight();
+      double lw  = this._initRocketData.loadedWeight();
+      double tol = this._initRocketData.tolerance();
+
+      synchronized(this._obj){
+         RocketData rd = new GenericRocketData(
+                                        mdl,   //Model
+                                        cs,    //Current Stage
+                                        ns,    //Number of Stages
+                                        ew,    //Empty Weight
+                                        lw,    //Loaded Weight
+                                        wgt,   //Calculated Weight
+                                        isE,   //Is Error
+                                        err,   //Error
+                                        sd,    //Stage Data
+                                        tol);  //Tolerance
+         this._calcRocketData = rd;
+      }
    }
 
    //
@@ -283,9 +315,9 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    public Object monitor(){
-      synchronized(this._obj){}
-      //Temp For now
-      return null;
+      synchronized(this._obj){
+         return this._calcRocketData;
+      }
    }
 
    //
@@ -305,16 +337,25 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    public void run(){
       try{
-         int counter = 0;
+         int counter   = 0;
+         boolean check = false;
          while(true){
             if(this._stateSubstate != null){
-               //this.measureStages();
-               //this.measureRocket();
-               //Test Prints
-               if(counter++%1000 == 0){
-                  System.out.println(Thread.currentThread().getName());
-                  System.out.println(Thread.currentThread().getId());
+               if(this._stateSubstate.state() == INIT){
+                  //In Initialize, check the Rocket System every
+                  //Half Second...
+                  if(counter++%500 == 0){
+                     check = true;
+                  }
                }
+            }
+            if(check){
+               List<StageData> l = this.monitorStages();
+               this.setMeasuredData(l);
+               check = false;
+               //Test Prints
+               System.out.println(Thread.currentThread().getName());
+               System.out.println(Thread.currentThread().getId());
             }
             Thread.sleep(1);
          }
