@@ -34,13 +34,14 @@ public class GenericTank implements Tank, Runnable{
    private int        _tankNumber;
    private boolean    _start;
 
-   private DataFeeder          _feeder;
-   private List<ErrorListener> _errorListeners; 
-   private LaunchStateSubstate _state;
-   private Object              _obj;
-   private Thread              _rt0;
-   private TankData            _tankData;
-   private TankData            _measuredTankData;
+   private DataFeeder           _feeder;
+   private List<ErrorListener>  _errorListeners; 
+   private List<SystemListener> _systemListeners;
+   private LaunchStateSubstate  _state;
+   private Object               _obj;
+   private Thread               _rt0;
+   private TankData             _tankData;
+   private TankData             _measuredTankData;
 
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
@@ -48,17 +49,17 @@ public class GenericTank implements Tank, Runnable{
       IGNITION  = LaunchStateSubstate.State.IGNITION;
       LAUNCH    = LaunchStateSubstate.State.LAUNCH;
 
-      _kill                = false;
-      _obj                 = null;
-      _stageNumber         = -1;
-      _tankNumber          = -1;
-      _start               = false;
+      _kill             = false;
+      _obj              = null;
+      _stageNumber      = -1;
+      _tankNumber       = -1;
 
       _feeder           = null;
       _errorListeners   = null;
+      _measuredTankData = null;
       _rt0              = null;
       _state            = null;
-      _measuredTankData = null;
+      _systemListeners  = null;
       _tankData         = null;
    };
 
@@ -67,14 +68,12 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    public GenericTank(int stage, int number){
-      if(stage > 0){
+      if(stage > 0 && number > 0){
          this._stageNumber = stage;
-      }
-      if(number > 0){
          this._tankNumber  = number;
+         this._obj = new Object();
+         this.setUpThread();
       }
-      this._obj = new Object();
-      this.setUpThread();
    }
 
    ////////////////////////////Private Methods////////////////////////
@@ -251,6 +250,33 @@ public class GenericTank implements Tank, Runnable{
          synchronized(this._obj){
             this._measuredTankData = td;
          }
+      }
+   }
+
+   //
+   //
+   //
+   private boolean isPathFile(String file)throws IOException{
+      boolean isPath = false;
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         if(read.readPathInfo().get("parameter") == null){
+            throw new NullPointerException("Not a Path File");
+         }
+         isPath = true;
+      }
+      catch(IOException ioe){
+         isPath = false;
+         ioe.printStackTrace();  //Temporary
+         throw ioe;
+      }
+      catch(NullPointerException npe){
+         isPath = false;
+         npe.printStackTrace(); //Temporary
+      }
+      finally{
+         return isPath;
       }
    }
 
@@ -565,10 +591,14 @@ public class GenericTank implements Tank, Runnable{
    //
    public void initialize(String file)throws IOException{
       if(this._stageNumber > 0 && this._tankNumber > 0){
-         this.tankData(file);
+         String tdFile = file;
+         if(this.isPathFile(tdFile)){
+            LaunchSimulatorJsonFileReader read = null;
+            read = new LaunchSimulatorJsonFileReader(tdFile);
+            tdFile = read.readPathInfo().get("tank");
+         }
+         this.tankData(tdFile);
       }
-      this._state = new LaunchStateSubstate(INIT,null,null,null);
-      this._start = true;
    }
 
    //
@@ -595,27 +625,53 @@ public class GenericTank implements Tank, Runnable{
       }
    }
 
+   //
+   //
+   //
+   public void addSystemListener(SystemListener listener){
+      if(listener != null){
+         try{
+            this._systemListeners.add(listener);
+         }
+         catch(NullPointerException npe){
+            this._systemListeners = new LinkedList<SystemListener>();
+            this._systemListeners.add(listener);
+         }
+      }
+   }
+
+   //
+   //
+   //
+   public void setStateSubstate(LaunchStateSubstate stateSubstate){
+      this._state = stateSubstate;
+   }
+
    //////////////////////////Runnble Interface////////////////////////
    //
    //
    //
    public void run(){
       try{
+         int counter   = 0;
+         boolean check = false;
          while(true){
             if(this._kill){
                throw new InterruptedException();
             }
-            if(this._start){
-               this.monitorTank();
+            if(this._state != null){
                if(this._state.state() == INIT){
-                  //For later determiniation
-                  Thread.sleep(5000);
+                  if(counter++ == 1000){
+                     //For initialize, check every second...
+                     check = true;
+                  }
                }
             }
-            else{
-               Thread.sleep(1);
+            if(chekc){
+               this.monitorTank();
+               check = false;
             }
-            
+            Thread.sleep(1);
          }
       }
       catch(InterruptedException ie){}

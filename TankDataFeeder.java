@@ -179,7 +179,6 @@ public class TankDataFeeder implements DataFeeder, Runnable{
       catch(IOException ioe){
          isPath = false;
          ioe.printStackTrace(); //Temporary
-         //Do more stuff
          throw ioe;
       }
       catch(NullPointerException npe){
@@ -320,14 +319,16 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    public void initialize(String file)throws IOException{
-      //Tank Data File
-      String tdFile = file;
-      if(this.isPathFile(tdFile)){
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(tdFile);
-         tdFile = read.readPathInfo().get("tank");
+      if(this._stage > 0 && this._number > 0){
+         //Tank Data File
+         String tdFile = file;
+         if(this.isPathFile(tdFile)){
+            LaunchSimulatorJsonFileReader read = null;
+            read = new LaunchSimulatorJsonFileReader(tdFile);
+            tdFile = read.readPathInfo().get("tank");
+         }
+         this.initializeTankData(tdFile);
       }
-      this.initializeTankData(tdFile);
    }
 
    //
