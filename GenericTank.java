@@ -131,7 +131,7 @@ public class GenericTank implements Tank, Runnable{
       }
       catch(NullPointerException npe){
          error     = new String(npe.getMessage());
-         error    += ":  Capacity Error Unkdown";
+         error    += ":  Capacity Error Unknown";
       }
       finally{
          return error;
@@ -200,7 +200,7 @@ public class GenericTank implements Tank, Runnable{
       }
    }
 
-   //
+   //Depricated!!!  Do not use!!!  Keep for the Code...then delete!!!
    //
    //
    private void isError
@@ -287,8 +287,6 @@ public class GenericTank implements Tank, Runnable{
       double capacity =   0.;
       double g        = 9.81;
       try{
-         TankData td = this.myTankData();
-         capacity    = td.capacity();
       }
       catch(NullPointerException npe){
          //Default the value for now...stop gap...until hardware
@@ -347,48 +345,6 @@ public class GenericTank implements Tank, Runnable{
       //Determine the Error based on setting the data...
       this.setUpTankData(cap,er,temp,weight);
       this.isError(cap, er, temp, weight);
-   }
-
-   //The only way to do this to keep the code from exploding and 
-   //repeating the same code in several methods...!!!
-   //
-   private TankData myTankData() throws NullPointerException{
-      return null;
-      /*
-       * Need to update to the new DataFeeder Interface
-      TankData tankData = null;
-      try{
-         RocketData            rd = this._feeder.rocketData();
-         List<StageData>     list = rd.stages();
-         Iterator<StageData>   it = list.iterator();
-         boolean found            = false;
-         while(!found && it.hasNext()){
-            StageData sd = it.next();
-            if(sd.stageNumber() == this._stageNumber){
-               FuelSystemData  fsd      = sd.fuelSystemData();
-               List<TankData>  tdList   = fsd.tankData();
-               Iterator<TankData> t_it  = tdList.iterator();
-               while(t_it.hasNext() && !found){
-                  TankData td = t_it.next();
-                  if(td.number() == this._tankNumber){
-                     tankData = td;
-                     found    = true;
-                  }
-               }
-            }
-         }
-         if(!found){
-            throw new NullPointerException();
-         }
-      }
-      catch(NullPointerException npe){
-         tankData = null;
-         throw npe;
-      }
-      finally{
-         return tankData;
-      }
-      */
    }
 
    //
@@ -667,8 +623,10 @@ public class GenericTank implements Tank, Runnable{
                   }
                }
             }
-            if(chekc){
+            if(check){
                this.monitorTank();
+               this.checkErrors();
+               this.alertSubscribers();
                check = false;
             }
             Thread.sleep(1);
