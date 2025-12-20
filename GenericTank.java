@@ -77,15 +77,42 @@ public class GenericTank implements Tank, Runnable{
    }
 
    ////////////////////////////Private Methods////////////////////////
-   private double calculateWeight(double cap){
+   //
+   //
+   //
+   private double calculateMassLossRate(){
+      double mlr = 0.;
+      try{
+         if(this._feeder == null){
+            throw new NullPointerException("No DateFeeder");
+         }
+         double den = this._measuredTankData.density();
+         double er  = this._measuredTankData.emptyRate();    
+         mlr = den * er;
+      }
+      catch(NullPointerException npe){
+         mlr = this._tankData.massLossRate();
+      }
+      finally{
+         return mlr;
+      }
+   }
+
+   //
+   //
+   //
+   private double calculateWeight(e cap){
       double weight = 0.;
       double g      = 9.81;  //Acceleration of Gravity...
       try{
-         TankData td      = this.myTankData();
-         double dryWeight = td.dryWeight();
-         double den       = td.density();
+         if(this._feeder == null){
+            throw new NullPointerException("No DataFeedeer");
+         }
+         double cap       = this._measuredTankData.capacity();
+         double dryWeight = this._measuredTankData.dryWeight();
+         double den       = this._measuredTankData.density();
          double mass      = cap * den;
-         weight           = mass * g * dryWeight;
+         weight           = (mass * g) + dryWeight;
       }
       catch(NullPointerException npe){
          //Default value for now...stop gap...until hardare can
@@ -279,58 +306,40 @@ public class GenericTank implements Tank, Runnable{
          return isPath;
       }
    }
-
-   //The Capacity is measured in liters--converted into m^3
+   
    //
    //
-   private double measureCapacity(){
-      double capacity =   0.;
-      double g        = 9.81;
+   //
+   private void measure(){
       try{
+         if(this._feeder != null){
+            RocketData rd = (RocketData)this._feeder.monitor(); 
+            StageData  sd = rd.stage(this._stageNumber);
+            FuelSystemData fsd = sd.fuelSystemData();
+            List<TankData> lst = fsd.tankData();
+            Iterator<TankData> it = lst.iterator();
+            while(it.hasNext()){
+               TankData td = it.next().stage();
+               if(td.stage() == this._stageNumber){
+                  this._measuredTankData = td;
+               }
+            }
+         }
+         else{
+            throw new NullPointerException("No DataFeeder");
+         }
+      }
+      catch(ClassCastException cce){
+         try{
+            this._measuredTankData = (TankData)this._feeder.monitor();
+         }
+         catch(ClassCastException cce){
+            cce.printStackTrace();
+            throw new NullPointerException("No TankDataFeeder");
+         }
       }
       catch(NullPointerException npe){
-         //Default the value for now...stop gap...until hardware
-         //Can be queried
-         capacity = this._tankData.capacity();
-      }
-      finally{
-         return capacity;
-      }
-   }
-
-   //
-   //
-   //
-   private double measureEmptyRate(){
-      double emptyRate = 0.;
-      try{
-         TankData td = this.myTankData();
-         emptyRate   = td.emptyRate();
-      }
-      catch(NullPointerException npe){
-         //Stop Gap...until connected up to actual hardware...
-         emptyRate = this._tankData.emptyRate();
-      }
-      finally{
-         return emptyRate;
-      }
-   }
-
-   //
-   //
-   //
-   private double measureTemperature(){
-      double temperature = 0.;
-      try{
-         TankData td = this.myTankData();
-         temperature = td.temperature();
-      }
-      catch(NullPointerException npe){
-         //Temporary Stop Gap...until can test with real HW...
-         temperature = this._tankData.temperature();
-      }
-      finally{
-         return temperature;
+         this._measuredTankData = this._tankData;
       }
    }
 
@@ -338,13 +347,10 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    private void monitorTank(){
-      double cap    = this.measureCapacity();
-      double er     = this.measureEmptyRate();
-      double temp   = this.measureTemperature();
-      double weight = this.calculateWeight(cap);
-      //Determine the Error based on setting the data...
-      this.setUpTankData(cap,er,temp,weight);
-      this.isError(cap, er, temp, weight);
+      this.measure();
+      double wgt = this.calculateWeight();
+      double mlr = this.calculatedMassLossRate();
+      this.setTankData(wgt, mlr);
    }
 
    //
