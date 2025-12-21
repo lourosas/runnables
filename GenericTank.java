@@ -80,6 +80,16 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    //
+   private void alertSubscribers(){}
+
+   //
+   //
+   //
+   private void checkErrors(){}
+
+   //
+   //
+   //
    private double calculateMassLossRate(){
       double mlr = 0.;
       try{
@@ -91,7 +101,7 @@ public class GenericTank implements Tank, Runnable{
          mlr = den * er;
       }
       catch(NullPointerException npe){
-         mlr = this._tankData.massLossRate();
+         mlr = 0.; //Temporary
       }
       finally{
          return mlr;
@@ -127,109 +137,6 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    //
-   private String capacityError(double capacity){
-      double edge      = Double.NaN;
-      double ul        = Double.NaN;
-      double ll        = Double.NaN;
-      double tolerance = Double.NaN;
-      String error     = null;
-      try{
-         //I should this make this a fucking method!!!
-         TankData td = this.myTankData();
-         tolerance   = td.tolerance();
-         if(!Double.isNaN(capacity) && !Double.isNaN(tolerance)){
-            //Will need to separate this out by state!!
-            if(this._state.state() == INIT){
-               //Durring the INIT, the TANK SHOULD BE EMPTY!!
-               ll = tolerance - 1.;
-               ul = 1 - tolerance;
-            }
-            else if(this._state.state() == PRELAUNCH){}
-            if(capacity < ll || capacity > ul){
-               error = new String("Measured Capacity: "+capacity);
-               if(capacity < ll){
-                  error += " too low";
-               }
-               else if (capacity > ul){
-                  error += " too high";
-               }
-            }
-         }
-      }
-      catch(NullPointerException npe){
-         error     = new String(npe.getMessage());
-         error    += ":  Capacity Error Unknown";
-      }
-      finally{
-         return error;
-      }
-   }
-
-   //
-   //
-   //
-   private double convertToMass(double volume){
-      //Convert from Liters to cubic meters...
-      //Multiply by density to get mass...
-      double mass = (volume/1000)*this._tankData.density();
-      return mass;
-   }
-
-   //Take a volume and convert to weight (Newtons)
-   //Volume in Liters
-   //
-   private double convertToWeight(double volume){
-      double g = 9.81;
-      //Convert from Liters to cubic meters...
-      //Multiply by desnsity to get mass...
-      //Multiply by g to get weight-->F = ma...
-      double weight = (volume/1000)*this._tankData.density()*g;
-      return weight;
-   }
-
-   //
-   //
-   //
-   private String flowError(double rate){
-      double edge      = Double.NaN;
-      double ul        = Double.NaN;
-      double ll        = Double.NaN;
-      double tolerance = Double.NaN;
-      String error     = null;
-      try{
-         TankData td = this.myTankData();
-         tolerance   = td.tolerance();
-         if(!Double.isNaN(rate) && !Double.isNaN(tolerance)){
-            //Separate out by state Tank instance determines this...
-            if(this._state.state() == INIT){
-               //Durring INIT, rate should be 0!!!
-               ll = tolerance - 1.;
-               ul = 1 - tolerance;
-            }
-            else if(this._state.state() == PRELAUNCH){}
-            if(rate < ll || rate > ul){
-               error = new String("Measured Flow Rate: "+rate);
-               if(rate < ll){
-                  error += " too low";
-               }
-               else if(rate > ul){
-                  error += " too high";
-               }
-            }
-         }
-      }
-      catch(NullPointerException npe){
-         error  = new String(npe.getMessage());
-         error += ":  Rate Error Unknown";
-      }
-      finally{
-         return error;
-      }
-   }
-
-   //
-   //
-   //
    private void initializeTankDataJSON(String file)throws IOException{
       double cap = Double.NaN; double den = Double.NaN; int num = -1;
       double dw  = Double.NaN; double er  = Double.NaN; int stg = -1;
@@ -237,6 +144,8 @@ public class GenericTank implements Tank, Runnable{
       double mlr = Double.NaN; long mod = Long.MIN_VALUE;
       double temp = Double.NaN; double tol = Double.NaN;
       double wgt = Double.NaN;
+      //Test Print
+      System.out.println("Generic Tank: "+file);
       try{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
@@ -287,59 +196,6 @@ public class GenericTank implements Tank, Runnable{
       }
    }
 
-   //Depricated!!!  Do not use!!!  Keep for the Code...then delete!!!
-   //
-   //
-   private void isError
-   (
-      double capacity,
-      double emptyRate,
-      double temperature,
-      double weight
-   ){
-      boolean isError = false;
-      String  error   = new String();
-      //Determine the Error For all the Measured data...
-      String capError = this.capacityError(capacity);
-      if(capError != null){
-         error   = " " + capError;
-         isError = true;
-      }
-      String flowError = this.flowError(emptyRate);
-      if(flowError != null){
-         error  += " "+flowError;
-         isError = true;
-      }
-      String tempError = this.temperatureError(temperature);
-      if(tempError != null){
-         error  += " " + tempError;
-         isError = true;
-      }
-      String weightError = this.weightError(weight);
-      if(weightError != null){
-         error += " " + weightError;
-         isError = true;
-      }
-      if(isError){
-         double cap  = this._measuredTankData.capacity();
-         double den  = this._measuredTankData.density();
-         double dw   = this._measuredTankData.dryWeight();
-         double er   = this._measuredTankData.emptyRate();
-         String fuel = this._measuredTankData.fuel();
-         int    tn   = this._measuredTankData.number();
-         int    sn   = this._measuredTankData.stage();
-         double te   = this._measuredTankData.temperature();
-         double to   = this._measuredTankData.tolerance();
-         double we   = this._measuredTankData.weight();
-         TankData td = new GenericTankData(cap,den,dw,er,error,
-                                           fuel,isError,tn,sn,te,
-                                           to,we);
-         synchronized(this._obj){
-            this._measuredTankData = td;
-         }
-      }
-   }
-
    //
    //
    //
@@ -383,7 +239,9 @@ public class GenericTank implements Tank, Runnable{
                int sn  = td.stage();
                int idx = td.number();
                if(sn == this._stageNumber && idx == this._tankNumber){
-                  this._measuredTankData = td;
+                  synchronized(this._obj){
+                     this._measuredTankData = td;
+                  }
                }
             }
          }
@@ -410,57 +268,41 @@ public class GenericTank implements Tank, Runnable{
    //
    private void monitorTank(){
       this.measure();
-      double wgt = this.calculateWeight();
-      double mlr = this.calculateMassLossRate();
-      this.setUpTankData(wgt, mlr);//Needs a different name!!!
+      this.setUpTankData();//Needs a different name!!!
    }
 
    //
    //
    //
-   private void setUpTankData
-   (
-      //double capacity,
-      //double emptyRate,
-      //double temp,
-      //double weight
-      double weight,
-      double massLossRate
-   ){
-      //measure the weight and empty rate
-      //grab from the current tank data (not initialized tank data)
-      //the capacity and weight...
-      //basically, getting, calculating the derived quantities...
-      TankData td = null;
-      double den  = this._tankData.density();
-      double dw   = this._tankData.dryWeight();
-      String fuel = this._tankData.fuel();
-      int    num  = this._tankData.number();
-      int    stage= this._tankData.stage();
-      double tol  = this._tankData.tolerance();
-      //What is measured...
-      double cap  = this._measuredTankData.capacity();
-      double er   = this._measuredTankData.emptyRate();
-      double temp = this._measuredTankData.temperature();
-      double wgt  = weight;
-      double mlr  = massLossRate;
-      
-      td = new GenericTankData(cap,  //Measure Capacity
-                               den,       //Density
-                               dw,        //Dry Weight
-                               er, //Empty Rate
-                               null,      //error (TBD)
-                               fuel,      //fuel type
-                               false,     //no errors (yet)
-                               num,       //tank number
-                               stage,     //Current Stage
-                               temp,      //measured temperature
-                               tol,       //tolerance
-                               wgt     //measured weight
-                               );
-      synchronized(this._obj){
-         this._measuredTankData = td;
-      }
+   private void setUpTankData(){
+      String err = null;
+      double cap = this._measuredTankData.capacity();
+      double den = this._tankData.density();
+      double dw  = this._tankData.dryWeight();
+      double rate= this._measuredTankData.emptyRate();
+      String fue = this._tankData.fuel();
+      boolean isE= false;
+      long   mdl = this._tankData.model();
+      int    stg = this._tankData.stage();
+      int    tnk = this._tankData.number();
+      double temp= this._measuredTankData.temperature();
+      double tol = this._tankData.tolerance();
+      double mlr = this.calculateMassLossRate();
+      double wgt = this.calculateWeight();
+      GenericTankData td = new GenericTankData(
+                                      cap,  //Capacity
+                                      den,  //Density
+                                      dw,   //Dry Weight
+                                      rate, //Empty Rate
+                                      err,  //Error
+                                      fue,  //Fuel
+                                      isE,  //Is Error
+                                      mlr,  //Mass Loss Rate
+                                      tnk,  //Tank Number
+                                      stg,  //Stage
+                                      temp, //Temperature
+                                      tol,  //Tolerance
+                                      wgt); //Weight
    }
 
    //
@@ -486,84 +328,6 @@ public class GenericTank implements Tank, Runnable{
       }
    }
 
-   //Fuel Temp MUST be the same regargless of State!!!
-   //
-   //
-   private String temperatureError(double temp){
-      double ll        = Double.NaN;
-      double ul        = Double.NaN;
-      double tolerance = Double.NaN;
-      String error     = null;
-      try{
-         TankData td = this.myTankData();
-         tolerance = td.tolerance();
-         if(!Double.isNaN(temp) && !Double.isNaN(tolerance)){
-            //Separate out by State
-            if(this._state.state() == INIT){
-               //Since there is nothing in the tank...ul, ll could be
-               //anything within reason--no need to worry about tol
-               ul = 373.15; //Boiling pt of water in K
-               ll = 273.15; //Freezing pt of water in K
-            }
-            else if(this._state.state() == PRELAUNCH){}
-            if(temp < ll || temp > ul){
-               error = new String("Measured Temperature:  "+temp);
-               if(temp < ll){
-                  error += " too low";
-               }
-               else if(temp > ul){
-                  error += " too high";
-               }
-            }
-         }
-      }
-      catch(NullPointerException npe){
-         error  = new String(npe.getMessage());
-         error += ": Temperature Error Unknown";
-      }
-      finally{
-         return error;
-      }
-   }
-
-   //
-   //
-   //
-   private  String weightError(double weight){
-      double ll        = Double.NaN;
-      double ul        = Double.NaN;
-      double tolerance = Double.NaN;
-      double refWeight = Double.NaN; //Referenced
-      String error     = null;
-      try{
-         TankData td = this.myTankData();
-         tolerance   = td.tolerance();
-         refWeight   = td.weight(); //Get weight from Feeder
-         boolean inputGood = !Double.isNaN(weight);
-         inputGood &= !Double.isNaN(tolerance);
-         inputGood &= !Double.isNaN(refWeight);
-         if(inputGood){
-            //Compare Calculated Weight to the referenced weight
-            ll = refWeight*tolerance;
-            ul = refWeight*(2-tolerance);
-            if(weight < ll || weight > ul){
-               error = new String("Measured Weight: "+weight);
-               if(weight < ll){
-                  error += "too low expected:  ";
-               }
-               else if(weight > ul){
-                  error += "too high expected:  ";
-               }
-               //This is the current weight the tank should be
-               error += refWeight;
-            }
-         }
-      }
-      catch(NullPointerException npe){}
-      finally{
-         return error;
-      }
-   }
    ///////////////////////Tank Interface Methods//////////////////////
    //
    //
