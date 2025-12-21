@@ -227,6 +227,66 @@ public class GenericTank implements Tank, Runnable{
       }
    }
 
+   //
+   //
+   //
+   private void initializeTankDataJSON(String file)throws IOException{
+      double cap = Double.NaN; double den = Double.NaN; int num = -1;
+      double dw  = Double.NaN; double er  = Double.NaN; int stg = -1;
+      String err = null; String fue = null; boolean isE = false;
+      double mlr = Double.NaN; long mod = Long.MIN_VALUE;
+      double temp = Double.NaN; double tol = Double.NaN;
+      double wgt = Double.NaN;
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         List<Hashtable<String,String>> lst = read.readTankInfo();
+         Iterator<Hashtable<String,String>> it = lst.iterator();
+         while(it.hasNext()){
+            Hashtable<String,String> ht = it.next();
+            try{ stg = Integer.parseInt(ht.get("stage")); }
+            catch(NumberFormatException nfe){ stg = -1; }
+            try{ num = Integer.parseInt(ht.get("number")); }
+            if(this._stageNumber == stg && this._tankNumber == num){
+               try{ cap = Double.parseDouble(ht.get("capacity"));}
+               catch(NumberFormatException nfe){ cap = Double.NaN; }
+               try{ den = Double.parseDouble(ht.get("density")); }
+               catch(NumberFormatException nfe){ den = Double.NaN; }
+               try{ dw = Double.parseDouble(ht.get("dryweight")); }
+               catch(NumberFormatException nfe){ dw = Double.NaN; }
+               try{ er = Double.parseDouble(ht.get("rate")); }
+               catch(NumberFormatException  nfe){ er = Double.NaN; }
+               fue = ht.get("fuel"); 
+               try{ mod = Long.parseLong(ht.get("model"),16); }
+               catch(NumberFormatException nfe){ mod=Long.MIN_VALUE; }
+               try{ temp=Double.parseDouble(ht.get("temperature")); }
+               catch(NumberFormatException nfe){ temp=Double.NaN; }
+               try{ tol = Double.parseDouble(ht.get("tolerance")); }
+               catch(NumberFormatException nfe){ tol = Double.NaN; } 
+               this._tankData = new GenericTankData(
+                                                cap,//Capcity
+                                                den,//Density
+                                                dw, //Dry Weight
+                                                er, //Empty Rate
+                                                err,//Error
+                                                fue,//Fuel
+                                                isE,//isError
+                                                mlr,//Mass Loss Rate
+                                                mod,//Model
+                                                num,//Tank Number
+                                                stg,//Stage
+                                                temp,//Temperature
+                                                tol,//Tolerance
+                                                wgt);//Weight
+            }
+         }
+      }
+      catch(IOException ioe){
+         this._tankData = null;
+         throw ioe;
+      }
+   }
+
    //Depricated!!!  Do not use!!!  Keep for the Code...then delete!!!
    //
    //
@@ -358,52 +418,6 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    //
-   private void setTankData
-   (
-      List<Hashtable<String,String>> data
-   ){
-      //Get the Stage and Tank numbers for comparison
-      for(int i = 0; i < data.size(); ++i){
-         Hashtable<String,String> ht = data.get(i);
-         try{
-            int stage = Integer.parseInt(ht.get("stage"));
-            int num   = Integer.parseInt(ht.get("number"));
-            if((stage==this._stageNumber) && (num==this._tankNumber)){
-               double den = Double.parseDouble(ht.get("density"));
-               int x = Integer.parseUnsignedInt(ht.get("model"),16);
-               long model = Integer.toUnsignedLong(x);
-               double cap = Double.parseDouble(ht.get("capacity"));
-               double dw  = Double.parseDouble(ht.get("dryweight"));
-               String fuel= ht.get("fuel");
-               double rate= Double.parseDouble(ht.get("rate"));
-               double temp=Double.parseDouble(ht.get("temperature"));
-               double tol = Double.parseDouble(ht.get("tolerance"));
-               //Since it is initialized...weight = dryweight
-               TankData td = new GenericTankData(cap, //Capacity
-                                                 den, //Density
-                                                 dw,  //Dry Weight
-                                                 rate,//Empty Rate
-                                                 null,//Error
-                                                 fuel,
-                                                 false,//isError
-                                                 num,  //Tank Number
-                                                 stage,//Stage
-                                                 temp,
-                                                 tol,
-                                                 dw    //Init weight
-                                                 );
-               this._tankData = td;
-            }
-         }
-         catch(NumberFormatException nfe){
-            this._tankData = null;
-         }
-      }
-   }
-
-   //
-   //
-   //
    private void setUpTankData
    (
       //double capacity,
@@ -468,9 +482,7 @@ public class GenericTank implements Tank, Runnable{
          read = new LaunchSimulatorIniFileReader(file);
       }
       else if(file.toUpperCase().contains("JSON")){
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         this.setTankData(read.readTankDataInfo());
+         this.initializeTankDataJSON(file);
       }
    }
 
