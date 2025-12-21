@@ -102,12 +102,27 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private double calculateMassLossRate(double rate, double den){
+      return rate*den;  //L/s*kg/L= kg/s
+   }
+   //
+   //
+   //
+   private double calculateWeight(double cap, double den, double dw){
+      double g = 9.81;
+      return cap*den*g + dw;
+   }
+
+   //
+   //
+   //
    private void initializeTankData(String file)throws IOException{
       double cap = Double.NaN; double den = Double.NaN; int num = -1;
       double dw  = Double.NaN; double er  = Double.NaN; int stg = -1;
       String err = null; String fue = null; boolean isE = false;
-      long mod = Long.MIN_VALUE; double temp = Double.NaN;
-      double tol = Double.NaN; double wgt = Double.NaN;
+      double mlr = Double.NaN; long mod = Long.MIN_VALUE;
+      double temp = Double.NaN; double tol = Double.NaN;
+      double wgt = Double.NaN;
       //Start a test print
       System.out.println("Tank Data: "+file);
       try{
@@ -146,12 +161,13 @@ public class TankDataFeeder implements DataFeeder, Runnable{
                                                 err,//Error
                                                 fue,//Fuel
                                                 isE,//isError
-                                                mod,//
-                                                num,
-                                                stg,
-                                                temp,
-                                                tol,
-                                                wgt);
+                                                mlr,//Mass Loss Rate
+                                                mod,//Model
+                                                num,//Tank Number
+                                                stg,//Stage
+                                                temp,//Temperature
+                                                tol,//Tolerance
+                                                wgt);//Weight
             }
          }
       }
@@ -246,7 +262,8 @@ public class TankDataFeeder implements DataFeeder, Runnable{
       int    tnk  = this._initTankData.number();
       int    stg  = this._initTankData.stage();
       double tol  = this._initTankData.tolerance();
-      double wgt  = Double.NaN;//Weght--Dervifed by the Tank
+      double mlr  = this.calculateMassLossRate(rate, den);
+      double wgt  = this.calculateWeight(capacity, den, dw);
 
       synchronized(this._obj){
          this._calcTankData = new GenericTankData(
@@ -257,6 +274,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
                                        err,      //error
                                        fue,      //fuel
                                        isE,      //isError
+                                       mlr,      //Mass Loss Rate
                                        mdl,      //model
                                        tnk,      //tank num
                                        stg,      //stage
@@ -368,6 +386,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
             if(check){
                double capacity = this.setCapacity();
                double rate     = this.setEmptyRate();
+               //Mass Loss Rate
                double temp     = this.setTemp();
                this.setMeasuredData(capacity, rate, temp);
                check = false;

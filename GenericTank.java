@@ -101,7 +101,7 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    //
-   private double calculateWeight(e cap){
+   private double calculateWeight(){
       double weight = 0.;
       double g      = 9.81;  //Acceleration of Gravity...
       try{
@@ -310,7 +310,7 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    //
-   private void measure(){
+  private void measure(){
       try{
          if(this._feeder != null){
             RocketData rd = (RocketData)this._feeder.monitor(); 
@@ -320,7 +320,9 @@ public class GenericTank implements Tank, Runnable{
             Iterator<TankData> it = lst.iterator();
             while(it.hasNext()){
                TankData td = it.next().stage();
-               if(td.stage() == this._stageNumber){
+               int sn  = td.stage();
+               int idx = td.number();
+               if(sn == this._stageNumber && idx == this._tankNumber){
                   this._measuredTankData = td;
                }
             }
@@ -349,8 +351,8 @@ public class GenericTank implements Tank, Runnable{
    private void monitorTank(){
       this.measure();
       double wgt = this.calculateWeight();
-      double mlr = this.calculatedMassLossRate();
-      this.setTankData(wgt, mlr);
+      double mlr = this.calculateMassLossRate();
+      this.setUpTankData(wgt, mlr);//Needs a different name!!!
    }
 
    //
@@ -404,11 +406,17 @@ public class GenericTank implements Tank, Runnable{
    //
    private void setUpTankData
    (
-      double capacity,
-      double emptyRate,
-      double temp,
-      double weight
+      //double capacity,
+      //double emptyRate,
+      //double temp,
+      //double weight
+      double weight,
+      double massLossRate
    ){
+      //measure the weight and empty rate
+      //grab from the current tank data (not initialized tank data)
+      //the capacity and weight...
+      //basically, getting, calculating the derived quantities...
       TankData td = null;
       double den  = this._tankData.density();
       double dw   = this._tankData.dryWeight();
@@ -416,11 +424,17 @@ public class GenericTank implements Tank, Runnable{
       int    num  = this._tankData.number();
       int    stage= this._tankData.stage();
       double tol  = this._tankData.tolerance();
+      //What is measured...
+      double cap  = this._measuredTankData.capacity();
+      double er   = this._measuredTankData.emptyRate();
+      double temp = this._measuredTankData.temperature();
+      double wgt  = weight;
+      double mlr  = massLossRate;
       
-      td = new GenericTankData(capacity,  //Measure Capacity
+      td = new GenericTankData(cap,  //Measure Capacity
                                den,       //Density
                                dw,        //Dry Weight
-                               emptyRate, //Empty Rate
+                               er, //Empty Rate
                                null,      //error (TBD)
                                fuel,      //fuel type
                                false,     //no errors (yet)
@@ -428,7 +442,7 @@ public class GenericTank implements Tank, Runnable{
                                stage,     //Current Stage
                                temp,      //measured temperature
                                tol,       //tolerance
-                               weight     //measured weight
+                               wgt     //measured weight
                                );
       synchronized(this._obj){
          this._measuredTankData = td;
@@ -624,7 +638,7 @@ public class GenericTank implements Tank, Runnable{
             if(this._state != null){
                if(this._state.state() == INIT){
                   if(counter++ == 1000){
-                     //For initialize, check every second...
+                     //For Initialize, check every second...
                      check = true;
                   }
                }

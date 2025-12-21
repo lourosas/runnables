@@ -29,6 +29,7 @@ public class GenericTankData implements TankData{
    private String    _error;
    private String    _fuel;     //The Fuel Type
    private boolean   _isError;
+   private double    _massLossRate;
    private long      _model;
    private int       _number;   //Tank Number for the Stage
    private int       _stage;    //This is needed!!!
@@ -44,6 +45,7 @@ public class GenericTankData implements TankData{
       _error          = null;
       _fuel           = null;
       _isError        = false;
+      _massLossRate   = Double.NaN;
       _model          = Long.MIN_VALUE;
       _number         = -1;
       _stage          = -1;
@@ -65,6 +67,7 @@ public class GenericTankData implements TankData{
       String   error,
       String   fuel,
       boolean  isError,
+      double   massLossRate,
       long     model,
       int      number,
       int      stage,
@@ -79,6 +82,7 @@ public class GenericTankData implements TankData{
       this.error(error);
       this.fuel(fuel);
       this.isError(isError);
+      this.massLossRate(massLossRate);
       this.model(model);
       this.number(number);
       this.stage(stage);
@@ -147,6 +151,16 @@ public class GenericTankData implements TankData{
    //
    //
    //
+   private void massLossRate(double mlr){
+      if(mlr > 0.){
+         int temp = (int)(mlr * 100);
+         this._massLossRate = temp * 0.01;
+      }
+   }
+
+   //
+   //
+   //
    private void model(long model){
       if(model > 0){
          this._model = model;
@@ -192,7 +206,8 @@ public class GenericTankData implements TankData{
    //
    private void weight(double w){
       if(w >= 0.){
-         this._weight = w;
+         int temp     = (int)(w * 100);
+         this._weight = temp * 0.01;
       }
    }
 
@@ -235,14 +250,7 @@ public class GenericTankData implements TankData{
    //
    //
    //
-   public double massLossRate(){
-      //Convert from Liters to m^3
-      //Convert to mass by multiplying by density...
-      double mass = this.emptyRate()*this.density();
-      int temp = (int)(mass * 100);
-      mass = temp * 0.01;
-      return mass;
-   }
+   public double massLossRate(){ return this._massLossRate; }
 
    //
    //
@@ -273,20 +281,6 @@ public class GenericTankData implements TankData{
    //
    //
    public double weight(){
-      /*
-      double g      = 9.81;
-      mass   = L*kg/L
-      weight = mass*9.81
-      double mass   = this.capacity()*this.density();
-      double weight = mass * g;
-      return weight;
-      */
-      double mass = this.capacity()*this.density();
-      double weight = mass * 9.81;
-      int temp = (int)(weight * 100);
-      weight = temp * 0.01;
-      //Weight of fuel plus the weight of the empty tank
-      this._weight = weight + this.dryWeight();
       return this._weight;
    }
 
