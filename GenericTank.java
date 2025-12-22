@@ -85,13 +85,63 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    //
-   private void checkErrors(){}
+   private boolean checkCapacity(){
+      boolean isError = false;
+      double capacity  = this._measuredTankData.capacity();
+      double tolerance = this._measuredTankData.tolerance();
+      double min = Double.NaN; double max = Double.NaN;
+
+      //In the Initialization State, Capacity is 0 within error!
+      //regardless of Substate...no negative capacity...
+      if(this._stateSubstate.state() == INIT){
+         max = 1. - tolerance;
+         isError |= (capacity > max);
+      }
+
+      return isError;
+   }
+
+   //
+   //
+   //
+   private boolean checkEmptyRate(){
+      boolean isError = false;
+      double  emptyRate  = this._measuredTankData.emptyRate();
+      double  tolerance  = this._measuredTankData.tolerance();
+      double  min = Double.NaN; double max = Double.NaN;
+      //In the Initialization State, Empty Rate is 0 within error
+      if(this._stateSubstate.state() == INIT){
+         max = 1. - tolerance;
+         isError |= (emptyRate > max);
+      }
+      return isError;
+   }
+
+   //Based on State, check: capacity, empty rate, mass loss rate,
+   //temperature, caculated weight...with the measured tank data
+   //
+   private void checkErrors(){
+      TankData td = this._measuredTankData;
+      String err = new String();
+      double cap = td.capacity();  double den = td.density();
+      double dw  = td.dryWeight(); double er  = td.emptyRate();
+      String fue = td.fuel();      double mlr = td.massLossRate();
+      long mod   = td.model();     int    nbr = td.number();
+      int stg    = td.stage();     double temp= td.temperature();
+      double tol = td.tolerance(); double wgt = td.weight();
+
+      boolean isError = false;
+      isError |= this.checkCapacity();
+      if(isError){ err += "Capacity Error\n"; }
+      isError != this.checkEmptyRate(); 
+      if(isError){ err += "Tank Empty Rate Error\n"}
+   }
 
    //
    //
    //
    private double calculateMassLossRate(){
-      double mlr = 0.;
+      double mlr = Double.NaN;
       try{
          if(this._feeder == null){
             throw new NullPointerException("No DateFeeder");
@@ -101,7 +151,7 @@ public class GenericTank implements Tank, Runnable{
          mlr = den * er;
       }
       catch(NullPointerException npe){
-         mlr = 0.; //Temporary
+         mlr = Double.NaN; //Temporary
       }
       finally{
          return mlr;
@@ -112,7 +162,7 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    private double calculateWeight(){
-      double weight = 0.;
+      double weight = Double.NaN;
       double g      = 9.81;  //Acceleration of Gravity...
       try{
          if(this._feeder == null){
@@ -235,7 +285,7 @@ public class GenericTank implements Tank, Runnable{
             List<TankData> lst = fsd.tankData();
             Iterator<TankData> it = lst.iterator();
             while(it.hasNext()){
-               TankData td = it.next().stage();
+               TankData td = it.next();
                int sn  = td.stage();
                int idx = td.number();
                if(sn == this._stageNumber && idx == this._tankNumber){
@@ -276,17 +326,21 @@ public class GenericTank implements Tank, Runnable{
    //
    private void setUpTankData(){
       String err = null;
+      //Directly measured
       double cap = this._measuredTankData.capacity();
       double den = this._tankData.density();
       double dw  = this._tankData.dryWeight();
+      //Directly Measured
       double rate= this._measuredTankData.emptyRate();
       String fue = this._tankData.fuel();
       boolean isE= false;
       long   mdl = this._tankData.model();
       int    stg = this._tankData.stage();
       int    tnk = this._tankData.number();
+      //Directly Measured
       double temp= this._measuredTankData.temperature();
       double tol = this._tankData.tolerance();
+      //Calculated
       double mlr = this.calculateMassLossRate();
       double wgt = this.calculateWeight();
       GenericTankData td = new GenericTankData(
@@ -303,6 +357,7 @@ public class GenericTank implements Tank, Runnable{
                                       temp, //Temperature
                                       tol,  //Tolerance
                                       wgt); //Weight
+      this._measuredTankData = td;
    }
 
    //
