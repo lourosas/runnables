@@ -84,8 +84,8 @@ public class GenericTank implements Tank, Runnable{
       String error = null;
       TankData td  = null;
       synchronized(this._obj){
-         String error = this._measuredTankData.error();
-         TankData td  = this._measuredTankData;
+         error = this._measuredTankData.error();
+         td    = this._measuredTankData;
       }
       try{
          Iterator<ErrorListener> it = this._errorListeners.iterator();
@@ -100,9 +100,10 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    private void alertSubscribers(){
-      TankData      td    = null;
-      StateSubstate ss    = this._stateSubstate;
-      String        event = ss.state() + ss.ascentSubstate();
+      TankData            td    = null;
+      LaunchStateSubstate ss    = this._stateSubstate;
+      
+      String event = ss.state() + ss.ascentSubstate();
       event += ss.ignitionSubstate() + ss.prelaunchSubstate();
       synchronized(this._obj){
          td = this._measuredTankData;
@@ -224,7 +225,7 @@ public class GenericTank implements Tank, Runnable{
       double tol = td.tolerance(); double wgt = td.weight();
 
       boolean isError = false;
-      if(this.checkCapacity(){
+      if(this.checkCapacity()){
          err += "Capacity Error\n";
          isError = true;
       }
@@ -327,6 +328,7 @@ public class GenericTank implements Tank, Runnable{
             try{ stg = Integer.parseInt(ht.get("stage")); }
             catch(NumberFormatException nfe){ stg = -1; }
             try{ num = Integer.parseInt(ht.get("number")); }
+            catch(NumberFormatException nfe){ num = -1;}
             if(this._stageNumber == stg && this._tankNumber == num){
                try{ cap = Double.parseDouble(ht.get("capacity"));}
                catch(NumberFormatException nfe){ cap = Double.NaN; }
