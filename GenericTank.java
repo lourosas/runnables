@@ -100,11 +100,12 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    private void alertSubscribers(){
-      TankData            td    = null;
-      LaunchStateSubstate ss    = this._stateSubstate;
+      TankData            td = null;
+      LaunchStateSubstate ss = this._state;
       
-      String event = ss.state() + ss.ascentSubstate();
-      event += ss.ignitionSubstate() + ss.prelaunchSubstate();
+      String event = ss.state()+", "+ss.ascentSubstate();
+      event += ", "+ss.ignitionSubstate()+", ";
+      event += ", "+ss.prelaunchSubstate();
       synchronized(this._obj){
          td = this._measuredTankData;
       }
@@ -113,7 +114,7 @@ public class GenericTank implements Tank, Runnable{
          while(it.hasNext()){
             MissionSystemEvent mse = null;
             mse = new MissionSystemEvent(this,td,event,ss);
-            it.next().update(new MissionSystemEvent(mse));
+            it.next().update(mse);
          }
       }
       catch(NullPointerException npe){}
@@ -124,13 +125,15 @@ public class GenericTank implements Tank, Runnable{
    //
    private double calculateMassLossRate(){
       double mlr = Double.NaN;
+      double den = Double.NaN;
+      double er  = Double.NaN;
       try{
          if(this._feeder == null){
             throw new NullPointerException("No DateFeeder");
          }
          synchronized(this._obj){
-            double den = this._measuredTankData.density();
-            double er  = this._measuredTankData.emptyRate();
+            den = this._measuredTankData.density();
+            er  = this._measuredTankData.emptyRate();
          }    
          mlr = den * er;
       }
@@ -146,19 +149,22 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    private double calculateWeight(){
-      double weight = Double.NaN;
-      double g      = 9.81;  //Acceleration of Gravity...
+      double cap       = Double.NaN;
+      double den       = Double.NaN;
+      double dryWeight = Double.NaN;
+      double weight    = Double.NaN;
+      double g         = 9.81;  //Acceleration of Gravity...
       try{
          if(this._feeder == null){
             throw new NullPointerException("No DataFeedeer");
          }
          synchronized(this._obj){
-            double cap       = this._measuredTankData.capacity();
-            double dryWeight = this._measuredTankData.dryWeight();
-            double den       = this._measuredTankData.density();
+            cap       = this._measuredTankData.capacity();
+            dryWeight = this._measuredTankData.dryWeight();
+            den       = this._measuredTankData.density();
          }
-         double mass      = cap * den;
-         weight           = (mass * g) + dryWeight;
+         double mass = cap * den;
+         weight      = (mass * g) + dryWeight;
       }
       catch(NullPointerException npe){
          //Default value for now...stop gap...until hardare can
@@ -170,21 +176,47 @@ public class GenericTank implements Tank, Runnable{
       }
    }
 
+   //The only time Weight needs calculating is in Init and Prelaunch
+   //States when completely full...making sure to conform to what the
+   //to the tolerance
+   private boolean checkCalculatedWeight(){
+      boolean isError     = false;
+      double  weight      = Double.NaN;
+      double  tolerance   = Double.NaN;
+      double  emptyWeight = Double.NaN;
+      double  scale       = Double.NaN;
+      double  value       = Double.NaN;
+      synchronized(this._obj){
+         weight      = this._measuredTankData.weight();
+         tolerance   = this._measuredTankData.tolerance();
+         emptyWeight = this._measuredTankData.dryWeight();
+      }
+      double min = Double.NaN; double max = Double.NaN;
+      if(this._state.state() == INIT){
+         min = emptyWeight*tolerance;
+         max = emptyWeight*(2. - tolerance);
+      }
+      isError |= ((weight > max)||(weight < min));
+      return isError;
+   }
+
 
    //
    //
    //
    private boolean checkCapacity(){
-      boolean isError = false;
+      boolean isError  = false;
+      double capacity  = Double.NaN;
+      double tolerance = Double.NaN;
       synchronized(this._obj){
-         double capacity  = this._measuredTankData.capacity();
-         double tolerance = this._measuredTankData.tolerance();
+         capacity  = this._measuredTankData.capacity();
+         tolerance = this._measuredTankData.tolerance();
       }
       double min = Double.NaN; double max = Double.NaN;
 
       //In the Initialization State, Capacity is 0 within error!
       //regardless of Substate...no negative capacity...
-      if(this._stateSubstate.state() == INIT){
+      if(this._state.state() == INIT){
          max = 1. - tolerance;
          isError |= (capacity > max);
       }
@@ -196,13 +228,15 @@ public class GenericTank implements Tank, Runnable{
    //
    private boolean checkEmptyRate(){
       boolean isError = false;
+      double emptyRate = Double.NaN;
+      double tolerance = Double.NaN;
       synchronized(this._obj){
-         double  emptyRate  = this._measuredTankData.emptyRate();
-         double  tolerance  = this._measuredTankData.tolerance();
+          emptyRate  = this._measuredTankData.emptyRate();
+          tolerance  = this._measuredTankData.tolerance();
       }
       double  min = Double.NaN; double max = Double.NaN;
       //In the Initialization State, Empty Rate is 0 within error
-      if(this._stateSubstate.state() == INIT){
+      if(this._state.state() == INIT){
          max = 1. - tolerance;
          isError |= (emptyRate > max);
       }
@@ -213,8 +247,9 @@ public class GenericTank implements Tank, Runnable{
    //temperature, caculated weight...with the measured tank data
    //
    private void checkErrors(){
+      TankData td = null;
       synchronized(this._obj){
-         TankData td = this._measuredTankData;
+         td = this._measuredTankData;
       }
       String err = new String();
       double cap = td.capacity();  double den = td.density();
@@ -271,16 +306,18 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    private boolean checkMassLossRate(){
-      boolean isError = false;
+      boolean isError      = false;
+      double  massLossRate = Double.NaN;
+      double  tolerance    = Double.NaN;
       synchronized(this._obj){
-         double  massLossRate = this._measuredTankData.massLossRate();
-         double  tolerance    = this._measuredTankData.tolerance();
+         massLossRate = this._measuredTankData.massLossRate();
+         tolerance    = this._measuredTankData.tolerance();
       }
-      double min = Double.Nan; double max = Double.NaN;
+      double min = Double.NaN; double max = Double.NaN;
 
       //In the Initialization State, Mass Loss Rate is 0 within error!
       //regardless of Substate...no negative Mass Loss Rate
-      if(this._stateSubstate.state() == INIT){
+      if(this._state.state() == INIT){
          max = 1. - tolerance;
          isError |= (massLossRate > max);
       }
@@ -291,15 +328,17 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    private boolean checkTemperature(){
-      isError = false;
+      boolean isError     = false;
+      double  temperature = Double.NaN;
+      double  tolerance   = Double.NaN;
       synchronized(this._obj){
-         double temperature = this._measuredTankData.temperature();
-         double tolerance   = this._measuredTankData.tolerance();
+         temperature = this._measuredTankData.temperature();
+         tolerance   = this._measuredTankData.tolerance();
       }
       double min = Double.NaN; double max = Double.NaN;
       //In the Initialization State, anything between the Freezing and
       //boiling point of water is acceptable
-      if(this._stateSubstate.state() == INIT){
+      if(this._state.state() == INIT){
          min = 273.15; max = 373.15;
          isError |= (temperature < min || temperature > max);
       }
@@ -321,7 +360,7 @@ public class GenericTank implements Tank, Runnable{
       try{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
-         List<Hashtable<String,String>> lst = read.readTankInfo();
+         List<Hashtable<String,String>> lst = read.readTankDataInfo();
          Iterator<Hashtable<String,String>> it = lst.iterator();
          while(it.hasNext()){
             Hashtable<String,String> ht = it.next();
@@ -428,7 +467,7 @@ public class GenericTank implements Tank, Runnable{
                this._measuredTankData=(TankData)this._feeder.monitor();
             }
          }
-         catch(ClassCastException cce){
+         catch(ClassCastException e){
             cce.printStackTrace();
             throw new NullPointerException("No TankDataFeeder");
          }
@@ -452,16 +491,19 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    private void setUpTankData(){
-      String err = null;
+      String err  = null;
+      double cap  = Double.NaN;
+      double rate = Double.NaN;
+      double temp = Double.NaN;
       //Directly measured
       synchronized(this._obj){
-         double cap = this._measuredTankData.capacity();
+         cap = this._measuredTankData.capacity();
       }
       double den = this._tankData.density();
       double dw  = this._tankData.dryWeight();
       //Directly Measured
       synchronized(this._obj){
-         double rate= this._measuredTankData.emptyRate();
+         rate = this._measuredTankData.emptyRate();
       }
       String fue = this._tankData.fuel();
       boolean isE= false;
@@ -470,7 +512,7 @@ public class GenericTank implements Tank, Runnable{
       int    tnk = this._tankData.number();
       //Directly Measured
       synchronized(this._obj){
-         double temp= this._measuredTankData.temperature();
+         temp = this._measuredTankData.temperature();
       }
       double tol = this._tankData.tolerance();
       //Calculated
