@@ -299,7 +299,8 @@ public class GenericEngine implements Engine, Runnable{
                                    this._isError,
                                    this._error,
                                    this._isIgnited,
-                                   this._measuredTemperature);
+                                   this._measuredTemperature,
+                                   this._tolerance);
       return data;
    }
 

@@ -29,7 +29,7 @@ import rosas.lou.clock.*;
 public class MechanismSupportDataFeeder implements DataFeeder,
 Runnable{
    private LaunchStateSubstate.State INIT              = null;
-   private LaunchStateSubstate.State PREl              = null;
+   private LaunchStateSubstate.State PREL              = null;
    private LaunchStateSubstate.State IGNI              = null;
    private LaunchStateSubstate.State LAUN              = null;
    private LaunchStateSubstate.State ASCE              = null;
@@ -57,11 +57,11 @@ Runnable{
    private static DataFeeder              _rocketDF;
 
    {
-      INIT = LaunchStateSubstate.INITIALIZE;
-      PREL = LaunchStateSubstate.PRELAUNCH;
-      IGNI = LaunchStateSubstate.IGNITION;
-      LAUN = LaunchStateSubstate.LAUNCH;
-      ASCE = LaunchStateSubstate.ASCENT;
+      INIT = LaunchStateSubstate.State.INITIALIZE;
+      PREL = LaunchStateSubstate.State.PRELAUNCH;
+      IGNI = LaunchStateSubstate.State.IGNITION;
+      LAUN = LaunchStateSubstate.State.LAUNCH;
+      ASCE = LaunchStateSubstate.State.ASCENT;
       SET  = LaunchStateSubstate.PreLaunchSubstate.SET;
       CONT = LaunchStateSubstate.PreLaunchSubstate.CONTINUE;
       FUEL = LaunchStateSubstate.PreLaunchSubstate.FUELING;
@@ -87,7 +87,7 @@ Runnable{
    //
    //
    static public DataFeeder instance(){
-      if(_intstance == null){
+      if(_instance == null){
          _instance = new MechanismSupportDataFeeder();
       }
       return _instance;

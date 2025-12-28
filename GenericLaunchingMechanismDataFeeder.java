@@ -259,14 +259,14 @@ DataFeeder,Runnable{
          if(feeder instanceof MechanismSupportDataFeeder){
             this._mechSuppDF = feeder;
          }
-         else if(feeder instanceof RockedDataFeeder){
+         else if(feeder instanceof RocketDataFeeder){
             this._rocketDF = feeder;
             try{
-               this._mechSuppDF.addFeeder(this._rocketDF);
+               this._mechSuppDF.addDataFeeder(this._rocketDF);
             }
             catch(NullPointerException npe){
                this._mechSuppDF=MechanismSupportDataFeeder.instance();
-               this._mechSuppDF.addFeeder(feeder);
+               this._mechSuppDF.addDataFeeder(feeder);
             }
          }
       }

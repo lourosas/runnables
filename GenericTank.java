@@ -527,6 +527,7 @@ public class GenericTank implements Tank, Runnable{
                                       fue,  //Fuel
                                       isE,  //Is Error
                                       mlr,  //Mass Loss Rate
+                                      mdl,  //Model
                                       tnk,  //Tank Number
                                       stg,  //Stage
                                       temp, //Temperature
