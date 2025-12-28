@@ -109,8 +109,9 @@ public class GenericTank implements Tank, Runnable{
       synchronized(this._obj){
          td = this._measuredTankData;
       }
-      Iterator<SystemListener> it=this._systemListeners.iterator();
       try{
+         Iterator<SystemListener> it = null;
+         it = this._systemListeners.iterator();
          while(it.hasNext()){
             MissionSystemEvent mse = null;
             mse = new MissionSystemEvent(this,td,event,ss);
@@ -474,6 +475,7 @@ public class GenericTank implements Tank, Runnable{
       }
       catch(NullPointerException npe){
          synchronized(this._obj){
+            npe.printStackTrace();
             this._measuredTankData = this._tankData;
          }
       }
@@ -646,7 +648,7 @@ public class GenericTank implements Tank, Runnable{
             }
             if(this._state != null){
                if(this._state.state() == INIT){
-                  if(counter++ == 1000){
+                  if(counter++%1000 == 0){
                      //For Initialize, check every second...
                      check = true;
                   }

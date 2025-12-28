@@ -152,9 +152,9 @@ public class GenericTankData implements TankData{
    //
    //
    private void massLossRate(double mlr){
-      if(mlr > 0.){
-         int temp = (int)(mlr * 100);
-         this._massLossRate = temp * 0.01;
+      if(mlr >= 0.){
+         int temp = (int)(mlr * 1000);
+         this._massLossRate = temp * 0.001;
       }
    }
 
@@ -294,7 +294,7 @@ public class GenericTankData implements TankData{
          +String.format("0x%08X",this.model());
       value += "\nError?            " + this.isError();
       if(this.isError()){
-         value += "\nErrors:   "+this.error() + "\n"; 
+         value += "\nErrors:   "+this.error(); 
       }
       value += "\nCapacity:         " + this.capacity();
       value += "\nDensity:          " + this.density();
