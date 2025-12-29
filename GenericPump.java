@@ -35,13 +35,14 @@ public class GenericPump implements Pump, Runnable{
    private boolean _start;
    private int     _tank;
 
-   private DataFeeder          _feeder;
-   private List<ErrorListener> _errorListeners;
-   private LaunchStateSubstate _state;
-   private Object              _obj;
-   private PumpData            _pumpData;
-   private PumpData            _measuredPumpData;
-   private Thread              _rt0;
+   private DataFeeder            _feeder;
+   private List<ErrorListener>   _errorListeners;
+   private List<SystemListener>  _systemListeners;
+   private LaunchStateSubstate   _state;
+   private Object                _obj;
+   private PumpData              _pumpData;
+   private PumpData              _measuredPumpData;
+   private Thread                _rt0;
 
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
@@ -56,6 +57,7 @@ public class GenericPump implements Pump, Runnable{
 
       _feeder              = null;
       _errorListeners      = null;
+      _systemListeners     = null;
       _state               = null;
       _obj                 = null;
       _pumpData            = null;
@@ -79,6 +81,21 @@ public class GenericPump implements Pump, Runnable{
    }
 
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void alertErrorListeners(){}
+
+   //
+   //
+   //
+   private void alertSubscribers(){}
+
+   //
+   //
+   //
+   private void checkErrors(){}
+
    //
    //
    //
@@ -151,6 +168,34 @@ public class GenericPump implements Pump, Runnable{
       }
    }
 
+   //
+   //
+   //
+   private boolean isPathFile(String file) throws IOException{
+      boolean isPath = false;
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         if(read.readPathInfo().get("parameter") == null){
+            throw new NullPointerException("Not a Path File");
+         }
+         isPath = true;
+      }
+      catch(IOException ioe){
+         isPath = false;
+         ioe.printStackTrace();
+         throw ioe;
+      }
+      catch(NullPointerException npe){
+         isPath = false;
+      }
+      catch(Exception e){
+         e.printStackTrace();
+      }
+      finally{
+         return isPath;
+      }
+   }
 
    //The Fuel temperature in the pump MUST be within rage
    //REGARLESS of State!!!
@@ -387,10 +432,14 @@ public class GenericPump implements Pump, Runnable{
    //
    public void initialize(String file)throws IOException{
       if((this._stage > 0) && (this._tank > 0)){
-         this.pumpData(file);
+         String pdFile = file;
+         if(this.isPathFile(pdFile)){
+            LaunchSimulatorJsonFileReader read = null;
+            read = new LaunchSimulatorJsonFileReader(pdFile);
+            pdFile = read.readPathInfo().get("tank");
+         }
+         this.pumpData(pdFile);
       }
-      this._state = new LaunchStateSubstate(INIT,null,null,null);
-      this._start = true;
    }
 
    //
@@ -405,28 +454,67 @@ public class GenericPump implements Pump, Runnable{
    //
    //
    //
-   public void addErrorListener(ErrorListener listener){}
+   public void addErrorListener(ErrorListener listener){
+      try{
+         if(listener != null){
+            this._errorListeners.add(listener);
+         }
+      }
+      catch(NullPointerException npe){
+         this._errorListeners = new LinkedList<ErrorListener>();
+         this._errorListeners.add(listener);
+      }
+   }
+
+   //
+   //
+   //
+   public void addSystemListener(SystemListener listener){
+      try{
+         if(listener != null){
+            this._systemListeners.add(listener);
+         }
+      }
+      catch(NullPointerException npe){
+         this._systemListeners = new LinkedList<SystemListener>();
+         this._systemListeners.add(listener);
+      }
+   }
+
+   //
+   //
+   //
+   public void setStateSubstate(LaunchStateSubstate stateSubstate){
+      this._state = stateSubstate;
+   }
 
    /////////////////////////Runnable Interface////////////////////////
    //
    //
    //
    public void run(){
+      int counter   = 0;
+      boolean check = false;
       try{
          while(true){
             if(this._kill){
                throw new InterruptedException();
             }
-            if(this._start){
-               this.monitorPump();
+            if(this._state != null){
                if(this._state.state() == INIT){
-                  //For later determination
-                  Thread.sleep(15000);
+                  if(counter++%15000 == 0){
+                     //Check every 15 seconds for the time being
+                     check = true;
+                  }
                }
             }
-            else{
-               Thread.sleep(1);
+            if(check){
+               this.monitorPump();
+               this.checkErrors();
+               this.alertSubscribers();
+               check = false;
             }
+            Thread.sleep(1);
          }
       }
       catch(InterruptedException ie){}

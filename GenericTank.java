@@ -281,24 +281,24 @@ public class GenericTank implements Tank, Runnable{
          err += "Calculated Weight Error\n";
          isError = true;
       }
-      td = new GenericTankData(cap,     //Capacity
-                               den,     //Density
-                               dw,      //Dry Weight
-                               er,      //Empty Rate
-                               err,     //Error
-                               fue,     //Fuel
-                               isError, //Is Error
-                               mlr,     //Mass Loss Rate
-                               mod,     //Model
-                               nbr,     //Tanks Number
-                               stg,     //Stage
-                               temp,    //temperature
-                               tol,     //Tolerance
-                               wgt);    //Measured Weight
-      synchronized(this._obj){
-         this._measuredTankData = td;
-      }
       if(isError){
+         td = new GenericTankData(cap,     //Capacity
+                                  den,     //Density
+                                  dw,      //Dry Weight
+                                  er,      //Empty Rate
+                                  err,     //Error
+                                  fue,     //Fuel
+                                  isError, //Is Error
+                                  mlr,     //Mass Loss Rate
+                                  mod,     //Model
+                                  nbr,     //Tanks Number
+                                  stg,     //Stage
+                                  temp,    //temperature
+                                  tol,     //Tolerance
+                                  wgt);    //Measured Weight
+         synchronized(this._obj){
+            this._measuredTankData = td;
+         }
          this.alertErrorListeners();
       }
    }
@@ -424,12 +424,10 @@ public class GenericTank implements Tank, Runnable{
       }
       catch(IOException ioe){
          isPath = false;
-         ioe.printStackTrace();  //Temporary
          throw ioe;
       }
       catch(NullPointerException npe){
          isPath = false;
-         npe.printStackTrace(); //Temporary
       }
       finally{
          return isPath;
