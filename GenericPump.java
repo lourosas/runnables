@@ -84,12 +84,46 @@ public class GenericPump implements Pump, Runnable{
    //
    //
    //
-   private void alertErrorListeners(){}
+   private void alertErrorListeners(){
+      String error = null;
+      PumpData pd  = null;
+      synchronized(this._obj){
+         pd     = this._measuredPumpData;
+         error  = pd.error();
+      }
+      try{
+         Iterator<ErrorListener> it = this._errorListeners.iterator();
+         while(it.hasNext()){
+            it.next().errorOccurred(new ErrorEvent(this, pd, error));
+         }
+      }
+      catch(NullPointerException npe){}
+   }
 
    //
    //
    //
-   private void alertSubscribers(){}
+   private void alertSubscribers(){
+      PumpData            pd = null;
+      LaunchStateSubstate ss = this._state;
+
+      String event = ss.state() + ", " + ss.ascentSubstate();
+      event += ", " + ss.ignitionSubstate() + ", ";
+      event += ss.prelaunchSubstate();
+      synchronized(this._obj){
+         pd = this._measuredPumpData;
+      }
+      try{
+         Iterator<SystemListener> it = null;
+         it = this._systemListeners.iterator();
+         while(it.hasNext()){
+            MissionSystemEvent mse = null;
+            mse = new MissionSystemEvent(this,pd,event,ss);
+            it.next().update(mse);
+         }
+      }
+      catch(NullPointerException npe){}
+   }
 
    //
    //
@@ -173,7 +207,25 @@ public class GenericPump implements Pump, Runnable{
    //
    //
    //
+   private void measure(){
+      try{
+         if(this._feeder != null){
+            RocketData    rd = (RocketData)this._feeder.monitor();
+         }
+         else{
+            throw new NullPointerException("No DataFeeder");
+         }
+      }
+      catch(ClassCastException cce){}
+      catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
    private void monitorPump(){
+      this.measure();
+      this.setUpPumpData();
    }
 
    //
@@ -189,63 +241,10 @@ public class GenericPump implements Pump, Runnable{
       }
    }
 
-   //This this going to need to change!!!!
-   //
-   //
-   private void setPumpData(List<Hashtable<String,String>> data){
-      for(int i = 0; i < data.size(); ++i){
-         Hashtable<String,String> ht = data.get(i);
-         try{
-            int stage = Integer.parseInt(ht.get("stage"));
-            int tank  = Integer.parseInt(ht.get("tanknumber"));
-            if((this._tank == tank) && (this._stage == stage)){
-               System.out.println("Pump: "+ht);
-               double rate = Double.parseDouble(ht.get("rate"));
-               Double d   = Double.parseDouble(ht.get("temperature"));
-               double temp = d;
-               d = Double.parseDouble(ht.get("tolerance"));
-               double tol = d;
-               PumpData pd = new GenericPumpData(null,  //Error
-                                                 rate,  //rate
-                                                 tank,  //Tank Number
-                                                 false, //isError
-                                                 stage, //Stage
-                                                 temp,  //Temperature
-                                                 tol,   //Tolerance
-                                                 null   //Fuel Type
-                                                 );
-               this._pumpData = pd;
-            }
-         }
-         catch(NumberFormatException nfe){
-            this._pumpData = null;
-         }
-      }
-   }
-
    //
    //
    //
-   private void setUpPumpData(double flow, double temp){
-      PumpData      pd = null;
-      int         tank = this._pumpData.index(); //Tank Number
-      int        stage = this._pumpData.stage();
-      double tolerance = this._pumpData.tolerance();
-      String type      = this._pumpData.type();
-
-      pd = new GenericPumpData(null,       //error
-                               flow,       //rate
-                               tank,       //tank
-                               false,      //isError
-                               stage,      //stage
-                               temp,       //temperature
-                               tolerance,  //tolerance
-                               type        //Fuel Type
-                               );
-      synchronized(this._obj){
-         this._measuredPumpData = pd;
-      }
-   }
+   private void setUpPumpData(){}
 
    //
    //

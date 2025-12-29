@@ -105,7 +105,7 @@ public class GenericTank implements Tank, Runnable{
       
       String event = ss.state()+", "+ss.ascentSubstate();
       event += ", "+ss.ignitionSubstate()+", ";
-      event += ", "+ss.prelaunchSubstate();
+      event += ss.prelaunchSubstate();
       synchronized(this._obj){
          td = this._measuredTankData;
       }
@@ -441,6 +441,7 @@ public class GenericTank implements Tank, Runnable{
       try{
          if(this._feeder != null){
             RocketData rd = (RocketData)this._feeder.monitor(); 
+            //probably needs to change!
             StageData  sd = rd.stage(this._stageNumber);
             FuelSystemData fsd = sd.fuelSystemData();
             List<TankData> lst = fsd.tankData();
