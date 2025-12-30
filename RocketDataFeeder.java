@@ -178,7 +178,6 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
                                            sd,  //Stage Data
                                            tol);//Tolerance
          this._initRocketData = rd;
-         System.out.println(this._initRocketData);
       }
       catch(IOException ioe){
          ioe.printStackTrace();

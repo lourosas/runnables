@@ -216,7 +216,7 @@ public class GenericRocketData implements RocketData{
    //
    public StageData stage(int stage){
       try{
-         return this._stageData.get(stage);
+         return this._stageData.get(stage - 1);
       }
       catch(IndexOutOfBoundsException oob){
          return null;
