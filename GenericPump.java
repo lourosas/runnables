@@ -210,14 +210,44 @@ public class GenericPump implements Pump, Runnable{
    private void measure(){
       try{
          if(this._feeder != null){
-            RocketData    rd = (RocketData)this._feeder.monitor();
+            RocketData rd = (RocketData)this._feeder.monitor();
+            StageData  sd = rd.stage(this._stage);
+            FuelSystemData fsd = sd.fuelSystemData();
+            List<PumpData> lst = fsd.pumpData(); 
+            Iterator<PumpData> it = lst.iterator();
+            while(it.hasNext()){
+               PumpData pd = it.next();
+               int sn  = pd.stage();
+               int idx = pd.index();
+               if(this._stage == sn && this._tank == idx){
+                  synchronized(this._obj){
+                     this._measuredPumpData = pd;
+                  }
+               }
+            }
          }
          else{
             throw new NullPointerException("No DataFeeder");
          }
       }
-      catch(ClassCastException cce){}
-      catch(NullPointerException npe){}
+      catch(ClassCastException cce){
+         try{
+            synchronized(this._obj){
+               PumpData pd = (PumpData)this._feeder.monitor();
+               this._measuredPumpData = pd;
+            }
+         }
+         catch(ClassCastException e){
+            cce.printStackTrace();
+            throw new NullPointerException("No PumpDataFeeder");
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         synchronized(this._obj){
+            this._measuredPumpData = this._pumpData;
+         }
+      }
    }
 
    //
@@ -340,7 +370,7 @@ public class GenericPump implements Pump, Runnable{
             }
             if(this._state != null){
                if(this._state.state() == INIT){
-                  if(counter++%15000 == 0){
+                  if(counter++%500 == 0){
                      //Check every 15 seconds for the time being
                      check = true;
                   }
