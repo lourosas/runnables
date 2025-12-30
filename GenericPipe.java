@@ -33,18 +33,18 @@ public class GenericPipe implements Pipe, Runnable{
    private boolean  _kill;
    private int      _tank;  //Tank Number (1,2)
    private int      _stage; //Stage Number (1...total stages)
-   private boolean  _start;
    //Pipe Number for the Tank (1,2)--corresponds to the engine...
    private int      _number; 
    private double   _tolerance;
 
-   private DataFeeder          _feeder;
-   private List<ErrorListener> _errorListeners;
-   private LaunchStateSubstate _state;
-   private Object              _obj;
-   private PipeData            _pipeData;
-   private PipeData            _measuredPipeData;
-   private Thread              _rt0;
+   private DataFeeder            _feeder;
+   private List<ErrorListener>   _errorListeners;
+   private List<SystemListeners> _systemListeners;
+   private LaunchStateSubstate   _state;
+   private Object                _obj;
+   private PipeData              _pipeData;
+   private PipeData              _measuredPipeData;
+   private Thread                _rt0;
 
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
@@ -61,6 +61,7 @@ public class GenericPipe implements Pipe, Runnable{
 
       _feeder              = null;
       _errorListeners      = null;
+      _systemListeners     = null;
       _state               = null;
       _obj                 = null;
       _pipeData            = null;
@@ -91,149 +92,64 @@ public class GenericPipe implements Pipe, Runnable{
    //
    //
    //
-   private String flowError(double flow){
-      double ll          = Double.NaN;
-      double ul          = Double.NaN;
-      String error       = null;
-      double tolerance   = Double.NaN;
-      PipeData pd        = this.myPipeData();
+   private initializePipeDataJSON(String file)throws IOException{
+      double flo = Double.NaN;    double num = Double.NaN;
+      int stg = -1; int tnk = -1; double tol = Double.NaN;
+      double temp = Double.NaN; String type = null; String err = null;
+      boolean isE = false;
+      //Test Print
+      System.out.println("Generic Pipe:  "+file);
       try{
-         tolerance = pd.tolerance();
-         if(!Double.isNaN(flow) && !Double.isNaN(tolerance)){
-            if(this._state.state() == INIT){
-               //INIT there should be NO FLOW through the pipe
-               //ANY FLOW throgh the pipe is an error!!!
-               ll = tolerance - 1.;
-               ul = 1. - tolerance;
-            }
-            else if(this._state.state() == PRELAUNCH){}
-            if(flow < ll || flow > ul){
-               error  = new String("Stage "+pd.stage());
-               error += " Tank "+pd.tank()+" Pipe "+pd.number();
-               error += " Pipe Flow Error: ";
-               if(flow < ll){
-                  error += "too low";
-               }
-               else{
-                  error += "too high";
-               }
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         List<Hashtable<String,String>> lst = read.readPipeDataInfo();
+         Iterator<Hashtable<String,String>> it = list.iterator();
+         int number = 0;
+         while(it.hasNext(){
+            Hashtable<String,String> ht = it.next();
+            ++number;
+            try{ stg = Integer.parseInt(ht.get("stage")); }
+            catch(NumberFormatException nfe){ stg = -1; }
+            try{ num = Integer.parseInt(ht.get("tanknumber")); }
+            catch(NumberFormatException nfe){ num = -1; }
+            if(_stage == stg&&_tank == num&&_number == number){
+               
             }
          }
       }
-      catch(NullPointerException npe){
-         error  = new String(npe.getMessage());
-         error += "\nStage "+pd.stage()+" Tank "+pd.tank();
-         error += " Number "+pd.number();
-         error += " Pipe Error Unknown";
-      }
-      finally{
-         return error;
+      catch(IOException ioe){
+         this._pipeData = null;
+         throw ioe;
       }
    }
-
    //
    //
    //
-   private void isError(double flow, double temp){
-      boolean isError    = false;
-      String  error      = new String();
-      String  flowError  = this.flowError(flow);
-      String  tempError  = this.temperatureError(temp);
-      if(flowError != null){
-         error  += " " + flowError;
-         isError = true;
-      }
-      if(tempError != null){
-         error   += " " + tempError;
-         isError  = true;
-      }
-      if(isError){
-         int     number= this._measuredPipeData.number();
-         int     stage = this._measuredPipeData.stage();
-         int     tank  = this._measuredPipeData.tank();
-         double  tol   = this._measuredPipeData.tolerance();
-         String  type  = this._measuredPipeData.type();
-         PipeData pd   = new GenericPipeData(error,flow,number,isError,
-                                             stage,tank,temp,tol,type);
-         synchronized(this._obj){
-            this._measuredPipeData = pd;
+   private boolean isPathFile(String file)throws IOException{
+      boolean isPath = false;
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         if(read.readPathInfo().get("parameter") == null){
+            throw new NullPointerException("Not a Path File");
          }
+         isPath = true;
       }
-   }
-
-
-   //The flow is measured in Liters/sec...converted to m^3/sec
-   //
-   //
-   private double measureFlow(){
-      double flow = 0.;
-      try{
-         PipeData pd = this.myPipeData();
-         flow        = pd.flow();
+      catch(IOException ioe){
+         isPath = false;
+         ioe.printStackTrace();
+         throw ioe;
       }
       catch(NullPointerException npe){
-         //Temporary until actual hardware is available...
-         flow = this._pipeData.flow();
+         isPath = false;
+      }
+      catch(Exception e){
+         e.printStackTrace();
+         isPath = false;
       }
       finally{
-         return flow;
+         return isPath;
       }
-   }
-
-   //
-   //
-   //
-   private double measureTemperature(){
-      double temp = Double.NEGATIVE_INFINITY;
-      try{
-         PipeData pd = this.myPipeData();
-         temp        = pd.temperature();
-      }
-      catch(NullPointerException npe){
-         //Temporary until actual hardware is available...
-         temp = this._pipeData.temperature();
-      }
-      finally{
-         return temp;
-      }
-   }
-
-   //
-   //
-   //
-   private void monitorPipe(){
-      //Measure the Current Flow
-      double flow = this.measureFlow();
-      //Measure the Temperature
-      double temp = this.measureTemperature();
-      this.setUpPipeData(flow, temp);
-      this.isError(flow, temp);
-
-   }
-
-   //
-   //
-   //
-   private PipeData myPipeData()throws NullPointerException{
-      /*
-       * This needs redoing to fit into the new DataFeeder
-       * Implementation
-      PipeData pipeData = null;
-      try{
-         RocketData          rd = this._feeder.rocketData();
-         List<StageData>   list = rd.stages();
-         Iterator<StageData> it = list.iterator();
-         boolean          found = false;
-      }
-      catch(NullPointerException npe){
-         pipeData = null;
-         throw npe;
-      }
-      finally{
-         return pipeData;
-      }
-      */
-      return null;
    }
 
    //
@@ -245,9 +161,7 @@ public class GenericPipe implements Pipe, Runnable{
          read = new LaunchSimulatorIniFileReader(file);
       }
       else if(file.toUpperCase().contains("JSON")){
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         this.setPipeData(read.readPipeDataInfo());
+         this.initializePipeDataJSON(file);
       }
    }
 
@@ -294,32 +208,6 @@ public class GenericPipe implements Pipe, Runnable{
    //
    //
    //
-   private void setUpPipeData(double flow, double temp){
-      PipeData  pd        = null;
-      int number          = this._pipeData.number(); //Engine Number
-      int stage           = this._pipeData.stage();
-      int tank            = this._pipeData.tank();   //Tank Number
-      double tolerance    = this._pipeData.tolerance();
-      String fuelType     = this._pipeData.type();   //Fuel Type
-
-      pd = new GenericPipeData(null,       //error
-                               flow,       //flow
-                               number,     //Engine Number
-                               false,      //isError
-                               stage,      //Stage Number
-                               tank,       //Tank Number
-                               temp,       //Temperature
-                               tolerance,  //Tolerance
-                               fuelType    //Fuel Type (can be null)
-                               );
-      synchronized(this._obj){
-         this._measuredPipeData = pd;
-      }
-   }
-
-   //
-   //
-   //
    private void setUpThread(){
       String name = new String("Pipe: "+this._stage+", "+this._tank);
       name += ", "+this._number;
@@ -327,49 +215,16 @@ public class GenericPipe implements Pipe, Runnable{
       this._rt0.start();
    }
 
+   ////////////////////Pipe Interface Implementation//////////////////
    //
    //
    //
-   private String temperatureError(double temp){
-      double ll        = Double.NaN;
-      double ul        = Double.NaN;
-      double tolerance = Double.NaN;
-      String error     = null;
-      PipeData pd      = this.myPipeData();
-
-      try{
-         if(!Double.isNaN(temp) && !Double.isNaN(tolerance)){
-            if(this._state.state() == INIT){
-               //Since there is NOTHING in the Tank, there should be
-               //NOTHING in the Pipe!!!
-               ul = 373.15; //Boiling point of Water in K
-               ll = 273.15; //Freezing point of Water in K
-            }
-            else if(this._state.state() == PRELAUNCH){}
-            if(temp < ll || temp > ul){
-               error  = new String("Stage "+pd.stage());
-               error += " Tank "+pd.tank()+" Pipe "+pd.number();
-               error += " Pipe Temperature Error: ";
-               if(temp < ll){
-                  error += " too low ";
-               }
-               else{
-                  error += "too high ";
-               }
-            }
-         }
-      }
-      catch(NullPointerException npe){
-         error  = new String(npe.getMessage());
-         error += "\nStage "+pd.stage()+" Tank "+pd.tank();
-         error += " Number "+pd.number();
-         error += " Pipe Error Unknown";
-      }
-      finally{
-         return error;
+   public PipeData monitor(){
+      synchronized(this._obj){
+         return this._measuredPipeData;
       }
    }
-   ////////////////////Pipe Interface Implementation//////////////////
+
    //
    //
    //
@@ -378,18 +233,13 @@ public class GenericPipe implements Pipe, Runnable{
       int stage = this._stage;
       int num   = this._number;
       if((tank > 0) && (stage > 0) && (num > 0)){
-         this.pipeData(file);
-         this._state = new LaunchStateSubstate(INIT,null,null,null);
-         this._start = true;
-      }
-   }
-
-   //
-   //
-   //
-   public PipeData monitor(){
-      synchronized(this._obj){
-         return this._measuredPipeData;
+         String pdFile = file;
+         if(this.isPathFile(pdFile)){
+            LaunchSimulatorJsonFileReader read = null;
+            read = new LaunchSimulatorJsonFileReader(pdFile);
+            pdFile = read.readPathInfo().get("pipe");
+         }
+         this.pipeData(pdFile);
       }
    }
 
@@ -407,6 +257,18 @@ public class GenericPipe implements Pipe, Runnable{
    //
    public void addErrorListener(ErrorListener listener){}
 
+   //
+   //
+   //
+   public void addSystemListener(SystemListener listener){}
+
+   //
+   //
+   //
+   public void setStateSubstate(LaunchStateSubstate stateSubstate){
+      this._state = stateSubstate;
+   }
+
    ///////////////////Runnable Interface Implementation///////////////
    //
    //
@@ -417,16 +279,7 @@ public class GenericPipe implements Pipe, Runnable{
             if(this._kill){
                throw new InterruptedException();
             }
-            if(this._start){
-               this.monitorPipe();
-               if(this._state.state() == INIT){
-                  //For later determination
-                  Thread.sleep(7500);
-               }
-            }
-            else{
-               Thread.sleep(1);
-            }
+            Thread.sleep(1);
          }
       }
       catch(InterruptedException ie){}
