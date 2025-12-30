@@ -128,7 +128,82 @@ public class GenericPump implements Pump, Runnable{
    //
    //
    //
-   private void checkErrors(){}
+   private void checkErrors(){
+      boolean  isError = false;
+      PumpData pd      = null;
+      synchronized(this._obj){
+         pd = this._measuredPumpData;
+      }
+      String err = new String();
+      double flw = pd.flow(); double temp = pd.temperature();
+      double tol = pd.tolerance();  String type = pd.type();
+      
+      if(this.checkFlow()){
+         err    += "\nFlow Rate Error";
+         isError = true;
+      }
+      if(this.checkTemperature()){
+         err    += "\nTemperature Error";
+         isError = true;
+      }
+      if(isError){
+         pd = new GenericPumpData(
+                                   err,         //Error
+                                   flw,         //Flow
+                                   this._tank,  //Tank
+                                   isError,     //Error
+                                   this._stage, //Stage
+                                   temp,        //Temperature
+                                   tol,         //Tolerance
+                                   type);       //Type
+         synchronized(this._obj){
+            this._measuredPumpData = pd;
+         }
+         this.alertErrorListeners();
+      }
+   }
+
+   //
+   //
+   //
+   private boolean checkFlow(){
+      boolean isError   = false;
+      double  flow      = Double.NaN;
+      double  tolerance = Double.NaN;
+      synchronized(this._obj){
+         flow =      this._measuredPumpData.flow();
+         tolerance = this._measuredPumpData.tolerance();
+      }
+      double min = Double.NaN; double max = Double.NaN;
+      //In the Initialization State, nothing should be flowing w/in
+      //Tolerance
+      if(this._state.state() == INIT){
+         max = 1. - tolerance;
+         isError |= (flow > max);
+      }
+      return  isError;
+   }
+
+   //
+   //
+   //
+   private boolean checkTemperature(){
+      boolean isError     = false;
+      double  temperature = Double.NaN;
+      double  tolerance   = Double.NaN;
+      synchronized(this._obj){
+         temperature = this._measuredPumpData.temperature();
+         tolerance   = this._measuredPumpData.tolerance();
+      }
+      double min = Double.NaN; double max = Double.NaN;
+      //In the Initialization State, anything between the Freezing and
+      //Boiling point of water is fine
+      if(this._state.state() == INIT){
+         min = 273.15; max = 373.15;
+         isError |= (temperature < min || temperature > max);
+      }
+      return isError;
+   }
 
    //
    //
@@ -255,7 +330,6 @@ public class GenericPump implements Pump, Runnable{
    //
    private void monitorPump(){
       this.measure();
-      this.setUpPumpData();
    }
 
    //
@@ -270,11 +344,6 @@ public class GenericPump implements Pump, Runnable{
          this.initializePumpDataJSON(file);
       }
    }
-
-   //
-   //
-   //
-   private void setUpPumpData(){}
 
    //
    //
