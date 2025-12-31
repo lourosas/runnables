@@ -30,43 +30,43 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    private LaunchStateSubstate.State IGNITION  = null;
    private LaunchStateSubstate.State LAUNCH    = null; 
 
-   private int                 _engines;
-   private boolean             _kill;
-   private int                 _stageNumber;
-   private boolean             _start;
+   private int                  _engines;
+   private boolean              _kill;
+   private int                  _stageNumber;
 
-   private List<ErrorListener> _errorListeners;
-   private DataFeeder          _feeder;
-   private Object              _obj;
-   private Tank                _fuel;
-   private Tank                _oxidizer;
-   private List<Pipe>          _pipes;
-   private Pump                _fuelPump;
-   private Pump                _oxidizerPump;
-   private Thread              _rt0;
-   private FuelSystemData      _fuelSystemData;
-   private LaunchStateSubstate _state;
+   private List<ErrorListener>  _errorListeners;
+   private List<SystemListener> _systemListeners;
+   private DataFeeder           _feeder;
+   private Object               _obj;
+   private Tank                 _fuel;
+   private Tank                 _oxidizer;
+   private List<Pipe>           _pipes;
+   private Pump                 _fuelPump;
+   private Pump                 _oxidizerPump;
+   private Thread               _rt0;
+   private FuelSystemData       _fuelSystemData;
+   private LaunchStateSubstate  _state;
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
       PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
       IGNITION  = LaunchStateSubstate.State.IGNITION;
       LAUNCH    = LaunchStateSubstate.State.LAUNCH;
 
-      _engines        = -1;
-      _kill           = false;
-      _stageNumber    = -1;
-      _start          = false;
-      _errorListeners = null;
-      _feeder         = null;
-      _fuel           = null;
-      _obj            = null;
-      _oxidizer       = null;
-      _pipes          = null;
-      _oxidizerPump   = null;
-      _fuelPump       = null;
-      _rt0            = null;
-      _fuelSystemData = null;
-      _state          = null;
+      _engines         = -1;
+      _kill            = false;
+      _stageNumber     = -1;
+      _errorListeners  = null;
+      _systemListeners = null;
+      _feeder          = null;
+      _fuel            = null;
+      _obj             = null;
+      _oxidizer        = null;
+      _pipes           = null;
+      _oxidizerPump    = null;
+      _fuelPump        = null;
+      _rt0             = null;
+      _fuelSystemData  = null;
+      _state           = null;
    };
 
    ////////////////////////////Constructor////////////////////////////
@@ -213,6 +213,25 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    //
    //
    //
+   public FuelSystemData monitor(){
+      //To be determined...
+      FuelSystemData fsd = null;
+      return fsd;
+   }
+
+   //
+   //
+   //
+   public void initialize(String file)throws IOException{
+      System.out.println("Fuel System:  "+file);
+      this.setUpTanks(file);
+      this.setUpPumps(file);
+      this.setUpPipes(file);
+   }
+
+   //
+   //
+   //
    public void addDataFeeder(DataFeeder feeder){
       if(feeder != null){
          this._feeder = feeder;
@@ -252,22 +271,13 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    //
    //
    //
-   public void initialize(String file)throws IOException{
-      System.out.println("Fuel System:  "+file);
-      this.setUpTanks(file);
-      this.setUpPumps(file);
-      this.setUpPipes(file);
-      this._state = new LaunchStateSubstate(INIT,null,null,null);
-      this._start = true;
-   }
+   public void addSystemListener(SystemListener listener){}
 
    //
    //
    //
-   public FuelSystemData monitor(){
-      //To be determined...
-      FuelSystemData fsd = null;
-      return fsd;
+   public void setStateSubstate(LaunchStateSubstate stateSubstate){
+      //Set up State Substate for the object and the components...
    }
 
    //////////////////////Runnable Implementation//////////////////////
@@ -276,39 +286,27 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    //
    public void run(){
       try{
-         int count = 0;
+         int count     = 0;
+         boolean check = false;
          while(true){
             if(this._kill){
                throw new InterruptedException();
             }
-            if(this._start){
-               //Monitor at a constant pace regardless of
-               //State/Substate
-               List<TankData> tankData = this.monitorTanks();
-               List<PumpData> pumpData = this.monitorPumps();
-               List<PipeData> pipeData = this.monitorPipes();
-               //if(isError()){ this.alertErrorListeners(); }
-               Thread.sleep(10);
-               if(count%100 == 0){
-                  System.out.println("******FuelSystem TankData*****");
-                  System.out.println(tankData);
-                  System.out.println("Count: "+count);
-                  System.out.println("******FuelSystem TankData*****");
-                  System.out.println("******FuelSystem PumpData*****");
-                  System.out.println("Count: "+count);
-                  System.out.println(pumpData);
-                  System.out.println("******FuelSystem PumpData*****");
-                  System.out.println("******FuelSystem PipeData*****");
-                  System.out.println("Count: "+count);
-                  System.out.println(pipeData);
-                  System.out.println("******FuelSystem PipeData*****");
-
+            if(this._state != null){
+               if(this._state.state() == INIT){
+                  if(count++%10 == 0){
+                     check = true;
+                     count = 1; //Reset the counter
+                  }
                }
-               ++count;
             }
-            else{ 
-               Thread.sleep(1);
+            if(check){
+               this.monitorTanks();
+               this.monitorPumps();
+               this.monitorPipes();
+               check = false;
             }
+            Thread.sleep(1);
          }
       }
       catch(InterruptedException ie){}

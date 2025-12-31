@@ -22,9 +22,11 @@ import rosas.lou.runnables.*;
 import java.io.IOException;
 
 public interface FuelSystem{
-   public void initialize(String file)throws IOException;
    public FuelSystemData monitor();
+   public void initialize(String file)throws IOException;
    public void addDataFeeder(DataFeeder feeder);
    public void addErrorListener(ErrorListener listener);
+   public void addSystemListener(SystemListener listener);
+   public void setStateSubstate(LaunchStateSubstate cond);
 }
 //////////////////////////////////////////////////////////////////////
