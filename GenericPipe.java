@@ -39,7 +39,7 @@ public class GenericPipe implements Pipe, Runnable{
 
    private DataFeeder            _feeder;
    private List<ErrorListener>   _errorListeners;
-   private List<SystemListeners> _systemListeners;
+   private List<SystemListener>  _systemListeners;
    private LaunchStateSubstate   _state;
    private Object                _obj;
    private PipeData              _pipeData;
@@ -55,7 +55,6 @@ public class GenericPipe implements Pipe, Runnable{
       _kill                = false;
       _tank                = -1;
       _stage               = -1;
-      _start               = false;
       _number              = -1; //Engine
       _tolerance           = Double.NaN;
 
@@ -92,8 +91,23 @@ public class GenericPipe implements Pipe, Runnable{
    //
    //
    //
-   private initializePipeDataJSON(String file)throws IOException{
-      double flo = Double.NaN;    double num = Double.NaN;
+   private void alertErrorListeners(){}
+
+   //
+   //
+   //
+   private void alertSubscribers(){}
+
+   //
+   //
+   //
+   private void checkErrors(){}
+
+   //
+   //
+   //
+   private void initializePipeDataJSON(String file)throws IOException{
+      double flo = Double.NaN;    int num = 0;
       int stg = -1; int tnk = -1; double tol = Double.NaN;
       double temp = Double.NaN; String type = null; String err = null;
       boolean isE = false;
@@ -103,17 +117,31 @@ public class GenericPipe implements Pipe, Runnable{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
          List<Hashtable<String,String>> lst = read.readPipeDataInfo();
-         Iterator<Hashtable<String,String>> it = list.iterator();
-         int number = 0;
-         while(it.hasNext(){
+         Iterator<Hashtable<String,String>> it = lst.iterator();
+         while(it.hasNext()){
+            ++num;
             Hashtable<String,String> ht = it.next();
-            ++number;
             try{ stg = Integer.parseInt(ht.get("stage")); }
             catch(NumberFormatException nfe){ stg = -1; }
-            try{ num = Integer.parseInt(ht.get("tanknumber")); }
-            catch(NumberFormatException nfe){ num = -1; }
-            if(_stage == stg&&_tank == num&&_number == number){
-               
+            try{ tnk = Integer.parseInt(ht.get("tanknumber")); }
+            catch(NumberFormatException nfe){ tnk = -1; }
+            if(_stage == stg && _tank == tnk &&  _number == num){
+               try{ flo = Double.parseDouble(ht.get("rate")); }
+               catch(NumberFormatException nfe){ flo = Double.NaN; }
+               try{temp= Double.parseDouble(ht.get("temperature")); }
+               catch(NumberFormatException nfe){temp = Double.NaN; }
+               try{ tol = Double.parseDouble(ht.get("tolerance")); }
+               catch(NumberFormatException nfe){ tol = Double.NaN; }
+               this._pipeData = new GenericPipeData(
+                                             err,     //Error
+                                             flo,     //flow
+                                             num,     //Pipe No.
+                                             isE,     //Is Error
+                                             stg,     //Stage
+                                             tnk,     //Tank Number
+                                             temp,    //Temperature
+                                             tol,     //Tolerance
+                                             type);   //Type
             }
          }
       }
@@ -155,6 +183,46 @@ public class GenericPipe implements Pipe, Runnable{
    //
    //
    //
+   private void measure(){
+      try{
+         if(this._feeder != null){
+            RocketData rd = (RocketData)this._feeder.monitor();
+            System.out.println(rd);
+         }
+         else{
+            throw new NullPointerException("No DataFeeder");
+         }
+      }
+      catch(ClassCastException cce){
+         try{
+            synchronized(this._obj){
+               PipeData pd = (PipeData)this._feeder.monitor();
+               this._measuredPipeData = pd;
+            }
+         }
+         catch(ClassCastException e){
+            e.printStackTrace();
+            throw new NullPointerException("No PumpDataFeeder");
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         synchronized(this._obj){
+            this._measuredPipeData = this._pipeData;
+         }
+      }
+   }
+
+   //
+   //
+   //
+   private void monitorPipe(){
+      this.measure();
+   }
+
+   //
+   //
+   //
    private void pipeData(String file)throws IOException{
       if(file.toUpperCase().contains("INI")){
          LaunchSimulatorIniFileReader read = null;
@@ -162,46 +230,6 @@ public class GenericPipe implements Pipe, Runnable{
       }
       else if(file.toUpperCase().contains("JSON")){
          this.initializePipeDataJSON(file);
-      }
-   }
-
-   //
-   //
-   //
-   private void setPipeData(List<Hashtable<String,String>> data ){
-      System.out.println("Pipes: "+data);
-      //This will need to change similar to GenericStage!
-      //Use PipeData
-      for(int i = 0; i < data.size(); ++i){
-         Hashtable<String,String> ht = data.get(i);
-         try{
-            int tk     = this._tank;   //Tank Number
-            int st     = this._stage;  //Stage Number
-            int num    = this._number; //Engine Number
-            int tank   = Integer.parseInt(ht.get("tanknumber"));
-            int stage  = Integer.parseInt(ht.get("stage"));
-            if((tk == tank) && (st == stage)){
-               System.out.println("Engine:  "+num);
-               System.out.println(ht);
-               double rate=Double.parseDouble(ht.get("rate"));
-               double temp=Double.parseDouble(ht.get("temperature"));
-               double tol = Double.parseDouble(ht.get("tolerance"));
-               PipeData pd = new GenericPipeData(null,  //Error
-                                                 rate,  //Flow
-                                                 num,   //Engine Number
-                                                 false, //isError
-                                                 st,    //Stage Number
-                                                 tk,    //Tank Number
-                                                 temp,  //Temperature
-                                                 tol,   //Tolerance
-                                                 null   //Fuel Type
-                                                 );
-               this._pipeData = pd;
-            }
-         }
-         catch(NumberFormatException nfe){
-            this._pipeData = null;
-         }
       }
    }
 
@@ -274,10 +302,26 @@ public class GenericPipe implements Pipe, Runnable{
    //
    //
    public void run(){
+      int counter   = 0;
+      boolean check = false;
       try{
          while(true){
             if(this._kill){
                throw new InterruptedException();
+            }
+            if(this._state != null){
+               if(this._state.state() == INIT){
+                  if(counter++%1500 == 0){
+                     check = true;
+                     counter = 1;//reset the counter
+                  }
+               }
+            }
+            if(check){
+               this.monitorPipe();
+               this.checkErrors();
+               this.alertSubscribers();
+               check = false;
             }
             Thread.sleep(1);
          }

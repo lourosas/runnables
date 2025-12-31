@@ -313,7 +313,7 @@ public class GenericPump implements Pump, Runnable{
             }
          }
          catch(ClassCastException e){
-            cce.printStackTrace();
+            e.printStackTrace();
             throw new NullPointerException("No PumpDataFeeder");
          }
       }
@@ -440,8 +440,8 @@ public class GenericPump implements Pump, Runnable{
             if(this._state != null){
                if(this._state.state() == INIT){
                   if(counter++%500 == 0){
-                     //Check every 15 seconds for the time being
                      check = true;
+                     counter = 1; //reset the counter
                   }
                }
             }
