@@ -91,17 +91,127 @@ public class GenericPipe implements Pipe, Runnable{
    //
    //
    //
-   private void alertErrorListeners(){}
+   private void alertErrorListeners(){
+      String error = null;
+      PipeData pd  = null;
+      synchronized(this._obj){
+         pd    = this._measuredPipeData;
+         error = pd.error();
+      }
+      try{
+         Iterator<ErrorListener> it = this._errorListeners.iterator();
+         while(it.hasNext()){
+            it.next().errorOccurred(new ErrorEvent(this, pd, error));
+         }
+      }
+      catch(NullPointerException npe){}
+   }
 
    //
    //
    //
-   private void alertSubscribers(){}
+   private void alertSubscribers(){
+      PipeData            pd = null;
+      LaunchStateSubstate ss = this._state;
+      
+      String event = ss.state()+", "+ss.ascentSubstate();
+      event += ", "+ss.ignitionSubstate()+", ";
+      event += ss.prelaunchSubstate();
+      synchronized(this._obj){
+         pd = this._measuredPipeData;
+      }
+      try{
+         Iterator<SystemListener> it = null;
+         it = this._systemListeners.iterator();
+         while(it.hasNext()){
+            MissionSystemEvent mse = null;
+            mse = new MissionSystemEvent(this,pd,event,ss);
+            it.next().update(mse);
+         }
+      }
+      catch(NullPointerException npe){}
+   }
 
    //
    //
    //
-   private void checkErrors(){}
+   private void checkErrors(){
+      boolean  isError = false;
+      PipeData pd      = null;
+      synchronized(this._obj){
+         pd = this._measuredPipeData;
+      }
+      String err = new String();
+      double flw = pd.flow();      double temp = pd.temperature();
+      double tol = pd.tolerance(); String type = pd.type();
+
+      if(this.checkFlow()){
+         err     += "\nFlow Rate Error";
+         isError  = true;
+      }
+      if(this.checkTemperature()){
+         err     += "\nTemperature Error";
+         isError  = true;
+      }
+      if(isError){
+         pd = new GenericPipeData(
+                                  err,          //Error
+                                  flw,          //Flow
+                                  this._number, //Pipe Number
+                                  isError,      //Is Error
+                                  this._stage,  //Stage
+                                  this._tank,   //Tank Number
+                                  temp,         //Temperature
+                                  tol,          //Tolerance
+                                  type);        //Type
+         synchronized(this._obj){
+            this._measuredPipeData = pd;
+         }
+         this.alertErrorListeners();
+      }
+   }
+
+   //
+   //
+   //
+   private boolean checkFlow(){
+      boolean isError    = false;
+      double  flow       = Double.NaN;
+      double  tolerance  = Double.NaN;
+      synchronized(this._obj){
+         flow      = this._measuredPipeData.flow();
+         tolerance = this._measuredPipeData.tolerance();
+      }
+      double min = Double.NaN; double max = Double.NaN;
+      //In the Initialization State, nothing should be flowing
+      //outsid of Tolerance
+      if(this._state.state() == INIT){
+         max = 1. - tolerance;
+         isError |= (flow > max);
+      }
+      return isError;
+   }
+
+   //
+   //
+   //
+   private boolean checkTemperature(){
+      boolean isError     = false;
+      double  temperature = Double.NaN;
+      double  tolerance   = Double.NaN;
+      synchronized(this._obj){
+         temperature = this._measuredPipeData.temperature();
+         tolerance   = this._measuredPipeData.tolerance();
+      }
+      double min = Double.NaN;  double max = Double.NaN;
+      //In the Initialization State, anything between the freezing and
+      //Boiling points of wather is acceptable
+      if(this._state.state() == INIT){
+         min = 273.15; max = 373.15;
+         isError |= (temperature < min || temperature > max);
+      }
+      return isError;
+   }
 
    //
    //
@@ -187,7 +297,20 @@ public class GenericPipe implements Pipe, Runnable{
       try{
          if(this._feeder != null){
             RocketData rd = (RocketData)this._feeder.monitor();
-            System.out.println(rd);
+            StageData  sd = rd.stage(this._stage);
+            FuelSystemData fsd = sd.fuelSystemData();
+            List<PipeData> lst = fsd.pipeData();
+            Iterator<PipeData> it = lst.iterator();
+            int num = 0;
+            while(it.hasNext()){
+               ++num;
+               PipeData pd = it.next();
+               int sn  = pd.stage();
+               int tnk = pd.tank();
+               if(_stage == sn&&_tank == tnk&&_number == num){
+                  this._measuredPipeData = pd;
+               }
+            }
          }
          else{
             throw new NullPointerException("No DataFeeder");
@@ -283,12 +406,32 @@ public class GenericPipe implements Pipe, Runnable{
    //
    //
    //
-   public void addErrorListener(ErrorListener listener){}
+   public void addErrorListener(ErrorListener listener){
+      try{
+         if(listener != null){
+            this._errorListeners.add(listener);
+         }
+      }
+      catch(NullPointerException npe){
+         this._errorListeners = new LinkedList<ErrorListener>();
+         this._errorListeners.add(listener);
+      }
+   }
 
    //
    //
    //
-   public void addSystemListener(SystemListener listener){}
+   public void addSystemListener(SystemListener listener){
+      try{
+         if(listener != null){
+            this._systemListeners.add(listener);
+         }
+      }
+      catch(NullPointerException npe){
+         this._systemListeners = new LinkedList<SystemListener>();
+         this._systemListeners.add(listener);
+      }
+   }
 
    //
    //
