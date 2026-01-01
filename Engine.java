@@ -23,8 +23,11 @@ import rosas.lou.runnables.*;
 import java.io.IOException;
 
 public interface Engine{
+   public EngineData monitor();
    public void initialize(String file)throws IOException;
-   public EngineData monitorPrelaunch();
-   public EngineData monitorIgnition();
-   public EngineData monitorLaunch();
+   public void addDataFeeder(DataFeeder feeder);
+   public void addErrorListener(ErrorListener listener);
+   public void addSystemListener(SystemListener listener);
+   public void setStateSubstate(LaunchStateSubstate cond);
 }
+//////////////////////////////////////////////////////////////////////
