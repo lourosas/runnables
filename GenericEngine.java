@@ -158,43 +158,6 @@ public class GenericEngine implements Engine, Runnable{
       }
    }
 
-   //
-   //
-   //
-   public EngineData monitorPrelaunch(){
-      EngineData data = null;
-      this.measureExhaustFlow();
-      this.measureTemperature();
-      this.measureFuelFlow();
-      this.determineIgnition();
-      this.isError(PRELAUNCH);
-      data = new GenericEngineData(this._stage,
-                                   this._number, //Index
-                                   this._measuredExhaustFlow,
-                                   this._measuredFuelFlow,
-                                   this._model,
-                                   this._isError,
-                                   this._error,
-                                   this._isIgnited,
-                                   this._measuredTemperature,
-                                   this._tolerance);
-      return data;
-   }
-
-   //
-   //
-   //
-   public EngineData monitorIgnition(){
-      return null;
-   }
-
-   //
-   //
-   //
-   public EngineData monitorLaunch(){
-      return null;
-   }
-
    //////////////////Runnable Interface Implementation////////////////
    //
    //
