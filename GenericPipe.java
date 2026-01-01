@@ -217,25 +217,27 @@ public class GenericPipe implements Pipe, Runnable{
    //
    //
    private void initializePipeDataJSON(String file)throws IOException{
-      double flo = Double.NaN;    int num = 0;
+      double flo = Double.NaN; int num = this._number;
       int stg = -1; int tnk = -1; double tol = Double.NaN;
       double temp = Double.NaN; String type = null; String err = null;
       boolean isE = false;
       //Test Print
       System.out.println("Generic Pipe:  "+file);
+      System.out.println(_stage+", "+_tank+", "+_number);
       try{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
          List<Hashtable<String,String>> lst = read.readPipeDataInfo();
          Iterator<Hashtable<String,String>> it = lst.iterator();
          while(it.hasNext()){
-            ++num;
             Hashtable<String,String> ht = it.next();
             try{ stg = Integer.parseInt(ht.get("stage")); }
             catch(NumberFormatException nfe){ stg = -1; }
             try{ tnk = Integer.parseInt(ht.get("tanknumber")); }
             catch(NumberFormatException nfe){ tnk = -1; }
-            if(_stage == stg && _tank == tnk &&  _number == num){
+            System.out.println("in loop "+stg+", "+tnk+", "+num);
+            if(this._stage == stg && this._tank == tnk){
+               num = this._number;
                try{ flo = Double.parseDouble(ht.get("rate")); }
                catch(NumberFormatException nfe){ flo = Double.NaN; }
                try{temp= Double.parseDouble(ht.get("temperature")); }
@@ -252,6 +254,7 @@ public class GenericPipe implements Pipe, Runnable{
                                              temp,    //Temperature
                                              tol,     //Tolerance
                                              type);   //Type
+               System.out.println("GenericPipeData"+this._pipeData);
             }
          }
       }

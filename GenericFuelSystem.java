@@ -86,7 +86,62 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
       this.setUpThread();
    }
 
-   ////////////////////Private Methods////////////////////////////////
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void alertErrorListeners(){
+      String error       = null;
+      FuelSystemData fsd = null;
+      synchronized(this._obj){
+         fsd   = this._fuelSystemData;
+         error = fsd.error();
+      }
+      try{
+         Iterator<ErrorListener> it = this._errorListeners.iterator();
+         while(it.hasNext()){
+            it.next().errorOccurred(new ErrorEvent(this,fsd,error));
+         }
+      }
+      catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
+   private void alertSubscribers(){
+      FuelSystemData fsd     = null;
+      LaunchStateSubstate ss = this._state;
+
+      String event = ss.state()+", "+ss.ascentSubstate();
+      event += ", "+ss.ignitionSubstate()+", ";
+      event += ss.prelaunchSubstate();
+      synchronized(this._obj){
+         fsd = this._fuelSystemData;
+      }
+      try{
+         Iterator<SystemListener> it = null;
+         it = this._systemListeners.iterator();
+         while(it.hasNext()){
+            MissionSystemEvent mse = null;
+            mse = new MissionSystemEvent(this,fsd,event,ss);
+            it.next().update(mse);
+         }
+      }
+      catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
+   private void checkErrors(){
+      synchronized(this._obj){
+         if(this._fuelSystemData.isError()){
+            this.alertErrorListeners();
+         }
+      }
+   }
+
    //
    //
    //
@@ -156,9 +211,9 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    //
    private void setFuelSystemData
    (
-      List<Pipe> pipes,
-      List<Pump> pumps,
-      List<Tank> tanks
+      List<PipeData> pipes,
+      List<PumpData> pumps,
+      List<TankData> tanks
    ){
       try{
          if(pipes == null){
@@ -187,8 +242,10 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
          npe.printStackTrace(); //Temporary
          tanks = null;
       }
+      FuelSystemData fsd = null;
+      fsd = new GenericFuelSystemData(pipes,pumps,tanks);
       synchronized(this._obj){
-         this._fuelSystemData=new FuelSystemData(pipes,pumps,tanks);
+         this._fuelSystemData = fsd;
       }
    }
 
@@ -331,7 +388,7 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
       //Set up State Substate for the object and the components...
       this._state = stateSubstate;
       this._fuelPump.setStateSubstate(this._state);
-      this._oxidierPump.setStateSubstate(this._state);
+      this._oxidizerPump.setStateSubstate(this._state);
       Iterator<Pipe> it = this._pipes.iterator();
       while(it.hasNext()){
          it.next().setStateSubstate(this._state);
@@ -361,9 +418,9 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
                }
             }
             if(check){
-               List<Tank> tanks = this.monitorTanks();
-               List<Pump> pumps = this.monitorPumps();
-               List<Pipe> pipes = this.monitorPipes();
+               List<TankData> tanks = this.monitorTanks();
+               List<PumpData> pumps = this.monitorPumps();
+               List<PipeData> pipes = this.monitorPipes();
                this.setFuelSystemData(pipes, pumps, tanks);
                this.checkErrors();
                this.alertSubscribers();
