@@ -56,11 +56,11 @@ public class GenericFuelSystemData implements FuelSystemData{
       this._pumps = pumpData;
       this._tanks = tankData;
       try{ this._numPipes = this._pipes.size(); }
-      catch(NullPointerException npe){}
+      catch(NullPointerException npe){ this._pipes = null; }
       try{ this._numPumps = this._pumps.size(); }
-      catch(NullPointerException npe){}
+      catch(NullPointerException npe){ this._pumps = null; }
       try{ this._numTanks = this._tanks.size(); }
-      catch(NullPointerException npe){}
+      catch(NullPointerException npe){ this._tanks = null; }
       this.errors();
    }
 

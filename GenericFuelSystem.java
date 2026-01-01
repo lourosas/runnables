@@ -154,6 +154,47 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    //
    //
    //
+   private void setFuelSystemData
+   (
+      List<Pipe> pipes,
+      List<Pump> pumps,
+      List<Tank> tanks
+   ){
+      try{
+         if(pipes == null){
+            throw new NullPointerException("No Pipes");
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace(); //Temporary
+         pipes = null;
+      }
+      try{
+         if(pumps == null){
+            throw new NullPointerException("No Pumps");
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace(); //Temporary
+         pumps = null;
+      }
+      try{
+         if(tanks == null){
+            throw new NullPointerException("No Tanks");
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace(); //Temporary
+         tanks = null;
+      }
+      synchronized(this._obj){
+         this._fuelSystemData=new FuelSystemData(pipes,pumps,tanks);
+      }
+   }
+
+   //
+   //
+   //
    private void setUpPipes(String file)throws IOException{
       //Number of Engines X 2(tanks)
       //Two Pipes Per Engine, per Stage, per Tank
@@ -214,9 +255,9 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    //
    //
    public FuelSystemData monitor(){
-      //To be determined...
-      FuelSystemData fsd = null;
-      return fsd;
+      synchronized(this._obj){
+         return this._fuelSystemData;
+      }
    }
 
    //
@@ -271,13 +312,32 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    //
    //
    //
-   public void addSystemListener(SystemListener listener){}
+   public void addSystemListener(SystemListener listener){
+      try{
+         if(listener != null){
+            this._systemListeners.add(listener);
+         }
+      }
+      catch(NullPointerException npe){
+         this._systemListeners = new LinkedList<SystemListener>();
+         this._systemListeners.add(listener);
+      }
+   }
 
    //
    //
    //
    public void setStateSubstate(LaunchStateSubstate stateSubstate){
       //Set up State Substate for the object and the components...
+      this._state = stateSubstate;
+      this._fuelPump.setStateSubstate(this._state);
+      this._oxidierPump.setStateSubstate(this._state);
+      Iterator<Pipe> it = this._pipes.iterator();
+      while(it.hasNext()){
+         it.next().setStateSubstate(this._state);
+      }
+      this._fuel.setStateSubstate(this._state);
+      this._oxidizer.setStateSubstate(this._state);
    }
 
    //////////////////////Runnable Implementation//////////////////////
@@ -301,9 +361,12 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
                }
             }
             if(check){
-               this.monitorTanks();
-               this.monitorPumps();
-               this.monitorPipes();
+               List<Tank> tanks = this.monitorTanks();
+               List<Pump> pumps = this.monitorPumps();
+               List<Pipe> pipes = this.monitorPipes();
+               this.setFuelSystemData(pipes, pumps, tanks);
+               this.checkErrors();
+               this.alertSubscribers();
                check = false;
             }
             Thread.sleep(1);
