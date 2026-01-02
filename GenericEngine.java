@@ -38,6 +38,7 @@ public class GenericEngine implements Engine, Runnable{
    private LaunchStateSubstate.AscentSubstate    IGNE  = null;
 
    private boolean _kill;
+   private long    _model;
    private int     _number; //Engine number in the Stage
    private int     _stage;
 
@@ -66,6 +67,7 @@ public class GenericEngine implements Engine, Runnable{
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES; 
 
       _kill              = false;
+      _model             = Long.MIN_VALUE;
       _number            = -1;
       _stage             = -1;
       _feeder            = null;
@@ -82,8 +84,9 @@ public class GenericEngine implements Engine, Runnable{
    //
    //
    //
-   public GenericEngine(int number, int stage){
+   public GenericEngine(int number, int stage, String model){
       this.setEngineNumber(number);
+      this.setModel(model);
       this.setStageNumber(number);
       this._obj = new Object();
       this.setUpThread();
@@ -113,14 +116,22 @@ public class GenericEngine implements Engine, Runnable{
    private void initializeEngDataJSON(String file)throws IOException{
       long mod   = Long.MIN_VALUE;  double exh  = Double.NaN;
       double ff  = Double.NaN;      double temp = Double.NaN;
-      double tol = Double.NaN;
+      int stg    = -1;              double tol  = Double.NaN;
       //Test Print
       System.out.println("Generic Engine: "+file);
       System.out.println(this._stage+", "+this._number);
       try{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
-
+         List<Hashtable<String,String>> lst=read.readEngineDataInfo();
+         Iterator<Hashtable<String,String>> it = lst.iterator();
+         while(it.hasNext()){
+            Hashtable<String,String> ht = it.next();
+            try{ mod = Long.parseLong(ht.get("model"),16); }
+            catch(NumberFormatException nfe){ mod = Long.MIN_VALUE; }
+            try{ stg = Integer.parseInt(ht.get("stage")); }
+            catch(NumberFormatException nfe){ stg = -1; }
+         }
       }
       catch(IOException ioe){
          this._engineData = null;
@@ -155,6 +166,36 @@ public class GenericEngine implements Engine, Runnable{
       }
       finally{
          return isPath;
+      }
+   }
+
+   //
+   //
+   //
+   private void setEngineNumber(int number){
+      if(number > -1){
+         this._number = number;
+      }
+   }
+
+   //
+   //
+   //
+   private void setModel(String model){
+      try{
+         this._model = Long.parseLong(model, 16);
+      }
+      catch(NumberFormatException nfe){
+         this._model = Long.MIN_VALUE;
+      }
+   }
+
+   //
+   //
+   //
+   private void setStageNumber(int stage){
+      if(stage > 0){
+         this._stage = stage;
       }
    }
 

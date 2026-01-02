@@ -52,6 +52,7 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    private Thread              _t0;
 
    private boolean             _isIgnited;
+   private long                _model;
    private int                 _number; //Current Engine Number
    private int                 _stage;  //Current Rocket Stage
 
@@ -77,6 +78,7 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
       _random             = null;
       _t0                 = null;
       _isIgnited          = false;
+      _model              = Long.MIN_VALUE;
       _number             = -1;
       _stage              = -1;
    };
@@ -85,10 +87,11 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public EngineDataFeeder(int stage, int number){
+   public EngineDataFeeder(int stage, int number, String model){
       this._random = new Random();
       this.setStageNumber(stage);
       this.setEngineNumber(number);
+      this.setModel(model);
       this.setUpThread();
    }
 
@@ -112,13 +115,13 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
             Hashtable<String,String> ht = it.next();
             try{ stg = Integer.parseInt(ht.get("stage")); }
             catch(NumberFormatException npe){ stg = -1; }
-            if(stg == this._stage){
+            try{ mod = Long.parseLong(ht.get("model"), 16); }
+            catch(NumberFormatException nfe){ mod=Long.MIN_VALUE; }
+            if(stg == this._stage && mod == this._model){
                try{ exf=Double.parseDouble(ht.get("exhaust_flow")); }
                catch(NumberFormatException nfe){ exf = Double.NaN; }
                try{ ff = Double.parseDouble(ht.get("fuel_flow"));}
                catch(NumberFormatException nfe){ ff = Double.NaN; }
-               try{ mod = Long.parseLong(ht.get("model"), 16); }
-               catch(NumberFormatException nfe){ mod=Long.MIN_VALUE; }
                try{temp=Double.parseDouble(ht.get("temperature"));}
                catch(NumberFormatException nfe){ temp = Double.NaN; }
                try{ tol = Double.parseDouble(ht.get("tolerance")); }
@@ -250,6 +253,18 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
                                     temp,  //Temperature
                                     tol);  //Tolerance 
          this._calcEngineData = e;
+      }
+   }
+
+   //
+   //
+   //
+   private void setModel(String model){
+      try{
+         this._model = Long.parseLong(model, 16);
+      }
+      catch(NumberFormatException nfe){
+         this._model = Long.MIN_VALUE;
       }
    }
 
