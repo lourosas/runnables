@@ -90,53 +90,83 @@ public class GenericEngine implements Engine, Runnable{
    }
 
    ////////////////////////////Private Methods////////////////////////
-   private void setEngineData
-   (
-      List<Hashtable<String,String>> data
-   ){
-      System.out.println(this._stage);
-      System.out.println(this._number);
-      System.out.println(data);
-      for(int i = 0; i < data.size(); ++i){
-         Hashtable<String, String> ht = data.get(i);
-         System.out.println(ht);
-         try{
-            String num = ht.get("stage");
-            if(Integer.parseInt(num) == this._stage){
-               int x = Integer.parseUnsignedInt(ht.get("model"),16);
-               this._model = Integer.toUnsignedLong(x);
-               //System.out.println(String.format("0x%X",this._model));
-               double d = Double.parseDouble(ht.get("exhaust_flow"));
-               this._exhaustFlow = d;
-               d = Double.parseDouble(ht.get("fuel_flow"));
-               this._fuelFlow = d;
-               d = Double.parseDouble(ht.get("temperature"));
-               this._temperature = d;
-               d = Double.parseDouble(ht.get("tolerance"));
-               this._tolerance = d;
-               System.out.println(this._tolerance);
-            }
+   //
+   //
+   //
+   private void engineData(String file)throws IOException{
+      if(file.toUpperCase().contains("INI")){
+         this.initializeEngDataINI(file);
+      }
+      else if(file.toUpperCase().contains("JSON")){
+         this.initializeEngDataJSON(file);
+      }
+   }
+
+   //
+   //
+   //
+   private void initializeEngDataINI(String file)throws IOException{}
+
+   //
+   //
+   //
+   private void initializeEngDataJSON(String file)throws IOException{
+      long mod   = Long.MIN_VALUE;  double exh  = Double.NaN;
+      double ff  = Double.NaN;      double temp = Double.NaN;
+      double tol = Double.NaN;
+      //Test Print
+      System.out.println("Generic Engine: "+file);
+      System.out.println(this._stage+", "+this._number);
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+
+      }
+      catch(IOException ioe){
+         this._engineData = null;
+         throw ioe;
+      }
+   }
+
+   //
+   //
+   //
+   private boolean isPathAndFile(String file)throws IOException{
+      boolean isPath = false;
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         if(read.readPathInfo().get("parameter") == null){
+            throw new NullPointerException("Not a Path File");
          }
-         catch(NumberFormatException nfe){}
+         isPath = true;
+      }
+      catch(IOException ioe){
+         isPath = false;
+         ioe.printStackTrace(); //Temporary
+         throw ioe;
+      }
+      catch(NullPointerException npe){
+         isPath = false;
+      }
+      catch(Exception e){
+         e.printStackTrace(); //Shold never get here
+         isPath = false;
+      }
+      finally{
+         return isPath;
       }
    }
 
    //
    //
    //
-   private void setEngineNumber(int engine){
-      if(engine > -1){
-         this._number = engine;
-      }
-   }
-
-   //
-   //
-   //
-   private void setStageNumber(int stage){
-      if(stage > 0){
-         this._stage = stage;
-      }
+   private void setUpThread(){
+      int num = this._number;
+      int stg  = this._stage;
+      String name = new String("Engine: "+stg+", "+num);
+      this._rt0 = new Thread(this, name);
+      this._rt0.start();
    }
 
    ////////////////////Engine Interface Implementation////////////////
@@ -154,8 +184,60 @@ public class GenericEngine implements Engine, Runnable{
    //
    public void initialize(String file)throws IOException{
       if(this._number > -1 && this._stage > -1){
-         this.engineData(file);
+         String engFile = file;
+         if(this.isPathFile(engFile)){
+            LaunchSimulatorJsonFileReader read = null;
+            read = new LaunchSimulatorJsonFileReader(engFile);
+            engFile = read.readPathInfo().get("engine");
+         }
+         this.engineData(engFile);
       }
+   }
+
+   //
+   //
+   //
+   public void addDataFeeder(DataFeeder feeder){
+      if(feeder != null){
+         this._feeder = feeder;
+      }
+   }
+
+   //
+   //
+   //
+   public void addErrorListener(ErrorListener listener){
+      try{
+         if(listener != null){
+            this._errorListeners.add(listener);
+         }
+      }
+      catch(NullPointerExcepetion npe){
+         this._errorListeners = new LinkedList<ErrorListeners>();
+         this._errorListeners.add(listener);
+      }
+   }
+
+   //
+   //
+   //
+   public void addSystemListener(SystemListener listener){
+      try{
+         if(listener != null){
+            this._systemListeners.add(listener);
+         }
+      }
+      catch(NullPointerException npe){
+         this._systemListeners = new LinkedList<SystemListener>();
+         this._systemListeners.add(listener);
+      }
+   }
+
+   //
+   //
+   //
+   public void setStateSubstate(LaunchStateSubstate stateSubstate){
+      this._state = stateSubstate;
    }
 
    //////////////////Runnable Interface Implementation////////////////

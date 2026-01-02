@@ -411,7 +411,7 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
             }
             if(this._state != null){
                if(this._state.state() == INIT){
-                  if(count++%10 == 0){
+                  if(count++%100 == 0){
                      check = true;
                      count = 1; //Reset the counter
                   }

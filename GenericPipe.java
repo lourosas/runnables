@@ -278,7 +278,6 @@ public class GenericPipe implements Pipe, Runnable{
       }
       catch(IOException ioe){
          isPath = false;
-         ioe.printStackTrace();
          throw ioe;
       }
       catch(NullPointerException npe){
