@@ -84,9 +84,8 @@ public class GenericEngine implements Engine, Runnable{
    //
    //
    //
-   public GenericEngine(int number, int stage, String model){
+   public GenericEngine(int number, int stage){
       this.setEngineNumber(number);
-      this.setModel(model);
       this.setStageNumber(number);
       this._obj = new Object();
       this.setUpThread();
@@ -127,8 +126,6 @@ public class GenericEngine implements Engine, Runnable{
          Iterator<Hashtable<String,String>> it = lst.iterator();
          while(it.hasNext()){
             Hashtable<String,String> ht = it.next();
-            try{ mod = Long.parseLong(ht.get("model"),16); }
-            catch(NumberFormatException nfe){ mod = Long.MIN_VALUE; }
             try{ stg = Integer.parseInt(ht.get("stage")); }
             catch(NumberFormatException nfe){ stg = -1; }
          }
@@ -175,18 +172,6 @@ public class GenericEngine implements Engine, Runnable{
    private void setEngineNumber(int number){
       if(number > -1){
          this._number = number;
-      }
-   }
-
-   //
-   //
-   //
-   private void setModel(String model){
-      try{
-         this._model = Long.parseLong(model, 16);
-      }
-      catch(NumberFormatException nfe){
-         this._model = Long.MIN_VALUE;
       }
    }
 
