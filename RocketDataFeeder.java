@@ -148,7 +148,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
          String mdl  = null;       int    stg = -1;
          double eW   = Double.NaN; double lW  = Double.NaN;;
          double tol  = Double.NaN; this._currentStage = 1;
-         double calW = Double.NaN;
+         double calW = Double.NaN; int tot = -1;
 
          int cs = this._currentStage;
 
@@ -176,7 +176,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
                                            false,//Is Error
                                            null,//Error String
                                            sd,  //Stage Data
-                                           tol);//Tolerance
+                                           tol); //Tolerance
          this._initRocketData = rd;
       }
       catch(IOException ioe){

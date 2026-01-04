@@ -32,6 +32,7 @@ public interface EngineData{
    public int     stage();
    public double  temperature();
    public double  tolerance();
+   public int     total();
    public String  toString();
 }
 //////////////////////////////////////////////////////////////////////

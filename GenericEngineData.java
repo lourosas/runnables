@@ -32,6 +32,7 @@ public class GenericEngineData implements EngineData{
    private long           _model;
    private int            _stage;
    private double         _tolerance;
+   private int            _total;
 
    {
       _currentTemp  = Double.NaN;
@@ -44,6 +45,7 @@ public class GenericEngineData implements EngineData{
       _model        = -1;
       _stage        = -1;
       _tolerance    = Double.NaN;
+      _total        = -1;
    };
 
    ////////////////////////////Constructor////////////////////////////
@@ -61,7 +63,8 @@ public class GenericEngineData implements EngineData{
       String  error,
       boolean isIgnited,
       double  temperature,
-      double  tolerance
+      double  tolerance,
+      int     total
    ){
       this.stage(stage);
       this.index(number); //Index--number of Engine
@@ -73,6 +76,7 @@ public class GenericEngineData implements EngineData{
       this.isIgnited(isIgnited);
       this.temperature(temperature);
       this.tolerance(tolerance);
+      this.total(total);
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -149,6 +153,15 @@ public class GenericEngineData implements EngineData{
       this._tolerance = tol;
    }
 
+   //
+   //
+   //
+   private void total(int tot){
+      if(tot > 0){
+         this._total = tot;
+      }
+   }
+
    /////////////EngineData Interface Implementation///////////////////
    //
    //
@@ -199,6 +212,11 @@ public class GenericEngineData implements EngineData{
    //
    //
    public double tolerance(){ return this._tolerance; }
+   
+   //
+   //
+   //
+   public int total(){ return this._total; }
 
    //
    //

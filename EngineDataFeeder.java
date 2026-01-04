@@ -102,7 +102,7 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
       int stg = -1;  int num = this._number; double exf = Double.NaN;
       double ff = Double.NaN; long mod = Long.MIN_VALUE;
       boolean isE = false; String err = null; boolean isIg = false;
-      double temp = Double.NaN; double tol = Double.NaN;
+      double temp = Double.NaN; double tol = Double.NaN; int tot = -1;
       //Test Print
       System.out.println("EngineDataFeeder: "+file);
       try{
@@ -114,7 +114,20 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
             Hashtable<String,String> ht = it.next();
             try{ stg = Integer.parseInt(ht.get("stage")); }
             catch(NumberFormatException npe){ stg = -1; }
-            if(stg == this._stage){
+            try{ tot = Integer.parseInt(ht.get("total"));}
+            catch(NumberFormatException nfe){ tot = -1;}
+            //this is not the way...I need to come up with a better
+            //way...
+            if(this._number >= tot){
+               int more = tot;
+               ht = it.next();
+               try{ stg = Integer.parseInt(ht.get("stage")); }
+               catch(NumberFormatException npe){ stg = -1; }
+               try{ tot = Integer.parseInt(ht.get("total"));}
+               catch(NumberFormatException nfe){ tot = -1;}
+               tot += more;
+            }
+            if(stg == this._stage && this._number < tot){
                try{ exf=Double.parseDouble(ht.get("exhaust_flow")); }
                catch(NumberFormatException nfe){ exf = Double.NaN; }
                try{ ff = Double.parseDouble(ht.get("fuel_flow"));}
@@ -135,9 +148,13 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
                                           err,  //error
                                           isIg, //is ignited
                                           temp, //Temperature
-                                          tol); //Tolerance
+                                          tol,  //Tolerance
+                                          tot); //Total
                this._initEngineData = e;
                System.out.println(this._initEngineData);
+            }
+            else{
+               tot += more;
             }
          }
       }
@@ -239,6 +256,7 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
       int     stg = this._initEngineData.stage();
       double  tol = this._initEngineData.tolerance();
       boolean ign = this._isIgnited;
+      int     tot = this._initEngineData.total();
       synchronized(this._obj){
          EngineData e = new GenericEngineData(
                                     stg,   //Stage
@@ -250,7 +268,8 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
                                     err,   //error
                                     ign,   //is Ignited
                                     temp,  //Temperature
-                                    tol);  //Tolerance 
+                                    tol,   //Tolerance 
+                                    tot);  //Total
          this._calcEngineData = e;
       }
    }
