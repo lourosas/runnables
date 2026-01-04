@@ -98,36 +98,76 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private int[] grabEngineCounts(List<Hashtable<String,String>> lst){
+      int stg = -1; int tot = -1;
+      int[] index = new int[lst.size()];
+      int count = 0;
+      Iterator<Hashtable<String,String>> it = lst.iterator();
+      while(it.hasNext()){
+         Hashtable<String,String> ht = it.next();
+         try{ stg = Integer.parseInt(ht.get("stage")); }
+         catch(NumberFormatException npe){ stg = -1; }
+         if(stg == this._stage){
+            try{ tot = Integer.parseInt(ht.get("total"));}
+            catch(NumberFormatException nfe){ tot = -1;}
+            if(tot > 0){
+               if(count == 0){
+                  index[count] = tot;
+               }
+               else{
+                  index[count] = index[count - 1] + tot;
+               }
+               ++count;
+            }
+         }
+      }
+      return index;
+   }
+
+   //
+   //
+   //
    private void initializeEngineData(String file)throws IOException{
       int stg = -1;  int num = this._number; double exf = Double.NaN;
       double ff = Double.NaN; long mod = Long.MIN_VALUE;
       boolean isE = false; String err = null; boolean isIg = false;
       double temp = Double.NaN; double tol = Double.NaN; int tot = -1;
+      int ctot = -1; boolean run = false;
       //Test Print
       System.out.println("EngineDataFeeder: "+file);
       try{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
          List<Hashtable<String,String>> lst=read.readEngineDataInfo();
+         int[] index = this.grabEngineCounts(lst);
          Iterator<Hashtable<String,String>> it = lst.iterator();
+         int count = 0;
+         for(int i = 0; i < lst.size(); ++i){
+            Hashtable<String,String> ht = lst.get(i);
+            try{ stg = Integer.parseInt(ht.get("stage")); }
+            catch(NumberFormatException npe){ stg = -1; }
+            if(stg == this._stage){
+               if(index[count] > 0 && num < index[count]){
+                  System.out.println(num);
+                  System.out.println(count);
+                  System.out.println(index[count]);
+                  System.out.println(ht);
+                  //Grab all the data from below
+               }
+               else{
+                  ++count;
+               }
+            }
+         }
+         System.exit(0);
+         /*
          while(it.hasNext()){
             Hashtable<String,String> ht = it.next();
             try{ stg = Integer.parseInt(ht.get("stage")); }
             catch(NumberFormatException npe){ stg = -1; }
             try{ tot = Integer.parseInt(ht.get("total"));}
             catch(NumberFormatException nfe){ tot = -1;}
-            //this is not the way...I need to come up with a better
-            //way...
-            if(this._number >= tot){
-               int more = tot;
-               ht = it.next();
-               try{ stg = Integer.parseInt(ht.get("stage")); }
-               catch(NumberFormatException npe){ stg = -1; }
-               try{ tot = Integer.parseInt(ht.get("total"));}
-               catch(NumberFormatException nfe){ tot = -1;}
-               tot += more;
-            }
-            if(stg == this._stage && this._number < tot){
+            if(stg == this._stage){
                try{ exf=Double.parseDouble(ht.get("exhaust_flow")); }
                catch(NumberFormatException nfe){ exf = Double.NaN; }
                try{ ff = Double.parseDouble(ht.get("fuel_flow"));}
@@ -153,10 +193,8 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
                this._initEngineData = e;
                System.out.println(this._initEngineData);
             }
-            else{
-               tot += more;
-            }
          }
+         */
       }
       catch(IOException ioe){
          ioe.printStackTrace();
