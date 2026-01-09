@@ -107,6 +107,35 @@ public class GenericEngine implements Engine, Runnable{
    //
    //
    //
+   //
+   private int[] grabEngineCounts(List<Hashtable<String,String>> lst){
+      int stg = -1; int tot = -1; int[] index = new int[lst.size()];
+      int count = 0;
+      Iterator<Hashtable<String,String>> it = lst.iterator();
+      while(it.hasNext()){
+         Hashtable<String,String> ht = it.next();
+         try{ stg = Integer.parseInt(ht.get("stage")); }
+         catch(NumberFormatException nfe){ stg = -1; }
+         if(stg == this._stage){
+            try{ tot = Integer.parseInt(ht.get("total")); }
+            catch(NumberFormatException nfe){ tot = -1; }
+            if(tot > 0){
+               if(count == 0){
+                  index[count] = tot;
+               }
+               else{
+                  index[count] = index[count - 1] + tot;
+               }
+               ++count;
+            }
+         }
+      }
+      return index;
+   }
+
+   //
+   //
+   //
    private void initializeEngDataINI(String file)throws IOException{}
 
    //
@@ -123,11 +152,22 @@ public class GenericEngine implements Engine, Runnable{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
          List<Hashtable<String,String>> lst=read.readEngineDataInfo();
-         Iterator<Hashtable<String,String>> it = lst.iterator();
-         while(it.hasNext()){
-            Hashtable<String,String> ht = it.next();
+         int[] index = this.grabEngineCounts(lst);
+         int count     = 0;
+         boolean found = false;
+         for(int i = 0; i < lst.size(); ++i){
+            Hashtable<String,String> ht = lst.get(i);
             try{ stg = Integer.parseInt(ht.get("stage")); }
             catch(NumberFormatException nfe){ stg = -1; }
+            if(stg == this._stage){
+               if(index[count] > 0 && num < index[count] && !found){
+                  this.setInitizlizedData(ht);
+                  found = true;
+               }
+               else{
+                  ++count;
+               }
+            }
          }
       }
       catch(IOException ioe){
@@ -182,6 +222,38 @@ public class GenericEngine implements Engine, Runnable{
       if(stage > 0){
          this._stage = stage;
       }
+   }
+
+   //
+   //
+   //
+   private setInitializedEngineData(Hahstable<String,String> ht){
+      int stg = -1; int num = this._number; int tot = -1;
+      double exf = Double.NaN; String err = null;
+      double ff  = Double.NaN; long mod = Long.MIN_VALUE;
+      boolean isE = false; boolean isIg = false;
+      double temp = Double.NaN; double tol = Double.NaN;
+      try{ stg = Integer.parseInt(ht.get("stage")); }
+      catch(NumberFormatException nfe){ stg = -1; }
+      try{ exf = Double.parseDouble(ht.get("exhaust_flow")); }
+      catch(NumberFormatException nfe){ exf = Double.NaN; }
+      try{ ff = Double.parseDouble(ht.get("fuel_flow")); }
+      catch(NumberFormatException nfe){ ff = Double.NaN; }
+      try{ mod = Long.parseLong(ht.get("model"), 16); }
+      catch(NumberFormatException nfe){ mod = Long.MIN_VALUE; }
+      try{ temp = Double.parseDouble(ht.get("temperature")); }
+      catch(NumberFormatException nfe){ temp = Double.NaN; }
+      try{ tol = Double.parseDouble(ht.get("tolerance")); }
+      catch(NumberFormatException nfe){ tol = Double.NaN; }
+      try{ tot = Integer.parseInt(ht.get("total")); }
+      catch(NumberFormatException nfe){ tot = -1; }
+      //Stage, Index, exhaust flow, fuel flow, Model, isError,
+      //error, is Ignited, temperature, tolerance
+      //total engines (of the give model number);
+      EngineData e = new GenericEngineData(stg, num, exf,
+                                           ff,  mod, isE,
+                                           err, isIg, temp,
+                                           tol, tot);
    }
 
    //
