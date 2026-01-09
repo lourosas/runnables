@@ -141,60 +141,22 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
          List<Hashtable<String,String>> lst=read.readEngineDataInfo();
          int[] index = this.grabEngineCounts(lst);
          Iterator<Hashtable<String,String>> it = lst.iterator();
-         int count = 0;
+         int count     = 0;
+         boolean found = false;
          for(int i = 0; i < lst.size(); ++i){
             Hashtable<String,String> ht = lst.get(i);
             try{ stg = Integer.parseInt(ht.get("stage")); }
             catch(NumberFormatException npe){ stg = -1; }
             if(stg == this._stage){
-               if(index[count] > 0 && num < index[count]){
-                  System.out.println(num);
-                  System.out.println(count);
-                  System.out.println(index[count]);
-                  System.out.println(ht);
-                  //Grab all the data from below
+               if(index[count] > 0 && num < index[count] && !found){
+                  this.setInitializedEngineData(ht);
+                  found = true;
                }
                else{
                   ++count;
                }
             }
          }
-         System.exit(0);
-         /*
-         while(it.hasNext()){
-            Hashtable<String,String> ht = it.next();
-            try{ stg = Integer.parseInt(ht.get("stage")); }
-            catch(NumberFormatException npe){ stg = -1; }
-            try{ tot = Integer.parseInt(ht.get("total"));}
-            catch(NumberFormatException nfe){ tot = -1;}
-            if(stg == this._stage){
-               try{ exf=Double.parseDouble(ht.get("exhaust_flow")); }
-               catch(NumberFormatException nfe){ exf = Double.NaN; }
-               try{ ff = Double.parseDouble(ht.get("fuel_flow"));}
-               catch(NumberFormatException nfe){ ff = Double.NaN; }
-               try{ mod = Long.parseLong(ht.get("model"), 16); }
-               catch(NumberFormatException nfe){ mod=Long.MIN_VALUE; }
-               try{temp=Double.parseDouble(ht.get("temperature"));}
-               catch(NumberFormatException nfe){ temp = Double.NaN; }
-               try{ tol = Double.parseDouble(ht.get("tolerance")); }
-               catch(NumberFormatException nfe){ tol = Double.NaN; }
-               EngineData e = new GenericEngineData(
-                                          stg,  //Stage
-                                          num,  //number
-                                          exf,  //Exhaust Flow Rate
-                                          ff,   //Fuel Flow Rate
-                                          mod,  //Model
-                                          isE,  //isError
-                                          err,  //error
-                                          isIg, //is ignited
-                                          temp, //Temperature
-                                          tol,  //Tolerance
-                                          tot); //Total
-               this._initEngineData = e;
-               System.out.println(this._initEngineData);
-            }
-         }
-         */
       }
       catch(IOException ioe){
          ioe.printStackTrace();
@@ -274,6 +236,40 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
       }
       fuelFlow = Math.round(fuelFlow * 100.)*0.01;
       return fuelFlow;
+   }
+
+   //
+   //
+   //
+   private void setInitializedEngineData(Hashtable<String,String> ht){
+      int stg = -1; int num = this._number; int tot = -1;
+      double exf = Double.NaN; String err = null;
+      double ff = Double.NaN; long mod = Long.MIN_VALUE;
+      boolean isE = false; boolean isIg = false;
+      double temp = Double.NaN; double tol = Double.NaN;
+      try{ stg = Integer.parseInt(ht.get("stage")); }
+      catch(NumberFormatException nfe){ stg = -1; }
+      try{ exf = Double.parseDouble(ht.get("exhaust_flow")); }
+      catch(NumberFormatException nfe){ exf = Double.NaN; }
+      try{ ff = Double.parseDouble(ht.get("fuel_flow")); }
+      catch(NumberFormatException nfe){ ff = Double.NaN; }
+      try{ mod = Long.parseLong(ht.get("model"), 16); }
+      catch(NumberFormatException nfe){ mod = Long.MIN_VALUE; }
+      try{ temp = Double.parseDouble(ht.get("temperature")); }
+      catch(NumberFormatException nfe){ temp = Double.NaN; }
+      try{ tol = Double.parseDouble(ht.get("tolerance")); }
+      catch(NumberFormatException nfe){ tol = Double.NaN; }
+      try{ tot = Integer.parseInt(ht.get("total")); }
+      catch(NumberFormatException nfe){ tot = -1; }
+      //Stage, Index, exhaust flow, fuel flow, Model, isError,
+      //error, is Ingnited, temperature, tolerance, 
+      //total engines (of the given Model Number)
+      EngineData e = new GenericEngineData(stg, num, exf,
+                                           ff,  mod, isE,
+                                           err, isIg, temp, 
+                                           tol, tot);
+      this._initEngineData = e;
+
    }
 
    //
