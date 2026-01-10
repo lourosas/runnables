@@ -269,7 +269,6 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
                                            err, isIg, temp, 
                                            tol, tot);
       this._initEngineData = e;
-
    }
 
    //

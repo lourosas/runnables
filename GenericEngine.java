@@ -145,6 +145,7 @@ public class GenericEngine implements Engine, Runnable{
       long mod   = Long.MIN_VALUE;  double exh  = Double.NaN;
       double ff  = Double.NaN;      double temp = Double.NaN;
       int stg    = -1;              double tol  = Double.NaN;
+      int num = this._number;
       //Test Print
       System.out.println("Generic Engine: "+file);
       System.out.println(this._stage+", "+this._number);
@@ -161,7 +162,7 @@ public class GenericEngine implements Engine, Runnable{
             catch(NumberFormatException nfe){ stg = -1; }
             if(stg == this._stage){
                if(index[count] > 0 && num < index[count] && !found){
-                  this.setInitizlizedData(ht);
+                  this.setInitializedData(ht);
                   found = true;
                }
                else{
@@ -227,7 +228,7 @@ public class GenericEngine implements Engine, Runnable{
    //
    //
    //
-   private setInitializedEngineData(Hahstable<String,String> ht){
+   private void setInitializedData(Hashtable<String,String> ht){
       int stg = -1; int num = this._number; int tot = -1;
       double exf = Double.NaN; String err = null;
       double ff  = Double.NaN; long mod = Long.MIN_VALUE;
@@ -254,6 +255,7 @@ public class GenericEngine implements Engine, Runnable{
                                            ff,  mod, isE,
                                            err, isIg, temp,
                                            tol, tot);
+      this._engineData = e;
    }
 
    //
@@ -273,7 +275,7 @@ public class GenericEngine implements Engine, Runnable{
    //
    public EngineData monitor(){
       synchronized(this._obj){
-         return this._measuredEngineData;
+         return this._measEngineData;
       }
    }
 
@@ -283,7 +285,7 @@ public class GenericEngine implements Engine, Runnable{
    public void initialize(String file)throws IOException{
       if(this._number > -1 && this._stage > -1){
          String engFile = file;
-         if(this.isPathFile(engFile)){
+         if(this.isPathAndFile(engFile)){
             LaunchSimulatorJsonFileReader read = null;
             read = new LaunchSimulatorJsonFileReader(engFile);
             engFile = read.readPathInfo().get("engine");
@@ -310,8 +312,8 @@ public class GenericEngine implements Engine, Runnable{
             this._errorListeners.add(listener);
          }
       }
-      catch(NullPointerExcepetion npe){
-         this._errorListeners = new LinkedList<ErrorListeners>();
+      catch(NullPointerException npe){
+         this._errorListeners = new LinkedList<ErrorListener>();
          this._errorListeners.add(listener);
       }
    }
