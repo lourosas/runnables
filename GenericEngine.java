@@ -86,12 +86,37 @@ public class GenericEngine implements Engine, Runnable{
    //
    public GenericEngine(int number, int stage){
       this.setEngineNumber(number);
-      this.setStageNumber(number);
+      this.setStageNumber(stage);
       this._obj = new Object();
       this.setUpThread();
    }
 
    ////////////////////////////Private Methods////////////////////////
+   //
+   //
+   //
+   private void alertErrorListeners(){}
+
+   //
+   //
+   //
+   private void alertSubscribers(){}
+
+   //
+   //
+   //
+   private void checkErrors(){
+      EngineData ed = null;
+      synchronized(this._obj){
+         ed = this._measuredTankData;
+      }
+      String err  = new String; double efr  = ed.exhaustFlowRate();
+      long   mod  = ed.model(); int idx     = ed.index();
+      boolean isE = false;      boolean isIg= ed.isIgnited();
+      double ffr  = ed.fuelFlowRate(); int stg = ed.stage();
+      double temp = ed.temperature();  double tol = ed.tolerance();
+   }
+
    //
    //
    //
@@ -172,6 +197,7 @@ public class GenericEngine implements Engine, Runnable{
          }
       }
       catch(IOException ioe){
+         ioe.printStackTrace();
          this._engineData = null;
          throw ioe;
       }
@@ -210,18 +236,63 @@ public class GenericEngine implements Engine, Runnable{
    //
    //
    //
-   private void setEngineNumber(int number){
-      if(number > -1){
-         this._number = number;
+   private void measure(){
+      try{
+         if(this._feeder != null){
+            RocketData rd      = (RocketData)this._feeder.monitor();
+            StageData  sd      = rd.stage(this._stage);
+
+            List<EngineData>    lst = sd.engineData();
+            Iterator<EngineData> it = lst.iterator();
+            while(it.hasNext()){
+               EngineData ed = it.next();
+               int sn  = ed.stage();
+               int idx = ed.index();
+               if(sn == this._stage && idx == this._number){
+                  synchronized(this._obj){
+                     this._measEngineData = ed;
+                  }
+               }
+            }
+         }
+         else{
+            throw new NullPointerException("No DataFeeder");
+         }
+      }
+      catch(ClassCastException cce){
+         try{
+            synchronized(this._obj){
+               EngineData ed = (EngineData)this._feeder.monitor();
+               this._measEngineData = ed;
+            }
+         }
+         catch(ClassCastException e){
+            e.printStackTrace();
+            throw new NullPointerException("No TankDataFeeder");
+         }
+      }
+      catch(NullPointerException npe){
+         synchronized(this._obj){
+            this._measEngineData = this._engineData;
+         }
       }
    }
 
    //
    //
    //
-   private void setStageNumber(int stage){
-      if(stage > 0){
-         this._stage = stage;
+   private void monitorEngine(){
+      this.measure();
+      //Do not even do this!! No need to!!!
+      this.setUpEngineData();
+   }
+
+   //
+   //
+   //
+   private void setEngineNumber(int number){
+      if(number > -1){
+         this._number = number;
       }
    }
 
@@ -261,9 +332,23 @@ public class GenericEngine implements Engine, Runnable{
    //
    //
    //
+   private void setStageNumber(int stage){
+      if(stage > 0){
+         this._stage = stage;
+      }
+   }
+
+   //
+   //
+   //
+   private void setUpEngineData(){}
+
+   //
+   //
+   //
    private void setUpThread(){
       int num = this._number;
-      int stg  = this._stage;
+      int stg = this._stage;
       String name = new String("Engine: "+stg+", "+num);
       this._rt0 = new Thread(this, name);
       this._rt0.start();
@@ -344,6 +429,37 @@ public class GenericEngine implements Engine, Runnable{
    //
    //
    //
-   public void run(){}
+   public void run(){
+      try{
+         int counter   = 0;
+         boolean check = false;
+         while(true){
+            if(this._kill){
+               throw new InterruptedException();
+            }
+            if(this._state != null){
+               if(this._state.state() == INIT){
+                  if(counter++%5000 == 0){
+                     //For Initialize, check every 5 seconds...
+                     check = true;
+                     counter = 1; //Reset the Counter
+                  }
+               }
+            }
+            if(check){
+               this.monitorEngine();
+               this.checkErrors();
+               this.alertSubscribers();
+               check = false;
+            }
+            Thread.sleep(1);
+         }
+      }
+      catch(InterruptedException ie){}
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         System.exit(0);
+      }
+   }
 }
 //////////////////////////////////////////////////////////////////////
