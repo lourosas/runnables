@@ -463,7 +463,8 @@ public class GenericTank implements Tank, Runnable{
       catch(ClassCastException cce){
          try{
             synchronized(this._obj){
-               this._measuredTankData=(TankData)this._feeder.monitor();
+               TankData td = (TankData)this._feeder.monitor();
+               this._measuredTankData = td;
             }
          }
          catch(ClassCastException e){

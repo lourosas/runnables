@@ -105,16 +105,30 @@ public class GenericEngine implements Engine, Runnable{
    //
    //
    //
-   private void checkErrors(){
-      EngineData ed = null;
+   private boolean checkExhaustFlow(){
+      boolean isError   = false;
+      double  ef        = Double.NaN;
+      double  min       = Double.NaN;
+      double  max       = Double.NaN;
+      double  tolerance = Double.NaN;
+      
       synchronized(this._obj){
-         ed = this._measuredTankData;
+         ef = this._measuredEngineData.exhaustFlowRate();
+         tolerance = this._measuredEngineData.tolerance();
       }
-      String err  = new String; double efr  = ed.exhaustFlowRate();
-      long   mod  = ed.model(); int idx     = ed.index();
-      boolean isE = false;      boolean isIg= ed.isIgnited();
-      double ffr  = ed.fuelFlowRate(); int stg = ed.stage();
-      double temp = ed.temperature();  double tol = ed.tolerance();
+
+      return isError;
+   }
+
+   //
+   //
+   //
+   private void checkErrors(){
+      String  err     = new String();
+      boolean isError = false;
+      if(this.checkExhaustFlow()){}
+      if(this.checkFuelFlow()){}
+      if(this.checkTemperature()){}
    }
 
    //
@@ -246,11 +260,14 @@ public class GenericEngine implements Engine, Runnable{
             Iterator<EngineData> it = lst.iterator();
             while(it.hasNext()){
                EngineData ed = it.next();
-               int sn  = ed.stage();
-               int idx = ed.index();
+               int  sn  = ed.stage();
+               int  idx = ed.index();
+               long mdl = ed.model();
                if(sn == this._stage && idx == this._number){
-                  synchronized(this._obj){
-                     this._measEngineData = ed;
+                  if(mdl = this._model){
+                     synchronized(this._obj){
+                        this._measEngineData = ed;
+                     }
                   }
                }
             }
