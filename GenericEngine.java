@@ -95,29 +95,46 @@ public class GenericEngine implements Engine, Runnable{
    //
    //
    //
-   private void alertErrorListeners(){}
+   private void alertErrorListeners(){
+      String  error = null;
+      EngineData ed = null;
+      synchronized(this._obj){
+         error = this._measEngineData.error();
+         ed    = this._measEngineData;
+      }
+      try{
+         Iterator<ErrorListener> it = this._errorListeners.iterator();
+         while(it.hasNext()){
+            it.next().errorOccurred(new ErrorEvent(this,ed,error));
+         }
+      }
+      catch(NullPointerException nep){}
+   }
 
    //
    //
    //
-   private void alertSubscribers(){}
+   private void alertSubscribers(){
+      EngineData          ed = null;
+      LaunchStateSubstate ss = this._state;
 
-   //
-   //
-   //
-   private boolean checkExhaustFlow(){
-      boolean isError   = false;
-      double  ef        = Double.NaN;
-      double  min       = Double.NaN;
-      double  max       = Double.NaN;
-      double  tolerance = Double.NaN;
+      String event = ss.state()+", "+ss.ascentSubstate();
+      event += ", "+ss.ignitionSubstate()+", ";
+      event += ss.prelaunchSubstate();
       
       synchronized(this._obj){
-         ef = this._measuredEngineData.exhaustFlowRate();
-         tolerance = this._measuredEngineData.tolerance();
+         ed = this._measEngineData;
       }
-
-      return isError;
+      try{
+         Iterator<SystemListener> it = null;
+         it = this._systemListeners.iterator();
+         while(it.hasNext()){
+            MissionSystemEvent mse = null;
+            mse = new MissionSystemEvent(this,ed,event,ss);
+            it.next().update(mse);
+         }
+      }
+      catch(NullPointerException npe){}
    }
 
    //
@@ -126,9 +143,93 @@ public class GenericEngine implements Engine, Runnable{
    private void checkErrors(){
       String  err     = new String();
       boolean isError = false;
-      if(this.checkExhaustFlow()){}
-      if(this.checkFuelFlow()){}
-      if(this.checkTemperature()){}
+      if(this.checkExhaustFlowError()){
+         err    += "Exhaust Flow Error ";
+         isError = true;
+      }
+      if(this.checkFuelFlowError()){
+         err    += "Fuel Flow Error ";
+         isError = true;
+      }
+      if(this.checkTemperatureError()){
+         err    += "Temperature Error ";
+         isError = true;
+      }
+      if(isError){
+         this.setUpError(err, isError);
+      }
+   }
+
+   //
+   //
+   //
+   private boolean checkExhaustFlowError(){
+      boolean isError   = false;
+      double  ef        = Double.NaN; //Exhaust Flow
+      double  min       = Double.NaN;
+      double  max       = Double.NaN;
+      double  tolerance = Double.NaN;
+      
+      synchronized(this._obj){
+         ef = this._measEngineData.exhaustFlowRate();
+         tolerance = this._measEngineData.tolerance();
+      }
+      //In the Initialization State, the Exhaust Flow Rate should be
+      //miniscule!!  The flow should be no more than the allowable
+      //tollerance
+      if(this._state.state() == INIT){
+         max = 1. - tolerance;
+         isError |= (ef > max);
+      }
+      return isError;
+   }
+   
+   //
+   //
+   //
+   private boolean checkFuelFlowError(){
+      boolean isError    = false;
+      double  ff         = Double.NaN; //Fuel Flow
+      double  min        = Double.NaN;
+      double  max        = Double.NaN;
+      double  tolerance  = Double.NaN;
+
+      synchronized(this._obj){
+         ff = this._measEngineData.fuelFlowRate();
+         tolerance = this._measEngineData.tolerance();
+      }
+
+      //In Initialization State, fuel flow should be w/in tolerance
+      if(this._state.state() == INIT){
+         max      = 1. - tolerance;
+         isError |= (ff > max);
+      }
+      return isError;
+   }
+
+   //
+   //
+   //
+   private boolean checkTemperatureError(){
+      boolean isError     = false;
+      double  temperature = Double.NaN;
+      double  tolerance   = Double.NaN;
+      double  min         = Double.NaN;
+      double  max         = Double.NaN;
+
+      synchronized(this._obj){
+         temperature = this._measEngineData.temperature();
+         tolerance   = this._measEngineData.tolerance();
+      }
+
+      //In the Initialization State, anything between the Freezing
+      //and Boiling Point of water is acceptable
+      if(this._state.state() == INIT){
+         min = 273.15;
+         max = 373.15;
+         isError |= (temperature < min || temperature > max);
+      }
+      return isError;
    }
 
    //
@@ -260,14 +361,16 @@ public class GenericEngine implements Engine, Runnable{
             Iterator<EngineData> it = lst.iterator();
             while(it.hasNext()){
                EngineData ed = it.next();
+               System.out.println(ed +"\n");
                int  sn  = ed.stage();
                int  idx = ed.index();
                long mdl = ed.model();
-               if(sn == this._stage && idx == this._number){
-                  if(mdl = this._model){
-                     synchronized(this._obj){
-                        this._measEngineData = ed;
-                     }
+               int stage  = this._stage;
+               int number = this._number;
+               long model = this._model;
+               if(sn == stage && idx == number && mdl == model){
+                  synchronized(this._obj){
+                     this._measEngineData = ed;
                   }
                }
             }
@@ -300,8 +403,6 @@ public class GenericEngine implements Engine, Runnable{
    //
    private void monitorEngine(){
       this.measure();
-      //Do not even do this!! No need to!!!
-      this.setUpEngineData();
    }
 
    //
@@ -336,14 +437,25 @@ public class GenericEngine implements Engine, Runnable{
       catch(NumberFormatException nfe){ tol = Double.NaN; }
       try{ tot = Integer.parseInt(ht.get("total")); }
       catch(NumberFormatException nfe){ tot = -1; }
+      //Set the Model value
+      this.setModel(mod);
       //Stage, Index, exhaust flow, fuel flow, Model, isError,
       //error, is Ignited, temperature, tolerance
-      //total engines (of the give model number);
+      //total engines (of the given model number);
       EngineData e = new GenericEngineData(stg, num, exf,
                                            ff,  mod, isE,
                                            err, isIg, temp,
                                            tol, tot);
       this._engineData = e;
+   }
+
+   //
+   //
+   //
+   private void setModel(long model){
+      if(model > Long.MIN_VALUE){
+         this._model = model;
+      }
    }
 
    //
@@ -358,7 +470,33 @@ public class GenericEngine implements Engine, Runnable{
    //
    //
    //
-   private void setUpEngineData(){}
+   private void setUpError(String error, boolean isError){
+      if(isError || error.length() > 0){
+         EngineData ed = null;
+         synchronized(this._obj){
+            ed = this._measEngineData;
+         }
+         String err   = error;
+         boolean isE  = isError;
+         int  stg     = this._stage;
+         int  num     = this._number;
+         long mdl     = this._model;
+         double exf   = ed.exhaustFlowRate();
+         double ff    = ed.fuelFlowRate();
+         boolean isIg = ed.isIgnited();
+         double temp  = ed.temperature();
+         double tol   = ed.tolerance();
+         int    tot   = ed.total();
+         //Stage, Index, exhaust flow, fuel flow, Mode, isError,
+         //error,is Ignited, temperature, tolerance total engines
+         ed = new GenericEngineData(stg, num,  exf,  ff,  mdl, isE,
+                                    err, isIg, temp, tol, tot);
+         synchronized(this._obj){
+            this._measEngineData = ed;
+         }  
+         this.alertErrorListeners();
+      }
+   }
 
    //
    //
@@ -456,9 +594,9 @@ public class GenericEngine implements Engine, Runnable{
             }
             if(this._state != null){
                if(this._state.state() == INIT){
-                  if(counter++%5000 == 0){
+                  if(counter++%1000 == 0){
                      //For Initialize, check every 5 seconds...
-                     check = true;
+                     check   = true;
                      counter = 1; //Reset the Counter
                   }
                }
