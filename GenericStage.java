@@ -81,44 +81,66 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    (
       List<Hashtable<String,String>> data
    ){
+      int stg = -1;  int te = -1;  double dw = Double.NaN;
+      int mdl = -1;  double mw = Double.NaN; double tol = Double.NaN;
+      double cw = Double.NaN;  String err = null; boolean isE = false;
+      List<EngineData> ed = null; FuelSystemData fsd = null;
       //will need to figure out which Stage it is...pretty simple
       this._stageData = null;  //Erase all previous data
-      for(int i = 0; i < data.size(); ++i){
+      Iterator<Hashtable<String,String> it = data.iterator();
+      while(it.hasNext()){
          Hashtable<String,String> ht = data.get(i);
-         try{
-            String num = ht.get("number");
-            if(Integer.parseInt(num) == this._stageNumber){
-               //Total Engines
-               int te       = Integer.parseInt(ht.get("engines"));
-               //Dry Weight
-               double dw    = Double.parseDouble(ht.get("dryweight"));
-               //Max Weight
-               double mw    = Double.parseDouble(ht.get("maxweight"));
-               //Model Number
-               String model = ht.get("model");
-               long mn      = Integer.parseUnsignedInt(model,16);
-               //Tolerance
-               double tol   = Double.parseDouble(ht.get("tolerance"));
-               //Stage Number
-               int sn       = this._stageNumber;
-               this._stageData = new GenericStageData(
-                                       dw,    //Dry Weight
-                                       null,  //Error (Init to NUll)
-                                       mn,    //Model Number
-                                       false, //isError Boolean
-                                       sn,    //Stage Number
-                                       te,    //Total Engines
-                                       mw,    //Max Weight
-                                       tol,   //Tolerance
-                                       Double.NaN, //Calculated Weight
-                                       null,  //Engine Data
-                                       null   //Fuel System Data
-                                       );
-            }
+         try{ stg = Integer.parseInt(ht.get("number"));}
+         catch(NumberFormatException nfe){ stg = -1; }
+         if(stg == this._stageNumber){
+            try{ te = Integer.parseInt(ht.get("engines")); }
+            catch(NumberFormatExcption nfe){ te = -1; }
+            try{ dw = Double.parseDouble(ht.get("dryweight")); }
+            catch(NumberFormatException nfe){ dw = Double.NaN; }
+            try{ mw = Double.parseDouble(ht.get("maxweight")); }
+            catch(NumberFormatException nfe){ mw = Double.NaN; }
+            try{ mdl = Integer.parseUnsignedInt(ht.get("model"),16); }
+            catch(NumberFormatException nfe){ mdl = -1; }
+            try{ tol = Double.parseDouble(ht.get("tolerance")); }
+            catch(NumberFormatException nfe){ tol = Double.NaN; }
+            this._stageData = new GenericStageData(
+                                    dw,    //Dry Weight
+                                    err,   //Error (Init to NUll)
+                                    mdl,   //Model Number
+                                    isE,   //isError Boolean
+                                    sn,    //Stage Number
+                                    te,    //Total Engines
+                                    mw,    //Max Weight
+                                    tol,   //Tolerance
+                                    cw,    //Calculated Weight
+                                    ed,    //Engine Data
+                                    fsd);  //Fuel System Data
          }
-         catch(NumberFormatException npe){
-            this._stageData = null;
+      }
+   }
+
+   //
+   //
+   //
+   private boolean isPathFile(String file)throws IOException{
+      boolean isPath = false;
+      try{
+         LaunchSimulatorJsonFileReader file = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         if(read.readPathInfo().get("parameter") == null){
+            throw new NullPointerException("Not a Path File");
          }
+         isPath = true;
+      }
+      catch(IOException ioe){
+         isPath = false;
+         throw ioe;
+      }
+      catch(NullPointerException npe){
+         isPath = false;
+      }
+      finally{
+         return isPath;
       }
    }
 
@@ -246,12 +268,19 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    public void initialize(String file)throws IOException{
-      if(this._stageNumber > -1){
-         this.stageData(file);
-         this.engineData(file);
+      if(this._stageNumber > 0){
+         String gsFile = file;
+         String enFile = file;
+         String fsFile = file;
+         if(this.isPathFile(gsFile)){
+            LaunchSimulatorJsonFileReader read = null;
+            read = new LaunchSimulatorJsonFileReader(gsFile);
+            gsFile = read.readPathInfo().get("stage");
+            enFile = read.readPathInfo().get("engine");
+         }
+         this.stageData(gsFile);
+         this.engineData(enFile);
          this.fuelSystem(file);
-         this._state = new LaunchStateSubstate(INIT,null,null,null);
-         this._start = true;
       }
    }
 
