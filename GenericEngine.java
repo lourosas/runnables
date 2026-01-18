@@ -594,7 +594,7 @@ public class GenericEngine implements Engine, Runnable{
             }
             if(this._state != null){
                if(this._state.state() == INIT){
-                  if(counter++%1000 == 0){
+                  if(counter++%5000 == 0){
                      //For Initialize, check every 5 seconds...
                      check   = true;
                      counter = 1; //Reset the Counter
