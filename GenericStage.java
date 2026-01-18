@@ -183,6 +183,16 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
+   private void setUpEngines(String file){}
+
+   //
+   //
+   //
+   private void setUpFuelSystem(String file){}
+
+   //
+   //
+   //
    private void setUpStageData
    (
       List<EngineData>   engines,
@@ -279,8 +289,8 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
             enFile = read.readPathInfo().get("engine");
          }
          this.stageData(gsFile);
-         this.engineData(enFile);
-         this.fuelSystem(file);
+         this.setUpEngines(enFile);
+         this.setUpFuelSystem(file);
       }
    }
 
