@@ -306,7 +306,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
          this.stageData(gsFile);
          this.setUpEngines(enFile);
          this.setUpFuelSystem(file);
-         System.out.println(this._stageData); System.exit(0);
+         //Somehow, need to finalize
       }
    }
 
