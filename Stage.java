@@ -28,6 +28,6 @@ public interface Stage{
    public void addDataFeeder(DataFeeder feeder);
    public void addErrorListener(ErrorListener listener);
    public void addSystemListener(SystemListener listener);
-   public void setStateSubstate(LaunhcStateSubstate cond);
+   public void setStateSubstate(LaunchStateSubstate cond);
 }
 //////////////////////////////////////////////////////////////////////

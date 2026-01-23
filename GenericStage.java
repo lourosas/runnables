@@ -30,17 +30,19 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    private LaunchStateSubstate.State IGNITION  = null;
    private LaunchStateSubstate.State LAUNCH    = null;
 
-   private List<Engine>        _engines;
-   private List<ErrorListener> _errorListeners;
-   private DataFeeder          _feeder;
-   private FuelSystem          _fuelSystem;
-   private boolean             _kill;
-   private Object              _obj;
-   private Thread              _rt0;
-   private boolean             _start;
-   private StageData           _stageData;
-   private StageData           _measStageData;
-   private LaunchStateSubstate _state;
+   private List<Engine>          _engines;
+   private List<ErrorListener>   _errorListeners;
+   private List<SystemListener>  _systemListeners;
+   private DataFeeder            _feeder;
+   private FuelSystem            _fuelSystem;
+   private boolean               _kill;
+   private Object                _obj;
+   private Thread                _rt0;
+   private boolean               _start;
+   private StageData             _stageData;
+   private StageData             _measStageData;
+   private int                   _stageNumber;
+   private LaunchStateSubstate   _state;
 
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
@@ -50,6 +52,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
 
       _engines          = null;
       _errorListeners   = null;
+      _systemListeners  = null;
       _feeder           = null;
       _fuelSystem       = null;
       _kill             = false;
@@ -58,6 +61,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       _rt0              = null;
       _start            = false;
       _stageData        = null;
+      _stageNumber      = -1;
       _state            = null;
    };
 
@@ -77,24 +81,39 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
+   private void alertErrorListeners(){}
+
+   //
+   //
+   //
+   private void alertSubscribers(){}
+
+   //
+   //
+   //
+   private void checkErrors(){}
+
+   //
+   //
+   //
    private void initializeStageData
    (
       List<Hashtable<String,String>> data
    ){
       int stg = -1;  int te = -1;  double dw = Double.NaN;
-      int mdl = -1;  double mw = Double.NaN; double tol = Double.NaN;
-      double cw = Double.NaN;  String err = null; boolean isE = false;
+      long mdl= Long.MIN_VALUE; double mw = Double.NaN;
+      double tol = Double.NaN; double cw = Double.NaN;
+      String err = null; boolean isE = false;
       List<EngineData> ed = null; FuelSystemData fsd = null;
-      //will need to figure out which Stage it is...pretty simple
       this._stageData = null;  //Erase all previous data
-      Iterator<Hashtable<String,String> it = data.iterator();
+      Iterator<Hashtable<String,String>> it = data.iterator();
       while(it.hasNext()){
-         Hashtable<String,String> ht = data.get(i);
+         Hashtable<String,String> ht = it.next();
          try{ stg = Integer.parseInt(ht.get("number"));}
          catch(NumberFormatException nfe){ stg = -1; }
          if(stg == this._stageNumber){
             try{ te = Integer.parseInt(ht.get("engines")); }
-            catch(NumberFormatExcption nfe){ te = -1; }
+            catch(NumberFormatException nfe){ te = -1; }
             try{ dw = Double.parseDouble(ht.get("dryweight")); }
             catch(NumberFormatException nfe){ dw = Double.NaN; }
             try{ mw = Double.parseDouble(ht.get("maxweight")); }
@@ -108,7 +127,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
                                     err,   //Error (Init to NUll)
                                     mdl,   //Model Number
                                     isE,   //isError Boolean
-                                    sn,    //Stage Number
+                                    stg,   //Stage Number
                                     te,    //Total Engines
                                     mw,    //Max Weight
                                     tol,   //Tolerance
@@ -125,7 +144,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    private boolean isPathFile(String file)throws IOException{
       boolean isPath = false;
       try{
-         LaunchSimulatorJsonFileReader file = null;
+         LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
          if(read.readPathInfo().get("parameter") == null){
             throw new NullPointerException("Not a Path File");
@@ -171,57 +190,53 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    private void monitorStage(){
       String         error = null;
       List<EngineData> eng = this.monitorEngines();
-      FuelSystemData   fs  = this.monitorFuelSystem();
+      FuelSystemData    fs = this.monitorFuelSystem();
+      /*
       double weight        = this.calculateWeight(eng, fs);
       boolean isError      = this.isError(weight);
       if(isError){
          error = this.error(weight);   
       }
       this.setUpStageData(eng,fs,weight,isError,error);
+      */
    }
 
    //
    //
    //
-   private void setUpEngines(String file){}
+   private void setUpEngines(String file)throws IOException{
+      try{
+         int numEngines = this._stageData.numberOfEngines();
+         int stage      = this._stageData.stageNumber();
+         for(int i = 0; i < numEngines; ++i){
+            Engine e = new GenericEngine(i,stage);
+            e.initialize(file);
+            try{
+               this._engines.add(e);
+            }
+            catch(NullPointerException npe){
+               this._engines = new LinkedList<Engine>();
+               this._engines.add(e);
+            }
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+   }
 
    //
    //
    //
-   private void setUpFuelSystem(String file){}
-
-   //
-   //
-   //
-   private void setUpStageData
-   (
-      List<EngineData>   engines,
-      FuelSystemData  fuelSystem,
-      Double          calcWeight,
-      boolean            isError,
-      String               error
-   ){
-      synchronized(this._obj){
-         double dw    = this._stageData.dryWeight();
-         //Somehow, will need to set the error in addition
-         double mw    = this._stageData.maxWeight();
-         long   model = this._stageData.model();
-         int    en    = this._stageData.numberOfEngines();
-         int    sn    = this._stageData.stageNumber();
-         double to    = this._stageData.tolerance();
-         StageData sd = new GenericStageData(dw,    //Dry Weight
-                                             error, //error
-                                             model, //Model
-                                             isError, //Is Error
-                                             sn,    //Stage Number
-                                             en,    //No. Engines
-                                             mw,    //Max Weight
-                                             to,    //Tolerance
-                                             calcWeight, //Calc Weight
-                                             engines,//Engines List
-                                             fuelSystem//Fuel System
-                                             );
-         this._stageData = sd;
+   private void setUpFuelSystem(String file)throws IOException{
+      try{
+         int stage   = this._stageData.stageNumber();
+         int engines = this._stageData.numberOfEngines();
+         this._fuelSystem = new GenericFuelSystem(stage,engines);
+         this._fuelSystem.initialize(file);
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
       }
    }
 
@@ -291,6 +306,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
          this.stageData(gsFile);
          this.setUpEngines(enFile);
          this.setUpFuelSystem(file);
+         System.out.println(this._stageData); System.exit(0);
       }
    }
 
