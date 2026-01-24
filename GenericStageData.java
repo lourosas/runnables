@@ -239,7 +239,9 @@ public class GenericStageData implements StageData{
       data += "Model:      " + String.format("0x%X\n",this.model());
       data += "Engines:    " + this.numberOfEngines() + "\n";
       data += "Dry Weight: " + this.dryWeight() + "\n";
+      data += "Max Weight: " + this.maxWeight() + "\n";
       data += "Weight:     " + this.weight() + "\n";
+      data += "Tolerance:  " + this.tolerance() + "\n";
       try{
          Iterator<EngineData> it = this.engineData().iterator();
          while(it.hasNext()){

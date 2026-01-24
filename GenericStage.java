@@ -114,21 +114,41 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
-   private void initializeEngines(String file)throws IOException{}
-
-   //
-   //
-   //
-   private void initializeEverything(String file)throws IOException{
-      this.initializeStage(file);
-      this.initializeEngines(file);
-      this.initializeFuelSystem(file);
+   private void initializeEngines(String file)throws IOException{
+      try{
+         int numEngines = this._stageData.numberOfEngines();
+         int stage      = this._stageData.stageNumber();
+         for(int i = 0; i < numEngines; ++i){
+            Engine e = new GenericEngine(i, stage);
+            e.initialize(file);
+            try{
+               this._engines.add(e);
+            }
+            catch(NullPointerException npe){
+               this._engines = new LinkedList<Engine>();
+               this._engines.add(e);
+            }
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
    }
 
    //
    //
    //
-   private void initializeFuelSystem(String file)throws IOException{}
+   private void initializeFuelSystem(String file)throws IOException{
+      try{
+         int stage    = this._stageData.stageNumber();
+         int engines  = this._stageData.numberOfEngines();
+         this._fuelSystem = new GenericFuelSystem(stage,engines);
+         this._fuelSystem.initialize(file);
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+   }
 
    //
    //
@@ -150,7 +170,6 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    (
       List<Hashtable<String,String>> data
    ){
-      System.out.println(data); System.exit(0);
       int stg = -1;  int te = -1;  double dw = Double.NaN;
       long mdl= Long.MIN_VALUE; double mw = Double.NaN;
       double tol = Double.NaN; double cw = Double.NaN;
@@ -252,45 +271,6 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       */
    }
 
-   //Needs to change! rename/remove/redo...
-   //
-   //
-   private void setUpEngines(String file)throws IOException{
-      try{
-         int numEngines = this._stageData.numberOfEngines();
-         int stage      = this._stageData.stageNumber();
-         for(int i = 0; i < numEngines; ++i){
-            Engine e = new GenericEngine(i,stage);
-            e.initialize(file);
-            try{
-               this._engines.add(e);
-            }
-            catch(NullPointerException npe){
-               this._engines = new LinkedList<Engine>();
-               this._engines.add(e);
-            }
-         }
-      }
-      catch(NullPointerException npe){
-         npe.printStackTrace();
-      }
-   }
-
-   //Needs to change...remove/rename/redo
-   //
-   //
-   private void setUpFuelSystem(String file)throws IOException{
-      try{
-         int stage   = this._stageData.stageNumber();
-         int engines = this._stageData.numberOfEngines();
-         this._fuelSystem = new GenericFuelSystem(stage,engines);
-         this._fuelSystem.initialize(file);
-      }
-      catch(NullPointerException npe){
-         npe.printStackTrace();
-      }
-   }
-
    //
    //
    //
@@ -298,21 +278,6 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       String name = new String("Generic Stage "+ this._stageNumber);
       this._rt0   = new Thread(this, name);
       this._rt0.start();
-   }
-
-   //
-   //
-   //
-   private void stageData(String file)throws IOException{
-      if(file.toUpperCase().contains("INI")){
-         LaunchSimulatorIniFileReader read = null;
-         read = new LaunchSimulatorIniFileReader(file);
-      }
-      else if(file.toUpperCase().contains("JSON")){
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         this.initializeStageData(read.readStageInfo());
-      }
    }
 
    ///////////////ErrorListener Interface Implementation//////////////
@@ -345,22 +310,9 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    public void initialize(String file)throws IOException{
       if(this._stageNumber > 0){
-         this.initializeEverything(file);
-         /*  Fucking get rid of all of this!!!
-         String gsFile = file;
-         String enFile = file;
-         String fsFile = file;
-         if(this.isPathFile(gsFile)){
-            LaunchSimulatorJsonFileReader read = null;
-            read = new LaunchSimulatorJsonFileReader(gsFile);
-            gsFile = read.readPathInfo().get("stage");
-            enFile = read.readPathInfo().get("engine");
-         }
-         this.stageData(gsFile);
-         this.setUpEngines(enFile);
-         this.setUpFuelSystem(file);
-         //Somehow, need to finalize in the Initial Stage Data
-         */
+         this.initializeStage(file);
+         this.initializeEngines(file);
+         this.initializeFuelSystem(file);
       }
    }
 
