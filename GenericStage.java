@@ -96,10 +96,61 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
+   private List<Hashtable<String,String>>
+   getStageDataFromFile(String file)throws IOException{
+      List<Hashtable<String,String>> list = null;
+      if(file.toUpperCase().contains("INI")){
+         LaunchSimulatorIniFileReader read = null;
+         read = new LaunchSimulatorIniFileReader(file);
+      }
+      else if(file.toUpperCase().contains("JSON")){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         list = read.readStageInfo();
+      }
+      return list;
+   }
+
+   //
+   //
+   //
+   private void initializeEngines(String file)throws IOException{}
+
+   //
+   //
+   //
+   private void initializeEverything(String file)throws IOException{
+      this.initializeStage(file);
+      this.initializeEngines(file);
+      this.initializeFuelSystem(file);
+   }
+
+   //
+   //
+   //
+   private void initializeFuelSystem(String file)throws IOException{}
+
+   //
+   //
+   //
+   private void initializeStage(String file)throws IOException{
+      String gsFile = file;
+      if(this.isPathFile(file)){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         gsFile = read.readPathInfo().get("stage");
+      }
+      this.initializeStageData(this.getStageDataFromFile(gsFile));
+   }
+
+   //Needs to change!
+   //
+   //
    private void initializeStageData
    (
       List<Hashtable<String,String>> data
    ){
+      System.out.println(data); System.exit(0);
       int stg = -1;  int te = -1;  double dw = Double.NaN;
       long mdl= Long.MIN_VALUE; double mw = Double.NaN;
       double tol = Double.NaN; double cw = Double.NaN;
@@ -201,7 +252,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       */
    }
 
-   //
+   //Needs to change! rename/remove/redo...
    //
    //
    private void setUpEngines(String file)throws IOException{
@@ -225,7 +276,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       }
    }
 
-   //
+   //Needs to change...remove/rename/redo
    //
    //
    private void setUpFuelSystem(String file)throws IOException{
@@ -294,6 +345,8 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    public void initialize(String file)throws IOException{
       if(this._stageNumber > 0){
+         this.initializeEverything(file);
+         /*  Fucking get rid of all of this!!!
          String gsFile = file;
          String enFile = file;
          String fsFile = file;
@@ -306,7 +359,8 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
          this.stageData(gsFile);
          this.setUpEngines(enFile);
          this.setUpFuelSystem(file);
-         //Somehow, need to finalize
+         //Somehow, need to finalize in the Initial Stage Data
+         */
       }
    }
 
