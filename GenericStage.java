@@ -261,14 +261,6 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       String         error = null;
       List<EngineData> eng = this.monitorEngines();
       FuelSystemData    fs = this.monitorFuelSystem();
-      /*
-      double weight        = this.calculateWeight(eng, fs);
-      boolean isError      = this.isError(weight);
-      if(isError){
-         error = this.error(weight);   
-      }
-      this.setUpStageData(eng,fs,weight,isError,error);
-      */
    }
 
    //
@@ -331,6 +323,16 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
             npe.printStackTrace();
          }
          //Add the Data Feeder for the Engines eventually
+         try{
+            Iterator<Engine> it = this._engines.iterator();
+            while(it.hasNext()){
+               it.next().addDataFeeder(this._feeder);
+            }
+         }
+         catch(NullPointerException npe){
+            //Should never get here
+            npe.printStackTrace();
+         }
       }
    }
 
@@ -352,12 +354,40 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
-   public void addSystemListener(SystemListener listener){}
+   public void addSystemListener(SystemListener listener){
+      try{
+         if(listener != null){
+            this._systemListeners.add(listener);
+         }
+      }
+      catch(NullPointerException npe){
+         this._systemListeners = new LinkedList<SystemListener>();
+         this._systemListeners.add(listener);
+      }
+   }
 
    //
    //
    //
-   public void setStateSubstate(LaunchStateSubstate state){} 
+   public void setStateSubstate(LaunchStateSubstate state){
+      this._state = state;
+      try{
+         this._fuelSystem.setStateSubstate(this._state);
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+      try{
+         Iterator<Engine> it = this._engines.iterator();
+         while(it.hasNext()){
+            it.next().setStateSubstate(this._state);
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+   } 
+
    ////////////////Runnable Interface Implementation//////////////////
    //
    //
@@ -384,7 +414,6 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
                this.checkErrors();
                this.alertSubscribers();
                check = false;
-            
             }
             Thread.sleep(1);
          }
