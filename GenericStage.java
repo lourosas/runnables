@@ -81,12 +81,46 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
-   private void alertErrorListeners(){}
+   private void alertErrorListeners(){
+      String error    = null;
+      StageData sd    = null;
+      synchronized(this._obj){
+         sd    = this._measStageData;
+         error = sd.error();
+      }
+      try{
+         Iterator<ErrorListener> it = this._errorListeners.iterator();
+         while(it.hasNext()){
+            it.next().errorOccurred(new ErrorEvent(this,sd,error));
+         }
+      }
+      catch(NullPointerException npe){}
+   }
 
    //
    //
    //
-   private void alertSubscribers(){}
+   private void alertSubscribers(){
+      StageData sd           = null;
+      LaunchStateSubstate ss = this._state;
+
+      String event = ss.state()+", "+ss.ascentSubstate();
+      event += ", "+ss.ignitionSubstate()+", ";
+      event += ss.prelaunchSubstate();
+      synchronized(this._obj){
+         sd = this._measStageData;
+      }
+      try{
+         MissionSystemEvent mse = null;
+         mse = new MissionSystemEvent(this,sd, event,ss);
+         Iterator<SystemListener> it = null;
+         it = this._systemListeners.iterator();
+         while(it.hasNext()){
+            it.next().update(mse);
+         }
+      }
+      catch(NullPointerException npe){}
+   }
 
    //
    //
@@ -140,8 +174,8 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    private void initializeFuelSystem(String file)throws IOException{
       try{
-         int stage    = this._stageData.stageNumber();
-         int engines  = this._stageData.numberOfEngines();
+         int stage        = this._stageData.stageNumber();
+         int engines      = this._stageData.numberOfEngines();
          this._fuelSystem = new GenericFuelSystem(stage,engines);
          this._fuelSystem.initialize(file);
       }
@@ -237,9 +271,22 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    private List<EngineData> monitorEngines(){
-      synchronized(this._obj){
-         //For the Time Being return null
-         return null;
+      List<EngineData> ed = null;
+      try{
+         ed = new LinkedList<EngineData>();
+         synchronized(this._obj){
+            Iterator<Engine> it = this._engines.iterator();
+            while(it.hasNext()){
+               ed.add(it.next().monitor());
+            }
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         ed = null;
+      }
+      finally{
+         return ed;
       }
    }
 
@@ -248,10 +295,18 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    private FuelSystemData monitorFuelSystem(){
       FuelSystemData fsd = null;
-      synchronized(this._obj){
-         fsd = this._fuelSystem.monitor();
+      try{
+         synchronized(this._obj){
+            fsd = this._fuelSystem.monitor();
+         }
       }
-      return fsd;
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         fsd = null;
+      }
+      finally{
+         return fsd;
+      }
    }
 
    //
@@ -273,8 +328,8 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    }
 
    ///////////////ErrorListener Interface Implementation//////////////
-   //
-   //
+   //This is when the Instance is fed Errors from the Compnents...
+   //TBD...
    //
    public void errorOccurred(ErrorEvent e){}
 
