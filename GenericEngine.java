@@ -388,7 +388,7 @@ public class GenericEngine implements Engine, Runnable{
          }
          catch(ClassCastException e){
             e.printStackTrace();
-            throw new NullPointerException("No TankDataFeeder");
+            throw new NullPointerException("No EngineDataFeeder");
          }
       }
       catch(NullPointerException npe){

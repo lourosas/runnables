@@ -125,7 +125,10 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
-   private void checkErrors(){}
+   private void checkErrors(){
+      System.out.println("\ncheckErrors()");
+      System.out.println(this._measStageData+"\n");
+   }
 
    //
    //
@@ -314,8 +317,38 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    private void monitorStage(){
       String         error = null;
+      //Might not need to do this...possibly delete
       List<EngineData> eng = this.monitorEngines();
-      FuelSystemData    fs = this.monitorFuelSystem();
+      FuelSystemData   fsd = this.monitorFuelSystem();
+      try{
+         if(this._feeder != null){
+            RocketData rd = (RocketData)this._feeder.monitor();
+            StageData  sd = (StageData)rd.stage(this._stageNumber);
+            synchronized(this._obj){
+               this._measStageData = sd;
+            }
+         }
+         else{
+            throw new NullPointerException("No DataFeeder");
+         }
+      }
+      catch(ClassCastException cce){
+         try{
+            synchronized(this._obj){
+               StageData sd = (StageData)this._feeder.monitor();
+               this._measStageData = sd;
+            }
+         }
+         catch(ClassCastException e){
+            e.printStackTrace();
+            throw new NullPointerException("No StageDataFeeder");
+         }
+      }
+      catch(NullPointerException npe){
+         synchronized(this._obj){
+            this._measStageData = this._stageData;
+         }
+      }
    }
 
    //
@@ -340,14 +373,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    public StageData monitor(){
       //This needs to be fucking fixed!!!!
       synchronized(this._obj){
-         //return null for the time being...TBD...
-         //Component Data will be fucking fed in...
-         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-         System.out.print("GenericStage"+this._stageNumber);
-         System.out.println(".monitor()");
-         System.out.println(this._feeder);
-         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-         return this._stageData;
+         return this._measStageData;
       }
    }
 
