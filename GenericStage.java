@@ -126,8 +126,39 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    private void checkErrors(){
+      /* will to uncomment...
+      StageData sd = null;
+      synchronized(this._obj){
+         sd = this._measStageData;
+      }
       System.out.println("\ncheckErrors()");
-      System.out.println(this._measStageData+"\n");
+      try{
+         System.out.println(sd);
+         List<EngineData> list   = sd.engineData();
+         Iterator<EngineData> it = list.iterator();
+         while(it.hasNext()){
+            System.out.println(it.next().isError());
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+      */
+   }
+
+   //
+   //
+   //
+   private void computeWeight(StageData sd){
+      Double weight         = sd.dryWeight();
+      FuelSystemData fsd    = sd.fuelSystemData();
+      List<TankData> list   = fsd.tankData();
+      Iterator<TankData> it = list.iterator();
+      while(it.hasNext()){
+         TankData td = it.next();
+         weight += (td.weight() - td.dryWeight());
+      }
+      System.out.println(weight);
    }
 
    //
@@ -324,6 +355,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
          if(this._feeder != null){
             RocketData rd = (RocketData)this._feeder.monitor();
             StageData  sd = (StageData)rd.stage(this._stageNumber);
+            this.computeWeight(sd);
             synchronized(this._obj){
                this._measStageData = sd;
             }

@@ -242,6 +242,10 @@ public class GenericStageData implements StageData{
       data += "Max Weight: " + this.maxWeight() + "\n";
       data += "Weight:     " + this.weight() + "\n";
       data += "Tolerance:  " + this.tolerance() + "\n";
+      data += "Error: " + this.isError() + "\n";
+      if(this.isError()){
+         data += this.error();
+      }
       try{
          Iterator<EngineData> it = this.engineData().iterator();
          while(it.hasNext()){
@@ -256,10 +260,6 @@ public class GenericStageData implements StageData{
       }
       catch(NullPointerException npe){
          data += "Fuel System Data: null\n";
-      }
-      data += "Error: " + this.isError() + "\n";
-      if(this.isError()){
-         data += this.error();
       }
       return data;
    }
