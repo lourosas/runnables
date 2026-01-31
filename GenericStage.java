@@ -149,7 +149,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
-   private void computeWeight(StageData sd){
+   private void computeStageWeight(StageData sd){
       Double weight         = sd.dryWeight();
       FuelSystemData fsd    = sd.fuelSystemData();
       List<TankData> list   = fsd.tankData();
@@ -158,7 +158,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
          TankData td = it.next();
          weight += (td.weight() - td.dryWeight());
       }
-      System.out.println(weight);
+      System.out.println("computeWeight(): "+weight);
    }
 
    //
@@ -351,14 +351,11 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       //Might not need to do this...possibly delete
       List<EngineData> eng = this.monitorEngines();
       FuelSystemData   fsd = this.monitorFuelSystem();
+      StageData         sd = null;
       try{
          if(this._feeder != null){
             RocketData rd = (RocketData)this._feeder.monitor();
-            StageData  sd = (StageData)rd.stage(this._stageNumber);
-            this.computeWeight(sd);
-            synchronized(this._obj){
-               this._measStageData = sd;
-            }
+            sd = (StageData)rd.stage(this._stageNumber);
          }
          else{
             throw new NullPointerException("No DataFeeder");
@@ -366,10 +363,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       }
       catch(ClassCastException cce){
          try{
-            synchronized(this._obj){
-               StageData sd = (StageData)this._feeder.monitor();
-               this._measStageData = sd;
-            }
+            sd = (StageData)this._feeder.monitor();
          }
          catch(ClassCastException e){
             e.printStackTrace();
@@ -377,8 +371,19 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
          }
       }
       catch(NullPointerException npe){
-         synchronized(this._obj){
-            this._measStageData = this._stageData;
+            sd = this._stageData;
+      }
+      finally{
+         try{
+            this.computeStageWeight(sd);
+         }
+         catch(NullPointerException npe){
+            sd = null;
+         }
+         finally{
+            synchronized(this._obj){
+               this._measStageData = sd;
+            }
          }
       }
    }
@@ -393,7 +398,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    }
 
    ///////////////ErrorListener Interface Implementation//////////////
-   //This is when the Instance is fed Errors from the Compnents...
+   //This is when the Instance is fed Errors from the Components...
    //TBD...
    //
    public void errorOccurred(ErrorEvent e){}
@@ -403,7 +408,6 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    public StageData monitor(){
-      //This needs to be fucking fixed!!!!
       synchronized(this._obj){
          return this._measStageData;
       }
