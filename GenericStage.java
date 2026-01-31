@@ -126,6 +126,11 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    private void checkErrors(){
+      StageData sd = null;
+      synchronized(this._obj){
+         sd = this._measStageData;
+      }
+      this.checkMeasuredWeightError();
       /* will to uncomment...
       StageData sd = null;
       synchronized(this._obj){
@@ -149,7 +154,27 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
-   private void computeStageWeight(StageData sd){
+   private boolean checkMeasuredWeightErrors(){
+      double min      = Double.NaN;
+      double max      = Double.NaN;
+      StageData sd    = null;
+      synchronized(this._obj){
+         sd = this._measStageData;
+      }
+      double weight    = this._measStageData.weight();
+      double dryWeight = this._stageData.dryWeight();
+      double tolerance = this._stageData.tolerance();
+      if(this._state.stage() == INIT){
+         min = dryWeight * tolerance;
+         max = dryWeight * (2 - tolerance);
+      }
+      return ((weight < min)||(weight > max));
+   }
+
+   //
+   //
+   //
+   private double computeStageWeight(StageData sd){
       Double weight         = sd.dryWeight();
       FuelSystemData fsd    = sd.fuelSystemData();
       List<TankData> list   = fsd.tankData();
@@ -158,7 +183,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
          TankData td = it.next();
          weight += (td.weight() - td.dryWeight());
       }
-      System.out.println("computeWeight(): "+weight);
+      return weight;
    }
 
    //
@@ -231,7 +256,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       this.initializeStageData(this.getStageDataFromFile(gsFile));
    }
 
-   //Needs to change!
+   //
    //
    //
    private void initializeStageData
@@ -375,7 +400,9 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       }
       finally{
          try{
-            this.computeStageWeight(sd);
+            double weight = this.computeStageWeight(sd);
+            //Set up the Stage Data that is measured/monitored
+            sd = this.setUpStageData(weight,eng,fsd,error,false);
          }
          catch(NullPointerException npe){
             sd = null;
@@ -386,6 +413,51 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
             }
          }
       }
+   }
+
+   //
+   //
+   //
+   private StageData setUpStageData
+   (
+      double           weight,
+      List<EngineData> list,
+      FuelSystemData   fsd,
+      String           error,
+      boolean          isError
+   ){
+      StageData sd = null;
+      synchronized(this._obj){
+         sd = this._measStageData;
+      }
+      try{
+         double dw = this._stageData.dryWeight();
+         long   mdl = this._stageData.model();
+         int    num = this._stageData.stageNumber();
+         int    ens = this._stageData.numberOfEngines();
+         double mw = this._stageData.maxWeight();
+         double tol = this._stageData.tolerance();
+         if(isError || (error != null && error.length() > 0)){
+            weight = sd.weight();
+            list   = sd.engineData();
+            fsd    = sd.fuelSystemData();
+         }
+         sd = new GenericStageData(dw,     //Dry Weight
+                                   error,  //Error
+                                   mdl,    //Model
+                                   isError,//Is Error
+                                   num,    //Stage Number
+                                   ens,    //Total Engines
+                                   mw,     //Max Weight
+                                   tol,    //Tollerance
+                                   weight, //Calculated Weight
+                                   list,   //Engine Data
+                                   fsd);   //Fuel System Data
+      }
+      catch(NullPointerException npe){
+         sd = this._stageData;
+      }
+      return sd;
    }
 
    //
