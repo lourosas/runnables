@@ -165,6 +165,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
          synchronized(this._obj){
             this._measStageData = sd;
          }
+         this.alertErrorListeners();
       }
    }
 

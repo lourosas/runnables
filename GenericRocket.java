@@ -316,6 +316,33 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
+   public RocketData monitor(){
+      return null;
+   }
+
+   //
+   //
+   //
+   public void initialize(String file)throws IOException{
+      //For initialization, always set the current stage to 1 (the
+      //first stage)...
+      //This is order dependent, consider changing...
+      this._currentStage = 1;
+      this.rocketData(file);
+      this.stageData(file);
+      //As with all components, the initialization phase assumes NO
+      //fuel loaded, THEREFORE, the Rocket (calculated or not) is at
+      //empty weight...this is PRIOR to actually measuring the System
+      //which is about three seconds...or, whenever the Thread starts
+      //up--so something is available...
+      this._calculatedWeight = this._emptyWeight;
+      this._state = new LaunchStateSubstate(INIT,null,null,null);
+      this._start = true;
+   }
+
+   //
+   //
+   //
    public void addDataFeeder(DataFeeder feeder){
       if(feeder != null){
          this._feeder = feeder;
@@ -363,107 +390,13 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
+   public void setStateSubstate(LaunchStateSubstate state){}
+
+   //
+   //
+   //
    public int currentStage(){
       return -1;
-   }
-
-   //
-   //
-   //
-   public void initialize(String file)throws IOException{
-      //For initialization, always set the current stage to 1 (the
-      //first stage)...
-      //This is order dependent, consider changing...
-      this._currentStage = 1;
-      this.rocketData(file);
-      this.stageData(file);
-      //As with all components, the initialization phase assumes NO
-      //fuel loaded, THEREFORE, the Rocket (calculated or not) is at
-      //empty weight...this is PRIOR to actually measuring the System
-      //which is about three seconds...or, whenever the Thread starts
-      //up--so something is available...
-      this._calculatedWeight = this._emptyWeight;
-      this._state = new LaunchStateSubstate(INIT,null,null,null);
-      this._start = true;
-   }
-
-
-   //
-   //
-   //
-   public RocketData monitor(){
-      return null;
-   }
-
-   //
-   //
-   //
-   public RocketData monitorInitialization(){
-      //@TODO Monitor Initialization for all the Stages and
-      //capture the data!!!!!!
-      /* NEEDS TO CHANGE!!!
-      List<StageData> stageData = new LinkedList<StageData>();
-      try{
-         Iterator<Stage> it = this._stages.iterator();
-         while(it.hasNext()){
-            Stage s = it.next();
-            StageData sd = s.monitorPrelaunch();
-            stageData.add(sd);
-            //Filter up the stage data...
-            if(sd.isError()){
-               this._isError = true;
-               if(this._error == null){
-                  this._error=new String(sd.error());
-               }
-               else{ this._error += sd.error(); }
-            }
-         }
-      }
-      catch(NullPointerException npe){}
-      //Go ahead and calculate the weight of the rocket by calculating
-      //the weight of each stage
-      this.calculateWeight(stageData);
-      //Determine if there is an error-->COMPARE WEIGHT!!!
-      this.isError(PRELAUNCH);
-      return new GenericRocketData(this._model,
-                                    this._currentStage,
-                                    this._numberOfStages,
-                                    this._emptyWeight,
-                                    this._loadedWeight,
-                                    this._calculatedWeight,
-                                    this._isError,
-                                    this._error,
-                                    stageData);
-      */
-      return null;
-   }
-
-   //
-   //
-   //
-   public RocketData monitorPrelaunch(){
-      return null;
-   }
-
-   //
-   //
-   //
-   public RocketData monitorIgnition(){
-      return null;
-   }
-
-   //
-   //
-   //
-   public RocketData monitorLaunch(){
-      return null;
-   }
-
-   //
-   //
-   //
-   public RocketData monitorPostlaunch(){
-      return null;
    }
 
    //
