@@ -137,8 +137,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
             isError |= it.next().isError();
          }
       }
-      catch(NullPointerException npe){
-      }
+      catch(NullPointerException npe){}
       return isError;
    }
 
@@ -156,24 +155,33 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
          err += "Engine Data Errors\n";
          isError = true;
       }
-      /* will to uncomment...
-      StageData sd = null;
-      synchronized(this._obj){
-         sd = this._measStageData;
+      if(this.checkFuelSystemDataErrors()){
+         err += "Fuel System Data Errors\n";
+         isError = true;
       }
-      System.out.println("\ncheckErrors()");
-      try{
-         System.out.println(sd);
-         List<EngineData> list   = sd.engineData();
-         Iterator<EngineData> it = list.iterator();
-         while(it.hasNext()){
-            System.out.println(it.next().isError());
+      if(isError){
+         StageData sd = null;
+         sd = this.setUpStageData(Double.NaN,null,null,err,isError);
+         synchronized(this._obj){
+            this._measStageData = sd;
          }
       }
-      catch(NullPointerException npe){
-         npe.printStackTrace();
+   }
+
+   //
+   //
+   //
+   private boolean checkFuelSystemDataErrors(){
+      boolean isError = false;
+      FuelSystemData fsd = null;
+      synchronized(this._obj){
+         fsd = this._measStageData.fuelSystemData();
       }
-      */
+      try{
+         isError = fsd.isError();
+      }
+      catch(NullPointerException npe){}
+      return isError;
    }
 
    //
@@ -459,16 +467,18 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
          sd = this._measStageData;
       }
       try{
-         double dw = this._stageData.dryWeight();
+         double dw  = this._stageData.dryWeight();
          long   mdl = this._stageData.model();
          int    num = this._stageData.stageNumber();
          int    ens = this._stageData.numberOfEngines();
-         double mw = this._stageData.maxWeight();
+         double mw  = this._stageData.maxWeight();
          double tol = this._stageData.tolerance();
-         if(isError || (error != null && error.length() > 0)){
-            weight = sd.weight();
-            list   = sd.engineData();
-            fsd    = sd.fuelSystemData();
+         if(Double.isNaN(weight) && list == null && fsd == null){
+            if(isError || (error != null && error.length() > 0)){
+               weight = sd.weight();
+               list   = sd.engineData();
+               fsd    = sd.fuelSystemData();
+            }
          }
          sd = new GenericStageData(dw,     //Dry Weight
                                    error,  //Error
