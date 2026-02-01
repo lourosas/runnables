@@ -126,11 +126,12 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    private void checkErrors(){
-      StageData sd = null;
-      synchronized(this._obj){
-         sd = this._measStageData;
+      String err      = new String();
+      boolean isError = false;
+      if(this.checkMeasuredWeightError()){
+         err += "Capacity Error\n";
+         isError = true;
       }
-      this.checkMeasuredWeightError();
       /* will to uncomment...
       StageData sd = null;
       synchronized(this._obj){
@@ -154,17 +155,17 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
-   private boolean checkMeasuredWeightErrors(){
+   private boolean checkMeasuredWeightError(){
       double min      = Double.NaN;
       double max      = Double.NaN;
       StageData sd    = null;
       synchronized(this._obj){
          sd = this._measStageData;
       }
-      double weight    = this._measStageData.weight();
       double dryWeight = this._stageData.dryWeight();
       double tolerance = this._stageData.tolerance();
-      if(this._state.stage() == INIT){
+      double weight    = sd.weight();
+      if(this._state.state() == INIT){
          min = dryWeight * tolerance;
          max = dryWeight * (2 - tolerance);
       }
@@ -396,7 +397,8 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
          }
       }
       catch(NullPointerException npe){
-            sd = this._stageData;
+         npe.printStackTrace();
+         sd = this._stageData;
       }
       finally{
          try{
@@ -405,7 +407,9 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
             sd = this.setUpStageData(weight,eng,fsd,error,false);
          }
          catch(NullPointerException npe){
-            sd = null;
+            //In some respects, wait until it is initialized...
+            //May need to come up with a better solution...
+            sd = this._stageData;
          }
          finally{
             synchronized(this._obj){
