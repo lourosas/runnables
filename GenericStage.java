@@ -125,11 +125,35 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
+   private boolean checkEngineDataErrors(){
+      boolean isError = false;
+      List<EngineData> list = null;
+      synchronized(this._obj){
+         list = this._measStageData.engineData();
+      }
+      try{
+         Iterator<EngineData> it = list.iterator();
+         while(it.hasNext()){
+            isError |= it.next().isError();
+         }
+      }
+      catch(NullPointerException npe){
+      }
+      return isError;
+   }
+
+   //
+   //
+   //
    private void checkErrors(){
       String err      = new String();
       boolean isError = false;
       if(this.checkMeasuredWeightError()){
          err += "Capacity Error\n";
+         isError = true;
+      }
+      if(this.checkEngineDataErrors()){
+         err += "Engine Data Errors\n";
          isError = true;
       }
       /* will to uncomment...
