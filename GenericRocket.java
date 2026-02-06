@@ -104,7 +104,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
-   private void initializeRocketData(String file)throws IOException{
+   private void initializeRocket(String file)throws IOException{
       if(file.toUpperCase().contains("INI")){
          LaunchSimulatorIniFileReader read = null;
          read = new LaunchSimulatorIniFileReader(file);
@@ -112,14 +112,63 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
       else if(file.toUpperCase().contains("JSON")){
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
-         this.setRocketData(read.readRocketInfo());
+         //this.setRocketData(read.readRocketInfo());
+         this.initializeRocketDataJSON(read.readRocketInfo());
       }
    }
 
    //
    //
    //
-   private void initializeStageData(String file)throws IOException{
+   private void initializeRocketDataJSON(Hashtable<String,String> ht){
+      String mdl = null; int cs = this._currentStage;
+      int ns = -1; double ew = Double.NaN; double lw = Double.NaN;
+      double cw = Double.NaN;  boolean isE = false; String err = null;
+      List<StageData> lst = null; double tol = double.NaN;
+      //the JSON data is all lower case...
+      try{ mdl = ht.get("model");}
+      catch(NullPointerException npe){}
+      try{ ns  = ht.get("stages"); }
+      catch(NumberFormatException nfe){ ns = Double.NaN; }
+      catch(NullPointerException  npe){ ns = Double.NaN; }
+      if(data.containsKey("stages")){
+         try{
+            this._numberOfStages=Integer.parseInt(data.get("stages"));
+         }
+         catch(NumberFormatException nfe){}
+         catch(NullPointerException npe){}
+      }
+      if(data.containsKey("empty_weight")){
+         try{
+            double v = Double.parseDouble(data.get("empty_weight"));
+            this._emptyWeight = v;
+         }
+         catch(NumberFormatException nfe){}
+         catch(NullPointerException npe){}
+      }
+      if(data.containsKey("loaded_weight")){
+         try{
+            double v = Double.parseDouble(data.get("loaded_weight"));
+            this._loadedWeight = v;
+         }
+         catch(NumberFormatException nfe){}
+         catch(NullPointerException npe){}
+      }
+      if(data.containsKey("tolerance")){
+         try{
+            double t = Double.parseDouble(data.get("tolerance"));
+            this._tolerance = t;
+         }
+         catch(NumberFormatException nfe){}
+         catch(NullPointerException npe){}
+      }
+      
+   }
+
+   //
+   //
+   //
+   private void initializeStage(String file)throws IOException{
       this._stages = new LinkedList<Stage>();
       for(int i = 0; i < this._numberOfStages; ++i){
          //For simplicity, stages need to be positive numbers...
@@ -247,41 +296,6 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    private void setRocketData(Hashtable<String,String> data){
-      //the JSON data is all lower case...
-      if(data.containsKey("model")){
-         this._model = data.get("model");
-      }
-      if(data.containsKey("stages")){
-         try{
-            this._numberOfStages=Integer.parseInt(data.get("stages"));
-         }
-         catch(NumberFormatException nfe){}
-         catch(NullPointerException npe){}
-      }
-      if(data.containsKey("empty_weight")){
-         try{
-            double v = Double.parseDouble(data.get("empty_weight"));
-            this._emptyWeight = v;
-         }
-         catch(NumberFormatException nfe){}
-         catch(NullPointerException npe){}
-      }
-      if(data.containsKey("loaded_weight")){
-         try{
-            double v = Double.parseDouble(data.get("loaded_weight"));
-            this._loadedWeight = v;
-         }
-         catch(NumberFormatException nfe){}
-         catch(NullPointerException npe){}
-      }
-      if(data.containsKey("tolerance")){
-         try{
-            double t = Double.parseDouble(data.get("tolerance"));
-            this._tolerance = t;
-         }
-         catch(NumberFormatException nfe){}
-         catch(NullPointerException npe){}
-      }
    }
 
    //
@@ -312,8 +326,8 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    public void initialize(String file)throws IOException{
       //Real Simple for initialization...
       this._currentStage = 1;
-      this.initializeRocketData(file);
-      this.initializeStageData(file);
+      this.initializeRocket(file);
+      this.initializeStage(file);
    }
 
    //
