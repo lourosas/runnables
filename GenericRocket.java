@@ -26,54 +26,59 @@ import rosas.lou.clock.*;
 public class GenericRocket implements Rocket, Runnable, ErrorListener{
    private static boolean TOPRINT = true;
 
-   private LaunchStateSubstate.State INIT      = null;
-   private LaunchStateSubstate.State PRELAUNCH = null;
-   private LaunchStateSubstate.State IGNITION  = null;
-   private LaunchStateSubstate.State LAUNCH    = null;
+   private LaunchStateSubstate.State INIT                      = null;
+   private LaunchStateSubstate.State PRELAUNCH                 = null;
+   private LaunchStateSubstate.State IGNITION                  = null;
+   private LaunchStateSubstate.State LAUNCH                    = null;
+   private LaunchStateSubstate.PreLaunchSubstate SET           = null;
+   private LaunchStateSubstate.PreLaunchSubstate CONT          = null;
+   private LaunchStateSubstate.PreLaunchSubstate FUEL          = null;
+   private LaunchStateSubstate.PreLaunchSubstate HOLD          = null;
+   private LaunchStateSubstate.IgnitionSubstate  IGN           = null;
+   private LaunchStateSubstate.IgnitionSubstate  BUP           = null;
+   private LaunchStateSubstate.AscentSubstate    STG           = null;
+   private LaunchStateSubstate.AscentSubstate    INGE          = null;
 
-   private String             _error;
-   private boolean            _isError;
-   private int                _numberOfStages;
    //Accumulation of all the Weight of the Stages!!!
    //Get rid of Calculated Weight
-   private double              _calculatedWeight;
    private int                 _currentStage;
-   private double              _emptyWeight;
    private List<ErrorListener> _errorListeners;
+   private List<SystemListener>_systemListeners;
    private DataFeeder          _feeder;
    private boolean             _kill;
-   private double              _loadedWeight;
-   private String              _model;
+   private Object              _obj;
    private Thread              _rt0;
    private List<Stage>         _stages;
    private boolean             _start;
    private LaunchStateSubstate _state;
-   private List<SystemListener>_systemListeners;
-   private double              _tolerance;
-
+   private RocketData          _rocketData;
+   private RocketData          _measRocketData;
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
       PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
       IGNITION  = LaunchStateSubstate.State.IGNITION;
       LAUNCH    = LaunchStateSubstate.State.LAUNCH;
+      SET       = LaunchStateSubstate.PreLaunchSubstate.SET;
+      CONT      = LaunchStateSubstate.PreLaunchSubstate.CONTINUE;
+      FUEL      = LaunchStateSubstate.PreLaunchSubstate.FUELING;
+      HOLD      = LaunchStateSubstate.PreLaunchSustate.HOLD;
+      IGN       = LaunchStateSubstate.PreLaunchSubstate.IGNITION;
+      BUP       = LaunchStateSubstate.PreLaunchSubstate.BUILDUP;
+      STG       = LaunchStateSubstate.AscentSubstate.STAGING;
+      IGNE      = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
-      _calculatedWeight = Double.NaN;
       _currentStage     = -1;
-      _emptyWeight      = Double.NaN;
-      _error            = null;
       _errorListeners   = null;
       _feeder           = null;
-      _kill             = false;
-      _isError          = false;
-      _numberOfStages   = -1;
-      _loadedWeight     = Double.NaN;
-      _model            = null;
+      _obj              = null;
       _rt0              = null;
       _stages           = null;
       _start            = false;
       _state            = null;
+      _errorListeners   = null;
       _systemListeners  = null;
-      _tolerance        = Double.NaN;
+      _rocketData       = null;
+      _measRocketData   = null;
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -81,6 +86,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    public GenericRocket(){
+      this._obj = new Object();
       this.setUpThread();
    }
 
@@ -93,27 +99,37 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
-   private void alertSystemListeners(RocketData rd){
-      //Create A System Evvent
-      MissionSystemEvent event = null;
-      //WILL NEED TO KEEP THE FUCKING ERROR mechanism in place!!!
-      //this._isError = false;
-      //this._error   = new String();
-      String s = new String("Rocket Event");
-      event = new MissionSystemEvent(this,rd,s,this._state);
-      try{
-         Iterator<SystemListener> it =  null;
-         it = this._systemListeners.iterator();
-         while(it.hasNext()){
-            it.next().update(event);
-         }
+   private void alertSubscribers(){}
+
+   //
+   //
+   //
+   private void initializeRocketData(String file)throws IOException{
+      if(file.toUpperCase().contains("INI")){
+         LaunchSimulatorIniFileReader read = null;
+         read = new LaunchSimulatorIniFileReader(file);
       }
-      catch(NullPointerException npe){
-         //Should NEVER get here!!!
-         npe.printStackTrace();
+      else if(file.toUpperCase().contains("JSON")){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         this.setRocketData(read.readRocketInfo());
       }
    }
 
+   //
+   //
+   //
+   private void initializeStageData(String file)throws IOException{
+      this._stages = new LinkedList<Stage>();
+      for(int i = 0; i < this._numberOfStages; ++i){
+         //For simplicity, stages need to be positive numbers...
+         GenericStage stage = new GenericStage(i+1);
+         //Initialize the stage
+         stage.initialize(file);
+         stage.addErrorListener(this);
+         this._stages.add(stage);
+      }
+   }
 
    //
    //
@@ -213,21 +229,6 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
-   private void rocketData(String file)throws IOException{
-      if(file.toUpperCase().contains("INI")){
-         LaunchSimulatorIniFileReader read = null;
-         read = new LaunchSimulatorIniFileReader(file);
-      }
-      else if(file.toUpperCase().contains("JSON")){
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         this.setRocketData(read.readRocketInfo());
-      }
-   }
-
-   //
-   //
-   //
    private void setError(String errorType){
       this._error = new String();
       java.text.DecimalFormat df = null;
@@ -291,21 +292,6 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
       this._rt0.start();
    }
 
-   //
-   //
-   //
-   private void stageData(String file)throws IOException{
-      this._stages = new LinkedList<Stage>();
-      for(int i = 0; i < this._numberOfStages; ++i){
-         //For simplicity, stages need to be positive numbers...
-         GenericStage stage = new GenericStage(i+1);
-         //Initialize the stage
-         stage.initialize(file);
-         stage.addErrorListener(this);
-         this._stages.add(stage);
-      }
-   }
-
    ////////////////////ErrorListener Implementation///////////////////
    //
    //
@@ -324,20 +310,10 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    public void initialize(String file)throws IOException{
-      //For initialization, always set the current stage to 1 (the
-      //first stage)...
-      //This is order dependent, consider changing...
+      //Real Simple for initialization...
       this._currentStage = 1;
-      this.rocketData(file);
-      this.stageData(file);
-      //As with all components, the initialization phase assumes NO
-      //fuel loaded, THEREFORE, the Rocket (calculated or not) is at
-      //empty weight...this is PRIOR to actually measuring the System
-      //which is about three seconds...or, whenever the Thread starts
-      //up--so something is available...
-      this._calculatedWeight = this._emptyWeight;
-      this._state = new LaunchStateSubstate(INIT,null,null,null);
-      this._start = true;
+      this.initializeRocketData(file);
+      this.initializeStageData(file);
    }
 
    //
@@ -411,30 +387,36 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    public void run(){
       try{
+         int     count = 0;
+         boolean check = false;
          while(true){
             if(this._kill){
                throw new InterruptedException();
             }
-            if(this._start){
-               if(this._isError){
-                  this.alertErrorListeners();
-               }
-               RocketData rd = this.monitorRocket();
-               this.alertSystemListeners(rd);
+            if(this._state != null){
                if(this._state.state() == INIT){
-                  //Temporary Prints, need to remove...
-                  System.out.println("GR 1\n+++++++++++++++++++++++");
-                  System.out.print("Rocket: ");
-                  System.out.println(Thread.currentThread().getName());
-                  System.out.print("Rocket: ");
-                  System.out.println(Thread.currentThread().getId());
-                  System.out.println("+++++++++++++++++++++++\nGR 2");
-                  Thread.sleep(10000);
+                  //In the Initialization Stage, check every
+                  //10 Seconds
+                  if(count++%10000 == 0){
+                     check = true;
+                     count = 1; //Reset the Counter
+                  }
                }
             }
-            else{
-               Thread.sleep(1);
+            if(check){
+              //Eventually perform all of this...
+              //this.monitorRocket();
+              //this.checkErrors();
+              //this.alertSubscribers();
+              System.out.println("GR 1\n+++++++++++++++++++++++");
+              System.out.print("Rocket: ");
+              System.out.println(Thread.currentThread().getName());
+              System.out.print("Rocket: ");
+              System.out.println(Thread.currentThread().getId());
+              System.out.println("+++++++++++++++++++++++\nGR 2");
+              check = false;
             }
+            Thread.sleep(1);
          }
       }
       catch(InterruptedException ie){}
