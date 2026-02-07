@@ -37,7 +37,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    private LaunchStateSubstate.IgnitionSubstate  IGN           = null;
    private LaunchStateSubstate.IgnitionSubstate  BUP           = null;
    private LaunchStateSubstate.AscentSubstate    STG           = null;
-   private LaunchStateSubstate.AscentSubstate    INGE          = null;
+   private LaunchStateSubstate.AscentSubstate    IGNE          = null;
 
    //Accumulation of all the Weight of the Stages!!!
    //Get rid of Calculated Weight
@@ -62,9 +62,9 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
       SET       = LaunchStateSubstate.PreLaunchSubstate.SET;
       CONT      = LaunchStateSubstate.PreLaunchSubstate.CONTINUE;
       FUEL      = LaunchStateSubstate.PreLaunchSubstate.FUELING;
-      HOLD      = LaunchStateSubstate.PreLaunchSustate.HOLD;
-      IGN       = LaunchStateSubstate.PreLaunchSubstate.IGNITION;
-      BUP       = LaunchStateSubstate.PreLaunchSubstate.BUILDUP;
+      HOLD      = LaunchStateSubstate.PreLaunchSubstate.HOLD;
+      IGN       = LaunchStateSubstate.IgnitionSubstate.IGNITION;
+      BUP       = LaunchStateSubstate.IgnitionSubstate.BUILDUP;
       STG       = LaunchStateSubstate.AscentSubstate.STAGING;
       IGNE      = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
@@ -125,20 +125,20 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
       String mdl = null; int cs = this._currentStage;
       int ns = -1; double ew = Double.NaN; double lw = Double.NaN;
       double cw = Double.NaN;  boolean isE = false; String err = null;
-      List<StageData> lst = null; double tol = double.NaN;
+      List<StageData> lst = null; double tol = Double.NaN;
       //the JSON data is all lower case...
       try{ mdl = ht.get("model");}
       catch(NullPointerException npe){}
-      try{ ns  = ht.get("stages"); }
-      catch(NumberFormatException nfe){ ns = Double.NaN; }
-      catch(NullPointerException  npe){ ns = Double.NaN; }
-      try{ ew = ht.get("empty_weight"); }
+      try{ ns  = Integer.parseInt(ht.get("stages")); }
+      catch(NumberFormatException nfe){ ns = -1; }
+      catch(NullPointerException  npe){ ns = -1; }
+      try{ ew = Double.parseDouble(ht.get("empty_weight")); }
       catch(NumberFormatException nfe){ ew = Double.NaN; }
       catch(NullPointerException  npe){ ew = Double.NaN; }
-      try{ lw = ht.get("loaded_weight"); }
+      try{ lw = Double.parseDouble(ht.get("loaded_weight")); }
       catch(NumberFormatException nfe){ lw = Double.NaN; }
       catch(NullPointerException  npe){ lw = Double.NaN; }
-      try{ tol = ht.get("tolerance"); }
+      try{ tol = Double.parseDouble(ht.get("tolerance")); }
       catch(NumberFormatException nfe){ lw = Double.NaN; }
       catch(NullPointerException  npe){ lw = Double.NaN; }
       this._rocketData = new GenericRocketData(mdl,//Model
@@ -157,8 +157,15 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    private void initializeStage(String file)throws IOException{
+      LaunchSimulatorJsonFileReader read = null;
+      read = new LaunchSimulatorJsonFileReader(file);
+      Hashtable<String,String> ht = read.readRocketInfo();
+      int numStages = -1;
+      try{ numStages = Integer.parseInt(ht.get("stages")); }
+      catch(NullPointerException  npe){}
+      catch(NumberFormatException nfe){}
       this._stages = new LinkedList<Stage>();
-      for(int i = 0; i < this._numberOfStages; ++i){
+      for(int i = 0; i < numStages; ++i){
          //For simplicity, stages need to be positive numbers...
          GenericStage stage = new GenericStage(i+1);
          //Initialize the stage
@@ -166,124 +173,6 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
          stage.addErrorListener(this);
          this._stages.add(stage);
       }
-   }
-
-   //
-   //
-   //
-   private void isError(){
-      double  edge      = Double.NaN;
-      double  ul        = Double.NaN;
-      double  ll        = Double.NaN;
-      double  lim       = 1. - this._tolerance;
-      boolean inputGood = !Double.isNaN(this._emptyWeight);
-      inputGood        &= !Double.isNaN(this._loadedWeight);
-      boolean measGood  = !Double.isNaN(this._calculatedWeight);
-
-      this._isError = false;
-      this._error   = new String();
-
-      if(inputGood && measGood){
-         if(this._state.state() == INIT){
-            ll = this._emptyWeight*this._tolerance;
-            ul = this._emptyWeight*(2-this._tolerance);
-            if(this._emptyWeight < 0){
-               double temp = ul;
-               ul = ll;
-               ll = temp;
-            }
-         }
-         else if(this._state.state() == PRELAUNCH){
-         }
-         if(this._calculatedWeight<ll || this._calculatedWeight>ul){
-            this._isError = true;
-            String error  = new String("Calculated Weight: ");
-            if(this._calculatedWeight < ll){
-               error += "too low";
-            }
-            else if(this._calculatedWeight > ul){
-               error += "too high";
-            }
-            this.setError(error);
-         }
-      }
-   }
-
-   //
-   //
-   //
-   private void measureWeight
-   (
-      List<StageData> sd
-      /*,CapsuleData cap*/
-   ){
-      this._calculatedWeight = 0;
-      try{
-         Iterator<StageData> it = sd.iterator();
-         while(it.hasNext()){
-            this._calculatedWeight += it.next().weight();
-         }
-      }
-      catch(NullPointerException npe){
-         npe.printStackTrace();
-         this._calculatedWeight = Double.NaN;
-      }
-   }
-
-   //
-   //
-   //
-   private RocketData monitorRocket(){
-      RocketData data = null;
-      try{
-         Iterator<Stage> it   = this._stages.iterator();
-         List<StageData> list = new LinkedList<StageData>();
-         while(it.hasNext()){
-            list.add(it.next().monitor());
-         }
-         this.measureWeight(list/*,this.capsuleData*/); //TBD
-         this.isError();
-         data = new GenericRocketData(this._model,
-                                      this._currentStage,
-                                      this._numberOfStages,
-                                      this._emptyWeight,
-                                      this._loadedWeight,
-                                      this._calculatedWeight,
-                                      this._isError,
-                                      this._error,
-                                      list,
-                                      this._tolerance);
-      }
-      catch(NullPointerException npe){
-         npe.printStackTrace();
-         data = null;
-      }
-      finally{
-         return data;
-      }
-   }
-
-   //
-   //
-   //
-   private void setError(String errorType){
-      this._error = new String();
-      java.text.DecimalFormat df = null;
-      df = new java.text.DecimalFormat("###,###,###.##");
-      if(errorType.toUpperCase().contains("CALCULATED")){
-         this._error  = errorType;
-         this._error += "\nState:      "+this._state.state();
-         String formatted = df.format(this._calculatedWeight);
-         this._error += "\nCalculated: "+formatted;
-         this._error += "\nEmpty:      "+this._emptyWeight;
-         this._error += "\nLoaded:     "+this._loadedWeight;
-      }
-   }
-
-   //Set up the data....
-   //
-   //
-   private void setRocketData(Hashtable<String,String> data){
    }
 
    //
@@ -305,6 +194,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    public RocketData monitor(){
+      //To be determined...
       return null;
    }
 
@@ -368,20 +258,34 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
-   public void setStateSubstate(LaunchStateSubstate state){}
+   public void setStateSubstate(LaunchStateSubstate state){
+      this._state = state;
+   }
 
    //
    //
    //
    public int currentStage(){
-      return -1;
+      int cs = -1;
+      try{
+         this._measRocketData.currentStage();
+      }
+      catch(NullPointerException npe){
+         cs = this._currentStage;     
+      }
+      return cs;
    }
 
    //
    //
    //
    public int totalStages(){
-      return this._numberOfStages;
+      int ts = -1;
+      try{
+         this._rocketData.numberOfStages();
+      }
+      catch(NullPointerException npe){}
+      return ts;
    }
    ///////////////Runnable Interface Implementation///////////////////
    //
@@ -410,12 +314,12 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
               //this.monitorRocket();
               //this.checkErrors();
               //this.alertSubscribers();
-              System.out.println("GR 1\n+++++++++++++++++++++++");
+              System.out.println("\nGR 1\n+++++++++++++++++++++++");
               System.out.print("Rocket: ");
               System.out.println(Thread.currentThread().getName());
               System.out.print("Rocket: ");
               System.out.println(Thread.currentThread().getId());
-              System.out.println("+++++++++++++++++++++++\nGR 2");
+              System.out.println("+++++++++++++++++++++++\nGR 2\n");
               check = false;
             }
             Thread.sleep(1);
