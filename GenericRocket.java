@@ -178,6 +178,31 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
+   private boolean isPathFile(String file)throws IOException{
+      boolean isPath = false;
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         if(read.readPathInfo().get("parameter") == null){
+            throw new NullPointerException("Not a Path File");
+         }
+         isPath = true;
+      }
+      catch(IOException ioe){
+         isPath = false;
+         throw ioe;
+      }
+      catch(NullPointerException npe){
+         isPath = false;
+      }
+      finally{
+         return isPath;
+      }
+   }
+
+   //
+   //
+   //
    private void setUpThread(){
       this._rt0 = new Thread(this, "Generic Rocket");
       this._rt0.start();
@@ -202,10 +227,18 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    public void initialize(String file)throws IOException{
-      //Real Simple for initialization...
+      String rFile = file;
+      String sFile = file;
       this._currentStage = 1;
-      this.initializeRocket(file);
-      this.initializeStage(file);
+      if(this.isPathFile(file)){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         rFile = read.readPathInfo().get("rocket");
+         sFile = read.readPathInfo().get("stage");
+      }
+      //Real Simple for initialization...
+      this.initializeRocket(rFile);
+      this.initializeStage(sFile);
    }
 
    //
