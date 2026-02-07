@@ -53,6 +53,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    private LaunchStateSubstate _state;
    private RocketData          _rocketData;
    private RocketData          _measRocketData;
+
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
       PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
@@ -131,38 +132,25 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
       try{ ns  = ht.get("stages"); }
       catch(NumberFormatException nfe){ ns = Double.NaN; }
       catch(NullPointerException  npe){ ns = Double.NaN; }
-      if(data.containsKey("stages")){
-         try{
-            this._numberOfStages=Integer.parseInt(data.get("stages"));
-         }
-         catch(NumberFormatException nfe){}
-         catch(NullPointerException npe){}
-      }
-      if(data.containsKey("empty_weight")){
-         try{
-            double v = Double.parseDouble(data.get("empty_weight"));
-            this._emptyWeight = v;
-         }
-         catch(NumberFormatException nfe){}
-         catch(NullPointerException npe){}
-      }
-      if(data.containsKey("loaded_weight")){
-         try{
-            double v = Double.parseDouble(data.get("loaded_weight"));
-            this._loadedWeight = v;
-         }
-         catch(NumberFormatException nfe){}
-         catch(NullPointerException npe){}
-      }
-      if(data.containsKey("tolerance")){
-         try{
-            double t = Double.parseDouble(data.get("tolerance"));
-            this._tolerance = t;
-         }
-         catch(NumberFormatException nfe){}
-         catch(NullPointerException npe){}
-      }
-      
+      try{ ew = ht.get("empty_weight"); }
+      catch(NumberFormatException nfe){ ew = Double.NaN; }
+      catch(NullPointerException  npe){ ew = Double.NaN; }
+      try{ lw = ht.get("loaded_weight"); }
+      catch(NumberFormatException nfe){ lw = Double.NaN; }
+      catch(NullPointerException  npe){ lw = Double.NaN; }
+      try{ tol = ht.get("tolerance"); }
+      catch(NumberFormatException nfe){ lw = Double.NaN; }
+      catch(NullPointerException  npe){ lw = Double.NaN; }
+      this._rocketData = new GenericRocketData(mdl,//Model
+                                               cs, //Current Stage
+                                               ns, //No. of Stages
+                                               ew, //Empty Weight
+                                               lw, //Loaded Weight
+                                               cw, //Calculated Weight
+                                               isE,//Is Error
+                                               err,//Error String
+                                               lst,//Stages List
+                                               tol);//Tollerance
    }
 
    //
