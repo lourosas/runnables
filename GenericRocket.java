@@ -204,25 +204,52 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    private void monitorRocket(){
-      String error   = null;
-      List<Stage>    = this.monitorStage();
-      RocketData  rd = null;
+      String error        = null;
+      //Might not need...possibly delete...
+      List<StageData> lst = this.monitorStage();
+      RocketData rd       = null;
       try{
          if(this._feeder != null){
-            RocketData rd = (RocketData)this._feeder.monitor();
+            rd = (RocketData)this._feeder.monitor();
+         }
+         else{
+            throw new NullPointerException("No Data Feeder");
          }
       }
-      catch(ClassCastException cce){}
-      catch(NullPointerException npe){}
-      finally{}
+      catch(ClassCastException cce){
+         throw new NullPointerException("No Data Feeder");
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         rd = this._rocketData;
+      }
+      finally{
+         //For the time being, a test print
+         System.out.println(rd);
+      }
    }
 
    //
    //
    //
-   private List<Stage> monitorStage(){
-      //Temporary...will change later
-      return null;
+   private List<StageData> monitorStage(){
+      List<StageData> list = null;
+      try{
+         list = new LinkedList<StageData>();
+         synchronized(this._obj){
+            Iterator<Stage> it = this._stages.iterator();
+            while(it.hasNext()){
+               list.add(it.next().monitor());
+            }
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         list = null;
+      }
+      finally{
+         return list;
+      }
    }
 
    //
@@ -316,13 +343,6 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
-   public void setStateSubstate(LaunchStateSubstate state){
-      this._state = state;
-   }
-
-   //
-   //
-   //
    public int currentStage(){
       int cs = -1;
       try{
@@ -332,6 +352,22 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
          cs = this._currentStage;     
       }
       return cs;
+   }
+
+   //
+   //
+   //
+   public void setStateSubstate(LaunchStateSubstate state){
+      this._state = state;
+      try{
+         Iterator<Stage> it = this._stages.iterator();
+         while(it.hasNext()){
+            it.next().setStateSubstate(this._state);
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
    }
 
    //
