@@ -203,13 +203,38 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
+   private void monitorRocket(){
+      String error   = null;
+      List<Stage>    = this.monitorStage();
+      RocketData  rd = null;
+      try{
+         if(this._feeder != null){
+            RocketData rd = (RocketData)this._feeder.monitor();
+         }
+      }
+      catch(ClassCastException cce){}
+      catch(NullPointerException npe){}
+      finally{}
+   }
+
+   //
+   //
+   //
+   private List<Stage> monitorStage(){
+      //Temporary...will change later
+      return null;
+   }
+
+   //
+   //
+   //
    private void setUpThread(){
       this._rt0 = new Thread(this, "Generic Rocket");
       this._rt0.start();
    }
 
    ////////////////////ErrorListener Implementation///////////////////
-   //
+   //TBD...
    //
    //
    public void errorOccurred(ErrorEvent e){}
@@ -344,7 +369,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
             }
             if(check){
               //Eventually perform all of this...
-              //this.monitorRocket();
+              this.monitorRocket();
               //this.checkErrors();
               //this.alertSubscribers();
               System.out.println("\nGR 1\n+++++++++++++++++++++++");
