@@ -224,8 +224,18 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
          rd = this._rocketData;
       }
       finally{
-         //For the time being, a test print
-         System.out.println(rd);
+         try{
+            double weight = this.computeRocketWeight(rd,lst);
+            rd = this.setUpRocketData(weight,lst,error,false);
+         }
+         catch(NullPointerException npe){
+            rd = this._rocketData;
+         }
+         finally{
+            synchronized(this._obj){
+               this._measRocketData = rd;
+            }
+         }
       }
    }
 
@@ -404,15 +414,15 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
                }
             }
             if(check){
-              //Eventually perform all of this...
-              this.monitorRocket();
-              //this.checkErrors();
-              //this.alertSubscribers();
               System.out.println("\nGR 1\n+++++++++++++++++++++++");
               System.out.print("Rocket: ");
               System.out.println(Thread.currentThread().getName());
               System.out.print("Rocket: ");
               System.out.println(Thread.currentThread().getId());
+              //Eventually perform all of this...
+              this.monitorRocket();
+              //this.checkErrors();
+              //this.alertSubscribers();
               System.out.println("+++++++++++++++++++++++\nGR 2\n");
               check = false;
             }
