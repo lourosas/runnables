@@ -105,6 +105,40 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
+   private void checkErrors(){
+      String err        = new String();
+      boolean isError   = false;
+      if(isError = this.checkMesaurementWeightError()){
+         err+= "Measured Weight Error\n";
+      }
+      if(isError = this.checkStageErrors()){
+         err += "Stage Errors\n";
+      }
+   }
+
+   //
+   //
+   //
+   private double computeRocketWeight
+   (
+      RocketData      rd,
+      List<StageData> list
+   ){
+      double weight = 0.; //Of course, start with a 0 weight
+      //Get the current weight of the payload and the weights of the
+      //stages and add them together...do not try to get all cute...
+      //weight += {get the capsule weight}--to be monitored!! TBD
+      Iterator<StageData> it = list.iterator();
+      while(it.hasNext()){
+         StageData sd = it.next();
+         weight += sd.weight();
+      }
+      return weight;
+   }
+
+   //
+   //
+   //
    private void initializeRocket(String file)throws IOException{
       if(file.toUpperCase().contains("INI")){
          LaunchSimulatorIniFileReader read = null;
@@ -259,6 +293,52 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
       }
       finally{
          return list;
+      }
+   }
+
+   //
+   //
+   //
+   private RocketData setUpRocketData
+   (
+      double          weight,
+      List<StageData> list,
+      String          error,
+      boolean         isError
+   ){
+      RocketData rd = null;
+      synchronized(this._obj){
+         rd = this._measRocketData;
+      }
+      try{
+         int    cs  = rd.currentStage(); //This has to be most current
+         double ew  = this._rocketData.emptyWeight();
+         double lw  = this._rocketData.loadedWeight();
+         String mdl = this._rocketData.model();
+         int    ns  = this._rocketData.numberOfStages();
+         double tol = this._rocketData.tolerance();
+         if(Double.isNaN(weight) && list == null){
+            if(isError || (error!=null && error.length() > 0)){
+               weight = rd.calculatedWeight();
+               list   = rd.stages();
+            }
+         }
+         rd = new GenericRocketData(mdl,    //model
+                                    cs,     //Current Stage
+                                    ns,     //Number of Stages
+                                    ew,     //Empty Weight
+                                    lw,     //Loaded Weight
+                                    weight, //Calculated Weight
+                                    isError,
+                                    error,  //error
+                                    list,   //Stages
+                                    tol);   //Tolerance
+      }
+      catch(NullPointerException npe){
+         rd = this._rocketData;
+      }
+      finally{
+         return rd;
       }
    }
 

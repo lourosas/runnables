@@ -496,7 +496,9 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       catch(NullPointerException npe){
          sd = this._stageData;
       }
-      return sd;
+      finally{
+         return sd;
+      }
    }
 
    //
