@@ -95,12 +95,46 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
-   private void alertErrorListeners(){}
+   private void alertErrorListeners(){
+      String error  = null;
+      RocketData rd = null;
+      synchronized(this._obj){
+         rd    = this._measRocketData;
+         error = rd.error();
+      }
+      try{
+         Iterator<ErrorListener> it = this._errorListeners.iterator();
+         while(it.hasNext()){
+            it.next().errorOccurred(new ErrorEvent(this,rd,error));
+         }
+      }
+      catch(NullPointerException npe){}
+   }
 
    //
    //
    //
-   private void alertSubscribers(){}
+   private void alertSubscribers(){
+      RocketData rd          = null;
+      LaunchStateSubstate ss = this._state;
+
+      String event = ss.state()+", "+ss.ascentSubstate();
+      event += ", "+ss.ignitionSubstate()+", ";
+      event += ss.prelaunchSubstate();
+      synchronized(this._obj){
+         rd = this._measRocketData;
+      }
+      try{
+         MissionSystemEvent mse = null;
+         mse = new MissionSystemEvent(this,rd,event,ss);
+         Iterator<SystemListener> it = null;
+         it = this._systemListeners.iterator();
+         while(it.hasNext()){
+            it.next().update(mse);
+         }
+      }
+      catch(NullPointerException npe){}
+   }
 
    //
    //
@@ -108,12 +142,60 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    private void checkErrors(){
       String err        = new String();
       boolean isError   = false;
-      if(isError = this.checkMesaurementWeightError()){
+      if(isError = this.checkMeasurementWeightError()){
          err+= "Measured Weight Error\n";
       }
       if(isError = this.checkStageErrors()){
          err += "Stage Errors\n";
       }
+      if(isError){
+         RocketData rd = null;
+         rd = this.setUpRocketData(Double.NaN,null,err,isError);
+         synchronized(this._obj){
+            this._measRocketData = rd;
+         }
+         this.alertErrorListeners();
+      }
+   }
+
+   //
+   //
+   //
+   private boolean checkMeasurementWeightError(){
+      double min    = Double.NaN;
+      double max    = Double.NaN;
+      double weight = Double.NaN;
+      synchronized(this._obj){
+         weight = this._measRocketData.calculatedWeight();
+      }
+      double dryWeight = this._rocketData.emptyWeight();
+      double tolerance = this._rocketData.tolerance();
+      if(this._state.state() == INIT){
+         min = dryWeight * tolerance;
+         max = dryWeight * (2 - tolerance);
+      }
+      return ((weight < min) || (weight > max));
+   }
+   
+   //
+   //
+   //
+   private boolean checkStageErrors(){
+      boolean isError      = false;
+      List<StageData> list = null;
+      synchronized(this._obj){
+         list = this._measRocketData.stages();
+      }
+      try{
+         Iterator<StageData> it = list.iterator();
+         while(it.hasNext()){
+            isError = it.next().isError();
+         }
+      }
+      catch(NullPointerException npe){
+         isError = false;
+      }
+      return isError;
    }
 
    //
@@ -361,8 +443,9 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    public RocketData monitor(){
-      //To be determined...
-      return null;
+      synchronized(this._obj){
+         return this._measRocketData;
+      }
    }
 
    //
@@ -501,8 +584,8 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
               System.out.println(Thread.currentThread().getId());
               //Eventually perform all of this...
               this.monitorRocket();
-              //this.checkErrors();
-              //this.alertSubscribers();
+              this.checkErrors();
+              this.alertSubscribers();
               System.out.println("+++++++++++++++++++++++\nGR 2\n");
               check = false;
             }
