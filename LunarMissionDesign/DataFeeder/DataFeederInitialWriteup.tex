@@ -1,0 +1,117 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[leterpaper]{article}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\begin{document}
+\title{Data Feeder Design Writeup}
+\author{Lou Rosas}
+\maketitle
+\section{History}
+Simulations (mechanical \& computerized) are an essential part of the
+modern development process.  It is often done for
+\begin{enumerate}
+\item Cost of Effectiveness
+\item Safety
+\item Proof of Concept
+\item Ease
+\item Speed
+\end{enumerate}
+A full prototype does not need development:  allowing for all of the
+above
+
+\section{Abstract}
+The System is to be tested in Simulation Mode.  Simulation mode, is
+to model real events and data in as accurate a model as possible.
+Since the System is data driven, that means a Simulation must
+emulate real events via data.  Hence the Simulation is Data Driven,
+in addition.
+
+\section{Concept}
+Create a Data Feeder that emulates data for all components in all
+phases (states) of the Sytem to the point the System and Stake Holders
+are ignorant to the fact the data is simulated and not an actual
+mission.
+
+\section{Intent}
+Create a Data Feeder specifically designed to work with the Lunar
+Simulator.  The purpose of the Data Feeder is to Feed Data (actually
+be the Simulator for the Lunar Simulator/System) When data from actual
+hardware is not available.
+
+\noindent
+\\Feed all the data related to the Lunar Sequence in all the Phases
+(States) to the System.
+
+\noindent
+\\While the System is running in Simulation, the Data Feeder will feed
+the appropriate data to the System via System Requests of the desired
+Data.  Future development may require the System is \underline{alerted}
+to the State Changes so as to ensure the System and Stakeholders are
+agnostic to the source of the incomming data.
+
+\noindent
+\\The data modeled by the Data Feeder is independent of System
+Request.
+
+\noindent
+\\The Data Feeder will calculate all the needed System Data for
+the aggregate components for every phase (State) in the System.
+
+\section{Stakeholders \& Interests}
+\begin{enumerate}
+\item Flight Controller--Want System Data related to the particular
+Phase (state) of the mission.  Want accurate simulation to possible
+events and occurences.
+\item Engineers/Technicians--Want System Data for their component(s)
+of interest in the target Mission Phase (state).  Want data accuracy
+in relation to possible Mission Type Events.
+\item Systems Engineers--want accurate simulation for cost
+effectiveness.
+\end{enumerate}
+
+\section{Typical Success Scenario}
+\begin{enumerate}
+   \item  The (Lunar Mission) System Administor Starts the (Lunar
+      Mission) System
+   \item  The (Lunar Mission) System is running
+   \item  The (Lunar Mission) System Administrator requests the
+      (Lunar Mission) System to run in simulation: sending the path to
+      the Mission Parameters and System/Components file to the Data
+      Feeder
+   \item  The (Lunar Mission) System is running in Simulation Mode
+   \item  The Data Feeder is started
+      \begin{enumerate}
+         \item The Mission Parameters File is loaded
+         \item The System/Components File is loaded
+      \end{enumerate}
+   \item The Data Feeder Continuously Calculates the System Mission
+      Data
+   \item The Data Feeder Independently Calculates the System Mission
+      Data
+   \item The System Periodically requests Mission Data
+   \item The Data Feeder returns requested Mission Data
+\end{enumerate}
+\section{Special Notes}
+\begin{itemize}
+   \item The Data Feeder works independently and asynchronously from
+      the (Lunar Mission) System.
+   \item Mission Data is based on what the (Lunar Mission) System
+      monitors
+      \begin{itemize}
+         \item Based solely on the System incarnation
+         \item Subject to change
+         \item Pertinent Data dependent on Mission Parameters
+      \end{itemize}
+   \item In the current incarnation, the System monitors and requests
+      data from the Feeder
+      \begin{itemize}
+         \item While this allows both loose association, there is a
+            stronger association as opposed to implementing the 
+            \textit{Publish/Subscribe} design patter
+         \item Should be considered for future development and work
+      \end{itemize}
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

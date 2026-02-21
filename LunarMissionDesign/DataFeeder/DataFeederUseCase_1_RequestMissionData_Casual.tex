@@ -1,0 +1,31 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Request Mission Data--Casual Format}\\
+\textit{Main Success Scenario}
+\begin{enumerate}
+\item With the Data Feeder running, querry the desired data
+\item Data Feeder returns the requested data last saved
+\item Depending on the Current Sequence, Phase or State, go to
+\textit{1} and continue for the required amount of time desiring
+requested data.
+\end{enumerate}
+\textit{Alternative Scenarios}
+\begin{enumerate}
+   \item[1a]  If the data is not available then the Data Feeder
+      returns an error
+   \item[1b]  If the there is an error in acquiring the data, then
+      the Data Feeder returns as error
+\end{enumerate}
+\textit{Notes/Constraints}
+\begin{enumerate}
+   \item[2a]  If the querry rate is faster than the Data Feeder update
+      rate, then the querried data could be the same as previously
+      quierried
+\end{enumerate}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
