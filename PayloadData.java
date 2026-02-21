@@ -23,13 +23,16 @@ import rosas.lou.runnables.*;
 
 public interface PayloadData{
    public int     crew();
-   public double  currentTemp();
    public double  currentWeight();
    public double  dryWeight();
-   public double  maxWeight();
    public String  error();
    public boolean isError();
+   public boolean isOccupied();
+   public double  maxWeight();
    public String  model();
+   public double  o2Percent();
+   public double  temperature();
+   public double  tolerance();
    public String  type();
    public String  toString();
 }
