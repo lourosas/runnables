@@ -350,7 +350,8 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
             }
             if(check){
                List<StageData> l = this.monitorStages();
-               this.setMeasuredData(l);
+               //PayloadData = this.monitorPayload();
+               this.setMeasuredData(l,/*PayloadData*/);
                check = false;
                //Test Prints
                System.out.println(Thread.currentThread().getName());
