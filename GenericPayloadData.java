@@ -69,6 +69,81 @@ public call GenericPayloadData implements PayloadData{
    ){}
 
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void crew(int crew){ this._crew = crew; }
+
+   //
+   //
+   //
+   private void currentWeight(double cw){
+      if(cw > 0.){
+         this._currentWeight = cw;
+      }
+   }
+
+   //
+   //
+   //
+   private void dryWeight(double dw){
+      if(dw > 0.){
+         this._dryWeight = dw;
+      }
+   }
+
+   //
+   //
+   //
+   private void error(String error){ this._error = error; }
+
+   //
+   //
+   //
+   private void isError(boolean isE){ this._isError = isE; }
+
+   //
+   //
+   //
+   private void isOccupied(double isO){ this._isOccupied = isO; }
+
+   //
+   //
+   //
+   private void maxWeight(double mw){
+      if(mw > 0.){
+         this._maxWeight = mw;
+      }
+   }
+
+   //
+   //
+   //
+   private void model(String model){  this._model = model; }
+
+   //
+   //
+   //
+   private void o2Percent(double percent){
+      if(percent > 0.){
+         this._percent = percent;
+      }
+   }
+
+   //Temperature in Kelvin...
+   //
+   //
+   private void temperature(double temp){
+      if(temp > 0.){
+         this._temperature = temp;
+      }
+   }
+
+   //
+   //
+   //
+   private void type(String type){ this._type = type; }
+
    ////////////////PayloadData Interface Implementation///////////////
    //
    //
