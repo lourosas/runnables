@@ -89,15 +89,65 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private void measureAtmosphere(){
-      //Used for O2 Percent
+   private void initializePayloadData(String file){
+      int   crw = -1;         double cw  = Double.NaN;//Derived
+      double dw = Double.NaN; String err = null; boolean isE = false;
+      boolean isO=false; double mw = Double.NaN; String model = null;
+      double o2P = Double.NaN; double temp = Double.NaN;
+      double tol = Double.NaN; String type = null;
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         Hashtable<String,String> ht = read.readPayloadInfo();
+      }
+      catch(IOException ioe){
+         ioe.printStackTrace();
+         this._initPayloadData = null;
+      }
    }
 
    //
    //
    //
-   private void measureWeight(){
+   private boolean isPathFile(String file){
+      boolean isPath = false;
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         Hashtable<String,String> ht = read.readPathInfo();
+         if(read.readPathInfo().get("parameter") == null){
+            throw new NullPointerException("Not a Path File");
+         }
+         isPath = true;
+      }
+      catch(IOException ioe){
+         isPath = false;
+         ioe.printStackTrace(); //Temporary
+         throw ioe;
+      }
+      catch(NullPointerException npe){
+         isPath = false;
+         npe.printStackTrace(); //Temporary
+      }
+      finally{
+         return isPath;
+      }
+   }
+
+   //
+   //
+   //
+   private double measureAtmosphere(){
+      //Used for O2 Percent
+      return Double.NaN;
+   }
+
+   //
+   //
+   //
+   private double measureWeight(){
       //Used for Current Weight
+      return Double.NaN;
    }
 
    //
@@ -123,7 +173,16 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void initialize(String file) throws IOException{}
+   public void initialize(String file) throws IOException{
+      //Payload Data File
+      String pldFile = file;
+      if(this.isPathFile(pldFile)){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(pldFile);
+         pldFile = read.readPathInfo().get("payload");
+      }
+      this.initializePayloadData(pldFile);
+   }
 
    //
    //
@@ -159,6 +218,7 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
                   }
                }
                if(check){
+                  this.measure();
                   check = false;
                   counter = 1;
                }

@@ -46,6 +46,7 @@ public call GenericPayloadData implements PayloadData{
       _model          = null;
       _o2Percent      = Double.NaN;
       _temperature    = Double.NaN;
+      _tolerance      = Double.NaN;
       _type           = null;
    };
 
@@ -65,6 +66,7 @@ public call GenericPayloadData implements PayloadData{
       String  model,
       double  o2Percent,
       double  temperature,
+      double  tolerance,
       String  type
    ){}
 
@@ -136,6 +138,15 @@ public call GenericPayloadData implements PayloadData{
    private void temperature(double temp){
       if(temp > 0.){
          this._temperature = temp;
+      }
+   }
+
+   //
+   //
+   //
+   private void tolerance(double tol){
+      if(tol >= 0.){
+         this._tolerance = tol;
       }
    }
 
