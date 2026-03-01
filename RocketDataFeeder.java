@@ -56,6 +56,8 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //Sigleton Implmentation
    private static DataFeeder       _instance;
 
+   private DataFeeder              _payload;
+
    //This is going have to be a LIST!!!  Based on stages!!!!
    private List<StageDataFeeder>   _stages;
    {
@@ -83,6 +85,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
       _toStart         = false;
       //Singleton
       _instance        = null;
+      _payload         = null;
       _stages          = null;
    };
 

@@ -89,16 +89,83 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private int getCrewNumberFromHashtable(Hashtable<String,String>ht){
+      int crew = -1;
+      try{
+         crew = Integer.parseInt(ht.get("crew"));
+      }
+      catch(NumberFormatException nfe){
+         crew = -1;
+      }
+      return crew;
+   }
+
+   //
+   //
+   //
+   private double getDryWghtFromHashtable(Hashtable<String,String>ht){
+      double dw = Double.NaN;
+      try{
+         dw = Double.parseDouble(ht.get("dryweight"));
+      }
+      catch(NumberFormatException nfe){
+         dw = Double.NaN;
+      }
+      return dw;
+   }
+
+   //
+   //
+   //
+   private double getMaxWghtFromHashtable(Hashtable<String,String>ht){
+      double mw = Double.NaN;
+      try{
+         mw = Double.parseDouble(ht.get("maxweight"));
+      }
+      catch(NumberFormatException nfe){
+         mw = Double.NaN;
+      }
+      return mw;
+   }
+
+
+   //
+   //
+   //
+   private boolean getOccFromHashtable(Hashtable<String,String> ht){
+      boolean isOccupied = false;
+      isOccupied = Boolean.parseBoolean(ht.get("occupied"));
+      return  isOccupied;
+   }
+
+   //
+   //
+   //
+   private double getO2PercFromHashtable(Hashtable<String,String> ht){
+      double percent = Double.NaN;
+      try{
+         percent = Double.parseDouble(ht.get("o2percent"));
+      }
+      catch(NumberFormatException npe){
+         percent = Double.NaN;
+      }
+      return percent;
+   }
+
+   //
+   //
+   //
    private void initializePayloadData(String file){
-      int   crw = -1;         double cw  = Double.NaN;//Derived
-      double dw = Double.NaN; String err = null; boolean isE = false;
-      boolean isO=false; double mw = Double.NaN; String model = null;
-      double o2P = Double.NaN; double temp = Double.NaN;
-      double tol = Double.NaN; String type = null;
       try{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
          Hashtable<String,String> ht = read.readPayloadInfo();
+         int crw     = this.getCrewNumberFromHashtable(ht);
+         double dw   = this.getDryWghtFromHashtable(ht);
+         boolean occ =this.getOccFromHashtable(ht);
+         double mw   = this.getMaxWghtFromHashtable(ht);
+         String mod  = ht.get("model");
+         double o2P  = this.getO2PercFromHashtable(ht);
       }
       catch(IOException ioe){
          ioe.printStackTrace();
@@ -137,6 +204,11 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private void measure(){}
+
+   //
+   //
+   //
    private double measureAtmosphere(){
       //Used for O2 Percent
       return Double.NaN;
@@ -153,14 +225,17 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private void measure(){}
+   private double measureTemperature(){
+      //Temperature
+      return Double.NaN;
+   }
 
    //
    //
    //
    private void setUpThread(){
-      this._obj     = new Object();
-      this._t0      = new Thread();
+      this._obj = new Object();
+      this._t0  = new Thread();
       this._t0.start();
    }
 

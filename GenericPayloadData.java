@@ -23,15 +23,17 @@ import rosas.lou.runnables.*;
 
 public call GenericPayloadData implements PayloadData{
    private int             _crew;
-   private double          _currentWeight;
+   private double          _currentWeight; //Derived (Measured)
    private double          _dryWeight;
+   private double          _emptyMass;
    private String          _error;
    private boolean         _isError;
    private boolean         _isOccupied;
+   private double          _loadedMass;
    private double          _maxWeight;
    private String          _model;
-   private double          _o2Percent;
-   private double          _temperature;
+   private double          _o2Percent;    //Derived (Measured)
+   private double          _temperature;  //Derived (Measured)
    private double          _tolerance;
    private String          _type;
 
@@ -39,9 +41,11 @@ public call GenericPayloadData implements PayloadData{
       _crew           = -1;
       _currentWeight  = Double.NaN;
       _dryWeight      = Double.NaN;
+      _emptyMass      = Double.NaN;
       _error          = null;
       _isError        = false;
       _isOccupied     = false;
+      _loadedMass     = Double.NaN;
       _maxWeight      = Double.NaN;
       _model          = null;
       _o2Percent      = Double.NaN;
@@ -59,9 +63,11 @@ public call GenericPayloadData implements PayloadData{
       int     crew,
       double  currentWeight,
       double  dryWeight,
+      double  emptyMass,
       String  error,
       boolean isError,
       boolean isOccupied,
+      double  loadedMass,
       double  maxWeight,
       String  model,
       double  o2Percent,
@@ -97,6 +103,15 @@ public call GenericPayloadData implements PayloadData{
    //
    //
    //
+   private void emptyMass(double ew){
+      if(ew > 0.){
+         this._emptyMass = ew;
+      }
+   }
+
+   //
+   //
+   //
    private void error(String error){ this._error = error; }
 
    //
@@ -108,6 +123,15 @@ public call GenericPayloadData implements PayloadData{
    //
    //
    private void isOccupied(double isO){ this._isOccupied = isO; }
+
+   //
+   //
+   //
+   private void loadedMass(double lm){
+      if(lm > 0.){
+         this._loadedMass = lm;
+      }
+   }
 
    //
    //
