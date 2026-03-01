@@ -89,7 +89,7 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private int getCrewNumberFromHashtable(Hashtable<String,String>ht){
+   private int getCrewNumberFromFile(Hashtable<String,String> ht){
       int crew = -1;
       try{
          crew = Integer.parseInt(ht.get("crew"));
@@ -103,7 +103,7 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private double getDryWghtFromHashtable(Hashtable<String,String>ht){
+   private double getDryWeightFromFile(Hashtable<String,String> ht){
       double dw = Double.NaN;
       try{
          dw = Double.parseDouble(ht.get("dryweight"));
@@ -117,7 +117,35 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private double getMaxWghtFromHashtable(Hashtable<String,String>ht){
+   private double getEmptyMassFromFile(Hashtable<String,String> ht){
+      double em = Double.NaN;
+      try{
+         em = Double.parseDouble(ht.get("empty_mass"));
+      }
+      catch(NumberFormatException nfe){
+         em = Double.NaN;
+      }
+      return em;
+   }
+
+   //
+   //
+   //
+   private void getLoadedMassFromFile(Hashtable<String,String> ht){
+      double lm = Double.NaN;
+      try{
+         lm = Double.parseDouble(ht.get("loaded_mass"));
+      }
+      catch(NumberFormatException nfe){
+         lm = Double.NaN;
+      }
+      return lm;
+   }
+
+   //
+   //
+   //
+   private double getMaxWeightFromFile(Hashtable<String,String> ht){
       double mw = Double.NaN;
       try{
          mw = Double.parseDouble(ht.get("maxweight"));
@@ -132,7 +160,7 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private boolean getOccFromHashtable(Hashtable<String,String> ht){
+   private boolean getOccFromFile(Hashtable<String,String> ht){
       boolean isOccupied = false;
       isOccupied = Boolean.parseBoolean(ht.get("occupied"));
       return  isOccupied;
@@ -141,15 +169,43 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private double getO2PercFromHashtable(Hashtable<String,String> ht){
+   private double getO2PercFromFile(Hashtable<String,String> ht){
       double percent = Double.NaN;
       try{
          percent = Double.parseDouble(ht.get("o2percent"));
       }
-      catch(NumberFormatException npe){
+      catch(NumberFormatException nfe){
          percent = Double.NaN;
       }
       return percent;
+   }
+   
+   //
+   //
+   //
+   private double getTempFromFile(Hashtable<String,String> ht){
+      double temp = Double.NaN;
+      try{
+         temp = Double.parseDouble(ht.get("temperature"));
+      }
+      catch(NumberFormatExeption nfe){
+         temp = Double.NaN;
+      }
+      return temp;
+   }
+
+   //
+   //
+   //
+   private double getTolFromFile(Hashtable<String,String> ht){
+      double tolerance = DoubleNaN;
+      try{
+         tolerance = Double.parseDouble(ht.get("tolerance"));
+      }
+      catch(NumberFormatException nfe){
+         tolerance = Double.NaN;
+      }
+      return tolerance;
    }
 
    //
@@ -160,12 +216,32 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
          Hashtable<String,String> ht = read.readPayloadInfo();
-         int crw     = this.getCrewNumberFromHashtable(ht);
-         double dw   = this.getDryWghtFromHashtable(ht);
-         boolean occ =this.getOccFromHashtable(ht);
-         double mw   = this.getMaxWghtFromHashtable(ht);
+         int crw     = this.getCrewNumberFromFile(ht);
+         double dw   = this.getDryWeightFromFile(ht);
+         double em   = this.getEmptyMassFromFile(ht);
+         boolean occ = this.getOccFromFile(ht);
+         double lm   = this.getLoadedMassFromFile(ht);
+         double mw   = this.getMaxWeightFromFile(ht);
          String mod  = ht.get("model");
-         double o2P  = this.getO2PercFromHashtable(ht);
+         double o2P  = this.getO2PercFromFile(ht);
+         double temp = this.getTempFromFile(ht);
+         double tol  = thos.getTolFromFile(ht);
+         String type = ht.get("type");
+         this._initPayloadData = new GenericPayloadData(
+                                           crw,   //Crew
+                                           Double.NaN, //current
+                                           dw,    //Dry Weight
+                                           em,    //Empty Mass
+                                           null,  //Error
+                                           false, //IsError
+                                           occ,   //Is Occupied
+                                           lm,    //Loaded Mass
+                                           mw,    //Max Weight
+                                           mod,   //Model
+                                           o2p,   //O2 perc
+                                           temp,  //Temeperature
+                                           tol,   //Tolerance
+                                           type); //Type
       }
       catch(IOException ioe){
          ioe.printStackTrace();
