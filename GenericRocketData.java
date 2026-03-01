@@ -31,6 +31,7 @@ public class GenericRocketData implements RocketData{
    private double                 _loadedWeight;
    private String                 _model;
    private int                    _numberOfStages;
+   private PayloadData            _payloadData;
    private List<StageData>        _stageData;
    private double                 _tolerance;
 
@@ -43,6 +44,7 @@ public class GenericRocketData implements RocketData{
       _loadedWeight     = Double.NaN;
       _model            = null;
       _numberOfStages   = -1;
+      _payloadData      = null;
       _stageData        = null;
       _tolerance        = Double.NaN;
    };
@@ -61,6 +63,7 @@ public class GenericRocketData implements RocketData{
       double          calculatedWeight,
       boolean         isError,
       String          error,
+      PayloadData     payloadData,
       List<StageData> stages,
       double          tolerance
    ){
@@ -72,6 +75,7 @@ public class GenericRocketData implements RocketData{
       this.calculatedWeight(calculatedWeight);
       this.isError(isError);
       this.error(error);
+      this.payloadData(payloadData);
       this.stages(stages);
       this.tolerance(tolerance);
    }
@@ -133,6 +137,13 @@ public class GenericRocketData implements RocketData{
    //
    private void numberOfStages(int num){
       this._numberOfStages = num;
+   }
+
+   //
+   //
+   //
+   private void payloadData(PayloadData pd){
+      this._payloadData = pd;
    }
 
    //
@@ -214,6 +225,13 @@ public class GenericRocketData implements RocketData{
    //
    //
    //
+   public PayloadData payloadData(){
+      return this._payloadData;
+   }
+
+   //
+   //
+   //
    public StageData stage(int stage){
       try{
          return this._stageData.get(stage - 1);
@@ -255,7 +273,8 @@ public class GenericRocketData implements RocketData{
       value += "\nModel:             "+ this.model();
       value += "\nCurrent Stage:     "+this.currentStage();
       value += "\nTolerance:         "+this.tolerance();
-      value += "\nNumber of Stages:  " + this.numberOfStages();
+      value += "\nPayload:           "+this.payloadData();
+      value += "\nNumber of Stages:  "+this.numberOfStages();
       try{
          for(int i = 0; i < this._stageData.size(); ++i){
             value += this._stageData.get(i).toString();

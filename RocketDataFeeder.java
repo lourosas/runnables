@@ -146,6 +146,16 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private void initializePayloadDataFeeder(String file)
+   throws IOException{
+      System.out.println(file);
+      this._payload = new PayloadDataFeeder();
+      this._payload.initialize(file);
+   }
+
+   //
+   //
+   //
    private void initializeRocketData(String file)throws IOException{
       try{
          String mdl  = null;       int    stg = -1;
@@ -169,6 +179,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
          catch(NumberFormatException nfe){ tol = Double.NaN; }
          //Grab the Stage Data
          List<StageData> sd = this.monitorStages();
+         PayloadData pd = this.monitorPayload();
          RocketData rd = new GenericRocketData(
                                            mdl, //Model
                                            cs,  //Current Stage
@@ -178,6 +189,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
                                            calW,//Calculated Weight
                                            false,//Is Error
                                            null,//Error String
+                                           pd,  //PayloadData
                                            sd,  //Stage Data
                                            tol); //Tolerance
          this._initRocketData = rd;
@@ -192,7 +204,8 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private void initializeStageData(String file)throws IOException{
+   private void initializeStageDataFeeder(String file)
+   throws IOException{
       System.out.println(file);
       this._stages = new LinkedList<StageDataFeeder>();
       for(int i = 0; i < this._numStages; ++i){
@@ -237,6 +250,13 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private PayloadData monitorPayload(){
+      PayloadData pd = this._payload.monitor();
+   }
+
+   //
+   //
+   //
    private List<StageData> monitorStages(){
       List<StageData> stageData = new LinkedList<StageData>();
       Iterator<StageDataFeeder> it = this._stages.iterator();
@@ -254,7 +274,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private void setMeasuredData(List<StageData> sd){
+   private void setMeasuredData(List<StageData> sd, PayloadData pd){
       String  err = null; //Error
       boolean isE = false;
       double  wgt = Double.NaN; //Calculated Weight
@@ -277,6 +297,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
                                         wgt,   //Calculated Weight
                                         isE,   //Is Error
                                         err,   //Error
+                                        pd,    //PayloadData
                                         sd,    //Stage Data
                                         tol);  //Tolerance
          this._calcRocketData = rd;
@@ -309,7 +330,8 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
          rocketFile = read.readPathInfo().get("rocket");
       }
       this.grabNumberOfStages(rocketFile);
-      this.initializeStageData(file);
+      this.initializePayloadDataFeeder(file);
+      this.initializeStageDataFeeder(file);
       this.initializeRocketData(rocketFile);
    }
 
@@ -326,6 +348,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    public void setStateSubstate(LaunchStateSubstate stateSubstate){
+      this._payload.setStateSubstate(stateSubstate);
       Iterator<StageDataFeeder> it = this._stages.iterator();
       while(it.hasNext()){
          it.next().setStateSubstate(stateSubstate);
@@ -353,8 +376,8 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
             }
             if(check){
                List<StageData> l = this.monitorStages();
-               //PayloadData = this.monitorPayload();
-               this.setMeasuredData(l,/*PayloadData*/);
+               PayloadData pd = this.monitorPayload();
+               this.setMeasuredData(l,pd);
                check = false;
                //Test Prints
                System.out.println(Thread.currentThread().getName());

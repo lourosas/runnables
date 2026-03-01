@@ -80,7 +80,7 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public PayloadFeeder(){
+   public PayloadDataFeeder(){
       this._random = new Random();
       this.setUpThread();
    }

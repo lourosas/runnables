@@ -30,6 +30,7 @@ public interface RocketData{
    public double loadedWeight();
    public String model();
    public int numberOfStages();
+   public PayloadData payloadData();
    public StageData stage(int stage);
    public List<StageData> stages();
    public double tolerance();
