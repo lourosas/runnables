@@ -25,9 +25,11 @@ public interface PayloadData{
    public int     crew();
    public double  currentWeight();
    public double  dryWeight();
+   public double  emptyMass();
    public String  error();
    public boolean isError();
    public boolean isOccupied();
+   public double  loadedMass();
    public double  maxWeight();
    public String  model();
    public double  o2Percent();

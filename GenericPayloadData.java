@@ -194,6 +194,11 @@ public call GenericPayloadData implements PayloadData{
    //
    //
    public double dryWeight(){ return this._dryWeight; }
+
+   //
+   //
+   //
+   public double emptyMass(){ return this._emptyMass; }
    
    //
    //
@@ -210,6 +215,10 @@ public call GenericPayloadData implements PayloadData{
    //
    public boolean isOccupied(){ return this._isOccupied; }
 
+   //
+   //
+   //
+   public double loadedMass(){ return this._loadedMass; }
    //
    //
    //
@@ -248,9 +257,11 @@ public call GenericPayloadData implements PayloadData{
       value += "\nCrew:              "+this.crew();
       value += "\nCurrent Weight:    "+this.currentWeight();
       value += "\nDry Weight:        "+this.dryWeight();
+      value += "\nEmpty Mass:        "+this.emptyMass();
       value += "\nError:             "+this.error();
       value += "\nIs Error:          "+this.isError();
       value += "\nIs Occupied:       "+this.isOccumpied();
+      value += "\nLoaded Mass:       "+this.loadedMass();
       value += "\nMax Weight:        "+this.maxWeight();
       value += "\nModel:             "+this.model();
       value += "\nOxygen:            "+this.o2Percent()+"%";
