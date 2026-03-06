@@ -227,7 +227,8 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
          double temp = this.getTempFromFile(ht);
          double tol  = this.getTolFromFile(ht);
          String type = ht.get("type");
-         this._initPayloadData = new GenericPayloadData(
+         synchronized(this._obj){
+            this._initPayloadData = new GenericPayloadData(
                                            crw,   //Crew
                                            Double.NaN, //current
                                            dw,    //Dry Weight
@@ -242,6 +243,7 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
                                            temp,  //Temeperature
                                            tol,   //Tolerance
                                            type); //Type
+         }
       }
       catch(IOException ioe){
          ioe.printStackTrace();
@@ -292,13 +294,19 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
    //
    private double measureAtmosphere(){
       double percent = Double.NaN;
-      double max = 100.;
-      double min = this._initPayloadData.o2Percent();
+      double max     = 100.;
+      double min     = this._initPayloadData.o2Percent();
+      PayloadData pd = null;
+      synchronized(this._obj){
+         pd = this._initPayloadData;
+      }
       if(this._stateSubstate.state()  == INIT){
-         if(!this._initPayloadData.isOccupied()){
+         if(!pd.isOccupied()){
             //If not occupied, Oxygen content non-essential just
-            //set at something "reasonable"
+            //set at something "reasonable" When not occupied, keep
+            //more like a typical atmosphere
             min -= 1.;
+            max  = 21.;
          }
          else{
             min -= 0.1;
@@ -315,13 +323,17 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
    //
    //
    private double measureWeight(){
-      double weight = Double.NaN; double min = Double.NaN;
-      double max    = Double.NaN;
-      double startingWeight = this._initPayloadData.dryWeight();
-      double tol = this._initPayloadData.tolerance();
+      double weight  = Double.NaN; double min = Double.NaN;
+      double max     = Double.NaN;
+      PayloadData pd = null;
+      synchronized(this._obj){
+         pd = this._initPayloadData;
+      }
+      double startingWeight = pd.dryWeight();
+      double tol = pd.tolerance();
       if(this._stateSubstate.state() == INIT){
-         if(this._initPayloadData.isOccupied()){
-            startingWeight = this._initPayloadData.maxWeight();
+         if(pd.isOccupied()){
+            startingWeight = pd.maxWeight();
          }
       }
       min = startingWeight * tol;
@@ -339,12 +351,15 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
    private double measureTemperature(){
       double temperature = Double.NaN;
       double min = 273.15; double max = 373.15;
-      if(this._stateSubstate.state() == INIT){
-         if(this._initPayloadData.isOccupied()){
-            //Keep within 40 degrees-between 10 and 50 deg C so
-            //the Suit does not over work...this should never happen
-            //The Capsule should be empty when System is Initialized
-            min = 283.15; max = 323.15;
+      synchronized(this._obj){
+         if(this._stateSubstate.state() == INIT){
+            if(this._initPayloadData.isOccupied()){
+               //Keep within 40 degrees-between 10 and 50 deg C so
+               //the Suit does not over work...this should never
+               //happen The Capsule should be empty when System is
+               //Initialized
+               min = 283.15; max = 323.15;
+            }
          }
       }
       do{
@@ -359,18 +374,21 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
    //
    private void setMeasuredData(double o2,double weight,double temp){
       String err = null;  boolean isE = false;
-      //Ge the needed data first...
-      int     crw = this._initPayloadData.crew();
-      double  dw  = this._initPayloadData.dryWeight();
-      double  em  = this._initPayloadData.emptyMass();
-      boolean isO = this._initPayloadData.isOccupied();
-      double  lm  = this._initPayloadData.loadedMass();
-      double  mw  = this._initPayloadData.maxWeight();
-      String  mod = this._initPayloadData.model();
-      double  tol = this._initPayloadData.tolerance();
-      String  type= this._initPayloadData.type();
-
       synchronized(this._obj){
+         o2     = Math.round(o2*100.0)/100.0;
+         weight = Math.round(weight*100.0)/100.0;
+         temp   = Math.round(temp*100.0)/100.0;
+         //Get the needed data first...
+         int     crw = this._initPayloadData.crew();
+         double  dw  = this._initPayloadData.dryWeight();
+         double  em  = this._initPayloadData.emptyMass();
+         boolean isO = this._initPayloadData.isOccupied();
+         double  lm  = this._initPayloadData.loadedMass();
+         double  mw  = this._initPayloadData.maxWeight();
+         String  mod = this._initPayloadData.model();
+         double  tol = this._initPayloadData.tolerance();
+         String  type= this._initPayloadData.type();
+
          this._calcPayloadData = new GenericPayloadData(
                                             crw,   //crew
                                             weight,//Curent Weight
@@ -394,7 +412,7 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
    //
    private void setUpThread(){
       this._obj = new Object();
-      this._t0  = new Thread();
+      this._t0  = new Thread(this);
       this._t0.start();
    }
 

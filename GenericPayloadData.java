@@ -74,7 +74,22 @@ public class GenericPayloadData implements PayloadData{
       double  temperature,
       double  tolerance,
       String  type
-   ){}
+   ){
+      this.crew(crew);
+      this.currentWeight(currentWeight);
+      this.dryWeight(dryWeight);
+      this.emptyMass(emptyMass);
+      this.error(error);
+      this.isError(isError);
+      this.isOccupied(isOccupied);
+      this.loadedMass(loadedMass);
+      this.maxWeight(maxWeight);
+      this.model(model);
+      this.o2Percent(o2Percent);
+      this.temperature(temperature);
+      this.tolerance(tolerance);
+      this.type(type);
+   }
 
    //////////////////////////Private Methods//////////////////////////
    //
