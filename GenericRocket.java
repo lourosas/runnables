@@ -47,6 +47,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    private DataFeeder          _feeder;
    private boolean             _kill;
    private Object              _obj;
+   private Payload             _payload;
    private Thread              _rt0;
    private List<Stage>         _stages;
    private boolean             _start;
@@ -72,6 +73,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
       _errorListeners   = null;
       _feeder           = null;
       _obj              = null;
+      _payload          = null;
       _rt0              = null;
       _stages           = null;
       _start            = false;
@@ -150,7 +152,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
       }
       if(isError){
          RocketData rd = null;
-         rd = this.setUpRocketData(Double.NaN,null,err,isError);
+         rd = this.setUpRocketData(Double.NaN,null,null,err,isError);
          synchronized(this._obj){
             this._measRocketData = rd;
          }
@@ -242,6 +244,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
       int ns = -1; double ew = Double.NaN; double lw = Double.NaN;
       double cw = Double.NaN;  boolean isE = false; String err = null;
       List<StageData> lst = null; double tol = Double.NaN;
+      PayloadData pd = null;
       //the JSON data is all lower case...
       try{ mdl = ht.get("model");}
       catch(NullPointerException npe){}
@@ -265,6 +268,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
                                                cw, //Calculated Weight
                                                isE,//Is Error
                                                err,//Error String
+                                               pd, //Payload Data
                                                lst,//Stages List
                                                tol);//Tollerance
    }
@@ -319,10 +323,19 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
+   private PayloadData monitorPayload(){
+      //this._payload.monitor();  This needs to be done!!!
+      return null;
+   }
+
+   //
+   //
+   //
    private void monitorRocket(){
       String error        = null;
       //Might not need...possibly delete...
       List<StageData> lst = this.monitorStage();
+      PayloadData    pldd = this.monitorPayload();
       RocketData rd       = null;
       try{
          if(this._feeder != null){
@@ -342,7 +355,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
       finally{
          try{
             double weight = this.computeRocketWeight(rd,lst);
-            rd = this.setUpRocketData(weight,lst,error,false);
+            rd = this.setUpRocketData(weight,lst,pldd,error,false);
          }
          catch(NullPointerException npe){
             rd = this._rocketData;
@@ -385,6 +398,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    (
       double          weight,
       List<StageData> list,
+      PayloadData     pldd,
       String          error,
       boolean         isError
    ){
@@ -399,9 +413,10 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
          String mdl = this._rocketData.model();
          int    ns  = this._rocketData.numberOfStages();
          double tol = this._rocketData.tolerance();
-         if(Double.isNaN(weight) && list == null){
+         if(Double.isNaN(weight) && list == null && pldd == null){
             if(isError || (error!=null && error.length() > 0)){
                weight = rd.calculatedWeight();
+               pldd   = rd.payloadData();
                list   = rd.stages();
             }
          }
@@ -413,7 +428,8 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
                                     weight, //Calculated Weight
                                     isError,
                                     error,  //error
-                                    list,   //Stages
+                                    pldd,   //Payload Data
+                                    list,   //Stages Data
                                     tol);   //Tolerance
       }
       catch(NullPointerException npe){

@@ -15,13 +15,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-package rosas.lou.runables;
+package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public call GenericPayloadData implements PayloadData{
+public class GenericPayloadData implements PayloadData{
    private int             _crew;
    private double          _currentWeight; //Derived (Measured)
    private double          _dryWeight;
@@ -122,7 +122,7 @@ public call GenericPayloadData implements PayloadData{
    //
    //
    //
-   private void isOccupied(double isO){ this._isOccupied = isO; }
+   private void isOccupied(boolean isO){ this._isOccupied = isO; }
 
    //
    //
@@ -152,7 +152,7 @@ public call GenericPayloadData implements PayloadData{
    //
    private void o2Percent(double percent){
       if(percent > 0.){
-         this._percent = percent;
+         this._o2Percent = percent;
       }
    }
 
@@ -237,7 +237,7 @@ public call GenericPayloadData implements PayloadData{
    //
    //
    //
-   public double temperture(){ return this._temperature; }
+   public double temperature(){ return this._temperature; }
 
    //
    //
@@ -260,7 +260,7 @@ public call GenericPayloadData implements PayloadData{
       value += "\nEmpty Mass:        "+this.emptyMass();
       value += "\nError:             "+this.error();
       value += "\nIs Error:          "+this.isError();
-      value += "\nIs Occupied:       "+this.isOccumpied();
+      value += "\nIs Occupied:       "+this.isOccupied();
       value += "\nLoaded Mass:       "+this.loadedMass();
       value += "\nMax Weight:        "+this.maxWeight();
       value += "\nModel:             "+this.model();

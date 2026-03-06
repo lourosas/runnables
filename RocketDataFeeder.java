@@ -148,9 +148,15 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    private void initializePayloadDataFeeder(String file)
    throws IOException{
-      System.out.println(file);
-      this._payload = new PayloadDataFeeder();
-      this._payload.initialize(file);
+      try{
+         System.out.println(file);
+         this._payload = new PayloadDataFeeder();
+         this._payload.initialize(file);
+      }
+      catch(IOException ioe){
+         this._payload = null;
+         throw ioe;
+      }
    }
 
    //
@@ -206,14 +212,20 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    private void initializeStageDataFeeder(String file)
    throws IOException{
-      System.out.println(file);
-      this._stages = new LinkedList<StageDataFeeder>();
-      for(int i = 0; i < this._numStages; ++i){
-         //Since Zero based loop, and there is no "Stage 0", the Stage
-         //is One ahead of the Loop Counter
-         StageDataFeeder f = new StageDataFeeder(i+1);
-         f.initialize(file);
-         this._stages.add(f);
+      try{
+         System.out.println(file);
+         this._stages = new LinkedList<StageDataFeeder>();
+         for(int i = 0; i < this._numStages; ++i){
+            //Since Zero based loop, and there is no "Stage 0",
+            //the Stage is One ahead of the Loop Counter
+            StageDataFeeder f = new StageDataFeeder(i+1);
+            f.initialize(file);
+            this._stages.add(f);
+         }
+      }
+      catch(IOException ioe){
+         this._stages = null;
+         throw ioe;
       }
    }
 
@@ -251,22 +263,38 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    private PayloadData monitorPayload(){
-      PayloadData pd = this._payload.monitor();
+      PayloadData pd = null;
+      try{
+         pd = (PayloadData)this._payload.monitor();
+      }
+      catch(NullPointerException npe){
+         pd = null;
+      }
+      catch(ClassCastException cce){
+         pd = null;
+      }
+      return pd;
    }
 
    //
    //
    //
    private List<StageData> monitorStages(){
-      List<StageData> stageData = new LinkedList<StageData>();
-      Iterator<StageDataFeeder> it = this._stages.iterator();
-      while(it.hasNext()){
-         try{
-            stageData.add((StageData)it.next().monitor());
+      List<StageData> stageData = null;
+      try{
+         stageData = new LinkedList<StageData>();
+         Iterator<StageDataFeeder> it = this._stages.iterator();
+         while(it.hasNext()){
+            try{
+               stageData.add((StageData)it.next().monitor());
+            }
+            catch(ClassCastException cce){
+               stageData.add(null);
+            }
          }
-         catch(ClassCastException cce){
-            stageData.add(null);
-         }
+      }
+      catch(NullPointerException npe){
+         stageData = null;
       }
       return stageData;
    }
@@ -379,6 +407,7 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
                PayloadData pd = this.monitorPayload();
                this.setMeasuredData(l,pd);
                check = false;
+               counter = 1;
                //Test Prints
                System.out.println(Thread.currentThread().getName());
                System.out.println(Thread.currentThread().getId());

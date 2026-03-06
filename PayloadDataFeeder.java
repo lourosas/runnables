@@ -131,7 +131,7 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private void getLoadedMassFromFile(Hashtable<String,String> ht){
+   private double getLoadedMassFromFile(Hashtable<String,String> ht){
       double lm = Double.NaN;
       try{
          lm = Double.parseDouble(ht.get("loaded_mass"));
@@ -188,7 +188,7 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
       try{
          temp = Double.parseDouble(ht.get("temperature"));
       }
-      catch(NumberFormatExeption nfe){
+      catch(NumberFormatException nfe){
          temp = Double.NaN;
       }
       return temp;
@@ -198,7 +198,7 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
    //
    //
    private double getTolFromFile(Hashtable<String,String> ht){
-      double tolerance = DoubleNaN;
+      double tolerance = Double.NaN;
       try{
          tolerance = Double.parseDouble(ht.get("tolerance"));
       }
@@ -225,7 +225,7 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
          String mod  = ht.get("model");
          double o2P  = this.getO2PercFromFile(ht);
          double temp = this.getTempFromFile(ht);
-         double tol  = thos.getTolFromFile(ht);
+         double tol  = this.getTolFromFile(ht);
          String type = ht.get("type");
          this._initPayloadData = new GenericPayloadData(
                                            crw,   //Crew
@@ -238,7 +238,7 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
                                            lm,    //Loaded Mass
                                            mw,    //Max Weight
                                            mod,   //Model
-                                           o2p,   //O2 perc
+                                           o2P,   //O2 perc
                                            temp,  //Temeperature
                                            tol,   //Tolerance
                                            type); //Type
@@ -284,14 +284,14 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
       double o2Percent = this.measureAtmosphere();
       double weight    = this.measureWeight();
       double temp      = this.measureTemperature();
-      this.setMeasureData(o2Percent, weight, temp);
+      this.setMeasuredData(o2Percent, weight, temp);
    }
 
    //Depending on what stage...regardless, max will always
    //be 100%...more concerned about min...
    //
    private double measureAtmosphere(){
-      double percent = Double.NaN; double min = Double.NaN;
+      double percent = Double.NaN;
       double max = 100.;
       double min = this._initPayloadData.o2Percent();
       if(this._stateSubstate.state()  == INIT){
@@ -344,13 +344,13 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
             //Keep within 40 degrees-between 10 and 50 deg C so
             //the Suit does not over work...this should never happen
             //The Capsule should be empty when System is Initialized
-            min = 283.15.; max = 323.15;
+            min = 283.15; max = 323.15;
          }
       }
       do{
          temperature  = (double)this._random.nextInt((int)(max+1));
          temperature += this._random.nextDouble();
-      }while(temperature < nin || temperature > max);
+      }while(temperature < min || temperature > max);
       return temperature;
    }
 
@@ -456,9 +456,12 @@ public class PayloadDataFeeder implements DataFeeder, Runnable{
                   this.measure();
                   check = false;
                   counter = 1;
+                  //Test Prints
+                  System.out.println(Thread.currentThread().getName());
+                  System.out.println(Thread.currentThread().getId());
                }
             }
-            thread.sleep(1);
+            Thread.sleep(1);
          }
       }
       catch(InterruptedException ie){}
