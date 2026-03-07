@@ -23,10 +23,11 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public interface Payload{
+   public PayloadData monitor();
    public void initialize(String file)throws IOException;
-   public PayloadData monitorPrelaunch();
-   public PayloadData monitorIgnition();
-   public PayloadData monitorLaunch();
-   public PayloadData monitorPostLaunch();
+   public void addDataFeeder(DataFeeder feeder);
+   public void addErrorListener(ErrorListener listener);
+   public void addSystemListener(SystemListener listener);
+   public void setStateSubstate(LaunchStateSubstate cond);
 }
 /////////////////////////////////////////////////////////////////////

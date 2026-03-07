@@ -223,6 +223,12 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    //
+   private void initializePayload(String file)throws IOException{
+   }
+
+   //
+   //
+   //
    private void initializeRocket(String file)throws IOException{
       if(file.toUpperCase().contains("INI")){
          LaunchSimulatorIniFileReader read = null;
@@ -470,16 +476,19 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    public void initialize(String file)throws IOException{
       String rFile = file;
       String sFile = file;
+      String pFile = file;
       this._currentStage = 1;
       if(this.isPathFile(file)){
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
          rFile = read.readPathInfo().get("rocket");
          sFile = read.readPathInfo().get("stage");
+         pFile = read.readPathInfo().get("payload");
       }
       //Real Simple for initialization...
       this.initializeRocket(rFile);
       this.initializeStage(sFile);
+      this.initializePayload(pFile);
    }
 
    //
