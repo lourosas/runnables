@@ -224,6 +224,9 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    private void initializePayload(String file)throws IOException{
+      this._payload = new GenericPayload();
+      this._payload.initialize(file);
+      this._payload.addErrorListener(this);
    }
 
    //
@@ -562,6 +565,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
          while(it.hasNext()){
             it.next().setStateSubstate(this._state);
          }
+         this._payload.setStateSubstate(this._state);
       }
       catch(NullPointerException npe){
          npe.printStackTrace();
