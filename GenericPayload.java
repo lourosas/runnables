@@ -87,6 +87,26 @@ public class GenericPayload implements Payload, Runnable{
    //
    //
    //
+   private void alertErrorListeners(){}
+
+   //
+   //
+   //
+   private void alertSubscribers(){}
+
+   //
+   //
+   //
+   private void checkErrors(){}
+
+   //
+   //
+   //
+   private void monitorPayload(){}
+
+   //
+   //
+   //
    private void setUpThread(){
       String name = new String("Generic Payload");
       this._rt0 = new Thread(this,name);
@@ -132,7 +152,39 @@ public class GenericPayload implements Payload, Runnable{
    //
    //
    //
-   public void run(){}
+   public void run(){
+      try{
+         int counter   = 0;
+         boolean check = false;
+         while(true){
+            if(this._kill){
+               throw new InterruptedException();
+            }
+            if(this._state != null){
+               if(this._state.state() == INIT){
+                  //In Initialization, if the payload is a capsule,
+                  //it should not be occupied...if not a capsule, it
+                  //is just payload, so check every 10 seconds...
+                  if(counter++%10000 == 0){
+                     check = true;
+                     counter = 1;  //reset the counter
+                  }
+               }
+            }
+            if(check){
+               this.monitorPayload();
+               this.checkErrors();
+               this.alertSubscribers();
+               check = false;
+            }
+         }
+      }
+      catch(InterruptedException ie){}
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         System.exit(0);
+      }
+   }
 
 }
 //////////////////////////////////////////////////////////////////////
