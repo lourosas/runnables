@@ -335,7 +335,11 @@ public class GenericPayload implements Payload, Runnable{
    //
    //
    //
-   public void addDataFeeder(DataFeeder feeder){}
+   public void addDataFeeder(DataFeeder feeder){
+      if(feeder != null){
+         this._feeder = feeder;
+      }
+   }
 
    //
    //

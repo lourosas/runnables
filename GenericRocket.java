@@ -530,6 +530,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
                Stage stage = (Stage)it.next();
                stage.addDataFeeder(this._feeder);
             }
+            this._payload.addDataFeeder(feeder);
          }
          catch(NullPointerException npe){
             //Should never get here!!!
