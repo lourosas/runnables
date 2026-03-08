@@ -144,11 +144,17 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    private void checkErrors(){
       String err        = new String();
       boolean isError   = false;
-      if(isError = this.checkMeasurementWeightError()){
+      if(this.checkMeasurementWeightError()){
+         isError = true;
          err+= "Measured Weight Error\n";
       }
-      if(isError = this.checkStageErrors()){
+      if(this.checkStageErrors()){
+         isError = true;
          err += "Stage Errors\n";
+      }
+      if(this.checkPayloadErrors()){
+         isError = true;
+         err += "Payload Errors\n";
       }
       if(isError){
          RocketData rd = null;
@@ -177,6 +183,24 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
          max = dryWeight * (2 - tolerance);
       }
       return ((weight < min) || (weight > max));
+   }
+
+   //
+   //
+   //
+   private boolean checkPayloadErrors(){
+      boolean isError = false;
+      PayloadData data = null;
+      synchronized(this._obj){
+         data = this._measRocketData.payloadData();
+      }
+      try{
+         isError = data.isError();
+      }
+      catch(NullPointerException npe){
+         isError = false;
+      }
+      return isError;
    }
    
    //
@@ -333,8 +357,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    //
    //
    private PayloadData monitorPayload(){
-      //this._payload.monitor();  This needs to be done!!!
-      return null;
+      return this._payload.monitor();
    }
 
    //

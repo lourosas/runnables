@@ -41,7 +41,7 @@ public class GenericPayload implements Payload, Runnable{
 
    private DataFeeder            _feeder;
    private List<ErrorListener>   _errorListeners;
-   private List<SysetemListener> _systemListeners;
+   private List<SystemListener>  _systemListeners;
    private LaunchStateSubstate   _state;
    private Object                _obj;
    private Thread                _rt0;
