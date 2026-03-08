@@ -102,7 +102,126 @@ public class GenericPayload implements Payload, Runnable{
    //
    //
    //
+   private int getInitializedCrewData(Hashtable<String,String> ht){
+      int crew = -1;
+      try{
+         crew = Integer.parseInt(ht.get("crew"));
+      }
+      catch(NumberFormatException nfe){
+         crew = -1;
+      }
+      return crew;
+   }
+
+   //
+   //
+   //
+   private double getInitializedDryWeight(Hashtable<String,String> ht){
+      double dryWeight = Double.NaN;
+      try{
+         dryWeight = Double.parseDouble(ht.get("dryweight"));
+      }
+      catch(NumberFormatException nfe){
+         dryWeight = Double.NaN;
+      }
+      return dryWeight;
+   }
+
+   //
+   //
+   //
+   private double getInitializedEmptMass(Hashtable<String,String> ht){
+      double emptyMass = Double.NaN;
+      try{
+         emptyMass = Double.parseDouble(ht.get("empty_mass"));
+      }
+      catch(NumberFormatException npe){
+         emptyMass = Double.NaN;
+      }
+      return emptyMass;
+   }
+
+   //
+   //
+   //
+   private double getInitializedLoadMass(Hashtable<String,String> ht){
+      double loadedMass = Double.NaN;
+      try{
+         loadedMass = Double.parseDouble(ht.get("loaded_mass"));
+      }
+      catch(NumberFormatException npe){
+         loadedMass = Double.NaN;
+      }
+      return loadedMass;
+   }
+
+   //
+   //
+   //
+   private boolean getInitializedOccupd(Hashtable<String,String> ht){
+      return Boolean.parseBoolean(ht.get("occupied"));
+   }
+
+   //
+   //
+   //
+   private void initializePayloadDataJSON(String file)
+   throws IOException{
+      //Test Print
+      System.out.println("Payload: "+file);
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         Hashtable<String,String> ht = read.readPayloadInfo();
+         int crw     = this.getInitializedCrewData(ht);
+         double  dw  = this.getInitializedDryWeight(ht);
+         double  em  = this.getInitializedEmptMass(ht);
+         boolean isO = this.getInitializedOccupd(ht);
+         double  lm  = this.getInitializedLoadMass(ht);
+      }
+      catch(IOException ioe){
+         this._payloadData = null;
+         throw ioe;
+      }
+   }
+
+   //
+   //
+   //
+   private boolean isPathFile(String file)throws IOException{
+      boolean isPath = false;
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         if(read.readPathInfo().get("parameter") == null){
+            throw new NullPointerException("Not a Path File");
+         }
+         isPath = true;
+      }
+      catch(IOException ioe){
+         isPath = false;
+         throw ioe;
+      }
+      catch(NullPointerException npe){
+         isPath = false;
+      }
+      return isPath;
+   }
+
+   //
+   //
+   //
    private void monitorPayload(){}
+
+   //
+   //
+   //
+   private void payloadData(String file)throws IOException{
+      if(file.toUpperCase().contains("INI")){}
+      else if(file.toUpperCase().contains("JSON")){
+         this.initializePayloadDataJSON(file);
+      }
+   }
 
    //
    //
@@ -126,7 +245,15 @@ public class GenericPayload implements Payload, Runnable{
    //
    //
    //
-   public void initialize(String file)throws IOException{}
+   public void initialize(String file)throws IOException{
+      String pldFile = file;
+      if(this.isPathFile(pldFile)){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(pldFile);
+         pldFile = read.readPathInfo().get("payload");
+      }
+      this.payloadData(pldFile);
+   }
 
    //
    //
