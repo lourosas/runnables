@@ -158,8 +158,64 @@ public class GenericPayload implements Payload, Runnable{
    //
    //
    //
+   private double getInitializedMaxWght(Hashtable<String,String> ht){
+      double maxWeight = Double.NaN;
+      try{
+         maxWeight = Double.parseDouble(ht.get("maxweight"));
+      }
+      catch(NumberFormatException nfe){
+         maxWeight = Double.NaN;
+      }
+      return maxWeight;
+   }
+
+   //
+   //
+   //
+   private double getInitializedO2Perc(Hashtable<String,String> ht){
+      double o2Percent = Double.NaN;
+      try{
+         o2Percent = Double.parseDouble(ht.get("o2percent"));
+      }
+      catch(NumberFormatException nfe){
+         o2Percent = Double.NaN;
+      }
+      return o2Percent;
+   }
+
+   //
+   //
+   //
    private boolean getInitializedOccupd(Hashtable<String,String> ht){
       return Boolean.parseBoolean(ht.get("occupied"));
+   }
+
+   //
+   //
+   //
+   private double getInitializedTemp(Hashtable<String,String> ht){
+      double temperature = Double.NaN;
+      try{
+         temperature = Double.parseDouble(ht.get("temperature"));
+      }
+      catch(NumberFormatException nfe){
+         temperature = Double.NaN;
+      }
+      return temperature;
+   }
+
+   //
+   //
+   //
+   private double getInitializedTol(Hashtable<String,String> ht){
+      double tolerance = Double.NaN;
+      try{
+         tolerance = Double.parseDouble(ht.get("tolerance"));
+      }
+      catch(NumberFormatException nfe){
+         tolerance = Double.NaN;
+      }
+      return tolerance;
    }
 
    //
@@ -178,6 +234,27 @@ public class GenericPayload implements Payload, Runnable{
          double  em  = this.getInitializedEmptMass(ht);
          boolean isO = this.getInitializedOccupd(ht);
          double  lm  = this.getInitializedLoadMass(ht);
+         double  mw  = this.getInitializedMaxWght(ht);
+         String  mod = ht.get("model");
+         double  o2p = this.getInitializedO2Perc(ht);
+         double  temp= this.getInitializedTemp(ht);
+         double  tol = this.getInitializedTol(ht);
+         String  type= ht.get("type");
+         this._payloadData = new GenericPayloadData(
+                                           crw,        //Crew
+                                           Double.NaN,//Current Weight
+                                           dw,         //Dry Weight
+                                           em,         //Empty Mass
+                                           null,       //Error
+                                           false,      //is Error
+                                           isO,        //Is Occupied
+                                           lm,         //Loaded Mass
+                                           mw,         //Max Weight
+                                           mod,        //Model
+                                           o2p,        //O2 Percent
+                                           temp,       //Temperature
+                                           tol,        //Tolerance
+                                           type);      //Type
       }
       catch(IOException ioe){
          this._payloadData = null;
