@@ -288,7 +288,27 @@ public class GenericPayload implements Payload, Runnable{
    //
    //
    //
-   private void monitorPayload(){}
+   private void measure(){
+      try{
+         if(this._feeder != null){
+            RocketData rd  = (RocketData)this._feeder.monitor();
+            PayloadData pd = rd.payloadData();
+         }
+         else{
+            throw new NullPointerException("No DataFeeder");
+         }
+      }
+      catch(ClassCastException cce){}
+      catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
+   private void monitorPayload(){
+      this.measure();
+      this.setUpPayloadData();
+   }
 
    //
    //
