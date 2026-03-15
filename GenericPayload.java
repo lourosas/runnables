@@ -293,13 +293,34 @@ public class GenericPayload implements Payload, Runnable{
          if(this._feeder != null){
             RocketData rd  = (RocketData)this._feeder.monitor();
             PayloadData pd = rd.payloadData();
+            synchronized(th8is._obj){
+               this._measuredPayloadData = pd;
+            }
          }
          else{
             throw new NullPointerException("No DataFeeder");
          }
       }
-      catch(ClassCastException cce){}
-      catch(NullPointerException npe){}
+      catch(ClassCastException cce){
+         try{
+            PayloadData pd = (PayloadData)this._feeder.monitor();
+            synchronized(this._obj){
+               this._measuredPayloadData = pd;
+            }
+         }
+         catch(ClassCastException e){
+            throw new NullPointerException("No PayloadDataFeeder");
+         }
+      }
+      catch(NullPointerException npe){
+         //This will need to change to be updated...and to remove
+         //the Print Stack Trace-->this is here only for debug
+         //purposes...
+         npe.printStackTrace();
+         synchronized(this._obj){
+            this._measuredPayloadData = this._payloadData;
+         }
+      }
    }
 
    //
@@ -318,6 +339,13 @@ public class GenericPayload implements Payload, Runnable{
       else if(file.toUpperCase().contains("JSON")){
          this.initializePayloadDataJSON(file);
       }
+   }
+
+   //
+   //
+   //
+   private void setUpPayloadData(){
+      String err = null;
    }
 
    //
