@@ -100,16 +100,16 @@ public class GenericPayload implements Payload, Runnable{
    private void checkErrors(){
       String err      = new String();
       boolean isError = false;
-      TankData td     = null;
+      PayloadData pd     = null;
       synchronized(this._obj){
-         td = this._payloadData;
+         pd = this._payloadData;
       }
       //Grab the immutables first
-      int crew   = td.crew();        double  dw  = td.dryWeight();
-      double em  = td.emptyMass();   boolean isO = td.isOccupied();
-      double lm  = td.loadedMass();  double  mw  = td.maxWeight();
-      String mod = td.model();       double  tol = td.tolerance();
-      String type=td.type();
+      int crew   = pd.crew();        double  dw  = pd.dryWeight();
+      double em  = pd.emptyMass();   boolean isO = pd.isOccupied();
+      double lm  = pd.loadedMass();  double  mw  = pd.maxWeight();
+      String mod = pd.model();       double  tol = pd.tolerance();
+      String type= pd.type();
 
       if(this.checkWeight()){
          err    += "Weight Error\n";
@@ -123,6 +123,112 @@ public class GenericPayload implements Payload, Runnable{
          err    += "Temperature Error\n";
          isError = true;
       }
+      if(isError){
+         synchronized(this._obj){
+            pd = this._measuredPayloadData;
+         }
+         double cw    = pd.currentWeight();
+         double o2Per = pd.o2Percent();
+         double temp  = pd.tempreature();
+         td = new GenericPayloadData(crew,     //Crew
+                                     cw,       //Current Weight
+                                     dw,       //Dry Weight
+                                     em,       //Empty Mass
+                                     err,      //Error
+                                     isError,
+                                     isO,      //Is Occupied
+                                     lm,       //loaded mass
+                                     mw,       //Max Weight
+                                     mod,      //Model
+                                     o2Per,    //O2 Perc
+                                     temp,     //Temperature
+                                     tol,      //Tolerance
+                                     type);    //Type
+         synchronized(this._obj){
+            this._measuredPayloadData = pd;
+         }
+         this.alertErrorListeners();
+      }
+   }
+
+   //
+   //
+   //
+   private boolean checkO2Percent(){
+      double  percent   = Double.NaN;
+      double  min       = Double.NaN;
+      boolean isOcc     = false;
+      synchronized(this._obj){
+         min     = this._payloadData.o2Percent();
+         isOcc   = this._measuredPaylaodData.isOccupied();
+         percent = this._measuredPayloadData.o2Percent();
+      }
+      //Honestly, do not need the State, just if occupied
+      if(this._state.state() == INIT){
+         if(!isOcc){
+            min = 0.;  //If not occupied, O2 percent not significant
+         }
+      }
+      return(percent < min);
+   }
+
+   //
+   //
+   //
+   private boolean checkTemperature(){
+      double   lim    = 5.;
+      double   temp   = Double.NaN;
+      double   min    = Double.NaN;
+      double   max    = Double.NaN;
+      boolean  isOcc  = false;
+      synchronized(this._obj){
+         min  = this._payloadData.temperature - lim;
+         max  = this._payloadData.tempreature + lim;
+         temp = this._measuredPayloadData.temperature(); 
+      }
+      if(this._state.state() == INIT){
+         if(!isOcc){
+            //If not occupied, reasonable cargo temp is between the
+            //freezing and boiling points of H2O
+            min = 273.15;
+            max = 373.15;
+         }
+      }
+      return ((temp < min) || (temp > max));
+   }
+
+   //
+   //
+   //
+   private boolean checkWeight(){
+      boolean isError   = false;
+      double  weight    = Double.NaN;
+      double  maxWeight = Double.NaN;
+      double  minWeight = Double.NaN;
+      boolean isOcc     = false;
+      double  min       = Double.NaN;
+      double  max       = Double.NaN;
+      double  tolerance = Double.NaN;
+      synchronized(this._obj){
+         weight    = this._measuredPayloadData.currentWeight();
+         isOcc     = this._meausredPayloadData.isOccupied();
+         minWeight = this._payloadData.dryWeight();
+         maxWeight = this._payloadData.maxWeight();
+         tolerance = this._payloadData.tolerance();
+      }
+      //Technically, should be the same, regardless
+      if(this._state.state() == INIT){
+         if(isOcc){
+            min = maxWeight * tolerance;
+            max = maxWeight * (2 - tolerance);
+         }
+         else{
+            min = minWeight * tolerance;
+            max = minWeight * (2 - tolerance);
+         }
+      }
+      return((wieght < min) || (weight > max));
+      //return isError;
    }
 
    //
