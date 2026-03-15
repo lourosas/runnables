@@ -111,13 +111,13 @@ public class GenericPayload implements Payload, Runnable{
       LaunchStateSubstate ss = this._state;
    
       String event = ss.state() + ", " + ss.ascentSubstate();
-      event += ", " + ss.ignitionSustate() + ", ";
+      event += ", " + ss.ignitionSubstate() + ", ";
       event += ss.prelaunchSubstate();
       synchronized(this._obj){
          pd = this._measuredPayloadData;
       }
       try{
-         Iterator<SystemLister> it = null;
+         Iterator<SystemListener> it = null;
          it = this._systemListeners.iterator();
          while(it.hasNext()){
             MissionSystemEvent mse = null;
@@ -163,8 +163,8 @@ public class GenericPayload implements Payload, Runnable{
          }
          double cw    = pd.currentWeight();
          double o2Per = pd.o2Percent();
-         double temp  = pd.tempreature();
-         td = new GenericPayloadData(crew,     //Crew
+         double temp  = pd.temperature();
+         pd = new GenericPayloadData(crew,     //Crew
                                      cw,       //Current Weight
                                      dw,       //Dry Weight
                                      em,       //Empty Mass
@@ -194,7 +194,7 @@ public class GenericPayload implements Payload, Runnable{
       boolean isOcc     = false;
       synchronized(this._obj){
          min     = this._payloadData.o2Percent();
-         isOcc   = this._measuredPaylaodData.isOccupied();
+         isOcc   = this._measuredPayloadData.isOccupied();
          percent = this._measuredPayloadData.o2Percent();
       }
       //Honestly, do not need the State, just if occupied
@@ -216,8 +216,8 @@ public class GenericPayload implements Payload, Runnable{
       double   max    = Double.NaN;
       boolean  isOcc  = false;
       synchronized(this._obj){
-         min  = this._payloadData.temperature - lim;
-         max  = this._payloadData.tempreature + lim;
+         min  = this._payloadData.temperature() - lim;
+         max  = this._payloadData.temperature() + lim;
          temp = this._measuredPayloadData.temperature(); 
       }
       if(this._state.state() == INIT){
@@ -245,7 +245,7 @@ public class GenericPayload implements Payload, Runnable{
       double  tolerance = Double.NaN;
       synchronized(this._obj){
          weight    = this._measuredPayloadData.currentWeight();
-         isOcc     = this._meausredPayloadData.isOccupied();
+         isOcc     = this._measuredPayloadData.isOccupied();
          minWeight = this._payloadData.dryWeight();
          maxWeight = this._payloadData.maxWeight();
          tolerance = this._payloadData.tolerance();
@@ -261,7 +261,7 @@ public class GenericPayload implements Payload, Runnable{
             max = minWeight * (2 - tolerance);
          }
       }
-      return((wieght < min) || (weight > max));
+      return((weight < min) || (weight > max));
       //return isError;
    }
 
@@ -459,7 +459,10 @@ public class GenericPayload implements Payload, Runnable{
          if(this._feeder != null){
             RocketData rd  = (RocketData)this._feeder.monitor();
             PayloadData pd = rd.payloadData();
-            synchronized(th8is._obj){
+            synchronized(this._obj){
+               if(pd == null){
+                  throw new NullPointerException("No Payload Data");
+               }
                this._measuredPayloadData = pd;
             }
          }
@@ -471,6 +474,9 @@ public class GenericPayload implements Payload, Runnable{
          try{
             PayloadData pd = (PayloadData)this._feeder.monitor();
             synchronized(this._obj){
+               if(pd == null){
+                  throw new NullPointerException("No Payload Data");
+               }
                this._measuredPayloadData = pd;
             }
          }
@@ -589,7 +595,7 @@ public class GenericPayload implements Payload, Runnable{
    //
    //
    public void setStateSubstate(LaunchStateSubstate state){
-      this._state = stateSubstate;
+      this._state = state;
    }
 
    /////////////////////////Runnable Interface////////////////////////
