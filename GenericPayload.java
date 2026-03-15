@@ -94,10 +94,36 @@ public class GenericPayload implements Payload, Runnable{
    //
    private void alertSubscribers(){}
 
+   //Check the Current Weight, O2 Percent, Temperature...
    //
    //
-   //
-   private void checkErrors(){}
+   private void checkErrors(){
+      String err      = new String();
+      boolean isError = false;
+      TankData td     = null;
+      synchronized(this._obj){
+         td = this._payloadData;
+      }
+      //Grab the immutables first
+      int crew   = td.crew();        double  dw  = td.dryWeight();
+      double em  = td.emptyMass();   boolean isO = td.isOccupied();
+      double lm  = td.loadedMass();  double  mw  = td.maxWeight();
+      String mod = td.model();       double  tol = td.tolerance();
+      String type=td.type();
+
+      if(this.checkWeight()){
+         err    += "Weight Error\n";
+         isError = true;
+      }
+      if(this.checkO2Percent()){
+         err    += "O2 Percent Error\n";
+         isError = true;
+      }
+      if(this.checkTemperature()){
+         err    += "Temperature Error\n";
+         isError = true;
+      }
+   }
 
    //
    //
@@ -328,7 +354,7 @@ public class GenericPayload implements Payload, Runnable{
    //
    private void monitorPayload(){
       this.measure();
-      this.setUpPayloadData();
+      this.checkErrors();
    }
 
    //
@@ -429,7 +455,6 @@ public class GenericPayload implements Payload, Runnable{
             }
             if(check){
                this.monitorPayload();
-               this.checkErrors();
                this.alertSubscribers();
                check = false;
             }
