@@ -558,17 +558,39 @@ public class GenericPayload implements Payload, Runnable{
    //
    //
    //
-   public void addErrorListener(ErrorListener listener){}
+   public void addErrorListener(ErrorListener listener){
+      if(listener != null){
+         try{
+            this._errorListeners.add(listener);
+         }
+         catch(NullPointerException npe){
+            this._errorListeners = new LinkedList<ErrorListener>();
+            this._errorListeners.add(listener);
+         }
+      }
+   }
 
    //
    //
    //
-   public void addSystemListener(SystemListener listener){}
+   public void addSystemListener(SystemListener listener){
+      if(listener != null){
+         try{
+            this._systemListeners.add(listener);
+         }
+         catch(NullPointerException npe){
+            this._systemListeners = new LinkedList<SystemListener>();
+            this._systemListeners.add(listener);
+         }
+      }
+   }
 
    //
    //
    //
-   public void setStateSubstate(LaunchStateSubstate state){}
+   public void setStateSubstate(LaunchStateSubstate state){
+      this._state = stateSubstate;
+   }
 
    /////////////////////////Runnable Interface////////////////////////
    //

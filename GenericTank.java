@@ -600,14 +600,14 @@ public class GenericTank implements Tank, Runnable{
    //
    //
    public void addErrorListener(ErrorListener listener){
-      try{
-         if(listener != null){
+      if(listener != null){
+         try{
             this._errorListeners.add(listener);
          }
-      }
-      catch(NullPointerException npe){
-         this._errorListeners = new LinkedList<ErrorListener>();
-         this._errorListeners.add(listener);
+         catch(NullPointerException npe){
+            this._errorListeners = new LinkedList<ErrorListener>();
+            this._errorListeners.add(listener);
+         }
       }
    }
 
