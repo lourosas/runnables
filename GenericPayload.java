@@ -87,12 +87,46 @@ public class GenericPayload implements Payload, Runnable{
    //
    //
    //
-   private void alertErrorListeners(){}
+   private void alertErrorListeners(){
+      String error   = null;
+      PayloadData pd = null;
+      synchronized(this._obj){
+         error = this._measuredPayloadData.error();
+         pd    = this._measuredPayloadData;
+      }
+      try{
+         Iterator<ErrorListener> it = this._errorListeners.iterator();
+         while(it.hasNext()){
+            it.next().errorOccurred(new ErrorEvent(this,pd,error));
+         }
+      }
+      catch(NullPointerException npe){}
+   }
 
    //
    //
    //
-   private void alertSubscribers(){}
+   private void alertSubscribers(){
+      PayloadData pd         = null;
+      LaunchStateSubstate ss = this._state;
+   
+      String event = ss.state() + ", " + ss.ascentSubstate();
+      event += ", " + ss.ignitionSustate() + ", ";
+      event += ss.prelaunchSubstate();
+      synchronized(this._obj){
+         pd = this._measuredPayloadData;
+      }
+      try{
+         Iterator<SystemLister> it = null;
+         it = this._systemListeners.iterator();
+         while(it.hasNext()){
+            MissionSystemEvent mse = null;
+            mse = new MissionSystemEvent(this,pd,event,ss);
+            it.next().update(mse);
+         }
+      }
+      catch(NullPointerException npe){}
+   }
 
    //Check the Current Weight, O2 Percent, Temperature...
    //
@@ -555,7 +589,6 @@ public class GenericPayload implements Payload, Runnable{
                   //is just payload, so check every 10 seconds...
                   if(counter++%10000 == 0){
                      check = true;
-                     counter = 1;  //reset the counter
                   }
                }
             }
@@ -563,6 +596,7 @@ public class GenericPayload implements Payload, Runnable{
                this.monitorPayload();
                this.alertSubscribers();
                check = false;
+               counter = 1;  //reset the counter
             }
          }
       }
