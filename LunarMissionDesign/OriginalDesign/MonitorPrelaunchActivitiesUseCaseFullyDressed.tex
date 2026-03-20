@@ -1,0 +1,83 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case 1:  Monitor Pre-launch}\\
+\textbf{Scope:  }Launch Simulator\\
+\textbf{Level:  }Flight Controller Goal\\
+\textbf{Primary Actor:  }Flight Controller\\
+\textbf{Secondary Actors:  }Astronaut, Engineer/Technician\\
+\textbf{Related Use Cases:  }\textit{Use Case 2:  the Flight
+Controller Shall Monitor the Countdown}\\
+\textbf{Stakeholders \& Interrests:  }
+\begin{itemize}
+\item Flight Controller: wants to control the Pre-Launch Activities
+\begin{itemize}
+\item Control the Countdown Time \textit{See Use Case 2:  the Flght
+Controller Shall Monitor the Countdown}
+\item Monitor the Rocket
+\item Monitor all the Stages in the Rocket
+\item Monitor the Engines for each Stage
+\item Monitor the Fuel System for each Stage
+\item Monitor the Launching Mechanism
+\end{itemize}
+\item Engineer/Technician:  wants to monitor Pre-Launch Data
+\item Astronaut:  wants to monitor Pre-Launch Data
+\end{itemize}
+\textbf{Pre-Conditions:  }An appropriate Countdown Time is Entered
+\textit{See Use Case 2:  the Flight Controller Shall Monitor the
+Countdown}\\
+\textbf{Post-Conditions:  }The Launch is Initiated\\\\
+\textbf{Flow of Events:}\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+\textbf{Flight Controller}&\textbf{System}\\\hline
+1. Starts the Countdown \textit{See Use Case 2:  the Flight
+Controller Shall Monitor the Countdown} & \\\hline
+& 2. Periodically Monitors Pre-Launch Data\\\hline
+& 3. Returns Launching Mechanism Pre-Launch Data\\\hline
+& 4. Returns Rocket Pre-Lauch Data (all Rocket Stage Data)\\\hline
+& 5. Returns Capsule Pre-Launch Data\\\hline
+& 6. Countdown equals zero \textit{See Use Case 2:  the Flight
+Controller Shall Monitor the Countdown}\\\hline
+7. Initiate Launch Sequence & \\\hline
+& 8.  Transitions to Launch Initiation\\\hline
+& 9.  Initiate Launch State\\\hline
+\end{tabular}\\\\
+\textbf{Alternative Flows:}
+\begin{itemize}
+\item[2a-5a.]If the System detects an anamoly in the Pre-Launch Data,
+then the System alerts the Flight Controller of the anomoly
+\item[2b-5b.]If the System alerts the Flight Controller of a Pre-
+Launch anomaly \textit{(See Alternative Flow 2a.)}, then the Flight
+Controller can choose to hold the Countdown
+\item[2c-5c.]If there is a hold in the Countdown and the anomaly is
+resolved, then the Flight Controller can choose to resume the
+Countdown, the Countdown continues at the stopped time \textit{See
+Use Case 2:  The Flight Controller shall Monitor the Coundown}
+\item[2d-5d.]If there is a hold in the Countdown, then the Flight
+Controller can choose to abort the launch:  the System indicates an
+aborted launch
+\end{itemize}
+\textbf{Special Requirements:}
+\begin{itemize}
+\item There is only one decision point for the Abort:  the Flight
+Controller
+\end{itemize}
+\textbf{Technology \& Variations List:}
+\begin{itemize}
+\item [4a.]The Pre-Launch Data is Rocket Model Dependent--hence,
+the monitoring data and anomalies is Rocket Model Dependent
+\end{itemize}
+\textbf{Frequency of Occurence:  }Almost continuously:  based on the
+number of desired Launches and Countdowns\\\\
+\textbf{Open Issues:}
+\begin{itemize}
+\item What is considered ``anomalous" Countdown data?
+\item Is ``anoalous" Countdown data depend upon the type of Launch
+Vehicle and System (Launching Mechanism)?
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

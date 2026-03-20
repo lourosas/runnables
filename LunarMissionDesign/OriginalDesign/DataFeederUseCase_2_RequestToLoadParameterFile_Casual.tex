@@ -1,0 +1,49 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Request to load Parameter File--Casual Format}\\
+\textit{Main Success Scenario}
+\begin{enumerate}
+   \item With the Data Feeder running, the (Lunar Mission) System/
+      System Administrator requests the Data Feeder load a Paramenter
+      File
+      \begin{enumerate}
+         \item The System/System Administrator enters the path
+         \item The System/System Adminsitrator enters the file name
+      \end{enumerate}
+   \item The Data Feeder Opens the Parameter File
+      \begin{enumerate}
+         \item The Data Feeder reads the Parameter File
+         \item The Data Feeder loads the Mission Data Parameters for
+            use
+      \end{enumerate}
+   \item The Data Feeder periodically generates Mission Data Based
+      on the Parameter File Inputs
+\end{enumerate}
+\textit{Alternatrve Scenarios}
+\begin{enumerate}
+   \item[2a] If the File is not available, the Data Feeder alerts and
+      no Parameter Data is loaded
+   \item[2b] If the Data Feeder attempts to load a parameter that is
+      not in the Parameter File, then the Data Feeder sets that value
+      to a default(error) value
+   \item[2c] If there are parameters in the Parameter File not loaded
+      by the Data Feeder, then those parameters are ignored
+   \item[2d] If any of the Data Feeder Parameters are unreadable then
+      the Data Feeder ignores the value, setting the value to the
+      default(error) value
+   \item[2e] If any of the Data Feeder Parameters are not of the
+      correct number format, then the Data Feeder ignores the value,
+      setting the value to the default(error) value
+\end{enumerate}
+\textit{Notes/Constraints}
+\begin{enumerate}
+   \item[3a] Technically this is an addtion to the Use Case and would
+      be mentioned here
+\end{enumerate}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

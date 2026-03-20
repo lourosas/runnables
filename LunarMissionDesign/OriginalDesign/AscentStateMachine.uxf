@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>380</x>
+      <y>200</y>
+      <w>580</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>Ascent
+--
+
+valign=top
+bg=cyan
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>80</x>
+      <y>140</y>
+      <w>430</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[Good Data &amp;&amp; Current Stage &lt;= TOTAL STAGES]/Measure</panel_attributes>
+    <additional_attributes>350.0;60.0;350.0;20.0;210.0;20.0;210.0;110.0;300.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>620</x>
+      <y>280</y>
+      <w>90</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>Staging</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>620</x>
+      <y>380</y>
+      <w>90</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>IgniteEngines</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>370</x>
+      <y>280</y>
+      <w>270</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[Stage Complete=true]/Separate</panel_attributes>
+    <additional_attributes>10.0;20.0;250.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>580</x>
+      <y>240</y>
+      <w>440</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[Separation==false &amp;&amp; time &lt;= TOTALSEPTIME]/Separate</panel_attributes>
+    <additional_attributes>130.0;50.0;220.0;50.0;220.0;20.0;110.0;20.0;110.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>1210</x>
+      <y>340</y>
+      <w>20</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>type=termination</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>700</x>
+      <y>290</y>
+      <w>530</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[Separation==false || time&gt;=TOTALSEPTIME]/Abort</panel_attributes>
+    <additional_attributes>10.0;20.0;450.0;20.0;510.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>660</x>
+      <y>310</y>
+      <w>70</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+/Ignite
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>370</x>
+      <y>370</y>
+      <w>270</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+/IncreaseStage
+</panel_attributes>
+    <additional_attributes>10.0;20.0;250.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>290</x>
+      <y>400</y>
+      <w>430</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+                [Ignition==false&amp;&amp;time&lt;=IGNITIONTIME]/Ignite</panel_attributes>
+    <additional_attributes>380.0;20.0;380.0;60.0;190.0;60.0;190.0;10.0;330.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>700</x>
+      <y>340</y>
+      <w>530</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[Ingition==false &amp;&amp; time&gt;IGNITIONTIME]/Abort</panel_attributes>
+    <additional_attributes>10.0;60.0;460.0;60.0;510.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>950</x>
+      <y>330</y>
+      <w>280</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[Bad Data == true]/Abort</panel_attributes>
+    <additional_attributes>10.0;20.0;260.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>950</x>
+      <y>350</y>
+      <w>330</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[CurrentStage &gt; TOTALSTAGES]/Abort</panel_attributes>
+    <additional_attributes>10.0;90.0;270.0;90.0;270.0;10.0</additional_attributes>
+  </element>
+</diagram>

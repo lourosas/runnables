@@ -1,0 +1,48 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\begin{document}
+\title{Lunar Mission Software: Launch Mission Software Development
+Initial Writeup}
+\author{Lou Rosas}
+\maketitle
+\section{History}
+Lunar Mission Software is complex and entails many different phases
+(states).  Attempts to tackle the entire software as a single 
+development cycle is proven futile and disastrous.  The best 
+approach is break the Software into ``Meta States" that handles a 
+given phase of the Development--From Launch to Recovery.  The Software
+is then integrated as a larger System.
+
+\section{Abstract}
+Using modern Software Development Techniques, develop Launch Mission 
+Software for integrating into The Lunar Mission Software.  The 
+Software is independent of the Launch Mission Software in the sense 
+the ability to run in a standalone mode.
+
+\section{Concept}
+To gain understanding in the full development of the Launch Mission
+Software.  Including Analysis and Design techniques.  Including 
+gaining understanding in concurrency development.
+
+\section{Intent}
+As part of the Lunar Mission Software Development, develop the Launch
+Mission Software.  The requesting System shall be ``input blind" and
+the shall not be able to distinguish between software stimuli and 
+actual launch hardware input.
+
+\section{Stakeholders \& Interests}
+\begin{itemize}
+   \item Flight Director Wants to see a successful launch without
+      incident
+   \item Flight Engineers \& Technicians Wants accurate data for the
+      components of the System responsible for monitoring,
+   \item Mission Planners Want to ensure a successful mission and
+      launch
+   \item Capsule Crew/Astronauts Want a successful launch
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

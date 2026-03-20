@@ -1,0 +1,134 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case 1:  Monitor Pre-Launch Activities}\\
+\textbf{Scope:  }Launch Simulator\\
+\textbf{Level:  }Flight Controller Goal\\
+\textbf{Primary Actor:  }Flight Controller\\
+\textbf{Secondary Actor:  }Astronaut, Engineer/Technician\\
+\textbf{Related Use Cases:  }None\\
+\textbf{Stakeholders \& Interrests:  }
+\begin{itemize}
+\item Flight Controller:  wants to monitor the Pre-Launch Data
+\item Flight Controller:  wants to monitor the Countdown Time
+\item Flight Controller:  wants to asses the validity of the Countdown
+\begin{itemize}
+\item Continue the Countdown
+\item Hold the Countdown
+\item Abort the Countdown
+\end{itemize}
+\item Engineer/Technician:  wants to montior selected Pre-Launch data
+to ensure the System is working properly and advise the Flight
+Controller
+\item Astronaut:  wants to monitor Countdown Time
+\item Astronaut:  wants to monitor Pre-Launch Data for System
+awareness
+\end{itemize}
+\textbf{Pre-Conditions:  }All the parts of the System are ready to
+begin the Countdown, the Launch Simulator is running\\
+\textbf{Post-Conditions:  }The Countdown is at zero, the System
+transitioned from Pre-Launch to Initiate Launch\\\\
+\textbf{Main Success Scenario:  }\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+\textbf{Flight Controller} & \textbf{System}\\\hline
+1.  Start the Pre-Launch Sequence & \\\hline
+& 2. Request Countdown Time Entry\\\hline
+3.  Enters the Countdown Time & \\\hline
+& 4.  Returns Countdown Time\\\hline
+5.  Starts the Countdown  & \\\hline
+& 6.  Transitions to Pre-Launch\\\hline
+& 7.  Informs the actors of the transition\\\hline
+& 8.  Displays Countdown Time to all actors\\\hline
+& 9.  Repeats 6 for the entire countdown\\\hline
+& 10.  Monitors Pre-Launch Data\\\hline
+& 11. Returns Pre-Launch Data to all the actors\\\hline
+& 12.  Repeats 7,8 for the entire Countdown\\\hline
+& 13.  Alerts actors when Countdown reaches zero\\\hline
+14.  Initiate Launch Sequence & \\\hline
+& 15.  Transitions out of Pre-Launch into Intiate Launch\\\hline
+& 16.  Informs the actors of the transition\\\hline
+\end{tabular}\\\\
+\textbf{Alternative Flows:  }
+\begin{itemize}
+\item[*]  At anytime, the Flight Controller can hold the Countdown
+if conditions arise that warant that.
+\item[*] At anytime, if the Countdown is on hold, the Flight
+Controller can resume the Countdown if the State of the System warants
+such a transition;  the Countdown continues at the time stopped
+\item[*] If the Countdown is on Hold, the Flight Controller can chose
+to
+abort the Countdown.  The System responds by abandoning the Countdown,
+alerting the Actors of the Abort
+\item[3c.]If the Flight Controller enters an unacceptatble Countdown
+Time, then the System refuses to set the time and instructs the
+Flight Controller to enter an acceptable Countdown Time
+\item[11c.]  If the System detects an anomaly in the
+Pre-Launch Data, then the System alerts the Users of the anomaly for
+the Flight Controller to determine if the anomaly warants a hold in
+the
+Countdown
+\item[11d.]  If there is a Countdown hold, and the System continues to
+detect an anomaly in the Pre-Launch Data sent to the Users, then the
+Flight Controller can chose to abort the Launch, the System indicates
+the Aborted Launch
+\item[11e.]  If there is a Countdown hold, the Flight Controller will
+resume the countdown if
+\begin{enumerate}
+\item The Anomaly is fixed and there are no other anomalies
+\item The Flight Controller determines the Anomaly is not a threat
+to the mission integrity
+\item The Anomaly is determined to be errant
+\end{enumerate}
+The System alerts the Users the Countdown hold is lifted
+\end{itemize}
+\textbf{Special Requirements: }
+\begin{itemize}
+\item There is only one point of Decision for the Countdown Hold/
+Countdown Abort.  That currently rests with the Flight Controller.  The
+Engineers/Technicians and Astronaut can advise the Flight Controller,
+in addition to the System:  all based on Pre-Launch Data.
+\item There must be a Countdown Time of 1 hour entered before the
+Countdown can begin.
+\end{itemize}
+\textbf{Technology \& Variations List: }
+\begin{itemize}
+\item[*] All actors can chose to view all the Pre-Launch data at once,
+or chose to view selected pre-launch data.  This is very useful for the
+Engineers/Technicians for monitoring Their individual System
+responsibilities
+\item[3d-5c.]The Flight Controller can change the Countdown Time as
+desired prior to starting the Countdown.  The System changes the
+Countdown time, reflects the change to the Filght Controller.  The
+Flight Controller Starts the Countdown as typical
+\item [6c-14c]If the System is automated, once the Flight Controller 
+inputs the Countdown Time, the System could Initiate the Launch, 
+hold the Countdown, abort the Countdown.  The Flight Controller would
+have final authority.
+\item[9f.] If the System is automated at Countdown and the System
+detects an anomaly, then the System can hold the Countdown, alerting
+the Users;  the Flight Controller can override the hold and resume the
+Countdown
+\item[12c.] If the System is automated at Countdown, them the System
+will initiate the Launch Sequence at the discretion of the Flight
+Controller
+\end{itemize}
+\textbf{Frequency of Occurence:  }  Almost continuously:  based on the
+frequency of desired Launches.\\\\
+\textbf{Open Issues:  }
+\begin{itemize}
+\item What about a fully automated System?
+\begin{itemize}
+\item The Flight Controller would need to maintain ultimate control?
+\end{itemize}
+\item Can the Countdown be Aborted without the Hold?
+\begin{itemize}
+\item Currently goes Countdown-Hold-Abort for a Countdown Abort
+\end{itemize}
+\item What happens if the Countdown Timer fails?
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

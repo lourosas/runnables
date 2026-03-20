@@ -1,0 +1,55 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Initialize Launch Data}\\
+\textit{Main Success Scenario}
+\begin{enumerate}
+\item The Flight Controller Enters the Rocket Data
+\begin{enumerate}
+\item The Model Number
+\item The Number of Stages
+\item Initial Data
+\item For each Stage, the Flight Controller enters the initial Stage
+data
+\item For each Stage, the Flight Controller enters the threshold Stage
+data
+\end{enumerate}
+\item System Saves the Rocket \& Stage Initialization Data
+\item System Displays the Rocket \& Stage Data to the Actors
+\item The Flight Controller Enters the Launching Platform Data
+\begin{enumerate}
+\item Number of Supports
+\item Total threshold data
+\item For each Support, the Flight Controller enters the intial
+support data
+\item System calculates the Support Threshold Data for each support
+based on the Individual Support initialization data
+\end{enumerate}
+\item System saves the Launching Platform Initialization \&
+Threshold Data
+\item For each Support, System saves the individual Support
+initialization \& threshold data to the Actors
+\item System Displays the Launching Platform Initialization \&
+Threshold Data to the Actors
+\item For each Support, System displays the individual Support
+initialization \& threshold data
+\item Flight Controller enters the initial \& threshold Capsule data
+\item System Saves the initial \& threshold Capsule data
+\item System displays the Capsule initialial \& threshold data
+\end{enumerate}
+\textit{Alternative Scenarios}
+\begin{itemize}
+\item[*] There are many ways for the Flight Controller to enter
+the appopriate initialization data, and is independent to the Use
+Case.
+\item[*] The System displays default data for any errant data (entered
+or otherwise), alerting the Actors of the errant data.
+\item[*] If the System is unable to save the data, then the System
+alerts the Actors to the issue.
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
