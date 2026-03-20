@@ -273,7 +273,7 @@ public class GenericRocketData implements RocketData{
       value += "\nModel:             "+ this.model();
       value += "\nCurrent Stage:     "+this.currentStage();
       value += "\nTolerance:         "+this.tolerance();
-      value += "\nPayload:           "+this.payloadData();
+      value += "\n"+this.payloadData();
       value += "\nNumber of Stages:  "+this.numberOfStages();
       try{
          for(int i = 0; i < this._stageData.size(); ++i){

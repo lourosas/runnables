@@ -634,6 +634,5 @@ public class GenericPayload implements Payload, Runnable{
          System.exit(0);
       }
    }
-
 }
 //////////////////////////////////////////////////////////////////////
