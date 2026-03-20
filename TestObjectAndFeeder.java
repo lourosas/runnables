@@ -46,6 +46,10 @@ public class TestObjectAndFeeder{
          pdf.initialize(file);
          pdf.setStateSubstate(state);
 
+         DataFeeder padf = new PayloadDataFeeder();
+         padf.initialize(file);
+         padf.setStateSubstate(state);
+
          DataFeeder rdf = RocketDataFeeder.instance();
          rdf.initialize(file);
          rdf.setStateSubstate(state);
@@ -76,12 +80,17 @@ public class TestObjectAndFeeder{
          e.initialize(file);
          e.addDataFeeder(rdf);
          e.setStateSubstate(state);
-         */
 
          Stage s = new GenericStage(1);
          s.initialize(file);
          s.addDataFeeder(rdf);
          s.setStateSubstate(state);
+         */
+
+         Rocket r = new GenericRocket();
+         r.initialize(file);
+         r.addDataFeeder(rdf);
+         r.setStateSubstate(state);
 
          int counter = 0;
          while(counter++ < 50){
@@ -91,6 +100,8 @@ public class TestObjectAndFeeder{
             //System.out.println("Monitor: "+pi.monitor());
             //System.out.println("Monitor: "+fs.monitor());
             //System.out.println("Monitor: "+e.monitor());
+            //System.out.println("Monitor: "+s.monitor());
+            System.out.println("Monitor: "+r.monitor());
             Thread.sleep(700);
          }
       }

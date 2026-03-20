@@ -13,11 +13,9 @@ public class TestCoffeeMaker3{
 
    public TestCoffeeMaker3(){
       System.out.println("Hello World");
-      Maker maker = new Maker();
       CoffeeMakerController controller = new CoffeeMakerController();
-      controller.addModel(maker);
-      CoffeeMakerView view = new CoffeeMakerView("A Coffee Maker");
-      maker.addSubscriber(view);
+      CoffeeMakerView view =
+                    new CoffeeMakerView("A Coffee Maker",controller);
       controller.addSubscriber(view);
    }
 }
