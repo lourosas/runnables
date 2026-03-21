@@ -44,5 +44,102 @@ actual launch hardware input.
       launch
    \item Capsule Crew/Astronauts Want a successful launch
 \end{itemize}
+
+\section{Typical Success Scenario}
+\begin{enumerate}
+   \item The Rocket with payload/capsule is loaded onto the Launching
+      Mechanism/Platform and is moved to the Launching site (if not 
+      already there)--it is not fueled...
+   \item The Flight Director loads the the Rocket Profile into the
+      system this includes the rocket data, the stage data, the 
+      capsule data, launch platform data--This is the intended Rocket
+      to Launch as related to the mission
+   \item The System Loads in the Parameters per the current Launch
+      \begin{enumerate}
+         \item This starts the \textit{Initialization State}
+      \end{enumerate}
+   \item The System Begins monitoring the Components pertinent to the
+      Launch (System Components like the Rocket, Launch Platform, 
+      et. al.) The Components begin real time feeding data to the
+      System
+   \item If the System Reports errors in any of the System, the 
+      Flight Director has the Specialists investigate, evaluate and as
+      needed correct any errors
+   \item Once the Flight Director has determined the System is Safe,
+      the Flight Director determines the Countdown Time, enters it and
+      starts the Countdown
+      \begin{enumerate}
+         \item \textit{This transitions to the Countdown State}
+         \item The System Begins Counting Down to the Launch
+      \end{enumerate}
+   \item During the Countdown, the Rocket is loaded with fuel
+      \begin{enumerate}
+         \item Each Stage is fueled
+         \item \textit{This transitions to the Fueling Substate within
+            the Countdown State}
+      \end{enumerate}
+   \item Fueling continues until each Stage is full
+      \begin{enumerate}
+         \item The System continuously monitors the fueling.
+         \item Fueling  and the countdown stops if any anomalies or
+            errors are reported.
+            \begin{enumerate}
+               \item \textit{This transitions to the Stop State}
+            \end{enumerate}
+         \item  Fueling does not continue until the errors and
+            anomalies are fixed
+            \begin{enumerate}
+               \item If the errors are severe enough to where it is
+                  impossible to fix without aborting the launch, then
+                  the Countdown is aborted
+                  \begin{enumerate}
+                     \item \textit{This transitions to the Abort
+                        State}
+                  \end{enumerate}
+            \end{enumerate}
+         \item Once the errors are fixed, Fueling is resumed and the
+            countdown continues
+            \begin{enumerate}
+               \item \textit{Transitions to the Countdown State}
+               \item \textit{Transitions to the Fueling Substate
+                  within the Countdown State}
+            \end{enumerate}
+         \item \textit{System Transitions out of the Fueling Substate
+            into the Fueled Substate once Stages are Fueled}
+      \end{enumerate}
+   \item During the countdown, if any of the components report an 
+      anomaly or an error, the countdown is stopped
+      \begin{enumerate}
+         \item \textit{The System Transitions to the Stop State}
+         \item Investigated and if needed, fixed
+            \begin{enumerate}
+               \item If the errors are such that it is impossible to 
+                  fix without aborting the Countdown, then the 
+                  Countdown is aborted
+                  \begin{enumerate}
+                     \item \textit{The System Transitions to the Abort
+                        State}
+                  \end{enumerate}
+               \item If the errors are fixed, the countdown continues
+                  \begin{enumerate}
+                     \item \textit{The System Transitions back to the
+                        Countdown State and appropriate Substate}
+                  \end{enumerate}
+            \end{enumerate}
+      \end{enumerate}
+   \item Once the Countdown reaches 0, the Flight Director makes the 
+      choice to ignite the rocket or abort the Launch.
+      \begin{enumerate}
+         \item \textit{Transitions to Ignition State if ignited}
+         \item \textit{Transitions to Abort State if aborted}
+      \end{enumerate}
+   \item The Rocket continuously monitors the Thrust and Fuel Delivery
+      System, reporting anomalies and or errors.
+      \begin{enumerate}
+         \item If there are errors, the Stakeholders have the option to
+            Abort
+         \item \textit{System Transitions to the Abort State}
+      \end{enumerate}
+\end{enumerate}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
