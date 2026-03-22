@@ -136,9 +136,56 @@ actual launch hardware input.
    \item The Rocket continuously monitors the Thrust and Fuel Delivery
       System, reporting anomalies and or errors.
       \begin{enumerate}
-         \item If there are errors, the Stakeholders have the option to
-            Abort
+         \item If there are errors, the Stakeholders have the option
+            to Abort
          \item \textit{System Transitions to the Abort State}
+      \end{enumerate}
+   \item Once the Thrust is sufficient to lift the Rocket, the Flight
+      Director the Rocket is released from the holds.
+      \begin{enumerate}
+         \item \textit{System Transitions to the Lift-Off State}
+         \item Rocket, Launch Platform, Restraint System all 
+            continuously report status to the System.
+         \item Errors/Anomalies are reported if detected.
+         \item  If there are errors, the Stakeholders have the option
+            to abort
+         \item \textit{If Aborted, the Sytem Transitions to the Abort
+            State}
+      \end{enumerate}
+   \item Rocket reports once cleared the tower.
+      \begin{enumerate}
+         \item \textit{The System Transitions to the Ascent State}
+         \item The System Monitoring transitions from Launch Control 
+            to Mission Control.
+         \item The Stakeholders (Mission Control) start to monitor the
+            System. 
+      \end{enumerate}
+   \item Rocket continues ascent to until orbit altitude is reached.
+      \begin{enumerate}
+         \item Rocket continuously reports Status to the Stake
+            holders (Mission Control). \\Including:
+            \begin{enumerate}
+               \item Stage Data
+               \item Capsule Data
+               \item Dynamic Data
+               \item Navigation Data
+            \end{enumerate}
+         \item Errors/Anomalies are reported if detected. 
+            \begin{enumerate}
+               \item  In the event of errors or anomalies, the 
+                  Stakeholders have the option to abort the Launch.
+               \item \textit{The System Transitions to the Abort 
+                  State}
+            \end{enumerate}
+      \end{enumerate}
+   \item Once orbital altitude is reached, the System performs and
+      Orbital Injection (if needed), and the Launch is Complete.
+      \begin{enumerate}
+         \item The Launch Mission Software is complete/ends.
+         \item \textit{The System Transitions to the Orbital State.}
+         \item \textit{The Orbital Monitoring Software of the 
+            Lunar Mission Software System monitors this phase of the
+            Mission.}
       \end{enumerate}
 \end{enumerate}
 \end{document}
