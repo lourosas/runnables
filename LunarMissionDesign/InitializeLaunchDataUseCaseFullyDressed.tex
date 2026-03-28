@@ -28,30 +28,21 @@ Controller--including Threshold data as needed\\\\
 \textbf{Flow of Events: }\\
 \begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
 \textbf{Flight Controller}&\textbf{System}\\\hline
-1. Enters the initial Rocket Data  &\\\hline
-2. For each Stage, enters the initial \& threshold Stage
-Data & \\\hline
-& 3. Saves the Rocket/Stage Data\\\hline
-& 4. Displays Rocket/Stage Data\\\hline
-5. Enters the Launching Platform Data&\\\hline
-6. For each Launching Platform Support, enters the initial support
-data&\\\hline
-& 7. For each Support, calculates the Support Threashold Data based on
-the initial Support input data \\\hline
-& 8.  Saves the the Lauching Platorm Support \& Threshold Data\\\hline
-&9. Saves the Input \& Calclulated Threshold Data for each
-Support\\\hline
-&10. Displays the Platform Support Data\\\hline
-&11. Displays the Individual Support Data for every Support\\\hline
+1. Enters all data pertaining to the Launch, including
+   Rocket, Platform \& Platform Supports &\\\hline
+& 2. Saves the Data pertaining to the Launch\\\hline
+& 3. Displays the Data entered pertaining to the Launch\\\hline
+& 4. Monitors the Data pertinent to the Launch\\\hline
+& 5. Displays Pertinent Launch Data\\\hline
 \end{tabular}\\\\
 \textbf{Alternative Flows:}
 \begin{itemize}
-\item[*a.]If at any time, errant data is entered into the System,
+\item[1a.]If at any time, errant data is entered into the System,
 then the System Alerts the Actors. The System will display
 default data instead of errant data.  The Flight Director has the
 choice to change the errant input data.
-\item[*b.] If at any time, the System is unable to save the data, then
-the System alerts the Actors to the Issue.
+\item[1b.] If at any time, the System is unable to obtain the data,
+then the System alerts the Actors to the Issue.
 \end{itemize}
 \textbf{Special Requirements: }
 \begin{itemize}
@@ -59,10 +50,10 @@ the System alerts the Actors to the Issue.
 \end{itemize}
 \textbf{Technology \& Variations List: }
 \begin{itemize}
-\item[1c,2c,5c,6c] There are many ways to input the Initialized data.
+\item[1c] There are many ways to input the Initialized data.
 How the Initialized data is entered determines the input protocol
 and how errors are reported.
-\item[1d,2d,5d,6d] Based on the components of the System (Rocket,
+\item[1d] Based on the components of the System (Rocket,
 Lauching Mechanism, Capsule), the initialized input/threshold and
 caculated threashold data will vary.
 \end{itemize}
