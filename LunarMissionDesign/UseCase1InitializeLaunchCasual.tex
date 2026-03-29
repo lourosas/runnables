@@ -10,21 +10,15 @@
 \begin{enumerate}
    \item With the System running, the Flight Controller enters the
       Mission Parameters File
-   \item The System opens the Parameters file
-   \item The System reads the Parameters file data
-   \item The System stores off the data read in from the Parameters
-      File
-   \item The System alerts the Flight Director the Parameters File is
-      loaded into the System
-   \item The System alerts the Flight Director of the Initialized
-      Mission Parameters
-   \item For the duration of the Launch, the System Real World 
-      Components feed the System their current data in real time
-   \item The System compares the input data to the input parameter
-      data
-   \item The System determines if there are any errors
-   \item The System alerts the Flight Director of the current input
-      data
+   \item System opens the Parameters file
+   \item System reads the Parameters file data
+   \item System initializes each of its Components by sending the
+      Parameters File to each Component
+   \item System alerts the Flight Director the Initialization Status
+   \item System periodically queries the Components' Status 
+      \textbf{or} each Component periodically feeds the System its
+      current Status for the Launch duration
+   \item System alerts the Stake Holders of its current Status
 \end{enumerate}
 \textit{Alternative Scenarios}
 \begin{enumerate}
@@ -34,18 +28,20 @@
    \item[3a] If System cannot read the Parameters file, then the
       System alerts the Flight Director of the Error:  indicating
       unable to read the Parameters file.
-   \item[9a,10a] If the System finds errors, then the System alerts
-      the Flight Director of the Errors
+   \item[4a] If the System Components are unable to open the Parameter
+      file then the Components alert the System and the System
+      alerts the Flight Director
+   \item[4b] If the System Components are unable to read the
+      Parameter file, then the Components alert the System and
+      the System alerts the Flight Director
+   \item[6a,7a] The System alerts the Stake Holders of any errors
+      discovered.
 \end{enumerate}
 \textit{Notes/Constraints}
 \begin{enumerate}
-   \item[7a.]The ``Real World Components" are all the components 
-      related to a typical mission Launch:  Rocket, Payload, 
-      Launching Platform, Launching Mechanism.  All components shall
-      feed their data to the System in a real time fashion.
-   \item[7b.]Steps 7-10 are repeated through the duration of the
-      Launch.  The System Continually receives inputs from the 
-      Components related to the Launch.
+   \item[*a] The System is made up of components.
+   \item[*b] The Components will either alert the System autonomously,
+      or the System as a whole will query its components.
 \end{enumerate}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
