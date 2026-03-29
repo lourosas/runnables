@@ -5,6 +5,91 @@
 \usepackage{graphicx}
 \begin{document}
 \noindent
-
+\textbf{Use Case 1:  Initialize Launch}\\
+\textbf{Scope:  }Launch Mission\\
+\textbf{Primary Actor:  }Flight Director\\
+\textbf{Related Use Cases:  }None\\
+\textbf{Stake Holders \& Interests:}
+\begin{itemize}
+   \item Flight Director:  Wants to set up a Launch by Setting all the
+      Launch Parameters and Sub-Systems including
+      \begin{itemize}
+         \item Rocket
+         \item Capsule
+         \item Launching Platform
+         \item Launching Mechanism
+      \end{itemize}
+   \item Mission Planner:  Wants the Mission Started  with the 
+      appropriate Mission Parameters loaded
+   \item Engineers/Technicians: Wants to monitor the entire launch to
+      ensure success
+\end{itemize}
+\textbf{Pre-Conditions:  }The Mission System is running and ready to 
+monitor all the appropriate Systems and Sub-Systems.\\
+\textbf{Post-Conditions:  }The Launching Mission System is Initialized
+with the proper Launching Parameters and Monitoring all Launch Systems
+and Sub-Systems\\\\
+\textbf{Flow of Events:}\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+   \textbf{Flight Director}&\textbf{System}\\\hline
+   1.  Enter the Mission Parameters File &\\\hline
+   &2.  Opens Mission Parameters File\\\hline
+   &3.  Reads the Parameters File\\\hline
+   &4.  Initialize the Launch Systems by sending the Mission 
+   Parameters File to each Sub-System\\\hline
+   &5.  Alerts of the Initialization Status\\\hline
+   &6.  Periodically queries each Sub-System's Status or Each
+   Sub-System periodically feeds its current Status\\\hline
+   &7.  Alerts of the current Status\\\hline
+\end{tabular}\\\\
+\textbf{Extensions (or Alternative Flows):}
+\begin{itemize}
+   \item[2a.]If there is an error in opening the Parameters file,
+      then the System alerts the Flight Director of the error:
+      indicating unable to open the Parameters file.  The Flight 
+      Director either chooses another Parameters file or exits 
+      (aborts) the Mission.
+   \item[3a.]If the System cannot read the Parameters file, then the
+      System alerts the Flight Director of the error:  indicating
+      unable to read the Parameters file.  The Flight Director either
+      chooses another Parameters file or exits (aborts) the Mission.
+   \item[4a.] If any of the Sub-Systems are unable to open the 
+      Parameters file, the System alerts the Flight Director of the 
+      Error: indicating unable to open the file.  The Flight Director
+      either chooses another Parameters file or exits (aborts) the
+      Mission
+   \item[4b.] If any of the Sub-Systems are unable to read the 
+      Parameters file, then the System alerts the Flight Director of 
+      the Error:  indicating unable to read the file. The Flight 
+      Director either chooses another Parameters file or exits 
+      (aborts) the Mission.
+   \item[6a.,7a.]The System alerts the Stake Holders of any errors.
+      The Flight Director determines the Path for the mission. 
+\end{itemize}
+\textbf{Special Requirements:}
+\begin{itemize}
+   \item None
+\end{itemize}
+\textbf{Technology \& Variations List:}
+\begin{itemize}
+   \item If the System queries the Sub-Systems, error state and data 
+      shall be included.
+   \item If the Sub-Systems alert, the Sub-Systems either alert in a
+      separate error message or the same update message.
+\end{itemize}
+\textbf{Frequency of Occurrence:}
+\begin{itemize}
+   \item Every time a planned Mission is exercised or simulated.
+\end{itemize}
+\textbf{Open Issues:}
+\begin{itemize}
+   \item During Initialization, how is System Monitoring accomplished?
+      \begin{itemize}
+         \item Periodic monitoring of the Subsystems
+         \item Subsystems periodic alert
+         \item Is there the ability to implement both types of
+            monitoring?
+      \end{itemize}
+\end{itemize}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
