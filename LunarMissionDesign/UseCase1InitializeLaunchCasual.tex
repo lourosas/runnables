@@ -1,0 +1,51 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Initialize Launch--Casual Format}\\
+\textit{Main Success Scenario}
+\begin{enumerate}
+   \item With the System running, the Flight Controller enters the
+      Mission Parameters File
+   \item The System opens the Parameters file
+   \item The System reads the Parameters file data
+   \item The System stores off the data read in from the Parameters
+      File
+   \item The System alerts the Flight Director the Parameters File is
+      loaded into the System
+   \item The System alerts the Flight Director of the Initialized
+      Mission Parameters
+   \item For the duration of the Launch, the System Real World 
+      Components feed the System their current data in real time
+   \item The System compares the input data to the input parameter
+      data
+   \item The System determines if there are any errors
+   \item The System alerts the Flight Director of the current input
+      data
+\end{enumerate}
+\textit{Alternative Scenarios}
+\begin{enumerate}
+   \item[2a] If there is an error in opening the Parameters file,
+      then the System alerts the Flight Director of the Error:
+      indicating unable to open the Parameters file.
+   \item[3a] If System cannot read the Parameters file, then the
+      System alerts the Flight Director of the Error:  indicating
+      unable to read the Parameters file.
+   \item[9a,10a] If the System finds errors, then the System alerts
+      the Flight Director of the Errors
+\end{enumerate}
+\textit{Notes/Constraints}
+\begin{enumerate}
+   \item[7a.]The ``Real World Components" are all the components 
+      related to a typical mission Launch:  Rocket, Payload, 
+      Launching Platform, Launching Mechanism.  All components shall
+      feed their data to the System in a real time fashion.
+   \item[7b.]Steps 7-10 are repeated through the duration of the
+      Launch.  The System Continually receives inputs from the 
+      Components related to the Launch.
+\end{enumerate}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

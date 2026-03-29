@@ -1,0 +1,21 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Initialize Launch--Brief Format}
+\begin{enumerate}
+   \item Flight Controller Enters The Mission Parameters File
+   \item System Opens the Parameters File
+   \item System Reads the Parameters File Data
+   \item System initializes each of its Component by sending the
+      Parameters File to each Component
+   \item System alerts the Flight Director of the Initialization
+   \item System periodically queries the Components’ Status 
+      \textbf{or} each Component feeds the System its current Status
+   \item System alerts the Flight Director its current Status
+\end{enumerate}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
