@@ -1,0 +1,39 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Enter State, Substate--Casual Format}\\
+\textbf{Main Success Scenario}
+\begin{enumerate}
+   \item With the Data Feeder running
+   \item With the System Running and periodically requesting data from
+      the Data Feeder
+      \begin{enumerate}
+         \item The System may periodically change State and Substate
+         \item The System notifies the Data Feeder of the State Change
+         \item The Data Feeder assess the Change Request from the
+            System and determines its relevance to the Data Feeder
+            \begin{enumerate}
+               \item If the Data Feeder deterimines the State/Substate
+                  change is relevant to the Data Feeder, then the
+                  Data Feeder changes its State/Substate to reflect
+                  the requesting System 
+            \end{enumerate}
+      \end{enumerate}
+\end{enumerate}
+\textit{Alternative Scenarios}
+\begin{enumerate}
+   \item[2a] If the Data Feeder determines the State/Sustate Change
+      is not important to the Data Feeder, then the Data Feeder will
+      not change its State
+\end{enumerate}
+\textit{Notes/Constraints}
+\begin{enumerate}
+   \item[2b] Illegal State/Substate transitions weeded out by the
+      System by the time the request reaches the Data Feeder.
+\end{enumerate}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

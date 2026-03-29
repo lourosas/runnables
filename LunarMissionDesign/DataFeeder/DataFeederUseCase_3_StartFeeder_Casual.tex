@@ -1,0 +1,39 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Start Feeder--Casual Format}\\
+\textit{Main Success Scenario}
+\begin{enumerate}
+   \item With the parameter file loaded the Data Feeder
+      \begin{enumerate}
+      \item Transitions from no Data Generation Mode to Data
+         Generation Mode
+      \item Starts Data Generation as Specified by the Parameter
+         file
+      \end{enumerate}
+   \item Periodically generates data as specified by the Parameter
+      file
+\end{enumerate}
+\textit{Alternative Scenarios}
+\begin{enumerate}
+   \item[1a] If there is an error in loading the Parameter file, or
+      no Parameter file is loaded, then the Data Feeder does not
+      transition to Data Generation Mode
+   \item[1b] If an error occurs that disrupts the data generation then
+      the Data Feeder transitions out of Data Generiation Mode to No
+      Data Generation Mode
+   \item[1c] If an error is generated outside of the Data Feeder that
+      disrupts the data generation, then the Data Feeder tranisitions
+      out of Data Generation Mode to No Data Generation Mode
+\end{enumerate}
+\textit{Notes/Constraints}
+\begin{enumerate}
+   \item[2a] Techinically, an addition to the Use Case and could be
+      mentioned here
+\end{enumerate}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

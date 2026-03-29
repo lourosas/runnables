@@ -1,0 +1,49 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case 4:  Enter State/Substate}\\
+\textbf{Scope:  }Data Feeder\\
+\textbf{Primary Actor:  }None\\
+\textbf{Secondary Actor:  }(Lunar Mission)System\\
+\textbf{Related use Cases:  }None\\
+\textbf{Stakeholders \& Interrests:}
+\begin{itemize}
+   \item (Lunar Mission)System:  Wants data relevant to the
+      State/Substate
+   \item Flight Contoller:  Wants System data approprete to the
+      State/Substate
+   \item Engineer/Technician:  Wants the System data appropriate to
+      the State/Substate
+\end{itemize}
+\textbf{Pre-Conditions:  }(Lunar Mission)System is started, Data
+Feeder is started\\
+\textbf{Post-Conditions: }The Data Feeder transition to the requested
+State\\\\
+\textbf{Flow of Events:}\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+   \textbf{System Administrator}&\textbf{Data Feeder}\\\hline
+   1.  Changes State/Substate &\\\hline
+   2.  Notifies of State/Substate Change&\\\hline
+   &3.  Changes State/Substate\\\hline
+\end{tabular}
+\textbf{Alternative Flows/Extensions:}
+\begin{itemize}
+   \item[3a]If the Data Feeder determines if the State/Substate
+      transition is not waranted, then the Data Feeder does not
+      transition to the new State/Substate--staying in its current
+      State/Substate
+\end{itemize}
+\textbf{Special Requirements}
+\begin{itemize}
+   \item None
+\end{itemize}
+\textbf{Open Issues}
+\begin{itemize}
+   \item None
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

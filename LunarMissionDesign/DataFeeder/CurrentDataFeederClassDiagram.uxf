@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>130</x>
+      <y>0</y>
+      <w>280</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>DataFeeder
+--
+addDataFeeder(:DataFeeder)
+initialize(:String)
+monitor():Object
+setStateSubstate(:LaunchStateSubstate)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>180</x>
+      <y>220</y>
+      <w>150</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>TankDataFeeder
+--
+-_stage:int
+-_number:int
+--
+-setUpNumber(:int)
+-setUpStage(:int)
+
+
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>260</x>
+      <y>0</y>
+      <w>30</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;220.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>560</x>
+      <y>0</y>
+      <w>280</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>DataFeeder
+--
+addDataFeeder(:DataFeeder)
+initialize(:String)
+monitor():Object
+setStateSubstate(:LaunchStateSubstate)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>600</x>
+      <y>180</y>
+      <w>190</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>EngineDataFeeder
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>690</x>
+      <y>0</y>
+      <w>30</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>620</x>
+      <y>330</y>
+      <w>130</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>GenericEngineData
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>830</x>
+      <y>330</y>
+      <w>100</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>EngineData
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>690</x>
+      <y>200</y>
+      <w>40</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=2</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>740</x>
+      <y>340</y>
+      <w>150</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>130.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>960</x>
+      <y>0</y>
+      <w>280</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>DataFeeder
+--
+addDataFeeder(:DataFeeder)
+initialize(:String)
+monitor():Object
+setStateSubstate(:LaunchStateSubstate)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1000</x>
+      <y>170</y>
+      <w>190</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>EngineDataFeeder
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1090</x>
+      <y>0</y>
+      <w>30</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>1050</x>
+      <y>310</y>
+      <w>100</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>EngineData
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1090</x>
+      <y>190</y>
+      <w>40</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=2
+m2=1</panel_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>130</x>
+      <y>450</y>
+      <w>280</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>DataFeeder
+--
+addDataFeeder(:DataFeeder)
+initialize(:String)
+monitor():Object
+setStateSubstate(:LaunchStateSubstate)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>200</x>
+      <y>640</y>
+      <w>140</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>PayloadDataFeeder</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>260</x>
+      <y>450</y>
+      <w>30</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>190</x>
+      <y>800</y>
+      <w>160</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>PayloadData
+--
+crew():int
+currentWeight():double
+dryWeight():double
+error():String
+isError():boolean
+isOccupied():boolean
+maxWeight():double
+model():String
+temperature():double
+tolerance():double
+type():String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>260</x>
+      <y>660</y>
+      <w>40</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>1000</x>
+      <y>510</y>
+      <w>280</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>DataFeeder
+--
+addDataFeeder(:DataFeeder)
+initialize(:String)
+monitor():Object
+setStateSubstate(:LaunchStateSubstate)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>700</x>
+      <y>720</y>
+      <w>170</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>StageDataFeeder</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>780</x>
+      <y>520</y>
+      <w>370</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>350.0;10.0;10.0;10.0;10.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1030</x>
+      <y>720</y>
+      <w>200</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>RocketDataFeeder</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1130</x>
+      <y>510</y>
+      <w>30</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>1290</x>
+      <y>220</y>
+      <w>160</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Singleton
+--
+_+instance():DataFeeder_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1270</x>
+      <y>330</y>
+      <w>200</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>RocketDataFeeder</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1360</x>
+      <y>220</y>
+      <w>30</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1410</x>
+      <y>720</y>
+      <w>140</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>PayloadDataFeeder</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1140</x>
+      <y>520</y>
+      <w>350</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;330.0;10.0;330.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>860</x>
+      <y>720</y>
+      <w>190</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1..*</panel_attributes>
+    <additional_attributes>170.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1220</x>
+      <y>720</y>
+      <w>210</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;190.0;10.0</additional_attributes>
+  </element>
+</diagram>
