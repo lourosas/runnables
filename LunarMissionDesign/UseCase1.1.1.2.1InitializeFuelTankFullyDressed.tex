@@ -12,8 +12,8 @@
 \textit{Use Case 1.1.1.2 Initialize Fuel System}\\
 \textbf{Stake Holders  \& Interests:}
 \begin{itemize}
-   \item Flight Director:  Wants to set up a Launch via setting all the
-      Launch Parameters and Sub-Systems including:
+   \item Flight Director:  Wants to set up a Launch via setting all
+      the Launch Parameters and Sub-Systems including:
       \begin{itemize}
          \item Rocket and the Fuel System
       \end{itemize}
@@ -25,5 +25,52 @@ initialize and monitor the appropriate Systems and Sub-Systems
 \textbf{Post-Conditions:  }The Fuel Tank is Initialized with the
 appropriate parameters\\\\
 \textbf{Flow of Events:}\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+   \textbf{Flight Director}&\textbf{System}\\\hline
+   1.  Enter the Mission Parameter File &\\\hline
+   &2.  Finds the Tank Parameter File name and location\\\hline
+   &3.  Goes to the Tank Parameter File Location\\\hline
+   &4.  Opens the Tank Parameter File\\\hline
+   &5.  Reads the Parameter Data appropriate for the Tank (See 
+   \textit{Use Case 1.1.1.2 Initialize Fuel System})\\\hline
+   &6.  Initializes the Tank Data with the data from the Tank 
+   Parameter File\\\hline
+   &7.   Alerts the Flight Director the Tank is initialized\\\hline
+\end{tabular}\\\\
+\textbf{Extensions (or Alternative Flows):}
+\begin{itemize}
+   \item[2a,3a]If the System cannot find the location of the Tank 
+      Parameter File, then the System alerts the Flight Director of 
+      the error:  indicating not a legitimate file path.  The Flight 
+      Director either chooses another directory path or exits 
+      (aborts) the Mission.
+   \item[4a]If the System cannot open the Tank Parameter file, then 
+      the System alerts the Flight Director of the Error:  indicating
+      unable to open the Parameters File.  The Flight Director either
+      chooses another Parameters file, or exits (aborts) the Mission.
+   \item[5a]If the System cannot read the Tank Parameter File, then
+      the System alerts the Flight Director of the Error:  indicating
+      unable to read the Parameters File.  The Flight director either
+      chooses another Parameters file or exits (aborts) the Mission.
+\end{itemize}
+\textbf{Special Requirements:}
+\begin{itemize}
+   \item None
+\end{itemize}
+\textbf{Technology \& Variations List:}
+\begin{itemize}
+   \item There could be many types of Tank Parameter Files in different
+      formats, they System will need to possibly account for that.
+   \item Regardless of the type of file, the System Data should follow
+      a Standard.
+\end{itemize}
+\textbf{Frequency of Occurrence:}
+\begin{itemize}
+   \item Every Time a Mission planned or simulated.
+\end{itemize}
+\textbf{Open Issues:}
+\begin{itemize}
+   \item None
+\end{itemize}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
