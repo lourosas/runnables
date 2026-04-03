@@ -1,0 +1,38 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Initialize Fuel Tank--Casual Format}\\
+\textit{Main Success Scenario}
+\begin{enumerate}
+   \item With the System Running, the Flight Director enters the
+      Mission Parameters File (See Use Case 1:  Initialize Launch)
+   \item System finds the Tank Parameter File name and location
+   \item System goes to the Tank Parameter File Location
+   \item System opens the Tank Parameter File
+   \item System reads the Tank Parameter File Data
+   \item System Initializes the Tank Data with the data from the Tank
+      Parameter File
+   \item System alerts the Stake Holders of the Tank is Initialized
+\end{enumerate}
+\textit{Alternative Scenarios}
+\begin{enumerate}
+   \item[2a, 3a]If the System cannot find the location where the 
+      Tank Parameter File is located, then the System alerts the 
+      Flight Director of the Error:  indicating a non-ligitimate file
+      path
+   \item[4a]If the System cannot open the Tank Parameter File, then
+      the System alerts the Flight Director
+   \item[5a]If the System cannot read the Tank Parameter Data File, then the System Alerts the Flight Director
+\end{enumerate}
+\textit{Notes/Constraints}
+\begin{enumerate}
+   \item[7a]The System indirectly alerts the Stake Holders via an 
+      upward cascade of alerts/queries starting with the Fuel System
+      (See \textit{Use Case 1.1.1.2 Initialize Fuel System})
+\end{enumerate}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
