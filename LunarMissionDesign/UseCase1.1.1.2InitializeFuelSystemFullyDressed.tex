@@ -1,0 +1,88 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case LM-1.1.1.2:  Initialize Fuel System}\\
+\textbf{Scope:}  Launch Mission\\
+\textbf{Primary Actor:}  Flight Director\\
+\textbf{Related Use Cases:  } 
+\textit{Use Case 1.1.1.2.1: Initialize Fuel Tank},\\ 
+\textit{Use Case 1.1.1.2.2: Initialize Fuel Pump},\\ 
+\textit{Use Case 1.1.1.2.3:  Initialize Fuel Pipe}\\
+\textbf{Stake Holders \& Interests:}
+\begin{itemize}
+   \item Flight Director:  Wants to set up a Launch via setting all
+      the Launch Parameters and Sub-Systems including:
+   \begin{itemize}
+      \item Rocket and Fuel System
+   \end{itemize}
+   \item Mission Planner:  Wants the Mission Initialized with the
+      appropriate Mission Parameters loaded
+\end{itemize}
+\textbf{Pre-Conditions:  }The Mission System is running and ready to
+initialize and monitor the appropriate Systems and Sub-Systems.\\
+\textbf{Post-Conditions: }The Fuel System is initialized with the
+appropriate parameters.\\\\
+\textbf{Flow of Events:}\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+   \textbf{Flight Director}&\textbf{System}\\\hline
+   1. Enters the Mission Parameters File&\\\hline
+   &2. Initialize each Fuel Tank (See 
+   \textit{Use Case 1.1.1.2.1:  Initialize Fuel Tank})\\\hline
+   &3. Initialize each Fuel Pump (See 
+   \textit{Use Case 1.1.1.2.2:  Initialize Fuel Pump})\\\hline
+   &4. Initialize each Fuel Pipe (See 
+   \textit{Use Case 1.1.1.2.3:  Initialize Fuel Pipe})\\\hline
+   5. Initialization Fuel System Status&\\\hline
+\end{tabular}\\\\
+\textbf{Extensions (or Alternative Flows):}
+\begin{itemize}
+   \item[2a]If the System receives an Initialization Error from any
+      of the Fuel Tanks, then the System returns the Error to the 
+      Flight Director.  The Flight Director determines to continue or
+      exit (abort) the Mission.
+   \item[3a]If the System receives an Initialization Error from any 
+      of the Fuel Pumps, then the System returns the Error to the 
+      Flight Director.  The Flight Director determines to continue or
+      exit (abort) the Mission.
+   \item[4a]If the System receives an Initialization Error from any 
+      of the Fuel Pipes, then the System returns the Error to the 
+      Flight Director.  The Flight Director determines to continue 
+      or exit (abort) the Mission.
+\end{itemize}
+\textbf{Notes/Constraints:}
+\begin{itemize}
+   \item[*a]This Use Case documents the Fuel System Initialization,
+      not the Monitoring of the Fuel System (See 
+      \textit{Use Case 4.1:  Monitor Initialization} for System 
+      Monitoring
+   \item[5a]The System indirectly alerts the Stake Holders via an
+      upward cascade of alerts/queries with the Current Stage (See 
+      \textit{Use Case 1.1.1:  Initialize Stage})
+\end{itemize}
+\textbf{Special Requirements:}
+\begin{itemize}
+   \item None
+\end{itemize}
+\textbf{Technology  \& Variations List:}
+\begin{itemize}
+   \item There could be many types of Mission Parameter Files in
+      different formats for the Pipes, Tanks and Pumps:  the System 
+      will need to possibly account for all of the different types of
+      files.
+   \item Regardless of the type of file, the System Data should
+      follow a standard.
+\end{itemize}
+\textbf{Frequency of Occurrence:}
+\begin{itemize}
+   \item Every time a Mission is planned or simulated.
+\end{itemize}
+\textbf{Open Issues:}
+\begin{itemize}
+   \item None
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

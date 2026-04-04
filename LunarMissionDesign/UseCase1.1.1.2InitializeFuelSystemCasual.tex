@@ -1,0 +1,49 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Initialize Fuel System--Casual Format}\\
+\textit{Main Success Scenario}
+\begin{enumerate}
+   \item With the System Running, the Flight Director enters the 
+      Mission Parameters File (See 
+      \textit{Use Case 1:  Initialize Launch})
+   \item System Initializes each Fuel Tank (See 
+      \textit{Use Case 1.1.1.2.1:  Initialize Fuel Tank}), and queries
+      \textbf{or} receives Initialization Status from each Fuel Tank
+   \item System Initializes each Fuel Pump (See 
+      \textit{Use Case 1.1.1.2.2:  Initialize Fuel Pump}) and queries
+      \textbf{or} receives Initialization Status from each Fuel Pump
+   \item System Initializes each Fuel Pipe (See 
+      \textit{Use Case 1.1.1.2.3:  Initialize Fuel Pipe}) and queries 
+      \textbf{or} receives Initialization Status from each Fuel Pipe
+   \item System returns the Initialization Status and Data to the 
+      Flight Director
+\end{enumerate}
+\textit{Alternative Scenarios}
+\begin{enumerate}
+   \item[2a]If the System receives an Initialization Error from any 
+      of the Fuel Tanks, then the System returns the Error to the
+      Flight Director.
+   \item[3a]If the System receives an Initialization Error from any
+      of the Fuel Pumps, then the System returns the Error to the 
+      Flight Director.
+   \item[4a]If the System receives an Initialization Error From any
+      of the Fuel Pipes, then the System returns the Error to the 
+      Flight Director.
+\end{enumerate}
+\textit{Notes/Constraints}
+\begin{enumerate}
+   \item[*a]This Use Case Documents the Fuel System Initialization,
+      and not the Monitoring of the Fuel System (See 
+      \textit{Use Case 4.1: Monitor Initialization} for System
+      Monitoring
+   \item[5a]The System Indirectly alerts the Stake Holders via an
+      upward cascade of alerts/queries with the Current Stage (See
+      \textit{Use Case 1.1.1: Initialize Stage})
+\end{enumerate}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
