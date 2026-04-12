@@ -1,0 +1,39 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Initialize Engine--Casual Format}\\
+\textit{Main Success Scenario}\\
+\begin{enumerate}
+   \item With the System Running, the Flight Director enters the
+      Mission Parameters File (See 
+      \textit{Use Case 1:  Initialize Launch})
+   \item System finds the Engine Parameters File name and location
+   \item System goes to the Engine Parameters File location
+   \item System opens the Engine Parameters File
+   \item System reads the Engine Parameter File Data
+   \item For Each Engine, System Initializes the Engine Data with the
+      data from the Engine Parameters File
+   \item System alerts the Stake Holders of the Engine Initialization
+\end{enumerate}
+\textit{Alternative Scenarios}
+\begin{itemize}
+   \item[2a,3a]If the System cannot find the location where the Engine
+      Parameter File, then the System alerts the Flight Director of 
+      the Error:  indicating an illegitimate file path
+   \item[4a]If the System cannot open the Engine Parameter File, then
+      the System alerts the Flight Director
+   \item[5a]If the System cannot read the Engine Parameter File, the
+      the System alerts the Flight Director
+\end{itemize}
+\textit{Note/Constraints}
+\begin{itemize}
+   \item[7a]The System indirectly alerts the Stake Holders via an 
+      upward cascade of alerts/queries starting with the Stage 
+      Initialization (See Use Case 1.1.1 Initialize Stage)
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

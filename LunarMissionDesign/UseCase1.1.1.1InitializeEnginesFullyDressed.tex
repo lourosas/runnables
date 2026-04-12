@@ -1,0 +1,76 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case LM-1.1.1.1:  Initialize Engine}\\
+\textbf{Scope:} Launch Mission\\
+\textbf{Primary Actor:} Flight Director\\
+\textbf{Related Use Cases:}\textit{Use Case 1.1.1 Initialize Stage}\\
+\textbf{Stake Holders \& Interests:}
+\begin{itemize}
+   \item Flight Director:  Wants to set up the Launch via initializing
+      all the Launch Parameters and Subsystems including:
+      \begin{itemize}
+         \item Every engine
+      \end{itemize}
+   \item Mission Planner:  Wants the Mission Initialized with the 
+      appropriate Mission Parameters loaded
+\end{itemize}
+\textbf{Pre-Conditions:}  The Mission System is running and ready to
+initialize and monitor the appropriate Systems and Sub-Systems\\
+\textbf{Post-Conditions:} The engines are initialized with the
+appropriate parameters\\\\
+\textbf{Flow of Events:}\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+   \textbf{Flight Director}&\textbf{System}\\\hline
+   1.   Mission Parameters File&\\\hline
+   &2.  Finds the Engine Parameters File Name and Location\\\hline
+   &3.  Goes to the Engine Parameters File Location\\\hline
+   &4.  Opens the Engine Parameters File\\\hline
+   &5.  Reads the Engine Parameter file appropriate for the Engine
+   (See \textit{Use Case 1.1.1 Initialize Stage})\\\hline
+   &6.  Initializes the Engine Data with the data from the Engine
+   Parameter File\\\hline
+   &7.  Alerts the Flight Director the Engine is Initialized\\\hline
+\end{tabular}\\\\
+\textbf{Extensions (or Alternative Flows):}
+\begin{itemize}
+\item[2a,3a]If the System cannot find the location of the Engine 
+   Parameter File, then the System alerts the Flight Director of the
+   error:  indicating an illegitimate file path.  The Flight Director
+   either chooses another directory path or exits (aborts) the 
+   Mission.
+\item[4a]If the System cannot open the Engine Parameter File, then
+   the System alerts the Flight Director:  indicating unable to open
+      the Parameters File.  The Flight Director either chooses another
+      Parameters file, or exits (aborts) the Mission.
+   \item[5a]If the System cannot read the Engine Parameters File, then
+      the System alerts the Flight Director:  indicating unable to 
+      read the Parameters File.  The Flight Director either chooses 
+      another Parameters file or exits (aborts) the Mission.
+\end{itemize}
+\textbf{Special Requirements:}
+\begin{itemize}
+   \item None
+\end{itemize}
+\textbf{Technology \& Variations List:}
+\begin{itemize}
+   \item There could be many types of Engine Parameters and subsequent
+      files in different formats:  the System will need to account 
+      for that.
+   \item Regardless of the type of file, the System Data should 
+      follow a Standard.
+\end{itemize}
+\textbf{Frequency of Occurrence:}
+\begin{itemize}
+   \item Everytime a Mission is planned or simulated
+\end{itemize}
+\textbf{Open Issues:}
+\begin{itemize}
+   \item None
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
