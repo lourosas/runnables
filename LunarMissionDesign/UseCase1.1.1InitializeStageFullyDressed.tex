@@ -1,0 +1,102 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case LM-1.1.1:  Initialize Stage}\\
+\textbf{Scope: }Launch Mission\\
+\textbf{Primary Actor: }Flight Director\\
+\textbf{Related Use Cases:  }\textit{Use Case 1: Initialize Launch},\\
+\textit{Use Case 1.1.1.1:  Initialize Engine},\\
+\textit{Use Case 1.1.1.2:  Initialize Fuel System}\\
+\textbf{Stake Holders  \& Interests:}
+\begin{itemize}
+   \item Flight Director:  Wants to set up a Launch via initializing
+      all the Launch Parameters, Systems and Sub-Systems including:
+      \begin{itemize}
+         \item Rocket and Fuel System
+      \end{itemize}
+   \item Mission Planner: Wants the Mission Initialized with the 
+      appropriate Mission Parameters loaded
+\end{itemize}
+\textbf{Pre-Conditions:  }The Mission System is running and ready to
+initialize and monitor the appropriate Systems and Sub-Systems\\
+\textbf{Post-Conditions: }The Stage is Initialized with the 
+appropriate parameters:  including everything that composes a 
+Stage\\\\
+\textbf{Flow of Events:}\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+   \textbf{Flight Director}&\textbf{System}\\\hline
+   1.  Enters the Mission Parameters File (See 
+   \textit{Use Case 1:Initialize Launch})&\\\hline
+   &2. Initializes each Engine in the Stage (See 
+   \textit{Use Case 1.1.1.1: Initialize Engine})\\\hline
+   &3. Initializes the Fuel System in the Stage (See 
+   \textit{Use Case 1.1.1.2: Initialize Fuel System})\\\hline	
+   &4. Finds the Stage Parameters File and location\\\hline
+   &5. Goes to the Stage Parameters File location\\\hline
+   &6. Opens the Stage Parameters file\\\hline
+   &7. Reads the Stage Parameters file\\\hline
+   &8. Initializes the Stage Data with the appropriate Stage data 
+   read in from the Stage Parameters File\\\hline
+   &9. Initialization Status returned to the Flight Director\\\hline
+\end{tabular}\\\\
+\textbf{Extensions (or Alternative Flows):}
+\begin{itemize}
+\item[2a]If the System receives an initialization error from the 
+   Engines, then the System returns the Error to the Flight Director 
+   (See \textit{Use Case 1.1.1.1 Initialize Engine)}.  The Flight 
+   Director determines the next course of action.
+\item[3a]If the System receives an initialization error from the Fuel
+   System, then the System returns the Error to the Flight Director
+   (See \textit{Use Case 1.1.1.2 Initialize Fuel System}).  The Flight
+   Director determines the next course of action.
+\item[4a,5a]If the System cannot find the location where the Stage 
+   Parameters File is located, then the System returns the Error to 
+   the Flight Director:  indicating an non-legitimate file path. The 
+   Flight Director determines the next course of action.
+\item[6a]If the System cannot open the Stage Parameters File, then
+   the System returns the error to the Flight Director:  indicating
+   unable to open the Stage Parameters file.  The Flight Director 
+   determines the next course of action.
+\item[7a]If the System cannot read the Stage Parameters File, then the
+   System returns an Error to the Flight Director:  indicating unable
+   to read the Stage Parameters file.  The Flight Director determines
+   the next course of action.
+\end{itemize}
+\textbf{Notes/Constraints:}
+\begin{itemize}
+   \item[*a]This Use Case documents the Stage Initialization, not the 
+      Stage Monitoring (See 
+      \textit{Use Case 4.1: Monitor Initialization}) for Stage 
+      Monitoring
+   \item[*b]The Next Course of Action for the Flight Director is 
+      aborting the mission or chosing another Mission Parameters File
+   \item[9a]The System indirectly alerts the Stake Holders via an 
+      upward cascade of alerts/queries with the Rocket (See 
+      \textit{Use Case 1.1:  Initialize Rocket})
+\end{itemize}
+\textbf{Special Requirements:}
+\begin{itemize}
+   \item None
+\end{itemize}
+\textbf{Technology \& Variations List:}
+\begin{itemize}
+   \item There could be many types of Mission Parameters Files in 
+      different formats for the components, the System will possibly 
+      need to account for all the different types of files.
+   \item Regardless of the type fo file, the System Data should 
+      follow a Standard
+\end{itemize}
+\textbf{Frequency of Occurrence:}
+\begin{itemize}
+   \item Every time a Mission is planned or simulated.
+\end{itemize}
+\textbf{Open Issues:}
+\begin{itemize}
+   \item None
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
