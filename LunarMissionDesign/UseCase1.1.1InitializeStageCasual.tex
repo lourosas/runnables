@@ -1,0 +1,54 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Initialize Stage--Casual Format}\\
+\textit{Main Success Scenario}
+\begin{enumerate}
+   \item With the System running, the Flight Director enters the 
+      Mission Parameters File (See Use Case 1 Initialize Launch)
+   \item System Initializes each Engine in the Stage (See 
+      \textit{Use Case 1.1.1.1 Initialize Engine})
+   \item System Initializes the Fuel System in the Stage (See 
+      \textit{Use Case 1.1.1.2 Initialize Fuel System})
+   \item System finds the Stage Parameters File name and location
+   \item System goes to the Stage Parameters File location
+   \item System opens the Stage Parameters File
+   \item System reads the Stage Parameters File
+   \item System initializes the Stage Data with the appropriate Stage
+      Data read in from the Stage Parameters file
+   \item System returns the Initialization Status to the Flight 
+      Director
+\end{enumerate}
+\textit{Alternative Scenarios}
+\begin{enumerate}
+   \item[2a]If the System receives an Initializization Error from the
+      Engines, then the System returns the Error to the Flight 
+      Director (See 
+      \textit{Use Case 1.1.1.1 Initialize Engine})
+   \item[3a]If the System receives an Initialization Error from the
+      Fuel System, then the System returns the Error to the 
+      Flight Director (See 
+      \textit{Use Case 1.1.1.2 Initialize Fuel System})
+   \item[4a,5a]If the System cannot find the location where the Stage
+      Parameters File is located, then the System returns an Error to
+      the Flight Director:  indicating a non-legitimate file path.
+   \item[6a]If the System cannot open the Stage Parameters file, then
+      the System returns an Error to the Flight Director:  indicating
+      unable to open the Stage Parameters file.
+   \item[7a]If the System cannot read the Stage Parameters File, then
+      the System returns an Error to the Flight Director:  indicating
+      unable to read the Stage Parameters file.
+\end{enumerate}
+\textit{Notes/Constraints}
+\begin{enumerate}
+   \item[9a]The System indirectly alerts the Stake Holders via an 
+      upward cascade of alerts/queries (See 
+      \textit{Use Cases 1.1.1.1 Initialize Engine, 
+      1.1.1.2 Initialize Fuel System})
+\end{enumerate}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
