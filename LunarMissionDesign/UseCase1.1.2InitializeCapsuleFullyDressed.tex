@@ -1,0 +1,88 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case LM-1.1.2:  Initialize Capsule}\\
+\textbf{Scope:  }Launch Mission\\
+\textbf{Primary Actor: }Flight Director\\
+\textbf{Secondary Actors: }None\\
+\textbf{Related Use Cases:  }\textit{Use Case 1:  Initialize Launch}\\
+\textbf{Stake Holders \& Interests:}
+\begin{itemize}
+   \item Flight Director:  Wants to set up a Launch via initializing
+      all the Launch Parameters, System and Sub-Systems Including:
+      \begin{itemize}
+         \item Capsule/Payload
+      \end{itemize}
+   \item Mission Planner:  Wants the Mission Initialized with the 
+      appropriate Mission Parameters loaded
+\end{itemize}
+\textbf{Pre-Conditions:  }The Mission System is running and ready to
+initialize and monitor the Capsule/Payload.\\
+\textbf{Post-Conditions: }The Capsule is initialized with the 
+appropriate parameters.\\\\
+\textbf{Flow of Events:}\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+   \textbf{Flight Director}&\textbf{System}\\\hline
+ 1. Mission Parameters file (See 
+    \textit{Use Case 1 Initialize Launch})&\\\hline
+&2. Finds the Capsule Parameters File and location\\\hline
+&3. Goes to the file path of the Capsule Parameters File\\\hline
+&4. Opens the Capsule Parameters File\\\hline
+&5. Reads the Capsule Parameters File\\\hline
+&6. Initializes the Capsule Data with the appropriate Capsule Data
+    read in from the Capsule Parameter File\\\hline
+&7. Initialization Status returned to the Flight Director\\\hline
+\end{tabular}\\\\
+\textbf{Extensions (or Alternative Flows):}
+\begin{itemize}
+\item[2a,3a]If the System cannot find the location of the Capsule 
+Parameters File, then the System returns an Error to the Flight 
+Director:  indicating not a legitimate file path.  The Flight Director
+determines the next course of action.
+\item[4a]If the System cannot open the Capsule Parameters File, then
+the System returns an Error to the Flight Director:  indicating unable
+to open the Capsule Parameters File.  The Flight Director determines
+the next course of action.
+\item[5a]If the System cannot read the Capsule Parameters File, then
+the System returns an Error to the Flight Director:  indicating unable
+to read the Capsule Parameters File.  The Flight Director determines
+the next course of action.
+\end{itemize}
+\textbf{Notes/Constraints:}
+\begin{enumerate}
+   \item[*a]This Use Case documents the Capsule Initialization, not 
+      the Capsule Monitoring (See 
+      \textit{Use Case 4.1:  Monitor Initialization}) for Capsule 
+      Monitoring
+   \item[*b]The next course of action for the Flight Director is
+      aborting the mission or choosing another Mission Parameter File
+   \item[6a]The System indirectly alerts the Stake Holders via an 
+      upward cascade of alerts/queries (See 
+      \textit{Use Case 1.1 Initialize Rocket})
+\end{enumerate}
+\textbf{Special Requirements:}
+\begin{itemize}
+   \item None
+\end{itemize}
+\textbf{Technology \& Variations List:}
+\begin{itemize}
+   \item There could be many types for Mission Parameters Files in 
+      different formats for the components.  The System will need to
+      account for all the different types of files.
+   \item Regardless of file type, the System Data should follow a 
+      standard.
+\end{itemize}
+\textbf{Frequency of Occurrence:}
+\begin{itemize}
+   \item Everytime a Mission is planned or simulated.
+\end{itemize}
+\textbf{Open Issues:}
+\begin{itemize}
+   \item None
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

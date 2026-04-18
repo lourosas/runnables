@@ -1,0 +1,41 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Initialize Capsule--Casual Format}\\
+\textit{Main Success Scenario}
+\begin{enumerate}
+   \item With the System running, the Flight Director enters the
+      Mission Parameters File (See 
+      \textit{Use Case 1 Initialize Launch})
+   \item System finds the Capsule Parameters File name and Location
+   \item System goes to the Capsule Parameters File locatiion
+   \item System opens the Capsule Parameters File
+   \item System reads the Capsule Parameters File
+   \item System initializes the Capsule Data with the appropriate
+      Capsule Data read in from the Capsule Parameters File
+\end{enumerate}
+\textit{Alternative Scenarios}
+\begin{enumerate}
+   \item[2a,3a]If the System cannot find the location where the 
+      Capsule Parameters File is located, then the System returns an
+      Error to the Flight Director:  indicating not a legitimate file
+      path.
+   \item[4a]If the System cannot open the Capsule Parameters File, 
+      then the System returns an Error to the Flight Director:
+      indicating unable to open the Capsule Parameters File.
+   \item[5a]If the System cannot read the Capsule Parameters File, 
+      then the System returns an Error to the Flight Director:
+      indicating unable to read the Capsule Parameters File.
+\end{enumerate}
+\textit{Notes/Constraints}
+\begin{enumerate}
+   \item[6a]The System indirectly alerts the Stake Holders via an
+      upward cascade of alerts/queries (See 
+      \textit{Use Case 1.1 Initialize Rocket})
+\end{enumerate}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
