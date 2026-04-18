@@ -1,41 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="15.1">
-  <zoom_level>10</zoom_level>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>600</x>
-      <y>150</y>
-      <w>100</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>Rocket
-bg=yellow</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>290</x>
-      <y>150</y>
-      <w>100</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>Flight Director</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>380</x>
-      <y>150</y>
-      <w>240</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=-
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>530</x><y>150</y><w>100</w><h>30</h></coordinates><panel_attributes>Rocket
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>280</x><y>150</y><w>100</w><h>30</h></coordinates><panel_attributes>Flight Director</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>370</x><y>150</y><w>180</w><h>50</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=1
-Initializez &gt;</panel_attributes>
-    <additional_attributes>10.0;20.0;220.0;20.0</additional_attributes>
-  </element>
-</diagram>
+Initialize &gt;</panel_attributes><additional_attributes>10;20;160;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>820</x><y>150</y><w>100</w><h>30</h></coordinates><panel_attributes>Stage</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>620</x><y>150</y><w>220</w><h>50</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1...*
+Initialize &gt;</panel_attributes><additional_attributes>10;20;200;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>530</x><y>340</y><w>100</w><h>30</h></coordinates><panel_attributes>Payload</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>570</x><y>170</y><w>90</w><h>190</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..1
+Initialize v</panel_attributes><additional_attributes>10;10;10;170</additional_attributes></element></diagram>
