@@ -1,0 +1,30 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Initialize Rocket--Brief Format}
+\begin{enumerate}
+   \item Flight Director Enters the Mission Parameters File (See 
+      \textit{Use Case 1 Initialize Launch})
+   \item For each Stage, System Initializes the Stage (See 
+      \textit{Use Case 1.1.1 Initialize Stage})
+   \item System Initializes the Payload/Capsule (See 
+      \textit{Use Case 1.1.2 Initialize Capsule})
+   \item System finds the Rocket Parameters file name and location.
+   \item System goes the Rocket Parameters file location
+   \item System opens the Rocket Parameters file
+   \item System reads the Rocket Parameters file
+   \item System initializes the Rocket Data with the appropriate 
+      Rocket Data read in from the Rocket Parameters File
+   \item System queries \textbf{or} receives Initialization Status 
+      from each Stage (See \textit{Use Case 1.1.1 Initialize Stage})
+   \item System queries \textbf{or} receives Initialization Status
+      from the Payload/Capsule (See 
+      \textit{Use Case 1.1.2 Initialize Capsule})
+   \item System returns Initialization Data to the Flight Director
+\end{enumerate}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
