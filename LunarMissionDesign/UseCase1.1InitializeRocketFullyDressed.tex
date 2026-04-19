@@ -1,0 +1,120 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Use Case LM--1.1: Initialize Rocket}\\
+\textbf{Scope: }Launch Mission\\
+\textbf{Primary Actor: }Flight Director\\
+\textbf{Secondary Actor:} None\\
+\textbf{Related Use Cases: }\textit{Use Case 1 Initialize Launch},\\
+\textit{Use Case 1.1.1 Initialize Stage},\\
+\textit{Use Case 1.1.2 Initialize Capsule}\\
+\textbf{Stake Holders \& Interests:}
+\begin{itemize}
+   \item Flight Director:  Wants to set up a Launch via initializing
+      all the Launch Parameters, Systems, Sub-Systems including:
+      \begin{itemize}
+         \item Rocket
+      \end{itemize}
+   \item Mission Planner:  Wants the Mission Initialized with the
+      appropriate Mission Parameters loaded
+\end{itemize}
+\textbf{Pre-Conditions:  }The System is running and ready to
+initialize and monitor the appropriate Systems and Sub-Systems\\
+\textbf{Post-Conditions:  }The Rocket and all the components is
+initialized with the appropriate parameters\\\\
+\textbf{Flow of Events:}\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+   \textbf{Flight Director}&\textbf{System}\\\hline
+   1.  Enters the Mission Parameters File (See 
+   \textit{Use Case 1 Initialize Launch})&\\\hline
+   &2. Initialize each Stage (See 
+   \textit{Use Case 1.1.1 Initialize Stage})\\\hline
+   &3. Initialize the Payload/Capsule (See 
+   \textit{Use Case 1.1.2 Initialize Capsule})\\\hline
+   &4. Finds the Rocket Parameters file name and location\\\hline
+   &5. Goes to the Rocket Parameters file location\\\hline
+   &6. Opens the Rocket Parameters file\\\hline
+   &7. Reads the Rocket Parameters file\\\hline
+   &8. Initializes the Rocket Data with the appropriate Rocket Data
+   read in from the Rocket Parameters file\\\hline
+   &9. Queries \textbf{or} receives Initialization Status from each
+   Stage (See \textit{Use Case 1.1.1 Initialize Stage})\\\hline
+   &10. Queries \textbf{or} receives Initialization Status from the
+   Payload/Capsule (See 
+   \textit{Use Case 1.1.2 Initialize Capsule})\\\hline
+   11. Receives Initialization Data&\\\hline
+\end{tabular}\\\\
+\textbf{Extensions (or Alternative Flows):}
+\begin{itemize}
+    \item[2a]If the System receives an Initialization Error from any
+       of the Stages, then the System returns the Error to the Flight
+       Director (See 
+       \textit{Use Case 1.1.1 Initialize Stage}).  The Flight Director
+       determines the next course of action.
+    \item[3a]If the System receives an Initialization Error from the
+       Payload/Capsule, then the System returns the Error to the 
+       Flight Director (See 
+       \textit{Use Case 1.1.2 Initialize Capsule}).  The Flight 
+       Director determines the next course of action.
+    \item[4a,5a]If the System cannot find the location where the
+       Rocket Parameters File is located, then the System returns an
+       Error to the Flight Director indicating a non-legitimate file
+       path.  The Flight Director determines the next course of 
+       action.
+    \item[6a]If the System cannot open the Rocket Parameters file,
+       then the System returns an Error to the Flight Director
+       indicating unable to open the Rocket Parameters file.  The
+       Flight Director determines the next course of action.
+    \item[7a]If the System cannot read the Rocket Parameters file,
+       then the System returns an Error to the Flight Director
+       indicating unable to read the Rocket Parameters file.  The
+       Flight Director determines the next course of action.
+    \item[9a]If the System receives an Error from any of the Stages,
+       then the System returns the Error to the Flight Director (See
+       \textit{Use Case 1.1.1 Initialize Stage}).  The Flight Director
+       determines the next course of action.
+    \item[10a]If the System receives an Error from the Capsule, then
+       the System returns the Error to the Flight Director (See
+       \textit{Use Case 1.1.2 Initialize Capsule}).  The Flight
+       Director determines the next course of action.
+\end{itemize}
+\textbf{Notes/Constraints:}
+\begin{itemize}
+   \item[*a]This Use Case documents the Rocket Initialization, not
+      the Rocket Monitoring (See 
+      \textit{Use Case 4.1 Monitor Initialization})
+   \item[*b]The Next Course of action for the Flight Director is 
+      aborting the mission or choosing another Mission Parameters 
+      File.
+   \item[11a]The System indirectly alerts the Stake Holders via an
+      upward cascade of alerts/queries (See 
+      \textit{Use Case 1.1.1 Initialize Stage,
+      Use Case 1.1.2 Initialize Capsule})
+\end{itemize}
+\textbf{Special Requirements:}
+\begin{itemize}
+   \item None
+\end{itemize}
+\textbf{Technology \& Variations List:}
+\begin{itemize}
+   \item There could be many types of Mission Parameters Files in
+      different formats for the System Composition.  The System needs
+      to account for all the different types of files and read them
+      accordingly.
+   \item Regardless of the type of file, the System Data should follow
+      a standard
+\end{itemize}
+\textbf{Frequency of Occurrence:}
+\begin{itemize}
+   \item Every time a Mission is planned or simulated
+\end{itemize}
+\textbf{Open Issues:}
+\begin{itemize}
+   \item None
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
