@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1090</x>
-      <y>170</y>
+      <x>820</x>
+      <y>120</y>
       <w>170</w>
       <h>90</h>
     </coordinates>
@@ -21,21 +21,22 @@ bg=red</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>280</x>
-      <y>330</y>
+      <x>10</x>
+      <y>280</y>
       <w>140</w>
-      <h>90</h>
+      <h>100</h>
     </coordinates>
     <panel_attributes>Initializable
 --
-initialize(file:String)</panel_attributes>
++initialize(file:String)
++initialized():Object</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>490</x>
-      <y>550</y>
+      <x>220</x>
+      <y>500</y>
       <w>120</w>
       <h>90</h>
     </coordinates>
@@ -47,8 +48,8 @@ monitor():Object</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>650</x>
-      <y>530</y>
+      <x>380</x>
+      <y>480</y>
       <w>200</w>
       <h>120</h>
     </coordinates>
@@ -62,8 +63,8 @@ removeObserver(:Observer)</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>880</x>
-      <y>520</y>
+      <x>610</x>
+      <y>470</y>
       <w>120</w>
       <h>100</h>
     </coordinates>
@@ -76,8 +77,8 @@ update(:Object)</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>530</x>
-      <y>50</y>
+      <x>260</x>
+      <y>0</y>
       <w>140</w>
       <h>100</h>
     </coordinates>
@@ -90,22 +91,24 @@ get():StateSubstate</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>530</x>
-      <y>170</y>
-      <w>150</w>
-      <h>80</h>
+      <x>260</x>
+      <y>120</y>
+      <w>220</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>/SystemComoponent/
 --
 
---</panel_attributes>
+--
++initializeComponent(file:String)
++setInitializable(:Initializable)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>590</x>
-      <y>50</y>
+      <x>320</x>
+      <y>0</y>
       <w>30</w>
       <h>140</h>
     </coordinates>
@@ -115,19 +118,19 @@ get():StateSubstate</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>670</x>
-      <y>170</y>
-      <w>440</w>
+      <x>470</x>
+      <y>120</y>
+      <w>370</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;420.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;350.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>340</x>
-      <y>170</y>
+      <x>70</x>
+      <y>120</y>
       <w>210</w>
       <h>190</h>
     </coordinates>
@@ -140,48 +143,48 @@ r2=#initializer
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>540</x>
-      <y>240</y>
+      <x>270</x>
+      <y>210</y>
       <w>80</w>
-      <h>340</h>
+      <h>320</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 r2=#monitor</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;320.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;300.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>640</x>
-      <y>240</y>
+      <x>370</x>
+      <y>210</y>
       <w>170</w>
-      <h>320</h>
+      <h>300</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
 m2=1
 r2=#client</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;90.0;110.0;90.0;110.0;300.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0;110.0;70.0;110.0;280.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>670</x>
-      <y>190</y>
-      <w>360</w>
+      <x>470</x>
+      <y>140</y>
+      <w>290</w>
       <h>360</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
 m2=*
 r2=#observers</panel_attributes>
-    <additional_attributes>10.0;10.0;270.0;10.0;270.0;340.0</additional_attributes>
+    <additional_attributes>10.0;10.0;200.0;10.0;200.0;340.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1130</x>
-      <y>390</y>
+      <x>860</x>
+      <y>340</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -191,8 +194,8 @@ r2=#observers</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1160</x>
-      <y>250</y>
+      <x>890</x>
+      <y>200</y>
       <w>70</w>
       <h>160</h>
     </coordinates>
@@ -205,12 +208,70 @@ r2=-stages</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>670</x>
-      <y>170</y>
-      <w>480</w>
+      <x>470</x>
+      <y>120</y>
+      <w>410</w>
       <h>250</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;380.0;10.0;380.0;230.0;460.0;230.0</additional_attributes>
+    <additional_attributes>10.0;10.0;310.0;10.0;310.0;230.0;390.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1050</x>
+      <y>770</y>
+      <w>150</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>RocketInitializable</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>1180</x>
+      <y>590</y>
+      <w>140</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>Initializable
+--
++initialize(file:String)
++initialized():Object</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1300</x>
+      <y>770</y>
+      <w>150</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>StageInitializable</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1110</x>
+      <y>590</y>
+      <w>160</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>140.0;10.0;10.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1240</x>
+      <y>590</y>
+      <w>150</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;130.0;180.0</additional_attributes>
   </element>
 </diagram>

@@ -230,6 +230,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
    private double computeRocketWeight
    (
       RocketData      rd,
+      PayloadData     pd,
       List<StageData> list
    ){
       double weight = 0.; //Of course, start with a 0 weight
@@ -241,6 +242,8 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
          StageData sd = it.next();
          weight += sd.weight();
       }
+      //See if this will work...
+      weight += pd.currentWeight();
       return weight;
    }
 
@@ -386,7 +389,7 @@ public class GenericRocket implements Rocket, Runnable, ErrorListener{
       }
       finally{
          try{
-            double weight = this.computeRocketWeight(rd,lst);
+            double weight = this.computeRocketWeight(rd,pldd,lst);
             rd = this.setUpRocketData(weight,lst,pldd,error,false);
          }
          catch(NullPointerException npe){

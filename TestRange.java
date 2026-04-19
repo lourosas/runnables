@@ -1,3 +1,8 @@
+/////////////////////////////////////////////////////////////////////
+/*
+*/
+package rosas.lou.runnables;
+
 import java.lang.*;
 import java.util.*;
 
@@ -28,19 +33,18 @@ public class TestRange implements Runnable{
    /**/
    public void run(){
       for(long i=this.from; i<this.to && i<this.posPrime;++i){
-         try{
+         //try{
             if((this.posPrime % i) == 0){
                System.out.print("factor " + i + " found by Thread: ");
-	       System.out.println(Thread.currentThread().getName());
-	       Thread.currentThread().join(1);
-	       break;
-               //Thread.currentThread().stop();
-	    }
-	    //Thread.currentThread().yield();
-         }
-         catch(InterruptedException ie){
-            ie.printStackTrace();
-	 }
+	            System.out.println(Thread.currentThread().getName());
+	            //Thread.currentThread().join(1);
+               Thread.currentThread().stop();
+	         }
+	         //Thread.currentThread().yield();
+         //}
+         //catch(InterruptedException ie){
+         //   ie.printStackTrace();
+         //}
       }
    }
 }
