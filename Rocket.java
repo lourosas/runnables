@@ -23,14 +23,22 @@ import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
-public interface Rocket extends Runnable{
-   public RocketData monitor();
-   public void initialize(String file)throws IOException;
-   public void addDataFeeder(DataFeeder feeder);
-   public void addErrorListener(ErrorListener listener);
-   public void addSystemListener(SystemListener listener);
-   public void setStateSubstate(LaunchStateSubstate cond);
-   public int  currentStage();
-   public int  totalStages();
+public abstract class Rocket extends SystemComponent{
+   //////////////////////////Public Methods///////////////////////////
+   //
+   //
+   //
+
+   ///////////////SystemComponent Methods Overrides///////////////////
+   //
+   //
+   //
+   public void initializeComponent(String file)throws IOException{
+      if(this.initializable == null){
+         this.setInitializable(new RocketInitializable());
+      }
+      this.initializable.initialize(file);
+   }
+
 }
 //////////////////////////////////////////////////////////////////////

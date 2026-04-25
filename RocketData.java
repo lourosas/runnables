@@ -21,7 +21,7 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public interface RocketData{
+public abstract class RocketData{
    public double calculatedWeight();
    public int currentStage();
    public String error();

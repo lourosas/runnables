@@ -29,7 +29,7 @@ public abstract class SystemComponent implements StateMutable{
    //
    //
    //
-   public void initializeComponent(String file){}
+   public void initializeComponent(String file)throws IOException{}
    
    //
    //
