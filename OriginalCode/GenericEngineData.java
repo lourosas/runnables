@@ -1,0 +1,243 @@
+//////////////////////////////////////////////////////////////////////
+/*
+Copyright 2024 Lou Rosas
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+package rosas.lou.runnables;
+
+import java.lang.*;
+import java.util.*;
+import rosas.lou.runnables.*;
+
+public class GenericEngineData implements EngineData{
+   private double         _currentTemp;
+   private String         _error;
+   private double         _exhaustRate;
+   private int            _index;
+   private boolean        _isError;
+   private boolean        _isIgnited;
+   private double         _fuelRate;
+   private long           _model;
+   private int            _stage;
+   private double         _tolerance;
+   private int            _total;
+
+   {
+      _currentTemp  = Double.NaN;
+      _error        = null;
+      _exhaustRate  = Double.NaN;
+      _index        = -1;
+      _isError      = false;
+      _isIgnited    = false;
+      _fuelRate     = Double.NaN;
+      _model        = -1;
+      _stage        = -1;
+      _tolerance    = Double.NaN;
+      _total        = -1;
+   };
+
+   ////////////////////////////Constructor////////////////////////////
+   //
+   //
+   //
+   public GenericEngineData
+   (
+      int     stage,
+      int     number, //Index
+      double  exhaust,
+      double  fuel,
+      long    model,
+      boolean isError,
+      String  error,
+      boolean isIgnited,
+      double  temperature,
+      double  tolerance,
+      int     total
+   ){
+      this.stage(stage);
+      this.index(number); //Index--number of Engine
+      this.exhaustFlowRate(exhaust);
+      this.fuelFlowRate(fuel);
+      this.model(model);
+      this.isError(isError);
+      this.error(error);
+      this.isIgnited(isIgnited);
+      this.temperature(temperature);
+      this.tolerance(tolerance);
+      this.total(total);
+   }
+
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void error(String error){
+      this._error = error;   
+   }
+
+   //
+   //
+   //
+   private void exhaustFlowRate(double rate){
+      this._exhaustRate = rate;
+   }
+
+   //
+   //
+   //
+   private void fuelFlowRate(double rate){
+      this._fuelRate = rate;
+   }
+
+   //
+   //
+   //
+   private void isError(boolean isError){
+      this._isError = isError;
+   }
+
+   //
+   //
+   //
+   private void isIgnited(boolean isIgnited){
+      this._isIgnited = isIgnited;
+   }
+
+   //
+   //
+   //
+   private void index(int number){
+      if(number > -1){
+         this._index = number;
+      }
+   }
+   //
+   //
+   //
+   private void model(long model){
+      this._model = model;
+   }
+
+   //
+   //
+   //
+   private void stage(int stage){
+      if(stage > 0){
+         this._stage = stage;
+      }
+   }
+
+   //
+   //
+   //
+   private void temperature(double temp){
+      this._currentTemp = temp;
+   }
+
+   //
+   //
+   //
+   private void tolerance(double tol){
+      this._tolerance = tol;
+   }
+
+   //
+   //
+   //
+   private void total(int tot){
+      if(tot > 0){
+         this._total = tot;
+      }
+   }
+
+   /////////////EngineData Interface Implementation///////////////////
+   //
+   //
+   //
+   public String error(){ return this._error; }
+
+   //
+   //
+   //
+   public double exhaustFlowRate(){ return this._exhaustRate; }
+
+   //
+   //
+   //
+   public long model(){ return this._model; }
+
+   //
+   //
+   //
+   public int index(){ return this._index; }
+
+   //
+   //
+   //
+   public boolean isError(){ return this._isError; }
+
+   //
+   //
+   //
+   public boolean isIgnited(){ return this._isIgnited; }
+   
+   //
+   //
+   //
+   public double fuelFlowRate(){ return this._fuelRate; }
+
+   //
+   //
+   //
+   public int stage(){ return this._stage; }
+
+   //
+   //
+   //
+   public double temperature(){ return this._currentTemp; }
+
+   //
+   //
+   //
+   public double tolerance(){ return this._tolerance; }
+   
+   //
+   //
+   //
+   public int total(){ return this._total; }
+
+   //
+   //
+   //
+   public String toString(){
+      String value = new String("Engine: ");
+      value += "\nStage:               "+this.stage();
+      value += "\nEngine No.:          "+this.index();
+      value += "\nError? "+this.isError();
+      if(this.isError()){
+         value += "\nErrors: "+this.error();
+      }
+      value += "\nModel:               ";
+      value += String.format("0x%X",this.model());
+      value += "\nTemperature:         "+
+                             String.format("%.2f",this.temperature());
+      value += "\nExhaust Flow Rate:   "+this.exhaustFlowRate();
+      value += "\nFuel Flow Rate:      "+this.fuelFlowRate();
+      value += "\nIgnited:             "+this.isIgnited();
+      value += "\nTolerance:           "+this.tolerance();
+      return value;
+   }
+}
+//////////////////////////////////////////////////////////////////////
