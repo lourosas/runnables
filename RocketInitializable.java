@@ -34,6 +34,93 @@ public class RocketInitializable implements Initializable{
    //
    //
    //
+   private double getEmptyWeight(Hashtable<String,String> ht){
+      double emptyWeight = Double.NaN;
+      try{
+         emptyWeight = Double.parseDouble(ht.get("empty_weight"));
+      }
+      catch(NumberFormatException nfe){
+         emptyWeight = Double.NaN;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         emptyWeight = Double.NaN;
+      }
+      return emptyWeight;
+   }
+
+   //
+   //
+   //
+   private double getLoadedWeight(Hashtable<String,String> ht){
+      double loadedWeight = Double.NaN;
+      try{
+         loadedWeight = Double.parseDouble(ht.get("loaded_weight"));
+      }
+      catch(NumberFormatException nfe){
+         loadedWeight = Double.NaN;
+      }
+      catch(NullPointerException  npe){
+         npe.printStackTrace();
+         loadedWeight = Double.NaN;
+      }
+      return loadedWeight;
+   }
+
+   //
+   //
+   //
+   private String getModel(Hashtable<String,String> ht){
+      String model = null;
+      try{
+         model = ht.get("model");
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         model = null;
+      }
+      return model;
+   }
+
+   //
+   //
+   //
+   private int getNumberOfStages(Hashtable<String,String> ht){
+      int stages = -1;
+      try{
+         stages = Integer.parseInt(ht.get("stages"));
+      }
+      catch(NumberFormatException nfe){
+         stages = -1;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         stages = -1;
+      }
+      return stages;
+   }
+
+   //
+   //
+   //
+   private double getTolerance(){
+      double tolerance = Double.NaN;
+      try{
+         tolerance = Double.parseDouble(ht.get("tolerance"));
+      }
+      catch(NumberFormatException nfe){
+         tolerance = Double.NaN;
+      }
+      catch(NullPointerException  npe){
+         npe.printStackTrace();
+         tolerance = Double.NaN;
+      }
+      return tolerance;
+   }
+
+   //
+   //
+   //
    private void initializeRocket(String file)throws IOException{
       //Test Print (for now)
       System.out.print("initializeRocket(): "+file);
