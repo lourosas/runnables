@@ -30,17 +30,79 @@ public class RocketInitializable implements Initializable{
    //
    public RocketInitializable(){}
 
+   /////////////////////////Private Methods///////////////////////////
+   //
+   //
+   //
+   private void initializeRocket(String file)throws IOException{
+      //Test Print (for now)
+      System.out.print("initializeRocket(): "+file);
+      LaunchSimulatorJsonFileReader read = null;
+      read = new LaunchSimulatorJsonFileReader(file);
+      Hashtable<String,String> ht = read.readRocketInfo();
+      String model     = this.getModel(ht);
+      int numStages    = this.getNumberOfStages(ht);
+      double empWeight = this.getEmptyWeight(ht);
+      double lddWeight = this.getLoadedWeight(ht);
+      double tolerance = this.getTolerance(ht);
+      this._rocketData = new GenericRocketData(
+                                    model,
+                                    1,         //Current Stage
+                                    numStages, //Number of Stages
+                                    empWeight, //Empty Weight
+                                    lddWeight, //Loaded Weight
+                                    Double.NaN,//Calculated Weight
+                                    false,     //Is Error
+                                    null,      //Error String
+                                    null,      //Payload Data
+                                    null,      //Stage(s) Data
+                                    tolerance);//Tolerance
+   }
+
+   //
+   //
+   //
+   private boolean isPathFile(String file)throws IOException{
+      boolean isPath = false;
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         if(read.readPathInfo().get("parameter") == null){
+            throw new NullPointerException("Not a Path File");
+         }
+         isPath = true;
+      }
+      catch(IOException ioe){
+         isPath = false;
+         throw ioe
+      }
+      catch(NullPointerException npe){
+         isPath = false;
+      }
+      return isPath;
+   }
+
    ///////////////Initializable Interface Implementation//////////////
    //
    //
    //
-   public void initialize(String file)throws IOException{}
+   public void initialize(String file)throws IOException{
+      //Test Print (for now)
+      System.out.println("RocketInitializable:  "+file);
+      String rFile = file;
+      if(this.isPathFile(file)){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         rFile = read.readPathInfo().get("rocket");
+      }
+      this.initizlizeRocket(rFile);
+   }
 
    //
    //
    //
    public Object initialized(){
-      return null;
+      this._rocketData;
    }
 }
 //////////////////////////////////////////////////////////////////////

@@ -30,6 +30,13 @@ public abstract class SystemComponent implements StateMutable{
    //
    //
    public void initializeComponent(String file)throws IOException{}
+
+   //
+   //
+   //
+   public Object initializationStatus(){
+      return this.initializable.initialized();
+   }
    
    //
    //
