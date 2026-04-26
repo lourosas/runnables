@@ -82,7 +82,7 @@ public abstract class RocketData{
    //
    //
    public boolean isError(){
-      return this._error;
+      return this._isError;
    }
 
    //

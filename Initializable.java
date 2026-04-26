@@ -19,6 +19,7 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
+import java.io.*;
 import rosas.lou.runnables.*;
 public interface Initializable{
    public void initialize(String file) throws IOException;

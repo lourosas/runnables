@@ -19,6 +19,7 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
+import java.io.*;
 import rosas.lou.runnables.*;
 
 public class RocketInitializable implements Initializable{
@@ -103,7 +104,7 @@ public class RocketInitializable implements Initializable{
    //
    //
    //
-   private double getTolerance(){
+   private double getTolerance(Hashtable<String,String> ht){
       double tolerance = Double.NaN;
       try{
          tolerance = Double.parseDouble(ht.get("tolerance"));
@@ -161,7 +162,7 @@ public class RocketInitializable implements Initializable{
       }
       catch(IOException ioe){
          isPath = false;
-         throw ioe
+         throw ioe;
       }
       catch(NullPointerException npe){
          isPath = false;
@@ -182,14 +183,14 @@ public class RocketInitializable implements Initializable{
          read = new LaunchSimulatorJsonFileReader(file);
          rFile = read.readPathInfo().get("rocket");
       }
-      this.initizlizeRocket(rFile);
+      this.initializeRocket(rFile);
    }
 
    //
    //
    //
    public Object initialized(){
-      this._rocketData;
+      return this._rocketData;
    }
 }
 //////////////////////////////////////////////////////////////////////

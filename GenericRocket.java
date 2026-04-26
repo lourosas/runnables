@@ -493,8 +493,10 @@ public class GenericRocket extends Rocket implements  Runnable{
             if(this._kill){
                throw new InterruptedException();
             }
-            if(this._state != null){
-               if(this._state.state() == INIT){
+            //if(this._state != null){
+            //   if(this._state.state() == INIT){
+            if(this.getStateSubstate() != null){
+               if(this.getStateSubstate().state() == INIT){
                   //In the Initialization Stage, check every
                   //10 Seconds
                   if(count++%10000 == 0){
