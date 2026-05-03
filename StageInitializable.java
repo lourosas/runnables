@@ -1,4 +1,4 @@
-/////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 /*
 Copyright 2026 Lou Rosas
 
@@ -21,27 +21,36 @@ import java.lang.*;
 import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
-import rosas.lou.clock.*;
 
-public abstract class Rocket extends SystemComponent{
-   protected List<SystemComponent> stages;
-   protected Payload               payload;
-   //////////////////////////Public Methods///////////////////////////
-   //
-   //
-   //
+public class StageInitializable implements Initializable{
+   private StageData _stageData;
 
-   ///////////////SystemComponent Methods Overrides///////////////////
+   {
+      _stageData = null;
+   };
+
+   ///////////////////////////Constructors////////////////////////////
    //
    //
    //
-   public void initializeComponent(String file)throws IOException{
-      System.out.println("Rocket");
-      if(this.initializable == null){
-         this.setInitializable(new RocketInitializable());
-      }
-      this.initializable.initialize(file);
+   public StageInitializable(){}
+
+   //////////////Initializable Interface Implementation///////////////
+   //
+   //
+   //
+   public void initialize(String file)throws IOException{}
+
+   //
+   //
+   //
+   public void initializeData(String key, Object data){}
+
+   //
+   //
+   //
+   public Object initialized(){
+      return this._stageData;
    }
-
 }
 //////////////////////////////////////////////////////////////////////

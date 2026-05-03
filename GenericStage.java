@@ -22,7 +22,7 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 
-public class GenericStage implements Stage, Runnable, ErrorListener{
+public class GenericStage extends Stage implements Runnable{
    private static boolean TOPRINT = true;
 
    private LaunchStateSubstate.State INIT      = null; 
@@ -30,19 +30,11 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    private LaunchStateSubstate.State IGNITION  = null;
    private LaunchStateSubstate.State LAUNCH    = null;
 
-   private List<Engine>          _engines;
-   private List<ErrorListener>   _errorListeners;
-   private List<SystemListener>  _systemListeners;
-   private DataFeeder            _feeder;
-   private FuelSystem            _fuelSystem;
    private boolean               _kill;
    private Object                _obj;
    private Thread                _rt0;
-   private boolean               _start;
-   private StageData             _stageData;
-   private StageData             _measStageData;
    private int                   _stageNumber;
-   private LaunchStateSubstate   _state;
+   private boolean               _start;
 
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
@@ -50,19 +42,13 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       IGNITION  = LaunchStateSubstate.State.IGNITION;
       LAUNCH    = LaunchStateSubstate.State.LAUNCH;
 
-      _engines          = null;
-      _errorListeners   = null;
-      _systemListeners  = null;
-      _feeder           = null;
-      _fuelSystem       = null;
+      engines           = null;
+      fuelSystem        = null;
       _kill             = false;
-      _measStageData    = null;
       _obj              = null;
       _rt0              = null;
-      _start            = false;
-      _stageData        = null;
       _stageNumber      = -1;
-      _state            = null;
+      _start            = false;
    };
 
    /////////////////////////////Constructor///////////////////////////
@@ -81,47 +67,14 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
    //
    //
    //
-   private void alertErrorListeners(){
-      String error    = null;
-      StageData sd    = null;
-      synchronized(this._obj){
-         sd    = this._measStageData;
-         error = sd.error();
-      }
-      try{
-         Iterator<ErrorListener> it = this._errorListeners.iterator();
-         while(it.hasNext()){
-            it.next().errorOccurred(new ErrorEvent(this,sd,error));
-         }
-      }
-      catch(NullPointerException npe){}
-   }
+   private void initializeEngines(String file)throws IOException{}
 
    //
    //
    //
-   private void alertSubscribers(){
-      StageData sd           = null;
-      LaunchStateSubstate ss = this._state;
+   private void initializeFuelSystem(String file)throws IOException{}
 
-      String event = ss.state()+", "+ss.ascentSubstate();
-      event += ", "+ss.ignitionSubstate()+", ";
-      event += ss.prelaunchSubstate();
-      synchronized(this._obj){
-         sd = this._measStageData;
-      }
-      try{
-         MissionSystemEvent mse = null;
-         mse = new MissionSystemEvent(this,sd, event,ss);
-         Iterator<SystemListener> it = null;
-         it = this._systemListeners.iterator();
-         while(it.hasNext()){
-            it.next().update(mse);
-         }
-      }
-      catch(NullPointerException npe){}
-   }
-
+   /*
    //
    //
    //
@@ -500,7 +453,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
          return sd;
       }
    }
-
+*/
    //
    //
    //
@@ -510,12 +463,7 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
       this._rt0.start();
    }
 
-   ///////////////ErrorListener Interface Implementation//////////////
-   //This is when the Instance is fed Errors from the Components...
-   //TBD...
-   //
-   public void errorOccurred(ErrorEvent e){}
-
+   /*
    ///////////////////Stage Interface Implementation//////////////////
    //
    //
@@ -617,6 +565,16 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
          npe.printStackTrace();
       }
    } 
+   */
+   ///////////////////////////Stage Override//////////////////////////
+   //
+   //
+   //
+   public void initializeCompnent(String file)throws IOException{
+      super.initializeComponent(file);
+      this.initializeEngines(file);
+      this.initializeFuelSystem(file);
+   }
 
    ////////////////Runnable Interface Implementation//////////////////
    //
@@ -630,8 +588,10 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
             if(this._kill){
                throw new InterruptedException();
             }
-            if(this._state != null){
-               if(this._state.state() == INIT){
+            //if(this._state != null){
+            //   if(this._state.state() == INIT){
+            if(this.getStateSubstate() != null){
+               if(this.getStateSubstate().state() == INIT){
                   //In the Initialization Stage, check every 2 seconds
                   if(count++%2000 == 0){
                      check = true;
@@ -640,10 +600,12 @@ public class GenericStage implements Stage, Runnable, ErrorListener{
                }
             }
             if(check){
+               /*
                this.monitorStage();
                this.checkErrors();
                this.alertSubscribers();
                check = false;
+               */
             }
             Thread.sleep(1);
          }

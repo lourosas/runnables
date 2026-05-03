@@ -96,13 +96,33 @@ public class GenericRocket extends Rocket implements  Runnable{
    //
    //
    //
-   private void initializePayload(RocketData rd){}
+   private void initializePayload(String file)throws IOException{}
 
    //
    //
    //
-   private void initializeStages(RocketData rd){
-      System.out.println("\nInitialize Stage: "+rd.numberOfStages());
+   private void initializeStages(String file)throws IOException{
+      try{
+         RocketData rd = (RocketData)this.initializable.initialized();
+         List<StageData> lst = new LinkedList<StageData>();
+         for(int i = 0; i < rd.numberOfStages(); ++i){
+            SystemComponent stage = new GenericStage(i+1);
+            stage.initializeComponent(file);
+            lst.add(stage.initializationStatus());
+            try{
+               //Might need to cast
+               this.stages.add(stage);
+            }
+            catch(NullPointerException npe){
+               this.stages = new LinkedList<SystemComponent>();
+               this.stages.add(stage);
+            }
+            rd.initializeData("Stage Data List",lst);
+         }
+      }
+      catch(ClassCastException cce){
+         throw new IOException("Not Rocket Data Read From File");
+      }
    }
 
    //
@@ -498,14 +518,8 @@ public class GenericRocket extends Rocket implements  Runnable{
    //
    public void initializeComponent(String file)throws IOException{
       super.initializeComponent(file);
-      try{
-         RocketData rd = (RocketData)this.initializable.initialized();
-         this.initializeStages(rd);
-         this.initializePayload(rd);
-      }
-      catch(ClassCastException cce){
-         throw new IOException("Not Rocket Data Read from File");
-      }
+      this.initializeStages(file);
+      this.initializePayload(file);
    }
 
    ///////////////Runnable Interface Implementation///////////////////

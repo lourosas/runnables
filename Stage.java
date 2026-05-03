@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 /*
-Copyright 2024 Lou Rosas
+Copyright 2026 Lou Rosas
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,12 +22,26 @@ import java.util.*;
 import rosas.lou.runnables.*;
 import java.io.IOException;
 
-public interface Stage{
-   public StageData monitor();
-   public void initialize(String file) throws IOException;
-   public void addDataFeeder(DataFeeder feeder);
-   public void addErrorListener(ErrorListener listener);
-   public void addSystemListener(SystemListener listener);
-   public void setStateSubstate(LaunchStateSubstate cond);
+public abstract class Stage extends SystemComponent{
+   protected List<Engine> engines;
+   protected FuelSystem   fuelSystem;
+
+   //////////////////////////Public Methods///////////////////////////
+   //
+   //
+   //
+
+
+   ////////////////SystemComponent Methods Overrides//////////////////
+   //
+   //
+   //
+   public void initializeComponent(String file)throws IOException{
+      System.out.println("Stage");
+      if(this.initializable == null){
+         this.setInitializable(new StageInitializable());
+      }
+      this.initializable.initialize(file);
+   }
 }
 //////////////////////////////////////////////////////////////////////
