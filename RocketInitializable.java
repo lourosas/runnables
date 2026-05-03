@@ -23,7 +23,11 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class RocketInitializable implements Initializable{
-   private RocketData _rocketData = null;
+   private RocketData _rocketData;
+   
+   {
+      _rocketData = null;
+   };
 
    ////////////////////////////Contructors////////////////////////////
    //

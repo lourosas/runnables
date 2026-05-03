@@ -47,9 +47,8 @@ public class GenericRocket extends Rocket implements  Runnable{
    //private DataFeeder          _feeder;
    private boolean             _kill;
    private Object              _obj;
-   private Payload             _payload;
+   //private Payload             _payload;
    private Thread              _rt0;
-   private List<Stage>         _stages;
    private boolean             _start;
    //private LaunchStateSubstate _state;
    //private RocketData          _rocketData;
@@ -74,9 +73,9 @@ public class GenericRocket extends Rocket implements  Runnable{
       //_feeder           = null;
       _kill             = false;
       _obj              = null;
-      _payload          = null;
+      payload           = null;//Sone sort of payload!!
       _rt0              = null;
-      _stages           = null;
+      stages            = null;//At least 1 stage!
       _start            = false;
       //_state            = null;
       //_systemListeners  = null;
@@ -481,6 +480,15 @@ public class GenericRocket extends Rocket implements  Runnable{
       return ts;
    }
    */
+   /////////////////////////Rocket Override///////////////////////////
+   //
+   //
+   //
+   public void initializeComponent(String file)throws IOException{
+      super.initializeComponent(file);
+      this.initializable.initialized();
+   }
+
    ///////////////Runnable Interface Implementation///////////////////
    //
    //
