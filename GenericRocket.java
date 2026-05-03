@@ -52,8 +52,8 @@ public class GenericRocket extends Rocket implements  Runnable{
    private List<Stage>         _stages;
    private boolean             _start;
    //private LaunchStateSubstate _state;
-   private RocketData          _rocketData;
-   private RocketData          _measRocketData;
+   //private RocketData          _rocketData;
+   //private RocketData          _measRocketData;
 
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
@@ -80,8 +80,8 @@ public class GenericRocket extends Rocket implements  Runnable{
       _start            = false;
       //_state            = null;
       //_systemListeners  = null;
-      _rocketData       = null;
-      _measRocketData   = null;
+      //_rocketData       = null;
+      //_measRocketData   = null;
    };
 
    /////////////////////////Constructors//////////////////////////////

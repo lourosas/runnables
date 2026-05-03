@@ -23,6 +23,7 @@ import java.io.*;
 import rosas.lou.runnables.*;
 public interface Initializable{
    public void initialize(String file) throws IOException;
+   public void initializeData(String key, Object data);
    public Object initialized();
 }
 //////////////////////////////////////////////////////////////////////

@@ -26,7 +26,6 @@ public abstract class SystemComponent implements StateMutable{
    protected Initializable       initializable = null;
    protected LaunchStateSubstate stateSubstate = null;
 
-//IOException
    ///////////////////////////Public Methods//////////////////////////
    //
    //

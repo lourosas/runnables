@@ -189,6 +189,11 @@ public class RocketInitializable implements Initializable{
    //
    //
    //
+   public void initializeData(String key, Object data){}
+
+   //
+   //
+   //
    public Object initialized(){
       return this._rocketData;
    }

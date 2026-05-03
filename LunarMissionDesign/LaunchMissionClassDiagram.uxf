@@ -200,13 +200,13 @@ r2=#observers</panel_attributes>
     <coordinates>
       <x>900</x>
       <y>200</y>
-      <w>70</w>
+      <w>80</w>
       <h>160</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
 m2=1...*
-r2=-stages</panel_attributes>
+r2=-#stages</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
   </element>
   <element>
@@ -223,7 +223,7 @@ r2=-stages</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1120</x>
+      <x>1340</x>
       <y>240</y>
       <w>150</w>
       <h>30</h>
@@ -234,7 +234,7 @@ r2=-stages</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>1190</x>
+      <x>1410</x>
       <y>60</y>
       <w>260</w>
       <h>120</h>
@@ -249,7 +249,7 @@ r2=-stages</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1370</x>
+      <x>1590</x>
       <y>240</y>
       <w>150</w>
       <h>30</h>
@@ -260,7 +260,7 @@ r2=-stages</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1180</x>
+      <x>1400</x>
       <y>60</y>
       <w>160</w>
       <h>200</h>
@@ -271,7 +271,7 @@ r2=-stages</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1310</x>
+      <x>1530</x>
       <y>60</y>
       <w>150</w>
       <h>200</h>
@@ -309,7 +309,7 @@ r2=#feeder</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1170</x>
+      <x>1390</x>
       <y>260</y>
       <w>40</w>
       <h>140</h>
@@ -322,7 +322,7 @@ m2=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1090</x>
+      <x>1310</x>
       <y>380</y>
       <w>210</w>
       <h>240</h>
@@ -346,5 +346,41 @@ m2=2</panel_attributes>
 bg=orange
 </panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1020</x>
+      <y>340</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>/Payload/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1030</x>
+      <y>200</y>
+      <w>80</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1
+r2=#capsule</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>540</x>
+      <y>70</y>
+      <w>590</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;120.0;60.0;120.0;10.0;570.0;10.0;570.0;270.0</additional_attributes>
   </element>
 </diagram>
