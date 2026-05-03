@@ -36,6 +36,7 @@ public abstract class Rocket extends SystemComponent{
    //
    //
    public void initializeComponent(String file)throws IOException{
+      System.out.println("Rocket");
       if(this.initializable == null){
          this.setInitializable(new RocketInitializable());
       }

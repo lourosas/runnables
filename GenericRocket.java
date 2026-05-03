@@ -96,6 +96,18 @@ public class GenericRocket extends Rocket implements  Runnable{
    //
    //
    //
+   private void initializePayload(RocketData rd){}
+
+   //
+   //
+   //
+   private void initializeStages(RocketData rd){
+      System.out.println("\nInitialize Stage: "+rd.numberOfStages());
+   }
+
+   //
+   //
+   //
    /*
    private void checkErrors(){
       String err        = new String();
@@ -486,7 +498,14 @@ public class GenericRocket extends Rocket implements  Runnable{
    //
    public void initializeComponent(String file)throws IOException{
       super.initializeComponent(file);
-      this.initializable.initialized();
+      try{
+         RocketData rd = (RocketData)this.initializable.initialized();
+         this.initializeStages(rd);
+         this.initializePayload(rd);
+      }
+      catch(ClassCastException cce){
+         throw new IOException("Not Rocket Data Read from File");
+      }
    }
 
    ///////////////Runnable Interface Implementation///////////////////
