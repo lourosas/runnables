@@ -193,7 +193,13 @@ public class RocketInitializable implements Initializable{
    //
    //
    //
-   public void initializeData(String key, Object data){}
+   public void initializeData(String key, Object data){
+      System.out.println("*****************************************");
+      System.out.println("Rocket Initializable.initializeData()");
+      System.out.println(key);
+      System.out.println(data);
+      System.out.println("*****************************************");
+   }
 
    //
    //

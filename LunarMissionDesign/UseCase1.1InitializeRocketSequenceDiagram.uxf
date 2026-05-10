@@ -127,7 +127,7 @@ bg=blue</panel_attributes>
       <x>560</x>
       <y>360</y>
       <w>510</w>
-      <h>180</h>
+      <h>150</h>
     </coordinates>
     <panel_attributes>for(i = 0; i &lt; stages; ++i)</panel_attributes>
     <additional_attributes/>
@@ -304,7 +304,7 @@ bg=cyan</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>570</x>
-      <y>500</y>
+      <y>510</y>
       <w>480</w>
       <h>40</h>
     </coordinates>

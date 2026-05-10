@@ -108,7 +108,8 @@ public class GenericRocket extends Rocket implements  Runnable{
          for(int i = 0; i < rd.numberOfStages(); ++i){
             SystemComponent stage = new GenericStage(i+1);
             stage.initializeComponent(file);
-            lst.add(stage.initializationStatus());
+            StageData sd = (StageData)stage.initializationStatus();
+            lst.add(sd);
             try{
                //Might need to cast
                this.stages.add(stage);
@@ -117,11 +118,11 @@ public class GenericRocket extends Rocket implements  Runnable{
                this.stages = new LinkedList<SystemComponent>();
                this.stages.add(stage);
             }
-            rd.initializeData("Stage Data List",lst);
          }
+         this.initializable.initializeData("Stage Data", lst);
       }
       catch(ClassCastException cce){
-         throw new IOException("Not Rocket Data Read From File");
+         throw new IOException("Class Cast Exception Issue");
       }
    }
 
