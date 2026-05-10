@@ -23,10 +23,12 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class RocketInitializable implements Initializable{
-   private RocketData _rocketData;
+   private RocketData      _rocketData;
+   private List<StageData> _list;
    
    {
       _rocketData = null;
+      _list       = null;
    };
 
    ///////////////////////////Constructors////////////////////////////
@@ -126,6 +128,39 @@ public class RocketInitializable implements Initializable{
    //
    //
    //
+   private void initializePayloadData(Object data){
+      PayloadData pd = null;
+      try{
+         pd = (PayloadData)data;
+      }
+      catch(ClassCastException cce){}
+      double  calcWeight   = this._rocketData.calculatedWeight();
+      int     currStage    = this._rocketData.currentStage();
+      String  error        = this._rocketData.error();
+      double  emptyWeight  = this._rocketData.emptyWeight();
+      boolean isError      = this._rocketData.isError();
+      double  loadedWeight = this._rocketData.loadedWeight();
+      String  model        = this._rocketData.model();
+      int     stages       = this._rocketData.numberOfStages();
+      List<StageData> sd   = this._rocketData.stages();
+      double  tolerance    = this._rocketData.tolerance();
+      RocketData rd = new GenericRocketData(model,
+                                            currStage,
+                                            stages,
+                                            emptyWeight,
+                                            loadedWeight,
+                                            calcWeight,
+                                            isError,
+                                            error,
+                                            pd,
+                                            sd,
+                                            tolerance);
+      this._rocketData = rd;
+   }
+
+   //
+   //
+   //
    private void initializeRocket(String file)throws IOException{
       //Test Print (for now)
       System.out.println("initializeRocket(): "+file);
@@ -149,6 +184,47 @@ public class RocketInitializable implements Initializable{
                                     null,      //Payload Data
                                     null,      //Stage(s) Data
                                     tolerance);//Tolerance
+   }
+
+   //
+   //
+   //
+   private void initializeStageData(Object data){
+      StageData sd = null;
+      try{
+         sd = (StageData)data;
+      }
+      catch(ClassCastException   cce){}
+      try{
+         this._list.add(sd);
+      }
+      catch(NullPointerException npe){
+         this._list = new LinkedList<StageData>();
+         this._list.add(sd);
+      }
+      double  calcWeight   = this._rocketData.calculatedWeight();
+      int     currStage    = this._rocketData.currentStage();
+      String  error        = this._rocketData.error();
+      double  emptyWeight  = this._rocketData.emptyWeight();
+      boolean isError      = this._rocketData.isError();
+      double  loadedWeight = this._rocketData.loadedWeight();
+      String  model        = this._rocketData.model();
+      int     stages       = this._rocketData.numberOfStages();
+      PayloadData pd       = this._rocketData.payloadData();
+      double  tolerance    = this._rocketData.tolerance();
+      RocketData rd = new GenericRocketData(model,
+                                            currStage,
+                                            stages,
+                                            emptyWeight,
+                                            loadedWeight,
+                                            calcWeight,
+                                            isError,
+                                            error,
+                                            pd,
+                                            this._list,
+                                            tolerance);
+      this._rocketData = rd;
+ 
    }
 
    //
@@ -194,11 +270,15 @@ public class RocketInitializable implements Initializable{
    //
    //
    public void initializeData(String key, Object data){
-      System.out.println("*****************************************");
-      System.out.println("Rocket Initializable.initializeData()");
-      System.out.println(key);
-      System.out.println(data);
-      System.out.println("*****************************************");
+      if(key.toUpperCase().contains("STAGE")){
+         this.initializeStageData(data);
+      }
+      else if(key.toUpperCase().contains("PAYLOAD")){
+         this.initializePayloadData(data);
+      }
+      else if(key.toUpperCase().contains("CAPSULE")){
+         this.initializePayloadData(data);
+      }
    }
 
    //
