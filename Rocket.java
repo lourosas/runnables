@@ -25,7 +25,7 @@ import rosas.lou.clock.*;
 
 public abstract class Rocket extends SystemComponent{
    protected List<SystemComponent> stages;
-   protected Payload               payload;
+   protected SystemComponent      payload;
    //////////////////////////Public Methods///////////////////////////
    //
    //

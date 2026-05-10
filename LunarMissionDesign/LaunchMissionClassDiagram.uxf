@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>870</x>
-      <y>120</y>
+      <x>950</x>
+      <y>190</y>
       <w>170</w>
       <h>90</h>
     </coordinates>
@@ -21,8 +21,8 @@ bg=red</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>0</x>
-      <y>280</y>
+      <x>80</x>
+      <y>350</y>
       <w>260</w>
       <h>120</h>
     </coordinates>
@@ -36,8 +36,8 @@ bg=red</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>130</x>
-      <y>480</y>
+      <x>210</x>
+      <y>550</y>
       <w>120</w>
       <h>90</h>
     </coordinates>
@@ -49,8 +49,8 @@ monitor():Object</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>260</x>
-      <y>480</y>
+      <x>340</x>
+      <y>550</y>
       <w>200</w>
       <h>150</h>
     </coordinates>
@@ -66,8 +66,8 @@ request():Object</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>510</x>
-      <y>480</y>
+      <x>590</x>
+      <y>550</y>
       <w>120</w>
       <h>100</h>
     </coordinates>
@@ -80,8 +80,8 @@ update(:Object)</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>310</x>
-      <y>0</y>
+      <x>390</x>
+      <y>70</y>
       <w>140</w>
       <h>100</h>
     </coordinates>
@@ -94,8 +94,8 @@ get():StateSubstate</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>310</x>
-      <y>120</y>
+      <x>390</x>
+      <y>190</y>
       <w>220</w>
       <h>110</h>
     </coordinates>
@@ -111,8 +111,8 @@ get():StateSubstate</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>370</x>
-      <y>0</y>
+      <x>450</x>
+      <y>70</y>
       <w>30</w>
       <h>140</h>
     </coordinates>
@@ -122,8 +122,8 @@ get():StateSubstate</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>520</x>
-      <y>120</y>
+      <x>600</x>
+      <y>190</y>
       <w>370</w>
       <h>30</h>
     </coordinates>
@@ -133,8 +133,8 @@ get():StateSubstate</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>120</x>
-      <y>120</y>
+      <x>200</x>
+      <y>190</y>
       <w>210</w>
       <h>190</h>
     </coordinates>
@@ -147,8 +147,8 @@ r2=#initializer
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>180</x>
-      <y>220</y>
+      <x>260</x>
+      <y>290</y>
       <w>170</w>
       <h>290</h>
     </coordinates>
@@ -159,8 +159,8 @@ r2=#monitor</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>350</x>
-      <y>220</y>
+      <x>430</x>
+      <y>290</y>
       <w>70</w>
       <h>290</h>
     </coordinates>
@@ -173,8 +173,8 @@ r2=#client</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>360</x>
-      <y>480</y>
+      <x>440</x>
+      <y>550</y>
       <w>220</w>
       <h>50</h>
     </coordinates>
@@ -187,8 +187,8 @@ r2=#observers</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>850</x>
-      <y>340</y>
+      <x>930</x>
+      <y>410</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -198,8 +198,8 @@ r2=#observers</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>880</x>
-      <y>200</y>
+      <x>960</x>
+      <y>270</y>
       <w>80</w>
       <h>160</h>
     </coordinates>
@@ -212,8 +212,8 @@ r2=-#stages</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>520</x>
-      <y>120</y>
+      <x>600</x>
+      <y>190</y>
       <w>350</w>
       <h>250</h>
     </coordinates>
@@ -223,8 +223,8 @@ r2=-#stages</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1320</x>
-      <y>240</y>
+      <x>1400</x>
+      <y>310</y>
       <w>150</w>
       <h>30</h>
     </coordinates>
@@ -234,8 +234,8 @@ r2=-#stages</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>1390</x>
-      <y>60</y>
+      <x>1470</x>
+      <y>130</y>
       <w>260</w>
       <h>120</h>
     </coordinates>
@@ -249,8 +249,8 @@ r2=-#stages</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1570</x>
-      <y>240</y>
+      <x>1650</x>
+      <y>310</y>
       <w>150</w>
       <h>30</h>
     </coordinates>
@@ -260,8 +260,8 @@ r2=-#stages</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1380</x>
-      <y>60</y>
+      <x>1460</x>
+      <y>130</y>
       <w>160</w>
       <h>200</h>
     </coordinates>
@@ -271,8 +271,8 @@ r2=-#stages</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1510</x>
-      <y>60</y>
+      <x>1590</x>
+      <y>130</y>
       <w>150</w>
       <h>200</h>
     </coordinates>
@@ -282,8 +282,8 @@ r2=-#stages</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>720</x>
-      <y>490</y>
+      <x>800</x>
+      <y>560</y>
       <w>100</w>
       <h>90</h>
     </coordinates>
@@ -295,8 +295,8 @@ r2=-#stages</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>410</x>
-      <y>220</y>
+      <x>490</x>
+      <y>290</y>
       <w>430</w>
       <h>300</h>
     </coordinates>
@@ -309,8 +309,8 @@ r2=#feeder</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1370</x>
-      <y>260</y>
+      <x>1450</x>
+      <y>330</y>
       <w>40</w>
       <h>140</h>
     </coordinates>
@@ -322,8 +322,8 @@ m2=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1290</x>
-      <y>380</y>
+      <x>1370</x>
+      <y>450</y>
       <w>210</w>
       <h>240</h>
     </coordinates>
@@ -350,8 +350,8 @@ bg=orange
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1000</x>
-      <y>340</y>
+      <x>1080</x>
+      <y>410</y>
       <w>100</w>
       <h>30</h>
     </coordinates>
@@ -361,8 +361,8 @@ bg=orange
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1010</x>
-      <y>200</y>
+      <x>1090</x>
+      <y>270</y>
       <w>80</w>
       <h>160</h>
     </coordinates>
@@ -375,8 +375,8 @@ r2=#capsule</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>520</x>
-      <y>70</y>
+      <x>600</x>
+      <y>140</y>
       <w>590</w>
       <h>290</h>
     </coordinates>
@@ -386,22 +386,34 @@ r2=#capsule</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1580</x>
-      <y>380</y>
-      <w>170</w>
-      <h>150</h>
+      <x>1660</x>
+      <y>450</y>
+      <w>240</w>
+      <h>230</h>
     </coordinates>
     <panel_attributes>/StageData/
 --
 --
++dryWeight():double
++error():String
++engineData():List&lt;EngineData&gt;
++fuelSystemData():FuelSystemData
++isError():boolean
++maxWeight():double
++model():long
++numberOfEngines():int
++stageNumber():int
++tolerance():double
++weight():double
++toString():String
 bg=orange</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1640</x>
-      <y>260</y>
+      <x>1720</x>
+      <y>330</y>
       <w>40</w>
       <h>140</h>
     </coordinates>
@@ -409,5 +421,68 @@ bg=orange</panel_attributes>
 m1=1
 m2=2</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;110.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1970</x>
+      <y>310</y>
+      <w>150</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>PayloadInitializable</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1590</x>
+      <y>130</y>
+      <w>470</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;450.0;10.0;450.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1960</x>
+      <y>450</y>
+      <w>180</w>
+      <h>270</h>
+    </coordinates>
+    <panel_attributes>/PayloadData/
+--
+--
++crew():int
++currentWeight():double
++dryWeight():double
++emptyMass():double
++error():String
++isError():boolean
++isOccumpied():boolean
++loadedMass():double
++maxWeight():double
++model():String
+o2Percent():double
++temperature():double
++type():String
++toString():String
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2030</x>
+      <y>330</y>
+      <w>40</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=2</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
   </element>
 </diagram>

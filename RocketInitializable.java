@@ -128,7 +128,7 @@ public class RocketInitializable implements Initializable{
    //
    private void initializeRocket(String file)throws IOException{
       //Test Print (for now)
-      System.out.print("initializeRocket(): "+file);
+      System.out.println("initializeRocket(): "+file);
       LaunchSimulatorJsonFileReader read = null;
       read = new LaunchSimulatorJsonFileReader(file);
       Hashtable<String,String> ht = read.readRocketInfo();

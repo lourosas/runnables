@@ -21,7 +21,7 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 
-public class GenericPayload implements Payload, Runnable{
+public class GenericPayload extends Payload implements Runnable{
    private static boolean TOPRINT = true;
 
    private LaunchStateSubstate.State INIT                      = null;
@@ -38,15 +38,9 @@ public class GenericPayload implements Payload, Runnable{
    private LaunchStateSubstate.AscentSubstate    IGNE          = null;
 
    private boolean  _kill;
-
-   private DataFeeder            _feeder;
-   private List<ErrorListener>   _errorListeners;
-   private List<SystemListener>  _systemListeners;
-   private LaunchStateSubstate   _state;
-   private Object                _obj;
-   private Thread                _rt0;
-   private PayloadData           _payloadData;
-   private PayloadData           _measuredPayloadData;
+   private Object   _obj;
+   private Thread   _rt0;
+   private boolean  _start;
 
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
@@ -62,16 +56,10 @@ public class GenericPayload implements Payload, Runnable{
       STG       = LaunchStateSubstate.AscentSubstate.STAGING;
       IGNE      = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
-      _kill                = false;
-
-      _feeder              = null;
-      _errorListeners      = null;
-      _systemListeners     = null;
-      _state               = null;
-      _obj                 = null;
-      _rt0                 = null;
-      _payloadData         = null;
-      _measuredPayloadData = null; 
+      _kill     = false;
+      _obj      = null;
+      _rt0      = null;
+      _start    = false;
    };
    
    ////////////////////////////Constructor////////////////////////////
@@ -84,50 +72,7 @@ public class GenericPayload implements Payload, Runnable{
    }
 
    //////////////////////////Private Methods//////////////////////////
-   //
-   //
-   //
-   private void alertErrorListeners(){
-      String error   = null;
-      PayloadData pd = null;
-      synchronized(this._obj){
-         error = this._measuredPayloadData.error();
-         pd    = this._measuredPayloadData;
-      }
-      try{
-         Iterator<ErrorListener> it = this._errorListeners.iterator();
-         while(it.hasNext()){
-            it.next().errorOccurred(new ErrorEvent(this,pd,error));
-         }
-      }
-      catch(NullPointerException npe){}
-   }
-
-   //
-   //
-   //
-   private void alertSubscribers(){
-      PayloadData pd         = null;
-      LaunchStateSubstate ss = this._state;
-   
-      String event = ss.state() + ", " + ss.ascentSubstate();
-      event += ", " + ss.ignitionSubstate() + ", ";
-      event += ss.prelaunchSubstate();
-      synchronized(this._obj){
-         pd = this._measuredPayloadData;
-      }
-      try{
-         Iterator<SystemListener> it = null;
-         it = this._systemListeners.iterator();
-         while(it.hasNext()){
-            MissionSystemEvent mse = null;
-            mse = new MissionSystemEvent(this,pd,event,ss);
-            it.next().update(mse);
-         }
-      }
-      catch(NullPointerException npe){}
-   }
-
+   /*
    //Check the Current Weight, O2 Percent, Temperature...
    //
    //
@@ -519,6 +464,7 @@ public class GenericPayload implements Payload, Runnable{
    private void setUpPayloadData(){
       String err = null;
    }
+   */
 
    //
    //
@@ -529,6 +475,7 @@ public class GenericPayload implements Payload, Runnable{
       this._rt0.start();
    }
 
+   /*
    /////////////////////////Payload Interface/////////////////////////
    //
    //
@@ -597,6 +544,7 @@ public class GenericPayload implements Payload, Runnable{
    public void setStateSubstate(LaunchStateSubstate state){
       this._state = state;
    }
+   */
 
    /////////////////////////Runnable Interface////////////////////////
    //
@@ -610,22 +558,26 @@ public class GenericPayload implements Payload, Runnable{
             if(this._kill){
                throw new InterruptedException();
             }
-            if(this._state != null){
-               if(this._state.state() == INIT){
+            //if(this._state != null){
+            //   if(this._state.state() == INIT){
+            if(this.getStateSubstate() != null){
+               if(this.getStateSubstate().state() == INIT){
                   //In Initialization, if the payload is a capsule,
                   //it should not be occupied...if not a capsule, it
                   //is just payload, so check every 10 seconds...
                   if(counter++%10000 == 0){
-                     check = true;
+                     check   = true;
+                     counter = 1; //Reset the Counter
                   }
                }
             }
             if(check){
-               this.monitorPayload();
-               this.alertSubscribers();
-               check = false;
+               //this.monitorPayload();
+               //this.alertSubscribers();
+               check   = false;
                counter = 1;  //reset the counter
             }
+            Thread.sleep(1);
          }
       }
       catch(InterruptedException ie){}

@@ -33,7 +33,6 @@ public abstract class Stage extends SystemComponent{
    //
    //
    public void initializeComponent(String file)throws IOException{
-      System.out.println("Stage");
       if(this.initializable == null){
          this.setInitializable(new StageInitializable());
       }

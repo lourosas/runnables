@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 /*
-Copyright 2024 Lou Rosas
+Copyright 2026 Lou Rosas
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,18 +22,35 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 
-public abstract class Payload extends SystemComponent{
-   //////////////////////////Public Methods///////////////////////////
+public class PayloadInitializable implements Initializable{
+   private PayloadData _payloadData;
+
+   {
+      _payloadData = null;
+   };
+
+   ////////////////////////////Contstructors//////////////////////////
    //
-   ////////////////SystemComponent Methods Overrides//////////////////
+   //
+   //
+   public PayloadInitializable(){}
+
+   //////////////Initializable Interface Implementation///////////////
    //
    //
    //
-   public void initializeComponent(String file)throws IOException{
-      if(this.initializable == null){
-         this.setInitializable(new PayloadInitializable());
-      }
-      this.initializable.initialize(file);
+   public void initialize(String file)throws IOException{}
+
+   //
+   //
+   //
+   public void initializeData(String key, Object data){}
+
+   //
+   //
+   //
+   public Object initialized(){
+      return this._payloadData;
    }
 }
 //////////////////////////////////////////////////////////////////////

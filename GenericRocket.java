@@ -96,7 +96,18 @@ public class GenericRocket extends Rocket implements  Runnable{
    //
    //
    //
-   private void initializePayload(String file)throws IOException{}
+   private void initializePayload(String file)throws IOException{
+      try{
+         this.payload = new GenericPayload();
+         this.payload.initializeComponent(file);
+         PayloadData pd = null;
+         pd = (PayloadData)this.payload.initializationStatus();
+         this.initializable.initializeData("Payload Data", pd);
+      }
+      catch(ClassCastException cce){
+         throw new IOException("Payload Class Cast Exception");
+      }
+   }
 
    //
    //
@@ -122,7 +133,7 @@ public class GenericRocket extends Rocket implements  Runnable{
          this.initializable.initializeData("Stage Data", lst);
       }
       catch(ClassCastException cce){
-         throw new IOException("Class Cast Exception Issue");
+         throw new IOException("Stage Class Cast Exception");
       }
    }
 
