@@ -224,7 +224,6 @@ public class RocketInitializable implements Initializable{
                                             this._list,
                                             tolerance);
       this._rocketData = rd;
- 
    }
 
    //
