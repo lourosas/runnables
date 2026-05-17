@@ -24,7 +24,7 @@ import rosas.lou.runnables.*;
 
 public class RocketObservable implements Observable{
    private List<Observer>  _observers;
-   private RocketData      _rockedData;
+   private RocketData      _rocketData;
 
    {
       _observers    = null;
@@ -63,19 +63,23 @@ public class RocketObservable implements Observable{
    //
    //
    //
-   public void notify(){
-      Iterator<Observer> it = this._observers.iterator();
-      while(it.hasNext()){
-         it.next().update(this._rocketData);
+   public void notifyObservers(){
+      try{
+         Iterator<Observer> it = this._observers.iterator();
+         while(it.hasNext()){
+            it.next().update(this._rocketData);
+         }
       }
+      catch(NullPointerException npe){}
    }
 
    //
    //
    //
-   public void notify(Object data){
+   public void notifyObservers(Object data){
       try{
          this._rocketData = (RocketData)data;
+         this.notify();
       }
       catch(ClassCastException cce){
          this._rocketData = null;
@@ -100,7 +104,7 @@ public class RocketObservable implements Observable{
       catch(NullPointerException npe){
          npe.printStackTrace();
       }
-      catch(UnsuppoertedOperationException uoe){
+      catch(UnsupportedOperationException uoe){
          uoe.printStackTrace();
       }
    }
