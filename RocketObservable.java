@@ -22,5 +22,95 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 
-public class RocketObservable implements Observable{}
+public class RocketObservable implements Observable{
+   private List<Observer>  _observers;
+   private RocketData      _rockedData;
+
+   {
+      _observers    = null;
+      _rocketData   = null;
+   };
+
+   ////////////////////////////Constructors///////////////////////////
+   //
+   //
+   //
+   public RocketObservable(){}
+
+   //
+   //
+   //
+   public RocketObservable(RocketData data){
+      this._rocketData = data;
+   }
+
+   //////////////////////////Private Methods//////////////////////////
+
+   ////////////////Observable Interface Implementation////////////////
+   //
+   //
+   //
+   public void addObserver(Observer observer){
+      try{
+         this._observers.add(observer);
+      }
+      catch(NullPointerException npe){
+         this._observers = new LinkedList<Observer>();
+         this._observers.add(observer);
+      }
+   }
+
+   //
+   //
+   //
+   public void notify(){
+      Iterator<Observer> it = this._observers.iterator();
+      while(it.hasNext()){
+         it.next().update(this._rocketData);
+      }
+   }
+
+   //
+   //
+   //
+   public void notify(Object data){
+      try{
+         this._rocketData = (RocketData)data;
+      }
+      catch(ClassCastException cce){
+         this._rocketData = null;
+      }
+   }
+
+   //
+   //
+   //
+   public void notify(Object data){}
+
+   //
+   //
+   //
+   public void removeObserver(Observer observer){
+      try{
+         this._observers.remove(observer);
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+      catch(UnsuppoertedOperationException uoe){
+         uoe.printStackTrace();
+      }
+   }
+
+   //
+   //
+   //
+   public Object request(){
+      return this._rocketData;
+   }
+
+}
 //////////////////////////////////////////////////////////////////////

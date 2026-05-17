@@ -26,7 +26,6 @@ import rosas.lou.runnables.*;
 public interface Observable{
    public void addObserver(Observer observer);
    public void notify();
-   public void notify(Object obj);
    public void removeObserver(Observer observer);
    public Object request();
 }
