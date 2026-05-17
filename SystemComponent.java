@@ -23,10 +23,16 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public abstract class SystemComponent implements StateMutable{
+   protected Observable          observable    = null;
    protected Initializable       initializable = null;
    protected LaunchStateSubstate stateSubstate = null;
 
    ///////////////////////////Public Methods//////////////////////////
+   //
+   //
+   //
+   public void addObserver(Observer observer){}
+
    //
    //
    //
@@ -44,6 +50,13 @@ public abstract class SystemComponent implements StateMutable{
    //
    public void setInitializable(Initializable init){
       this.initializable = init;
+   }
+
+   //
+   //
+   //
+   public void setObservable(Observable observable){
+      this.observable = observable;
    }
 
    ///////////////////StateMutable Interface Methods//////////////////

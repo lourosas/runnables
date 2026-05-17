@@ -35,6 +35,19 @@ public abstract class Rocket extends SystemComponent{
    //
    //
    //
+   public void addObserver(Observer observer){
+      try{
+         this.observable.addObserver(observer);
+      }
+      catch(NullPointerException npe){
+         this.setObservable(new RocketObservable());
+         this.observable.addObserver(observer);
+      }
+   }
+
+   //
+   //
+   //
    public void initializeComponent(String file)throws IOException{
       System.out.println("Rocket");
       if(this.initializable == null){
