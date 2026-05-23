@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 /*
-Copyright 2024 Lou Rosas
+Copyright 2026 Lou Rosas
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,14 +17,17 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 package rosas.lou.runnables;
 
+
 import java.lang.*;
 import java.util.*;
+import java.io.*;
 import rosas.lou.runnables.*;
 
 public interface Publisher{
-   public void add(Subscriber s);
-   public void remove(Subscriber s);
-   public void notify(String s, Object o);
-   public void error(String s, Object o);
+   public void addSubscriber(Subscriber sub);
+   public void publish();
+   public void publish(Object data);
+   public void removeSubscriber(Subscriber sub);
+   public Object request();
 }
 //////////////////////////////////////////////////////////////////////

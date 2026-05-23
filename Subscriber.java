@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 /*
-Copyright 2023 Lou Rosas
+Copyright 2026 Lou Rosas
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,16 +19,11 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
+import java.io.*;
 import rosas.lou.runnables.*;
 
-//
-//
-//
 public interface Subscriber{
-   public void update(Object o);
-   public void update(Object o, String s);
-   public void error(RuntimeException re);
-   public void error(RuntimeException re, Object o);
-   public void error(String error);
+   public void update();
+   public void update(Object object);
 }
 //////////////////////////////////////////////////////////////////////

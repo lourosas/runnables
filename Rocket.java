@@ -35,13 +35,14 @@ public abstract class Rocket extends SystemComponent{
    //
    //
    //
-   public void addObserver(Observer observer){
+   public void addSubscriber(Subscriber subscriber){
       try{
-         this.observable.addObserver(observer);
+         this.publisher.addSubscriber(publisher);
       }
       catch(NullPointerException npe){
-         this.setObservable(new RocketObservable());
-         this.observable.addObserver(observer);
+         this.setPublisher(new RocketPublisher());
+         //fucking observable
+         this.publisher.addSubscriber(observer);
       }
    }
 

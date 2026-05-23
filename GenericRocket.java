@@ -534,10 +534,14 @@ public class GenericRocket extends Rocket implements  Runnable{
          RocketData rocketData = null;
          rocketData = (RocketData)this.initializable.initialized();
          //Notify the Observers
-         this.observable.notifyObservers(rocketData);
+         this.publisher.publish(rocketData);
       }
-      catch(NullPointerException npe){}
-      catch(ClassCastException cce){}
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+      }
    }
 
    ///////////////Runnable Interface Implementation///////////////////

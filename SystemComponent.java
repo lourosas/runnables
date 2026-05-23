@@ -23,7 +23,7 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public abstract class SystemComponent implements StateMutable{
-   protected Observable          observable    = null;
+   protected Publisher           publisher    = null;
    protected Initializable       initializable = null;
    protected LaunchStateSubstate stateSubstate = null;
 
@@ -31,7 +31,7 @@ public abstract class SystemComponent implements StateMutable{
    //
    //
    //
-   public void addObserver(Observer observer){}
+   public void addSuscriber(Subscriber subscriber){}
 
    //
    //
@@ -55,8 +55,8 @@ public abstract class SystemComponent implements StateMutable{
    //
    //
    //
-   public void setObservable(Observable observable){
-      this.observable = observable;
+   public void setPublisher(Publisher publisher){
+      this.publisher = publisher;
    }
 
    ///////////////////StateMutable Interface Methods//////////////////
