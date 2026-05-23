@@ -31,7 +31,7 @@ public abstract class SystemComponent implements StateMutable{
    //
    //
    //
-   public void addSuscriber(Subscriber subscriber){}
+   public void addSubscriber(Subscriber subscriber){}
 
    //
    //

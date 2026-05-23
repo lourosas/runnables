@@ -35,18 +35,18 @@ public class RocketPublisher implements Publisher{
    //
    //
    //
-   public RocketObservable(){}
+   public RocketPublisher(){}
 
    //
    //
    //
-   public RocketObservable(RocketData data){
+   public RocketPublisher(RocketData data){
       this._rocketData = data;
    }
 
    //////////////////////////Private Methods//////////////////////////
 
-   ////////////////Observable Interface Implementation////////////////
+   /////////////////Publisher Interface Implementation////////////////
    //
    //
    //
@@ -91,7 +91,7 @@ public class RocketPublisher implements Publisher{
    //
    public void removeSubscriber(Subscriber subscriber){
       try{
-         this._subscribers.remove(observer);
+         this._subscribers.remove(subscriber);
       }
       catch(ClassCastException cce){
          cce.printStackTrace();

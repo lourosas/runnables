@@ -33,16 +33,17 @@ public abstract class Rocket extends SystemComponent{
 
    ///////////////SystemComponent Methods Overrides///////////////////
    //
-   //
+   //This now needs to be fixed
    //
    public void addSubscriber(Subscriber subscriber){
       try{
-         this.publisher.addSubscriber(publisher);
+         this.publisher.addSubscriber(subscriber);
       }
       catch(NullPointerException npe){
          this.setPublisher(new RocketPublisher());
          //fucking observable
-         this.publisher.addSubscriber(observer);
+         //this.publisher.addSubscriber(observer);
+         this.publisher.addSubscriber(subscriber);
       }
    }
 
