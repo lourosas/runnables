@@ -127,24 +127,24 @@ controlflow {
 <packagedElement>
 <reflist>
 <ref refid="0b03ad65-51f4-11f1-8c30-e8f408f10391"/>
+<ref refid="cb1b9b74-51f5-11f1-80e5-e8f408f10391"/>
+<ref refid="d4d8cc4d-51f6-11f1-acf2-e8f408f10391"/>
+<ref refid="00ea0b9f-51fa-11f1-8747-e8f408f10391"/>
+<ref refid="9aad8aa7-51fa-11f1-93ea-e8f408f10391"/>
+<ref refid="73b5d07e-51ff-11f1-ba57-e8f408f10391"/>
 <ref refid="f74fa12e-5203-11f1-96fb-e8f408f10391"/>
 <ref refid="a3d09a09-5204-11f1-a649-e8f408f10391"/>
-<ref refid="00ea0b9f-51fa-11f1-8747-e8f408f10391"/>
-<ref refid="d4d8cc4d-51f6-11f1-acf2-e8f408f10391"/>
-<ref refid="cb1b9b74-51f5-11f1-80e5-e8f408f10391"/>
-<ref refid="73b5d07e-51ff-11f1-ba57-e8f408f10391"/>
-<ref refid="9aad8aa7-51fa-11f1-93ea-e8f408f10391"/>
 <ref refid="f5e6898c-56df-11f1-8815-6d2398b7e0e7"/>
 <ref refid="1468248c-56e1-11f1-bd5c-6d2398b7e0e7"/>
 <ref refid="6d615395-56e1-11f1-bea6-6d2398b7e0e7"/>
 <ref refid="9a90dd91-56e1-11f1-9fb1-6d2398b7e0e7"/>
 <ref refid="2c253ba9-56e2-11f1-9ff9-6d2398b7e0e7"/>
+<ref refid="628df872-56e2-11f1-8bde-6d2398b7e0e7"/>
 <ref refid="7d8221eb-56e4-11f1-b934-6d2398b7e0e7"/>
 <ref refid="82f7b694-56e4-11f1-9950-6d2398b7e0e7"/>
 <ref refid="31f88b2d-56e5-11f1-b6dd-6d2398b7e0e7"/>
 <ref refid="bbd82839-56eb-11f1-9788-6d2398b7e0e7"/>
 <ref refid="d2b72518-56f0-11f1-8c2b-6d2398b7e0e7"/>
-<ref refid="628df872-56e2-11f1-8bde-6d2398b7e0e7"/>
 </reflist>
 </packagedElement>
 </UML:Package>
@@ -1617,7 +1617,7 @@ existing classes or even new classes with specific responsibilities.</val>
 </UML:Class>
 <UML:InterfaceItem id="0b03f5a1-51f4-11f1-8088-e8f408f10391">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 132.57421875000009, -329.0494639078772)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 132.57421875000009, -329.0494639078773)</val>
 </matrix>
 <top-left>
 <val>(0.0, 0.0)</val>
@@ -1879,7 +1879,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>297.0</val>
 </width>
 <height>
-<val>130.0</val>
+<val>136.0</val>
 </height>
 <diagram>
 <ref refid="c2fbba4a-5203-11f1-bec7-e8f408f10391"/>
@@ -2134,7 +2134,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>100.0</val>
 </width>
 <height>
-<val>83.0</val>
+<val>86.0</val>
 </height>
 <diagram>
 <ref refid="c2fbba4a-5203-11f1-bec7-e8f408f10391"/>
@@ -2335,8 +2335,8 @@ existing classes or even new classes with specific responsibilities.</val>
 <UML:InterfaceRealization id="e95e51b8-56e1-11f1-ae80-6d2398b7e0e7">
 <client>
 <reflist>
-<ref refid="9a90dd91-56e1-11f1-9fb1-6d2398b7e0e7"/>
 <ref refid="f74fa12e-5203-11f1-96fb-e8f408f10391"/>
+<ref refid="9a90dd91-56e1-11f1-9fb1-6d2398b7e0e7"/>
 </reflist>
 </client>
 <contract>
@@ -2352,8 +2352,8 @@ existing classes or even new classes with specific responsibilities.</val>
 </presentation>
 <supplier>
 <reflist>
-<ref refid="9a90dd91-56e1-11f1-9fb1-6d2398b7e0e7"/>
 <ref refid="f74fa12e-5203-11f1-96fb-e8f408f10391"/>
+<ref refid="9a90dd91-56e1-11f1-9fb1-6d2398b7e0e7"/>
 </reflist>
 </supplier>
 </UML:InterfaceRealization>
@@ -2392,7 +2392,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>100.0</val>
 </width>
 <height>
-<val>83.0</val>
+<val>86.0</val>
 </height>
 <diagram>
 <ref refid="c2fbba4a-5203-11f1-bec7-e8f408f10391"/>
@@ -2475,7 +2475,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>100.0</val>
 </width>
 <height>
-<val>83.0</val>
+<val>86.0</val>
 </height>
 <diagram>
 <ref refid="c2fbba4a-5203-11f1-bec7-e8f408f10391"/>
@@ -2546,7 +2546,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>(1.0, 0.0, 0.0, 1.0, 862.3777291434152, 112.64980537682146)</val>
 </matrix>
 <points>
-<val>[(-10.26863396718079, -372.8534884125356), (-90.38671875, -259.7122748592433)]</val>
+<val>[(-10.26863396718079, -369.8534884125356), (-90.38671875, -259.7122748592433)]</val>
 </points>
 <head-connection>
 <ref refid="6d621d11-56e1-11f1-82af-6d2398b7e0e7"/>
@@ -2642,7 +2642,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>(1.0, 0.0, 0.0, 1.0, 887.0339791434152, 117.61855537682146)</val>
 </matrix>
 <points>
-<val>[(-14.6015625, -377.8222384125356), (185.76556396484386, -271.23177559166515)]</val>
+<val>[(-14.6015625, -374.8222384125356), (185.76556396484386, -271.23177559166515)]</val>
 </points>
 <head-connection>
 <ref refid="6d621d11-56e1-11f1-82af-6d2398b7e0e7"/>
@@ -2911,7 +2911,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>233.0</val>
 </width>
 <height>
-<val>304.0</val>
+<val>306.0</val>
 </height>
 <diagram>
 <ref refid="045c3582-56e5-11f1-b2a2-6d2398b7e0e7"/>
