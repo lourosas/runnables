@@ -42,12 +42,13 @@ public class LaunchSystemZeroPublisher extends LaunchSystemPublisher{
    //
    public LaunchSystemZeroPublisher
    (
-      RocketData         rocketData, 
-      LaunchPlatformData launchPlatformData
+      RocketData         rocketData //, 
+      //LaunchPlatformData launchPlatformData
    ){
-      this._rocketData     = rocketData;
-      this._platformData   = launchPlatformData;
+      this._rocketData   = rocketData;
+      //this._platformData = launchPlatformData;
    }
+   //////////////////////////Private Methods//////////////////////////
 
    /////////////////Publisher Interface Implementation////////////////
    //
@@ -58,8 +59,12 @@ public class LaunchSystemZeroPublisher extends LaunchSystemPublisher{
           Iterator<Subscribers> it = this._subscribers.iterator();
           while(it.hasNext()){
              Subscriber s = it.next();
-             s.update(this._rocketData);
-             //s.update(this._platformData);
+             if(this._rocketData != null){
+                s.update(this._rocketData);
+             }
+             //if(this._platformData != null){
+                //s.update(this._platformData);
+             //}
           }
       }
       catch(NullPointerException npe){}
@@ -69,16 +74,38 @@ public class LaunchSystemZeroPublisher extends LaunchSystemPublisher{
    //
    //
    public void publish(Object data){
+      RocketData rd          = null;
+      //LaunchPlatformData lpd = null;
+      Exception  ex          = null;
       try{
-         this._rocketData = (RocketData)data;
+         rd = (RocketData)data;
       }
-      catch(ClassCastException cce){}
+      catch(ClassCastException cce){
+         rd = null;
+      }
       /*
       try{
-         this._platformData = (LaunchPlatformData)data;
+         lpd = (LaunchPlatformData)data;
       }
-      catch(ClassCastException cce){}
+      catch(ClassCastException cce){
+         lpd = null;
+      }
       */
+      try{
+         ex = (Exception)data;
+      }
+      catch(ClassCastException cce){
+         ex = null;
+      }
+      if(rd != null /*|| lpd != null*/ || ex != null){
+         try{
+            Iterator<Subscriber> it = this._subscribers.iterator();
+            while(it.hasNext()){
+               it.next().update(data);
+            }
+         }
+         catch(NullPointerException npe){}
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////

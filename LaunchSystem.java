@@ -22,14 +22,83 @@ import java.util.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
-public interface LaunchSystem{
-   public void abort();
-   public void abortCountdown();
-   public void holdCountdown();
-   public void ignite();
-   public void initialize(String file);
-   public void preLaunchTime(int hours, int mins, int secs);
-   public void resumeCountdown();
-   public void simulation(boolean isSim);
-   public void startCountdown();
+public abstract class LaunchSystem{
+   //protected LaunchPlatform    luanchPlatform = null;
+   protected Publisher         publisher      = null;
+   protected SystemComponent   rocket         = null;
+
+   ///////////////////////////Public Methods//////////////////////////
+   //
+   //
+   //
+   public void abort(){}
+
+   //
+   //
+   //
+   public void abortCountdown(){}
+
+   //
+   //
+   //
+   public void addSubscriber(Subscriber subscriber){}
+
+   //
+   //
+   //
+   public void holdCountdown(){}
+
+   //
+   //
+   //
+   public void ignite(){}
+
+   //
+   //
+   //
+   public void initialize(String file){}
+
+   //
+   //
+   //
+   public void preLaunchTime(int hours, int mins, int secs){}
+
+   //
+   //
+   //
+   public void resumeCountdown(){}
+
+   //
+   //
+   //
+   /*
+   public void setPlatform(LaunchPlatform platform){
+      this.launchPlatform = platform;
+   }
+   */
+
+   //
+   //
+   //
+   public void setPublisher(Publisher publisher){
+      this.publisher = publisher;
+   }
+
+   //
+   //
+   //
+   public void setRocket(SystemComponent rocket){
+      this.rocket = rocket;
+   }
+
+   //
+   //
+   //
+   public void simulation(boolean isSim){}
+
+   //
+   //
+   //
+   public void startCountdown(){}
 }
+//////////////////////////////////////////////////////////////////////

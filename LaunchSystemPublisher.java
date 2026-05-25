@@ -22,7 +22,7 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 
-public abstract class LaunchSystemPublisher implments Publisher{
+public abstract class LaunchSystemPublisher implements Publisher{
    protected List<Subscriber>  subscribers;
 
    {

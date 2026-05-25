@@ -29,6 +29,7 @@ public class RocketPublisher implements Publisher{
    {
       _subscribers  = null;
       _rocketData   = null;
+      _exception    = null;
    };
 
    ////////////////////////////Constructors///////////////////////////
@@ -77,12 +78,28 @@ public class RocketPublisher implements Publisher{
    //
    //
    public void publish(Object data){
+      RocketData rd = null;
+      Exception  ex = null;
       try{
-         this._rocketData = (RocketData)data;
-         this.publish();
+         rd = (RocketData)data;
       }
       catch(ClassCastException cce){
-         this._rocketData = null;
+         rd = null;
+      }
+      try{
+         ex = (Exception)data;
+      }
+      catch(ClassCastException cce){
+         ex = null;
+      }
+      if(rd != null || ex != null){
+         try{
+            Iterator<Subscriber> it = this._subscribers.iterator();
+            while(it.hasNext()){
+               it.next().update(data);
+            }
+         }
+         catch(NullPointerException npe){}
       }
    }
 
