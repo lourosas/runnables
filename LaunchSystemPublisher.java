@@ -57,7 +57,14 @@ public abstract class LaunchSystemPublisher implments Publisher{
    //
    //
    //
-   public void removeSubscriber(Subscriber subscriber){}
+   public void removeSubscriber(Subscriber subscriber){
+      try{
+         this._subscribers.remove(subscriber);
+      }
+      catch(ClassCastException cce){}
+      catch(NullPointerException npe){}
+      catch(UnsupportedOperationException uoe){}
+   }
 
    //
    //

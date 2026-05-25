@@ -28,7 +28,7 @@ public class LaunchSystemZeroPublisher extends LaunchSystemPublisher{
 
    {
       _rocketData      = null;
-      _platformData    = null;
+      //_platformData    = null;
    };
 
    ////////////////////////////Constructors///////////////////////////
@@ -54,8 +54,31 @@ public class LaunchSystemZeroPublisher extends LaunchSystemPublisher{
    //
    //
    public void publish(){
-      try{}
+      try{
+          Iterator<Subscribers> it = this._subscribers.iterator();
+          while(it.hasNext()){
+             Subscriber s = it.next();
+             s.update(this._rocketData);
+             //s.update(this._platformData);
+          }
+      }
       catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
+   public void publish(Object data){
+      try{
+         this._rocketData = (RocketData)data;
+      }
+      catch(ClassCastException cce){}
+      /*
+      try{
+         this._platformData = (LaunchPlatformData)data;
+      }
+      catch(ClassCastException cce){}
+      */
    }
 }
 //////////////////////////////////////////////////////////////////////
