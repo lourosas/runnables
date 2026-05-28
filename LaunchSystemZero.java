@@ -75,6 +75,7 @@ implements Runnable{
    //
    //
    public LaunchSystemZero(){
+      System.out.println("LaunchSystemZero");
       this.obj = new Object();
       this.setUpThread();
    }
@@ -98,7 +99,8 @@ implements Runnable{
    //
    //
    //
-   public void inititalize(String file){
+   public void initialize(String file){
+      System.out.println(file);
       //Set the Launch State Substate to initialize
       this.stateSubstate=new LaunchStateSubstate(INIT,null,null,null);
       try{

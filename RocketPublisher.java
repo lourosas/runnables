@@ -95,8 +95,6 @@ public class RocketPublisher implements Publisher{
    //
    //
    public void publish(Object data){
-      RocketData rd = null;
-      Exception  ex = null;
       try{
          this._rocketData = (RocketData)data;
       }

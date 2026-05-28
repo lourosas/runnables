@@ -24,9 +24,11 @@ import rosas.lou.runnables.*;
 
 public abstract class LaunchSystemPublisher implements Publisher{
    protected List<Subscriber>  subscribers;
+   protected Exception         exception;
 
    {
-      subscribers  = null;
+      subscribers = null;
+      exception   = null;
    };
 
    /////////////////Publisher Interface Implementation////////////////

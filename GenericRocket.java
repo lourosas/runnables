@@ -537,10 +537,10 @@ public class GenericRocket extends Rocket implements  Runnable{
          this.publisher.publish(rocketData);
       }
       catch(NullPointerException npe){
-         npe.printStackTrace();
+         //npe.printStackTrace();
       }
       catch(ClassCastException cce){
-         cce.printStackTrace();
+         //cce.printStackTrace();
       }
    }
 

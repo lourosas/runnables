@@ -55,57 +55,56 @@ public class LaunchSystemZeroPublisher extends LaunchSystemPublisher{
    //
    //
    public void publish(){
-      try{
-          Iterator<Subscriber> it = this.subscribers.iterator();
-          while(it.hasNext()){
-             Subscriber s = it.next();
-             if(this._rocketData != null){
-                s.update(this._rocketData);
-             }
-             //if(this._platformData != null){
-                //s.update(this._platformData);
-             //}
-          }
+      if(this._rocketData != null 
+         /*|| this._platformData != nll*/
+         || this.exception != null){
+         try{
+            Object obj = null;
+            Iterator<Subscriber> it = this.subscribers.iterator();
+            if(this._rocketData != null){
+               obj = this._rocketData;
+            }
+            /*
+            else if(this._platformData != null){
+               obj = this._platformData;
+            }
+            */
+            else if(this.exception != null){
+               obj = this.exception;
+            }
+            while(it.hasNext() && obj != null){
+               it.next().update(obj);
+            }
+         }
+         catch(NullPointerException npe){}
       }
-      catch(NullPointerException npe){}
    }
 
    //
    //
    //
    public void publish(Object data){
-      RocketData rd          = null;
-      //LaunchPlatformData lpd = null;
-      Exception  ex          = null;
       try{
-         rd = (RocketData)data;
+         this._rocketData = (RocketData)data;
       }
       catch(ClassCastException cce){
-         rd = null;
+         this._rocketData = null;
       }
       /*
       try{
-         lpd = (LaunchPlatformData)data;
+         this._platformData = (PlatformData)data;
       }
       catch(ClassCastException cce){
-         lpd = null;
+         this._platformData = null;
       }
       */
       try{
-         ex = (Exception)data;
+         this.exception = (Exception)data;
       }
       catch(ClassCastException cce){
-         ex = null;
+         this.exception = null;
       }
-      if(rd != null /*|| lpd != null*/ || ex != null){
-         try{
-            Iterator<Subscriber> it = this.subscribers.iterator();
-            while(it.hasNext()){
-               it.next().update(data);
-            }
-         }
-         catch(NullPointerException npe){}
-      }
+      this.publish();
    }
 }
 //////////////////////////////////////////////////////////////////////
