@@ -56,7 +56,7 @@ public class LaunchSystemZeroPublisher extends LaunchSystemPublisher{
    //
    public void publish(){
       try{
-          Iterator<Subscribers> it = this._subscribers.iterator();
+          Iterator<Subscriber> it = this.subscribers.iterator();
           while(it.hasNext()){
              Subscriber s = it.next();
              if(this._rocketData != null){
@@ -99,7 +99,7 @@ public class LaunchSystemZeroPublisher extends LaunchSystemPublisher{
       }
       if(rd != null /*|| lpd != null*/ || ex != null){
          try{
-            Iterator<Subscriber> it = this._subscribers.iterator();
+            Iterator<Subscriber> it = this.subscribers.iterator();
             while(it.hasNext()){
                it.next().update(data);
             }

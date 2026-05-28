@@ -35,11 +35,11 @@ public abstract class LaunchSystemPublisher implements Publisher{
    //
    public void addSubscriber(Subscriber subscriber){
       try{
-         this._subscribers.add(subscribers);
+         this.subscribers.add(subscriber);
       }
       catch(NullPointerException npe){
-         this._subscribers = new LinkedList<Subscribers>();
-         this._subscribers.add(subscriber);
+         this.subscribers = new LinkedList<Subscriber>();
+         this.subscribers.add(subscriber);
       }
    }
 
@@ -59,7 +59,7 @@ public abstract class LaunchSystemPublisher implements Publisher{
    //
    public void removeSubscriber(Subscriber subscriber){
       try{
-         this._subscribers.remove(subscriber);
+         this.subscribers.remove(subscriber);
       }
       catch(ClassCastException cce){}
       catch(NullPointerException npe){}
@@ -69,6 +69,8 @@ public abstract class LaunchSystemPublisher implements Publisher{
    //
    //
    //
-   public Object request(){}
+   public Object request(){
+      return null;
+   }
 }
 //////////////////////////////////////////////////////////////////////

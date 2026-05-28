@@ -25,6 +25,7 @@ import rosas.lou.runnables.*;
 public class RocketPublisher implements Publisher{
    private List<Subscriber>  _subscribers;
    private RocketData        _rocketData;
+   private Exception         _exception;
 
    {
       _subscribers  = null;
@@ -43,6 +44,13 @@ public class RocketPublisher implements Publisher{
    //
    public RocketPublisher(RocketData data){
       this._rocketData = data;
+   }
+
+   //
+   //
+   //
+   public RocketPublisher(Exception exception){
+      this._exception = exception;
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -65,13 +73,22 @@ public class RocketPublisher implements Publisher{
    //
    //
    public void publish(){
-      try{
-         Iterator<Subscriber> it = this._subscribers.iterator();
-         while(it.hasNext()){
-            it.next().update(this._rocketData);
+      if(this._rocketData != null || this._exception != null){
+         try{
+            Object obj = null;
+            Iterator<Subscriber> it = this._subscribers.iterator();
+            if(this._rocketData != null){
+               obj = this._rocketData;
+            }
+            else if(this._exception != null){
+               obj = this._exception;
+            }
+            while(it.hasNext() && obj != null){
+               it.next().update(obj);
+            }
          }
+         catch(NullPointerException npe){}
       }
-      catch(NullPointerException npe){}
    }
 
    //
@@ -81,26 +98,18 @@ public class RocketPublisher implements Publisher{
       RocketData rd = null;
       Exception  ex = null;
       try{
-         rd = (RocketData)data;
+         this._rocketData = (RocketData)data;
       }
       catch(ClassCastException cce){
-         rd = null;
+         this._rocketData = null;
       }
       try{
-         ex = (Exception)data;
+         this._exception = (Exception)data;
       }
       catch(ClassCastException cce){
-         ex = null;
+         this._exception = null;
       }
-      if(rd != null || ex != null){
-         try{
-            Iterator<Subscriber> it = this._subscribers.iterator();
-            while(it.hasNext()){
-               it.next().update(data);
-            }
-         }
-         catch(NullPointerException npe){}
-      }
+      this.publish();
    }
 
    //
