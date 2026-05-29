@@ -32,6 +32,19 @@ public abstract class Stage extends SystemComponent{
    //
    //
    //
+   public void addSubscriber(Subscriber subscriber){
+      try{
+         this.publisher.addSubscriber(subscriber);
+      }
+      catch(NullPointerException npe){
+         this.setPubliser(new RocketPublisher());
+         this.publisher.addSubscriber(subscriber);
+      }
+   }
+
+   //
+   //
+   //
    public void initializeComponent(String file)throws IOException{
       if(this.initializable == null){
          this.setInitializable(new StageInitializable());
