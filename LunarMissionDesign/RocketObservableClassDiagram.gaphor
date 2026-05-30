@@ -3712,6 +3712,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <ref refid="0d9e5777-5baa-11f1-8641-e8f408f10391"/>
 <ref refid="16577caf-5baa-11f1-90b9-e8f408f10391"/>
 <ref refid="1abb5f4a-5baa-11f1-8c3f-e8f408f10391"/>
+<ref refid="1720b266-5c5e-11f1-a8e0-e8f408f10391"/>
 </reflist>
 </ownedOperation>
 <owningPackage>
@@ -3738,7 +3739,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>237.0</val>
 </width>
 <height>
-<val>270.0</val>
+<val>288.0</val>
 </height>
 <diagram>
 <ref refid="79414136-5ba7-11f1-b9e3-e8f408f10391"/>
@@ -4444,7 +4445,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>234.0</val>
 </width>
 <height>
-<val>284.0</val>
+<val>288.0</val>
 </height>
 <diagram>
 <ref refid="49924910-5baa-11f1-941d-e8f408f10391"/>
@@ -4562,5 +4563,29 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>1</val>
 </value>
 </UML:LiteralUnlimitedNatural>
+<UML:Operation id="1720b266-5c5e-11f1-a8e0-e8f408f10391">
+<class_>
+<ref refid="e0a215be-5ba7-11f1-a20f-e8f408f10391"/>
+</class_>
+<name>
+<val>stageNumber</val>
+</name>
+<ownedParameter>
+<reflist>
+<ref refid="17274042-5c5e-11f1-8ce1-e8f408f10391"/>
+</reflist>
+</ownedParameter>
+</UML:Operation>
+<UML:Parameter id="17274042-5c5e-11f1-8ce1-e8f408f10391">
+<direction>
+<val>return</val>
+</direction>
+<ownerFormalParam>
+<ref refid="1720b266-5c5e-11f1-a8e0-e8f408f10391"/>
+</ownerFormalParam>
+<typeValue>
+<val>int</val>
+</typeValue>
+</UML:Parameter>
 </model>
 </gaphor>

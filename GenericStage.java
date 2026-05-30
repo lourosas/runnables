@@ -33,7 +33,6 @@ public class GenericStage extends Stage implements Runnable{
    private boolean               _kill;
    private Object                _obj;
    private Thread                _rt0;
-   private int                   _stageNumber;
    private boolean               _start;
 
    {
@@ -47,7 +46,7 @@ public class GenericStage extends Stage implements Runnable{
       _kill             = false;
       _obj              = null;
       _rt0              = null;
-      _stageNumber      = -1;
+      stage             = -1;
       _start            = false;
    };
 
@@ -57,7 +56,7 @@ public class GenericStage extends Stage implements Runnable{
    //
    public GenericStage(int number){
       if(number > 0){
-         this._stageNumber = number;
+         this.stage = number;
       }
       this._obj = new Object();
       this.setUpThread();
@@ -458,7 +457,7 @@ public class GenericStage extends Stage implements Runnable{
    //
    //
    private void setUpThread(){
-      String name = new String("Generic Stage "+ this._stageNumber);
+      String name = new String("Generic Stage "+ this.stage);
       this._rt0   = new Thread(this, name);
       this._rt0.start();
    }

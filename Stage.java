@@ -25,6 +25,7 @@ import java.io.IOException;
 public abstract class Stage extends SystemComponent{
    protected List<Engine> engines;
    protected FuelSystem   fuelSystem;
+   protected int          stage;
 
    //////////////////////////Public Methods///////////////////////////
 
@@ -48,7 +49,7 @@ public abstract class Stage extends SystemComponent{
    public void initializeComponent(String file)throws IOException{
       System.out.println("Stage");
       if(this.initializable == null){
-         this.setInitializable(new StageInitializable());
+         this.setInitializable(new StageInitializable(this.stage));
       }
       this.initializable.initialize(file);
    }
