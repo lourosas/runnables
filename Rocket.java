@@ -64,11 +64,21 @@ public abstract class Rocket extends SystemComponent{
    //
    public void setStateSubstate(LaunchStateSubstate ss){
       super.setStateSubstate(ss);
-      Iterator<Stage> it = this.stages.iterator();
-      while(it.hasNext()){
-         it.next().setStateSubstate(ss);
+      try{
+         Iterator<Stage> it = this.stages.iterator();
+         while(it.hasNext()){
+            it.next().setStateSubstate(ss);
+         }
       }
-      this.payload.setStateSubstate(ss);
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+      try{
+         this.payload.setStateSubstate(ss);
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////

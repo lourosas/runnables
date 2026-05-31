@@ -120,7 +120,7 @@ public class StageInitializable implements Initializable{
    private long getModel(Hashtable<String,String> ht){
       long model = -1;
       try{
-         model = Long.parseLong(ht.get("model"));
+         model = Long.parseLong(ht.get("model"),16);
       }
       catch(NumberFormatException nfe){
          model = -1;

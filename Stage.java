@@ -60,11 +60,21 @@ public abstract class Stage extends SystemComponent{
    //
    public void setStateSubstate(LaunchStateSubstate ss){
       super.setStateSubstate(ss);
-      Iterator<Engine> it = this.engines.iterator();
-      while(it.hasNext()){
-         it.next().setStateSubstate(ss);
+      try{
+         Iterator<Engine> it = this.engines.iterator();
+         while(it.hasNext()){
+            it.next().setStateSubstate(ss);
+         }
       }
-      this.fuelSystem.setStateSubstate(ss);
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+      try{
+         this.fuelSystem.setStateSubstate(ss);
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////
