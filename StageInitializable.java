@@ -220,7 +220,7 @@ public class StageInitializable implements Initializable{
       String   err   = this._stageData.error();
       long     mdl   = this._stageData.model();
       boolean  isE   = this._stageData.isError();
-      int      sn    = this._stageData.stageNumber();
+      int      sn    = this._stage;
       int      egs   = this._stageData.numberOfEngines();
       double   lm    = this._stageData.loadedMass();
       double   mw    = this._stageData.maxWeight();
@@ -247,7 +247,41 @@ public class StageInitializable implements Initializable{
    //
    //
    //
-   private void initializeFuelSystem(Object data){}
+   private void initializeFuelSystem(Object data){
+      FuelSystemData fsd = null;
+      try{
+         fsd = (FuelSystemData)data;
+      }
+      catch(ClassCastException cce){
+         fsd = null;
+      }
+      double           dw = this._stageData.dryWeight();
+      double           dm = this._stageData.dryMass();
+      String          err = this._stageData.error();
+      long            mdl = this._stageData.model();
+      boolean         isE = this._stageData.isError();
+      int              sn = this._stage;
+      int             egs = this._stageData.numberOfEngines();
+      double           lm = this._stageData.loadedMass();
+      double           mw = this._stageData.maxWeight();
+      double          tol = this._stageData.tolerance();
+      double          wgt = this._stageData.weight();
+      List<EngineData> ed = this._stageData.engineData();
+      StageData sd = new GenericStageData(dw,
+                                          dm,
+                                          err,
+                                          mdl,
+                                          isE,
+                                          sn,
+                                          egs,
+                                          lm,
+                                          mw,
+                                          tol,
+                                          wgt,
+                                          ed,
+                                          fsd);
+      this._stageData = sd;
+   }
 
    //
    //
