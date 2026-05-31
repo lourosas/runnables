@@ -24,8 +24,8 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public abstract class Rocket extends SystemComponent{
-   protected List<SystemComponent> stages;
-   protected SystemComponent      payload;
+   protected List<Stage> stages;
+   protected Payload     payload;
    //////////////////////////Public Methods///////////////////////////
    //
    //
@@ -58,5 +58,17 @@ public abstract class Rocket extends SystemComponent{
       this.initializable.initialize(file);
    }
 
+   /////////////////StateMutable Interface Overrides//////////////////
+   //
+   //
+   //
+   public void setStateSubstate(LaunchStateSubstate ss){
+      super.setStateSubstate(ss);
+      Iterator<Stage> it = this.stages.iterator();
+      while(it.hasNext()){
+         it.next().setStateSubstate(ss);
+      }
+      this.payload.setStateSubstate(ss);
+   }
 }
 //////////////////////////////////////////////////////////////////////

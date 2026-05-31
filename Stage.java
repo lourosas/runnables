@@ -53,5 +53,18 @@ public abstract class Stage extends SystemComponent{
       }
       this.initializable.initialize(file);
    }
+
+   /////////////////StateMutable Interface Overrides//////////////////
+   //
+   //
+   //
+   public void setStateSubstate(LaunchStateSubstate ss){
+      super.setStateSubstate(ss);
+      Iterator<Engine> it = this.engines.iterator();
+      while(it.hasNext()){
+         it.next().setStateSubstate(ss);
+      }
+      this.fuelSystem.setStateSubstate(ss);
+   }
 }
 //////////////////////////////////////////////////////////////////////

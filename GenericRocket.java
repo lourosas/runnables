@@ -116,7 +116,7 @@ public class GenericRocket extends Rocket implements  Runnable{
       try{
          RocketData rd = (RocketData)this.initializable.initialized();
          for(int i = 0; i < rd.numberOfStages(); ++i){
-            SystemComponent stage = new GenericStage(i+1);
+            Stage stage = new GenericStage(i+1);
             stage.initializeComponent(file);
             StageData sd = (StageData)stage.initializationStatus();
             try{
@@ -124,7 +124,7 @@ public class GenericRocket extends Rocket implements  Runnable{
                this.stages.add(stage);
             }
             catch(NullPointerException npe){
-               this.stages = new LinkedList<SystemComponent>();
+               this.stages = new LinkedList<Stage>();
                this.stages.add(stage);
             }
             this.initializable.initializeData("Stage Data", sd);
@@ -543,7 +543,6 @@ public class GenericRocket extends Rocket implements  Runnable{
          //cce.printStackTrace();
       }
    }
-
    ///////////////Runnable Interface Implementation///////////////////
    //
    //
