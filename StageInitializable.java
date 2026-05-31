@@ -23,10 +23,12 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class StageInitializable implements Initializable{
-   private int       _stage;
-   private StageData _stageData;
+   private List<EngineData> _list;
+   private int              _stage;
+   private StageData        _stageData;
 
    {
+      _list     = null;
       _stage    = -1;
       _stageData = null;
    };
@@ -40,6 +42,132 @@ public class StageInitializable implements Initializable{
    }
 
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private double getDryMass(Hashtable<String,String> ht){
+      double drymass = Double.NaN;
+      try{
+        drymass = Double.parseDouble(ht.get("emptymass"));
+      }
+      catch(NumberFormatException npe){
+         drymass = Double.NaN;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         drymass = Double.NaN;
+      }
+      return drymass;
+   }
+
+   //
+   //
+   //
+   private double getDryWeight(Hashtable<String,String> ht){
+      double dryweight = Double.NaN;
+      try{
+         dryweight = Double.parseDouble(ht.get("dryweight"));
+      }
+      catch(NumberFormatException nfe){
+         dryweight = Double.NaN;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         dryweight = Double.NaN;
+      }
+      return dryweight;
+   }
+
+   //
+   //
+   //
+   private double getLoadedMass(Hashtable<String,String> ht){
+      double loadedMass = Double.NaN;
+      try{
+         loadedMass = Double.parseDouble(ht.get("loadedmass"));
+      }
+      catch(NumberFormatException nfe){
+         loadedMass = Double.NaN;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         loadedMass = Double.NaN;
+      }
+      return loadedMass;
+   }
+
+   //
+   //
+   //
+   private double getMaxWeight(Hashtable<String,String> ht){
+      double maxWeight = Double.NaN;
+      try{
+         maxWeight = Double.parseDouble(ht.get("maxweight"));
+      }
+      catch(NumberFormatException nfe){
+         maxWeight = Double.NaN;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         maxWeight = Double.NaN;
+      }
+      return maxWeight;
+   }
+
+   //
+   //
+   //
+   private long getModel(Hashtable<String,String> ht){
+      long model = -1;
+      try{
+         model = Long.parseLong(ht.get("model"));
+      }
+      catch(NumberFormatException nfe){
+         model = -1;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         model = -1;
+      }
+      return model;
+   }
+
+   //
+   //
+   //
+   private double getTolerance(Hashtable<String,String> ht){
+      double tolerance = Double.NaN;
+      try{
+         tolerance = Double.parseDouble(ht.get("tolerance"));
+      }
+      catch(NumberFormatException nfe){
+         tolerance = Double.NaN;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         tolerance = Double.NaN;
+      }
+      return tolerance;
+   }
+
+   //
+   //
+   //
+   private int getNumberOfEngines(Hashtable<String,String> ht){
+      int engines = -1;
+      try{
+         engines = Integer.parseInt(ht.get("engines"));
+      }
+      catch(NumberFormatException nfe){
+         engines = -1;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         engines = -1;
+      }
+      return engines;
+   }
+
    //
    //
    //
@@ -68,16 +196,93 @@ public class StageInitializable implements Initializable{
       return ht;
       
    }
+
+   //
+   //
+   //
+   private void initializeEngine(Object data){
+      EngineData ed = null;
+      try{
+         ed = (EngineData)data;
+      }
+      catch(ClassCastException cce){
+         ed = null;
+      }
+      try{
+         this._list.add(ed);
+      }
+      catch(NullPointerException npe){
+         this._list = new LinkedList<EngineData>();
+         this._list.add(ed);
+      }
+      double   dw    = this._stageData.dryWeight();
+      double   dm    = this._stageData.dryMass();
+      String   err   = this._stageData.error();
+      long     mdl   = this._stageData.model();
+      boolean  isE   = this._stageData.isError();
+      int      sn    = this._stageData.stageNumber();
+      int      egs   = this._stageData.numberOfEngines();
+      double   lm    = this._stageData.loadedMass();
+      double   mw    = this._stageData.maxWeight();
+      double   tol   = this._stageData.tolerance();
+      double   wgt   = this._stageData.weight();
+
+      FuelSystemData fsd = this._stageData.fuelSystemData();
+      StageData sd = new GenericStageData(dw,
+                                          dm,
+                                          err,
+                                          mdl,
+                                          isE,
+                                          sn,
+                                          egs,
+                                          lm,
+                                          mw,
+                                          tol,
+                                          wgt,
+                                          this._list,
+                                          fsd);
+      this._stageData = sd;
+   }
+
+   //
+   //
+   //
+   private void initializeFuelSystem(Object data){}
+
    //
    //
    //
    private void initializeStage(String file)throws IOException{
+      StageData sd = null;
       //Test Print (for now)
       System.out.println("initializeStage");
       LaunchSimulatorJsonFileReader read = null;
       read = new LaunchSimulatorJsonFileReader(file);
       List<Hashtable<String,String>> lst = read.readStageInfo();
       Hashtable<String,String> ht = this.getStageData(lst);
+      int      eng = this.getNumberOfEngines(ht);
+      double   dw  = this.getDryWeight(ht);
+      double   dm  = this.getDryMass(ht); 
+      int      stg = this._stage;
+      double   lm  = this.getLoadedMass(ht);
+      double   mw  = this.getMaxWeight(ht);
+      long     mdl = this.getModel(ht);
+      double   tol = this.getTolerance(ht);
+      double   wgt = Double.NaN;
+      sd = new GenericStageData(dw,      //dry weight
+                                dm,      //dry mass
+                                null,    //error
+                                mdl,     //model
+                                false,   //isError
+                                stg,     //Stage Number
+                                eng,     //number of engines
+                                lm,      //loaded mass
+                                mw,      //max weight
+                                tol,     //Tolerance
+                                wgt,     //Meas. Weight
+                                null,    //Engine Data
+                                null);   //Fuel System Data
+      this._stageData = sd;
    }
 
    //
@@ -120,7 +325,14 @@ public class StageInitializable implements Initializable{
    //
    //
    //
-   public void initializeData(String key, Object data){}
+   public void initializeData(String key, Object data){
+      if(key.toUpperCase().contains("ENGINE")){
+         this.initializeEngine(data);
+      }
+      else if(key.toUpperCase().contains("FUEL")){
+         this.initializeFuelSystem(data);
+      }
+   }
 
    //
    //

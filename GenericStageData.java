@@ -29,11 +29,13 @@ public class GenericStageData extends StageData{
    GenericStageData
    (
       double           dryWeight,
+      double           dryMass,
       String           error,
       long             model,
       boolean          isError,
       int              number,
       int              engines,
+      double           loadedMass,
       double           maxWeight,
       double           tolerance,
       double           weight,
@@ -41,11 +43,13 @@ public class GenericStageData extends StageData{
       FuelSystemData   fuelSystemData
    ){
       this.dryWeight(dryWeight);
+      this.dryMass(dryMass);
       this.error(error);
       this.model(model);
       this.isError(isError);
       this.stageNumber(number);
       this.engines(engines);
+      this.loadedMass(loadedMass);
       this.maxWeight(maxWeight);
       this.tolerance(tolerance);
       this.weight(weight);

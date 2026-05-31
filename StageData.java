@@ -23,8 +23,10 @@ import rosas.lou.runnables.*;
 
 public abstract class StageData{
    private double           _dryWeight;
+   private double           _dryMass;
    private String           _error;
    private boolean          _isError;
+   private double           _loadedMass;
    private double           _maxWeight;
    private long             _model;
    private int              _number;
@@ -36,8 +38,10 @@ public abstract class StageData{
 
    {
       _dryWeight      = Double.NaN;
+      _dryMass        = Double.NaN;
       _error          = null;
       _isError        = false;
+      _loadedMass     = Double.NaN;
       _maxWeight      = Double.NaN;
       _model          = -1;
       _number         = -1;
@@ -54,6 +58,13 @@ public abstract class StageData{
    //
    public double dryWeight(){
       return this._dryWeight;
+   }
+
+   //
+   //
+   //
+   public double dryMass(){
+      return this._dryMass;
    }
 
    //
@@ -77,6 +88,13 @@ public abstract class StageData{
    //
    //
    public boolean isError(){ return this._isError; }
+
+   //
+   //
+   //
+   public double loadedMass(){
+      return this._loadedMass;
+   }
 
    //
    //
@@ -118,6 +136,8 @@ public abstract class StageData{
       data += "Engines:    " + this.numberOfEngines() + "\n";
       data += "Dry Weight: " + this.dryWeight() + "\n";
       data += "Max Weight: " + this.maxWeight() + "\n";
+      data += "Dry Mass:   " + this.dryMass() + "\n";
+      data += "Loaded Mass:" + this.loadedMass() + "\n";
       data += "Weight:     " + this.weight() + "\n";
       data += "Tolerance:  " + this.tolerance() + "\n";
       data += "Error: " + this.isError() + "\n";
@@ -148,6 +168,13 @@ public abstract class StageData{
    //
    protected void dryWeight(double dryweight){
       this._dryWeight = dryweight;
+   }
+
+   //
+   //
+   //
+   protected void dryMass(double drymass){
+      this._dryMass = drymass;
    }
 
    //
@@ -189,6 +216,13 @@ public abstract class StageData{
    //
    protected void isError(boolean isErr){
       this._isError = isErr;
+   }
+
+   //
+   //
+   //
+   protected void loadedMass(double loadedMass){
+      this._loadedMass = loadedMass;
    }
 
    //
