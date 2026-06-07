@@ -66,33 +66,18 @@ public class GenericStage extends Stage implements Runnable{
    //
    //
    //
-   private void initializeEngines(String file)throws IOException{}
-
-   //
-   //
-   //
-   private void initializeFuelSystem(String file)throws IOException{}
-
-   /*
-   //
-   //
-   //
-   private boolean checkEngineDataErrors(){
-      boolean isError = false;
-      List<EngineData> list = null;
-      synchronized(this._obj){
-         list = this._measStageData.engineData();
-      }
-      try{
-         Iterator<EngineData> it = list.iterator();
-         while(it.hasNext()){
-            isError |= it.next().isError();
-         }
-      }
-      catch(NullPointerException npe){}
-      return isError;
+   private void initializeEngines(String file)throws IOException{
+      //To be determined upon realization of the Use Case
    }
 
+   //
+   //
+   //
+   private void initializeFuelSystem(String file)throws IOException{
+      //To be determined upon realization of the Use Case
+   }
+
+   /*
    //
    //
    //
@@ -573,6 +558,20 @@ public class GenericStage extends Stage implements Runnable{
       super.initializeComponent(file);
       this.initializeEngines(file);
       this.initializeFuelSystem(file);
+      try{
+         StageData stageData = null;
+         stageData = (StageData)this.iniitialable.initialized();
+         //Notify the Subscribers
+         this.publisher.publish(stageData);
+      }
+      catch(NullPointerException npe){
+         //Test Prints ONLY--delete as soon as testing is complete
+         npe.printStackTrace();
+      }
+      catch(ClassCastException cce){
+         //Test Prints ONLY--delete as soon as testing is complete
+         cce.printStackTrace();
+      }
    }
 
    ////////////////Runnable Interface Implementation//////////////////

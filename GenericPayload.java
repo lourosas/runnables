@@ -546,6 +546,15 @@ public class GenericPayload extends Payload implements Runnable{
    }
    */
 
+   /////////////////////////Stage Overrides///////////////////////////
+   //
+   //
+   //Might not need this!!!  Just look at the Super Class...more
+   //to look at the design..
+   public void initializeComponent(String file)throws IOExecption{
+      super.initializeComponent(file);
+   }
+
    /////////////////////////Runnable Interface////////////////////////
    //
    //
