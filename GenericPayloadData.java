@@ -21,7 +21,7 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public class GenericPayloadData implements PayloadData{
+public class GenericPayloadData extends PayloadData{
    private int             _crew;
    private double          _currentWeight; //Derived (Measured)
    private double          _dryWeight;
@@ -90,6 +90,5 @@ public class GenericPayloadData implements PayloadData{
       this.tolerance(tolerance);
       this.type(type);
    }
-
 }
 //////////////////////////////////////////////////////////////////////

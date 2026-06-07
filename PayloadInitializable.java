@@ -159,6 +159,74 @@ public class PayloadInitializable implements Initializable{
    //
    //
    //
+   private double getO2Percent(Hashtable<String,String> ht){
+      double o2Perc = Double.NaN;
+      try{
+         o2Perc = Double.parseDouble(ht.get("o2percent"));
+      }
+      catch(NumberFormatException nfe){
+         o2Perc = Double.NaN;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         o2Perc = Double.NaN;
+      }
+      return o2Perc;
+   }
+
+   //
+   //
+   //
+   private double getTemperature(Hashtable<String,String> ht){
+      double temp = Double.NaN;
+      try{
+         temp = Double.parseDouble(ht.get("temperature"));
+      }
+      catch(NumberFormatException nfe){
+         temp = Double.NaN;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         temp = Double.NaN;
+      }
+      return temp;
+   }
+
+   //
+   //
+   //
+   private double getTolerance(Hashtable<String,String> ht){
+      double tolerance = Double.NaN;
+      try{
+         tolerance = Double.parseDouble(ht.get("tolerance"));
+      }
+      catch(NumberFormatException nfe){
+         tolerance = Double.NaN;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+      return tolerance;
+   }
+
+   //
+   //
+   //
+   private String getType(Hashtable<String,String> ht){
+      String type = null;
+      try{
+         type = ht.get("type");
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         type = null;
+      }
+      return type;
+   }
+
+   //
+   //
+   //
    private void initializePayload(String file)throws IOException{
       //Test Print for now
       System.out.println("initializePayload(...) "+file);
@@ -179,6 +247,21 @@ public class PayloadInitializable implements Initializable{
       double      tem      = this.getTemperature(ht);
       double      tol      = this.getTolerance(ht);
       String     type      = this.getType(ht);
+      PayloadData pd = new GenericPayloadData(crew,
+                                              cw,  //Current Weight
+                                              dw,  //Empty Weight,
+                                              em,  //Empty Mass
+                                              err, //error
+                                              isE, //isError
+                                              isO, //isOccupied
+                                              lm,  //Loaded Mass
+                                              mw,  //Max Weight
+                                              mdl, //Model
+                                              o2p, //O2 Percent
+                                              tem, //Temperature
+                                              tol, //Tolerance
+                                              type);
+      this._payloadData = pd;
    }
 
    //
@@ -189,7 +272,7 @@ public class PayloadInitializable implements Initializable{
       try{
          LaunchSimulatorJsonFileReader read = null;
          read = new LaunchSimulatorJsonFileReader(file);
-         if(read.readPathInfo().get("paramenter") == null){
+         if(read.readPathInfo().get("parameter") == null){
             throw new NullPointerException("Not a Path File");
          }
          isPath = true;

@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 /*
-Copyright 2024 Lou Rosas
+Copyright 2026 Lou Rosas
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -395,29 +395,6 @@ public class GenericRocket extends Rocket implements  Runnable{
       synchronized(this._obj){
          return this._measRocketData;
       }
-   }
-   */
-
-   //
-   //
-   //
-   /*
-   public void initialize(String file)throws IOException{
-      String rFile = file;
-      String sFile = file;
-      String pFile = file;
-      this._currentStage = 1;
-      if(this.isPathFile(file)){
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         rFile = read.readPathInfo().get("rocket");
-         sFile = read.readPathInfo().get("stage");
-         pFile = read.readPathInfo().get("payload");
-      }
-      //Real Simple for initialization...
-      this.initializeRocket(rFile);
-      this.initializeStage(sFile);
-      this.initializePayload(pFile);
    }
    */
 
