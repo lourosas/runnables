@@ -129,6 +129,7 @@ public abstract class PayloadData{
    //
    public String toString(){
       String value = new String("Payload: ");
+      value += "\n+++++++++++++++++++++++++++++++++++++++";
       value += "\nCrew:              "+this.crew();
       value += "\nCurrent Weight:    "+this.currentWeight();
       value += "\nDry Weight:        "+this.dryWeight();

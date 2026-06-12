@@ -22,12 +22,36 @@ import java.util.*;
 import rosas.lou.runnables.*;
 import java.io.IOException;
 
-public interface Engine{
-   public EngineData monitor();
-   public void initialize(String file)throws IOException;
-   public void addDataFeeder(DataFeeder feeder);
-   public void addErrorListener(ErrorListener listener);
-   public void addSystemListener(SystemListener listener);
-   public void setStateSubstate(LaunchStateSubstate cond);
+public abstract class Engine extends SystemComponent{
+   protected int engine; //Engine Number
+   protected int stage;  //Stage
+
+   /////////////////SystemComponent Methods Overrides/////////////////
+   //
+   //
+   //
+   public void addSubscriber(Subscriber subscriber){
+      try{
+         this.publisher.addSubscriber(subscriber);
+      }
+      catch(NullPointerException npe){
+         this.setPublisher(new EnginePublisher());
+         this.publisher.addSubscriber(subscriber);
+      }
+   }
+
+   //
+   //
+   //
+   public void initializeComponent(String file)throws IOException{
+      System.out.println("Engine");
+      if(this.initializable == null){
+         int en = this.engine;
+         int st = this.stage;
+         //Stage and Engine Number is needed
+         this.setInitializable(new EngineInitializable(en, st));
+      }
+      this.initializable.initialize(file);
+   }
 }
 //////////////////////////////////////////////////////////////////////

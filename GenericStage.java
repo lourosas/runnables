@@ -437,7 +437,7 @@ public class GenericStage extends Stage implements Runnable{
          return sd;
       }
    }
-*/
+   */
    //
    //
    //
@@ -560,7 +560,7 @@ public class GenericStage extends Stage implements Runnable{
       this.initializeFuelSystem(file);
       try{
          StageData stageData = null;
-         stageData = (StageData)this.iniitialable.initialized();
+         stageData = (StageData)this.initializable.initialized();
          //Notify the Subscribers
          this.publisher.publish(stageData);
       }

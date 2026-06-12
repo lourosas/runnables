@@ -23,7 +23,7 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public abstract class SystemComponent implements StateMutable{
-   protected Publisher           publisher    = null;
+   protected Publisher           publisher     = null;
    protected Initializable       initializable = null;
    protected LaunchStateSubstate stateSubstate = null;
 

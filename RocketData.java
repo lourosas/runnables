@@ -144,6 +144,7 @@ public abstract class RocketData{
 
    public String toString(){
       String value = new String("\nRocket Data: ");
+      value += "\n----------------------------------";
       value += "\nEmpty Weight: "+this.emptyWeight();
       value += "\nError? "+this.isError();
       if(this.isError()){

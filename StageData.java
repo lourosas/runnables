@@ -130,7 +130,8 @@ public abstract class StageData{
    //
    //
    public String toString(){
-      String data = new String("\nGenericStageData: \n");
+      String data = new String("\nGenericStageData: ");
+      data += "\n======================================\n";
       data += "Stage:      " + this.stageNumber() + "\n";
       data += "Model:      " + String.format("0x%X\n",this.model());
       data += "Engines:    " + this.numberOfEngines() + "\n";
