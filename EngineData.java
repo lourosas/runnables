@@ -40,18 +40,78 @@ public abstract class EngineData{
       _isError         = false;
       _isIgnited       = false;
       _fuelFlowRate    = Double.NaN;
+      _model           = -1;
+      _stage           = -1;
+      _temperature     = Double.NaN;
+      _total           = -1;
    };
-   public String  error();
-   public double  exhaustFlowRate();
-   public long    model();
-   public int     index();
-   public boolean isError();
-   public boolean isIgnited();
-   public double  fuelFlowRate();
-   public int     stage();
-   public double  temperature();
-   public double  tolerance();
-   public int     total();
-   public String  toString();
+   
+   ///////////////////////////Public Methods//////////////////////////
+   //
+   //
+   //
+   public int engine(){ return this._engine; }
+   //
+   //
+   //
+   public String  error(){ return this._error; }
+
+   //
+   //
+   //
+   public double  exhaustFlowRate(){ return this._exhaustFlowRate; }
+
+   //
+   //
+   //
+   public boolean isError(){ return this._isError; }
+    
+   //
+   //
+   //
+   public boolean isIgnited(){ return this._isIgnited; }
+
+   //
+   //
+   //
+   public double  fuelFlowRate(){ return this._fuelFlowRate; }
+
+   //
+   //
+   //
+   public long    model(){ return this._model; }
+
+   //
+   //
+   //
+   public int     stage(){ return this._stage; }
+
+   //
+   //
+   //
+   public double  temperature(){ return this._temperature; }
+
+   //
+   //
+   //
+   public double  tolerance(){ return this._temperature; }
+
+   //
+   //
+   //
+   public int     total(){ return this._total; }
+
+   //
+   //
+   //
+   public String  toString(){
+      String data = new String("\nEngineData: ");
+      data += "\n------------------------------";
+      data += "\nEngine:            "+this.engine();
+      data += "\nError:             "+this.error();
+      data += "\nExhaust Flow Rate: "+this.exhaustFlowRate();
+      data += "\nIs Error:          "+this.isError();
+      data += "\nIs Ignited:        "+this.isIgnited();
+   }
 }
 //////////////////////////////////////////////////////////////////////
