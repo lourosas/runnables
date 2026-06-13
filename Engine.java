@@ -52,6 +52,22 @@ public abstract class Engine extends SystemComponent{
          this.setInitializable(new EngineInitializable(en, st));
       }
       this.initializable.initialize(file);
+      //Everything can be handled at the Engine (Abstract) Level
+      //In Initializaton, any way...
+      try{
+         EngineData engineData = null;
+         engineData = (EngineData)this.initializable.initialized();
+         //Notify the Subscribers
+         this.publisher.publish(engineData);
+      }
+      catch(NullPointerException npe){
+         //Test Prints Only...remove
+         npe.printStackTrace();
+      }
+      catch(ClassCastException cce){
+         //Test Prints Only...remove
+         cce.printStackTrace();
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////

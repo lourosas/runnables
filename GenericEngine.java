@@ -22,7 +22,7 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 
-public class GenericEngine implements Engine, Runnable{
+public class GenericEngine extends Engine implements Runnable{
    private LaunchStateSubstate.State INIT              = null;
    private LaunchStateSubstate.State PREL              = null;
    private LaunchStateSubstate.State IGNI              = null;
@@ -38,18 +38,8 @@ public class GenericEngine implements Engine, Runnable{
    private LaunchStateSubstate.AscentSubstate    IGNE  = null;
 
    private boolean _kill;
-   private long    _model;
-   private int     _number; //Engine number in the Stage
-   private int     _stage;
-
-   private DataFeeder                _feeder;
-   private List<ErrorListener>       _errorListeners;
-   private List<SystemListener>      _systemListeners;
-   private LaunchStateSubstate       _state;
-   private Object                    _obj;
-   private Thread                    _rt0;
-   private EngineData                _engineData;
-   private EngineData                _measEngineData;
+   private Object  _obj;
+   private Thread  _rt0;
 
    {
       INIT = LaunchStateSubstate.State.INITIALIZE;
@@ -67,17 +57,8 @@ public class GenericEngine implements Engine, Runnable{
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES; 
 
       _kill              = false;
-      _model             = Long.MIN_VALUE;
-      _number            = -1;
-      _stage             = -1;
-      _feeder            = null;
-      _errorListeners    = null;
-      _systemListeners   = null;
-      _state             = null;
       _obj               = null;
       _rt0               = null;
-      _engineData        = null;
-      _measEngineData    = null;
    };
 
    ///////////////////////////Constructor/////////////////////////////
@@ -85,13 +66,18 @@ public class GenericEngine implements Engine, Runnable{
    //
    //
    public GenericEngine(int number, int stage){
-      this.setEngineNumber(number);
-      this.setStageNumber(stage);
+      if(number > 0){
+         this.engine = number;  //Set up the Engine Number
+      }
+      if(stage > 0){
+         this.stage = stage;    //Set up the Stage
+      }
       this._obj = new Object();
       this.setUpThread();
    }
 
    ////////////////////////////Private Methods////////////////////////
+   /*
    //
    //
    //
@@ -508,77 +494,7 @@ public class GenericEngine implements Engine, Runnable{
       this._rt0 = new Thread(this, name);
       this._rt0.start();
    }
-
-   ////////////////////Engine Interface Implementation////////////////
-   //
-   //
-   //
-   public EngineData monitor(){
-      synchronized(this._obj){
-         return this._measEngineData;
-      }
-   }
-
-   //
-   //
-   //
-   public void initialize(String file)throws IOException{
-      if(this._number > -1 && this._stage > -1){
-         String engFile = file;
-         if(this.isPathAndFile(engFile)){
-            LaunchSimulatorJsonFileReader read = null;
-            read = new LaunchSimulatorJsonFileReader(engFile);
-            engFile = read.readPathInfo().get("engine");
-         }
-         this.engineData(engFile);
-      }
-   }
-
-   //
-   //
-   //
-   public void addDataFeeder(DataFeeder feeder){
-      if(feeder != null){
-         this._feeder = feeder;
-      }
-   }
-
-   //
-   //
-   //
-   public void addErrorListener(ErrorListener listener){
-      try{
-         if(listener != null){
-            this._errorListeners.add(listener);
-         }
-      }
-      catch(NullPointerException npe){
-         this._errorListeners = new LinkedList<ErrorListener>();
-         this._errorListeners.add(listener);
-      }
-   }
-
-   //
-   //
-   //
-   public void addSystemListener(SystemListener listener){
-      try{
-         if(listener != null){
-            this._systemListeners.add(listener);
-         }
-      }
-      catch(NullPointerException npe){
-         this._systemListeners = new LinkedList<SystemListener>();
-         this._systemListeners.add(listener);
-      }
-   }
-
-   //
-   //
-   //
-   public void setStateSubstate(LaunchStateSubstate stateSubstate){
-      this._state = stateSubstate;
-   }
+   */
 
    //////////////////Runnable Interface Implementation////////////////
    //
@@ -602,10 +518,12 @@ public class GenericEngine implements Engine, Runnable{
                }
             }
             if(check){
+               /*
                this.monitorEngine();
                this.checkErrors();
                this.alertSubscribers();
                check = false;
+               */
             }
             Thread.sleep(1);
          }

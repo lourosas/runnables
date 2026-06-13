@@ -21,7 +21,26 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public interface EngineData{
+public abstract class EngineData{
+   private int     _engine;  //Current Engine Number
+   private String  _error;
+   private double  _exhaustFlowRate;
+   private boolean _isError;
+   private boolean _isIgnited;
+   private double  _fuelFlowRate;
+   private long    _model;
+   private int     _stage; //Stage the Engine is part
+   private double  _temperature;
+   private int     _total; //Total Number of engines:model&stage
+
+   {
+      _engine          = -1;
+      _error           = null;
+      _exhaustFlowRate = Double.NaN;
+      _isError         = false;
+      _isIgnited       = false;
+      _fuelFlowRate    = Double.NaN;
+   };
    public String  error();
    public double  exhaustFlowRate();
    public long    model();
