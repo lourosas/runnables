@@ -60,6 +60,7 @@ public abstract class Stage extends SystemComponent{
    //
    public void setStateSubstate(LaunchStateSubstate ss){
       super.setStateSubstate(ss);
+      /*
       try{
          Iterator<Engine> it = this.engines.iterator();
          while(it.hasNext()){
@@ -75,6 +76,7 @@ public abstract class Stage extends SystemComponent{
       catch(NullPointerException npe){
          npe.printStackTrace();
       }
+      */
    }
 }
 //////////////////////////////////////////////////////////////////////
