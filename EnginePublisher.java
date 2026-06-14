@@ -113,7 +113,20 @@ public class EnginePublisher implements Publisher{
    //
    //
    //
-   public void removeSubscriber(Subscriber subscriber){}
+   public void removeSubscriber(Subscriber subscriber){
+      try{
+         this._subscribers.remove(subscriber);
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+      catch(UnsupportedOperationException uoe){
+         uoe.printStackTrace();
+      }
+   }
 
    //
    //
@@ -122,3 +135,4 @@ public class EnginePublisher implements Publisher{
       return this._engineData;
    }
 }
+//////////////////////////////////////////////////////////////////////
