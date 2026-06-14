@@ -483,18 +483,20 @@ public class GenericEngine extends Engine implements Runnable{
          this.alertErrorListeners();
       }
    }
+   */
 
    //
    //
    //
    private void setUpThread(){
-      int num = this._number;
-      int stg = this._stage;
-      String name = new String("Engine: "+stg+", "+num);
+      int eng = this.eng;
+      int stg = this.stage;
+      String name = new String("Engine: "+stg+", "+eng);
       this._rt0 = new Thread(this, name);
       this._rt0.start();
    }
-   */
+
+   //////////////////////////Engine Override//////////////////////////
 
    //////////////////Runnable Interface Implementation////////////////
    //

@@ -31,6 +31,7 @@ public abstract class EngineData{
    private long    _model;
    private int     _stage; //Stage the Engine is part
    private double  _temperature;
+   private double  _tolerance;
    private int     _total; //Total Number of engines:model&stage
 
    {
@@ -108,10 +109,103 @@ public abstract class EngineData{
       String data = new String("\nEngineData: ");
       data += "\n------------------------------";
       data += "\nEngine:            "+this.engine();
+      data += "\nIs Error:          "+this.isError();
       data += "\nError:             "+this.error();
       data += "\nExhaust Flow Rate: "+this.exhaustFlowRate();
-      data += "\nIs Error:          "+this.isError();
       data += "\nIs Ignited:        "+this.isIgnited();
+      data += "\nFuel Flow Rate:    "+this.fuelFlowRate();
+      long mod = this.model();
+      data += "\nModel:             "+String.format("0x%%X",mod);
+      data += "\nStage:             "+this.stage();
+      data += "\nTemperature:       "+this.temperature();
+      data += "\nTolerance:         "+this.tolerance();
+      data += "\nTotal Engines:     "+this.total();
+
+      return data;
+   }
+
+   /////////////////////////Protected Methods/////////////////////////
+   //
+   //
+   //
+   protected void engine(int engine){
+      if(engine > -1){
+         this._engine = engine;
+      }
+   }
+
+   //
+   //
+   //
+   protected void error(String error){ this._error = error; }
+
+   //
+   //
+   //
+   protected void exhaustFlowRate(double flowRate){
+      if(flowRate >= 0.){
+         this._exhaustFlowRate = flowRate;
+      }
+   }
+
+   //
+   //
+   //
+   protected void isError(boolean isErr){ this._isError = isErr; }
+
+   //
+   //
+   //
+   protected void isIgnited(boolean isIgn){ this._isIgnited = isIgn; }
+
+   //
+   //
+   //
+   protected void fuelFlowRate(double flowRate){
+      if(flowRate >= 0.){
+         this._fuelFlowRate = flowRate;
+      }
+   }
+
+   //
+   //
+   //
+   protected void model(long mod){
+      this._model = mod;
+   }
+
+   //
+   //
+   //
+   protected void stage(int stage){
+      if(stage > -1){
+         this._stage = stage;
+      }
+   }
+
+   //
+   //
+   //
+   protected void temperature(double temp){
+      this._temperature = temp;
+   }
+
+   //
+   //
+   //
+   protected void tolerance(double tol){
+      if(tol >= 0. && tol <= 1.){
+         this._tolerance = tol;
+      }
+   }
+
+   //
+   //
+   //
+   protected void total(int tot){
+      if(tot > 0){
+         this._total = tot;
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////
