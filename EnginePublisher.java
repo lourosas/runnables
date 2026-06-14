@@ -59,17 +59,56 @@ public class EnginePublisher implements Publisher{
    //
    //
    //
-   public void addSubscriber(Subscriber subscriber){}
+   public void addSubscriber(Subscriber subscriber){
+      try{
+         this._subscribers.add(subscriber);
+      }
+      catch(NullPointerException npe){
+         this._subscribers = new LinkedList<Subscriber>();
+         this._subscribers.add(subscriber);
+      }
+   }
 
    //
    //
    //
-   public void publish(){}
+   public void publish(){
+      if(this._engineData != null || this._exception != null){
+         try{
+            Object obj = null;
+            Iterator<Subscriber> it = this._subscribers.iterator();
+            if(this._engineData != null){
+               obj = this._engineData;
+            }
+            else if(this._exception != null){
+               obj = this._exception;
+            }
+            while(it.hasNext() && obj != null){
+               it.next().update(obj);
+            }
+         }
+         catch(NullPointerException npe){}
+      }
+   }
 
    //
    //
    //
-   public void publish(Object data){}
+   public void publish(Object data){
+      try{
+         this._engineData = (EngineData)data;
+      }
+      catch(ClassCastException cce){
+         this._engineData = null;
+      }
+      try{
+         this._exception = (Exception)data;
+      }
+      catch(ClassCastException cce){
+         this._exception = null;
+      }
+      this.publish();
+   }
 
    //
    //
@@ -79,5 +118,7 @@ public class EnginePublisher implements Publisher{
    //
    //
    //
-   public Object request(){ return this._engineData; }
+   public Object request(){
+      return this._engineData;
+   }
 }

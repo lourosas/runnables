@@ -209,12 +209,26 @@ public class StageInitializable implements Initializable{
       catch(ClassCastException cce){
          ed = null;
       }
-      try{
-         this._list.add(ed);
-      }
-      catch(NullPointerException npe){
-         this._list = new LinkedList<EngineData>();
-         this._list.add(ed);
+      //Make sure the EngineData added is for the correct stage
+      //And NOT already added (must be a different Engine)
+      if((ed != null) && (this._stage == ed.stage())){
+         try{
+            boolean inList = false;
+            Iterator<EngineData> it = this._list.iterator();
+            while(it.hasNext()){
+               EngineData ed2 = it.next();
+               if(ed.engine() == ed2.engine()){
+                  inList = true;
+               }
+            }
+            if(!inList){
+               this._list.add(ed);
+            }
+         }
+         catch(NullPointerException npe){
+            this._list = new LinkedList<EngineData>();
+            this._list.add(ed);
+         }
       }
       double   dw    = this._stageData.dryWeight();
       double   dm    = this._stageData.dryMass();
