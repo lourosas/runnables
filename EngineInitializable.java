@@ -49,6 +49,14 @@ public class EngineInitializable implements Initializable{
    private void initializeEngine(String file)throws IOException{
       EngineData ed = null;
       System.out.println("InitializeEngine");
+      LaunchSimulatorJsonFileReader read = null;
+      read = new LaunchSimulatorJsonFileReader(file);
+      List<Hashtable<String,String>> lst = read.readEngineDataInfo();
+      Iterator<Hashtable<String,String>> it = lst.iterator();
+      while(it.hasNext()){
+         Hashtable<String,String> ht = it.next();
+         try{}
+      }
    }
 
    //

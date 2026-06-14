@@ -118,6 +118,12 @@ implements Runnable{
       catch(IOException ioe){
          this.publisher.publish(ioe);
       }
+      try{
+         this.rocket.setStateSubstate(this.stateSubstate);
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
       /*
       try{
          this.launchPlatform.initializeComponent(file);
@@ -137,12 +143,6 @@ implements Runnable{
          this.publisher.publish(rocketData);
       }
       catch(ClassCastException cce){}
-      try{
-         this.rocket.setStateSubstate(this.stateSubstate);
-      }
-      catch(NullPointerException npe){
-         npe.printStackTrace();
-      }
       /*
       try{
          LaunchPlatformData lpd = null;

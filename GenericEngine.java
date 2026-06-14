@@ -56,9 +56,9 @@ public class GenericEngine extends Engine implements Runnable{
       STG  = LaunchStateSubstate.AscentSubstate.STAGING;
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES; 
 
-      _kill              = false;
-      _obj               = null;
-      _rt0               = null;
+      _kill = false;
+      _obj  = null;
+      _rt0  = null;
    };
 
    ///////////////////////////Constructor/////////////////////////////
@@ -489,7 +489,7 @@ public class GenericEngine extends Engine implements Runnable{
    //
    //
    private void setUpThread(){
-      int eng = this.eng;
+      int eng = this.engine;
       int stg = this.stage;
       String name = new String("Engine: "+stg+", "+eng);
       this._rt0 = new Thread(this, name);
@@ -510,8 +510,8 @@ public class GenericEngine extends Engine implements Runnable{
             if(this._kill){
                throw new InterruptedException();
             }
-            if(this._state != null){
-               if(this._state.state() == INIT){
+            if(this.getStateSubstate() != null){
+               if(this.getStateSubstate().state() == INIT){
                   if(counter++%5000 == 0){
                      //For Initialize, check every 5 seconds...
                      check   = true;

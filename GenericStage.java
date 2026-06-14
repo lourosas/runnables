@@ -55,7 +55,6 @@ public class GenericStage extends Stage implements Runnable{
    //
    //
    public GenericStage(int number){
-      System.out.println("+++++++++++++WTF+++++++++++");
       if(number > 0){
          this.stage = number;
       }
@@ -68,23 +67,29 @@ public class GenericStage extends Stage implements Runnable{
    //
    //
    private void initializeEngines(String file)throws IOException{
-      /*
       try{
          StageData sd = (StageData)this.initializable.initialized();
          System.out.println("%%%%%%%%%%%%%%Generic Stage%%%%%%%%%");
          System.out.println(sd.numberOfEngines());
+         System.out.println(this.stage);
+         for(int i = 0; i < sd.numberOfEngines(); ++i){
+            Engine engine = new GenericEngine(i+i,this.stage);
+            engine.initializeComponent(file);
+            EngineData ed = (EngineData)engine.initializationStatus();
+            System.out.println("EngineData\n"+ed);
+         }
       }
       catch(ClassCastException cce){
          cce.printStackTrace();
          throw new IOException("Engine Class Cast Exception");
       }
-      */
    }
 
    //
    //
    //
    private void initializeFuelSystem(String file)throws IOException{
+      System.out.println("$$$$$$$$$$$$$$Generic Stage$$$$$$$$$$$$$$");
       //To be determined upon realization of the Use Case
    }
 
@@ -565,10 +570,8 @@ public class GenericStage extends Stage implements Runnable{
    //
    //
    //
-   public void initializeCompnent(String file)throws IOException{
-      System.out.println("WTFWTFWTFWTF");
+   public void initializeComponent(String file)throws IOException{
       super.initializeComponent(file);
-      System.out.println("WTFWTFWTFWTF");
       this.initializeEngines(file);
       this.initializeFuelSystem(file);
       try{
