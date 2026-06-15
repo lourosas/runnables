@@ -375,10 +375,10 @@ public class StageInitializable implements Initializable{
    //
    //
    public void initializeData(String key, Object data){
-      if(key.toUpperCase().contains("ENGINE")){
+      if(key.toUpperCase().contains("ENGINE DATA")){
          this.initializeEngine(data);
       }
-      else if(key.toUpperCase().contains("FUEL")){
+      else if(key.toUpperCase().contains("FUEL DATA")){
          this.initializeFuelSystem(data);
       }
    }

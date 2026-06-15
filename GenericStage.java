@@ -74,9 +74,17 @@ public class GenericStage extends Stage implements Runnable{
          System.out.println(this.stage);
          for(int i = 0; i < sd.numberOfEngines(); ++i){
             Engine engine = new GenericEngine(i+i,this.stage);
+            //Since the Stage can have multiple engines with mutiple
+            //different models...will need to keep track for the model
+            //number and the total number for the given engines
+            //Model A has 2, Model B has three total for the Stage=5
+            //So, NEED TO MAKE SURE when figuring that out!!
             engine.initializeComponent(file);
             EngineData ed = (EngineData)engine.initializationStatus();
             System.out.println("EngineData\n"+ed);
+            try{}
+            catch(NullPointerException npe){}
+            this.initializable.initializeData("Engine Data", ed);
          }
       }
       catch(ClassCastException cce){
