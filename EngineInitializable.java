@@ -46,17 +46,68 @@ public class EngineInitializable implements Initializable{
    //
    //
    //
+   private Hashtable<String,String> getEngineData
+   (
+      List<Hashtable<String,String>> lst
+   ){
+      Hashtable<String,String> ht = null;
+      Iterator<Hashtable<String,String>> it = lst.iterator();
+      try{
+         int engine    = this._engine;
+         boolean found = false;
+         while(it.hasNext() && !found){
+            Hashtable<String,String> temp = it.next();
+            int stage  = -1;
+            int total  = -1;
+            try{
+               String sstg = temp.get("stage");
+               stage = Integer.parseInt(sstg);
+            }
+            catch(NumberFormatException nfe){
+               stage = -1;
+            }
+            try{
+               String stot = temp.get("total");
+               total = Integer.parseInt(stot);
+            }
+            catch(NumberFormatException nfe){
+               total = -1;
+            }
+            if(stage == this._stage && engine <= total){
+               ht = temp;
+               found = true;
+            }
+            else if(engine > total){
+               engine -= total;
+            }
+         }
+      }
+      catch(NullPointerException npe){
+         ht = null;
+      }
+      return ht;
+   }
+
+   //
+   //
+   //
    private void initializeEngine(String file)throws IOException{
       EngineData ed = null;
-      System.out.println("InitializeEngine");
       LaunchSimulatorJsonFileReader read = null;
       read = new LaunchSimulatorJsonFileReader(file);
       List<Hashtable<String,String>> lst = read.readEngineDataInfo();
       Iterator<Hashtable<String,String>> it = lst.iterator();
+      //MUCH BETTER WAY TO DO IT THAN THIS!!!
+      /*
       while(it.hasNext()){
          Hashtable<String,String> ht = it.next();
-         try{}
       }
+      */
+      Hashtable<String,String> ht = this.getEngineData(lst);
+      System.out.println("+++++++++++++++++++++++++++++++++++++");
+      System.out.println("InitializeEngine()");
+      System.out.println(ht);
+      System.out.println("+++++++++++++++++++++++++++++++++++++");
    }
 
    //

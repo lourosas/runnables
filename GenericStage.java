@@ -82,8 +82,14 @@ public class GenericStage extends Stage implements Runnable{
             engine.initializeComponent(file);
             EngineData ed = (EngineData)engine.initializationStatus();
             System.out.println("EngineData\n"+ed);
-            try{}
-            catch(NullPointerException npe){}
+            try{
+               //put the engines here!!!
+               this.engines.add(engine);
+            }
+            catch(NullPointerException npe){
+               this.engines = new LinkedList<Engine>();
+               this.engines.add(engine);
+            }
             this.initializable.initializeData("Engine Data", ed);
          }
       }
