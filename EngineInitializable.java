@@ -46,7 +46,7 @@ public class EngineInitializable implements Initializable{
    //
    //
    //
-   private Hashtable<String,String> getEngineData
+   private Hashtable<String,String> getEngineHashtable
    (
       List<Hashtable<String,String>> lst
    ){
@@ -59,6 +59,7 @@ public class EngineInitializable implements Initializable{
             Hashtable<String,String> temp = it.next();
             int stage  = -1;
             int total  = -1;
+            //Create a method to get this data--replace!!!
             try{
                String sstg = temp.get("stage");
                stage = Integer.parseInt(sstg);
@@ -66,6 +67,7 @@ public class EngineInitializable implements Initializable{
             catch(NumberFormatException nfe){
                stage = -1;
             }
+            //Create a method to get this data--repace!!
             try{
                String stot = temp.get("total");
                total = Integer.parseInt(stot);
@@ -91,23 +93,87 @@ public class EngineInitializable implements Initializable{
    //
    //
    //
+   private double getExhaustRate(Hashtable<String,String> ht){
+      double exhaustRate = Double.NaN;
+      try{
+         exhaustRate = Double.parseDouble(ht.get("exhaust_flow"));
+      }
+      catch(NumberFormatException nfe){
+         exhaustRate = Double.NaN;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         exhaustRate = Double.NaN;
+      }
+      return exhaustRate;
+   }
+
+   //
+   //
+   //
+   private double getFuelFlowRate(Hashtable<String,String> ht){
+      double fuelFlowRate = Double.NaN;
+      try{
+         fuelFlowRate = Double.parseDouble(ht.get("fuel_flow"));
+      }
+      catch(NumberFormatException nfe){
+         fuelFlowRate = Double.NaN;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         fuelFlowRate = Double.NaN;
+      }
+      return fuelFlowRate;
+   }
+
+   //
+   //
+   //
+   private long getModel(Hashtable<String,String> ht){
+      long model = -1;
+      try{
+         model = Long.parseLong(ht.get("model"),16);
+      }
+      catch(NumberFormatException nfe){
+         model = -1;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         model = -1;
+      }
+      return model;
+   }
+
+   //
+   //
+   //
    private void initializeEngine(String file)throws IOException{
       EngineData ed = null;
       LaunchSimulatorJsonFileReader read = null;
       read = new LaunchSimulatorJsonFileReader(file);
       List<Hashtable<String,String>> lst = read.readEngineDataInfo();
       Iterator<Hashtable<String,String>> it = lst.iterator();
-      //MUCH BETTER WAY TO DO IT THAN THIS!!!
-      /*
-      while(it.hasNext()){
-         Hashtable<String,String> ht = it.next();
-      }
-      */
-      Hashtable<String,String> ht = this.getEngineData(lst);
-      System.out.println("+++++++++++++++++++++++++++++++++++++");
-      System.out.println("InitializeEngine()");
-      System.out.println(ht);
-      System.out.println("+++++++++++++++++++++++++++++++++++++");
+      Hashtable<String,String> ht = this.getEngineHashtable(lst);
+      int    eng   = this._engine;
+      double exh   = this.getExhaustRate(ht);
+      double ffl   = this.getFuelFlowRate(ht);
+      long   mdl   = this.getModel(ht);
+      int    stg   = this._stage;
+      double tmp   = this.getTemperature(ht);
+      double tol   = this.getTolerance(ht);
+      int    tot   = this.getTotalEngines(ht);
+      ed = new GenericEngineData(eng,   //Engine Number
+                                 null,  //Error
+                                 exh,   //Exhaust Rate
+                                 false, //Is Error
+                                 false, //Is Ignited
+                                 ffl,   //Fuel Flow
+                                 mdl,   //Model
+                                 stg,   //Stage
+                                 tmp,   //Temperature
+                                 tol,   //Tolerance
+                                 tot);  //Total Engines
+      this._engineData = ed;
    }
 
    //
