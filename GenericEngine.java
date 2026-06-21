@@ -59,6 +59,9 @@ public class GenericEngine extends Engine implements Runnable{
       _kill = false;
       _obj  = null;
       _rt0  = null;
+
+      engine = -1;
+      stage  = -1;
    };
 
    ///////////////////////////Constructor/////////////////////////////

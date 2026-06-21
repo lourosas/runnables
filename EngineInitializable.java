@@ -61,26 +61,7 @@ public class EngineInitializable implements Initializable{
             int total  = -1;
             stage = this.getStage(temp);
             //Create a method to get this data--replace!!!
-            /*
-            try{
-               String sstg = temp.get("stage");
-               stage = Integer.parseInt(sstg);
-            }
-            catch(NumberFormatException nfe){
-               stage = -1;
-            }
-            */
             total = this.getTotalEngines(temp);
-            //Create a method to get this data--repace!!
-            /*
-            try{
-               String stot = temp.get("total");
-               total = Integer.parseInt(stot);
-            }
-            catch(NumberFormatException nfe){
-               total = -1;
-            }
-            */
             if(stage == this._stage && engine <= total){
                ht = temp;
                found = true;
