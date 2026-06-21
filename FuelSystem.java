@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 /*
-Copyright 2024 Lou Rosas
+Copyright 2026 Lou Rosas
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,12 +21,12 @@ import java.util.*;
 import rosas.lou.runnables.*;
 import java.io.IOException;
 
-public interface FuelSystem{
-   public FuelSystemData monitor();
-   public void initialize(String file)throws IOException;
-   public void addDataFeeder(DataFeeder feeder);
-   public void addErrorListener(ErrorListener listener);
-   public void addSystemListener(SystemListener listener);
-   public void setStateSubstate(LaunchStateSubstate cond);
+public abstract class FuelSystem extends SystemComponent{
+   protected int        stage;
+   protected Tank       fuel;
+   protected Tank       oxidizer;
+   protected List<Pipe> pipes;
+   protected List<Pump> pumps;
+
 }
 //////////////////////////////////////////////////////////////////////

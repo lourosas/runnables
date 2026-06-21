@@ -594,14 +594,8 @@ public class GenericStage extends Stage implements Runnable{
          //Notify the Subscribers
          this.publisher.publish(stageData);
       }
-      catch(NullPointerException npe){
-         //Test Prints ONLY--delete as soon as testing is complete
-         npe.printStackTrace();
-      }
-      catch(ClassCastException cce){
-         //Test Prints ONLY--delete as soon as testing is complete
-         cce.printStackTrace();
-      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){}
    }
 
    ////////////////Runnable Interface Implementation//////////////////

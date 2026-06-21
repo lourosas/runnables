@@ -60,14 +60,8 @@ public abstract class Engine extends SystemComponent{
          //Notify the Subscribers
          this.publisher.publish(engineData);
       }
-      catch(NullPointerException npe){
-         //Test Prints Only...remove
-         npe.printStackTrace();
-      }
-      catch(ClassCastException cce){
-         //Test Prints Only...remove
-         cce.printStackTrace();
-      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){}
    }
 }
 //////////////////////////////////////////////////////////////////////
