@@ -59,7 +59,9 @@ public class EngineInitializable implements Initializable{
             Hashtable<String,String> temp = it.next();
             int stage  = -1;
             int total  = -1;
+            stage = this.getStage(temp);
             //Create a method to get this data--replace!!!
+            /*
             try{
                String sstg = temp.get("stage");
                stage = Integer.parseInt(sstg);
@@ -67,7 +69,10 @@ public class EngineInitializable implements Initializable{
             catch(NumberFormatException nfe){
                stage = -1;
             }
+            */
+            total = this.getTotalEngines(temp);
             //Create a method to get this data--repace!!
+            /*
             try{
                String stot = temp.get("total");
                total = Integer.parseInt(stot);
@@ -75,6 +80,7 @@ public class EngineInitializable implements Initializable{
             catch(NumberFormatException nfe){
                total = -1;
             }
+            */
             if(stage == this._stage && engine <= total){
                ht = temp;
                found = true;
@@ -142,6 +148,78 @@ public class EngineInitializable implements Initializable{
          model = -1;
       }
       return model;
+   }
+
+   //
+   //
+   //
+   private int getStage(Hashtable<String,String> ht){
+      int stage = -1;
+      try{
+         stage = Integer.parseInt(ht.get("stage"));
+      }
+      catch(NumberFormatException nfe){
+         stage = -1;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         stage = -1;
+      }
+      return stage;
+   }
+
+   //
+   //
+   //
+   private double getTemperature(Hashtable<String,String> ht){
+      double temperature = Double.NaN;
+      try{
+         temperature = Double.parseDouble(ht.get("temperature"));
+      }
+      catch(NumberFormatException npe){
+         temperature = Double.NaN;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         temperature = Double.NaN;
+      }
+      return temperature;
+   }
+
+   //
+   //
+   //
+   private double getTolerance(Hashtable<String,String> ht){
+      double tolerance = Double.NaN;
+      try{
+         tolerance = Double.parseDouble(ht.get("tolerance"));
+      }
+      catch(NumberFormatException nfe){
+         tolerance = Double.NaN;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         tolerance = Double.NaN;
+      }
+      return tolerance;
+   }
+
+   //
+   //
+   //
+   private int getTotalEngines(Hashtable<String,String> ht){
+      int totalEngines = -1;
+      try{
+         totalEngines = Integer.parseInt(ht.get("total"));
+      }
+      catch(NumberFormatException nfe){
+         totalEngines = -1;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         totalEngines = -1;
+      }
+      return totalEngines;
    }
 
    //

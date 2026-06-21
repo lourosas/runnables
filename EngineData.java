@@ -115,7 +115,7 @@ public abstract class EngineData{
       data += "\nIs Ignited:        "+this.isIgnited();
       data += "\nFuel Flow Rate:    "+this.fuelFlowRate();
       long mod = this.model();
-      data += "\nModel:             "+String.format("0x%%X",mod);
+      data += "\nModel:             "+String.format("0x%X",mod);
       data += "\nStage:             "+this.stage();
       data += "\nTemperature:       "+this.temperature();
       data += "\nTolerance:         "+this.tolerance();
