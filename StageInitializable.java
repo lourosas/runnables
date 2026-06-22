@@ -38,7 +38,9 @@ public class StageInitializable implements Initializable{
    //
    //
    public StageInitializable(int stage){
-      this._stage = stage;
+      if(stage > 0){
+         this._stage = stage;
+      }
    }
 
    //////////////////////////Private Methods//////////////////////////
@@ -349,6 +351,7 @@ public class StageInitializable implements Initializable{
       }
       catch(IOException ioe){
          isPath = false;
+         throw ioe;
       }
       catch(NullPointerException npe){
          isPath = false;

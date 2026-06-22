@@ -28,5 +28,63 @@ public abstract class FuelSystem extends SystemComponent{
    protected List<Pipe> pipes;
    protected List<Pump> pumps;
 
+   /////////////////SystemComponent Methods Overrides/////////////////
+   //
+   //
+   //
+   public void addSubscriber(Subscriber subscriber){
+      try{
+         this.publisher.addSubscriber(subscriber);
+      }
+      catch(NullPointerException npe){
+         this.setPublisher(new FuelSystemPublisher());
+         this.publisher.addSubscriber(subscriber);
+      }
+   }
+
+   //
+   //
+   //
+   public initializeComponent(String file)throws IOException{
+      System.out.println("Fuel System");
+      if(this.initializable == null){
+         int st = this.stage;
+         this.setInitializable(new FuelSystemInitializable(st));
+      }
+      this.initializable.initialize(file);
+   }
+
+   //////////////////StateMutuable Interface Overrides////////////////
+   //
+   //
+   //
+   public void setStateSubstate(LaunchStateSubstate ss){
+      super.setStateSubstate(ss);
+      try{
+         this.fuel.setStateSubstate(ss);
+         this.oxidizer.setStateSubstate(ss);
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+      try{
+         Iterator<Pipe> it = this.pipes.iterator();
+         while(it.hasNext()){
+            it.next().setStateSubstate(ss);
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+      try{
+         Iterator<Pump> it = this.pumps.itertor();
+         while(it.hasNext()){
+            it.next().setStateSubstate(ss);
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+   }
 }
 //////////////////////////////////////////////////////////////////////
