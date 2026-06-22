@@ -42,50 +42,15 @@ public class FuelSystemInitializable implments Initializable{
    }
 
    //////////////////////////Private Methods//////////////////////////
-   //
-   //
-   //
-   private void initializeFuelSystem(String file)throws IOException{
-      String piFile = file;
-      String pmFile = file;
-      String taFile = file;
-      if(this.isPathFile(file)){}
-   }
-
-   //
-   //
-   //
-   private boolean isPathFile(String file)throws IOException{
-      boolean isPath = false;
-      try{
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         if(read.readPathInfo().get("parameter") == null){
-            throw new NullPointerException("Not a Path File");
-         }
-         isPath = true;
-      }
-      catch(IOException ioe){
-         isPath = false;
-         throw ioe;
-      }
-      catch(NullPointerException npe){
-         isPath = false;
-      }
-      return isPath;
-   }
 
    //////////////Initializable Interface Implementation///////////////
    //
    //
    //
-   public void initialize(String file)throws IOException{
-      System.out.println("FuelSystemInitializable");
-      this.initializeFuelSystem(file);
-   }
+   public void initialize(String file)throws IOException{}
 
-   //
-   //
+   //Only need to do this since FuelSystemData is based one
+   //the three below...
    //
    public void initializeData(String key, Object data){
       if(key.toUpperCase().contains("PIPE DATA")){}
