@@ -103,8 +103,20 @@ public class GenericStage extends Stage implements Runnable{
    //
    //
    private void initializeFuelSystem(String file)throws IOException{
-      System.out.println("$$$$$$$$$$$$$$Generic Stage$$$$$$$$$$$$$$");
-      //To be determined upon realization of the Use Case
+      try{   
+         System.out.println("$$$$$$$$$Generic Fuel System$$$$$$$$$");
+         StageData sd  = (StageData)this.initializable.initialized();
+         int engines   = sd.numberOfEngines();
+         FuelSystem fs = new GenericFuelSystem(this.stage,engines);
+         fs.initializeComponent(file);
+         FuelSystemData fsd=(FuelSystemData)fs.initializationStatus();
+         System.out.println("FuelSystemData\n"+fsd);
+         this.initializable.initializeData("Fuel System Data",fsd);
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         throw new IOException("Fuel System Cast Exception");
+      }
    }
 
    /*

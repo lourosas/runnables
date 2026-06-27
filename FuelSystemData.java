@@ -21,12 +21,133 @@ import java.util.*;
 import java.lang.*;
 import rosas.lou.runnables.*;
 
-public interface FuelSystemData{
-   public String         error();
-   public boolean        isError();
-   public List<PipeData> pipeData();
-   public List<PumpData> pumpData();
-   public List<TankData> tankData();
-   public String         toString();
+public abstract class FuelSystemData{
+   private int            _engines;
+   private String         _error;
+   private boolean        _isError;
+   private int            _stage;
+   private List<PipeData> _pipes;
+   private List<PumpData> _pumps;
+   private List<TankData> _tanks;
+
+   {
+      _engines     = -1;
+      _error       = null;
+      _isError     = false;
+      _pipes       = null;
+      _pumps       = null;
+      _stage       = -1;
+      _tanks       = null;
+   };
+
+   ///////////////////////////Public Methods//////////////////////////
+   //
+   //
+   //
+   public int engines(){ return this._engines; }
+
+   //
+   //
+   //
+   public String error(){ return this._error; }
+   
+   //
+   //
+   //
+   public boolean isError(){ return this._isError; }
+
+   //
+   //
+   //
+   public int stage(){ return this._stage; }
+
+   //
+   //
+   //
+   public List<PipeData> pipes(){ return this._pipes; }
+   
+   //
+   //
+   //
+   public List<PumpData> pumps(){ return this._pumps; }
+   
+   //
+   //
+   //
+   public List<TankData> tanks(){ return this._tanks; }
+
+   public String toString(){
+      String data = new String("\nFuel System Data: ");
+      data += "\n------------------------------------";
+      data += "\nStage:         "+this.stage();
+      data += "\nEngines:       "+this.engines();
+      data += "\nIs Error:      "+this.isError();
+      data += "\nError:         "+this.error();
+      data += "\nTanks:\n";
+      try{
+         Iterator<TankData> it = this.tanks().iterator();
+         while(it.hasNext()){ data += it.next().toString(); }
+      }
+      catch(NullPointerException npe){ data += npe.getMessage(); }
+      data += "\nPumps:\n";
+      try{
+         Iterator<PumpData> pd = this.pumps().iterator();
+         while(pd.hasNext()){ data += pd.next().toString(); }
+      }
+      catch(NullPointerException npe){ data += npe.getMessage(); }
+      data += "\nPipes:\n";
+      try{
+         Iterator<PipeData> pid = this.pipes.iterator();
+         while(pid.hasNext()){ data += pip.next().toString(); }
+      }
+      catch(NullPointerException npe){ data += npe.getMessage(); }
+      return data;
+   }
+   
+   /////////////////////////Protected Methods/////////////////////////
+   //
+   //
+   //
+   protected void engines(int engines){
+      if(engines > 0){
+         this._engines = engines;
+      }
+   }
+
+   //
+   //
+   //
+   protected void error(String error){ this._error = error; }
+
+   //
+   //
+   //
+   protected void isError(boolean isError){ this._isError = error; } 
+
+   //
+   //
+   //
+   protected void stage(int stage){ this._stage = stage; }
+
+   //
+   //
+   //
+   protected void pipes(List<PipeData> pipes){
+      this._pipes = pipes;
+   }
+
+   //
+   //
+   //
+   protected void pumps(List<PumpData> pumps){
+      this._pumps = pumps;
+   }
+
+   //
+   //
+   //
+   protected void tanks(List<TankData> tanks){
+      this._tanks = tanks;
+   }
 }
 //////////////////////////////////////////////////////////////////////

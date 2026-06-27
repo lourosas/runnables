@@ -22,7 +22,7 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 
-public class GenericFuelSystem implements FuelSystem, Runnable{
+public class GenericFuelSystem extends FuelSystem implements Runnable{
    private static boolean TOPRINT = true;
 
    private LaunchStateSubstate.State INIT      = null; 
@@ -30,63 +30,60 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
    private LaunchStateSubstate.State IGNITION  = null;
    private LaunchStateSubstate.State LAUNCH    = null; 
 
-   private int                  _engines;
    private boolean              _kill;
-   private int                  _stageNumber;
-
-   private List<ErrorListener>  _errorListeners;
-   private List<SystemListener> _systemListeners;
-   private DataFeeder           _feeder;
    private Object               _obj;
-   private Tank                 _fuel;
-   private Tank                 _oxidizer;
-   private List<Pipe>           _pipes;
-   private Pump                 _fuelPump;
-   private Pump                 _oxidizerPump;
    private Thread               _rt0;
-   private FuelSystemData       _fuelSystemData;
-   private LaunchStateSubstate  _state;
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
       PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
       IGNITION  = LaunchStateSubstate.State.IGNITION;
       LAUNCH    = LaunchStateSubstate.State.LAUNCH;
 
-      _engines         = -1;
+      fuel             = null;
+      oxidizer         = null;
+      pipes            = null;
+      pumps            = null;
+      stage            = -1;
+      engines          = -1;
       _kill            = false;
-      _stageNumber     = -1;
-      _errorListeners  = null;
-      _systemListeners = null;
-      _feeder          = null;
-      _fuel            = null;
       _obj             = null;
-      _oxidizer        = null;
-      _pipes           = null;
-      _oxidizerPump    = null;
-      _fuelPump        = null;
       _rt0             = null;
-      _fuelSystemData  = null;
-      _state           = null;
    };
 
    ////////////////////////////Constructor////////////////////////////
    //
    //
    //
-   public GenericFuelSystem(int stage, int engines){
+   public GenericFuelSystem(int stg, int eng){
       //At least one pipe per each tank feeding the engines...
       if(stage > 0){
-         this._stageNumber = stage;
+         this.stage = stg;
       }
       if(engines > 0){
          //Needed to determine the number of pipes...
-         this._engines = engines;
+         this.engines = eng
       }
       this._obj = new Object();
       this.setUpThread();
    }
 
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void initializePipes(String file)throws IOException{}
+
+   //
+   //
+   //
+   private void initializePumps(String file)throws IOException{}
+
+   //
+   //
+   //
+   private void initializeTanks(String file)throws IOException{}
+
+   /*
    //
    //
    //
@@ -296,7 +293,7 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
       this._fuel.initialize(file);
       this._oxidizer.initialize(file);
    }
-
+   */
    //
    //
    //
@@ -306,7 +303,7 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
       this._rt0 = new Thread(this, name);
       this._rt0.start();
    }
-   
+   /*
    /////////////////Fuel System Interface Implementation//////////////
    //
    //
@@ -396,6 +393,26 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
       this._fuel.setStateSubstate(this._state);
       this._oxidizer.setStateSubstate(this._state);
    }
+   */
+
+   /////////////////////FuelSystem Overrides//////////////////////////
+   //
+   //
+   //
+   public void initializeComponent(String file)throws IOException{
+      super.initializeComponent(file);
+      this.initializeTanks(file);
+      this.initializePipes(file);
+      this.initializePumps(file);
+      try{
+         FuelSystemData fsd = null;
+         fsd = (FuelSystemData)this.initializable.initialized();
+         //Notify the Subscribers
+         this.publisher.publish(fsd);
+      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){}
+   }
 
    //////////////////////Runnable Implementation//////////////////////
    //
@@ -418,6 +435,7 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
                }
             }
             if(check){
+               /*
                List<TankData> tanks = this.monitorTanks();
                List<PumpData> pumps = this.monitorPumps();
                List<PipeData> pipes = this.monitorPipes();
@@ -425,6 +443,7 @@ public class GenericFuelSystem implements FuelSystem, Runnable{
                this.checkErrors();
                this.alertSubscribers();
                check = false;
+               */
             }
             Thread.sleep(1);
          }

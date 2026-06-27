@@ -22,6 +22,7 @@ import rosas.lou.runnables.*;
 import java.io.IOException;
 
 public abstract class FuelSystem extends SystemComponent{
+   protected int        engines;
    protected int        stage;
    protected Tank       fuel;
    protected Tank       oxidizer;
@@ -48,8 +49,9 @@ public abstract class FuelSystem extends SystemComponent{
    public initializeComponent(String file)throws IOException{
       System.out.println("Fuel System");
       if(this.initializable == null){
-         int st = this.stage;
-         this.setInitializable(new FuelSystemInitializable(st));
+         int st  = this.stage;
+         int egs = this.engines;
+         this.setInitializable(new FuelSystemInitializable(st,egs));
       }
       this.initializable.initialize(file);
    }

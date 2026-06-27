@@ -23,10 +23,12 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class FuelSystemInitializable implments Initializable{
+   private int             _engines;
    private int             _stage;
    private FuelSystemData  _fuelSystemData;
 
    {
+      _engines        = -1;
       _fuelSystemData = null;
       _stage          = -1;
    };
@@ -35,9 +37,12 @@ public class FuelSystemInitializable implments Initializable{
    //
    //
    //
-   public FuelSystemInitializable(int stage){
+   public FuelSystemInitializable(int stage, int engines){
       if(stage > 0){
          this._stage = stage;
+      }
+      if(engines > 0){
+         this._engines = engines;
       }
    }
 

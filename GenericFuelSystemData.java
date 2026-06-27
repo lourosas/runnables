@@ -21,46 +21,24 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public class GenericFuelSystemData implements FuelSystemData{
-   private String         _error;
-   private boolean        _isError;
-   private int            _numPipes;
-   private int            _numPumps;
-   private int            _numTanks;
-   private List<PipeData> _pipes;
-   private List<PumpData> _pumps;
-   private List<TankData> _tanks;
-
-   {
-      _error       = null;
-      _isError     = false;
-      _numPipes    = -1;
-      _numPumps    = -1;
-      _numTanks    = -1;
-      _pipes       = null;
-      _pumps       = null;
-      _tanks       = null;
-   };
-
+public class GenericFuelSystemData extends FuelSystemData{
    ////////////////////////////Constructor////////////////////////////
    //
    //
    //
    public GenericFuelSystemData
    (
+      int            engines,
+      int            stage,
       List<PipeData> pipeData,
       List<PumpData> pumpData,
       List<TankData> tankData
    ){
-      this._pipes = pipeData;
-      this._pumps = pumpData;
-      this._tanks = tankData;
-      try{ this._numPipes = this._pipes.size(); }
-      catch(NullPointerException npe){ this._pipes = null; }
-      try{ this._numPumps = this._pumps.size(); }
-      catch(NullPointerException npe){ this._pumps = null; }
-      try{ this._numTanks = this._tanks.size(); }
-      catch(NullPointerException npe){ this._tanks = null; }
+      this.engines(engines);
+      this.stage(stage);
+      this.pipes(pipeData);
+      this.pumps(pumpData);
+      this.tanks(tankData);
       this.errors();
    }
 
@@ -111,59 +89,6 @@ public class GenericFuelSystemData implements FuelSystemData{
          }
       }
       catch(NullPointerException npe){}
-   }
-
-   //////////////FuelSystemData Interface Implementation//////////////
-   //
-   //
-   //
-   public String error(){ return this._error; }
-
-   //
-   //
-   //
-   public boolean isError(){ return this._isError; }
-
-   //
-   //
-   //
-   public List<PipeData> pipeData(){ return this._pipes; }
-
-   //
-   //
-   //
-   public List<PumpData> pumpData(){ return this._pumps; }
-
-   //
-   //
-   //
-   public List<TankData> tankData(){ return this._tanks; }
-
-   //
-   //
-   //
-   public String toString(){
-      String value = new String("\nFuel System:  ");
-      try{
-         Iterator<PipeData> it = this._pipes.iterator();
-         while(it.hasNext()){
-            value += it.next().toString();
-         }
-         Iterator<PumpData> ip = this._pumps.iterator();
-         while(ip.hasNext()){
-            value += ip.next().toString();
-         }
-         Iterator<TankData> is = this._tanks.iterator();
-         while(is.hasNext()){
-            value += is.next().toString();
-         }
-      }
-      catch(NullPointerException npe){
-         value += "\n" + npe.getMessage();
-      }
-      finally{
-         return value;
-      }
    }
 }
 //////////////////////////////////////////////////////////////////////
