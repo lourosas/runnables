@@ -46,6 +46,7 @@ public class GenericFuelSystemData extends FuelSystemData{
    //
    //
    //
+   /*
    private void errors(){
       try{
          Iterator<PipeData> it = this._pipes.iterator();
@@ -90,5 +91,6 @@ public class GenericFuelSystemData extends FuelSystemData{
       }
       catch(NullPointerException npe){}
    }
+   */
 }
 //////////////////////////////////////////////////////////////////////

@@ -22,7 +22,7 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 
-public class FuelSystemInitializable implments Initializable{
+public class FuelSystemInitializable implements Initializable{
    private int             _engines;
    private int             _stage;
    private FuelSystemData  _fuelSystemData;
@@ -47,20 +47,49 @@ public class FuelSystemInitializable implments Initializable{
    }
 
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void initializePipeData(Object data){}
+
+   //
+   //
+   //
+   private void initializePumpData(Object data){}
+
+   //
+   //
+   //
+   private void initializeTankData(Object data){}
 
    //////////////Initializable Interface Implementation///////////////
    //
    //
    //
-   public void initialize(String file)throws IOException{}
+   public void initialize(String file)throws IOException{
+      System.out.println("FuelSystem Initializable");
+      //No file to read...so just initialize the instance...
+      FuelSystemData fsd = new GenericFuelSystemData(this._engines,
+                                                     this._stage,
+                                                     null,
+                                                     null,
+                                                     null);
+      this._fuelSystemData = fsd;
+   }
 
    //Only need to do this since FuelSystemData is based one
    //the three below...
    //
    public void initializeData(String key, Object data){
-      if(key.toUpperCase().contains("PIPE DATA")){}
-      else if(key.toUpperCase().contains("PUMP DATA")){}
-      else if(key.toUpperCase().contains("TANK DATA")){}
+      if(key.toUpperCase().contains("PIPE DATA")){
+         this.initializePipeData(data);
+      }
+      else if(key.toUpperCase().contains("PUMP DATA")){
+         this.initializePumpData(data);
+      }
+      else if(key.toUpperCase().contains("TANK DATA")){
+         this.initializeTankData(data);
+      }
    }
 
    //

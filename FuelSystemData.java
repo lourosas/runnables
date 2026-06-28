@@ -91,14 +91,14 @@ public abstract class FuelSystemData{
       catch(NullPointerException npe){ data += npe.getMessage(); }
       data += "\nPumps:\n";
       try{
-         Iterator<PumpData> pd = this.pumps().iterator();
+         Iterator<PumpData> pd = this._pumps.iterator();
          while(pd.hasNext()){ data += pd.next().toString(); }
       }
       catch(NullPointerException npe){ data += npe.getMessage(); }
       data += "\nPipes:\n";
       try{
-         Iterator<PipeData> pid = this.pipes.iterator();
-         while(pid.hasNext()){ data += pip.next().toString(); }
+         Iterator<PipeData> pid = this._pipes.iterator();
+         while(pid.hasNext()){ data += pid.next().toString(); }
       }
       catch(NullPointerException npe){ data += npe.getMessage(); }
       return data;
@@ -122,7 +122,49 @@ public abstract class FuelSystemData{
    //
    //
    //
-   protected void isError(boolean isError){ this._isError = error; } 
+   protected void errors(){
+      try{
+         Iterator<PipeData> it = this.pipes().iterator();
+         while(it.hasNext()){
+            PipeData pd = (PipeData)it.next();
+            if(pd.isError()){
+               if(!this.isError()){ this.isError(true); }
+               if(this.error() == null){ this.error(pd.error()); }
+               else{ this.error(this.error()+" "+pd.error()); }
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+      try{
+         Iterator<PumpData> it = this.pumps().iterator();
+         while(it.hasNext()){
+            PumpData pd = (PumpData)it.next();
+            if(pd.isError()){
+               if(!this.isError()){ this.isError(true); }
+               if(this.error() == null){ this.error(pd.error()); }
+               else{ this.error(this.error()+" "+pd.error()); }
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+      try{
+         Iterator<TankData> it = this.tanks().iterator();
+         while(it.hasNext()){
+            TankData td = (TankData)it.next();
+            if(td.isError()){
+               if(!this.isError()){ this.isError(true); }
+               if(this.error() == null){ this.error(td.error()); }
+               else{ this.error(this.error()+" "+td.error()); }
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
+   protected void isError(boolean isError){ this._isError = isError; }
 
    //
    //

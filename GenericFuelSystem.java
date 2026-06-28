@@ -61,7 +61,7 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
       }
       if(engines > 0){
          //Needed to determine the number of pipes...
-         this.engines = eng
+         this.engines = eng;
       }
       this._obj = new Object();
       this.setUpThread();
@@ -298,8 +298,8 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
    //
    //
    private void setUpThread(){
-      String name = new String("Fuel System "+this._stageNumber);
-      name += (", "+this._engines);
+      String name = new String("Fuel System "+this.stage);
+      name += (", "+this.engines);
       this._rt0 = new Thread(this, name);
       this._rt0.start();
    }
@@ -426,8 +426,8 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
             if(this._kill){
                throw new InterruptedException();
             }
-            if(this._state != null){
-               if(this._state.state() == INIT){
+            if(this.getStateSubstate() != null){
+               if(this.getStateSubstate().state() == INIT){
                   if(count++%100 == 0){
                      check = true;
                      count = 1; //Reset the counter

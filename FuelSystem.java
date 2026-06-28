@@ -46,7 +46,7 @@ public abstract class FuelSystem extends SystemComponent{
    //
    //
    //
-   public initializeComponent(String file)throws IOException{
+   public void initializeComponent(String file)throws IOException{
       System.out.println("Fuel System");
       if(this.initializable == null){
          int st  = this.stage;
@@ -79,7 +79,7 @@ public abstract class FuelSystem extends SystemComponent{
          npe.printStackTrace();
       }
       try{
-         Iterator<Pump> it = this.pumps.itertor();
+         Iterator<Pump> it = this.pumps.iterator();
          while(it.hasNext()){
             it.next().setStateSubstate(ss);
          }
