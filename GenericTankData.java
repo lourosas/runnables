@@ -22,38 +22,6 @@ import java.util.*;
 import rosas.lou.runnables.*;
 
 public class GenericTankData implements TankData{
-   private double    _capacity; //Will change based on State
-   private double    _density;  //Density of the fuel
-   private double    _dryWeight;
-   private double    _emptyRate;
-   private String    _error;
-   private String    _fuel;     //The Fuel Type
-   private boolean   _isError;
-   private double    _massLossRate;
-   private long      _model;
-   private int       _number;   //Tank Number for the Stage
-   private int       _stage;    //This is needed!!!
-   private double    _temperature;
-   private double    _tolerance;
-   private double    _weight;
-
-   {
-      _capacity       = Double.NaN;
-      _density        = Double.NaN;
-      _dryWeight      = Double.NaN;
-      _emptyRate      = Double.NaN;
-      _error          = null;
-      _fuel           = null;
-      _isError        = false;
-      _massLossRate   = Double.NaN;
-      _model          = Long.MIN_VALUE;
-      _number         = -1;
-      _stage          = -1;
-      _temperature    = Double.NaN;
-      _tolerance      = Double.NaN;
-      _weight         = Double.NaN;
-   };
-   
    ////////////////////////////Constructor////////////////////////////
    //
    //

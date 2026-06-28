@@ -56,10 +56,10 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
    //
    public GenericFuelSystem(int stg, int eng){
       //At least one pipe per each tank feeding the engines...
-      if(stage > 0){
+      if(stg > 0){
          this.stage = stg;
       }
-      if(engines > 0){
+      if(eng > 0){
          //Needed to determine the number of pipes...
          this.engines = eng;
       }
@@ -81,7 +81,24 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
    //
    //
    //
-   private void initializeTanks(String file)throws IOException{}
+   private void initializeTanks(String file)throws IOException{
+      try{
+         //First Tank
+         this.fuel     = new GenericTank(this.stage,1);
+         //Second Tank
+         this.oxidizer = new GenericTank(this.stage,2);
+         this.fuel.initializeComponent(file);
+         this.oxidizer.initilizeComponent(file);
+         TankData td = (TankData)this.fuel.initializationStatus();
+         this.initializable.initialize("tank", td); 
+         td = (Tank)this.oxidizer.initializationStatus();
+         this.initializable.initialize("tank",td);
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         throw new IOException("Tank Cast Exception");
+      }
+   }
 
    /*
    //

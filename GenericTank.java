@@ -21,62 +21,66 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 
-public class GenericTank implements Tank, Runnable{
-   private static boolean TOPRINT = true;
+public class GenericTank extends Tank implements Runnable{
 
-   private LaunchStateSubstate.State INIT      = null; 
-   private LaunchStateSubstate.State PRELAUNCH = null;
-   private LaunchStateSubstate.State IGNITION  = null;
-   private LaunchStateSubstate.State LAUNCH    = null; 
+   private LaunchStateSubstate.State INIT              = null;
+   private LaunchStateSubstate.State PREL              = null;
+   private LaunchStateSubstate.State IGNI              = null;
+   private LaunchStateSubstate.State LAUN              = null;
+   private LaunchStateSubstate.State ASCE              = null;
+   private LaunchStateSubstate.PreLaunchSubstate SET   = null;
+   private LaunchStateSubstate.PreLaunchSubstate CONT  = null;
+   private LaunchStateSubstate.PreLaunchSubstate FUEL  = null;
+   private LaunchStateSubstate.PreLaunchSubstate HOLD  = null;
+   private LaunchStateSubstate.IgnitionSubstate  IGN   = null;
+   private LaunchStateSubstate.IgnitionSubstate  BUP   = null;
+   private LaunchStateSubstate.AscentSubstate    STG   = null;
+   private LaunchStateSubstate.AscentSubstate    IGNE  = null;
 
-   private boolean    _kill;
-   private int        _stageNumber;
-   private int        _tankNumber;
-   private boolean    _start;
-
-   private DataFeeder           _feeder;
-   private List<ErrorListener>  _errorListeners; 
-   private List<SystemListener> _systemListeners;
-   private LaunchStateSubstate  _state;
-   private Object               _obj;
-   private Thread               _rt0;
-   private TankData             _tankData;
-   private TankData             _measuredTankData;
+   private boolean _kill;
+   private Object  _obj;
+   private Thread  _rt0;
 
    {
-      INIT      = LaunchStateSubstate.State.INITIALIZE;
-      PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
-      IGNITION  = LaunchStateSubstate.State.IGNITION;
-      LAUNCH    = LaunchStateSubstate.State.LAUNCH;
+      INIT = LaunchStateSubstate.State.INITIALIZE;
+      PREL = LaunchStateSubstate.State.PRELAUNCH;
+      IGNI = LaunchStateSubstate.State.IGNITION;
+      LAUN = LaunchStateSubstate.State.LAUNCH;
+      ASCE = LaunchStateSubstate.State.ASCENT;
+      SET  = LaunchStateSubstate.PreLaunchSubstate.SET;
+      CONT = LaunchStateSubstate.PreLaunchSubstate.CONTINUE;
+      FUEL = LaunchStateSubstate.PreLaunchSubstate.FUELING;
+      HOLD = LaunchStateSubstate.PreLaunchSubstate.HOLD;
+      IGN  = LaunchStateSubstate.IgnitionSubstate.IGNITION;
+      BUP  = LaunchStateSubstate.IgnitionSubstate.BUILDUP;
+      STG  = LaunchStateSubstate.AscentSubstate.STAGING;
+      IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES; 
 
-      _kill             = false;
-      _obj              = null;
-      _stageNumber      = -1;
-      _tankNumber       = -1;
+      _kill  = false;
+      _obj   = null;
+      _rt0   = null;
 
-      _feeder           = null;
-      _errorListeners   = null;
-      _measuredTankData = null;
-      _rt0              = null;
-      _state            = null;
-      _systemListeners  = null;
-      _tankData         = null;
+      stage  = -1;
+      number = -1;
    };
 
    ///////////////////////////Constructor/////////////////////////////
    //
    //
    //
-   public GenericTank(int stage, int number){
-      if(stage > 0 && number > 0){
-         this._stageNumber = stage;
-         this._tankNumber  = number;
-         this._obj = new Object();
-         this.setUpThread();
+   public GenericTank(int stg, int num){
+      if(stg > 0){
+         this.stage  = stg;
       }
+      if(num > 0){
+         this.number = num;
+      }
+      this._obj = new Object();
+      this.setUpThread();
    }
 
    ////////////////////////////Private Methods////////////////////////
+   /*
    //
    //
    //
@@ -538,7 +542,7 @@ public class GenericTank implements Tank, Runnable{
          this._measuredTankData = td;
       }
    }
-
+   */
    //
    //
    //
@@ -548,7 +552,7 @@ public class GenericTank implements Tank, Runnable{
       this._rt0 = new Thread(this, name);
       this._rt0.start();
    }
-
+   /*
    //
    //
    //
@@ -561,77 +565,9 @@ public class GenericTank implements Tank, Runnable{
          this.initializeTankDataJSON(file);
       }
    }
+   */
 
-   ///////////////////////Tank Interface Methods//////////////////////
-   //
-   //
-   //
-   public TankData monitor(){
-      synchronized(this._obj){
-         return this._measuredTankData;
-      }
-   }
-
-   //
-   //
-   //
-   public void initialize(String file)throws IOException{
-      if(this._stageNumber > 0 && this._tankNumber > 0){
-         String tdFile = file;
-         if(this.isPathFile(tdFile)){
-            LaunchSimulatorJsonFileReader read = null;
-            read = new LaunchSimulatorJsonFileReader(tdFile);
-            tdFile = read.readPathInfo().get("tank");
-         }
-         this.tankData(tdFile);
-      }
-   }
-
-   //
-   //
-   //
-   public void addDataFeeder(DataFeeder feeder){
-      if(feeder != null){
-         this._feeder = feeder;
-      }
-   }
-
-   //
-   //
-   //
-   public void addErrorListener(ErrorListener listener){
-      if(listener != null){
-         try{
-            this._errorListeners.add(listener);
-         }
-         catch(NullPointerException npe){
-            this._errorListeners = new LinkedList<ErrorListener>();
-            this._errorListeners.add(listener);
-         }
-      }
-   }
-
-   //
-   //
-   //
-   public void addSystemListener(SystemListener listener){
-      if(listener != null){
-         try{
-            this._systemListeners.add(listener);
-         }
-         catch(NullPointerException npe){
-            this._systemListeners = new LinkedList<SystemListener>();
-            this._systemListeners.add(listener);
-         }
-      }
-   }
-
-   //
-   //
-   //
-   public void setStateSubstate(LaunchStateSubstate stateSubstate){
-      this._state = stateSubstate;
-   }
+   ///////////////////////////Tank Overrides//////////////////////////
 
    //////////////////////////Runnble Interface////////////////////////
    //
@@ -645,8 +581,8 @@ public class GenericTank implements Tank, Runnable{
             if(this._kill){
                throw new InterruptedException();
             }
-            if(this._state != null){
-               if(this._state.state() == INIT){
+            if(this.getStateSubstate() != null){
+               if(this.getStateSubstate().state() == INIT){
                   if(counter++%1000 == 0){
                      //For Initialize, check every second...
                      check = true;
@@ -654,10 +590,12 @@ public class GenericTank implements Tank, Runnable{
                }
             }
             if(check){
+               /*
                this.monitorTank();
                this.checkErrors();
                this.alertSubscribers();
                check = false;
+               */
             }
             Thread.sleep(1);
          }

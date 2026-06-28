@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 /*
-Copyright 2024 Lou Rosas
+Copyright 2026 Lou Rosas
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,12 +21,45 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 
-public interface Tank{
-   public TankData monitor();
-   public void initialize(String file)throws IOException;
-   public void addDataFeeder(DataFeeder feeder);
-   public void addErrorListener(ErrorListener listener);
-   public void addSystemListener(SystemListener listener);
-   public void setStateSubstate(LaunchStateSubstate cond);
+public abstract class Tank extends SystemComponent{
+   protected int  stage;
+   protected int  number;
+
+   /////////////////SystemComponent Methods Overrides/////////////////
+   //
+   //
+   //
+   public void addSubscriber(Subscriber subscriber){
+      try{
+         this.publisher.addSubscriber(subscriber);
+      }
+      catch(NullPointerException npe){
+         this.setPublisher(new TankPublisher());
+         this.publisher.addSubscriber(subscriber);
+      }
+   }
+
+   //
+   //
+   //
+   public void initializeComponent(String file)throws IOException{
+      System.out.println("Tank");
+      if(this.initializable == null){
+         int stg = this.stage;
+         int num = this.number;
+         this.setInitializable(new TankInitializable(stg, num));
+      }
+      this.initializable.initialize(file);
+      //Initialization should be able to be handled at the Tank
+      //(Abstract Class) level...
+      try{
+         TankData tankData = null;
+         tankData = (TankData)this.initializable.initialized();
+         //Notify the Subscribers
+         this.publisher.publish(engineData);
+      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){}
+   }
 }
 //////////////////////////////////////////////////////////////////////
