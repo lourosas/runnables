@@ -43,54 +43,5 @@ public class GenericFuelSystemData extends FuelSystemData{
    }
 
    //////////////////////////Private Methods//////////////////////////
-   //
-   //
-   //
-   /*
-   private void errors(){
-      try{
-         Iterator<PipeData> it = this._pipes.iterator();
-         while(it.hasNext()){
-            PipeData pd = (PipeData)it.next();
-            if(pd.isError()){
-               if(!this._isError){ this._isError = true;}
-               if(this._error == null){
-                  this._error = new String(pd.error());
-               }
-               else{ this._error += pd.error(); }
-            }
-         }
-      }
-      catch(NullPointerException npe){}
-      try{
-         Iterator<PumpData> it = this._pumps.iterator();
-         while(it.hasNext()){
-            PumpData pd = (PumpData)it.next();
-            if(pd.isError()){
-               if(!this._isError){ this._isError = true; }
-               if(this._error == null){
-                  this._error = new String(pd.error());
-               }
-               else{ this._error += pd.error(); }
-            }
-         }
-      }
-      catch(NullPointerException npe){}
-      try{
-         Iterator<TankData> it = this._tanks.iterator();
-         while(it.hasNext()){
-            TankData td = (TankData)it.next();
-            if(td.isError()){
-               if(!this._isError){ this._isError = true; }
-               if(this._error == null){
-                  this._error = new String(td.error());
-               }
-               else{ this._error += td.error(); }
-            }
-         }
-      }
-      catch(NullPointerException npe){}
-   }
-   */
 }
 //////////////////////////////////////////////////////////////////////
