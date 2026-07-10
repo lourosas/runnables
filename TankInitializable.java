@@ -46,6 +46,84 @@ public class TankInitializable implements Initializable{
    //
    //
    //
+   private int getHashtableNumber(Hashtable<String,String> ht){
+      int number = -1;
+      try{
+         number = Integer.parseInt(ht.get("number"));
+      }
+      catch(NumberFormatException nfe){
+         number = -1;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         number = -1;
+      }
+      return number;
+   }
+
+   //
+   //
+   //
+   private int getHashtableStage(Hashtable<String,String> ht){
+      int stage = -1;
+      try{
+         stage = Integer.parseInt(ht.get("stage"));
+      }
+      catch(NumberFormatException nfe){
+         stage = -1;
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         stage = -1;
+      }
+      return stage;
+   }
+
+   //
+   //
+   //
+   private Hastable<String,String> getTankHashtable
+   (
+      List<Hashtable<String,String>> lst
+   ){
+      Hashtable<String,String> ht = null;
+      Iterator<Hashtable<String,String>> it = lst.iterator();
+      try{
+         boolean found = false;
+         while(it.hasNext() && !found){
+            Hashtable<String,String> temp = it.next();
+            int stage  = this.getHashtableStage(temp);
+            int number = this.getHashtableNumber(temp);
+            if(stage == this._stage && number == this._number){
+               ht = temp;
+               found = true;
+            }
+         }
+      }
+      catch(NullPointerException npe){
+         ht = null;
+      }
+
+      return ht;
+   }
+
+   //
+   //
+   //
+   private void initializeTank(String file)throws IOException{
+      TankData td = null;
+      LaunchSimulatorJsonFileReader read = null;
+      read = new LaunchSimulatorJsonFileReader(file);
+      List<Hashtable<String,String>> lst = read.readTankDataInfo();
+      Hashtable<String,String> ht = this.getTankHashtable(lst);
+      System.out.println("++++++Tank Initializable+++++");
+      System.out.println(ht);
+      System.exit(0);
+   }
+
+   //
+   //
+   //
    private boolean isPathFile(String file)throws IOException{
       boolean isPath = false;
       try{

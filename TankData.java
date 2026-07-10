@@ -270,6 +270,6 @@ public abstract class TankData{
          int temp     = (int)(w * 100);
          this._weight = temp * 0.01;
       }
-   }/
+   }
 }
 //////////////////////////////////////////////////////////////////////
