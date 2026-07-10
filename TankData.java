@@ -132,6 +132,144 @@ public abstract class TankData{
       String data = new String("\nTankData: ");
       data += "\n------------------------------";
       data += "\nCapacity:            "+this.capacity();
+      data += "\nDensity:             "+this.density();
+      data += "\nDry Weight:          "+this.dryWeight();
+      data += "\nEmpty Rate:          "+this.emptyRate();
+      data += "\nError:               "+this.error();
+      data += "\nFuel:                "+this.fuel();
+      data += "\nIs Error:            "+this.isError();
+      data += "\nMass Loss Rate:      "+this.massLossRate();
+      long mod = this.model();
+      data += "\nModel:               "+String.format("0x%08X",mod);
+      data += "\nNumber:              "+this.number();
+      data += "\nStage:               "+this.stage();
+      double temp = this.temperature();
+      data += "\nTemperature:         "+String.format("%.2f",temp);
+      data += "\nTolerance:           "+this.tolerance();
+      data += "\nWeight:              "+this.weight();
+
+      return data;
    }
+
+   /////////////////////////Protected Methods/////////////////////////
+   //
+   //
+   //
+   protected void capacity(double cap){
+      if(cap >= 0.){
+         this._capacity = cap;
+      }
+   }
+
+   //
+   //
+   //
+   protected void density(double dens){
+      if(dens >= 0.){
+         this._density = dens;
+      }
+   }
+
+   //
+   //
+   //
+   protected void dryWeight(double dw){
+      if(dw >= 0.){
+         this._dryWeight = dw;
+      }
+   }
+
+   //
+   //
+   //
+   protected void emptyRate(double er){
+      if(er >= 0.){
+         this._emptyRate = er;
+      }
+   }
+
+   //
+   //
+   //
+   protected void error(String err){
+      this._error = err;
+   }
+
+   //Set the Fuel Type...
+   //
+   //
+   protected void fuel(String fuel){
+      this._fuel = fuel;
+   }
+
+   //
+   //
+   //
+   protected void isError(boolean error){
+      this._isError = error;
+   }
+
+   //
+   //
+   //
+   protected void massLossRate(double mlr){
+      if(mlr >= 0.){
+         int temp = (int)(mlr * 1000);
+         this._massLossRate = temp * 0.001;
+      }
+   }
+
+   //
+   //
+   //
+   protected void model(long model){
+      if(model > 0){
+         this._model = model;
+      }
+   }
+
+   //Save off the Tank Number in the Stage
+   //
+   //
+   protected void number(int num){
+      if(num > 0){
+         this._number = num;
+      }
+   }
+
+   //
+   //
+   //
+   protected void stage(int st){
+      if(st > 0){
+         this._stage = st;
+      }
+   }
+
+   //
+   //
+   //
+   protected void temperature(double temp){
+      this._temperature = temp;
+   }
+
+   //
+   //
+   //
+   protected void tolerance(double tol){
+      if(tol >= 0.){
+         this._tolerance = tol;
+      }
+   }
+
+   //
+   //
+   //
+   protected void weight(double w){
+      if(w >= 0.){
+         int temp     = (int)(w * 100);
+         this._weight = temp * 0.01;
+      }
+   }/
 }
 //////////////////////////////////////////////////////////////////////
