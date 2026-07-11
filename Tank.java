@@ -56,7 +56,7 @@ public abstract class Tank extends SystemComponent{
          TankData tankData = null;
          tankData = (TankData)this.initializable.initialized();
          //Notify the Subscribers
-         this.publisher.publish(engineData);
+         this.publisher.publish(tankData);
       }
       catch(NullPointerException npe){}
       catch(ClassCastException cce){}

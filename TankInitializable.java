@@ -24,7 +24,7 @@ import rosas.lou.runnables.*;
 
 public class TankInitializable implements Initializable{
    private int      _stage;
-   pirvate int      _number;
+   private int      _number;
    private TankData _tankData;
 
    {
@@ -82,7 +82,7 @@ public class TankInitializable implements Initializable{
    //
    //
    //
-   private Hastable<String,String> getTankHashtable
+   private Hashtable<String,String> getTankHashtable
    (
       List<Hashtable<String,String>> lst
    ){
@@ -147,7 +147,7 @@ public class TankInitializable implements Initializable{
    //
    //
    //
-   public void initilalize(String file)throws IOException{
+   public void initialize(String file)throws IOException{
       System.out.println("Tank Initializable");
       String tFile = file;
       if(this.isPathFile(file)){

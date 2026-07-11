@@ -88,11 +88,11 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
          //Second Tank
          this.oxidizer = new GenericTank(this.stage,2);
          this.fuel.initializeComponent(file);
-         this.oxidizer.initilizeComponent(file);
+         this.oxidizer.initializeComponent(file);
          TankData td = (TankData)this.fuel.initializationStatus();
-         this.initializable.initialize("tank", td); 
-         td = (Tank)this.oxidizer.initializationStatus();
-         this.initializable.initialize("tank",td);
+         this.initializable.initializeData("tank data", td); 
+         td = (TankData)this.oxidizer.initializationStatus();
+         this.initializable.initializeData("tank data",td);
       }
       catch(ClassCastException cce){
          cce.printStackTrace();

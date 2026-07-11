@@ -547,8 +547,8 @@ public class GenericTank extends Tank implements Runnable{
    //
    //
    private void setUpThread(){
-      String name = new String("Tank: "+this._stageNumber+", ");
-      name += this._tankNumber;
+      String name = new String("Tank: "+this.stage+", ");
+      name += this.number;
       this._rt0 = new Thread(this, name);
       this._rt0.start();
    }
