@@ -23,11 +23,13 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class FuelSystemInitializable implements Initializable{
-   private int             _engines;
-   private int             _stage;
-   private FuelSystemData  _fuelSystemData;
+   private List<TankData>    _tankData;
+   private int               _engines;
+   private int               _stage;
+   private FuelSystemData    _fuelSystemData;
 
    {
+      _engineData     = null;
       _engines        = -1;
       _fuelSystemData = null;
       _stage          = -1;
@@ -60,7 +62,19 @@ public class FuelSystemInitializable implements Initializable{
    //
    //
    //
-   private void initializeTankData(Object data){}
+   private void initializeTankData(Object data){
+      TankData td = null;
+      try{
+         td = (TankData)data;
+      }
+      catch(ClassCastException cce){
+         td = null;
+      }
+      if((td != null) && (this._stage == td.stage())){
+         try{}
+         catch(NullPointerException npe){}
+      }
+   }
 
    //////////////Initializable Interface Implementation///////////////
    //

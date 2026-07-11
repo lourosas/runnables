@@ -83,6 +83,7 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
    //
    private void initializeTanks(String file)throws IOException{
       try{
+         List<TankData> tdl = new LinkedList<TankData>();
          //First Tank
          this.fuel     = new GenericTank(this.stage,1);
          //Second Tank
@@ -90,7 +91,7 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
          this.fuel.initializeComponent(file);
          this.oxidizer.initializeComponent(file);
          TankData td = (TankData)this.fuel.initializationStatus();
-         this.initializable.initializeData("tank data", td); 
+         this.initializable.initializeData("tank data",td);
          td = (TankData)this.oxidizer.initializationStatus();
          this.initializable.initializeData("tank data",td);
       }
