@@ -21,7 +21,7 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public class GenericTankData implements TankData{
+public class GenericTankData extends TankData{
    ////////////////////////////Constructor////////////////////////////
    //
    //
