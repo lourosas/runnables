@@ -275,8 +275,8 @@ public class TankInitializable implements Initializable{
                                false,//Is Error
                                mlr,  //Mass Loss Rate
                                mod,  //Model
-                               stg,  //Stage
                                num,  //Number
+                               stg,  //Stage
                                temp, //Temperature
                                tol,  //Tolerance
                                wgt); //Weight

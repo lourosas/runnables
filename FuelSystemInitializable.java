@@ -29,7 +29,7 @@ public class FuelSystemInitializable implements Initializable{
    private FuelSystemData    _fuelSystemData;
 
    {
-      _engineData     = null;
+      _tankData       = null;
       _engines        = -1;
       _fuelSystemData = null;
       _stage          = -1;
@@ -71,9 +71,25 @@ public class FuelSystemInitializable implements Initializable{
          td = null;
       }
       if((td != null) && (this._stage == td.stage())){
-         try{}
-         catch(NullPointerException npe){}
+         try{
+            //Should only be two tanks in the stage...
+            if(this._tankData.size() >= 2){
+               this._tankData.clear();
+            }
+            this._tankData.add(td);
+         }
+         catch(NullPointerException npe){
+            this._tankData = new LinkedList<TankData>();
+            this._tankData.add(td);
+         }
       }
+      int eng            = this._fuelSystemData.engines();
+      int stg            = this._fuelSystemData.stage();
+      List<PipeData> pid = this._fuelSystemData.pipes();
+      List<PumpData> pud = this._fuelSystemData.pumps();
+      FuelSystemData fsd = null;
+      fsd = new GenericFuelSystemData(eng,stg,pid,pud,this._tankData);
+      this._fuelSystemData = fsd;
    }
 
    //////////////Initializable Interface Implementation///////////////
