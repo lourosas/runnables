@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 /*
-Copyright 2024 Lou Rosas
+Copyright 2026 Lou Rosas
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,12 +21,45 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 
-public interface Pump{
-   public PumpData monitor();
-   public void initialize(String file)throws IOException;
-   public void addDataFeeder(DataFeeder feeder);
-   public void addErrorListener(ErrorListener listener);
-   public void addSystemListener(SystemListener listener);
-   public void setStateSubstate(LaunchStateSubstate cond);
+public abstract class Pump extends SystemComponent{
+   protected int stage;
+   protected int tankNumber;
+
+   //////////////////SystemComponents Methods Overrides///////////////
+   //
+   //
+   //
+   public void addSubscriber(Subscriber subscriber){
+      try{
+         this.publisher.addSubscriber(subscriber);
+      }
+      catch(NullPointerException npe){
+         this.setPublisher(new PumpPublisher());
+         this.publisher.addSubscriber(subscriber);
+      }
+   }
+
+   //
+   //
+   //
+   public void initializeComponent(String file)throws IOException{
+      System.out.println("Pump");
+      if(this.initializable == null){
+         int stg = this.stage;
+         int tn  = this.tanknumber;
+         this.setInitializable(new PumpInitializable(stg,tn));
+      }
+      this.initializable.initialize(file);
+      //Similar to the Tank, the initialization should be able to be
+      //handled at the Pump (abstract) level...
+      try{
+         PumpData pumpData = null;
+         pumpData = (PumpData)this.initializable.initialized();
+         //notify the Subscribers
+         this.publisher.publish(pumpData);
+      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){}
+   }
 }
 //////////////////////////////////////////////////////////////////////

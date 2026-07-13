@@ -22,47 +22,46 @@ import java.util.*;
 import java.io.IOException;
 import rosas.lou.runnables.*;
 
-public class GenericPump implements Pump, Runnable{
-   private static boolean TOPRINT = true;
-
-   private LaunchStateSubstate.State INIT      = null; 
-   private LaunchStateSubstate.State PRELAUNCH = null;
-   private LaunchStateSubstate.State IGNITION  = null;
-   private LaunchStateSubstate.State LAUNCH    = null;
+public class GenericPump extends Pump implements Runnable{
+   private LaunchStateSubstate.State INIT              = null;
+   private LaunchStateSubstate.State PREL              = null;
+   private LaunchStateSubstate.State IGNI              = null;
+   private LaunchStateSubstate.State LAUN              = null;
+   private LaunchStateSubstate.State ASCE              = null;
+   private LaunchStateSubstate.PreLaunchSubstate SET   = null;
+   private LaunchStateSubstate.PreLaunchSubstate CONT  = null;
+   private LaunchStateSubstate.PreLaunchSubstate FUEL  = null;
+   private LaunchStateSubstate.PreLaunchSubstate HOLD  = null;
+   private LaunchStateSubstate.IgnitionSubstate  IGN   = null;
+   private LaunchStateSubstate.IgnitionSubstate  BUP   = null;
+   private LaunchStateSubstate.AscentSubstate    STG   = null;
+   private LaunchStateSubstate.AscentSubstate    IGNE  = null;
 
    private boolean _kill;
-   private int     _stage;
-   private boolean _start;
-   private int     _tank;
-
-   private DataFeeder            _feeder;
-   private List<ErrorListener>   _errorListeners;
-   private List<SystemListener>  _systemListeners;
-   private LaunchStateSubstate   _state;
-   private Object                _obj;
-   private PumpData              _pumpData;
-   private PumpData              _measuredPumpData;
-   private Thread                _rt0;
+   private Object  _obj;
+   private Thread  _rt0;
 
    {
-      INIT      = LaunchStateSubstate.State.INITIALIZE;
-      PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
-      IGNITION  = LaunchStateSubstate.State.IGNITION;
-      LAUNCH    = LaunchStateSubstate.State.LAUNCH;
+      INIT = LaunchStateSubstate.State.INITIALIZE;
+      PREL = LaunchStateSubstate.State.PRELAUNCH;
+      IGNI = LaunchStateSubstate.State.IGNITION;
+      LAUN = LaunchStateSubstate.State.LAUNCH;
+      ASCE = LaunchStateSubstate.State.ASCENT;
+      SET  = LaunchStateSubstate.PreLaunchSubstate.SET;
+      CONT = LaunchStateSubstate.PreLaunchSubstate.CONTINUE;
+      FUEL = LaunchStateSubstate.PreLaunchSubstate.FUELING;
+      HOLD = LaunchStateSubstate.PreLaunchSubstate.HOLD;
+      IGN  = LaunchStateSubstate.IgnitionSubstate.IGNITION;
+      BUP  = LaunchStateSubstate.IgnitionSubstate.BUILDUP;
+      STG  = LaunchStateSubstate.AscentSubstate.STAGING;
+      IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES; 
       
       _kill                = false;
-      _stage               = -1;
-      _start               = false;
-      _tank                = -1;
-
-      _feeder              = null;
-      _errorListeners      = null;
-      _systemListeners     = null;
-      _state               = null;
       _obj                 = null;
-      _pumpData            = null;
-      _measuredPumpData    = null;
       _rt0                 = null;
+
+      stage      = -1;
+      tankNumber = -1;
    };
 
    ////////////////////////////Constructor////////////////////////////
@@ -71,16 +70,17 @@ public class GenericPump implements Pump, Runnable{
    //
    public GenericPump(int stage, int tank){
       if(stage > 0){
-         this._stage = stage;
+         this.stage = stage;
       }
       if(tank > 0){
-         this._tank = tank;
+         this.tanknumber = tank;
       }
       this._obj = new Object();
       this.setUpThread();
    }
 
    //////////////////////////Private Methods//////////////////////////
+   /*
    //
    //
    //
@@ -344,85 +344,15 @@ public class GenericPump implements Pump, Runnable{
          this.initializePumpDataJSON(file);
       }
    }
-
+   */
    //
    //
    //
    private void setUpThread(){
-      String name = new String("Pump: "+this._stage+", "+this._tank);
+      String name = new String("Pump: "+this.stage+", ");
+      name += this.tanknumber;
       this._rt0 = new Thread(this,name);
       this._rt0.start();
-   }
-
-   ///////////////////Pump Interface Implementation///////////////////
-   //
-   //
-   //
-   public PumpData monitor(){
-      synchronized(this._obj){
-         return this._measuredPumpData;
-      }
-   }
-
-   //
-   //
-   //
-   public void initialize(String file)throws IOException{
-      if((this._stage > 0) && (this._tank > 0)){
-         String pdFile = file;
-         if(this.isPathFile(pdFile)){
-            LaunchSimulatorJsonFileReader read = null;
-            read = new LaunchSimulatorJsonFileReader(pdFile);
-            pdFile = read.readPathInfo().get("tank");
-         }
-         this.pumpData(pdFile);
-      }
-   }
-
-   //
-   //
-   //
-   public void addDataFeeder(DataFeeder feeder){
-      if(feeder != null){
-         this._feeder = feeder;
-      }
-   }
-
-   //
-   //
-   //
-   public void addErrorListener(ErrorListener listener){
-      try{
-         if(listener != null){
-            this._errorListeners.add(listener);
-         }
-      }
-      catch(NullPointerException npe){
-         this._errorListeners = new LinkedList<ErrorListener>();
-         this._errorListeners.add(listener);
-      }
-   }
-
-   //
-   //
-   //
-   public void addSystemListener(SystemListener listener){
-      try{
-         if(listener != null){
-            this._systemListeners.add(listener);
-         }
-      }
-      catch(NullPointerException npe){
-         this._systemListeners = new LinkedList<SystemListener>();
-         this._systemListeners.add(listener);
-      }
-   }
-
-   //
-   //
-   //
-   public void setStateSubstate(LaunchStateSubstate stateSubstate){
-      this._state = stateSubstate;
    }
 
    /////////////////////////Runnable Interface////////////////////////
@@ -446,10 +376,12 @@ public class GenericPump implements Pump, Runnable{
                }
             }
             if(check){
+               /*
                this.monitorPump();
                this.checkErrors();
                this.alertSubscribers();
                check = false;
+               */
             }
             Thread.sleep(1);
          }
