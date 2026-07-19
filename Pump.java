@@ -46,7 +46,7 @@ public abstract class Pump extends SystemComponent{
       System.out.println("Pump");
       if(this.initializable == null){
          int stg = this.stage;
-         int tn  = this.tanknumber;
+         int tn  = this.tankNumber;
          this.setInitializable(new PumpInitializable(stg,tn));
       }
       this.initializable.initialize(file);
