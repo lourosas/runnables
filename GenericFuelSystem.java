@@ -71,19 +71,71 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
    //
    //
    //
+   private int getTotalPumpsInStage(String file)throws IOException{
+      int pumps    = 0;
+      String pFile = file;
+      LaunchSimulatorJsonFileReader read = null;
+      read = new LaunchSimulatorJsonFileReader(file);
+      if(read.readPathInfo().get("parameter") != null){
+         pFile = read.readPathInfo().get("pump");
+      }
+      else{
+         pFile = file;
+      }
+      read = new LaunchSimulatorJsonFileReader(pFile);
+      List<Hashtable<String,String>> lst = read.readPumpDataInfo();
+      Iterator<Hashtable<String,String>> it = lst.iterator();
+      while(it.hasNext()){
+         Hashtable<String,String> ht = it.next();
+         try{
+            int stg = Integer.parseInt(ht.get("stage"));
+            if(stg == this.stage){ ++pumps;} 
+         }
+         catch(NumberFormatException nfe){ pumps = 0; }
+         catch(NullPointerException  npe){
+            npe.printStackTrace();
+            pumps = 0;
+         }
+      }
+      return pumps;
+   }
+
+   //
+   //
+   //
    private void initializePipes(String file)throws IOException{}
 
    //
    //
    //
-   private void initializePumps(String file)throws IOException{}
+   private void initializePumps(String file)throws IOException{
+      try{
+         int pn = this.getTotalPumpsInStage(file);
+         for(int i = 0; i < pn; ++i){
+            Pump p = new GenericPump(this.stage, i+1);
+            p.initializeComponent(file);
+            PumpData pd = (PumpData)p.initializationStatus();
+            this.initializable.initializeData("pump data", pd);
+            try{
+               this.pumps.add(p);
+            }
+            catch(NullPointerException npe){
+               this.pumps = new LinkedList<Pump>();
+               this.pumps.add(p);
+            }
+         }
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         throw new IOException("Pump Cast Exception");
+      }
+   }
 
    //
    //
    //
    private void initializeTanks(String file)throws IOException{
       try{
-         List<TankData> tdl = new LinkedList<TankData>();
          //First Tank
          this.fuel     = new GenericTank(this.stage,1);
          //Second Tank

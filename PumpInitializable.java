@@ -39,10 +39,74 @@ public class PumpInitializable implements Initializable{
    //
    public PumpInitializable(int stage, int tank){
       if(stage > 0){ this._stage      = stage; }
-      if(tank  > 9){ this._tankNumber =  tank; }
+      if(tank  > 0){ this._tankNumber =  tank; }
    }
 
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private int getHashtableStage(Hashtable<String,String> ht){
+      int stage = -1;
+      try{
+         stage = Integer.parseInt(ht.get("stage"));
+      }
+      catch(NumberFormatException nfe){
+         stage = -1;
+      }
+      catch(NullPointerException  npe){
+         npe.printStackTrace();
+         stage = -1;
+      }
+      return stage;
+   }
+
+   //
+   //
+   //
+   private int getHashtableTankNumber(Hashtable<String,String> ht){
+      int tankNumber = -1;
+      try{
+         tankNumber = Integer.parseInt(ht.get("tanknumber"));
+      }
+      catch(NumberFormatException nfe){
+         tankNumber = -1;
+      }
+      catch(NullPointerException  npe){
+         npe.printStackTrace();
+         tankNumber = -1;
+      }
+      return tankNumber;
+   }
+
+   //
+   //
+   //
+   private Hashtable<String,String> getPumpHashtable
+   (
+      List<Hashtable<String,String>> lst 
+   ){
+      Hashtable<String,String> ht = null;
+      Iterator<Hashtable<String,String>> it = lst.iterator();
+      try{
+         boolean found = false;
+         while(it.hasNext() && !found){
+            Hashtable<String,String> temp = it.next();
+            int stg = this.getHashtableStage(temp);
+            int num = this.getHashtableTankNumber(temp);
+            if(stg == this._stage && num == this._tankNumber){
+               ht = temp;
+               found = true;
+            }
+         }
+      }
+      catch(NullPointerException npe){
+         ht = null;
+      }
+
+      return ht;
+   }
+
    //
    //
    //
@@ -70,6 +134,10 @@ public class PumpInitializable implements Initializable{
    //
    private void initializePump(String file)throws IOException{
       PumpData pd = null;
+      LaunchSimulatorJsonFileReader read = null;
+      read = new LaunchSimulatorJsonFileReader(file);
+      List<Hashtable<String,String>> lst = read.readPumpDataInfo();
+      Hashtable<String,String> ht = this.getPumpHashtable(lst);
 
       this._pumpData = pd;
    }
@@ -79,7 +147,7 @@ public class PumpInitializable implements Initializable{
    //
    //
    public void initialize(String file)throws IOException{
-      System.out.println("Pump Initialization");
+      System.out.println("Pump Initializable");
       String pFile = file;
       if(this.isPathFile(file)){
          LaunchSimulatorJsonFileReader read = null;

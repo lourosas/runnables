@@ -230,6 +230,9 @@ public class TankInitializable implements Initializable{
       return temperature;
    }
 
+   //
+   //
+   //
    private double getTolerance(Hashtable<String,String> ht){
       double tolerance = Double.NaN;
       try{

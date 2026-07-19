@@ -73,7 +73,7 @@ public class GenericPump extends Pump implements Runnable{
          this.stage = stage;
       }
       if(tank > 0){
-         this.tanknumber = tank;
+         this.tankNumber = tank;
       }
       this._obj = new Object();
       this.setUpThread();
@@ -350,7 +350,7 @@ public class GenericPump extends Pump implements Runnable{
    //
    private void setUpThread(){
       String name = new String("Pump: "+this.stage+", ");
-      name += this.tanknumber;
+      name += this.tankNumber;
       this._rt0 = new Thread(this,name);
       this._rt0.start();
    }
@@ -367,8 +367,8 @@ public class GenericPump extends Pump implements Runnable{
             if(this._kill){
                throw new InterruptedException();
             }
-            if(this._state != null){
-               if(this._state.state() == INIT){
+            if(this.getStateSubstate() != null){
+               if(this.getStateSubstate().state() == INIT){
                   if(counter++%500 == 0){
                      check = true;
                      counter = 1; //reset the counter
