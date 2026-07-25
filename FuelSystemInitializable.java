@@ -23,13 +23,13 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class FuelSystemInitializable implements Initializable{
-   private List<TankData>    _tankData;
+   //private List<TankData>    _tankData;
    private int               _engines;
    private int               _stage;
    private FuelSystemData    _fuelSystemData;
 
    {
-      _tankData       = null;
+      //_tankData       = null;
       _engines        = -1;
       _fuelSystemData = null;
       _stage          = -1;
@@ -58,14 +58,39 @@ public class FuelSystemInitializable implements Initializable{
    //
    //
    private void initializePumpData(Object data){
-   
+
+      List<PumpData> pdl = null;
+      PumpData       pd  = null;
+      try{
+         pd = (PumpData)data;
+      }
+      catch(ClassCastException cce){
+         pd = null;
+      }
+      if((pd != null) && (this._stage == pd.stage())){
+         pdl = this._fuelSystemData.pumps();
+         try{
+            pdl.add(pd);
+         }
+         catch(NullPointerException npe){
+            pdl = new LinkedList<PumpData>();
+            pdl.add(pd);
+         }
+      }
+      int eng            = this._fuelSystemData.engines();
+      int stg            = this._fuelSystemData.stage();
+      List<TankData> tdl = this._fuelSystemData.tanks();
+      List<PipeData> pid = this._fuelSystemData.pipes();
+      FuelSystemData fsd = null;
+      fsd = new GenericFuelSystemData(eng,stg,pid,pdl,tdl);
    }
 
    //
    //
    //
    private void initializeTankData(Object data){
-      TankData td = null;
+      List<TankData> tdl = null;
+      TankData td        = null;
       try{
          td = (TankData)data;
       }
@@ -73,16 +98,13 @@ public class FuelSystemInitializable implements Initializable{
          td = null;
       }
       if((td != null) && (this._stage == td.stage())){
+         tdl = this._fuelSystemData.tanks();
          try{
-            //Should only be two tanks in the stage...
-            if(this._tankData.size() >= 2){
-               this._tankData.clear();
-            }
-            this._tankData.add(td);
+            tdl.add(td);
          }
          catch(NullPointerException npe){
-            this._tankData = new LinkedList<TankData>();
-            this._tankData.add(td);
+            tdl = new LinkedList<TankData>();
+            tdl.add(td);
          }
       }
       int eng            = this._fuelSystemData.engines();
@@ -90,7 +112,8 @@ public class FuelSystemInitializable implements Initializable{
       List<PipeData> pid = this._fuelSystemData.pipes();
       List<PumpData> pud = this._fuelSystemData.pumps();
       FuelSystemData fsd = null;
-      fsd = new GenericFuelSystemData(eng,stg,pid,pud,this._tankData);
+      //fsd=new GenericFuelSystemData(eng,stg,pid,pud,this._tankData);
+      fsd = new GenericFuelSystemData(eng,stg,pid,pud,tdl);
       this._fuelSystemData = fsd;
    }
 
@@ -117,6 +140,9 @@ public class FuelSystemInitializable implements Initializable{
          this.initializePipeData(data);
       }
       else if(key.toUpperCase().contains("PUMP DATA")){
+         System.out.println("++++++++++FS Pump Data+++++++++");
+         System.out.println(data);
+         System.out.println("++++++++++FS Pump Data+++++++++");
          this.initializePumpData(data);
       }
       else if(key.toUpperCase().contains("TANK DATA")){

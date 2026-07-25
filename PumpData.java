@@ -80,7 +80,7 @@ public abstract class PumpData{
    //
    //
    public String   toString(){
-      String data = new String("\nTankData");
+      String data = new String("\nPump Data");
       data += "\n------------------------------";
       data += "\nIs Error                "+this.isError();
       data += "\nerror:                  "+this.error();

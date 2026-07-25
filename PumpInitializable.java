@@ -110,6 +110,60 @@ public class PumpInitializable implements Initializable{
    //
    //
    //
+   private double getRate(Hashtable<String,String> ht){
+      double rate = Double.NaN;
+      try{
+         rate = Double.parseDouble(ht.get("rate"));
+      }
+      catch(NumberFormatException nfe){
+         rate = Double.NaN;
+      }
+      catch(NullPointerException  npe){
+         npe.printStackTrace();
+         rate = Double.NaN;
+      }
+      return rate;
+   }
+
+   //
+   //
+   //
+   private double getTemperature(Hashtable<String,String> ht){
+      double temp = Double.NaN;
+      try{
+         temp = Double.parseDouble(ht.get("temperature"));
+      }
+      catch(NumberFormatException nfe){
+         temp = Double.NaN;
+      }
+      catch(NullPointerException  npe){
+         npe.printStackTrace();
+         temp = Double.NaN;
+      }
+      return temp;
+   }
+
+   //
+   //
+   //
+   private double getTolerance(Hashtable<String,String> ht){
+      double tol = Double.NaN;
+      try{
+         tol = Double.parseDouble(ht.get("tolerance"));
+      }
+      catch(NumberFormatException nfe){
+         tol = Double.NaN;
+      }
+      catch(NullPointerException  npe){
+         npe.printStackTrace();
+         tol = Double.NaN;
+      }
+      return tol;
+   }
+
+   //
+   //
+   //
    private boolean isPathFile(String file)throws IOException{
       boolean isPath = false;
       try{
@@ -138,7 +192,14 @@ public class PumpInitializable implements Initializable{
       read = new LaunchSimulatorJsonFileReader(file);
       List<Hashtable<String,String>> lst = read.readPumpDataInfo();
       Hashtable<String,String> ht = this.getPumpHashtable(lst);
-
+      String   err = null;
+      boolean  isE = false;
+      double   rte = this.getRate(ht);
+      int      stg = this._stage;
+      int      tkn = this._tankNumber;
+      double   tmp = this.getTemperature(ht);
+      double   tol = this.getTolerance(ht);
+      pd = new GenericPumpData(err,isE,rte,stg,tkn,tmp,tol);
       this._pumpData = pd;
    }
 
