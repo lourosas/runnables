@@ -23,49 +23,46 @@ import java.io.IOException;
 import rosas.lou.runnables.*;
 
 public class GenericPipe implements Pipe, Runnable{
-   private static boolean TOPRINT = true;
-   
-   private LaunchStateSubstate.State INIT      = null; 
-   private LaunchStateSubstate.State PRELAUNCH = null;
-   private LaunchStateSubstate.State IGNITION  = null;
-   private LaunchStateSubstate.State LAUNCH    = null;
+   private LaunchStateSubstate.State INIT              = null;
+   private LaunchStateSubstate.State PREL              = null;
+   private LaunchStateSubstate.State IGNI              = null;
+   private LaunchStateSubstate.State LAUN              = null;
+   private LaunchStateSubstate.State ASCE              = null;
+   private LaunchStateSubstate.PreLaunchSubstate SET   = null;
+   private LaunchStateSubstate.PreLaunchSubstate CONT  = null;
+   private LaunchStateSubstate.PreLaunchSubstate FUEL  = null;
+   private LaunchStateSubstate.PreLaunchSubstate HOLD  = null;
+   private LaunchStateSubstate.IgnitionSubstate  IGN   = null;
+   private LaunchStateSubstate.IgnitionSubstate  BUP   = null;
+   private LaunchStateSubstate.AscentSubstate    STG   = null;
+   private LaunchStateSubstate.AscentSubstate    IGNE  = null;
 
    private boolean  _kill;
-   private int      _tank;  //Tank Number (1,2)
-   private int      _stage; //Stage Number (1...total stages)
-   //Pipe Number for the Tank (1,2)--corresponds to the engine...
-   private int      _number; 
-   private double   _tolerance;
-
-   private DataFeeder            _feeder;
-   private List<ErrorListener>   _errorListeners;
-   private List<SystemListener>  _systemListeners;
-   private LaunchStateSubstate   _state;
-   private Object                _obj;
-   private PipeData              _pipeData;
-   private PipeData              _measuredPipeData;
-   private Thread                _rt0;
+   private Objec    _obj;
+   private Thread   _rt0;
 
    {
-      INIT      = LaunchStateSubstate.State.INITIALIZE;
-      PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
-      IGNITION  = LaunchStateSubstate.State.IGNITION;
-      LAUNCH    = LaunchStateSubstate.State.LAUNCH;
+      INIT = LaunchStateSubstate.State.INITIALIZE;
+      PREL = LaunchStateSubstate.State.PRELAUNCH;
+      IGNI = LaunchStateSubstate.State.IGNITION;
+      LAUN = LaunchStateSubstate.State.LAUNCH;
+      ASCE = LaunchStateSubstate.State.ASCENT;
+      SET  = LaunchStateSubstate.PreLaunchSubstate.SET;
+      CONT = LaunchStateSubstate.PreLaunchSubstate.CONTINUE;
+      FUEL = LaunchStateSubstate.PreLaunchSubstate.FUELING;
+      HOLD = LaunchStateSubstate.PreLaunchSubstate.HOLD;
+      IGN  = LaunchStateSubstate.IgnitionSubstate.IGNITION;
+      BUP  = LaunchStateSubstate.IgnitionSubstate.BUILDUP;
+      STG  = LaunchStateSubstate.AscentSubstate.STAGING;
+      IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES; 
 
-      _kill                = false;
-      _tank                = -1;
-      _stage               = -1;
-      _number              = -1; //Engine
-      _tolerance           = Double.NaN;
+      _kill      = false;
+      _obj       = null;
+      _rt0       = null;
 
-      _feeder              = null;
-      _errorListeners      = null;
-      _systemListeners     = null;
-      _state               = null;
-      _obj                 = null;
-      _pipeData            = null;
-      _measuredPipeData    = null;
-      _rt0                 = null;
+      stage      = -1;
+      tankNumber = -1;
+      number     = -1;
    };
 
    ///////////////////////////Constructor/////////////////////////////
@@ -74,20 +71,21 @@ public class GenericPipe implements Pipe, Runnable{
    //Pipe Number
    public GenericPipe(int tank, int stage, int number){
       if(tank > 0){
-         this._tank = tank;
+         this.tankNumber = tank;
       }
       if(stage > 0){
-         this._stage = stage;
+         this.stage = stage;
       }
       if(number > 0){
          //Essentially, this is the Rocket Engine the Pipe Feeds...
-         this._number = number;
+         this.number = number;
       }
       this._obj = new Object();
       this.setUpThread();
    }
 
    //////////////////////////Private Methods//////////////////////////
+   /*
    //
    //
    //
@@ -357,89 +355,15 @@ public class GenericPipe implements Pipe, Runnable{
          this.initializePipeDataJSON(file);
       }
    }
-
+   */
    //
    //
    //
    private void setUpThread(){
-      String name = new String("Pipe: "+this._stage+", "+this._tank);
-      name += ", "+this._number;
+      String name = new String("Pipe: "+this.stage+", ");
+      name += this.tankNumber+", "+this.number;
       this._rt0 = new Thread(this, name);
       this._rt0.start();
-   }
-
-   ////////////////////Pipe Interface Implementation//////////////////
-   //
-   //
-   //
-   public PipeData monitor(){
-      synchronized(this._obj){
-         return this._measuredPipeData;
-      }
-   }
-
-   //
-   //
-   //
-   public void initialize(String file)throws IOException{
-      int tank  = this._tank;
-      int stage = this._stage;
-      int num   = this._number;
-      if((tank > 0) && (stage > 0) && (num > 0)){
-         String pdFile = file;
-         if(this.isPathFile(pdFile)){
-            LaunchSimulatorJsonFileReader read = null;
-            read = new LaunchSimulatorJsonFileReader(pdFile);
-            pdFile = read.readPathInfo().get("pipe");
-         }
-         this.pipeData(pdFile);
-      }
-   }
-
-   //
-   //
-   //
-   public void addDataFeeder(DataFeeder feeder){
-      if(feeder != null){
-         this._feeder = feeder;
-      }
-   }
-
-   //
-   //
-   //
-   public void addErrorListener(ErrorListener listener){
-      try{
-         if(listener != null){
-            this._errorListeners.add(listener);
-         }
-      }
-      catch(NullPointerException npe){
-         this._errorListeners = new LinkedList<ErrorListener>();
-         this._errorListeners.add(listener);
-      }
-   }
-
-   //
-   //
-   //
-   public void addSystemListener(SystemListener listener){
-      try{
-         if(listener != null){
-            this._systemListeners.add(listener);
-         }
-      }
-      catch(NullPointerException npe){
-         this._systemListeners = new LinkedList<SystemListener>();
-         this._systemListeners.add(listener);
-      }
-   }
-
-   //
-   //
-   //
-   public void setStateSubstate(LaunchStateSubstate stateSubstate){
-      this._state = stateSubstate;
    }
 
    ///////////////////Runnable Interface Implementation///////////////
@@ -454,8 +378,8 @@ public class GenericPipe implements Pipe, Runnable{
             if(this._kill){
                throw new InterruptedException();
             }
-            if(this._state != null){
-               if(this._state.state() == INIT){
+            if(this.getStateSubstate() != null){
+               if(this.getStateSubstate.state() == INIT){
                   if(counter++%1500 == 0){
                      check = true;
                      counter = 1;//reset the counter
@@ -463,10 +387,12 @@ public class GenericPipe implements Pipe, Runnable{
                }
             }
             if(check){
+               /*
                this.monitorPipe();
                this.checkErrors();
                this.alertSubscribers();
                check = false;
+               */
             }
             Thread.sleep(1);
          }

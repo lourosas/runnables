@@ -83,6 +83,7 @@ public class FuelSystemInitializable implements Initializable{
       List<PipeData> pid = this._fuelSystemData.pipes();
       FuelSystemData fsd = null;
       fsd = new GenericFuelSystemData(eng,stg,pid,pdl,tdl);
+      this._fuelSystemData = fsd;
    }
 
    //
@@ -140,9 +141,6 @@ public class FuelSystemInitializable implements Initializable{
          this.initializePipeData(data);
       }
       else if(key.toUpperCase().contains("PUMP DATA")){
-         System.out.println("++++++++++FS Pump Data+++++++++");
-         System.out.println(data);
-         System.out.println("++++++++++FS Pump Data+++++++++");
          this.initializePumpData(data);
       }
       else if(key.toUpperCase().contains("TANK DATA")){

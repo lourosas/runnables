@@ -71,6 +71,53 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
    //
    //
    //
+   private int getTotalEnginesInStage(String file)throws IOException{
+      int engines = 0;
+      String eFile = file;
+      LaunchSimulatorJsonFileReader(file);
+      if(read.readPathInfo().get("parameter") != null){
+         eFile = read.readPathInfo().get("engine");
+      }
+      read = new LaunchSimulatorJsonFileReader(eFile);
+      return engines;
+   }
+
+   //
+   //
+   //
+   private int getTotalPipesInStage(String file)throws IOException{
+      int pipes    = 0;
+      String pFile = file;
+      LaunchSimulatorJsonFileReader read = null;
+      read = new LaunchSimulatorJsonFileReader(file);
+      if(read.readPathInfo().get("parameter") != null){
+         pFile = read.readPathInfo().get("pipe");
+      }
+      read = new LaunchSimulatorJsonFileReader(pFile);
+      List<Hashtable<String,String>> lst = read.readPipeDataInfo();
+      Iterator<Hashtable<String,String>> it = lst.iterator();
+      while(it.hasNext()){
+         Hashtable<String,String> ht = it.next();
+         try{
+            int stg = Integer.parseInt(ht.get("stage"));
+            if(stg == this.stage){
+               ++pipes;
+            }
+         }
+         catch(NumberFormatException nfe){
+            pipes = 0;
+         }
+         catch(NullPointerException  npe){
+            npe.printStackTrace();
+            pipes = 0;
+         }
+      }
+      return pipes;
+   }
+
+   //
+   //
+   //
    private int getTotalPumpsInStage(String file)throws IOException{
       int pumps    = 0;
       String pFile = file;
@@ -103,7 +150,16 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
    //
    //
    //
-   private void initializePipes(String file)throws IOException{}
+   private void initializePipes(String file)throws IOException{
+      try{
+         int pn  = this.getTotalPipesInStage(file);
+         int egs = this.getTotalEnginesInStage(file);
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         throw new IOException("Pipe Cast Exception");
+      }
+   }
 
    //
    //

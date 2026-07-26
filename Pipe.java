@@ -21,12 +21,47 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 
-public interface Pipe{
-   public PipeData monitor();
-   public void initialize(String file)throws IOException;
-   public void addDataFeeder(DataFeeder feeder);
-   public void addErrorListener(ErrorListener listener);
-   public void addSystemListener(SystemListener listener);
-   public void setStateSubstate(LaunchStateSubstate cond);
+public abstract class Pipe extends SystemComponent{
+   protected int stage;
+   protected int tankNumber;
+   //From a Tank--the number of pipes = number of Engines in Stage
+   protected int number;  //The Pipe number to the engine
+
+   /////////////////SystemComponents Methods Overrides////////////////
+   //
+   //
+   //
+   public void addSubscriber(Subscriber subscriber){
+      try{
+         this.publisher.addSubscriber(subscriber);
+      }
+      catch(NullPointerException npe){
+         this.setPublisher(new PipePublisher());
+         this.publisher.add(subscriber);
+      }
+   }
+
+   //
+   //
+   //
+   public void initializeComponent(String file)throws IOException{
+      System.out.println("Pipe");
+      if(this.initializable == null){
+         int stg    = this.stage;
+         int tkn    = this.tankNumber;
+         int num    = this.number;
+         this.setInitializable(new PipeInitializable(stg,tkn,num);
+      }
+      //Similar to the Tank, the initialization should be able to be
+      //handled at the Pump (abstract) level...
+      try{
+         PipeData pipeData = null;
+         pipeData = (PipeData)this.initializable.initialized();
+         //Notity the Subscribers
+         this.publisher.publish(pipeData);
+      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){}
+   }
 }
 //////////////////////////////////////////////////////////////////////
