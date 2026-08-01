@@ -71,20 +71,6 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
    //
    //
    //
-   private int getTotalEnginesInStage(String file)throws IOException{
-      int engines = 0;
-      String eFile = file;
-      LaunchSimulatorJsonFileReader(file);
-      if(read.readPathInfo().get("parameter") != null){
-         eFile = read.readPathInfo().get("engine");
-      }
-      read = new LaunchSimulatorJsonFileReader(eFile);
-      return engines;
-   }
-
-   //
-   //
-   //
    private int getTotalPipesInStage(String file)throws IOException{
       int pipes    = 0;
       String pFile = file;
@@ -152,8 +138,15 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
    //
    private void initializePipes(String file)throws IOException{
       try{
-         int pn  = this.getTotalPipesInStage(file);
-         int egs = this.getTotalEnginesInStage(file);
+         int pipes  = this.getTotalPipesInStage(file);
+         for(int i = 0; i < this.engines; ++i){
+            for(int j = 0; j < pipes; ++j){
+               //Pipe No.; stage No.; Engine No.
+               Pipe p = new GenericPipe(j+1,this.stage,i+1);
+               //This will need to pay attention and due dilligence!
+               p.initializeComponent(file);
+            }
+         }
       }
       catch(ClassCastException cce){
          cce.printStackTrace();

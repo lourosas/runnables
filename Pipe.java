@@ -37,7 +37,7 @@ public abstract class Pipe extends SystemComponent{
       }
       catch(NullPointerException npe){
          this.setPublisher(new PipePublisher());
-         this.publisher.add(subscriber);
+         this.publisher.addSubscriber(subscriber);
       }
    }
 
@@ -50,8 +50,9 @@ public abstract class Pipe extends SystemComponent{
          int stg    = this.stage;
          int tkn    = this.tankNumber;
          int num    = this.number;
-         this.setInitializable(new PipeInitializable(stg,tkn,num);
+         this.setInitializable(new PipeInitializable(stg,tkn,num));
       }
+      this.initializable.initialize(file);
       //Similar to the Tank, the initialization should be able to be
       //handled at the Pump (abstract) level...
       try{

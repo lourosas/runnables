@@ -17,7 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 package rosas.lou.runnables;
 
-
 import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;

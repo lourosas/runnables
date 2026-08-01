@@ -22,7 +22,7 @@ import java.util.*;
 import java.io.IOException;
 import rosas.lou.runnables.*;
 
-public class GenericPipe implements Pipe, Runnable{
+public class GenericPipe extends Pipe implements Runnable{
    private LaunchStateSubstate.State INIT              = null;
    private LaunchStateSubstate.State PREL              = null;
    private LaunchStateSubstate.State IGNI              = null;
@@ -38,7 +38,7 @@ public class GenericPipe implements Pipe, Runnable{
    private LaunchStateSubstate.AscentSubstate    IGNE  = null;
 
    private boolean  _kill;
-   private Objec    _obj;
+   private Object   _obj;
    private Thread   _rt0;
 
    {
@@ -379,7 +379,7 @@ public class GenericPipe implements Pipe, Runnable{
                throw new InterruptedException();
             }
             if(this.getStateSubstate() != null){
-               if(this.getStateSubstate.state() == INIT){
+               if(this.getStateSubstate().state() == INIT){
                   if(counter++%1500 == 0){
                      check = true;
                      counter = 1;//reset the counter
