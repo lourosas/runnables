@@ -145,6 +145,15 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
                Pipe p = new GenericPipe(j+1,this.stage,i+1);
                //This will need to pay attention and due dilligence!
                p.initializeComponent(file);
+               PipeData pd = (PipeData)p.initializationStatus();
+               this.initializable.initializeData("pipe data", pd);
+               try{
+                  this.pipes.add(p);
+               }
+               catch(NullPointerException npe){
+                  this.pipes = new LinkedList<Pipe>();
+                  this.pipes.add(p);
+               }
             }
          }
       }

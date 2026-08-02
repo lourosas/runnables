@@ -21,16 +21,160 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public interface PipeData{
-   public String   error();
-   public double   flow();
-   public int      number();
-   public boolean  isError();
-   public int      stage();
-   public int      tank();
-   public double   tolerance();
-   public double   temperature();
-   public String   type();
-   public String   toString();
+public abstract class PipeData{
+   private String   _error;
+   private boolean  _isError;
+   private int      _number;
+   private double   _rate;
+   private int      _stage;
+   private int      _tank;
+   private double   _temperature;
+   private double   _tolerance;
+   private String   _type;
+
+   {
+      _error        = null;
+      _isError      = false;
+      _number       = -1;
+      _rate         = -1;
+      _stage        = -1;
+      _tank         = -1;
+      _temperature  = Double.NaN;
+      _tolerance    = Double.NaN;
+      _type         = null;
+   };
+
+   ///////////////////////////Public Methods//////////////////////////
+   //
+   //
+   //
+   public String   error(){ return this._error; }
+
+   //
+   //
+   //
+   public boolean  isError(){ return this._isError; }
+
+   //
+   //
+   //
+   public int      number(){ return this._number; }
+
+   //
+   //
+   //
+   public double   rate(){ return this._rate; }
+
+   //
+   //
+   //
+   public int      stage(){ return this._stage; }
+
+   //
+   //
+   //
+   public int      tank(){ return this._tank; }
+
+   //
+   //
+   //
+   public double   temperature(){ return this._temperature; }
+
+   //
+   //
+   //
+   public double   tolerance(){ return this._tolerance; }
+
+   //
+   //
+   //
+   public String   type(){ return this._type; }
+
+   //
+   //
+   //
+   public String   toString(){
+      String data = new String("\nPipe Data");
+      data += "\n------------------------------";
+      data += "\nIs Error:                 "+this.isError();
+      data += "\nerror:                    "+this.error();
+      data += "\nto Engine:                "+this.number();
+      data += "\nrate:                     "+this.rate();
+      data += "\nstage:                    "+this.stage();
+      data += "\ntank:                     "+this.tank();
+      double t = this.temperature();
+      data += "\ntemperature:              "+String.format("%.2f",t);
+      return data;
+   }
+
+   /////////////////////////Protected Methods/////////////////////////
+   //
+   //
+   //
+   protected void error(String err){ this._error = err; }
+
+   //
+   //
+   //
+   protected void isError(boolean isErr){ this._isError = isErr; }
+
+   //The Pipe going to the particular engine
+   //
+   //
+   protected void number(int num){
+      if(num > 0){
+         this._number = num;
+      }
+   }
+
+   //
+   //
+   //
+   protected void rate(double rate){
+      if(rate >= 0.){
+         this._rate = rate;
+      }
+   }
+
+   //
+   //
+   //
+   protected void stage(int stage){
+      if(stage > 0){
+         this._stage = stage;
+      }
+   }
+
+   //Tank Number associated with the pipe
+   //
+   //
+   protected void tank(int tankNumber){
+      if(tankNumber > 0){
+         this._tank = tankNumber;
+      }
+   }
+
+   //
+   //
+   //
+   protected void temperature(double temp){
+      this._temperature = temp;
+   }
+
+   //
+   //
+   //
+   protected void tolerance(double tol){
+      if(tol >= 0.){
+         this._tolerance = tol;
+      }
+   }
+
+   //This can be null...
+   //
+   //
+   protected void type(String fuelType){
+      this._type = fuelType;
+   }
 }
 //////////////////////////////////////////////////////////////////////
