@@ -1,0 +1,43 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Initialize Launch Platform--Casual Format}\\
+\textit{Main Success Scenario}\\
+\begin{enumerate}
+   \item With the System running, the Flight Director enters the
+      Mission Parameters File (See \textit{Use Case 1 Initialize
+      Launch})
+   \item System opens the Mission Parameters File
+   \item System finds the Launch Mechanism (Platform) Data
+   \item System stores the Launch Mechanism (Platform) Data
+   \item For each hold on the Launch Mechanism (Platform), System
+      initializes the hold (See \textit{Use Case 1.3 Initialize
+      Launch Mechanism})
+   \item System finds the Rocket Data
+   \item System stores the needed Rocket Data
+   \item System returns the Initialized launch Mechanism Data to the
+      Flight Director
+   \item System returns the Initialized Rocket Data
+\end{enumerate}
+\textit{Alternative Scenarios}
+\begin{itemize}
+   \item[2a.]If the System cannot open the Mission Parameters File,
+      then the System alerts the Flight Director of the error.
+   \item[3a.]If the System cannot access the Launch Mechanism
+      (Platform) Data, then the System alerts the Flight Director of
+      the error.
+   \item[6a.]If the System cannot access the Rocket Data, then the
+      System alerts the Flight Director of the error.
+\end{itemize}
+\textit{Notes/Constraints}
+\begin{itemize}
+   \item[6a.,7a]Since the Rocket Iniailization is a definite
+      possibility at this point, the more likely scenario is the
+      System accesses the Initialized Rocket Data
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

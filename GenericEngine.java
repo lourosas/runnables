@@ -527,8 +527,8 @@ public class GenericEngine extends Engine implements Runnable{
                this.monitorEngine();
                this.checkErrors();
                this.alertSubscribers();
-               check = false;
                */
+               check = false;
             }
             Thread.sleep(1);
          }
