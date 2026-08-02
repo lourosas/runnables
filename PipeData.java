@@ -104,6 +104,7 @@ public abstract class PipeData{
       data += "\ntank:                     "+this.tank();
       double t = this.temperature();
       data += "\ntemperature:              "+String.format("%.2f",t);
+      data += "\nFuel Type:                "+this.type();
       return data;
    }
 

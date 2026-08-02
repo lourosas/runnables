@@ -52,13 +52,38 @@ public class FuelSystemInitializable implements Initializable{
    //
    //
    //
-   private void initializePipeData(Object data){}
+   private void initializePipeData(Object data){
+      List<PipeData> pdl = null;
+      PipeData       pd  = null;
+      int eng            = this._fuelSystemData.engines();
+      int stg            = this._fuelSystemData.stage();
+      List<TankData> tdl = this._fuelSystemData.tanks();
+      List<PumpData> pul = this._fuelSystemData.pumps(); 
+      try{
+         pd = (PipeData)data;
+      }
+      catch(ClassCastException cce){
+         pd = null;
+      }
+      if((pd != null) && (this._stage == pd.stage())){
+         pdl = this._fuelSystemData.pipes();
+         try{
+            pdl.add(pd);
+         }
+         catch(NullPointerException npe){
+            pdl = new LinkedList<PipeData>();
+            pdl.add(pd);
+         }
+      }
+      FuelSystemData fsd = null;
+      fsd = new GenericFuelSystemData(eng,stg,pdl,pul,tdl);
+      this._fuelSystemData = fsd;
+   }
 
    //
    //
    //
    private void initializePumpData(Object data){
-
       List<PumpData> pdl = null;
       PumpData       pd  = null;
       try{
