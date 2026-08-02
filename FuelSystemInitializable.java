@@ -138,7 +138,6 @@ public class FuelSystemInitializable implements Initializable{
       List<PipeData> pid = this._fuelSystemData.pipes();
       List<PumpData> pud = this._fuelSystemData.pumps();
       FuelSystemData fsd = null;
-      //fsd=new GenericFuelSystemData(eng,stg,pid,pud,this._tankData);
       fsd = new GenericFuelSystemData(eng,stg,pid,pud,tdl);
       this._fuelSystemData = fsd;
    }
