@@ -36,10 +36,13 @@ Initialization Status\\\\
    &4. Stores the Launch Platform Data\\\hline
    &5. Initialize each Launching Mechanism on the Launch Platform
    (See \textit{Use Case 1.1.1 Initialize Launch Mechanism})\\\hline
-   &6. Accesses the initialized Rocket Data (See \textit{Use Case
+   &6. Query each Launching Mechanism for their Initialization 
+   Data\\\hline
+   &7. Accesses the initialized Rocket Data (See \textit{Use Case
    1.1 Initialize Rocket})\\\hline
-   &7. Returns the Initialized Launch Platform Data\\\hline
-   8. Receives the Initialized Launch Platform Data&\\\hline
+   &8. Weighs the Rocket\\\hline
+   &9. Returns the Initialized Launch Platform Data\\\hline
+   10. Receives the Initialized Launch Platform Data&\\\hline
 \end{tabular}\\\\
 \textbf{Extensions (or Alternative Flows)}
 \begin{itemize}
@@ -49,14 +52,17 @@ Initialization Status\\\\
    \item[3a.]If the System cannot access the Launch Platform Data,
       then the System alerts the Flight Director of the error. Flight
       Director determines next course of action.
-   \item[5a.]If the System receives an error from any of the Launch
-      Mechanisms (See \textit{Use Case 1.2.1 Initialize Launch
+   \item[5a.,6a.]If the System receives an error from any of the
+      Launch Mechanisms (See \textit{Use Case 1.2.1 Initialize Launch
       Mechanism}), then the System alerts the Flight Director of the
       error. Flight Director determines next course of action.
-   \item[6a.]If the System cannot access the Initialized Rocket Data
+   \item[7a.]If the System cannot access the Initialized Rocket Data
       (See \textit{Use Case 1.1 Initialized Rocket}), then the System
       alerts the Flight of the issue.  The Flight Director determines
       next course of action.
+   \item[8a.]If the System receives an error while weighing the
+      Rocket, then the System alerts the Flight Director of the issue.
+      The Flight Director determines the next course of action.
 \end{itemize}
 \textbf{Notes/Constraints}
 \begin{itemize}
@@ -86,7 +92,7 @@ Initialization Status\\\\
 \end{itemize}
 \textbf{Open Issues}
 \begin{itemize}
-   \item[6b.]There are different possiblities if there is no 
+   \item[7b.]There are different possiblities if there is no 
       Initialized Rocket Data (See \textit{Use Case 1.1 Initialized
       Rocket}).  Possibly considering giving the Flight Director the
       option to Initialize.  Possibly consider Initializing the
