@@ -88,6 +88,12 @@ controlflow {
 <name>
 <val>4. Detailed Design</val>
 </name>
+<nestedPackage>
+<reflist>
+<ref refid="464092bc-929c-11f1-875d-e8f408f10391"/>
+<ref refid="6be13a60-929c-11f1-ba3f-e8f408f10391"/>
+</reflist>
+</nestedPackage>
 <nestingPackage>
 <ref refid="58d6c2e8-66f8-11ec-b4c8-0456e5e540ed"/>
 </nestingPackage>
@@ -258,6 +264,9 @@ controlflow {
 <ref refid="a5c1ad35-890c-11f1-adc1-e8f408f10391"/>
 <ref refid="ccb5c658-890c-11f1-b9b4-e8f408f10391"/>
 <ref refid="f98ab935-890c-11f1-9644-e8f408f10391"/>
+<ref refid="464092bc-929c-11f1-875d-e8f408f10391"/>
+<ref refid="6be13a60-929c-11f1-ba3f-e8f408f10391"/>
+<ref refid="4a503d1f-929d-11f1-a419-e8f408f10391"/>
 </reflist>
 </packagedElement>
 </UML:Package>
@@ -515,6 +524,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <ref refid="98a00862-82d4-11f1-9b28-e8f408f10391"/>
 <ref refid="2128150d-8907-11f1-bc15-e8f408f10391"/>
 <ref refid="7305e33f-890c-11f1-a548-e8f408f10391"/>
+<ref refid="38120096-929c-11f1-8c3b-e8f408f10391"/>
 </reflist>
 </ownedDiagram>
 <ownedPresentation>
@@ -14096,5 +14106,151 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>int</val>
 </typeValue>
 </UML:Parameter>
+<UML:ClassDiagram id="38120096-929c-11f1-8c3b-e8f408f10391">
+<element>
+<ref refid="585f224c-71b6-11ec-a409-f47b099bf663"/>
+</element>
+<name>
+<val>LaunchMissionComponentDiagram</val>
+</name>
+<ownedPresentation>
+<reflist>
+<ref refid="4640e1ef-929c-11f1-9225-e8f408f10391"/>
+<ref refid="6be1baee-929c-11f1-9906-e8f408f10391"/>
+<ref refid="49291242-929d-11f1-8da1-e8f408f10391"/>
+</reflist>
+</ownedPresentation>
+</UML:ClassDiagram>
+<UML:Package id="464092bc-929c-11f1-875d-e8f408f10391">
+<name>
+<val>Rocket</val>
+</name>
+<nestingPackage>
+<ref refid="f3a82730-71b1-11ec-a409-f47b099bf663"/>
+</nestingPackage>
+<owningPackage>
+<ref refid="f3a82730-71b1-11ec-a409-f47b099bf663"/>
+</owningPackage>
+<presentation>
+<reflist>
+<ref refid="4640e1ef-929c-11f1-9225-e8f408f10391"/>
+</reflist>
+</presentation>
+<supplierDependency>
+<reflist>
+<ref refid="4a503d1f-929d-11f1-a419-e8f408f10391"/>
+</reflist>
+</supplierDependency>
+</UML:Package>
+<UML:PackageItem id="4640e1ef-929c-11f1-9225-e8f408f10391">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 578.0, 236.0)</val>
+</matrix>
+<top-left>
+<val>(0.0, 0.0)</val>
+</top-left>
+<width>
+<val>130.0</val>
+</width>
+<height>
+<val>89.0</val>
+</height>
+<diagram>
+<ref refid="38120096-929c-11f1-8c3b-e8f408f10391"/>
+</diagram>
+<subject>
+<ref refid="464092bc-929c-11f1-875d-e8f408f10391"/>
+</subject>
+</UML:PackageItem>
+<UML:Package id="6be13a60-929c-11f1-ba3f-e8f408f10391">
+<clientDependency>
+<reflist>
+<ref refid="4a503d1f-929d-11f1-a419-e8f408f10391"/>
+</reflist>
+</clientDependency>
+<name>
+<val>Launch Platform</val>
+</name>
+<nestingPackage>
+<ref refid="f3a82730-71b1-11ec-a409-f47b099bf663"/>
+</nestingPackage>
+<owningPackage>
+<ref refid="f3a82730-71b1-11ec-a409-f47b099bf663"/>
+</owningPackage>
+<presentation>
+<reflist>
+<ref refid="6be1baee-929c-11f1-9906-e8f408f10391"/>
+</reflist>
+</presentation>
+</UML:Package>
+<UML:PackageItem id="6be1baee-929c-11f1-9906-e8f408f10391">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 235.0, 237.5)</val>
+</matrix>
+<top-left>
+<val>(0.0, 0.0)</val>
+</top-left>
+<width>
+<val>139.0</val>
+</width>
+<height>
+<val>74.0</val>
+</height>
+<diagram>
+<ref refid="38120096-929c-11f1-8c3b-e8f408f10391"/>
+</diagram>
+<subject>
+<ref refid="6be13a60-929c-11f1-ba3f-e8f408f10391"/>
+</subject>
+</UML:PackageItem>
+<UML:DependencyItem id="49291242-929d-11f1-8da1-e8f408f10391">
+<diagram>
+<ref refid="38120096-929c-11f1-8c3b-e8f408f10391"/>
+</diagram>
+<horizontal>
+<val>False</val>
+</horizontal>
+<orthogonal>
+<val>False</val>
+</orthogonal>
+<subject>
+<ref refid="4a503d1f-929d-11f1-a419-e8f408f10391"/>
+</subject>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 372.0, 288.0)</val>
+</matrix>
+<points>
+<val>[(206.0, -1.5), (2.0, 0.0)]</val>
+</points>
+<head-connection>
+<ref refid="4640e1ef-929c-11f1-9225-e8f408f10391"/>
+</head-connection>
+<tail-connection>
+<ref refid="6be1baee-929c-11f1-9906-e8f408f10391"/>
+</tail-connection>
+</UML:DependencyItem>
+<UML:Dependency id="4a503d1f-929d-11f1-a419-e8f408f10391">
+<client>
+<reflist>
+<ref refid="6be13a60-929c-11f1-ba3f-e8f408f10391"/>
+</reflist>
+</client>
+<name>
+<val>&lt;&lt;access&gt;&gt;</val>
+</name>
+<owningPackage>
+<ref refid="f3a82730-71b1-11ec-a409-f47b099bf663"/>
+</owningPackage>
+<presentation>
+<reflist>
+<ref refid="49291242-929d-11f1-8da1-e8f408f10391"/>
+</reflist>
+</presentation>
+<supplier>
+<reflist>
+<ref refid="464092bc-929c-11f1-875d-e8f408f10391"/>
+</reflist>
+</supplier>
+</UML:Dependency>
 </model>
 </gaphor>
