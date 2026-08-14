@@ -103,6 +103,50 @@ implements Runnable{
       System.out.println(file);
       //Set the Launch State Substate to initialize
       this.stateSubstate=new LaunchStateSubstate(INIT,null,null,null);
+      this.initializeRocket(file);
+      this.initializeLaunchPlatform(file);
+   }
+
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void initializeLaunchPlatform(String file){
+      try{
+         this.launchPlatform.initializeComponent(file);
+      }
+      catch(NullPointerException npe){
+         this.setLaunchPlatform(new GenericLaunchPlatform());
+         try{
+            this.launchPlatform.initializeComponent(file);
+         }
+         catch(IOException ioe){
+            this.publisher.publish(ioe);
+         }
+      }
+      catch(IOException ioe){
+         this.publisher.publish(ioe);
+      }
+      try{
+         this.launchPlatform.setStateSubstate(this.stateSubstate);
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+      try{
+         Object o = this.launchPlatform.initializationStatus();
+         LaunchPlatformData launchPlatformData=(LaunchPlatformData)o;
+         this.publisher.publish(launchPlatformData);
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+      }
+   }
+
+   //
+   //
+   //
+   private void initializeRocket(String file){
       try{
          this.rocket.initializeComponent(file);
       }
@@ -124,37 +168,16 @@ implements Runnable{
       catch(NullPointerException npe){
          npe.printStackTrace();
       }
-      /*
-      try{
-         this.launchPlatform.initializeComponent(file);
-      }
-      catch(NullPointException npe){
-         this.setPlatform(new GenericLaunchPlatform());
-         this.launchPlatform.initialize(file);
-      }
-      catch(IOException ioe){
-         this.publisher.publish(ioe);
-      }
-      this.launchPlatform.setStateSubstate(this.stateSubstate);
-      */
       try{
          RocketData rocketData = null;
          rocketData = (RocketData)this.rocket.initializationStatus();
          this.publisher.publish(rocketData);
       }
-      catch(ClassCastException cce){}
-      /*
-      try{
-         LaunchPlatformData lpd = null;
-         lpd = (LaunchPlatformData)
-               this.launchPlatform.initializationStatus();
-         this.publisher.publish(lpd);
+      catch(ClassCastException cce){
+         cce.printStackTrace();
       }
-      catch(ClassCastException cce){}
-      */
    }
 
-   //////////////////////////Private Methods//////////////////////////
    //
    //
    //

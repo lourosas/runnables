@@ -22,9 +22,10 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
-public abstract class LaunchPlatform extends SystemComponent{
-   protected List<LaunchMechanism> mechanisms;
+
+public abstract class LaunchMechanism extends SystemComponent{
    protected Rocket                rocket;
+
    ///////////////////////////Public Methods//////////////////////////
    //
    //
@@ -32,13 +33,6 @@ public abstract class LaunchPlatform extends SystemComponent{
    public void addRocket(Rocket rckt){
       if(rckt != null){
          this.rocket = rckt;
-         try{
-            Iterator<LaunchMechanism> it = mechanisms.iterator();
-            while(it.hasNext()){
-               it.next().addRocket(rckt);
-            }
-         }
-         catch(NullPointerException npe){}
       }
    }
 
@@ -46,44 +40,27 @@ public abstract class LaunchPlatform extends SystemComponent{
    //
    //
    //
-   public void addSubscriber(Subscriber subscriber){
-      try{
-         this.publisher.addSubscriber(subscriber);
-      }
-      catch(NullPointerException npe){
-         this.setPublisher(new LaunchPlatformPublisher());
-         this.pulblisher.addSubscriber(subscriber);
-      }
+   public void addSubcriber(Subscriber subscriber){
+     try{
+        this.publisher.addSubscriber(subscriber);
+     }
+     catch(NullPointerException npe){
+        this.setPublisher(new LaunchMechanismPublisher());
+     }
    }
 
    //
    //
    //
    public void initializeComponent(String file)throws IOException{
-      System.out.println("LaunchPlatform");
+      System.out.println("LaunchMechanism");
       try{
          this.initializable.initialize(file);
       }
       catch(NullPointerException npe){
-         this.setInitializable(new LaunchPlatformInitializable());
+         this.setInitializable(new LaunchMechanismInitializable());
          this.initializable.initialize(file);
       }
-   }
-
-   //////////////////StateMutable Interface Overrides/////////////////
-   //
-   //
-   //
-   public void setStateSubstate(LaunchStateSubstate ss){
-      super.setStateSubstate(ss);
-      try{
-         Iterator<LaunchMechanism> it = this.mechanisms.iterator();
-         while(it.hasNext()){
-            it.next().setStateSubstate(ss);
-         }
-      }
-      catch(NullPointerException npe){}
-      //Do not need to worry about the Rocket--already set
    }
 }
 //////////////////////////////////////////////////////////////////////

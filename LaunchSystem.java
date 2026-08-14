@@ -26,6 +26,7 @@ public abstract class LaunchSystem{
    //protected LaunchPlatform    luanchPlatform = null;
    protected Publisher         publisher      = null;
    protected SystemComponent   rocket         = null;
+   protected SystemComponent   launchPlatform = null;
 
    ///////////////////////////Public Methods//////////////////////////
    //
@@ -82,6 +83,13 @@ public abstract class LaunchSystem{
    //
    public void setPublisher(Publisher publisher){
       this.publisher = publisher;
+   }
+
+   //
+   //
+   //
+   public void setLaunchPlatform(SystemComponent lnchPt){
+      this.launchPlatform = lnchPt;
    }
 
    //
