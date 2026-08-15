@@ -114,14 +114,14 @@ implements Runnable{
    private void initializeLaunchPlatform(String file){
       try{
          Rocket r = (Rocket)this.rocket;
-         (LaunchPlatform)(this.launchPlatform).addRocket(this.rocket);
+         ((LaunchPlatform)this.launchPlatform).addRocket(r);
          this.launchPlatform.initializeComponent(file);
       }
       catch(NullPointerException npe){
          this.setLaunchPlatform(new GenericLaunchPlatform());
          try{
-            LaunchPlatform lp = (LaunchPlatform)this.launchPlatform;
-            lp.addRocket(this.rocket);
+            Rocket r = (Rocket)this.rocket;
+            ((LaunchPlatform)this.launchPlatform).addRocket(r);
             this.launchPlatform.initializeComponent(file);
          }
          catch(IOException ioe){

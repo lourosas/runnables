@@ -31,7 +31,7 @@ public abstract class LaunchPlatform extends SystemComponent{
    //
    public void addRocket(Rocket rckt){
       //Test Print
-      System.out.println(rckt);
+      System.out.println("Rocket:  "+rckt);
       if(rckt != null){
          this.rocket = rckt;
          try{
