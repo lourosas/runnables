@@ -103,7 +103,7 @@ public abstract class LaunchPlatformData{
       data += "\nIs Error:         "+this.isError();
       data += "\nError:            "+this.error();
       try{
-         Iterator<LaunchPlatformData> it=this._mechanisms.iterator();
+         Iterator<LaunchMechanismData> it=this._mechanisms.iterator();
          while(it.hasNext()){ data += it.next().toString(); }
       }
       catch(NullPointerException npe){ data += npe.getMessage(); }
@@ -123,7 +123,7 @@ public abstract class LaunchPlatformData{
    //
    protected void errors(){
       try{
-         Iterator<LaunchMechanismData> it=this.mechanisms.iterator();
+         Iterator<LaunchMechanismData> it=this._mechanisms.iterator();
          while(it.hasNext()){
             LaunchMechanismData lmd = (LaunchMechanismData)it.next();
             if(lmd.isError()){
@@ -131,10 +131,10 @@ public abstract class LaunchPlatformData{
                   this.isError(true);
                }
                if(this.error() == null){
-                  this.error(lmd.error();
+                  this.error(lmd.error());
                }
                else{ 
-                  this.error(this.error()+" "lmd.error());
+                  this.error(this.error()+" "+lmd.error());
                }
             }
          }

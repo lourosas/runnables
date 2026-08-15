@@ -52,7 +52,7 @@ public abstract class LaunchPlatform extends SystemComponent{
       }
       catch(NullPointerException npe){
          this.setPublisher(new LaunchPlatformPublisher());
-         this.pulblisher.addSubscriber(subscriber);
+         this.publisher.addSubscriber(subscriber);
       }
    }
 

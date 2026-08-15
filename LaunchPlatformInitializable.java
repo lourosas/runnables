@@ -41,7 +41,7 @@ public class LaunchPlatformInitializable implements Initializable{
    //
    //
    private void initializeLaunchPlatform(String file)
-   throws IOExeption{
+   throws IOException{
       //Test print (for now)
       System.out.println("Initialize Launch Platform: "+file);
       LaunchSimulatorJsonFileReader read = null;

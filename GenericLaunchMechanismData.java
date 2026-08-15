@@ -21,29 +21,28 @@ import java.lang.*;
 import java.util.*;
 import rosas.lou.runnables.*;
 
-public class GenericLaunchPlatformData extends LaunchPlatformData{
+public class GenericLaunchMechanismData extends LaunchMechanismData{
    ////////////////////////////Constructor////////////////////////////
    //
    //
    //
-   public GenericLaunchPlatformData
+   public GenericLaunchMechanismData
    (
-      String                    error,
-      boolean                   isError,
-      int                       holds,
-      double                    measuredWeight,
-      String                    model,
-      double                    tolerance,
-      List<LaunchMechanismData> mechanisms
+      double         angle,
+      String         error,
+      double         holdingForce,
+      boolean        isError,
+      double         measuredWeight,
+      int            number,
+      double         tolerance
    ){
+      this.angle(angle);
       this.error(error);
+      this.holdingForce(holdingForce);
       this.isError(isError);
-      this.holds(holds);
       this.measuredWeight(measuredWeight);
-      this.mechanisms(mechanisms);
-      this.model(model);
-      this.tolerance(tolderance);
-      this.errors();
+      this.number(number);
+      this.tolerance(tolerance);
    }
 }
 //////////////////////////////////////////////////////////////////////

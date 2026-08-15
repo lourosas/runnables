@@ -19,31 +19,36 @@ package rosas.lou.runnables;
 
 import java.lang.*;
 import java.util.*;
+import java.io.*;
 import rosas.lou.runnables.*;
 
-public class GenericLaunchPlatformData extends LaunchPlatformData{
-   ////////////////////////////Constructor////////////////////////////
+public class LaunchMechanismPublisher implements Publisher{
+   /////////////////Publisher Interface Implementation////////////////
    //
    //
    //
-   public GenericLaunchPlatformData
-   (
-      String                    error,
-      boolean                   isError,
-      int                       holds,
-      double                    measuredWeight,
-      String                    model,
-      double                    tolerance,
-      List<LaunchMechanismData> mechanisms
-   ){
-      this.error(error);
-      this.isError(isError);
-      this.holds(holds);
-      this.measuredWeight(measuredWeight);
-      this.mechanisms(mechanisms);
-      this.model(model);
-      this.tolerance(tolderance);
-      this.errors();
+   public void addSubscriber(Subscriber sub){}
+
+   //
+   //
+   //
+   public void publish(){}
+
+   //
+   //
+   //
+   public void publish(Object data){}
+
+   //
+   //
+   //
+   public void removeSubscriber(Subscriber sub){}
+
+   //
+   //
+   //
+   public Object request(){
+      return null;
    }
 }
 //////////////////////////////////////////////////////////////////////
