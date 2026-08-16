@@ -22,7 +22,8 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
-public class GenericLaunchPlatform extends LaunchPlatform 
+
+public class GenericLaunchMechanism extends LaunchMechanism
 implements Runnable{
    private static boolean TOPRINT = true;
 
@@ -62,7 +63,7 @@ implements Runnable{
       _obj       = null;
       _rt0       = null;
       _start     = false;
-      mechanisms = null;
+      holdNumber = -1;
       rocket     = null;
    };
 
@@ -70,8 +71,13 @@ implements Runnable{
    //
    //
    //
-   public GenericLaunchPlatform(){
+   public GenericLaunchMechanism(int hold){
       this._obj = new Object();
+      if(hold > -1){
+         this.holdNumber = hold;
+         //Test Prints
+         System.out.println("Generic Launch Mechanism "+this.holdNumber);
+      }
       this.setUpThread();
    }
 
@@ -79,53 +85,18 @@ implements Runnable{
    //
    //
    //
-   private void initializeMechanisms(String file){
-      LaunchPlatformData lpd = null;
-      lpd = (LaunchPlatformData)this.initializationStatus();
-      for(int i = 0; i < lpd.holds(); ++i){
-         LaunchMechanism lp = new GenericLaunchMechanism(i+1);
-         try{
-            this.mechanisms.add(lp);
-         }
-         catch(NullPointerException npe){
-            this.mechanisms = new LinkedList<LaunchMechanism>();
-            this.mechanisms.add(lp);
-         }
-      }
-   }
-
-   //
-   //
-   //
-   private void setUpThread(){
-      String name = new String("Generic Launch Platform");
+   public void setUpThread(){
+      String name = new String("Generic Launch Mechanism");
       this._rt0   = new Thread(this, name);
    }
 
-   //////////////////////Launch Platform Overrides////////////////////
+   //////////////////////Launch Mechanism Overrides///////////////////
    //
    //
    //
    public void initializeComponent(String file)throws IOException{
       super.initializeComponent(file);
-      System.out.println("Launch Platform: "+file);
-      this.initializeMechanisms(file);
-      /* Stub this first
-      try{
-         LaunchPlatformData lpData = null;
-         lpData = (LaunchPatformData)this.intializable.initialized();
-         //Notify the Observers
-         this.publisher.publish(lpData);
-      }
-      catch(NullPointerException npe){
-         //Test Print
-         npe.printStackTrace();
-      }
-      catch(ClassCastException   cce){
-         //Test Print
-         cce.printStackTrace();
-      }
-      */
+      //The rest, TBD...
    }
 
    /////////////////Runnable Interface Implementation/////////////////
@@ -142,14 +113,13 @@ implements Runnable{
             }
             if(this.getStateSubstate() != null){
                if(this.getStateSubstate().state() == INIT){
-                  //In the Initialization State, check every
-                  //12 seconds
                   if(count++%12000 == 0){
                      check = true;
                      count = 1; //Reset the counter
                   }
                }
                if(check){
+                  //Do some stuff eventually
                   check = false;
                }
             }
