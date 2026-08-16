@@ -42,7 +42,7 @@ public class GenericLaunchPlatformData extends LaunchPlatformData{
       this.measuredWeight(measuredWeight);
       this.mechanisms(mechanisms);
       this.model(model);
-      this.tolerance(tolderance);
+      this.tolerance(tolerance);
       this.errors();
    }
 }

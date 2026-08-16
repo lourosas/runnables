@@ -79,7 +79,9 @@ implements Runnable{
    //
    //
    //
-   private void initializeMechanism(String file){}
+   private void initializeMechanisms(String file){
+      System.out.println("Platfom Initialization "+file);
+   }
 
    //
    //
@@ -96,8 +98,8 @@ implements Runnable{
    public void initializeComponent(String file)throws IOException{
       super.initializeComponent(file);
       System.out.println("Launch Platform: "+file);
-      /* Stub this first
       this.initializeMechanisms(file);
+      /* Stub this first
       try{
          LaunchPlatformData lpData = null;
          lpData = (LaunchPatformData)this.intializable.initialized();

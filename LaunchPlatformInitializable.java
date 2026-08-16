@@ -40,13 +40,74 @@ public class LaunchPlatformInitializable implements Initializable{
    //
    //
    //
+   private String getModel(Hashtable<String,String> ht){
+      String model = null;
+      try{
+         model = ht.get("model");
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         model = null;
+      }
+      return model;
+   }
+
+   //
+   //
+   //
+   private int getNumberOfHolds(Hashtable<String,String> ht){
+      int number = -1;
+      try{
+         number = Integer.parseInt(ht.get("number_of_holds"));
+      }
+      catch(NumberFormatException nfe){ number = -1; }
+      catch(NullPointerException  npe){
+         npe.printStackTrace();
+         number = -1;
+      }
+      return number;
+   }
+
+   //
+   //
+   //
+   private double getPlatformTolerance(Hashtable<String,String> ht){
+      double tolerance = Double.NaN;
+      try{
+         String tol = ht.get("total_tolerance");
+         tolerance  = Double.parseDouble(tol);
+      }
+      catch(NumberFormatException nfe){ tolerance = Double.NaN; }
+      catch(NullPointerException  npe){
+         npe.printStackTrace();
+         tolerance = Double.NaN;
+      }
+      return tolerance;
+   }
+
+   //
+   //
+   //
    private void initializeLaunchPlatform(String file)
    throws IOException{
-      //Test print (for now)
-      System.out.println("Initialize Launch Platform: "+file);
       LaunchSimulatorJsonFileReader read = null;
       read = new LaunchSimulatorJsonFileReader(file);
       Hashtable<String,String> ht = read.readLaunchingMechanismInfo();
+      String   err   = null;
+      boolean  isE   = false;
+      int     hlds   = this.getNumberOfHolds(ht);
+      double  mwgt   = Double.NaN;
+      String   mod   = this.getModel(ht);
+      double  ptol   = this.getPlatformTolerance(ht);
+      LaunchPlatformData lpd = null;
+      lpd = new GenericLaunchPlatformData(err,  //Error String
+                                          isE,  //Is Error
+                                          hlds, //Holdls
+                                          mwgt, //Measured Weight
+                                          mod,  //Model
+                                          ptol, //Tolerance
+                                          null);//No Mechanisms
+      this._launchPlatformData = lpd;
    }
 
    //

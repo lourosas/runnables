@@ -104,9 +104,9 @@ public abstract class LaunchPlatformData{
       data += "\nError:            "+this.error();
       try{
          Iterator<LaunchMechanismData> it=this._mechanisms.iterator();
-         while(it.hasNext()){ data += it.next().toString(); }
+         while(it.hasNext()){ data += "\n"+it.next().toString(); }
       }
-      catch(NullPointerException npe){ data += npe.getMessage(); }
+      catch(NullPointerException npe){data += "\n"+npe.getMessage();}
       return data;
    }
 

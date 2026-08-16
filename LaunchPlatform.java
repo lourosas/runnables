@@ -30,17 +30,8 @@ public abstract class LaunchPlatform extends SystemComponent{
    //
    //
    public void addRocket(Rocket rckt){
-      //Test Print
-      System.out.println("Rocket:  "+rckt);
       if(rckt != null){
          this.rocket = rckt;
-         try{
-            Iterator<LaunchMechanism> it = mechanisms.iterator();
-            while(it.hasNext()){
-               it.next().addRocket(rckt);
-            }
-         }
-         catch(NullPointerException npe){}
       }
    }
 
@@ -62,7 +53,7 @@ public abstract class LaunchPlatform extends SystemComponent{
    //
    //
    public void initializeComponent(String file)throws IOException{
-      System.out.println("LaunchPlatform");
+      System.out.println("LaunchPlatform Initialize");
       try{
          this.initializable.initialize(file);
       }
