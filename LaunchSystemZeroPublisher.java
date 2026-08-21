@@ -24,11 +24,11 @@ import rosas.lou.runnables.*;
 
 public class LaunchSystemZeroPublisher extends LaunchSystemPublisher{
    private RocketData           _rocketData;
-   //private LaunchPlatformData   _platformData;
+   private LaunchPlatformData   _platformData;
 
    {
       _rocketData      = null;
-      //_platformData    = null;
+      _platformData    = null;
    };
 
    ////////////////////////////Constructors///////////////////////////
@@ -42,11 +42,11 @@ public class LaunchSystemZeroPublisher extends LaunchSystemPublisher{
    //
    public LaunchSystemZeroPublisher
    (
-      RocketData         rocketData //, 
-      //LaunchPlatformData launchPlatformData
+      RocketData         rocketData, 
+      LaunchPlatformData launchPlatformData
    ){
       this._rocketData   = rocketData;
-      //this._platformData = launchPlatformData;
+      this._platformData = launchPlatformData;
    }
    //////////////////////////Private Methods//////////////////////////
 
@@ -55,20 +55,18 @@ public class LaunchSystemZeroPublisher extends LaunchSystemPublisher{
    //
    //
    public void publish(){
-      if(this._rocketData != null 
-         /*|| this._platformData != nll*/
-         || this.exception != null){
+      if(this._rocketData      != null 
+         || this._platformData != null
+         || this.exception     != null){
          try{
             Object obj = null;
             Iterator<Subscriber> it = this.subscribers.iterator();
             if(this._rocketData != null){
                obj = this._rocketData;
             }
-            /*
             else if(this._platformData != null){
                obj = this._platformData;
             }
-            */
             else if(this.exception != null){
                obj = this.exception;
             }
@@ -90,14 +88,12 @@ public class LaunchSystemZeroPublisher extends LaunchSystemPublisher{
       catch(ClassCastException cce){
          this._rocketData = null;
       }
-      /*
       try{
-         this._platformData = (PlatformData)data;
+         this._platformData = (LaunchPlatformData)data;
       }
       catch(ClassCastException cce){
          this._platformData = null;
       }
-      */
       try{
          this.exception = (Exception)data;
       }

@@ -23,7 +23,6 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public abstract class LaunchSystem{
-   //protected LaunchPlatform    luanchPlatform = null;
    protected Publisher         publisher      = null;
    protected SystemComponent   rocket         = null;
    protected SystemComponent   launchPlatform = null;
