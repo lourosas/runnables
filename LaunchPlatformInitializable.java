@@ -110,6 +110,7 @@ public class LaunchPlatformInitializable implements Initializable{
       this._launchPlatformData = lpd;
    }
 
+
    //
    //
    //
@@ -133,6 +134,16 @@ public class LaunchPlatformInitializable implements Initializable{
       return  isPath;
    }
 
+   //
+   //
+   //
+   private void setErrorData(Object data){}
+
+   //
+   //
+   //
+   private void setMechanismData(Object data){}
+
    ///////////////Initializable Interface Implementation//////////////
    //
    //
@@ -152,7 +163,14 @@ public class LaunchPlatformInitializable implements Initializable{
    //
    //
    //
-   public void initializeData(String key, Object data){}
+   public void initializeData(String key, Object data){
+      if(key.toUpperCase().contains("MECHANISM")){
+         this.setMechanismData(data);
+      }
+      else if(key.toUpperCase().contains("ERROR")){
+         this.setErrorData(data);
+      }
+   }
 
    //
    //

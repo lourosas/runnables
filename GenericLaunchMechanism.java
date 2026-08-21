@@ -96,7 +96,7 @@ implements Runnable{
    //
    public void initializeComponent(String file)throws IOException{
       super.initializeComponent(file);
-      //The rest, TBD...
+      //The rest, TBD...Use Case 1.2.1  Initilize Launch Mechanism
    }
 
    /////////////////Runnable Interface Implementation/////////////////

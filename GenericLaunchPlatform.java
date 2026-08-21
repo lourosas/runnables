@@ -79,19 +79,42 @@ implements Runnable{
    //
    //
    //
-   private void initializeMechanisms(String file){
+   private void initializeMechanisms(String file)throws IOException{
       LaunchPlatformData lpd = null;
       lpd = (LaunchPlatformData)this.initializationStatus();
       for(int i = 0; i < lpd.holds(); ++i){
-         LaunchMechanism lp = new GenericLaunchMechanism(i+1);
+         LaunchMechanism lm = new GenericLaunchMechanism(i+1);
+         lm.addRocket(this.rocket);
+         lm.initializeComponent(file);
+         LaunchMechanismData data = null;
+         data = (LaunchMechanismData)lm.initializationStatus();
          try{
-            this.mechanisms.add(lp);
+            this.initializable.initializeData("mechanism",data);
+            //Check to see if there is an error
+            if(data.isError()){
+               this.initializable.initializeData("error",data);
+            }
+         }
+         catch(NullPointerException npe){}
+         try{
+            this.mechanisms.add(lm);
          }
          catch(NullPointerException npe){
             this.mechanisms = new LinkedList<LaunchMechanism>();
-            this.mechanisms.add(lp);
+            this.mechanisms.add(lm);
          }
       }
+   }
+
+   //
+   //
+   //
+   private boolean isMechanismWeightError(LaunchMechanismData data){
+      boolean isError = false;
+      
+      if(data != null){}
+
+      return isError;
    }
 
    //
