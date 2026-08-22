@@ -35,6 +35,25 @@ public abstract class LaunchPlatform extends SystemComponent{
       }
    }
 
+   /////////////////////////Protectd Methods//////////////////////////
+   //
+   //
+   //
+   protected void measureRocketWeight(){
+      //This needs to be revisited!!!
+      /*
+      System.out.println("TEST PRINTS REMOVE");
+      try{
+         System.out.println(this.stateSubstate.state());
+      }
+      catch(NullPointerException npe){
+         System.out.println("State Substate NULL!");
+      }
+      System.out.println(this.rocket);
+      System.out.println(this.rocket.initializationStatus());
+      */
+   }
+
    //////////////////SystemComponent Methods Overrides////////////////
    //
    //

@@ -23,9 +23,37 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public abstract class SystemComponent implements StateMutable{
+   protected LaunchStateSubstate.State INIT                    = null;
+   protected LaunchStateSubstate.State PRELAUNCH               = null;
+   protected LaunchStateSubstate.State IGNITION                = null;
+   protected LaunchStateSubstate.State LAUNCH                  = null;
+   protected LaunchStateSubstate.PreLaunchSubstate SET         = null;
+   protected LaunchStateSubstate.PreLaunchSubstate CONT        = null;
+   protected LaunchStateSubstate.PreLaunchSubstate FUEL        = null;
+   protected LaunchStateSubstate.PreLaunchSubstate HOLD        = null;
+   protected LaunchStateSubstate.IgnitionSubstate  IGN         = null;
+   protected LaunchStateSubstate.IgnitionSubstate  BUP         = null;
+   protected LaunchStateSubstate.AscentSubstate    STG         = null;
+   protected LaunchStateSubstate.AscentSubstate    IGNE        = null;
+
    protected Publisher           publisher     = null;
    protected Initializable       initializable = null;
    protected LaunchStateSubstate stateSubstate = null;
+
+   {
+      INIT      = LaunchStateSubstate.State.INITIALIZE;
+      PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
+      IGNITION  = LaunchStateSubstate.State.IGNITION;
+      LAUNCH    = LaunchStateSubstate.State.LAUNCH;
+      SET       = LaunchStateSubstate.PreLaunchSubstate.SET;
+      CONT      = LaunchStateSubstate.PreLaunchSubstate.CONTINUE;
+      FUEL      = LaunchStateSubstate.PreLaunchSubstate.FUELING;
+      HOLD      = LaunchStateSubstate.PreLaunchSubstate.HOLD;
+      IGN       = LaunchStateSubstate.IgnitionSubstate.IGNITION;
+      BUP       = LaunchStateSubstate.IgnitionSubstate.BUILDUP;
+      STG       = LaunchStateSubstate.AscentSubstate.STAGING;
+      IGNE      = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
+   };
 
    ///////////////////////////Public Methods//////////////////////////
    //
