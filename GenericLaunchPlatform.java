@@ -92,22 +92,14 @@ implements Runnable{
       //Only once the State Tranisiont to Initialization occurs are
       //things needed Measuring!!  That is in the MONITOR Use Cases!
       //ergo--no need for error determination!!!
-      /* Stub this first
       try{
          LaunchPlatformData lpData = null;
-         lpData = (LaunchPatformData)this.intializable.initialized();
+         lpData = (LaunchPlatformData)this.initializationStatus();
          //Notify the Observers
          this.publisher.publish(lpData);
       }
-      catch(NullPointerException npe){
-         //Test Print
-         npe.printStackTrace();
-      }
-      catch(ClassCastException   cce){
-         //Test Print
-         cce.printStackTrace();
-      }
-      */
+      catch(NullPointerException npe){}
+      catch(ClassCastException   cce){}
    }
 
    /////////////////Runnable Interface Implementation/////////////////
