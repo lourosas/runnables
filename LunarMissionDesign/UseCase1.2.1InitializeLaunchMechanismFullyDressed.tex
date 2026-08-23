@@ -26,7 +26,76 @@ appropriate Mision Parameters loaded
 \textbf{Pre-Conditions:  }The System is running and ready to
 initialize and monitor the appropriate Systems and Sub-Systems\\
 \textbf{Post-Conditions: }The Launch Mechanism is initialized with the
-appropriate parameters. The Launch Mechanism is monitoring the
-Rocket\\\\
+appropriate parameters.\\\\
+\begin{tabular}{|p{5.75cm}|p{5.75cm}|}\hline
+\textbf{Flight Director}&\textbf{System}\\\hline
+1. Enters the Mission Parameters File (See \textit{Use Case 1
+Initialize Launch})&\\\hline
+&2. Opens the Mission Parameters File\\\hline
+&3. Finds the Launch Platform Data\\\hline
+&4. Finds the Launch Mechanism Data in the Launch Platform
+Data\\\hline
+&5. Stores the Launch Mechanism Data\\\hline
+&6. Finds the Rocket Data\\\hline
+&7. Stores the needed Rocket Data\\\hline
+&8. Returns the Initialized Launch Mechanism Data\\\hline
+9. Receives the Initialized Launch Mechanism Data&\\\hline
+\end{tabular}\\\\
+\textbf{Extensios (or Alternative Flows)}
+\begin{itemize}
+\item[2a.]If the System cannot open the Mission Parameters File, then
+the System alerts the Flight Director of the error.  Flight Director
+determines next course of action.
+\item[3a.]If the System cannot access the Launch Platform Data, then
+the System alerts the Flight Director of the error.  Flight Director
+determines next course of action.
+\item [4a.]If the System cannot access the Launch Mechanism Data, then
+the System alerts the Flight Director of the error.  Flight Director
+determines next course of action.
+\item[6a.,7a.]If there is no Rocket Data available, then the System
+continues without storage of the Rocket Data.  System alerts the
+Flight Director.
+\end{itemize}
+\textbf{Notes/Constraints}
+\begin{itemize}
+\item[*a.]This Use Case documents the Launch Mechanism Initialization,
+not the Mechanism Monitoring (See \textit{Use Case 4.1 Monitor
+Initialization})--this includes monitoring System Measuremenst of the
+force and downward force.
+\item[*.b]Upon receipt of an alert, the next course of action for the
+Flight Director is aborting the mission or chosing another Mission
+Parameter File.
+\item[6b.,7b.]Since prior Rocket Initialization is a definite
+possibility, a more likely scenario is the System accesses the
+initialized Rocket Data.
+\end{itemize}
+\textbf{Special Requirements:}
+\begin{itemize}
+\item None
+\end{itemize}
+\textbf{Technology \& Variations List:}
+\begin{itemize}
+\item There could be many types of Mission Parameters Files in
+different formats.  The System needs to account for all the different
+types of files and read the accordingly.
+\item Regardless of the type of file, the System Data will follow a
+Standard.
+\item The Launch Platform may have no Launch Mechanisms.
+\end{itemize}
+\textbf{Frequency of Occurence}
+\begin{itemize}
+\item Every time a mission is planned or simulated.
+\end{itemize}
+\textbf{Open Issues}
+\begin{itemize}
+\item [6c.,7c.]There are different possiblities if there is no
+Initialized Rocket Data (See \textit{Use Case 1.1 Initialize
+Rocket}) including
+\begin{itemize}
+\item Giving the Flight Director the option to initialize.
+\item Initializing the System without a Rocket connected to the
+Mechanism
+\end{itemize}
+\end{itemize}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
