@@ -143,9 +143,8 @@ public class LaunchPlatformInitializable implements Initializable{
    //
    //
    private void setMechanismData(Object data){
-      //Test Prints, remove
-      System.out.println("Launch Platform Mechanism Data");
-      System.out.println(data);
+      LaunchPlatformData lpd = this._launchPlatformData;
+      List<LaunchMechanismData> list = lpd.mechanisms();
    }
 
    ///////////////Initializable Interface Implementation//////////////
