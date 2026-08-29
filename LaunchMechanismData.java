@@ -24,7 +24,6 @@ import rosas.lou.runnables.*;
 public abstract class LaunchMechanismData{
    double              _angle;
    String              _error;
-   double              _tension;
    boolean             _isError;
    double              _measuredWeight;
    int                 _number; //Hold number
@@ -101,7 +100,11 @@ public abstract class LaunchMechanismData{
    //
    //
    //
-   protected void angle(double agl){ this._angle = agl; }
+   protected void angle(double agl){ 
+      if(agl > 0.){
+         this._angle = agl; 
+      }
+   }
 
    //
    //
@@ -117,26 +120,32 @@ public abstract class LaunchMechanismData{
    //
    //
    protected void measuredWeight(double weight){
-      this._measuredWeight = weight;
+      if(weight > 0.){
+         this._measuredWeight = weight;
+      }
    }
 
    //Hold Number
    //
    //
-   protected void number(int number){ this._number = number; }
-
-   //
-   //
-   //
-   protected void tension(double tension){
-      this._tension = tension;
+   protected void number(int number){
+      if(number > -1){
+         this._number = number;
+      }
    }
 
    //
    //
    //
+   protected void tension(double tension){ this._tension = tension; }
+
+   //
+   //
+   //
    protected void tolerance(double tolerance){
-      this._tolerance = tolerance;
+      if(tolerance > 0.){
+         this._tolerance = tolerance;
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////

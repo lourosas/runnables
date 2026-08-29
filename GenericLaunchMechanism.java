@@ -110,14 +110,8 @@ implements Runnable{
          //Notify Observers
          this.publisher.publish(lmData);
       }
-      catch(NullPointerException npe){
-         //Test prints REMOVE
-         npe.printStackTrace();
-      }
-      catch(ClassCastException cce){
-         //Test Prints REMOVE
-         cce.printStackTrace();
-      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){}
    }
 
    /////////////////Runnable Interface Implementation/////////////////

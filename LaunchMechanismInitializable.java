@@ -41,11 +41,103 @@ public class LaunchMechanismInitializable implements Initializable{
       }
    }
 
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private double getAngle(Hashtable<String,String> ht){
+      double angle = Double.NaN;
+      try{
+         angle = Double.parseDouble(ht.get("angle_of_holds"));
+      }
+      catch(NumberFormatException nfe){ angle = Double.NaN; }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         angle = Double.NaN;
+      }
+      return angle;
+   }
+
+   //
+   //
+   //
+   private double getHoldsTolerance(Hashtable<String,String> ht){
+      double tolerance = Double.NaN;
+      try{
+         tolerance = Double.parseDouble(ht.get("holds_tolerance"));
+      }
+      catch(NumberFormatException nfe){ tolerance = Double.NaN; }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         tolerance = Double.NaN;
+      }
+      return tolerance;
+   }
+
+   //
+   //
+   //
+   private void initializeLaunchMechanism(String file)
+   throws IOException{
+      LaunchSimulatorJsonFileReader read = null;
+      read = new LaunchSimulatorJsonFileReader(file);
+      Hashtable<String,String> ht = read.readLaunchingMechanismInfo();
+      double  agl   = this.getAngle(ht);
+      String  err   = null;
+      boolean isE   = false;
+      double  mWgt  = Double.NaN;
+      int     num   = this._holdNumber;
+      double  ten   = Double.NaN;
+      double  tol   = this.getHoldsTolerance(ht);
+      LaunchMechanismData lmd = null;
+      lmd = new GenericLaunchMechanismData(agl, //Hold Angle
+                                           err, //Error String
+                                           isE, //Current Error
+                                           mWgt,//Measured Weight
+                                           num, //Hold Number
+                                           ten, //Tension
+                                           tol);//Tolerance
+      this._launchMechanismData = lmd;
+   }
+
+   //
+   //
+   //
+   private boolean isPathFile(String file)throws IOException{
+      boolean isPath = false;
+      try{
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         if(read.readPathInfo().get("parameter") == null){
+            throw new NullPointerException("Not a Path File");
+         }
+         isPath = true;
+      }
+      catch(IOException ioe){
+         isPath = false;
+         throw ioe;
+      }
+      catch(NullPointerException npe){
+         isPath = false;
+      }
+      return isPath;
+   }
+
    ///////////////Initializable Interface Implementation//////////////
    //
    //
    //
-   public void initialize(String file)throws IOException{}
+   public void initialize(String file)throws IOException{
+      //Test Print for now
+      System.out.println("LaunchMechanismInitializable");
+      String lFile = file;
+      if(this.isPathFile(file)){
+         LaunchSimulatorJsonFileReader read = null;
+         read = new LaunchSimulatorJsonFileReader(file);
+         lFile = read.readPathInfo().get("launching_mechanism");
+      }
+      this.initializeLaunchMechanism(lFile);
+   }
 
    //
    //
@@ -56,7 +148,7 @@ public class LaunchMechanismInitializable implements Initializable{
    //
    //
    public Object initialized(){
-      return null;
+      return this._launchMechanismData;
    }
 }
 //////////////////////////////////////////////////////////////////////
