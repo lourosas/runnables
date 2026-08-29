@@ -47,6 +47,7 @@ public abstract class LaunchMechanism extends SystemComponent{
      }
      catch(NullPointerException npe){
         this.setPublisher(new LaunchMechanismPublisher());
+        this.publisher.addSubscriber(subscriber);
      }
    }
 
@@ -54,12 +55,14 @@ public abstract class LaunchMechanism extends SystemComponent{
    //
    //
    public void initializeComponent(String file)throws IOException{
-      System.out.println("LaunchMechanism");
+      System.out.println("LaunchMechanism Initialize");
       try{
          this.initializable.initialize(file);
       }
       catch(NullPointerException npe){
-         this.setInitializable(new LaunchMechanismInitializable());
+         LaunchMechanismInitializable lmi = null;
+         lmi = new LaunchMechanismInitializable(this.holdNumber);
+         this.setInitializable(lmi);
          this.initializable.initialize(file);
       }
    }

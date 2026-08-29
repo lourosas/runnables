@@ -24,19 +24,20 @@ import rosas.lou.runnables.*;
 public abstract class LaunchMechanismData{
    double              _angle;
    String              _error;
-   double              _holdingForce;
+   double              _tension;
    boolean             _isError;
    double              _measuredWeight;
    int                 _number; //Hold number
+   double              _tension;
    double              _tolerance;
 
    {
       _angle          = Double.NaN;
       _error          = null;
-      _holdingForce   = Double.NaN;
       _isError        = false;
       _measuredWeight = Double.NaN;
       _number         = -1;
+      _tension        = Double.NaN;
       _tolerance      = Double.NaN;
    };
 
@@ -50,11 +51,6 @@ public abstract class LaunchMechanismData{
    //
    //
    public String error(){ return this._error; }
-
-   //
-   //
-   //
-   public double holdingForce(){ return this._holdingForce; }
 
    //
    //
@@ -74,6 +70,11 @@ public abstract class LaunchMechanismData{
    //
    //
    //
+   public double tension(){ return this._tension; }
+
+   //
+   //
+   //
    public double tolerance(){ return this._tolerance; }
 
    //
@@ -85,10 +86,10 @@ public abstract class LaunchMechanismData{
       data += "\nHold:            "+this.number();
       double a = this.angle();
       data += "\nAngle:           "+String.format("%.2f",a);
-      double hf = this.holdingForce();
-      data += "\nHold Force:      "+String.format("%.2f",hf);
       double mw = this.measuredWeight();
       data += "\nMeasured Weight: "+String.format("%.2f",mw);
+      double ten = this.tension();
+      data += "\ntension:      "+String.format("%.2f",ten);
       double tol= this.tolerance();
       data += "\nTolerance:       "+String.format("%.2f",tol);
       data += "\nIs Error:        "+this.isError();
@@ -110,13 +111,6 @@ public abstract class LaunchMechanismData{
    //
    //
    //
-   protected void holdingForce(double holdForce){
-      this._holdingForce = holdForce;
-   }
-
-   //
-   //
-   //
    protected void isError(boolean isE){ this._isError = isE; }
 
    //
@@ -130,6 +124,13 @@ public abstract class LaunchMechanismData{
    //
    //
    protected void number(int number){ this._number = number; }
+
+   //
+   //
+   //
+   protected void tension(double tension){
+      this._tension = tension;
+   }
 
    //
    //

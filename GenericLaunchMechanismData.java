@@ -30,18 +30,18 @@ public class GenericLaunchMechanismData extends LaunchMechanismData{
    (
       double         angle,
       String         error,
-      double         holdingForce,
       boolean        isError,
       double         measuredWeight,
       int            number,
+      double         tension,
       double         tolerance
    ){
       this.angle(angle);
       this.error(error);
-      this.holdingForce(holdingForce);
       this.isError(isError);
       this.measuredWeight(measuredWeight);
       this.number(number);
+      this.tension(tension);
       this.tolerance(tolerance);
    }
 }

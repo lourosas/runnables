@@ -23,6 +23,23 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class LaunchMechanismInitializable implements Initializable{
+   private LaunchMechanismData _launchMechanismData;
+   private int                 _holdNumber;
+
+   {
+      _holdNumber          = -1;
+      _launchMechanismData = null;
+   };
+
+   ///////////////////////////Constructors////////////////////////////
+   //
+   //
+   //
+   public LaunchMechanismInitializable(int holdNumber){
+      if(holdNumber > -1){
+         this._holdNumber = holdNumber;
+      }
+   }
 
    ///////////////Initializable Interface Implementation//////////////
    //

@@ -96,7 +96,28 @@ implements Runnable{
    //
    public void initializeComponent(String file)throws IOException{
       super.initializeComponent(file);
+      //Test Prints
+      System.out.println("Launch Mechanism: "+file);
       //The rest, TBD...Use Case 1.2.1  Initilize Launch Mechanism
+      //Nothing NEEDS measuring in Initialization!
+      //Only once the State transtions to initiaization do things
+      //need measuring!
+      //That is in the Monitoring Use Case
+      //ergo--no need for error determination!
+      try{
+         LaunchMechanismData lmData = null;
+         lmData = (LaunchMechanismData)this.initializationStatus();
+         //Notify Observers
+         this.publisher.publish(lmData);
+      }
+      catch(NullPointerException npe){
+         //Test prints REMOVE
+         npe.printStackTrace();
+      }
+      catch(ClassCastException cce){
+         //Test Prints REMOVE
+         cce.printStackTrace();
+      }
    }
 
    /////////////////Runnable Interface Implementation/////////////////
