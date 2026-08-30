@@ -88,7 +88,7 @@ public abstract class LaunchMechanismData{
       double mw = this.measuredWeight();
       data += "\nMeasured Weight: "+String.format("%.2f",mw);
       double ten = this.tension();
-      data += "\ntension:      "+String.format("%.2f",ten);
+      data += "\nTension:         "+String.format("%.2f",ten);
       double tol= this.tolerance();
       data += "\nTolerance:       "+String.format("%.2f",tol);
       data += "\nIs Error:        "+this.isError();

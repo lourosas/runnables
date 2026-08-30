@@ -137,14 +137,71 @@ public class LaunchPlatformInitializable implements Initializable{
    //
    //
    //
-   private void setErrorData(Object data){}
+   private void setErrorData(Object data){
+      String error = null;
+      try{
+         Exception e = (Exception)data;
+         error = e.getMessage();
+      }
+      catch(ClassCastException cce){}
+      try{
+         error = (String)data;
+      }
+      catch(ClassCastException cce){}
+      if(error != null){
+         LaunchPlatformData lpd = this._launchPlatformData;
+         String    err = lpd.error();
+         boolean   isE = lpd.isError();
+         int       hld = lpd.holds();
+         double    mWg = lpd.measuredWeight();
+         String    mdl = lpd.model();
+         double    tol = lpd.tolerance();
+         List<LaunchMechanismData> list = lpd.mechanisms();
+         lpd = new GenericLaunchPlatformData(err,  //Error String
+                                             isE,  //Is Error
+                                             hld,  //Holds
+                                             mWg,  //Measured Weight
+                                             mdl,  //Model
+                                             tol,  //Tolerance
+                                             list);//List
+         this._launchPlatformData = lpd;
+      }
+   }
 
    //
    //
    //
    private void setMechanismData(Object data){
-      LaunchPlatformData lpd = this._launchPlatformData;
-      List<LaunchMechanismData> list = lpd.mechanisms();
+      try{
+         LaunchMechanismData lmd = (LaunchMechanismData)data;
+         LaunchPlatformData  lpd = this._launchPlatformData;
+         List<LaunchMechanismData> list = lpd.mechanisms();
+         try{
+            list.add(lmd);
+         }
+         catch(NullPointerException npe){
+            list = new LinkedList<LaunchMechanismData>();
+            list.add(lmd);
+         }
+         String    err = lpd.error();
+         boolean   isE = lpd.isError();
+         int       hld = lpd.holds();
+         double    mWg = lpd.measuredWeight();
+         String    mdl = lpd.model();
+         double    tol = lpd.tolerance();
+         lpd = new GenericLaunchPlatformData(err,  //Error String
+                                             isE,  //Is Error
+                                             hld,  //Holds
+                                             mWg,  //Measured Weight
+                                             mdl,  //Model
+                                             tol,  //Tolerance
+                                             list);//Mechanisms
+         this._launchPlatformData = lpd;
+
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+      }
    }
 
    ///////////////Initializable Interface Implementation//////////////

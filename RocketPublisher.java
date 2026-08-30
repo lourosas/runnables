@@ -86,6 +86,8 @@ public class RocketPublisher implements Publisher{
             while(it.hasNext() && obj != null){
                it.next().update(obj);
             }
+            this._rocketData = null;
+            this._exception  = null;
          }
          catch(NullPointerException npe){}
       }

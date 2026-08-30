@@ -23,32 +23,118 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class LaunchPlatformPublisher implements Publisher{
+   private List<Subscriber>    _subscribers;
+   private LaunchPlatformData  _launchPlatformData;
+   private Exception           _exception;
+
+   {
+      _subscribers        = null;
+      _launchPlatformData = null;
+      _exception          = null;
+   };
+
+   ////////////////////////////Constructors///////////////////////////
+   //
+   //
+   //
+   public LaunchPlatformPublisher(){}
+
+   //
+   //
+   //
+   public LaunchPlatformPublisher(LaunchPlatformData lpd){
+      this._launchPlatformData = lpd;
+   }
+
+   //
+   //
+   //
+   public LaunchPlatformPublisher(Exception exception){
+      this._exception = exception;
+   }
+
+   //////////////////////////Private Methods//////////////////////////
+
    /////////////////Publisher Interface Implementation////////////////
    //
    //
    //
-   public void addSubscriber(Subscriber sub){}
+   public void addSubscriber(Subscriber sub){
+      try{
+         this._subscribers.add(sub);
+      }
+      catch(NullPointerException npe){
+         this._subscribers = new LinkedList<Subscriber>();
+         this._subscribers.add(sub);
+      }
+   }
 
    //
    //
    //
-   public void publish(){}
+   public void publish(){
+      if(this._launchPlatformData != null || this._exception != null){
+         try{
+            Object obj = null;
+            Iterator<Subscriber> it = this._subscribers.iterator();
+            if(this._launchPlatformData != null){
+               obj = this._launchPlatformData;
+            }
+            else if(this._exception != null){
+               obj = this._exception;
+            }
+            while(it.hasNext() && obj != null){
+               it.next().update(obj);
+            }
+            this._exception          = null;
+            this._launchPlatformData = null;
+         }
+         catch(NullPointerException npe){}
+      }
+   }
 
    //
    //
    //
-   public void publish(Object data){}
+   public void publish(Object data){
+      try{
+         this._launchPlatformData = (LaunchPlatformData)data;
+      }
+      catch(ClassCastException cce){
+         this._launchPlatformData = null;
+      }
+      try{
+         this._exception = (Exception)data;
+      }
+      catch(ClassCastException cce){
+         this._exception = null;
+      }
+      this.publish();
+   }
 
    //
    //
    //
-   public void removeSubscriber(Subscriber sub){}
+   public void removeSubscriber(Subscriber sub){
+      try{
+         this._subscribers.remove(sub);
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+      catch(UnsupportedOperationException uoe){
+         uoe.printStackTrace();
+      }
+   }
 
    //
    //
    //
    public Object request(){
-      return null;
+      return this._launchPlatformData;
    }
 }
 //////////////////////////////////////////////////////////////////////

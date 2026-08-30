@@ -26,39 +26,12 @@ import rosas.lou.clock.*;
 public class GenericLaunchMechanism extends LaunchMechanism
 implements Runnable{
    private static boolean TOPRINT = true;
-
-   private LaunchStateSubstate.State INIT                      = null;
-   private LaunchStateSubstate.State PRELAUNCH                 = null;
-   private LaunchStateSubstate.State IGNITION                  = null;
-   private LaunchStateSubstate.State LAUNCH                    = null;
-   private LaunchStateSubstate.PreLaunchSubstate SET           = null;
-   private LaunchStateSubstate.PreLaunchSubstate CONT          = null;
-   private LaunchStateSubstate.PreLaunchSubstate FUEL          = null;
-   private LaunchStateSubstate.PreLaunchSubstate HOLD          = null;
-   private LaunchStateSubstate.IgnitionSubstate  IGN           = null;
-   private LaunchStateSubstate.IgnitionSubstate  BUP           = null;
-   private LaunchStateSubstate.AscentSubstate    STG           = null;
-   private LaunchStateSubstate.AscentSubstate    IGNE          = null;
-
    private boolean             _kill;
    private Object              _obj;
    private Thread              _rt0;
    private boolean             _start;
 
    {
-      INIT      = LaunchStateSubstate.State.INITIALIZE;
-      PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
-      IGNITION  = LaunchStateSubstate.State.IGNITION;
-      LAUNCH    = LaunchStateSubstate.State.LAUNCH;
-      SET       = LaunchStateSubstate.PreLaunchSubstate.SET;
-      CONT      = LaunchStateSubstate.PreLaunchSubstate.CONTINUE;
-      FUEL      = LaunchStateSubstate.PreLaunchSubstate.FUELING;
-      HOLD      = LaunchStateSubstate.PreLaunchSubstate.HOLD;
-      IGN       = LaunchStateSubstate.IgnitionSubstate.IGNITION;
-      BUP       = LaunchStateSubstate.IgnitionSubstate.BUILDUP;
-      STG       = LaunchStateSubstate.AscentSubstate.STAGING;
-      IGNE      = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
-
       _kill      = false;
       _obj       = null;
       _rt0       = null;

@@ -72,6 +72,13 @@ public abstract class LaunchPlatformData{
    //
    //
    //
+   public List<LaunchMechanismData> mechanisms(){
+      return this._mechanisms;
+   }
+
+   //
+   //
+   //
    public String model(){
       return this._model;
    }
@@ -81,13 +88,6 @@ public abstract class LaunchPlatformData{
    //
    public double tolerance(){
       return this._tolerance;
-   }
-
-   //
-   //
-   //
-   public List<LaunchMechanismData> mechanisms(){
-      return this._mechanisms;
    }
 
    //
