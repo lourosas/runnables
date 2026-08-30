@@ -1,0 +1,41 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper]{article}
+\usepackage{latexsym}
+\usepackage{amsbsy}
+\usepackage{graphicx}
+\begin{document}
+\noindent
+\textbf{Monitor Rocket--Casual Format}\\
+\textit{Main Success Scenario}\\
+\begin{enumerate}
+   \item With the System running and the Flight Director previously
+      inputting the Mission Parameters File (See \textit{Use Case 1.1
+      Initialize Rocket})
+   \item System periodically monitors each Stage in the System (See
+      \textit{Use Case 1.3.1 Monitor Stage})
+   \item System returns monitored Stage Data to the Flight Director
+   \item System periodically monitors the Payload/Capsule (See
+      \textit{Use Case 1.3.2 Monitor Capsule})
+   \item System returns the monitored Payload/Capsule Data to the
+      Flight Director
+\end{enumerate}
+\textit{Alternative Scenarios}
+\begin{itemize}
+   \item[2a.]If Stage monitoring fails, then the System returns an
+      error indicating Stage Monitoring has failed
+   \item[3a.]If any of the Stage data indicates an error, then
+      the System returns Data indicating the error
+   \item[4a.]If Payload monitoring fails, then the System returns an
+      error indicating Payload monitoring failed
+   \item[5a.]If the Payload data indicates an error, then the System
+      returns the Data indicating the error
+\end{itemize}
+\textit{Notes/Constraints}
+\begin{itemize}
+   \item[*]Any error returned in the Data from either the Stages or
+      the Payload will be due to either a measurement error of some
+      kind or measurements out of range for the Stages/Payload 
+      dictated in Initialization
+\end{itemize}
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
