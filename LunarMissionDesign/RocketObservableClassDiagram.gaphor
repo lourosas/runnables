@@ -3525,9 +3525,6 @@ existing classes or even new classes with specific responsibilities.</val>
 </name>
 <ownedPresentation>
 <reflist>
-<ref refid="384d3a1f-5ba4-11f1-a006-e8f408f10391"/>
-<ref refid="4eaf0d01-5ba4-11f1-ab60-e8f408f10391"/>
-<ref refid="5ee180e7-5ba4-11f1-9508-e8f408f10391"/>
 <ref refid="bfa99801-a89c-11f1-8b80-e8f408f10391"/>
 <ref refid="c1e0393e-a89c-11f1-826b-e8f408f10391"/>
 <ref refid="58e277ab-a89d-11f1-81c5-e8f408f10391"/>
@@ -3560,49 +3557,6 @@ existing classes or even new classes with specific responsibilities.</val>
 </reflist>
 </ownedPresentation>
 </UML:StateMachineDiagram>
-<UML:State id="384cfd4d-5ba4-11f1-b7e2-e8f408f10391">
-<container>
-<ref refid="38506820-5ba4-11f1-8bc5-e8f408f10391"/>
-</container>
-<incoming>
-<reflist>
-<ref refid="57506182-5ba4-11f1-9fa7-e8f408f10391"/>
-</reflist>
-</incoming>
-<name>
-<val>Initialize</val>
-</name>
-<outgoing>
-<reflist>
-<ref refid="65b3abc8-5ba4-11f1-882c-e8f408f10391"/>
-</reflist>
-</outgoing>
-<presentation>
-<reflist>
-<ref refid="384d3a1f-5ba4-11f1-a006-e8f408f10391"/>
-</reflist>
-</presentation>
-</UML:State>
-<UML:StateItem id="384d3a1f-5ba4-11f1-a006-e8f408f10391">
-<matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 443.37323943661977, -523.5)</val>
-</matrix>
-<top-left>
-<val>(6.626760563380287, 0.0)</val>
-</top-left>
-<width>
-<val>141.0</val>
-</width>
-<height>
-<val>46.0</val>
-</height>
-<diagram>
-<ref refid="16881b87-5ba4-11f1-b433-e8f408f10391"/>
-</diagram>
-<subject>
-<ref refid="384cfd4d-5ba4-11f1-b7e2-e8f408f10391"/>
-</subject>
-</UML:StateItem>
 <UML:StateMachine id="384e7873-5ba4-11f1-975c-e8f408f10391">
 <name>
 <val>State Machine</val>
@@ -3625,9 +3579,6 @@ existing classes or even new classes with specific responsibilities.</val>
 </stateMachine>
 <subvertex>
 <reflist>
-<ref refid="384cfd4d-5ba4-11f1-b7e2-e8f408f10391"/>
-<ref refid="4eae5cc7-5ba4-11f1-bde1-e8f408f10391"/>
-<ref refid="5ee1076a-5ba4-11f1-a235-e8f408f10391"/>
 <ref refid="bfa95193-a89c-11f1-bdb8-e8f408f10391"/>
 <ref refid="c1dffa0e-a89c-11f1-ad5d-e8f408f10391"/>
 <ref refid="58e20a8a-a89d-11f1-92e2-e8f408f10391"/>
@@ -3638,41 +3589,6 @@ existing classes or even new classes with specific responsibilities.</val>
 </reflist>
 </subvertex>
 </UML:Region>
-<UML:Pseudostate id="4eae5cc7-5ba4-11f1-bde1-e8f408f10391">
-<container>
-<ref refid="38506820-5ba4-11f1-8bc5-e8f408f10391"/>
-</container>
-<outgoing>
-<reflist>
-<ref refid="57506182-5ba4-11f1-9fa7-e8f408f10391"/>
-</reflist>
-</outgoing>
-<presentation>
-<reflist>
-<ref refid="4eaf0d01-5ba4-11f1-ab60-e8f408f10391"/>
-</reflist>
-</presentation>
-</UML:Pseudostate>
-<UML:PseudostateItem id="4eaf0d01-5ba4-11f1-ab60-e8f408f10391">
-<matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 505.28187919463085, -650.5)</val>
-</matrix>
-<top-left>
-<val>(0.0, 0.0)</val>
-</top-left>
-<width>
-<val>20.0</val>
-</width>
-<height>
-<val>20.0</val>
-</height>
-<diagram>
-<ref refid="16881b87-5ba4-11f1-b433-e8f408f10391"/>
-</diagram>
-<subject>
-<ref refid="4eae5cc7-5ba4-11f1-bde1-e8f408f10391"/>
-</subject>
-</UML:PseudostateItem>
 <UML:TransitionItem id="50a654a1-5ba4-11f1-a46a-e8f408f10391">
 <diagram>
 <ref refid="16881b87-5ba4-11f1-b433-e8f408f10391"/>
@@ -3683,87 +3599,13 @@ existing classes or even new classes with specific responsibilities.</val>
 <orthogonal>
 <val>False</val>
 </orthogonal>
-<subject>
-<ref refid="57506182-5ba4-11f1-9fa7-e8f408f10391"/>
-</subject>
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 519.0, -611.5)</val>
+<val>(1.0, 0.0, 0.0, 1.0, -136.0, 97.5)</val>
 </matrix>
 <points>
 <val>[(-3.7181208053691535, -19.0), (-1.812080536912731, 88.0)]</val>
 </points>
-<head-connection>
-<ref refid="4eaf0d01-5ba4-11f1-ab60-e8f408f10391"/>
-</head-connection>
-<tail-connection>
-<ref refid="384d3a1f-5ba4-11f1-a006-e8f408f10391"/>
-</tail-connection>
 </UML:TransitionItem>
-<UML:Transition id="57506182-5ba4-11f1-9fa7-e8f408f10391">
-<container>
-<ref refid="38506820-5ba4-11f1-8bc5-e8f408f10391"/>
-</container>
-<guard>
-<ref refid="5753aea7-5ba4-11f1-ac75-e8f408f10391"/>
-</guard>
-<presentation>
-<reflist>
-<ref refid="50a654a1-5ba4-11f1-a46a-e8f408f10391"/>
-</reflist>
-</presentation>
-<source>
-<ref refid="4eae5cc7-5ba4-11f1-bde1-e8f408f10391"/>
-</source>
-<target>
-<ref refid="384cfd4d-5ba4-11f1-b7e2-e8f408f10391"/>
-</target>
-<trigger>
-<ref refid="73d77edd-5ba4-11f1-801e-e8f408f10391"/>
-</trigger>
-</UML:Transition>
-<UML:Constraint id="5753aea7-5ba4-11f1-ac75-e8f408f10391">
-<specification>
-<ref refid="d97e763b-5ba4-11f1-b749-e8f408f10391"/>
-</specification>
-<transition>
-<ref refid="57506182-5ba4-11f1-9fa7-e8f408f10391"/>
-</transition>
-</UML:Constraint>
-<UML:FinalState id="5ee1076a-5ba4-11f1-a235-e8f408f10391">
-<container>
-<ref refid="38506820-5ba4-11f1-8bc5-e8f408f10391"/>
-</container>
-<incoming>
-<reflist>
-<ref refid="65b3abc8-5ba4-11f1-882c-e8f408f10391"/>
-</reflist>
-</incoming>
-<presentation>
-<reflist>
-<ref refid="5ee180e7-5ba4-11f1-9508-e8f408f10391"/>
-</reflist>
-</presentation>
-</UML:FinalState>
-<UML:FinalStateItem id="5ee180e7-5ba4-11f1-9508-e8f408f10391">
-<matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 510.28187919463085, -375.5)</val>
-</matrix>
-<top-left>
-<val>(0.0, 0.0)</val>
-</top-left>
-<width>
-<val>30.0</val>
-</width>
-<height>
-<val>30.0</val>
-</height>
-<diagram>
-<ref refid="16881b87-5ba4-11f1-b433-e8f408f10391"/>
-</diagram>
-<subject>
-<ref refid="5ee1076a-5ba4-11f1-a235-e8f408f10391"/>
-</subject>
-</UML:FinalStateItem>
 <UML:TransitionItem id="64789b6b-5ba4-11f1-9264-e8f408f10391">
 <diagram>
 <ref refid="16881b87-5ba4-11f1-b433-e8f408f10391"/>
@@ -3774,54 +3616,13 @@ existing classes or even new classes with specific responsibilities.</val>
 <orthogonal>
 <val>False</val>
 </orthogonal>
-<subject>
-<ref refid="65b3abc8-5ba4-11f1-882c-e8f408f10391"/>
-</subject>
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 514.0, -368.5)</val>
+<val>(1.0, 0.0, 0.0, 1.0, -78.0, 264.5)</val>
 </matrix>
 <points>
 <val>[(6.026845637583904, -109.0), (8.15511863125056, -7.0)]</val>
 </points>
-<head-connection>
-<ref refid="384d3a1f-5ba4-11f1-a006-e8f408f10391"/>
-</head-connection>
-<tail-connection>
-<ref refid="5ee180e7-5ba4-11f1-9508-e8f408f10391"/>
-</tail-connection>
 </UML:TransitionItem>
-<UML:Transition id="65b3abc8-5ba4-11f1-882c-e8f408f10391">
-<container>
-<ref refid="38506820-5ba4-11f1-8bc5-e8f408f10391"/>
-</container>
-<guard>
-<ref refid="65b6ea58-5ba4-11f1-b44e-e8f408f10391"/>
-</guard>
-<presentation>
-<reflist>
-<ref refid="64789b6b-5ba4-11f1-9264-e8f408f10391"/>
-</reflist>
-</presentation>
-<source>
-<ref refid="384cfd4d-5ba4-11f1-b7e2-e8f408f10391"/>
-</source>
-<target>
-<ref refid="5ee1076a-5ba4-11f1-a235-e8f408f10391"/>
-</target>
-</UML:Transition>
-<UML:Constraint id="65b6ea58-5ba4-11f1-b44e-e8f408f10391">
-<transition>
-<ref refid="65b3abc8-5ba4-11f1-882c-e8f408f10391"/>
-</transition>
-</UML:Constraint>
-<UML:Behavior id="73d77edd-5ba4-11f1-801e-e8f408f10391">
-<name>
-<val>Read File</val>
-</name>
-<trigger_transition>
-<ref refid="57506182-5ba4-11f1-9fa7-e8f408f10391"/>
-</trigger_transition>
-</UML:Behavior>
 <UML:LiteralString id="777865be-5ba4-11f1-9187-e8f408f10391">
 <value>
 <val>J</val>
@@ -4015,14 +3816,6 @@ existing classes or even new classes with specific responsibilities.</val>
 <UML:LiteralString id="d7e8e520-5ba4-11f1-a8bf-e8f408f10391">
 <value>
 <val>NoError</val>
-</value>
-</UML:LiteralString>
-<UML:LiteralString id="d97e763b-5ba4-11f1-b749-e8f408f10391">
-<owningConstraint>
-<ref refid="5753aea7-5ba4-11f1-ac75-e8f408f10391"/>
-</owningConstraint>
-<value>
-<val>NoErrors</val>
 </value>
 </UML:LiteralString>
 <UML:ClassDiagram id="79414136-5ba7-11f1-b9e3-e8f408f10391">
