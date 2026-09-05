@@ -42,10 +42,10 @@ bg=yellow</panel_attributes>
       <x>280</x>
       <y>40</y>
       <w>30</w>
-      <h>1010</h>
+      <h>920</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;990.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;900.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -78,10 +78,10 @@ bg=red</panel_attributes>
       <x>560</x>
       <y>150</y>
       <w>30</w>
-      <h>900</h>
+      <h>800</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;880.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;780.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -186,10 +186,10 @@ _:RocketInitializable_</panel_attributes>
       <x>1010</x>
       <y>220</y>
       <w>30</w>
-      <h>750</h>
+      <h>680</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;730.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;660.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -259,10 +259,10 @@ bg=orange</panel_attributes>
       <x>1160</x>
       <y>320</y>
       <w>30</w>
-      <h>560</h>
+      <h>580</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;540.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;560.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -295,10 +295,10 @@ bg=cyan</panel_attributes>
       <x>1260</x>
       <y>580</y>
       <w>30</w>
-      <h>300</h>
+      <h>320</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;280.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;300.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -415,10 +415,10 @@ _:RocketObservable_</panel_attributes>
       <x>1360</x>
       <y>30</y>
       <w>30</w>
-      <h>940</h>
+      <h>920</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;920.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;900.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -451,10 +451,10 @@ bg=magenta</panel_attributes>
       <x>1580</x>
       <y>30</y>
       <w>30</w>
-      <h>910</h>
+      <h>900</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;890.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;880.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -484,19 +484,19 @@ update(:RocketData)</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>280</x>
-      <y>820</y>
+      <y>790</y>
       <w>1110</w>
-      <h>50</h>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-
 publish(:RocketData)</panel_attributes>
-    <additional_attributes>1090.0;30.0;10.0;20.0</additional_attributes>
+    <additional_attributes>1090.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>1360</x>
-      <y>850</y>
+      <y>810</y>
       <w>250</w>
       <h>40</h>
     </coordinates>
@@ -524,8 +524,7 @@ setStateSubstate(:LaunchStateSubstate)</panel_attributes>
       <w>180</w>
       <h>70</h>
     </coordinates>
-    <panel_attributes>
---
+    <panel_attributes>--
 Use Case 1.1.1
 bg=red</panel_attributes>
     <additional_attributes/>
@@ -545,7 +544,7 @@ bg=red</panel_attributes>
     <id>UMLFrame</id>
     <coordinates>
       <x>1350</x>
-      <y>700</y>
+      <y>690</y>
       <w>290</w>
       <h>90</h>
     </coordinates>
@@ -555,12 +554,36 @@ bg=red</panel_attributes>
   <element>
     <id>UMLFrame</id>
     <coordinates>
-      <x>1330</x>
-      <y>810</y>
-      <w>290</w>
+      <x>1350</x>
+      <y>780</y>
+      <w>270</w>
       <h>90</h>
     </coordinates>
     <panel_attributes>loop through Subscribers</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>390</x>
+      <y>820</y>
+      <w>300</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>--
+MonitorRocketInitializationUseCaseDiagram
+bg=magenta</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>840</y>
+      <w>130</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>110.0;10.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
