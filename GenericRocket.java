@@ -135,6 +135,7 @@ public class GenericRocket extends Rocket implements  Runnable{
       super.initializeComponent(file);
       this.initializeStages(file);
       this.initializePayload(file);
+      this.setMonitorable();
       try{
          RocketData rocketData = null;
          rocketData = (RocketData)this.initializable.initialized();

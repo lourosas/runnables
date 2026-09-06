@@ -58,6 +58,17 @@ public abstract class Rocket extends SystemComponent{
       this.initializable.initialize(file);
    }
 
+   /////////////////////////Protected Methods/////////////////////////
+   //
+   //
+   //
+   protected void setMonitorable(){
+      System.out.println("\n***************************************");
+      System.out.println("Rocket Set Monitorable");
+      System.out.println("***************************************\n");
+      this.setMonitorable(new RocketMonitorable());
+   }
+
    /////////////////StateMutable Interface Overrides//////////////////
    //
    //

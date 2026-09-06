@@ -39,6 +39,7 @@ public abstract class SystemComponent implements StateMutable{
    protected Publisher           publisher     = null;
    protected Initializable       initializable = null;
    protected LaunchStateSubstate stateSubstate = null;
+   protected Monitorable         monitorable   = null;
 
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
@@ -59,6 +60,13 @@ public abstract class SystemComponent implements StateMutable{
    //
    //
    //
+   public void addMonitorable(Monitorable monitorable){
+      this.monitorable = monitorable;
+   }
+
+   //
+   //
+   //
    public void addSubscriber(Subscriber subscriber){}
 
    //
@@ -71,6 +79,13 @@ public abstract class SystemComponent implements StateMutable{
    //
    public Object initializationStatus(){
       return this.initializable.initialized();
+   }
+
+   //
+   //
+   //
+   public Object monitor(){
+      return this.monitorable.monitor();
    }
    
    //
@@ -87,6 +102,19 @@ public abstract class SystemComponent implements StateMutable{
       this.publisher = publisher;
    }
 
+   ////////////////////////Protected Methods//////////////////////////
+   //
+   //
+   //
+   protected void setMonitorable(){}
+
+   //
+   //
+   //
+   protected void setMonitorable(Monitorable monitorable){
+      this.monitorable = monitorable;
+   }
+
    ///////////////////StateMutable Interface Methods//////////////////
    //
    //
@@ -100,6 +128,7 @@ public abstract class SystemComponent implements StateMutable{
    //
    public void setStateSubstate(LaunchStateSubstate ss){
       this.stateSubstate = ss;
-   } 
+   }
+
 }
 //////////////////////////////////////////////////////////////////////

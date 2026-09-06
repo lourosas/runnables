@@ -5,7 +5,7 @@
     <id>UMLGeneric</id>
     <coordinates>
       <x>280</x>
-      <y>30</y>
+      <y>20</y>
       <w>170</w>
       <h>50</h>
     </coordinates>
@@ -18,7 +18,7 @@ bg=yellow</panel_attributes>
     <id>UMLActor</id>
     <coordinates>
       <x>30</x>
-      <y>30</y>
+      <y>20</y>
       <w>100</w>
       <h>110</h>
     </coordinates>
@@ -29,29 +29,29 @@ bg=yellow</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>70</x>
-      <y>60</y>
+      <y>50</y>
       <w>30</w>
-      <h>880</h>
+      <h>430</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;860.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;410.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>350</x>
-      <y>70</y>
+      <y>60</y>
       <w>30</w>
-      <h>890</h>
+      <h>460</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;870.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;440.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>70</x>
-      <y>110</y>
+      <y>100</y>
       <w>310</w>
       <h>40</h>
     </coordinates>
@@ -63,7 +63,7 @@ initialize(file:String)</panel_attributes>
     <id>UMLGeneric</id>
     <coordinates>
       <x>700</x>
-      <y>30</y>
+      <y>20</y>
       <w>170</w>
       <h>50</h>
     </coordinates>
@@ -76,18 +76,18 @@ bg=red</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>780</x>
-      <y>70</y>
+      <y>60</y>
       <w>30</w>
-      <h>890</h>
+      <h>370</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;870.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;350.0</additional_attributes>
   </element>
   <element>
     <id>UMLGeneric</id>
     <coordinates>
       <x>490</x>
-      <y>30</y>
+      <y>20</y>
       <w>160</w>
       <h>50</h>
     </coordinates>
@@ -99,20 +99,20 @@ bg=yellow</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>560</x>
-      <y>70</y>
+      <y>60</y>
       <w>30</w>
-      <h>890</h>
+      <h>450</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;870.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;430.0</additional_attributes>
   </element>
   <element>
     <id>UMLFrame</id>
     <coordinates>
       <x>50</x>
-      <y>160</y>
-      <w>1200</w>
-      <h>750</h>
+      <y>200</y>
+      <w>1470</w>
+      <h>240</h>
     </coordinates>
     <panel_attributes>while true</panel_attributes>
     <additional_attributes/>
@@ -121,7 +121,7 @@ bg=yellow</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>350</x>
-      <y>870</y>
+      <y>410</y>
       <w>240</w>
       <h>40</h>
     </coordinates>
@@ -133,7 +133,7 @@ sleep(millisecs:int)</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>350</x>
-      <y>910</y>
+      <y>450</y>
       <w>240</w>
       <h>40</h>
     </coordinates>
@@ -145,7 +145,7 @@ Interrupted Exception</panel_attributes>
     <id>UMLGeneric</id>
     <coordinates>
       <x>960</x>
-      <y>30</y>
+      <y>20</y>
       <w>180</w>
       <h>50</h>
     </coordinates>
@@ -158,18 +158,18 @@ bg=gray</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1040</x>
-      <y>70</y>
+      <y>60</y>
       <w>30</w>
-      <h>900</h>
+      <h>380</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;880.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;360.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>780</x>
-      <y>120</y>
+      <y>110</y>
       <w>290</w>
       <h>50</h>
     </coordinates>
@@ -182,7 +182,7 @@ monitorable=new RocketMonitorable()</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>350</x>
-      <y>160</y>
+      <y>200</y>
       <w>460</w>
       <h>40</h>
     </coordinates>
@@ -194,12 +194,12 @@ data=monitor():RocketData</panel_attributes>
     <id>UMLGeneric</id>
     <coordinates>
       <x>1180</x>
-      <y>30</y>
+      <y>20</y>
       <w>170</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Publisher&gt;&gt;
-_:RocketObservable_
+_:RocketPublisher_
 bg=light_gray</panel_attributes>
     <additional_attributes/>
   </element>
@@ -207,11 +207,117 @@ bg=light_gray</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1260</x>
-      <y>70</y>
+      <y>60</y>
       <w>30</w>
-      <h>890</h>
+      <h>380</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;870.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;360.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>1390</x>
+      <y>20</y>
+      <w>150</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Subscriber&gt;&gt;
+_:RocketSubscriber_
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1450</x>
+      <y>60</y>
+      <w>30</w>
+      <h>390</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;370.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>780</x>
+      <y>150</y>
+      <w>270</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+setMonitorable(:Monitorable)</panel_attributes>
+    <additional_attributes>10.0;40.0;70.0;40.0;70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>1220</x>
+      <y>210</y>
+      <w>250</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>loop through Subscribers</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>780</x>
+      <y>230</y>
+      <w>510</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+publish(rocketData:RocketData)</panel_attributes>
+    <additional_attributes>490.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1260</x>
+      <y>250</y>
+      <w>210</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+update(:RockeData)</panel_attributes>
+    <additional_attributes>190.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>350</x>
+      <y>300</y>
+      <w>940</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+publish(rocketData:RocketData)</panel_attributes>
+    <additional_attributes>920.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>1230</x>
+      <y>340</y>
+      <w>240</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>loop through Subscribers</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1260</x>
+      <y>370</y>
+      <w>220</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+update(:RocketData)</panel_attributes>
+    <additional_attributes>200.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>
