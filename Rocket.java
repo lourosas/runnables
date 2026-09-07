@@ -41,8 +41,6 @@ public abstract class Rocket extends SystemComponent{
       }
       catch(NullPointerException npe){
          this.setPublisher(new RocketPublisher());
-         //fucking observable
-         //this.publisher.addSubscriber(observer);
          this.publisher.addSubscriber(subscriber);
       }
    }
@@ -63,9 +61,6 @@ public abstract class Rocket extends SystemComponent{
    //
    //
    protected void setMonitorable(){
-      System.out.println("\n***************************************");
-      System.out.println("Rocket Set Monitorable");
-      System.out.println("***************************************\n");
       this.setMonitorable(new RocketMonitorable());
    }
 

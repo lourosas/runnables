@@ -26,44 +26,18 @@ import rosas.lou.clock.*;
 public class GenericRocket extends Rocket implements  Runnable{
    private static boolean TOPRINT = true;
 
-   private LaunchStateSubstate.State INIT                      = null;
-   private LaunchStateSubstate.State PRELAUNCH                 = null;
-   private LaunchStateSubstate.State IGNITION                  = null;
-   private LaunchStateSubstate.State LAUNCH                    = null;
-   private LaunchStateSubstate.PreLaunchSubstate SET           = null;
-   private LaunchStateSubstate.PreLaunchSubstate CONT          = null;
-   private LaunchStateSubstate.PreLaunchSubstate FUEL          = null;
-   private LaunchStateSubstate.PreLaunchSubstate HOLD          = null;
-   private LaunchStateSubstate.IgnitionSubstate  IGN           = null;
-   private LaunchStateSubstate.IgnitionSubstate  BUP           = null;
-   private LaunchStateSubstate.AscentSubstate    STG           = null;
-   private LaunchStateSubstate.AscentSubstate    IGNE          = null;
-
    private boolean             _kill;
    private Object              _obj;
    private Thread              _rt0;
    private boolean             _start;
 
    {
-      INIT      = LaunchStateSubstate.State.INITIALIZE;
-      PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
-      IGNITION  = LaunchStateSubstate.State.IGNITION;
-      LAUNCH    = LaunchStateSubstate.State.LAUNCH;
-      SET       = LaunchStateSubstate.PreLaunchSubstate.SET;
-      CONT      = LaunchStateSubstate.PreLaunchSubstate.CONTINUE;
-      FUEL      = LaunchStateSubstate.PreLaunchSubstate.FUELING;
-      HOLD      = LaunchStateSubstate.PreLaunchSubstate.HOLD;
-      IGN       = LaunchStateSubstate.IgnitionSubstate.IGNITION;
-      BUP       = LaunchStateSubstate.IgnitionSubstate.BUILDUP;
-      STG       = LaunchStateSubstate.AscentSubstate.STAGING;
-      IGNE      = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
-
       _kill             = false;
       _obj              = null;
-      payload           = null;//Sone sort of payload!!
       _rt0              = null;
-      stages            = null;//At least 1 stage!
       _start            = false;
+      payload           = null;//Sone sort of payload!!
+      stages            = null;//At least 1 stage!
    };
 
    /////////////////////////Constructors//////////////////////////////
@@ -76,6 +50,43 @@ public class GenericRocket extends Rocket implements  Runnable{
    }
 
    /////////////////////////Private Methods///////////////////////////
+   //
+   //
+   //
+   private void alertSubscribers(){
+      try{
+         RocketData rocketData = null;
+         if(this.getStateSubstate() != null){
+            //Once the state is set, the monitor thread is running, so
+            //use the Monitorable instance 
+            rocketData = (RocketData)this.monitorable.monitor();
+         }
+         else{
+            rocketData = (RocketData)this.initializable.initialized();
+         }
+         //Notify the Observers
+         this.publisher.publish(rocketData);
+      }
+      catch(NullPointerException npe){
+         //npe.printStackTrace();
+      }
+      catch(ClassCastException cce){
+         //cce.printStackTrace();
+      }
+      System.out.println("*****************************************");
+      System.out.println("Rocket:  Alert Subscribers");
+      System.out.println("*****************************************");
+   }
+
+   //
+   //
+   //
+   private void checkErrors(){
+      System.out.println("*****************************************");
+      System.out.println("Rocket:  Check Errors");
+      System.out.println("*****************************************");
+   }
+
    //
    //
    //
@@ -121,6 +132,33 @@ public class GenericRocket extends Rocket implements  Runnable{
    //
    //
    //
+   private void monitorPayload(){
+      System.out.println("*****************************************");
+      System.out.println("Rocket:  Monitor Payload");
+      System.out.println("*****************************************");
+   }
+
+   //
+   //
+   //
+   private void monitorRocket(){
+      System.out.println("*****************************************");
+      System.out.println("Rocket:  Monitor Rocket");
+      System.out.println("*****************************************");
+   }
+
+   //
+   //
+   //
+   private void monitorStages(){
+      System.out.println("*****************************************");
+      System.out.println("Rocket:  Monitor Stages");
+      System.out.println("*****************************************");
+   }
+
+   //
+   //
+   //
    private void setUpThread(){
       String name = new String("Generic Rocket");
       this._rt0 = new Thread(this, name);
@@ -135,19 +173,9 @@ public class GenericRocket extends Rocket implements  Runnable{
       super.initializeComponent(file);
       this.initializeStages(file);
       this.initializePayload(file);
+      //The Super Class call
       this.setMonitorable();
-      try{
-         RocketData rocketData = null;
-         rocketData = (RocketData)this.initializable.initialized();
-         //Notify the Observers
-         this.publisher.publish(rocketData);
-      }
-      catch(NullPointerException npe){
-         //npe.printStackTrace();
-      }
-      catch(ClassCastException cce){
-         //cce.printStackTrace();
-      }
+      this.alertSubscribers();
    }
    ///////////////Runnable Interface Implementation///////////////////
    //
@@ -163,7 +191,7 @@ public class GenericRocket extends Rocket implements  Runnable{
             }
             if(this.getStateSubstate() != null){
                if(this.getStateSubstate().state() == INIT){
-                  //In the Initialization Stage, check every
+                  //In the Initialization State, check every
                   //10 Seconds
                   if(count++%10000 == 0){
                      check = true;
@@ -177,12 +205,11 @@ public class GenericRocket extends Rocket implements  Runnable{
               System.out.println(Thread.currentThread().getName());
               System.out.print("Rocket: ");
               System.out.println(Thread.currentThread().getId());
-              //Eventually perform all of this...
-              /*
               this.monitorRocket();
+              this.monitorStages();
+              this.monitorPayload();
               this.checkErrors();
               this.alertSubscribers();
-              */
               System.out.println("+++++++++++++++++++++++\nGR 2\n");
               check = false;
             }

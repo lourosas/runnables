@@ -61,7 +61,7 @@ public abstract class SystemComponent implements StateMutable{
    //
    //
    public void addMonitorable(Monitorable monitorable){
-      this.monitorable = monitorable;
+      this.setMonitorable(monitorable);
    }
 
    //
@@ -85,6 +85,7 @@ public abstract class SystemComponent implements StateMutable{
    //
    //
    public Object monitor(){
+      //This will NEED SYNCHRONIZATION--NEED AN OBJECT FOR A MONITOR!
       return this.monitorable.monitor();
    }
    

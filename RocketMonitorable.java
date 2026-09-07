@@ -39,7 +39,16 @@ public class RocketMonitorable implements Monitorable{
    //
    //
    //
-   public void addData(Object data){}
+   public void addData(Object data){
+      try{
+         this._rocketData = (RocketData)data;
+      }
+      catch(ClassCastException cce){
+         //This print out is probably going to stay
+         cce.printStackTrace();
+         this._rocketData = null;
+      }
+   }
 
    //
    //
