@@ -26,16 +26,15 @@ public class GenericLaunchPlatform extends LaunchPlatform
 implements Runnable{
    private static boolean TOPRINT = true;
    private boolean             _kill;
-   private Object              _obj;
    private Thread              _rt0;
    private boolean             _start;
 
    {
       _kill      = false;
-      _obj       = null;
       _rt0       = null;
       _start     = false;
       mechanisms = null;
+      obj        = null;
       rocket     = null;
    };
 
@@ -44,7 +43,7 @@ implements Runnable{
    //
    //
    public GenericLaunchPlatform(){
-      this._obj = new Object();
+      this.obj = new Object();
       this.setUpThread();
    }
 

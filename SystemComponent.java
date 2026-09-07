@@ -36,6 +36,7 @@ public abstract class SystemComponent implements StateMutable{
    protected LaunchStateSubstate.AscentSubstate    STG         = null;
    protected LaunchStateSubstate.AscentSubstate    IGNE        = null;
 
+   protected Object              obj           = null;
    protected Publisher           publisher     = null;
    protected Initializable       initializable = null;
    protected LaunchStateSubstate stateSubstate = null;
@@ -78,29 +79,36 @@ public abstract class SystemComponent implements StateMutable{
    //
    //
    public Object initializationStatus(){
-      return this.initializable.initialized();
+      synchronized(this.obj){
+         return this.initializable.initialized();
+      }
    }
 
    //
    //
    //
    public Object monitor(){
-      //This will NEED SYNCHRONIZATION--NEED AN OBJECT FOR A MONITOR!
-      return this.monitorable.monitor();
+      synchronized(this.obj){
+         return this.monitorable.monitor();
+      }
    }
    
    //
    //
    //
    public void setInitializable(Initializable init){
-      this.initializable = init;
+      synchronized(this.obj){
+         this.initializable = init;
+      }
    }
 
    //
    //
    //
    public void setPublisher(Publisher publisher){
-      this.publisher = publisher;
+      synchronized(this.obj){
+         this.publisher = publisher;
+      }
    }
 
    ////////////////////////Protected Methods//////////////////////////
@@ -113,7 +121,9 @@ public abstract class SystemComponent implements StateMutable{
    //
    //
    protected void setMonitorable(Monitorable monitorable){
-      this.monitorable = monitorable;
+      synchronized(this.obj){
+         this.monitorable = monitorable;
+      }
    }
 
    ///////////////////StateMutable Interface Methods//////////////////
@@ -121,15 +131,18 @@ public abstract class SystemComponent implements StateMutable{
    //
    //
    public LaunchStateSubstate getStateSubstate(){
-      return this.stateSubstate;
+      synchronized(this.obj){
+         return this.stateSubstate;
+      }
    }
 
    //
    //
    //
    public void setStateSubstate(LaunchStateSubstate ss){
-      this.stateSubstate = ss;
+      synchronized(this.obj){
+         this.stateSubstate = ss;
+      }
    }
-
 }
 //////////////////////////////////////////////////////////////////////

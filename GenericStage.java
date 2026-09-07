@@ -31,7 +31,6 @@ public class GenericStage extends Stage implements Runnable{
    private LaunchStateSubstate.State LAUNCH    = null;
 
    private boolean               _kill;
-   private Object                _obj;
    private Thread                _rt0;
    private boolean               _start;
 
@@ -41,13 +40,13 @@ public class GenericStage extends Stage implements Runnable{
       IGNITION  = LaunchStateSubstate.State.IGNITION;
       LAUNCH    = LaunchStateSubstate.State.LAUNCH;
 
-      engines           = null;
-      fuelSystem        = null;
-      _kill             = false;
-      _obj              = null;
-      _rt0              = null;
-      stage             = -1;
-      _start            = false;
+      _kill      = false;
+      _rt0       = null;
+      _start     = false;
+      engines    = null;
+      fuelSystem = null;
+      obj        = null;
+      stage      = -1;
    };
 
    /////////////////////////////Constructor///////////////////////////
@@ -58,7 +57,7 @@ public class GenericStage extends Stage implements Runnable{
       if(number > 0){
          this.stage = number;
       }
-      this._obj = new Object();
+      this.obj = new Object();
       this.setUpThread();
    }
 

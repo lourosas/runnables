@@ -24,8 +24,8 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public abstract class Rocket extends SystemComponent{
-   protected List<Stage> stages;
-   protected Payload     payload;
+   protected List<Stage> stages  = null;
+   protected Payload     payload = null;
    //////////////////////////Public Methods///////////////////////////
    //
    //
@@ -36,12 +36,14 @@ public abstract class Rocket extends SystemComponent{
    //This now needs to be fixed
    //
    public void addSubscriber(Subscriber subscriber){
-      try{
-         this.publisher.addSubscriber(subscriber);
-      }
-      catch(NullPointerException npe){
-         this.setPublisher(new RocketPublisher());
-         this.publisher.addSubscriber(subscriber);
+      synchronized(this.obj){
+         try{
+            this.publisher.addSubscriber(subscriber);
+         }
+         catch(NullPointerException npe){
+            this.setPublisher(new RocketPublisher());
+            this.publisher.addSubscriber(subscriber);
+         }
       }
    }
 
@@ -53,7 +55,9 @@ public abstract class Rocket extends SystemComponent{
       if(this.initializable == null){
          this.setInitializable(new RocketInitializable());
       }
-      this.initializable.initialize(file);
+      synchronized(this.obj){
+         this.initializable.initialize(file);
+      }
    }
 
    /////////////////////////Protected Methods/////////////////////////

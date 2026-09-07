@@ -24,30 +24,18 @@ import rosas.lou.runnables.*;
 
 public class GenericFuelSystem extends FuelSystem implements Runnable{
    private static boolean TOPRINT = true;
-
-   private LaunchStateSubstate.State INIT      = null; 
-   private LaunchStateSubstate.State PRELAUNCH = null;
-   private LaunchStateSubstate.State IGNITION  = null;
-   private LaunchStateSubstate.State LAUNCH    = null; 
-
    private boolean              _kill;
-   private Object               _obj;
    private Thread               _rt0;
    {
-      INIT      = LaunchStateSubstate.State.INITIALIZE;
-      PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
-      IGNITION  = LaunchStateSubstate.State.IGNITION;
-      LAUNCH    = LaunchStateSubstate.State.LAUNCH;
-
-      fuel             = null;
-      oxidizer         = null;
-      pipes            = null;
-      pumps            = null;
-      stage            = -1;
-      engines          = -1;
-      _kill            = false;
-      _obj             = null;
-      _rt0             = null;
+      fuel     = null;
+      obj      = null;
+      oxidizer = null;
+      pipes    = null;
+      pumps    = null;
+      stage    = -1;
+      engines  = -1;
+      _kill    = false;
+      _rt0     = null;
    };
 
    ////////////////////////////Constructor////////////////////////////
@@ -63,7 +51,7 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
          //Needed to determine the number of pipes...
          this.engines = eng;
       }
-      this._obj = new Object();
+      this.obj = new Object();
       this.setUpThread();
    }
 

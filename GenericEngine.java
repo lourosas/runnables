@@ -23,44 +23,15 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class GenericEngine extends Engine implements Runnable{
-   private LaunchStateSubstate.State INIT              = null;
-   private LaunchStateSubstate.State PREL              = null;
-   private LaunchStateSubstate.State IGNI              = null;
-   private LaunchStateSubstate.State LAUN              = null;
-   private LaunchStateSubstate.State ASCE              = null;
-   private LaunchStateSubstate.PreLaunchSubstate SET   = null;
-   private LaunchStateSubstate.PreLaunchSubstate CONT  = null;
-   private LaunchStateSubstate.PreLaunchSubstate FUEL  = null;
-   private LaunchStateSubstate.PreLaunchSubstate HOLD  = null;
-   private LaunchStateSubstate.IgnitionSubstate  IGN   = null;
-   private LaunchStateSubstate.IgnitionSubstate  BUP   = null;
-   private LaunchStateSubstate.AscentSubstate    STG   = null;
-   private LaunchStateSubstate.AscentSubstate    IGNE  = null;
-
    private boolean _kill;
-   private Object  _obj;
    private Thread  _rt0;
 
    {
-      INIT = LaunchStateSubstate.State.INITIALIZE;
-      PREL = LaunchStateSubstate.State.PRELAUNCH;
-      IGNI = LaunchStateSubstate.State.IGNITION;
-      LAUN = LaunchStateSubstate.State.LAUNCH;
-      ASCE = LaunchStateSubstate.State.ASCENT;
-      SET  = LaunchStateSubstate.PreLaunchSubstate.SET;
-      CONT = LaunchStateSubstate.PreLaunchSubstate.CONTINUE;
-      FUEL = LaunchStateSubstate.PreLaunchSubstate.FUELING;
-      HOLD = LaunchStateSubstate.PreLaunchSubstate.HOLD;
-      IGN  = LaunchStateSubstate.IgnitionSubstate.IGNITION;
-      BUP  = LaunchStateSubstate.IgnitionSubstate.BUILDUP;
-      STG  = LaunchStateSubstate.AscentSubstate.STAGING;
-      IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES; 
-
       _kill = false;
-      _obj  = null;
       _rt0  = null;
 
       engine = -1;
+      obj    = null;
       stage  = -1;
    };
 
@@ -75,7 +46,7 @@ public class GenericEngine extends Engine implements Runnable{
       if(stage > 0){
          this.stage = stage;    //Set up the Stage
       }
-      this._obj = new Object();
+      this.obj = new Object();
       this.setUpThread();
    }
 

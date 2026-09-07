@@ -27,16 +27,15 @@ public class GenericLaunchMechanism extends LaunchMechanism
 implements Runnable{
    private static boolean TOPRINT = true;
    private boolean             _kill;
-   private Object              _obj;
    private Thread              _rt0;
    private boolean             _start;
 
    {
       _kill      = false;
-      _obj       = null;
       _rt0       = null;
       _start     = false;
       holdNumber = -1;
+      obj        = null;
       rocket     = null;
    };
 
@@ -45,7 +44,7 @@ implements Runnable{
    //
    //
    public GenericLaunchMechanism(int hold){
-      this._obj = new Object();
+      this.obj = new Object();
       if(hold > -1){
          this.holdNumber = hold;
          //Test Prints
