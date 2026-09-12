@@ -107,6 +107,15 @@ implements Runnable{
       this.initializeLaunchPlatform(file);
    }
 
+   //
+   //
+   //
+   public void initialize(String file, boolean isSim){
+      this.initialize(file);
+      this.rocket.setSimulation(isSim);
+      this.launchPlatform.setSimulation(isSim);
+   }
+
    //////////////////////////Private Methods//////////////////////////
    //
    //

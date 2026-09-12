@@ -41,13 +41,8 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    private LaunchStateSubstate.AscentSubstate    STG   = null;
    private LaunchStateSubstate.AscentSubstate    IGNE  = null;
 
-   private int                     _currentStage;
-   private int                     _numStages;
-   //Read In
-   private RocketData              _initRocketData;
-   //Calculated
+   private Initializable           _initializable;
    private RocketData              _calcRocketData;
-
    private LaunchStateSubstate     _stateSubstate;
    private Object                  _obj; //Threading
    private Thread                  _t0;
@@ -56,10 +51,6 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //Sigleton Implmentation
    private static DataFeeder       _instance;
 
-   private DataFeeder              _payload;
-
-   //This is going have to be a LIST!!!  Based on stages!!!!
-   private List<StageDataFeeder>   _stages;
    {
       INIT = LaunchStateSubstate.State.INITIALIZE;
       PREL = LaunchStateSubstate.State.PRELAUNCH;
@@ -75,18 +66,14 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
       STG  = LaunchStateSubstate.AscentSubstate.STAGING;
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
-      _currentStage    = -1;
-      _numStages       = -1;
-      _initRocketData  = null;
       _calcRocketData  = null;
+      _initializable   = null;
       _stateSubstate   = null;
       _obj             = null;
       _t0              = null;
       _toStart         = false;
       //Singleton
       _instance        = null;
-      _payload         = null;
-      _stages          = null;
    };
 
    ///////////////////////////Public Methods//////////////////////////
@@ -106,237 +93,14 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    private RocketDataFeeder(){
+      this._obj = new Object();
       this.setUpThread();
-   }
-
-   //Technically, do not need this...will keep here "just in case"
-   //The rest of the components should have the data and the System
-   //is responsible for calculating the weight...
-   private double calculateCurrentWeight(){
-      //If the System not initialized, no current weight at the moment
-      double currentWeight = Double.NaN;
-      if(this._stateSubstate != null){}
-      return currentWeight;
-   }
-
-   //
-   //
-   //
-   private void grabNumberOfStages(String file)throws IOException{
-      System.out.println("path: "+file);
-      try{
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         Hashtable<String,String> ht = read.readRocketInfo();
-         System.out.println(ht);
-         try{
-            this._numStages = Integer.parseInt(ht.get("stages"));
-         }
-         catch(NumberFormatException nfe){
-            this._numStages = -1;
-         }
-      }
-      catch(IOException ioe){
-         ioe.printStackTrace();
-         this._numStages = -1;
-         throw ioe;
-      }
-   }
-
-   //
-   //
-   //
-   private void initializePayloadDataFeeder(String file)
-   throws IOException{
-      try{
-         System.out.println(file);
-         this._payload = new PayloadDataFeeder();
-         this._payload.initialize(file);
-      }
-      catch(IOException ioe){
-         this._payload = null;
-         throw ioe;
-      }
-   }
-
-   //
-   //
-   //
-   private void initializeRocketData(String file)throws IOException{
-      try{
-         String mdl  = null;       int    stg = -1;
-         double eW   = Double.NaN; double lW  = Double.NaN;;
-         double tol  = Double.NaN; this._currentStage = 1;
-         double calW = Double.NaN; int tot = -1;
-
-         int cs = this._currentStage;
-
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         Hashtable<String, String> ht = read.readRocketInfo();
-         mdl = ht.get("model");
-         try{ stg = Integer.parseInt(ht.get("stages")); }
-         catch(NumberFormatException nfe){ stg = -1; }
-         try{ eW = Double.parseDouble(ht.get("empty_weight")); }
-         catch(NumberFormatException nfe){ eW = Double.NaN; }
-         try{ lW = Double.parseDouble(ht.get("loaded_weight")); }
-         catch(NumberFormatException nfe){ lW = Double.NaN; }
-         try{ tol = Double.parseDouble(ht.get("tolerance")); }
-         catch(NumberFormatException nfe){ tol = Double.NaN; }
-         //Grab the Stage Data
-         List<StageData> sd = this.monitorStages();
-         PayloadData pd = this.monitorPayload();
-         RocketData rd = new GenericRocketData(
-                                           mdl, //Model
-                                           cs,  //Current Stage
-                                           stg, //Number of Stages
-                                           eW,  //Empty Weight
-                                           lW,  //Loaded Weight
-                                           calW,//Calculated Weight
-                                           false,//Is Error
-                                           null,//Error String
-                                           pd,  //PayloadData
-                                           sd,  //Stage Data
-                                           tol); //Tolerance
-         this._initRocketData = rd;
-      }
-      catch(IOException ioe){
-         ioe.printStackTrace();
-         this._initRocketData = null;
-         throw ioe;
-      }
-   }
-
-   //
-   //
-   //
-   private void initializeStageDataFeeder(String file)
-   throws IOException{
-      try{
-         System.out.println(file);
-         this._stages = new LinkedList<StageDataFeeder>();
-         for(int i = 0; i < this._numStages; ++i){
-            //Since Zero based loop, and there is no "Stage 0",
-            //the Stage is One ahead of the Loop Counter
-            StageDataFeeder f = new StageDataFeeder(i+1);
-            f.initialize(file);
-            this._stages.add(f);
-         }
-      }
-      catch(IOException ioe){
-         this._stages = null;
-         throw ioe;
-      }
-   }
-
-   //
-   //
-   //
-   private boolean isPathFile(String file)throws IOException{
-      boolean isPath = false;
-      System.out.println(file);
-      try{
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         Hashtable<String,String> ht = read.readPathInfo();
-         if(read.readPathInfo().get("parameter") == null){
-            throw new NullPointerException("Not a Path File");
-         }
-         isPath = true;
-      }
-      catch(IOException ioe){
-         isPath = false;
-         ioe.printStackTrace();
-         //Do more stuff
-         throw ioe;
-      }
-      catch(NullPointerException e){
-         isPath = false;
-         e.printStackTrace();
-      }
-      finally{
-         return isPath;
-      }
-   }
-
-   //
-   //
-   //
-   private PayloadData monitorPayload(){
-      PayloadData pd = null;
-      try{
-         pd = (PayloadData)this._payload.monitor();
-      }
-      catch(NullPointerException npe){
-         pd = null;
-      }
-      catch(ClassCastException cce){
-         pd = null;
-      }
-      return pd;
-   }
-
-   //
-   //
-   //
-   private List<StageData> monitorStages(){
-      List<StageData> stageData = null;
-      try{
-         stageData = new LinkedList<StageData>();
-         Iterator<StageDataFeeder> it = this._stages.iterator();
-         while(it.hasNext()){
-            try{
-               stageData.add((StageData)it.next().monitor());
-            }
-            catch(ClassCastException cce){
-               stageData.add(null);
-            }
-         }
-      }
-      catch(NullPointerException npe){
-         stageData = null;
-      }
-      return stageData;
-   }
-
-   //
-   //
-   //
-   private void setMeasuredData(List<StageData> sd, PayloadData pd){
-      String  err = null; //Error
-      boolean isE = false;
-      double  wgt = Double.NaN; //Calculated Weight
-      //Get teh needed initialized data...error is not determined by
-      //the DataFeeder...Stage Data is...
-      String mdl = this._initRocketData.model();
-      int    cs  = this._currentStage;
-      int    ns  = this._initRocketData.numberOfStages();
-      double ew  = this._initRocketData.emptyWeight();
-      double lw  = this._initRocketData.loadedWeight();
-      double tol = this._initRocketData.tolerance();
-
-      synchronized(this._obj){
-         RocketData rd = new GenericRocketData(
-                                        mdl,   //Model
-                                        cs,    //Current Stage
-                                        ns,    //Number of Stages
-                                        ew,    //Empty Weight
-                                        lw,    //Loaded Weight
-                                        wgt,   //Calculated Weight
-                                        isE,   //Is Error
-                                        err,   //Error
-                                        pd,    //PayloadData
-                                        sd,    //Stage Data
-                                        tol);  //Tolerance
-         this._calcRocketData = rd;
-      }
    }
 
    //
    //
    //
    private void setUpThread(){
-      this._obj   = new Object();
       this._t0    = new Thread(this);
       this._t0.start();
    }
@@ -345,28 +109,17 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void addDataFeeder(DataFeeder feeder){}
-
-   //
-   //
-   //
-   public void initialize(String file)throws IOException{
-      String rocketFile = file;
-      if(this.isPathFile(file)){
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         rocketFile = read.readPathInfo().get("rocket");
+   public void addInitializable(Initializable initializable){
+      synchronized(this._obj){
+         this._initializable = initializable;
       }
-      this.grabNumberOfStages(rocketFile);
-      this.initializePayloadDataFeeder(file);
-      this.initializeStageDataFeeder(file);
-      this.initializeRocketData(rocketFile);
    }
 
    //
    //
    //
    public Object monitor(){
+      //More to be done with this...definitely...
       synchronized(this._obj){
          return this._calcRocketData;
       }
@@ -376,16 +129,11 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    public void setStateSubstate(LaunchStateSubstate stateSubstate){
-      this._payload.setStateSubstate(stateSubstate);
-      Iterator<StageDataFeeder> it = this._stages.iterator();
-      while(it.hasNext()){
-         it.next().setStateSubstate(stateSubstate);
-      }
       this._stateSubstate = stateSubstate;
    }
 
    /////////////////Runnable Interface Implementattion////////////////
-   //
+   //May not need...
    //
    //
    public void run(){
@@ -398,16 +146,13 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
                   //In Initialize, check the Rocket System every
                   //Half Second...
                   if(counter++%500 == 0){
-                     check = true;
+                     check   = true;
+                     counter = 1;
                   }
                }
             }
             if(check){
-               List<StageData> l = this.monitorStages();
-               PayloadData pd = this.monitorPayload();
-               this.setMeasuredData(l,pd);
                check = false;
-               counter = 1;
                //Test Prints
                System.out.println(Thread.currentThread().getName());
                System.out.println(Thread.currentThread().getId());

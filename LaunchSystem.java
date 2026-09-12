@@ -61,6 +61,11 @@ public abstract class LaunchSystem{
    //
    //
    //
+   public void initialize(String file, boolean isSim){}
+
+   //
+   //
+   //
    public void preLaunchTime(int hours, int mins, int secs){}
 
    //

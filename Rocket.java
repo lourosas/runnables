@@ -60,6 +60,42 @@ public abstract class Rocket extends SystemComponent{
       }
    }
 
+   //
+   //
+   //
+   public void setInitializable(Initializable init){
+      super.setInitializable(init);
+      if(this.isSimulation){
+         DataFeeder feeder = RocketDataFeeder.instance();
+         feeder.addInitializable(this.initializable);
+      }
+   }
+
+   //
+   //
+   //
+   public void setSimulation(boolean isSim){
+      super.setSimulation(isSim);
+      try{
+         Iterator<Stage> it = this.stages.iterator();
+         while(it.hasNext()){
+            it.next().setSimulation(isSim);
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+      try{
+         this.payload.setSimulation(isSim);
+      }
+      catch(NullPointerException npe){}
+      if(this.isSimulation && this.initializable != null){
+         DataFeeder feeder = RocketDataFeeder.instance();
+         feeder.addInitializable(this.initializable);
+         feeder.setStateSubstate(this.stateSubstate);
+      }
+   }
+
    /////////////////////////Protected Methods/////////////////////////
    //
    //
@@ -161,6 +197,9 @@ public abstract class Rocket extends SystemComponent{
       }
       catch(NullPointerException npe){
          npe.printStackTrace();
+      }
+      if(this.isSimulation){
+         RocketDataFeeder.instance().setStateSubstate(ss);
       }
    }
 }

@@ -23,24 +23,27 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public abstract class SystemComponent implements StateMutable{
-   protected LaunchStateSubstate.State INIT                    = null;
-   protected LaunchStateSubstate.State PRELAUNCH               = null;
-   protected LaunchStateSubstate.State IGNITION                = null;
-   protected LaunchStateSubstate.State LAUNCH                  = null;
-   protected LaunchStateSubstate.PreLaunchSubstate SET         = null;
-   protected LaunchStateSubstate.PreLaunchSubstate CONT        = null;
-   protected LaunchStateSubstate.PreLaunchSubstate FUEL        = null;
-   protected LaunchStateSubstate.PreLaunchSubstate HOLD        = null;
-   protected LaunchStateSubstate.IgnitionSubstate  IGN         = null;
-   protected LaunchStateSubstate.IgnitionSubstate  BUP         = null;
-   protected LaunchStateSubstate.AscentSubstate    STG         = null;
-   protected LaunchStateSubstate.AscentSubstate    IGNE        = null;
+   protected LaunchStateSubstate.State INIT             = null;
+   protected LaunchStateSubstate.State PRELAUNCH        = null;
+   protected LaunchStateSubstate.State IGNITION         = null;
+   protected LaunchStateSubstate.State LAUNCH           = null;
+   protected LaunchStateSubstate.PreLaunchSubstate SET  = null;
+   protected LaunchStateSubstate.PreLaunchSubstate CONT = null;
+   protected LaunchStateSubstate.PreLaunchSubstate FUEL = null;
+   protected LaunchStateSubstate.PreLaunchSubstate HOLD = null;
+   protected LaunchStateSubstate.IgnitionSubstate  IGN  = null;
+   protected LaunchStateSubstate.IgnitionSubstate  BUP  = null;
+   protected LaunchStateSubstate.AscentSubstate    STG  = null;
+   protected LaunchStateSubstate.AscentSubstate    IGNE = null;
+
+   protected boolean             isSimulation  = false;
 
    protected Object              obj           = null;
    protected Publisher           publisher     = null;
    protected Initializable       initializable = null;
    protected LaunchStateSubstate stateSubstate = null;
    protected Monitorable         monitorable   = null;
+   protected DataFeeder          datafeeder    = null;
 
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
@@ -108,6 +111,15 @@ public abstract class SystemComponent implements StateMutable{
    public void setPublisher(Publisher publisher){
       synchronized(this.obj){
          this.publisher = publisher;
+      }
+   }
+
+   //
+   //
+   //
+   public void setSimulation(boolean isSim){
+      synchronized(this.obj){
+         this.isSimulation = isSim;
       }
    }
 
