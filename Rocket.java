@@ -64,6 +64,79 @@ public abstract class Rocket extends SystemComponent{
    //
    //
    //
+   protected void alertSubscribers(){
+      try{
+         RocketData rocketData = null;
+         if(this.getStateSubstate() != null){
+            //Once the state is set, the monitor thread is running, so
+            //use the Monitorable instance 
+            rocketData = (RocketData)this.monitorable.monitor();
+         }
+         else{
+            rocketData = (RocketData)this.initializable.initialized();
+         }
+         //Notify the Observers
+         this.publisher.publish(rocketData);
+      }
+      catch(NullPointerException npe){
+         //npe.printStackTrace();
+      }
+      catch(ClassCastException cce){
+         //cce.printStackTrace();
+      }
+      System.out.println("*****************************************");
+      System.out.println("Rocket:  Alert Subscribers");
+      System.out.println("*****************************************");
+   }
+
+   //
+   //
+   //
+   protected void checkErrors(){
+      System.out.println("*****************************************");
+      System.out.println("Rocket:  Check Errors");
+      System.out.println("*****************************************");
+   }
+
+   //
+   //
+   //
+   protected void initializePayload(String file)throws IOException{}
+
+   //
+   //
+   //
+   protected void initializeStage(String file)throws IOException{}
+
+   //
+   //
+   //
+   protected void monitorPayload(){
+      System.out.println("*****************************************");
+      System.out.println("Rocket:  Monitor Payload");
+      System.out.println("*****************************************");
+   }
+   //
+   //
+   //
+   protected void monitorStages(){
+      System.out.println("*****************************************");
+      System.out.println("Rocket:  Monitor Stages");
+      System.out.println("*****************************************");
+   }
+
+   //
+   //
+   //
+   protected void monitorRocket(){
+      System.out.println("*****************************************");
+      System.out.println("Rocket:  Monitor Rocket");
+      System.out.println("*****************************************");  
+   }
+
+   //
+   //
+   //
    protected void setMonitorable(){
       this.setMonitorable(new RocketMonitorable());
    }

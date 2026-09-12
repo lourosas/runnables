@@ -48,54 +48,19 @@ public class GenericRocket extends Rocket implements  Runnable{
       this.setUpThread();
    }
 
-   /////////////////////////Private Methods///////////////////////////
+   ////////////////////////Protected Methods//////////////////////////
    //
    //
    //
-   private void alertSubscribers(){
-      try{
-         RocketData rocketData = null;
-         if(this.getStateSubstate() != null){
-            //Once the state is set, the monitor thread is running, so
-            //use the Monitorable instance 
-            rocketData = (RocketData)this.monitorable.monitor();
-         }
-         else{
-            rocketData = (RocketData)this.initializable.initialized();
-         }
-         //Notify the Observers
-         this.publisher.publish(rocketData);
-      }
-      catch(NullPointerException npe){
-         //npe.printStackTrace();
-      }
-      catch(ClassCastException cce){
-         //cce.printStackTrace();
-      }
-      System.out.println("*****************************************");
-      System.out.println("Rocket:  Alert Subscribers");
-      System.out.println("*****************************************");
-   }
-
-   //
-   //
-   //
-   private void checkErrors(){
-      System.out.println("*****************************************");
-      System.out.println("Rocket:  Check Errors");
-      System.out.println("*****************************************");
-   }
-
-   //
-   //
-   //
-   private void initializePayload(String file)throws IOException{
+   protected void initializePayload(String file)throws IOException{
       try{
          this.payload = new GenericPayload();
          this.payload.initializeComponent(file);
          PayloadData pd = null;
          pd = (PayloadData)this.payload.initializationStatus();
-         this.initializable.initializeData("Payload Data", pd);
+         synchronized(this.obj){
+            this.initializable.initializeData("Payload Data", pd);
+         }
       }
       catch(ClassCastException cce){
          throw new IOException("Payload Class Cast Exception");
@@ -105,22 +70,24 @@ public class GenericRocket extends Rocket implements  Runnable{
    //
    //
    //
-   private void initializeStages(String file)throws IOException{
+   protected void initializeStages(String file)throws IOException{
       try{
          RocketData rd = (RocketData)this.initializable.initialized();
          for(int i = 0; i < rd.numberOfStages(); ++i){
             Stage stage = new GenericStage(i+1);
             stage.initializeComponent(file);
             StageData sd = (StageData)stage.initializationStatus();
-            try{
-               //Might need to cast
-               this.stages.add(stage);
+            synchronized(this.obj){
+               try{
+                  //Might need to cast
+                  this.stages.add(stage);
+               }
+               catch(NullPointerException npe){
+                  this.stages = new LinkedList<Stage>();
+                  this.stages.add(stage);
+               }
+               this.initializable.initializeData("Stage Data", sd);
             }
-            catch(NullPointerException npe){
-               this.stages = new LinkedList<Stage>();
-               this.stages.add(stage);
-            }
-            this.initializable.initializeData("Stage Data", sd);
          }
       }
       catch(ClassCastException cce){
@@ -128,33 +95,17 @@ public class GenericRocket extends Rocket implements  Runnable{
       }
    }
 
-   //
-   //
-   //
-   private void monitorPayload(){
-      System.out.println("*****************************************");
-      System.out.println("Rocket:  Monitor Payload");
-      System.out.println("*****************************************");
-   }
 
    //
    //
    //
-   private void monitorRocket(){
+   protected void monitorRocket(){
       System.out.println("*****************************************");
       System.out.println("Rocket:  Monitor Rocket");
       System.out.println("*****************************************");
    }
 
-   //
-   //
-   //
-   private void monitorStages(){
-      System.out.println("*****************************************");
-      System.out.println("Rocket:  Monitor Stages");
-      System.out.println("*****************************************");
-   }
-
+   /////////////////////////Private Methods///////////////////////////
    //
    //
    //

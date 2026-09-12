@@ -33,7 +33,9 @@ public abstract class Payload extends SystemComponent{
       if(this.initializable == null){
          this.setInitializable(new PayloadInitializable());
       }
-      this.initializable.initialize(file);
+      synchronized(this.obj){
+         this.initializable.initialize(file);
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////

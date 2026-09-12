@@ -34,12 +34,14 @@ public abstract class Stage extends SystemComponent{
    //
    //
    public void addSubscriber(Subscriber subscriber){
-      try{
-         this.publisher.addSubscriber(subscriber);
-      }
-      catch(NullPointerException npe){
-         this.setPublisher(new StagePublisher());
-         this.publisher.addSubscriber(subscriber);
+      synchronized(this.obj){
+         try{
+            this.publisher.addSubscriber(subscriber);
+         }
+         catch(NullPointerException npe){
+            this.setPublisher(new StagePublisher());
+            this.publisher.addSubscriber(subscriber);
+         }
       }
    }
 
@@ -51,7 +53,9 @@ public abstract class Stage extends SystemComponent{
       if(this.initializable == null){
          this.setInitializable(new StageInitializable(this.stage));
       }
-      this.initializable.initialize(file);
+      synchronized(this.obj){
+         this.initializable.initialize(file);
+      }
    }
 
    /////////////////StateMutable Interface Overrides//////////////////
