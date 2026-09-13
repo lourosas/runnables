@@ -97,6 +97,23 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
       this.setUpThread();
    }
 
+   //Check the State
+   //The Weight is the only thing that is actually measured in the
+   //Rocket
+   //Empty Weight, Loaded Weight
+   private double calculateWeight(RocketData rd){
+      boolean found          = false;
+      double  emptyWeight    = rd.emptyWeight();
+      double  loadedWeight   = rd.loadedWeight();
+      Double calculateWeight = Double.NaN;
+      Random random          = new Random();
+      if(this._stateSubstate.state() == INIT){
+         System.out.println(emptyWeight);
+         System.out.println(loadedWeight);
+      }
+      return calculateWeight;
+   }
+
    //
    //
    //
@@ -104,7 +121,9 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
       System.out.println(this._initializable.initialized());
       try{
          RocketData rd=(RocketData)this._initializable.initialized();
-         System.out.println(rd);
+         double ew = rd.emptyWeight();
+         double lw = rd.loadedWeight();
+         double cw = this.calculateWeight(rd);
       }
       catch(ClassCastException cce){
          cce.printStackTrace();
