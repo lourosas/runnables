@@ -152,6 +152,20 @@ public abstract class Rocket extends SystemComponent{
       System.out.println("Rocket:  Monitor Payload");
       System.out.println("*****************************************");
    }
+
+   //
+   //
+   //
+   protected void monitorRocket(){
+      //Have one for Simulation Mode and one for "Straight Measure"
+      if(this.isSimulation){
+         System.out.println("**************************************");
+         System.out.println("Rocket:  Monitor Rocket");
+         System.out.println(RocketDataFeeder.instance().monitor());
+         System.out.println("**************************************");  
+      }
+      else{}//For "Straight Measure"
+   }
    //
    //
    //
@@ -159,15 +173,6 @@ public abstract class Rocket extends SystemComponent{
       System.out.println("*****************************************");
       System.out.println("Rocket:  Monitor Stages");
       System.out.println("*****************************************");
-   }
-
-   //
-   //
-   //
-   protected void monitorRocket(){
-      System.out.println("*****************************************");
-      System.out.println("Rocket:  Monitor Rocket");
-      System.out.println("*****************************************");  
    }
 
    //

@@ -100,8 +100,24 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private void monitorInitialize(){
+      System.out.println(this._initializable.initialized());
+      try{
+         RocketData rd=(RocketData)this._initializable.initialized();
+         System.out.println(rd);
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.out.println("Exiting");
+         System.exit(1);
+      }
+   }
+
+   //
+   //
+   //
    private void setUpThread(){
-      this._t0    = new Thread(this);
+      this._t0    = new Thread(this, "Rocket Data Feeder");
       this._t0.start();
    }
 
@@ -119,6 +135,12 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    public Object monitor(){
+      //More testing real quick
+      if(this._stateSubstate != null){
+         if(this._stateSubstate.state() == INIT){
+            this.monitorInitialize();
+         }
+      }
       //More to be done with this...definitely...
       synchronized(this._obj){
          return this._calcRocketData;

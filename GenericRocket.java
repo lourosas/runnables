@@ -95,16 +95,6 @@ public class GenericRocket extends Rocket implements  Runnable{
       }
    }
 
-
-   //
-   //
-   //
-   protected void monitorRocket(){
-      System.out.println("*****************************************");
-      System.out.println("Rocket:  Monitor Rocket");
-      System.out.println("*****************************************");
-   }
-
    /////////////////////////Private Methods///////////////////////////
    //
    //
