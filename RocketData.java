@@ -145,13 +145,14 @@ public abstract class RocketData{
    public String toString(){
       String value = new String("\nRocket Data: ");
       value += "\n----------------------------------";
-      value += "\nEmpty Weight: "+this.emptyWeight();
-      value += "\nError? "+this.isError();
+      value += "\nEmpty Weight:      "+this.emptyWeight();
+      value += "\nError?             "+this.isError();
       if(this.isError()){
          value += " Error(s): "+this.error();
       }
       value += "\nLoaded Weight:     "+this.loadedWeight();
-      value += "\nCalculated Weight: "+this.calculatedWeight();
+      double cw = this.calculatedWeight();
+      value += "\nCalculated Weight: "+String.format("%.2f",cw);
       value += "\nModel:             "+ this.model();
       value += "\nCurrent Stage:     "+this.currentStage();
       value += "\nTolerance:         "+this.tolerance();

@@ -97,38 +97,72 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
       this.setUpThread();
    }
 
-   //Check the State
+   //
    //The Weight is the only thing that is actually measured in the
-   //Rocket
-   //Empty Weight, Loaded Weight
-   private double calculateWeight(RocketData rd){
-      boolean found          = false;
-      double  emptyWeight    = rd.emptyWeight();
-      double  loadedWeight   = rd.loadedWeight();
-      Double calculateWeight = Double.NaN;
-      Random random          = new Random();
-      if(this._stateSubstate.state() == INIT){
-         System.out.println(emptyWeight);
-         System.out.println(loadedWeight);
-      }
-      return calculateWeight;
-   }
-
    //
-   //
-   //
-   private void monitorInitialize(){
-      System.out.println(this._initializable.initialized());
+   private double calculateInitializedWeight(){
+      double  calcWeight   = Double.NaN;
       try{
          RocketData rd=(RocketData)this._initializable.initialized();
-         double ew = rd.emptyWeight();
-         double lw = rd.loadedWeight();
-         double cw = this.calculateWeight(rd);
+         boolean found        = false;
+         double  emptyWeight  = rd.emptyWeight();
+         double  loadedWeight = rd.loadedWeight();
+         double  tolerance    = rd.tolerance();
+         double  lowerLim     = Double.NaN;
+         double  upperLim     = Double.NaN;
+         Random random        = new Random();
+         while(!found){
+            if(this._stateSubstate.state() == INIT){
+               calcWeight =emptyWeight + (random.nextDouble() * 1000);
+               tolerance -= 0.01;
+               lowerLim   = emptyWeight * tolerance;
+               upperLim   = emptyWeight * (2 - tolerance);
+            }
+            if(calcWeight >= lowerLim && calcWeight <= upperLim){
+               found = true;
+            }
+         }
       }
       catch(ClassCastException cce){
          cce.printStackTrace();
          System.out.println("Exiting");
          System.exit(1);
+      }
+      return calcWeight;
+   }
+
+   //Put together the Rocket Data
+   //
+   //
+   private void rocketData(){
+      double     cw = Double.NaN; //Calculated Weight
+      RocketData rd = null;
+      synchronized(this._obj){
+         if(this._stateSubstate.state() == INIT){
+            cw = this.calculateInitializedWeight();
+            //Put together the Rocket Data from Initialized...
+            try{
+               rd = (RocketData)this._initializable.initialized();
+            }
+            catch(ClassCastException cce){
+               cce.printStackTrace();
+               System.out.println("Exiting");
+               System.exit(1);
+            }
+         }
+         RocketData trd = null;
+         trd = new GenericRocketData(rd.model(),
+                                     rd.currentStage(),
+                                     rd.numberOfStages(),
+                                     rd.emptyWeight(),
+                                     rd.loadedWeight(),
+                                     cw, //Calculated Weight
+                                     rd.isError(),
+                                     rd.error(),
+                                     rd.payloadData(),
+                                     rd.stages(),
+                                     rd.tolerance());
+         this._calcRocketData = trd;
       }
    }
 
@@ -154,13 +188,8 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    //
    public Object monitor(){
-      //More testing real quick
-      if(this._stateSubstate != null){
-         if(this._stateSubstate.state() == INIT){
-            this.monitorInitialize();
-         }
-      }
-      //More to be done with this...definitely...
+      this.rocketData();
+      //More to be done with this...possibly...
       synchronized(this._obj){
          return this._calcRocketData;
       }
@@ -179,24 +208,30 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    //
    public void run(){
       try{
-         int counter   = 0;
-         boolean check = false;
+         int counter    = 0;
+         boolean check  = false;
+         int checkValue = -1;
          while(true){
             if(this._stateSubstate != null){
                if(this._stateSubstate.state() == INIT){
                   //In Initialize, check the Rocket System every
                   //Half Second...
-                  if(counter++%500 == 0){
-                     check   = true;
-                     counter = 1;
-                  }
+                  checkValue = 500;
+               }
+               //more to come...
+               if(counter++%checkValue == 0){
+                  check   = true;
+                  counter = 1;
                }
             }
             if(check){
                check = false;
-               //Test Prints
                System.out.println(Thread.currentThread().getName());
                System.out.println(Thread.currentThread().getId());
+               //This is absolutelty, positively redundant from the
+               //monitor() method--but will keep for the time being
+               //really do not need the threading...
+               this.rocketData();
             }
             Thread.sleep(1);
          }
