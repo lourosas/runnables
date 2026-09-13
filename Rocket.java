@@ -142,7 +142,7 @@ public abstract class Rocket extends SystemComponent{
    //
    //
    //
-   protected void initializeStage(String file)throws IOException{}
+   protected void initializeStages(String file)throws IOException{}
 
    //
    //
