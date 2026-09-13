@@ -161,7 +161,14 @@ public abstract class Rocket extends SystemComponent{
       if(this.isSimulation){
          System.out.println("**************************************");
          System.out.println("Rocket:  Monitor Rocket");
-         System.out.println(RocketDataFeeder.instance().monitor());
+         synchronized(this.obj){
+            try{
+               RocketData data = null;
+               data = (RocketData)RocketDataFeeder.instance().monitor();
+               this.monitorable.addData(data);
+            }
+            catch(ClassCastException cce){}
+         }
          System.out.println("**************************************");  
       }
       else{}//For "Straight Measure"

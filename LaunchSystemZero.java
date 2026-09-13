@@ -206,6 +206,25 @@ implements Runnable{
    //
    //
    //
-   public void run(){}
+   public void run(){
+      try{
+         int     count = 0;
+         boolean check = false;
+         while(true){
+            if(this._kill){
+               throw new InterruptedException();
+            }
+            if(count++%1000 == 0){
+               check = true;
+               count = 1; //Reset the Counter
+            }
+         }
+      }
+      catch(InterruptedException ie){}
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+         System.exit(1);
+      }
+   }
 }
 //////////////////////////////////////////////////////////////////////
