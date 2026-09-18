@@ -52,6 +52,25 @@ public class GenericRocket extends Rocket implements  Runnable{
    //
    //
    //
+   protected void checkErrors(){
+      super.checkErrors();
+      if(this.getStateSubstate() != null){
+         if(this.getStateSubstate().state() == INIT){
+            this.checkInitializedStateErrors();
+         }
+      }
+   }
+
+   //
+   //
+   //
+   protected void checkInitializedStateErrors(){
+      super.checkInitializedStateErrors();
+   }
+
+   //
+   //
+   //
    protected void initializePayload(String file)throws IOException{
       try{
          this.payload = new GenericPayload();

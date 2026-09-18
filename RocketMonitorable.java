@@ -35,6 +35,35 @@ public class RocketMonitorable implements Monitorable{
    //
    public RocketMonitorable(){}
 
+   //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void addError(String error){
+      boolean isE = this._rocketData.isError();
+
+      if(error.toUpperCase().contains("ERROR")){
+         isE = true;
+         String temp = error.toUpperCase();
+         temp = temp.split("ERROR")[1];
+         System.out.println(temp);
+         String[] arr = temp.split(" ");
+         boolean done = false;
+         for(int i = 0; i < arr.length && !done; ++i){
+            if(arr[i].length() > 0){
+               if(arr[i].charAt(0)>='A'  && arr[i].charAt(0)<='z'){
+                  System.out.println(arr[i].length());
+                  System.out.println(arr[i]);
+                  done = true;
+               }
+            }
+         }
+      }
+      //Test Prints...
+      System.out.println(error);
+
+   }
+
    ////////////////Monitorable Interface Implementation///////////////
    //
    //
@@ -53,7 +82,21 @@ public class RocketMonitorable implements Monitorable{
    //
    //
    //
-   public void addData(String type, Object data){}
+   public void addData(String type, Object data){
+      RocketData rd = null;
+      if(type.toUpperCase().contains("ERROR")){
+         this.addError(type);
+      }
+      try{
+         rd = (RocketData)data;
+         System.out.println(rd.emptyWeight());
+         System.out.println(rd.calculatedWeight());
+         System.out.println(rd.loadedWeight());
+         System.out.println(rd.tolerance());
+      }
+      catch(ClassCastException   cce){}
+      catch(NullPointerException npe){}
+   }
 
    //
    //

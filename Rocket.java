@@ -134,6 +134,39 @@ public abstract class Rocket extends SystemComponent{
       System.out.println("*****************************************");
    }
 
+   //For the Rocket, honestly, just want to check for the Calculated
+   //Weight...
+   //
+   protected void checkInitializedStateErrors(){
+      //In Initialization, compare against Empty Weight
+      RocketData rd  = null;
+      synchronized(this.obj){
+         try{
+            rd         = (RocketData)this.monitorable.monitor();
+            double cw  = rd.calculatedWeight();
+            double ew  = rd.emptyWeight();
+            double tol = rd.tolerance();
+            double lrl = ew*tol; //Empty Weight * tolerance
+            double upl = ew*(2-tol);     
+            //If out of range, set error...
+            if(cw < lrl || cw > upl){
+               //Alert the Monitorable Object
+               String error = new String("Error:  Calculated Weight");
+               error += " Out of Range";
+               this.monitorable.addData(error,rd);
+               RuntimeException exception=new RuntimeException(error);
+               //Publish the Exception
+               this.publisher.publish(exception);
+            }
+
+         }
+         catch(ClassCastException cce){
+            rd = null;
+         }
+         catch(NullPointerException npe){}
+      }
+   }
+
    //
    //
    //
@@ -164,7 +197,7 @@ public abstract class Rocket extends SystemComponent{
          synchronized(this.obj){
             try{
                RocketData data = null;
-               data = (RocketData)RocketDataFeeder.instance().monitor();
+               data=(RocketData)RocketDataFeeder.instance().monitor();
                this.monitorable.addData(data);
             }
             catch(ClassCastException cce){}

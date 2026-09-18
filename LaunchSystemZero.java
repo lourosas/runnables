@@ -211,7 +211,7 @@ implements Runnable{
          int     count = 0;
          boolean check = false;
          while(true){
-            if(this._kill){
+            if(this.kill){
                throw new InterruptedException();
             }
             if(count++%1000 == 0){
