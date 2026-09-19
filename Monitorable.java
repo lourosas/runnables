@@ -24,6 +24,7 @@ import rosas.lou.runnables.*;
 public interface Monitorable{
    public void addData(Object data);
    public void addData(String type, Object data);
+   public void addError(String error);
    public Object monitor();
 }
 //////////////////////////////////////////////////////////////////////

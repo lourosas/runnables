@@ -65,6 +65,7 @@ public class GenericRocket extends Rocket implements  Runnable{
    //
    //
    protected void checkInitializedStateErrors(){
+      //Only need the Super Class
       super.checkInitializedStateErrors();
    }
 
@@ -142,8 +143,9 @@ public class GenericRocket extends Rocket implements  Runnable{
    //
    public void run(){
       try{
-         int     count = 0;
-         boolean check = false;
+         int     count   = 0;
+         boolean check   = false;
+         int     compare = -1;
          while(true){
             if(this._kill){
                throw new InterruptedException();
@@ -152,10 +154,11 @@ public class GenericRocket extends Rocket implements  Runnable{
                if(this.getStateSubstate().state() == INIT){
                   //In the Initialization State, check every
                   //10 Seconds
-                  if(count++%10000 == 0){
-                     check = true;
-                     count = 1; //Reset the Counter
-                  }
+                  compare = 10000;
+               }
+               if(compare > 0 && count++%compare == 0){
+                  check = true;
+                  count = 1; //Reset the Counter
                }
             }
             if(check){

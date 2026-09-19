@@ -197,6 +197,34 @@ implements Runnable{
    //
    //
    //
+   private void monitorLaunchPlatform(){
+      //TEST PRINTS-->REMOVE
+      System.out.println("////////////////////////////////////////");
+      System.out.println("Launch System Zero:  Monitor Launch Ptfm");
+      System.out.println("////////////////////////////////////////");
+   }
+
+   //
+   //
+   //
+   private void monitorRocket(){
+      try{
+         RocketData rocketData = null;
+         rocketData = (RocketData)this.rocket.monitor();
+         this.publisher.publish(rocketData);
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+      }
+      catch(NullPointerException npe){
+         //Test Print...remove!!
+         npe.printStackTrace();
+      }
+   }
+
+   //
+   //
+   //
    private void setUpThread(){
       this.rt0 = new Thread(this, "LaunchSystemZero");
       this.rt0.start();
@@ -208,16 +236,28 @@ implements Runnable{
    //
    public void run(){
       try{
-         int     count = 0;
-         boolean check = false;
+         int     count   = 0;
+         boolean check   = false;
+         int     compare = -1;
          while(true){
             if(this.kill){
                throw new InterruptedException();
             }
-            if(count++%1000 == 0){
-               check = true;
-               count = 1; //Reset the Counter
+            if(this.stateSubstate != null){
+               if(this.stateSubstate.state() == INIT){
+                  compare = 5000;
+               }
+               if((compare > 0) && (count++%compare == 0)){
+                  check = true;
+                  count = 1; //Reset the Counter
+               }
             }
+            if(check){
+               this.monitorRocket();
+               this.monitorLaunchPlatform();
+               check = false;
+            }
+            Thread.sleep(1);
          }
       }
       catch(InterruptedException ie){}

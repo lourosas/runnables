@@ -157,8 +157,8 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
                                      rd.emptyWeight(),
                                      rd.loadedWeight(),
                                      cw, //Calculated Weight
-                                     rd.isError(),
-                                     rd.error(),
+                                     false,//Error is to be determine
+                                     null,
                                      rd.payloadData(),
                                      rd.stages(),
                                      rd.tolerance());
@@ -226,8 +226,6 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
             }
             if(check){
                check = false;
-               System.out.println(Thread.currentThread().getName());
-               System.out.println(Thread.currentThread().getId());
                //This is absolutelty, positively redundant from the
                //monitor() method--but will keep for the time being
                //really do not need the threading...

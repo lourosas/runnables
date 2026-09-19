@@ -39,29 +39,35 @@ public class RocketMonitorable implements Monitorable{
    //
    //
    //
-   private void addError(String error){
-      boolean isE = this._rocketData.isError();
-
-      if(error.toUpperCase().contains("ERROR")){
-         isE = true;
-         String temp = error.toUpperCase();
-         temp = temp.split("ERROR")[1];
-         System.out.println(temp);
-         String[] arr = temp.split(" ");
-         boolean done = false;
-         for(int i = 0; i < arr.length && !done; ++i){
-            if(arr[i].length() > 0){
-               if(arr[i].charAt(0)>='A'  && arr[i].charAt(0)<='z'){
-                  System.out.println(arr[i].length());
-                  System.out.println(arr[i]);
-                  done = true;
-               }
-            }
-         }
+   private void setData(String type, Object data){
+      String inputType = type.toUpperCase();
+      if(inputType.contains("ERROR")){
+         this.setError(data);
       }
-      //Test Prints...
-      System.out.println(error);
+   
+   }
 
+   //
+   //
+   //
+   private void setError(Object error){
+      try{
+         String  mod         = this._rocketData.model();
+         int     stg         = this._rocketData.currentStage();
+         int     stgs        = this._rocketData.numberOfStages();
+         double  ew          = this._rocketData.emptyWeight();
+         double  lw          = this._rocketData.loadedWeight();
+         double  cw          = this._rocketData.calculatedWeight();
+         boolean isE         = true;
+         String  err         = (String)error;
+         PayloadData pd      = this._rocketData.payloadData();
+         List<StageData> lst = this._rocketData.stages();
+         double  tol         = this._rocketData.tolerance();
+         RocketData rd       = new GenericRocketData(mod,stg,stgs,ew,
+                                            lw,cw,isE,err,pd,lst,tol);
+         this._rocketData = rd;
+      }
+      catch(ClassCastException cce){}
    }
 
    ////////////////Monitorable Interface Implementation///////////////
@@ -84,18 +90,18 @@ public class RocketMonitorable implements Monitorable{
    //
    public void addData(String type, Object data){
       RocketData rd = null;
-      if(type.toUpperCase().contains("ERROR")){
-         this.addError(type);
-      }
-      try{
-         rd = (RocketData)data;
-         System.out.println(rd.emptyWeight());
-         System.out.println(rd.calculatedWeight());
-         System.out.println(rd.loadedWeight());
-         System.out.println(rd.tolerance());
-      }
+      //Continue on...
+      //
+      try{}
       catch(ClassCastException   cce){}
       catch(NullPointerException npe){}
+   }
+
+   //
+   //
+   //
+   public void addError(String error){
+      this.setData("Error", error);
    }
 
    //

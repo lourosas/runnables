@@ -138,7 +138,7 @@ public abstract class Rocket extends SystemComponent{
    //Weight...
    //
    protected void checkInitializedStateErrors(){
-      //In Initialization, compare against Empty Weight
+      //In Initialization State, compare against Empty Weight
       RocketData rd  = null;
       synchronized(this.obj){
          try{
@@ -151,12 +151,11 @@ public abstract class Rocket extends SystemComponent{
             //If out of range, set error...
             if(cw < lrl || cw > upl){
                //Alert the Monitorable Object
-               String error = new String("Error:  Calculated Weight");
-               error += " Out of Range";
-               this.monitorable.addData(error,rd);
-               RuntimeException exception=new RuntimeException(error);
+               String error = new String("Initialized State: ");
+               error += "Calculated Weight Out of Range";
+               this.monitorable.addError(error);
                //Publish the Exception
-               this.publisher.publish(exception);
+               this.publisher.publish(new RuntimeException(error));
             }
 
          }
