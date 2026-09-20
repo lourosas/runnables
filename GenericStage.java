@@ -170,12 +170,11 @@ public class GenericStage extends Stage implements Runnable{
                }
             }
             if(check){
-               /*
-               this.monitorStage();
+               this.monitorEngines();
+               this.monitorFuelSystem();
                this.checkErrors();
                this.alertSubscribers();
                check = false;
-               */
             }
             Thread.sleep(1);
          }

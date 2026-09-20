@@ -59,6 +59,53 @@ public abstract class Stage extends SystemComponent{
    }
 
    /////////////////////////Protected Methods/////////////////////////
+   //
+   //
+   //
+   protected void alertSubscribers(){
+      System.out.println("*****************************************");
+      System.out.println("Stage:  Alert Subscribers");
+      System.out.println("*****************************************");
+   }
+
+   //
+   //
+   //
+   protected void checkErrors(){
+      System.out.println("*****************************************");
+      System.out.println("Stage:  Check Errors");
+      System.out.println("*****************************************");
+   }
+
+   //
+   //
+   //
+   protected void initializeEngines(String file)throws IOException{}
+
+   //
+   //
+   //
+   protected void initializeFuelSystem(String file)throws IOException{
+   }
+
+   //
+   //
+   //
+   protected void monitorEngines(){
+      System.out.println("*****************************************");
+      System.out.println("Stage:  Monitor Engines");
+      System.out.println("*****************************************");
+   }
+
+   //
+   //
+   //
+   protected void monitorFuelSystem(){
+      System.out.println("*****************************************");
+      System.out.println("Stage:  Monitor Fuel System");
+      System.out.println("*****************************************");
+   }
+
 
    /////////////////StateMutable Interface Overrides//////////////////
    //
