@@ -58,6 +58,8 @@ public abstract class Stage extends SystemComponent{
       }
    }
 
+   /////////////////////////Protected Methods/////////////////////////
+
    /////////////////StateMutable Interface Overrides//////////////////
    //
    //

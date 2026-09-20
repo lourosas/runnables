@@ -86,6 +86,8 @@ public abstract class Rocket extends SystemComponent{
          npe.printStackTrace();
       }
       try{
+
+
          this.payload.setSimulation(isSim);
       }
       catch(NullPointerException npe){}
