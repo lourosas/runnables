@@ -22,22 +22,22 @@ import java.util.*;
 import java.io.*;
 import rosas.lou.runnables.*;
 
-public class StageMonitorable implements Monitorable{
-   private StageData   _stageData;
+public class EngineMonitorable implements Monitorable{
+   private EngineData  _engineData;
 
    {
-      _stageData = null;
+      _engineData = null;
    };
 
    ////////////////////////////Constructors///////////////////////////
    //
    //
    //
-   public StageMonitorable(){}
+   public EngineMonitorable(){}
 
    //////////////////////////Private Methods//////////////////////////
 
-   ////////////////Monitorable Interface Implementation///////////////
+   ////////////////Monitor Interface Implementation///////////////////
    //
    //
    //
@@ -57,7 +57,7 @@ public class StageMonitorable implements Monitorable{
    //
    //
    public Object monitor(){
-      return this._stageData;
+      return this._engineData;
    }
 }
 //////////////////////////////////////////////////////////////////////

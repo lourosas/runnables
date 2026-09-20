@@ -58,11 +58,44 @@ public abstract class Stage extends SystemComponent{
       }
    }
 
+   //
+   //
+   //
+   public void setSimulation(boolean isSim){
+      super.setSimulation(isSim);
+      try{
+         Iterator<Engine> it = this.engines.iterator();
+         while(it.hasNext()){
+            it.next().setSimulation(isSim);
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();
+      }
+      try{
+         this.fuelSystem.setSimulation(isSim);
+      }
+      catch(NullPointerException npe){}
+   }
+
    /////////////////////////Protected Methods/////////////////////////
    //
    //
    //
    protected void alertSubscribers(){
+      try{
+         StageData stageData = null;
+         if(this.getStateSubstate() != null){
+            //Once the State is set, the Monitor Thread is running
+            stageData = (StageData)this.monitorable.monitor();
+         }
+         else{
+            stageData = (StageData)this.initializable.initialized();
+         }
+         this.publisher.publish(stageData);
+      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){}
       System.out.println("*****************************************");
       System.out.println("Stage:  Alert Subscribers");
       System.out.println("*****************************************");
@@ -94,6 +127,15 @@ public abstract class Stage extends SystemComponent{
    protected void monitorEngines(){
       System.out.println("*****************************************");
       System.out.println("Stage:  Monitor Engines");
+      Iterator<Engine> it = this.engines.iterator();
+      try{
+         while(it.hasNext()){
+            EngineData data = (EngineData)it.next().monitor();
+            this.monitorable.addData("Engine Data",data);
+         }
+      }
+      catch(ClassCastException cce){}
+      catch(NullPointerException npe){}
       System.out.println("*****************************************");
    }
 
@@ -104,6 +146,13 @@ public abstract class Stage extends SystemComponent{
       System.out.println("*****************************************");
       System.out.println("Stage:  Monitor Fuel System");
       System.out.println("*****************************************");
+   }
+
+   //
+   //
+   //
+   protected void setMonitorable(){
+      this.setMonitorable(new StageMonitorable());
    }
 
 

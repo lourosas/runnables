@@ -69,14 +69,9 @@ public class GenericStage extends Stage implements Runnable{
       super.initializeComponent(file);
       this.initializeEngines(file);
       this.initializeFuelSystem(file);
-      try{
-         StageData stageData = null;
-         stageData = (StageData)this.initializable.initialized();
-         //Notify the Subscribers
-         this.publisher.publish(stageData);
-      }
-      catch(NullPointerException npe){}
-      catch(ClassCastException cce){}
+      //Super Class Call
+      this.setMonitorable();
+      this.alertSubscribers();
    }
 
 

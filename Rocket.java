@@ -86,8 +86,6 @@ public abstract class Rocket extends SystemComponent{
          npe.printStackTrace();
       }
       try{
-
-
          this.payload.setSimulation(isSim);
       }
       catch(NullPointerException npe){}
@@ -213,6 +211,16 @@ public abstract class Rocket extends SystemComponent{
    protected void monitorStages(){
       System.out.println("*****************************************");
       System.out.println("Rocket:  Monitor Stages");
+      Iterator<Stage> it = this.stages.iterator();
+      try{
+         //TBD
+         while(it.hasNext()){
+            StageData data = (StageData)it.next().monitor();
+            //Account for the Add...TBD
+            this.monitorable.addData("Stage Data", data);
+         }
+      }
+      catch(ClassCastException cce){}
       System.out.println("*****************************************");
    }
 

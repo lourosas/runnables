@@ -92,9 +92,9 @@ public class RocketMonitorable implements Monitorable{
       RocketData rd = null;
       //Continue on...
       //
-      try{}
-      catch(ClassCastException   cce){}
-      catch(NullPointerException npe){}
+      if(type.toUpperCase().contains("STAGE")){
+         //TBD...set the Stage Data!!
+      }
    }
 
    //
