@@ -74,7 +74,7 @@ public abstract class Engine extends SystemComponent{
    //
    public void setSimulation(boolean isSim){
       super.setSimulation(isSim);
-      if(this.isSimulation && this.initializeable != null){
+      if(this.isSimulation && this.initializable != null){
          //Grab or create the Data Feeder
          //Add Initializable to the Data Feeder
          //Set the substate to the Feeder

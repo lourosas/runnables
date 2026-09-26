@@ -95,7 +95,7 @@ public class GenericEngine extends Engine implements Runnable{
                this.monitorFuelFlowRate();
                this.monitorTemperature();
                this.checkErrors();
-               this.alertSubscribers():
+               this.alertSubscribers();
                check = false;
             }
             Thread.sleep(1);
