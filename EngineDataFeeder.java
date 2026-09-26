@@ -27,11 +27,11 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public class EngineDataFeeder implements DataFeeder, Runnable{
-   private LaunchStateSubstate.State INIT              = null;
-   private LaunchStateSubstate.State PREL              = null;
-   private LaunchStateSubstate.State IGNI              = null;
-   private LaunchStateSubstate.State LAUN              = null;
-   private LaunchStateSubstate.State ASCE              = null;
+   private LaunchStateSubstate.State             INIT  = null;
+   private LaunchStateSubstate.State             PREL  = null;
+   private LaunchStateSubstate.State             IGNI  = null;
+   private LaunchStateSubstate.State             LAUN  = null;
+   private LaunchStateSubstate.State             ASCE  = null;
    private LaunchStateSubstate.PreLaunchSubstate SET   = null;
    private LaunchStateSubstate.PreLaunchSubstate CONT  = null;
    private LaunchStateSubstate.PreLaunchSubstate FUEL  = null;
@@ -73,13 +73,14 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    };
 
    ////////////////////////////Constructors///////////////////////////
+   //Might not need the eng. no. nor stage--get from the RocketData!
    //
    //
-   //
-   public EngineDataFeeder(int stage, int number){
-      this._random = new Random();
-      this.setStageNumber(stage);
+   public EngineDataFeeder(int number, int stage){
+      //Do not need...just instantiate as needed
+      //this._random = new Random();
       this.setEngineNumber(number);
+      this.setStageNumber(stage);
       this.setUpThread();
    }
 
@@ -96,10 +97,43 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private double setExhaustFlow(){ 
+      double exhaustFlow = Double.NaN;
+
+      return exhaustFlow;
+   }
+
+   //
+   //
+   //
+   private double setFuelFlow(){
+      double fuelFlow = Double.NaN;
+
+      return fuelFlow;
+   }
+
+   //Exhaust Flow, Fuel Flow, Temperature
+   //
+   //
+   private void setMeasuredData(double ef,double ff, double temp){}
+
+   //
+   //
+   //
    private void setStageNumber(int stg){
       if(stg > -1){
          this._stage = stg;
       }
+   }
+
+
+   //
+   //
+   //
+   private double setTemp(){
+      double temp = Double.NaN;
+      
+      return temp;
    }
 
    //
@@ -114,17 +148,19 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void addInitializable(Intializable initializable){}
+   public void addInitializable(Initializable initializable){}
 
    //
    //
    //
-   public Object monitor(){}
+   public Object monitor(){
+      return this._calcEngineData;
+   }
 
    //
    //
    //
-   public void setStateSubstate(LaunchStateSubstate stateSubstate(){}
+   public void setStateSubstate(LaunchStateSubstate stateSubstate){}
 
    ////////////////Runnable Interface Implementation//////////////////
    //

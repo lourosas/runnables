@@ -137,18 +137,18 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
    private void rocketData(){
       double     cw = Double.NaN; //Calculated Weight
       RocketData rd = null;
+      //Put together the Rocket Data from Initialized...
+      try{
+         rd = (RocketData)this._initializable.initialized();
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.out.println("Exiting");
+         System.exit(1);
+      }
       synchronized(this._obj){
          if(this._stateSubstate.state() == INIT){
             cw = this.calculateInitializedWeight();
-            //Put together the Rocket Data from Initialized...
-            try{
-               rd = (RocketData)this._initializable.initialized();
-            }
-            catch(ClassCastException cce){
-               cce.printStackTrace();
-               System.out.println("Exiting");
-               System.exit(1);
-            }
          }
          RocketData trd = null;
          trd = new GenericRocketData(rd.model(),

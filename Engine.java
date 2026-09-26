@@ -66,6 +66,12 @@ public abstract class Engine extends SystemComponent{
       if(this.isSimulation){
          //Grab or create the Data Feeder
          //Add the Initializable to the Data Feeder
+         if(this.dataFeeder == null){
+            int eng = this.engine;
+            int stg = this.stage;
+            this.dataFeeder = new EngineDataFeeder(eng,stg);
+         }
+         this.dataFeeder.addInitializable(this.initializable);
       }
    }
 
@@ -78,6 +84,13 @@ public abstract class Engine extends SystemComponent{
          //Grab or create the Data Feeder
          //Add Initializable to the Data Feeder
          //Set the substate to the Feeder
+         if(this.dataFeeder == null){
+            int eng = this.engine;
+            int stg = this.stage;
+            this.dataFeeder = new EngineDataFeeder(eng,stg);
+         }
+         this.dataFeeder.addInitializable(this.initializable);
+         this.dataFeeder.setStateSubstate(this.stateSubstate);
       }
    }
 
@@ -116,10 +129,10 @@ public abstract class Engine extends SystemComponent{
          if(this.getStateSubstate().state() == INIT){
             this.checkInitializedStateErrors();
          }
-         System.out.println("**************************************");
-         System.out.println("Engine:  Check Errors");
-         System.out.println("**************************************");
       }
+      System.out.println("**************************************");
+      System.out.println("Engine:  Check Errors");
+      System.out.println("**************************************");
    }
 
    //

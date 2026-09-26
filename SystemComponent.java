@@ -43,7 +43,7 @@ public abstract class SystemComponent implements StateMutable{
    protected Initializable       initializable = null;
    protected LaunchStateSubstate stateSubstate = null;
    protected Monitorable         monitorable   = null;
-   protected DataFeeder          datafeeder    = null;
+   protected DataFeeder          dataFeeder    = null;
 
    {
       INIT      = LaunchStateSubstate.State.INITIALIZE;
