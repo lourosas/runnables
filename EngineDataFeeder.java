@@ -77,14 +77,49 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    //
    public EngineDataFeeder(int number, int stage){
-      //Do not need...just instantiate as needed
-      //this._random = new Random();
+      this._obj = new Object();
       this.setEngineNumber(number);
       this.setStageNumber(stage);
       this.setUpThread();
    }
 
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void calculateExhaustFlowInitialized(){
+      double exhaustFlow = Double.NaN;
+      try{
+         EngineData ed=(EngineData)this._initializable.initialized();
+         //Initialization, should be NO exhaust flow!!
+         exhaustFlow       = 0.;
+         boolean found     = false;
+         double  tolerance = ed.tolerance();
+         double  lowerLim  = exhaustFlow; //should be 0
+         //Liters per Sec needs to be VERY LOW!!!
+         //Will probably need to change to be more realistic
+         double  upperLim  = 0.001; //A milliliter per sec!!!
+         Random  random    = new Random();
+         while(!found){
+            if(this._stateSubstate.state() == INIT){
+               exhaustFlow += exhaustFlow + (random.nextDouble());
+               if(exhaustFlow >= lowerLim && exhaustFlow <= upperLim){
+                  found = true;
+               }
+            }
+            else{ //Safeguard!  Should NEVER happen!!
+               found = true;
+            }
+         }
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+
+      return exhaustFlow;
+   }
+
    //
    //
    //
@@ -99,7 +134,10 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    private double setExhaustFlow(){ 
       double exhaustFlow = Double.NaN;
-
+      if(this._stateSubstate.state() == INIT){
+         exhaustFlow = this.calculateExhaustFlowInitialized();
+      }
+      //Change included Countdown/Fueling, et. al.
       return exhaustFlow;
    }
 

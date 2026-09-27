@@ -128,7 +128,6 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
       }
       catch(ClassCastException cce){
          cce.printStackTrace();
-         System.out.println("Exiting");
          System.exit(1);
       }
       return calcWeight;
@@ -146,7 +145,6 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
       }
       catch(ClassCastException cce){
          cce.printStackTrace();
-         System.out.println("Exiting");
          System.exit(1);
       }
       synchronized(this._obj){

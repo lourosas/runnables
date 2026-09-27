@@ -155,6 +155,15 @@ public abstract class Engine extends SystemComponent{
       if(this.isSimulation){
          System.out.println("**************************************");
          System.out.println("Engine:  Monitor Exhaust Flow Rate");
+         synchronized(this.obj){
+            try{
+               EngineData data = null;
+               data = (EngineData)this.dataFeeder.monitor();
+               this.exhaustFlowRate = data.exhaustFlowRate();
+               System.out.println(this.exhaustFlowRate);
+            }
+            catch(ClassCastException cce){}
+         }
          System.out.println("**************************************");
       }
       else{}
