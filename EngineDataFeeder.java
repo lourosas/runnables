@@ -154,13 +154,21 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    //
    public Object monitor(){
-      return this._calcEngineData;
+      double exFlow = this.setExhaustFlow();
+      double flFlow = this.setFuelFlow();
+      double temp   = this.setTemp();
+      this.setMeasuredData(exFlow,flFlow,temp);
+      synchronized(this._obj){
+         return this._calcEngineData;
+      }
    }
 
    //
    //
    //
-   public void setStateSubstate(LaunchStateSubstate stateSubstate){}
+   public void setStateSubstate(LaunchStateSubstate stateSubstate){
+      this._stateSubstate = stateSubstate;
+   }
 
    ////////////////Runnable Interface Implementation//////////////////
    //
@@ -180,6 +188,9 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
                }
             }
             if(check){
+               //This is absolutely, positively redundant!  Just look
+               //at the monitor() method!! For the time being, will
+               //keep--in truth, do not need to threading
                double exhFlow    = this.setExhaustFlow();
                double fuelFlow   = this.setFuelFlow();
                double temp       = this.setTemp();

@@ -27,12 +27,15 @@ public class GenericEngine extends Engine implements Runnable{
    private Thread  _rt0;
 
    {
-      _kill = false;
-      _rt0  = null;
+      _kill           = false;
+      _rt0            = null;
 
-      engine = -1;
-      obj    = null;
-      stage  = -1;
+      engine          = -1;
+      obj             = null;
+      stage           = -1;
+      exhaustFlowRate = Double.NaN;
+      fuelFlowRate    = Double.NaN;
+      temperature     = Double.NaN;
    };
 
    ///////////////////////////Constructor/////////////////////////////
@@ -94,6 +97,7 @@ public class GenericEngine extends Engine implements Runnable{
                this.monitorExhaustFlowRate();
                this.monitorFuelFlowRate();
                this.monitorTemperature();
+               this.setMonitoredData();
                this.checkErrors();
                this.alertSubscribers();
                check = false;

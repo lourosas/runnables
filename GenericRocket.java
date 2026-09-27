@@ -26,17 +26,17 @@ import rosas.lou.clock.*;
 public class GenericRocket extends Rocket implements  Runnable{
    private static boolean TOPRINT = true;
 
-   private boolean             _kill;
-   private Thread              _rt0;
-   private boolean             _start;
+   private boolean _kill;
+   private Thread  _rt0;
+   private boolean _start;
 
    {
-      _kill             = false;
-      _rt0              = null;
-      _start            = false;
-      obj               = null;
-      payload           = null;//Sone sort of payload!!
-      stages            = null;//At least 1 stage!
+      _kill   = false;
+      _rt0    = null;
+      _start  = false;
+      obj     = null;
+      payload = null;//Sone sort of payload!!
+      stages  = null;//At least 1 stage!
    };
 
    /////////////////////////Constructors//////////////////////////////

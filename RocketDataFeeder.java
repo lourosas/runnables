@@ -27,11 +27,11 @@ import rosas.lou.runnables.*;
 import rosas.lou.clock.*;
 
 public class RocketDataFeeder implements DataFeeder, Runnable{
-   private LaunchStateSubstate.State INIT              = null;
-   private LaunchStateSubstate.State PREL              = null;
-   private LaunchStateSubstate.State IGNI              = null;
-   private LaunchStateSubstate.State LAUN              = null;
-   private LaunchStateSubstate.State ASCE              = null;
+   private LaunchStateSubstate.State             INIT  = null;
+   private LaunchStateSubstate.State             PREL  = null;
+   private LaunchStateSubstate.State             IGNI  = null;
+   private LaunchStateSubstate.State             LAUN  = null;
+   private LaunchStateSubstate.State             ASCE  = null;
    private LaunchStateSubstate.PreLaunchSubstate SET   = null;
    private LaunchStateSubstate.PreLaunchSubstate CONT  = null;
    private LaunchStateSubstate.PreLaunchSubstate FUEL  = null;
@@ -110,15 +110,18 @@ public class RocketDataFeeder implements DataFeeder, Runnable{
          double  tolerance    = rd.tolerance();
          double  lowerLim     = Double.NaN;
          double  upperLim     = Double.NaN;
-         Random random        = new Random();
+         Random  random       = new Random();
          while(!found){
             if(this._stateSubstate.state() == INIT){
                calcWeight =emptyWeight + (random.nextDouble() * 1000);
                tolerance -= 0.01;
                lowerLim   = emptyWeight * tolerance;
                upperLim   = emptyWeight * (2 - tolerance);
+               if(calcWeight >= lowerLim && calcWeight <= upperLim){
+                  found = true;
+               }
             }
-            if(calcWeight >= lowerLim && calcWeight <= upperLim){
+            else{ //This should never happen!  Safeguard!!
                found = true;
             }
          }
