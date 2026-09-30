@@ -396,9 +396,9 @@ controlflow {
 <ref refid="3023c2a8-aec9-11f1-b761-e8f408f10391"/>
 <ref refid="14c9b43e-aece-11f1-b3b4-e8f408f10391"/>
 <ref refid="5c6ff598-aece-11f1-a7a5-e8f408f10391"/>
-<ref refid="4a503d1f-929d-11f1-a419-e8f408f10391"/>
 <ref refid="741dd568-b4fb-11f1-8cb1-e8f408f10391"/>
 <ref refid="fc170795-b4fb-11f1-af67-e8f408f10391"/>
+<ref refid="4a503d1f-929d-11f1-a419-e8f408f10391"/>
 </reflist>
 </packagedElement>
 </UML:Package>
@@ -28187,9 +28187,6 @@ existing classes or even new classes with specific responsibilities.</val>
 </upperValue>
 </UML:Property>
 <UML:Property id="14ca2f4a-aece-11f1-afc2-e8f408f10391">
-<aggregation>
-<val>composite</val>
-</aggregation>
 <association>
 <ref refid="14c9b43e-aece-11f1-b3b4-e8f408f10391"/>
 </association>
