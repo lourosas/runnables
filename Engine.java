@@ -47,7 +47,7 @@ public abstract class Engine extends SystemComponent{
    //
    //
    public void initializeComponent(String file)throws IOException{
-      System.out.println("Engine");
+      System.out.println("Initialize Engine");
       if(this.initializable == null){
          int en = this.engine;
          int st = this.stage;

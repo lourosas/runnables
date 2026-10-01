@@ -225,7 +225,13 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void addInitializable(Initializable initializable){}
+   public void addInitializable(Initializable initializable){
+      //Start here tomorrow-10/02/26
+      System.out.println("***************************");
+      System.out.println(initializable);
+      System.exit(1);
+      //this._initializable = initializable;
+   }
 
    //
    //
