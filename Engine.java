@@ -23,8 +23,8 @@ import rosas.lou.runnables.*;
 import java.io.IOException;
 
 public abstract class Engine extends SystemComponent{
-   protected int    engine;          //Engine Number
-   protected int    stage;           //Stage
+   protected int    engine;            //Engine Number
+   protected int    stage;             //Stage
    protected double fuelFlowRate;
    protected double exhaustFlowRate;
    protected double temperature;

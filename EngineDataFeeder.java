@@ -87,7 +87,7 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private void calculateExhaustFlowInitialized(){
+   private double calculateExhaustFlowInitialized(){
       double exhaustFlow = Double.NaN;
       try{
          EngineData ed=(EngineData)this._initializable.initialized();
@@ -102,7 +102,7 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
          Random  random    = new Random();
          while(!found){
             if(this._stateSubstate.state() == INIT){
-               exhaustFlow += exhaustFlow + (random.nextDouble());
+               exhaustFlow = lowerLim + (random.nextDouble());
                if(exhaustFlow >= lowerLim && exhaustFlow <= upperLim){
                   found = true;
                }
@@ -123,6 +123,43 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private double calculateFuelFlowInitialized(){
+      double fuelFlow = Double.NaN;
+      try{
+         EngineData ed=(EngineData)this._initializable.initialized();
+         //Initialization:  should be NO fuel flow!!!
+         fuelFlow          = 0.;
+         boolean found     = false;
+         double  tolerance = ed.tolerance();
+         double  lowerLim  = fuelFlow; //0
+         //Liters per Sec:  needs to be VERY LOW!
+         //Will probably need to change upper limit to something more
+         //realistic
+         //Better be at most a milliliter/sec!!!!
+         double  upperLim  = 0.001;
+         Random  random    = new Random();
+         while(!found){
+            if(this._stateSubstate.state() == INIT){
+               fuelFlow = lowerLim + (random.nextDouble());
+               if(fuelFlow >= lowerLim && fuelFlow <= upperLim){
+                  found = true;
+               }
+            }
+            else{
+               found = true;  //Safeguard!!  Should NEVER happen!!
+            }
+         }
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+      return fuelFlow;
+   }
+
+   //
+   //
+   //
    private void setEngineNumber(int num){
       if(num > -1){
          this._number = num;
@@ -137,7 +174,7 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
       if(this._stateSubstate.state() == INIT){
          exhaustFlow = this.calculateExhaustFlowInitialized();
       }
-      //Change included Countdown/Fueling, et. al.
+      //will need to add logic to include other states as needed...
       return exhaustFlow;
    }
 
@@ -146,7 +183,9 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    private double setFuelFlow(){
       double fuelFlow = Double.NaN;
-
+      if(this._stateSubstate.state() == INIT){
+         fuelFlow = this.calculateFuelFlowInitialized();
+      }
       return fuelFlow;
    }
 
