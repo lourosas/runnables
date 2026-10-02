@@ -192,7 +192,14 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //Exhaust Flow, Fuel Flow, Temperature
    //
    //
-   private void setMeasuredData(double ef,double ff, double temp){}
+   private void setMeasuredData(double ef,double ff, double temp){
+      System.out.println("*****************************************");
+      System.out.println(ef);
+      System.out.println("*****************************************");
+      System.out.println(ff);
+      System.exit(0);
+   
+   }
 
    //
    //
@@ -226,11 +233,7 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    //
    public void addInitializable(Initializable initializable){
-      //Start here tomorrow-10/02/26
-      System.out.println("***************************");
-      System.out.println(initializable);
-      System.exit(1);
-      //this._initializable = initializable;
+      this._initializable = initializable;
    }
 
    //
