@@ -160,6 +160,32 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private double calculateTempInitialized(){
+      double temp = Double.NaN;
+      try{
+         EngineData ed=(EngineData)this._initialized.initialized();
+         //In Initialization, temp should be anything within a typical
+         //normal range of atmostpheric temperatures--really not too
+         //hot...not too cold...roughly from the freezing point to the
+         //boiling point of water...
+         boolean found    = false;
+         double  lowerLim = 273.15; //Freezing point of Water
+         double  upperLim = 373.15; //Boilning point of Water
+         Random  random   = new Random();
+         while(!found){
+            
+         }
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+      return temp;
+   }
+
+   //
+   //
+   //
    private void setEngineNumber(int num){
       if(num > -1){
          this._number = num;
@@ -172,7 +198,9 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    private double setExhaustFlow(){ 
       double exhaustFlow = Double.NaN;
       if(this._stateSubstate.state() == INIT){
-         exhaustFlow = this.calculateExhaustFlowInitialized();
+         synchronized(this._obj){
+            exhaustFlow = this.calculateExhaustFlowInitialized();
+         }
       }
       //will need to add logic to include other states as needed...
       return exhaustFlow;
@@ -184,7 +212,9 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    private double setFuelFlow(){
       double fuelFlow = Double.NaN;
       if(this._stateSubstate.state() == INIT){
-         fuelFlow = this.calculateFuelFlowInitialized();
+         synchronized(this._obj){
+            fuelFlow = this.calculateFuelFlowInitialized();
+         }
       }
       return fuelFlow;
    }
@@ -216,7 +246,11 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    private double setTemp(){
       double temp = Double.NaN;
-      
+      if(this._stateSubstate.state() == INIT){
+         synchronized(this._obj){
+            temp = this.calculateTempInitialized();
+         }
+      }
       return temp;
    }
 
