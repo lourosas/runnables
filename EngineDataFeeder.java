@@ -163,7 +163,7 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    private double calculateTempInitialized(){
       double temp = Double.NaN;
       try{
-         EngineData ed=(EngineData)this._initialized.initialized();
+         EngineData ed=(EngineData)this._initializable.initialized();
          //In Initialization, temp should be anything within a typical
          //normal range of atmostpheric temperatures--really not too
          //hot...not too cold...roughly from the freezing point to the
@@ -172,8 +172,17 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
          double  lowerLim = 273.15; //Freezing point of Water
          double  upperLim = 373.15; //Boilning point of Water
          Random  random   = new Random();
+         int     seed     = 374; //Slightly above boiling pt of H2O
          while(!found){
-            
+            if(this._stateSubstate.state() == INIT){
+               temp = random.nextInt(seed) + random.nextDouble();
+               if(temp >= lowerLim && temp <= upperLim){
+                  found = true;
+               }
+            }
+            else{
+               found = true; //Safeguard!!  Should NEVER Happen!!
+            }
          }
       }
       catch(ClassCastException cce){
@@ -196,39 +205,59 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    //
    private double setExhaustFlow(){ 
-      double exhaustFlow = Double.NaN;
-      if(this._stateSubstate.state() == INIT){
-         synchronized(this._obj){
+      synchronized(this._obj){
+         double exhaustFlow = Double.NaN;
+         if(this._stateSubstate.state() == INIT){
             exhaustFlow = this.calculateExhaustFlowInitialized();
          }
+         //will need to add logic to include other states as needed...
+         return exhaustFlow;
       }
-      //will need to add logic to include other states as needed...
-      return exhaustFlow;
    }
 
    //
    //
    //
    private double setFuelFlow(){
-      double fuelFlow = Double.NaN;
-      if(this._stateSubstate.state() == INIT){
-         synchronized(this._obj){
+      synchronized(this._obj){
+         double fuelFlow = Double.NaN;
+         if(this._stateSubstate.state() == INIT){
             fuelFlow = this.calculateFuelFlowInitialized();
          }
+         return fuelFlow;
       }
-      return fuelFlow;
    }
 
    //Exhaust Flow, Fuel Flow, Temperature
    //
    //
-   private void setMeasuredData(double ef,double ff, double temp){
-      System.out.println("*****************************************");
-      System.out.println(ef);
-      System.out.println("*****************************************");
-      System.out.println(ff);
-      System.exit(0);
-   
+   private synchronized void setMeasuredData
+   (
+      double ef,
+      double ff,
+      double temp
+   ){
+      EngineData ed = null;
+      try{
+         ed = (EngineData)this._initializable.initialized();
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+      EngineData ted = null;
+      ted = new GenericEngineData(ed.engine(),
+                                  null,  //Error TBD
+                                  ef,    //Exhaust Flow
+                                  false, //Error TBD
+                                  ed.isIgnited(),
+                                  ff,    //Fuel Flow
+                                  ed.model(),
+                                  ed.stage(),
+                                  temp,  //Temperature
+                                  ed.tolerance(),
+                                  ed.total());
+      this._calcEngineData = ted;
    }
 
    //
@@ -245,13 +274,13 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    //
    private double setTemp(){
-      double temp = Double.NaN;
-      if(this._stateSubstate.state() == INIT){
-         synchronized(this._obj){
+      synchronized(this._obj){
+         double temp = Double.NaN;
+         if(this._stateSubstate.state() == INIT){
             temp = this.calculateTempInitialized();
          }
+         return temp;
       }
-      return temp;
    }
 
    //
@@ -278,9 +307,7 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
       double flFlow = this.setFuelFlow();
       double temp   = this.setTemp();
       this.setMeasuredData(exFlow,flFlow,temp);
-      synchronized(this._obj){
-         return this._calcEngineData;
-      }
+      return this._calcEngineData;
    }
 
    //
@@ -314,7 +341,7 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
                double exhFlow    = this.setExhaustFlow();
                double fuelFlow   = this.setFuelFlow();
                double temp       = this.setTemp();
-               this.setMeasuredData(exhFlow, fuelFlow, temp); 
+               this.setMeasuredData(exhFlow, fuelFlow, temp);
                check = false;
             }
             Thread.sleep(1);
