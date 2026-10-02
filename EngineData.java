@@ -95,7 +95,7 @@ public abstract class EngineData{
    //
    //
    //
-   public double  tolerance(){ return this._temperature; }
+   public double  tolerance(){ return this._tolerance; }
 
    //
    //

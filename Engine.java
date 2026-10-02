@@ -150,17 +150,15 @@ public abstract class Engine extends SystemComponent{
    //
    //
    //
-   protected void monitorExhaustFlowRate(){
-      //Simulation or "Striaght measure"
+   protected void monitorEngine(){
       if(this.isSimulation){
          System.out.println("**************************************");
-         System.out.println("Engine:  Monitor Exhaust Flow Rate");
+         System.out.println("        Engine:  Monitor Engine");
          synchronized(this.obj){
             try{
                EngineData data = null;
-               data = (EngineData)this.dataFeeder.monitor();
-               this.exhaustFlowRate = data.exhaustFlowRate();
-               System.out.println(this.exhaustFlowRate);
+               data=(EngineData)this.dataFeeder.monitor();
+               System.out.println(data);
             }
             catch(ClassCastException cce){}
          }
@@ -172,47 +170,8 @@ public abstract class Engine extends SystemComponent{
    //
    //
    //
-   protected void monitorFuelFlowRate(){
-      //Simulation or "Straight Measure"
-      if(this.isSimulation){
-         System.out.println("**************************************");
-         System.out.println("Engine:  Monitor Fuel Flow Rate");
-         System.out.println("**************************************");
-      }
-      else{}
-   }
-
-   //
-   //
-   //
-   protected void monitorTemperature(){
-      //Simulation or Straight Measure
-      if(this.isSimulation){
-         System.out.println("**************************************");
-         System.out.println("Engine:  Monitor Temperature");
-         System.out.println("**************************************");
-      }
-      else{}
-   }
-
-   //
-   //
-   //
    protected void setMonitorable(){
       this.setMonitorable(new EngineMonitorable());
-   }
-
-   //
-   //
-   //
-   protected void setMonitoredData(){
-      //Simulation or Straight Measure
-      if(this.isSimulation){
-         System.out.println("**************************************");
-         System.out.println("     Engine:  Set Monitored Data      ");
-         System.out.println("**************************************");
-      }
-      else{}
    }
 }
 //////////////////////////////////////////////////////////////////////
