@@ -158,7 +158,7 @@ public abstract class Engine extends SystemComponent{
             try{
                EngineData data = null;
                data=(EngineData)this.dataFeeder.monitor();
-               System.out.println(data);
+               this.montorable.addData(data);
             }
             catch(ClassCastException cce){}
          }
