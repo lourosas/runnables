@@ -144,6 +144,11 @@ public abstract class Engine extends SystemComponent{
    protected void checkInitializedStateErrors(){
        System.out.println("***************************************");
        System.out.println("Engine: Check Initialized State Errors");
+       try{}
+       catch(ClassCastException cce){
+          cce.printStackTrace();
+          System.exit(1);
+       }
        System.out.println("***************************************");
    }
 

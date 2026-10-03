@@ -59,7 +59,7 @@ public class EngineMonitorable implements Monitorable{
    //
    //
    //
-   public void addError(String error){}
+   public void addError(String error, boolean toAppend){}
 
    //
    //

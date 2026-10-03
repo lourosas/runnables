@@ -39,12 +39,59 @@ public class RocketMonitorable implements Monitorable{
    //
    //
    //
+   private void appendError(Object error){
+      try{
+         String  mod         = this._rocketData.model();
+         int     stg         = this._rocketData.currentStage();
+         int     stgs        = this._rocketData.numberOfStages();
+         double  ew          = this._rocketData.emptyWeight();
+         double  lw          = this._rocketData.loadedWeight();
+         double  cw          = this._rocketData.calculatedWeight();
+         boolean isE         = this._rocketData.isError();
+         String  err         = this._rocketData.error();
+         if(isE){
+           err = this._rocketData.error() + "\n" + (String)error;
+         }
+         else{
+            err = (String)error;
+            isE = true;
+         }
+         PayloadData pd      = this._rocketData.payloadData();
+         List<StageData> lst = this._rocketData.stages();
+         double tol          = this._rocketData.tolerance();
+         RocketData rd       = new GenericRocketData(mod,stg,stgs,ew,
+                                            lw,cw,isE,err,pd,lst,tol);
+   
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+   }
+
+   //
+   //
+   //
    private void setData(String type, Object data){
       String inputType = type.toUpperCase();
       if(inputType.contains("ERROR")){
          this.setError(data);
       }
-   
+   }
+
+   //
+   //
+   //
+   private void setData(String type, Object data, boolean toAppend){
+      String inputType = type.toUpperCase();
+      if(inputType.contains("ERROR")){
+         if(toAppend){
+            this.appendError(data);
+         }
+         else{
+            this.setError(data);
+         }
+      }
    }
 
    //
@@ -58,8 +105,15 @@ public class RocketMonitorable implements Monitorable{
          double  ew          = this._rocketData.emptyWeight();
          double  lw          = this._rocketData.loadedWeight();
          double  cw          = this._rocketData.calculatedWeight();
-         boolean isE         = true;
-         String  err         = (String)error;
+         boolean isE         = this._rocketData.isError();
+         String  err         = this._rocketData.error();
+         if(isE){
+            err = this._rocketData.error() + "\n" + (String)error;
+         }
+         else{
+            err = (String)error;
+            isE = true;
+         }
          PayloadData pd      = this._rocketData.payloadData();
          List<StageData> lst = this._rocketData.stages();
          double  tol         = this._rocketData.tolerance();
@@ -100,8 +154,13 @@ public class RocketMonitorable implements Monitorable{
    //
    //
    //
-   public void addError(String error){
-      this.setData("Error", error);
+   public void addError(String error, boolean toAppend){
+      if(toAppend){
+         this.setData("Error", error, toAppend);
+      }
+      else{
+         this.setData("Error", error);
+      }
    }
 
    //

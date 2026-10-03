@@ -153,7 +153,7 @@ public abstract class Rocket extends SystemComponent{
                //Alert the Monitorable Object
                String error = new String("Initialized State: ");
                error += "Calculated Weight Out of Range";
-               this.monitorable.addError(error);
+               this.monitorable.addError(error, false);
                //Publish the Exception
                this.publisher.publish(new RuntimeException(error));
             }
