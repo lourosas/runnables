@@ -41,7 +41,15 @@ public class EngineMonitorable implements Monitorable{
    //
    //
    //
-   public void addData(Object data){}
+   public void addData(Object data){
+      try{
+         this._engineData = (EngineData)data;
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+   }
 
    //
    //
