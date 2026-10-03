@@ -61,6 +61,7 @@ public class RocketMonitorable implements Monitorable{
          double tol          = this._rocketData.tolerance();
          RocketData rd       = new GenericRocketData(mod,stg,stgs,ew,
                                             lw,cw,isE,err,pd,lst,tol);
+         this._rocketData = rd;
    
       }
       catch(ClassCastException cce){

@@ -36,6 +36,67 @@ public class EngineMonitorable implements Monitorable{
    public EngineMonitorable(){}
 
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void appendError(Object error){
+      try{
+         int      eng  = this._engineData.engine();
+         String   err  = this._engineData.error();
+         double   exr  = this._engineData.exhaustFlowRate();
+         boolean  isE  = this._engineData.isError();
+         if(isE){
+            err = this._engineData.error() + "\n" + (String)error;
+         }
+         else{
+            err = (String)error;
+            isE = true;
+         }
+         boolean  isI = this._engineData.isIgnited();
+         double   ffr = this._engineData.fuelFlowRate();
+         long     mod = this._engineData.model();
+         double   temp= this._engineData.temperature();
+         double   tol = this._engineData.tolerance();
+         int      tot = this._engineData.total();
+         EngineData ed= new GenericEngineData(eng,err,exr,isE,err,
+                                            isI,ffr,mod,temp,tol,tot);
+         this._engineData = ed;
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+   }
+
+   //
+   //
+   //
+   private void setData(String type, Object data){
+      String inputType = type.toUpperCase();
+      if(inputType.contains("ERROR")){
+         this.setError(data);
+      }
+   }
+
+   //
+   //
+   //
+   private void setData(String type, Object data, boolean toAppend){
+      String inputType = type.toUpperCase();
+      if(inputType.contains("ERROR")){
+         if(toAppend){
+            this.appendError(data);
+         }
+         else{
+            this.setError(data);
+         }
+      }
+   }
+
+   //
+   //
+   //
+   private void setError(Object error){}
 
    ////////////////Monitor Interface Implementation///////////////////
    //
@@ -59,7 +120,14 @@ public class EngineMonitorable implements Monitorable{
    //
    //
    //
-   public void addError(String error, boolean toAppend){}
+   public void addError(String error, boolean toAppend){
+      if(toAppend){
+         this.setData("Error", error, toAppend);
+      }
+      else{
+         this.setData("Error", error);
+      }
+   }
 
    //
    //
