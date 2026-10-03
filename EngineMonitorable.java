@@ -24,16 +24,20 @@ import rosas.lou.runnables.*;
 
 public class EngineMonitorable implements Monitorable{
    private EngineData  _engineData;
+   private Object      _obj;
 
    {
       _engineData = null;
+      _obj        = null;
    };
 
    ////////////////////////////Constructors///////////////////////////
    //
    //
    //
-   public EngineMonitorable(){}
+   public EngineMonitorable(){
+      this._obj = new Object();
+   }
 
    //////////////////////////Private Methods//////////////////////////
    //
@@ -96,7 +100,28 @@ public class EngineMonitorable implements Monitorable{
    //
    //
    //
-   private void setError(Object error){}
+   private void setError(Object error){
+      try{
+         int      eng = this._engineData.engine();
+         String   err = (String)error;
+         double   exr = this._engineData.exhaustFlowRate();
+         boolean  isE = true;
+         boolean  isI = this._engineData.isIgnited();
+         double   ffr = this._engineData.fuelFlowRate();
+         long     mod = this._engineData.model();
+         double   temp= this._engineData.temperature();
+         double   tol = this._engineData.tolerace();
+         int      tot = this._engineData.total();
+         EngineData ed= new GenericEngineData(eng,err,exr,isE,err,
+                                            isI,ffr,mod,temp,tol,tot);
+         this._endgineDat = ed;
+
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+   }
 
    ////////////////Monitor Interface Implementation///////////////////
    //
@@ -104,7 +129,9 @@ public class EngineMonitorable implements Monitorable{
    //
    public void addData(Object data){
       try{
-         this._engineData = (EngineData)data;
+         synchronized(this._obj){
+            this._engineData = (EngineData)data;
+         }
       }
       catch(ClassCastException cce){
          cce.printStackTrace();

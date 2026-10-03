@@ -23,9 +23,11 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class RocketMonitorable implements Monitorable{
+   private Object        _obj;
    private RocketData    _rocketData;
 
    {
+      _obj        = null;
       _rocketData = null;
    };
 
@@ -33,7 +35,9 @@ public class RocketMonitorable implements Monitorable{
    //
    //
    //
-   public RocketMonitorable(){}
+   public RocketMonitorable(){
+      this._obj = new Object();
+   }
 
    //////////////////////////Private Methods//////////////////////////
    //
@@ -76,7 +80,9 @@ public class RocketMonitorable implements Monitorable{
    private void setData(String type, Object data){
       String inputType = type.toUpperCase();
       if(inputType.contains("ERROR")){
-         this.setError(data);
+         synchronized(this._obj){
+            this.setError(data);
+         }
       }
    }
 
@@ -87,10 +93,14 @@ public class RocketMonitorable implements Monitorable{
       String inputType = type.toUpperCase();
       if(inputType.contains("ERROR")){
          if(toAppend){
-            this.appendError(data);
+            synchronized(this._obj){
+               this.appendError(data);
+            }
          }
          else{
-            this.setError(data);
+            synchronized(this._obj){
+               this.setError(data);
+            }
          }
       }
    }
@@ -106,15 +116,8 @@ public class RocketMonitorable implements Monitorable{
          double  ew          = this._rocketData.emptyWeight();
          double  lw          = this._rocketData.loadedWeight();
          double  cw          = this._rocketData.calculatedWeight();
-         boolean isE         = this._rocketData.isError();
-         String  err         = this._rocketData.error();
-         if(isE){
-            err = this._rocketData.error() + "\n" + (String)error;
-         }
-         else{
-            err = (String)error;
-            isE = true;
-         }
+         boolean isE         = true;
+         String  err         = (String)error;
          PayloadData pd      = this._rocketData.payloadData();
          List<StageData> lst = this._rocketData.stages();
          double  tol         = this._rocketData.tolerance();
@@ -131,7 +134,9 @@ public class RocketMonitorable implements Monitorable{
    //
    public void addData(Object data){
       try{
-         this._rocketData = (RocketData)data;
+         synchronized(this._obj){
+            this._rocketData = (RocketData)data;
+         }
       }
       catch(ClassCastException cce){
          //This print out is probably going to stay
@@ -168,7 +173,9 @@ public class RocketMonitorable implements Monitorable{
    //
    //
    public Object monitor(){
-      return this._rocketData;
+      synchronized(this._obj){
+         return this._rocketData;
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////
