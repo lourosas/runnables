@@ -25,8 +25,8 @@ import java.io.IOException;
 public abstract class Engine extends SystemComponent{
    protected int    engine;            //Engine Number
    protected int    stage;             //Stage
-   protected double fuelFlowRate;
    protected double exhaustFlowRate;
+   protected double fuelFlowRate;
    protected double temperature;
 
    /////////////////SystemComponent Methods Overrides/////////////////
@@ -128,28 +128,121 @@ public abstract class Engine extends SystemComponent{
    //
    //
    protected void checkErrors(){
+      System.out.println("**************************************");
+      System.out.println("Engine:  Check Errors");
       if(this.getStateSubstate() != null){
          if(this.getStateSubstate().state() == INIT){
             this.checkInitializedStateErrors();
          }
       }
       System.out.println("**************************************");
-      System.out.println("Engine:  Check Errors");
-      System.out.println("**************************************");
+   }
+
+   //Input:  Lower Limit, Upper Limit
+   //
+   //
+   protected String checkExhaustFlowRate(double ll, double ul){
+      String error  = null;
+      EngineData ed = null;
+      try{
+         synchronized(this.obj){
+            ed = (EngineData)this.monitorable.monitor();
+            this.exhaustFlowRate = ed.exhaustFlowRate();
+            if(this.exhaustFlowRate<ll || this.exhaustFlowRate>ul){
+               String efr = String.format("%.4f",this.exhaustFlowRate);
+               error = new String("Exhaust Flow Rate Error:  "+efr);
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+      return error;
    }
 
    //
    //
    //
+   protected String checkFuelFlowRate(double ll, double ul){
+      String error  = null;
+      EngineData ed = null;
+      try{
+         synchronized(this.obj){
+            ed = (EngineData)this.monitorable.monitor();
+            this.fuelFlowRate = ed.fuelFlowRate();
+            if(this.fuelFlowRate<ll || this.fuelFlowRate>ul){
+               String ffr = String.format("%.4f", this.fuelFlowRate);
+               error = new String("Fuel Flow Rate Error: "+ffr);
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+      return error;
+   }
+
+
+
+   //
+   //
+   //
    protected void checkInitializedStateErrors(){
-       System.out.println("***************************************");
-       System.out.println("Engine: Check Initialized State Errors");
-       try{}
-       catch(ClassCastException cce){
-          cce.printStackTrace();
-          System.exit(1);
-       }
-       System.out.println("***************************************");
+      double lowerLimit = 0.;
+      double upperLimit = 0.001;
+      String error      = null;
+      String pubError   = null;
+      System.out.println("***************************************");
+      System.out.println("Engine: Check Initialized State Errors");
+      error = this.checkExhaustFlowRate(lowerLimit,upperLimit);
+      if(error != null){
+         this.monitorable.addError(error, false);
+         pubError = pubError != null ? pubError+"\n"+error : error;
+      }
+      error = this.checkFuelFlowRate(lowerLimit, upperLimit);
+      if(error != null){
+         this.monitorable.addError(error,true);
+         pubError = pubError != null ? pubError+"\n"+error : error;
+      }
+      lowerLimit = 273.15;
+      upperLimit = 373.15;
+      error = this.checkTemperature(lowerLimit, upperLimit);
+      if(error != null){
+         this.monitorable.addError(error,true);
+         pubError = pubError != null ? pubError+"\n"+error : error;
+      }
+      if(pubError != null){
+         this.publisher.publish(new RuntimeException(pubError));
+      }
+      System.out.println("***************************************");
+   }
+   
+   //
+   //
+   //
+   protected String checkTemperature(double ll, double ul){
+      String error  = null;
+      EngineData ed = null;
+      try{
+         synchronized(this.obj){
+            ed = (EngineData)this.monitorable.monitor();
+            this.temperature = ed.temperature();
+            if(this.temperature < ll || this.temperature > ul){
+               String tem = String.format("%.2f", this.temperature);
+               error = new String("Temperature Error: "+tem);
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+      return error;
    }
 
    //
@@ -157,7 +250,7 @@ public abstract class Engine extends SystemComponent{
    //
    protected void monitorEngine(){
       if(this.isSimulation){
-         System.out.println("**************************************");
+         System.out.println("++++++++++++++++++++++++++++++++++++++");
          System.out.println("        Engine:  Monitor Engine");
          synchronized(this.obj){
             try{
@@ -167,7 +260,7 @@ public abstract class Engine extends SystemComponent{
             }
             catch(ClassCastException cce){}
          }
-         System.out.println("**************************************");
+         System.out.println("++++++++++++++++++++++++++++++++++++++");
       }
       else{}
    }

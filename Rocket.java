@@ -131,6 +131,11 @@ public abstract class Rocket extends SystemComponent{
    protected void checkErrors(){
       System.out.println("*****************************************");
       System.out.println("Rocket:  Check Errors");
+      if(this.getStateSubstate() != null){
+         if(this.getStateSubstate().state() == INIT){
+            this.checkInitializedStateErrors();
+         }
+      }
       System.out.println("*****************************************");
    }
 
