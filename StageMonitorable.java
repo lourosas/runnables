@@ -36,6 +36,14 @@ public class StageMonitorable implements Monitorable{
    public StageMonitorable(){}
 
    //////////////////////////Private Methods//////////////////////////
+   //
+   //
+   //
+   private void setUpEngineData(Object data){
+      System.out.println("StageMonitorable.setUpEngineData(...)");
+      System.out.println(this._stageData);
+      System.out.println(data);
+   }
 
    ////////////////Monitorable Interface Implementation///////////////
    //
@@ -46,7 +54,12 @@ public class StageMonitorable implements Monitorable{
    //
    //
    //
-   public void addData(String type, Object data){}
+   public void addData(String type, Object data){
+      if(type.toUpperCase().contains("ENGINE")){
+         //Set up the Engine Data...
+         this.setUpEngineData(data);
+      }
+   }
 
    //
    //

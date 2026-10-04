@@ -258,7 +258,10 @@ public abstract class Engine extends SystemComponent{
                data=(EngineData)this.dataFeeder.monitor();
                this.monitorable.addData(data);
             }
-            catch(ClassCastException cce){}
+            catch(ClassCastException cce){
+               cce.printStackTrace();
+               System.exit(1);
+            }
          }
          System.out.println("++++++++++++++++++++++++++++++++++++++");
       }

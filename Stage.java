@@ -134,7 +134,10 @@ public abstract class Stage extends SystemComponent{
             this.monitorable.addData("Engine Data",data);
          }
       }
-      catch(ClassCastException cce){}
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
       catch(NullPointerException npe){}
       System.out.println("*****************************************");
    }
