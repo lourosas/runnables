@@ -58,12 +58,13 @@ public class EngineMonitorable implements Monitorable{
          }
          boolean  isI = this._engineData.isIgnited();
          double   ffr = this._engineData.fuelFlowRate();
+         int      stg = this._engineData.stage();
          long     mod = this._engineData.model();
          double   temp= this._engineData.temperature();
          double   tol = this._engineData.tolerance();
          int      tot = this._engineData.total();
-         EngineData ed= new GenericEngineData(eng,err,exr,isE,err,
-                                            isI,ffr,mod,temp,tol,tot);
+         EngineData ed= new GenericEngineData(eng,err,exr,isE,isI,ffr,
+                                              mod,stg,temp,tol,tot);
          this._engineData = ed;
       }
       catch(ClassCastException cce){
@@ -108,13 +109,14 @@ public class EngineMonitorable implements Monitorable{
          boolean  isE = true;
          boolean  isI = this._engineData.isIgnited();
          double   ffr = this._engineData.fuelFlowRate();
+         int      stg = this._engineData.stage();
          long     mod = this._engineData.model();
          double   temp= this._engineData.temperature();
-         double   tol = this._engineData.tolerace();
+         double   tol = this._engineData.tolerance();
          int      tot = this._engineData.total();
-         EngineData ed= new GenericEngineData(eng,err,exr,isE,err,
-                                            isI,ffr,mod,temp,tol,tot);
-         this._endgineDat = ed;
+         EngineData ed= new GenericEngineData(eng,err,exr,isE,isI,ffr,
+                                              mod,stg,temp,tol,tot);
+         this._engineData = ed;
 
       }
       catch(ClassCastException cce){
