@@ -41,11 +41,9 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    private LaunchStateSubstate.AscentSubstate    STG   = null;
    private LaunchStateSubstate.AscentSubstate    IGNE  = null;
 
-   //Read In....
-   private StageData              _initStageData;
    //Derived
    private StageData              _calcStageData;
-
+   private Initializable          _initializable;
    private LaunchStateSubstate    _stateSubstate;
    private Object                 _obj;
    private Thread                 _t0;
@@ -71,12 +69,15 @@ public class StageDataFeeder implements DataFeeder, Runnable{
       STG  = LaunchStateSubstate.AscentSubstate.STAGING;
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
-      _initStageData        = null;
       _calcStageData        = null;
+      _initStageData        = null;
       _stateSubstate        = null;
       _obj                  = null;
       _t0                   = null;
+
       _fuelSystemDataFeeder = null;
+      _engines              = null;
+      
       _numEngines           = -1;
       _stage                = -1;
    };
@@ -307,24 +308,7 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void addDataFeeder(DataFeeder feeder){}
-
-   //
-   //
-   //
-   public void initialize(String file)throws IOException{
-      //Stage Data File
-      String stgFile = file;
-      if(this.isPathFile(stgFile)){
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         stgFile = read.readPathInfo().get("stage");
-      }
-      this.setEngineNumber(stgFile);
-      this.initializeEngines(file);
-      this.initializeFuelSystem(file);
-      this.initializeStageData(stgFile);
-   }
+   public void addInitializable(Initializable initializable){}
 
    //
    //

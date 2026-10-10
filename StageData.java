@@ -135,13 +135,13 @@ public abstract class StageData{
       data += "Stage:      " + this.stageNumber() + "\n";
       data += "Model:      " + String.format("0x%X\n",this.model());
       data += "Engines:    " + this.numberOfEngines() + "\n";
-      data += "Dry Weight: " + this.dryWeight() + "\n";
-      data += "Max Weight: " + this.maxWeight() + "\n";
-      data += "Dry Mass:   " + this.dryMass() + "\n";
-      data += "Loaded Mass:" + this.loadedMass() + "\n";
-      data += "Weight:     " + this.weight() + "\n";
+      data += "Dry Weight: " + this.dryWeight() + "N\n";
+      data += "Max Weight: " + this.maxWeight() + "N\n";
+      data += "Dry Mass:   " + this.dryMass() + "kg\n";
+      data += "Loaded Mass:" + this.loadedMass() + "kg\n";
+      data += "Weight:     " + this.weight() + "N\n";
       data += "Tolerance:  " + this.tolerance() + "\n";
-      data += "Error: " + this.isError() + "\n";
+      data += "Error:      " + this.isError() + "\n";
       if(this.isError()){
          data += this.error();
       }

@@ -127,8 +127,11 @@ public abstract class Stage extends SystemComponent{
    protected void monitorEngines(){
       System.out.println("*****************************************");
       System.out.println("Stage:  Monitor Engines");
+      //First, clear out the Engine Data in the Stage...
+      this.monitorable.addData("Engine Data", null);
       Iterator<Engine> it = this.engines.iterator();
       try{
+         //Then, add new monitored data to the Monitorable...
          while(it.hasNext()){
             EngineData data = (EngineData)it.next().monitor();
             this.monitorable.addData("Engine Data",data);
