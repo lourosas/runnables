@@ -41,8 +41,8 @@ public class StageMonitorable implements Monitorable{
    //
    private void setUpEngineData(Object data){
       System.out.println("StageMonitorable.setUpEngineData(...)");
-      System.out.println(this._stageData);
-      System.out.println(data);
+      System.out.println("Stage Data:  "+this._stageData);
+      System.out.println("Engine Data: "+data);
    }
 
    ////////////////Monitorable Interface Implementation///////////////
