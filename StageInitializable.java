@@ -28,8 +28,8 @@ public class StageInitializable implements Initializable{
    private StageData        _stageData;
 
    {
-      _list     = null;
-      _stage    = -1;
+      _list      = null;
+      _stage     = -1;
       _stageData = null;
    };
 

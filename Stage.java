@@ -56,6 +56,20 @@ public abstract class Stage extends SystemComponent{
       synchronized(this.obj){
          this.initializable.initialize(file);
       }
+      //this.setMonitorable();
+      //this.alertSubscribers();
+   }
+
+   //
+   //
+   //
+   public void setInitializable(Initializable init){
+      super.setInitializable(init);
+      if(this.isSimulation){
+         int stg = this.stage;
+         //this.dataFeeder = new StageDataFeeder(stg);
+      }
+      //this.dataFeeder.addInitializable(this.initializable);
    }
 
    //
@@ -76,6 +90,14 @@ public abstract class Stage extends SystemComponent{
          this.fuelSystem.setSimulation(isSim);
       }
       catch(NullPointerException npe){}
+      if(this.isSimulation && this.initializable != null){
+         if(this.dataFeeder == null){
+            int stg = this.stage;
+            //this.dataFeeder = new StageDataFeeder(stg);
+         }
+         //this.dataFeeder.addInitializable(this.initializable);
+         //this.dataFeeder.setStateSubstate(this.stateSubstate);
+      }
    }
 
    /////////////////////////Protected Methods/////////////////////////

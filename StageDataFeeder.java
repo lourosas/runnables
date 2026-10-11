@@ -51,7 +51,7 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    private FuelSystemDataFeeder   _fuelSystemDataFeeder;
    private List<EngineDataFeeder> _engines;
 
-   private int                    _numEngines;
+   private String                 _initializableInitFile;
    private int                    _stage;
 
    {
@@ -79,6 +79,7 @@ public class StageDataFeeder implements DataFeeder, Runnable{
       _engines              = null;
       
       _numEngines           = -1;
+      _initializableInitFile= null;
       _stage                = -1;
    };
 
@@ -91,127 +92,62 @@ public class StageDataFeeder implements DataFeeder, Runnable{
       this.setUpThread();
    }
 
+   //
+   //
+   //
+   public StageDataFeeder(int currentStage, String initializeFile){
+      this.setStageNumber(currentStage);
+      this.setInitializableInitFile(initializedFile);
+      this.setUpThread();
+   }
+
    //////////////////////////Private Methods//////////////////////////
    //
    //
    //
-   private void initializeEngines(String file)throws IOException{
-      System.out.println("StageDataFeeder Engines: "+file);
-      this._engines = new LinkedList<EngineDataFeeder>();
-      for(int i = 0; i < this._numEngines; ++i){
-         EngineDataFeeder e = new EngineDataFeeder(this._stage, i);
-         e.initialize(file);
-         this._engines.add(e);
-      }
-   }
-
-   //
-   //
-   //
-   private void initializeFuelSystem(String file)throws IOException{
-      System.out.println("StageDataFeeder FuelSystem: "+file);
-      FuelSystemDataFeeder f = null;
-      f = new FuelSystemDataFeeder(this._stage, this._numEngines);
-      f.initialize(file);
-      this._fuelSystemDataFeeder = f;
-   }
-
-   //
-   //
-   //
-   private void initializeStageData(String file)throws IOException{
-      double dw = Double.NaN; int stg = -1; long mod = Long.MIN_VALUE;
-      String err = null; boolean isE = false; double mw = Double.NaN;
-      int egs = -1; double tol = Double.NaN;
-      double wgt = Double.NaN;//calculated
-      //Need to grab engine data (currently null) and Fuel System Data
-      //test print
-      System.out.println("StageDataFeeder StageData: "+file);
+   private void initializeEngineDataFeeder(){
       try{
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         List<Hashtable<String,String>> lst = read.readStageInfo();
-         Iterator<Hashtable<String,String>> it = lst.iterator();
-         while(it.hasNext()){
-            Hashtable<String,String> ht = it.next();
-            try{stg = Integer.parseInt(ht.get("number")); }
-            catch(NumberFormatException nfe){ stg = -1; }
-            if(stg == this._stage){
-               //Do not need to get stage number, nor engines
-               try{ dw = Double.parseDouble(ht.get("dryweight")); }
-               catch(NumberFormatException npe){ dw = Double.NaN;}
-               try{ mw = Double.parseDouble(ht.get("maxweight"));}
-               catch(NumberFormatException npe){ mw = Double.NaN; }
-               try{ mod = Long.parseLong(ht.get("model"),16); }
-               catch(NumberFormatException nfe){ mod=Long.MIN_VALUE; }
-               try{ tol = Double.parseDouble(ht.get("tolerance")); }
-               catch(NumberFormatException nfe){ tol = Double.NaN; }
-               egs = this._numEngines;
-               List<EngineData> lse = new LinkedList<EngineData>();
-               Iterator<EngineDataFeeder> et=this._engines.iterator();
-               while(et.hasNext()){
-                  lse.add((EngineData)et.next().monitor());
-               }
-               FuelSystemData f = null;
-               f=(FuelSystemData)this._fuelSystemDataFeeder.monitor();
-               this._initStageData = new GenericStageData(
-                                                 dw,   //Dry Weight
-                                                 err,  //Error
-                                                 mod,  //Model
-                                                 isE,  //Is Error
-                                                 stg,  //Stage
-                                                 egs,  //Engines
-                                                 mw,   //Max Weight
-                                                 tol,  //Tolerance
-                                                 wgt,  //Calc Weight
-                                                 lse, //Engines
-                                                 f);   //Fuel System
+         int stg = this._stage;
+         StageData sd = (StageData)this._initializable.initialized();
+         for(int i = 0; i < sd.numberOfEngines(); ++i){
+            EngineDataFeeder edf = new EngineDataFeeder(i+1,stg);
+            try{
+               this._engines.add(edf);
+            }
+            catch(NullPointerException npe){
+               this._engines = new LinkedList<EngineDataFeeder>();
+               this._engines.add(edf);
             }
          }
       }
-      catch(IOException ioe){
-         ioe.printStackTrace();
-         this._initStageData = null;
-         throw ioe;
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
       }
    }
 
    //
    //
    //
-   private boolean isPathFile(String file){
-      System.out.println("StageDataFeeder Path: "+file);
-      boolean isPath = false;
-      try{
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         Hashtable<String,String> ht = read.readPathInfo();
-         if(read.readPathInfo().get("parameter") == null){
-            throw new NullPointerException("Not a Path File");
-         }
-         isPath = true;
-      }
-      catch(IOException ioe){
-         isPath = false;
-         ioe.printStackTrace(); //Temporary
-      }
-      catch(NullPointerException npe){
-         isPath = false;
-         npe.printStackTrace(); //Temporary
-      }
-      finally{
-         return isPath;
-      }
-   }
+   private void initializeFuelSystemDataFeeder(){}
 
    //
    //
    //
    private List<EngineData> measureEngines(){
-      List<EngineData> lst          = new LinkedList<EngineData>();
-      Iterator<EngineDataFeeder> it = this._engines.iterator();
-      while(it.hasNext()){
-         lst.add((EngineData)it.next().monitor());
+      List<EngineData> lst = null;
+      try{
+         List<EngineData> lst = new LinkedList<EngineData>();
+         synchronized(this._obj){
+            Iterator<EngineDataFeeder> it = this._engines.iterator();
+            while(it.hasNext()){
+               lst.add((EngineData)it.next().monitor());
+            }
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace();  //To Be removed
+         lst = null;
       }
       return lst;
    }
@@ -220,35 +156,24 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    //
    //
    private FuelSystemData measureFuelSystem(){
-      return (FuelSystemData)this._fuelSystemDataFeeder.monitor();
+      FuelSystemData fsd = null;
+      try{
+         synchronized(this._obj){
+            fsd = this._fuelSystemDataFeeder.monitor();
+         }
+      }
+      catch(NullPointerException npe){
+         npe.printStackTrace(); //To Be Removed
+         fsd = null;
+      }
+      return fsd;
    }
 
    //
    //
    //
-   private void setEngineNumber(String file)throws IOException{
-      int stage = -1; int engines = 1;
-      try{
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         List<Hashtable<String,String>> lst = read.readStageInfo();
-         Iterator<Hashtable<String,String>> it = lst.iterator();
-         while(it.hasNext()){
-            Hashtable<String,String> ht = it.next();
-            try{stage = Integer.parseInt(ht.get("number"));}
-            catch(NumberFormatException npe){ stage = -1; }
-            if(this._stage == stage){
-               try{ engines=Integer.parseInt(ht.get("engines")); }
-               catch(NumberFormatException npe){ engines = -1; }
-               this._numEngines = engines;
-            }
-         }
-      }
-      catch(IOException ioe){
-         ioe.printStackTrace();
-         this._numEngines = -1;
-         throw ioe;
-      }
+   private void setInitializableInitFile(String init){
+      this._initializedInitFile = init;
    }
 
    //
@@ -263,6 +188,7 @@ public class StageDataFeeder implements DataFeeder, Runnable{
       boolean isE = false;
       double  wgt = Double.NaN;
       //Get the needed initialized data
+      //NEEDS UPDATING!!!  All will come from the Initializable
       double  dw = this._initStageData.dryWeight();
       long   mdl = this._initStageData.model();
       int    stg = this._initStageData.stageNumber();
@@ -308,12 +234,20 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void addInitializable(Initializable initializable){}
+   public void addInitializable(Initializable initializable){
+      this._initializable = initializable;
+      //Set up this NOW
+      this.initializeEngineDataFeeder();
+      this.initializeFuelSystemDataFeeder();
+   }
 
    //
    //
    //
    public Object monitor(){
+      List<EngineData>  l = this.measureEngines();
+      FuelSystemData    f = this.measureFuelSystemData();
+      this.setMeasuredData(f, l);
       synchronized(this._obj){
          return this._calcStageData;
       }
@@ -343,14 +277,14 @@ public class StageDataFeeder implements DataFeeder, Runnable{
          while(true){
             if(this._stateSubstate != null){
                if(this._stateSubstate.state() == INIT){
-                  //Querry at every second
-                  if(counter++%1000 == 0){
+                  //Querry at every 1/10 of a second
+                  if(counter++%100 == 0){
                      check = true;
                   }
                }
             }
             if(check){
-               FuelSystemData f   = this.measureFuelSystem();
+               FuelSystemData   f = this.measureFuelSystem();
                List<EngineData> l = this.measureEngines();
                this.setMeasuredData(f, l);
                check = false;
