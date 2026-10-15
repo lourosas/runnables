@@ -38,7 +38,7 @@ public class GenericStageData extends StageData{
       double           loadedMass,
       double           maxWeight,
       double           tolerance,
-      double           weight,
+      double           weight, //Calculated Weight
       List<EngineData> engineData,
       FuelSystemData   fuelSystemData
    ){

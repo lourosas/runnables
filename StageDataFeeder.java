@@ -48,10 +48,6 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    private Object                 _obj;
    private Thread                 _t0;
 
-   private FuelSystemDataFeeder   _fuelSystemDataFeeder;
-   private List<EngineDataFeeder> _engines;
-
-   private String                 _initializableInitFile;
    private int                    _stage;
 
    {
@@ -92,31 +88,33 @@ public class StageDataFeeder implements DataFeeder, Runnable{
       this.setUpThread();
    }
 
-   //
-   //
-   //
-   public StageDataFeeder(int currentStage, String initializeFile){
-      this.setStageNumber(currentStage);
-      this.setInitializableInitFile(initializedFile);
-      this.setUpThread();
-   }
-
    //////////////////////////Private Methods//////////////////////////
    //
    //
    //
-   private void initializeEngineDataFeeder(){
+   private double calculateInitializedWeight(){
+      double calcWeight = Double.NaN;
       try{
-         int stg = this._stage;
          StageData sd = (StageData)this._initializable.initialized();
-         for(int i = 0; i < sd.numberOfEngines(); ++i){
-            EngineDataFeeder edf = new EngineDataFeeder(i+1,stg);
-            try{
-               this._engines.add(edf);
+         boolean found        = false;
+         double  dryWeight    = sd.dryWeight();
+         double  maxWeight    = sd.maxWeight();
+         double  tolerance    = sd.tolerance();
+         double  upperLim     = Double.NaN;
+         double  lowerLim     = Double.NaN;
+         Random  random       = new Random();
+         while(!found){
+            if(this._stateSubstate.state() == INIT){
+               calcWeight = dryWeight + (random.nextDouble()*1000);
+               tolerance -= 0.01;
+               lowerLim   = dryWeight * tolerance;
+               upperLim   = dryWeight * (2 - tolerance);
+               if(calcWeight >= lowerLim && calcWeight <= upperLim){
+                  found = true;
+               }
             }
-            catch(NullPointerException npe){
-               this._engines = new LinkedList<EngineDataFeeder>();
-               this._engines.add(edf);
+            else{
+               found = true;
             }
          }
       }
@@ -124,69 +122,26 @@ public class StageDataFeeder implements DataFeeder, Runnable{
          cce.printStackTrace();
          System.exit(1);
       }
+      return calcWeight;
    }
 
    //
    //
    //
-   private void initializeFuelSystemDataFeeder(){}
-
-   //
-   //
-   //
-   private List<EngineData> measureEngines(){
-      List<EngineData> lst = null;
+   private void stageData(){
+      String   err = null;  //Error
+      boolean  isE = false;
+      double   wgt = Double.NaN;
+      StageData sd = null;
+      //Put together the Stage Data from Initialized...
       try{
-         List<EngineData> lst = new LinkedList<EngineData>();
-         synchronized(this._obj){
-            Iterator<EngineDataFeeder> it = this._engines.iterator();
-            while(it.hasNext()){
-               lst.add((EngineData)it.next().monitor());
-            }
-         }
+         sd = (StageData)this._initializable.initialized(); 
       }
-      catch(NullPointerException npe){
-         npe.printStackTrace();  //To Be removed
-         lst = null;
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
       }
-      return lst;
-   }
-
-   //
-   //
-   //
-   private FuelSystemData measureFuelSystem(){
-      FuelSystemData fsd = null;
-      try{
-         synchronized(this._obj){
-            fsd = this._fuelSystemDataFeeder.monitor();
-         }
-      }
-      catch(NullPointerException npe){
-         npe.printStackTrace(); //To Be Removed
-         fsd = null;
-      }
-      return fsd;
-   }
-
-   //
-   //
-   //
-   private void setInitializableInitFile(String init){
-      this._initializedInitFile = init;
-   }
-
-   //
-   //
-   //
-   private void setMeasuredData
-   (
-      FuelSystemData   fsd,
-      List<EngineData> engines
-   ){
-      String  err = null;  //Error
-      boolean isE = false;
-      double  wgt = Double.NaN;
+      /*
       //Get the needed initialized data
       //NEEDS UPDATING!!!  All will come from the Initializable
       double  dw = this._initStageData.dryWeight();
@@ -198,18 +153,28 @@ public class StageDataFeeder implements DataFeeder, Runnable{
 
       synchronized(this._obj){
          StageData d = new GenericStageData(
-                                  dw,      //Dry Weight
-                                  err,     //Error
-                                  mdl,     //Model
-                                  isE,     //Is Error
-                                  stg,     //Stage
-                                  egs,     //Engines
-                                  mw,      //Max Weight
-                                  tol,     //Tolerance
-                                  wgt,     //Calculated Weight
-                                  engines, //Engines
-                                  fsd);    //Fuel System Data
+                                  dw,    //Dry Weight
+                                  err,   //Error
+                                  mdl,   //Model
+                                  isE,   //Is Error
+                                  stg,   //Stage
+                                  egs,   //Engines
+                                  mw,    //Max Weight
+                                  tol,   //Tolerance
+                                  wgt,   //Calculated Weight
+                                  null,  //Engines
+                                  null); //Fuel System Data
          this._calcStageData = d;
+      }
+      */
+      synchronized(this._obj){
+         if(this._stateSubstate.state() == INIT){
+            //Rather Simple, nothing really to measure handled
+            //literally elsewhere
+            wgt = this.calculateInitializedWeight();
+         }
+         StageData tsd = null;
+         tsd = 
       }
    }
    
@@ -236,17 +201,12 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    //
    public void addInitializable(Initializable initializable){
       this._initializable = initializable;
-      //Set up this NOW
-      this.initializeEngineDataFeeder();
-      this.initializeFuelSystemDataFeeder();
    }
 
    //
    //
    //
    public Object monitor(){
-      List<EngineData>  l = this.measureEngines();
-      FuelSystemData    f = this.measureFuelSystemData();
       this.setMeasuredData(f, l);
       synchronized(this._obj){
          return this._calcStageData;
@@ -284,9 +244,7 @@ public class StageDataFeeder implements DataFeeder, Runnable{
                }
             }
             if(check){
-               FuelSystemData   f = this.measureFuelSystem();
-               List<EngineData> l = this.measureEngines();
-               this.setMeasuredData(f, l);
+               this.stageData();
                check = false;
             }
             Thread.sleep(1);
