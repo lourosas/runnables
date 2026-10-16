@@ -141,41 +141,28 @@ public class StageDataFeeder implements DataFeeder, Runnable{
          cce.printStackTrace();
          System.exit(1);
       }
-      /*
-      //Get the needed initialized data
-      //NEEDS UPDATING!!!  All will come from the Initializable
-      double  dw = this._initStageData.dryWeight();
-      long   mdl = this._initStageData.model();
-      int    stg = this._initStageData.stageNumber();
-      int    egs = this._numEngines;
-      double  mw = this._initStageData.maxWeight();
-      double tol = this._initStageData.tolerance();
-
-      synchronized(this._obj){
-         StageData d = new GenericStageData(
-                                  dw,    //Dry Weight
-                                  err,   //Error
-                                  mdl,   //Model
-                                  isE,   //Is Error
-                                  stg,   //Stage
-                                  egs,   //Engines
-                                  mw,    //Max Weight
-                                  tol,   //Tolerance
-                                  wgt,   //Calculated Weight
-                                  null,  //Engines
-                                  null); //Fuel System Data
-         this._calcStageData = d;
+      if(this._stateSubstate.state() == INIT){
+         wgt = this.calculateInitializedWeight();
       }
-      */
-      synchronized(this._obj){
-         if(this._stateSubstate.state() == INIT){
-            //Rather Simple, nothing really to measure handled
-            //literally elsewhere
-            wgt = this.calculateInitializedWeight();
+      try{
+         StageData tsd = new GenericStageData(sd.dryWeight(),
+                                              sd.dryMass(),
+                                              err,
+                                              sd.model(),
+                                              isE,
+                                              sd.stageNumber(),
+                                              sd.engines(),
+                                              sd.loadedMass(),
+                                              sd.maxWeight(),
+                                              sd.tolerance(),
+                                              wgt, //Measured
+                                              sd.engneData(),
+                                              sd.fuelSystemData());
+         synchronized(this._obj){
+            this._calcStageData = tsd;
          }
-         StageData tsd = null;
-         tsd = 
       }
+      catch(NullPointerException npe){}
    }
    
    //
@@ -207,7 +194,7 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    //
    //
    public Object monitor(){
-      this.setMeasuredData(f, l);
+      this.stageData();
       synchronized(this._obj){
          return this._calcStageData;
       }
