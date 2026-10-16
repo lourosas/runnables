@@ -65,18 +65,12 @@ public class StageDataFeeder implements DataFeeder, Runnable{
       STG  = LaunchStateSubstate.AscentSubstate.STAGING;
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
-      _calcStageData        = null;
-      _initStageData        = null;
-      _stateSubstate        = null;
-      _obj                  = null;
-      _t0                   = null;
-
-      _fuelSystemDataFeeder = null;
-      _engines              = null;
+      _calcStageData         = null;
+      _stateSubstate         = null;
+      _obj                   = null;
+      _t0                    = null;
       
-      _numEngines           = -1;
-      _initializableInitFile= null;
-      _stage                = -1;
+      _stage                 = -1;
    };
 
    ////////////////////////////Constructors///////////////////////////
@@ -151,12 +145,12 @@ public class StageDataFeeder implements DataFeeder, Runnable{
                                               sd.model(),
                                               isE,
                                               sd.stageNumber(),
-                                              sd.engines(),
+                                              sd.numberOfEngines(),
                                               sd.loadedMass(),
                                               sd.maxWeight(),
                                               sd.tolerance(),
                                               wgt, //Measured
-                                              sd.engneData(),
+                                              sd.engineData(),
                                               sd.fuelSystemData());
          synchronized(this._obj){
             this._calcStageData = tsd;
@@ -204,13 +198,7 @@ public class StageDataFeeder implements DataFeeder, Runnable{
    //
    //
    public void setStateSubstate(LaunchStateSubstate stateSubstate){
-      this._fuelSystemDataFeeder.setStateSubstate(stateSubstate);
-      Iterator<EngineDataFeeder> it = this._engines.iterator();
-      while(it.hasNext()){
-         it.next().setStateSubstate(stateSubstate);
-      }
       this._stateSubstate = stateSubstate;
-
    }
 
    /////////////////Runnable Interface Implementation/////////////////

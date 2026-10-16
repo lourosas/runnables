@@ -66,10 +66,12 @@ public abstract class Stage extends SystemComponent{
    public void setInitializable(Initializable init){
       super.setInitializable(init);
       if(this.isSimulation){
-         int stg = this.stage;
-         //this.dataFeeder = new StageDataFeeder(stg);
+         if(this.dataFeeder == null){
+            int stg = this.stage;
+            this.dataFeeder = new StageDataFeeder(stg);
+         }
+         this.dataFeeder.addInitializable(this.initializable);
       }
-      //this.dataFeeder.addInitializable(this.initializable);
    }
 
    //
@@ -93,10 +95,10 @@ public abstract class Stage extends SystemComponent{
       if(this.isSimulation && this.initializable != null){
          if(this.dataFeeder == null){
             int stg = this.stage;
-            //this.dataFeeder = new StageDataFeeder(stg);
+            this.dataFeeder = new StageDataFeeder(stg);
          }
-         //this.dataFeeder.addInitializable(this.initializable);
-         //this.dataFeeder.setStateSubstate(this.stateSubstate);
+         this.dataFeeder.addInitializable(this.initializable);
+         this.dataFeeder.setStateSubstate(this.stateSubstate);
       }
    }
 
