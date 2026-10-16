@@ -221,8 +221,10 @@ public abstract class Rocket extends SystemComponent{
          //TBD
          while(it.hasNext()){
             StageData data = (StageData)it.next().monitor();
-            //Account for the Add...TBD
-            this.monitorable.addData("Stage Data", data);
+            synchronized(this.obj){
+               //Account for the Add...TBD
+               this.monitorable.addData("Stage Data", data);
+            }
          }
       }
       catch(ClassCastException cce){}

@@ -99,6 +99,9 @@ public abstract class Stage extends SystemComponent{
          }
          this.dataFeeder.addInitializable(this.initializable);
          this.dataFeeder.setStateSubstate(this.stateSubstate);
+         //Going to put this here, for now!!!  May move...
+         StageData data = (StageData)this.dataFeeder.monitor();
+         this.monitorable.addData(data);
       }
    }
 
