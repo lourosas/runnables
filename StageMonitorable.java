@@ -44,10 +44,49 @@ public class StageMonitorable implements Monitorable{
    //
    //
    private void setUpEngineData(Object data){
-      //Test prints
-      System.out.println("StageMonitorable.setUpEngineData(...)");
-      System.out.println("Stage Data:  "+this._stageData);
-      System.out.println("Engine Data: "+data);
+      try{
+         double            dw = this._stageData.dryWeight();
+         double            dm = this._stageData.dryMass();
+         String           err = this._stageData.error();
+         long             mod = this._stageData.model();
+         boolean          isE = this._stageData.isError();
+         int              sgn = this._stageData.stageNumber();
+         int              nme = this._stageData.numberOfEngines();
+         double            lm = this._stageData.loadedMass();
+         double            mw = this._stageData.maxWeight();
+         double           tol = this._stageData.tolerance();
+         double           wgt = this._stageData.weight();
+         List<EngineData> enl = this._stageData.engineData();
+         FuelSystemData   fsd = this._stageData.fuelSystemData();
+         //If the data is null, clear out the Engine data:  adding
+         //fresh data...do not append the data to the Engine Data List
+         if(data == null){
+            //set the List to Null
+            enl = null;
+         }
+         else{
+            EngineData ed = null;
+            try{
+               ed = (EngineData)data;
+            }
+            catch(ClassCastException cce){
+               cce.printStackTrace();
+               System.exit(1);
+            }
+            try{
+               enl.add(ed);
+            }
+            catch(NullPointerException npe){
+               enl = new LinkedList<EngineData>();
+               enl.add(ed);
+            }
+         }
+         StageData sd = new GenericStageData(dw,dm,err,mod,isE,sgn,
+                                             nme,lm,mw,tol,wgt,enl,
+                                             fsd);
+         this._stageData = sd;
+      }
+      catch(NullPointerException npe){}
    }
 
    ////////////////Monitorable Interface Implementation///////////////

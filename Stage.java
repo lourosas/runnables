@@ -155,8 +155,10 @@ public abstract class Stage extends SystemComponent{
       try{
          //Then, add new monitored data to the Monitorable...
          while(it.hasNext()){
-            EngineData data = (EngineData)it.next().monitor();
-            this.monitorable.addData("Engine Data",data);
+            synchronized(this.obj){
+               EngineData data = (EngineData)it.next().monitor();
+               this.monitorable.addData("Engine Data",data);
+            }
          }
       }
       catch(ClassCastException cce){
