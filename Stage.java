@@ -56,8 +56,6 @@ public abstract class Stage extends SystemComponent{
       synchronized(this.obj){
          this.initializable.initialize(file);
       }
-      //this.setMonitorable();
-      //this.alertSubscribers();
    }
 
    //
@@ -99,9 +97,6 @@ public abstract class Stage extends SystemComponent{
          }
          this.dataFeeder.addInitializable(this.initializable);
          this.dataFeeder.setStateSubstate(this.stateSubstate);
-         //Going to put this here, for now!!!  May move...
-         StageData data = (StageData)this.dataFeeder.monitor();
-         this.monitorable.addData(data);
       }
    }
 
@@ -179,6 +174,40 @@ public abstract class Stage extends SystemComponent{
       System.out.println("*****************************************");
       System.out.println("Stage:  Monitor Fuel System");
       System.out.println("*****************************************");
+   }
+
+   //The Stage Monitoring only needs to happen in Initialization and
+   //only needs to happen once.  This is due in actual simulation,
+   //there is nothing of the Stage to monitor outside of the
+   //Compnents--whch are monitored independantly.
+   protected void monitorStage(){
+      boolean toMonitor = false;
+      if(this.stateSubstate.state() == INIT){
+         if(this.monitorable.monitor() == null){
+            toMonitor = true;
+         }
+      }
+      if(toMonitor){
+         //Have one Simulation Mode and one for "Straight Measure"
+         if(this.isSimulation){
+            System.out.println("************************************");
+            System.out.println("*******Stage:  Monitor Stage********");
+            if(this.monitorable.monitor() == null){
+               try{
+                  synchronized(this.obj){
+                     StageData d=(StageData)this.dataFeeder.monitor();
+                     this.monitorable.addData(d);
+                  }
+               }
+               catch(ClassCastException cce){
+                  cce.printStackTrace();
+                  System.exit(1);
+               }
+            }
+            System.out.println("************************************");
+         }
+         else{}
+      }
    }
 
    //

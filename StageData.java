@@ -139,7 +139,8 @@ public abstract class StageData{
       data += "Max Weight: " + this.maxWeight() + "N\n";
       data += "Dry Mass:   " + this.dryMass() + "kg\n";
       data += "Loaded Mass:" + this.loadedMass() + "kg\n";
-      data += "Weight:     " + this.weight() + "N\n";
+      String wgt = String.format("%.2f",this.weight());
+      data += "Weight:     " + wgt + "N\n";
       data += "Tolerance:  " + this.tolerance() + "\n";
       data += "Error:      " + this.isError() + "\n";
       if(this.isError()){

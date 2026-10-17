@@ -23,9 +23,11 @@ import java.io.*;
 import rosas.lou.runnables.*;
 
 public class StageMonitorable implements Monitorable{
+   private Object      _obj;
    private StageData   _stageData;
 
    {
+      _obj       = null;
       _stageData = null;
    };
 
@@ -33,13 +35,16 @@ public class StageMonitorable implements Monitorable{
    //
    //
    //
-   public StageMonitorable(){}
+   public StageMonitorable(){
+      this._obj = new Object();
+   }
 
    //////////////////////////Private Methods//////////////////////////
    //
    //
    //
    private void setUpEngineData(Object data){
+      //Test prints
       System.out.println("StageMonitorable.setUpEngineData(...)");
       System.out.println("Stage Data:  "+this._stageData);
       System.out.println("Engine Data: "+data);
@@ -49,7 +54,17 @@ public class StageMonitorable implements Monitorable{
    //
    //
    //
-   public void addData(Object data){}
+   public void addData(Object data){
+      try{
+         synchronized(this._obj){
+            this._stageData = (StageData)data;  
+         }
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+   }
 
    //
    //

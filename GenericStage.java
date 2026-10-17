@@ -165,6 +165,7 @@ public class GenericStage extends Stage implements Runnable{
                }
             }
             if(check){
+               this.monitorStage();
                this.monitorEngines();
                this.monitorFuelSystem();
                this.checkErrors();
