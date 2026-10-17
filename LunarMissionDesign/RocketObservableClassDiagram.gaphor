@@ -22618,7 +22618,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>(0.0, 0.0)</val>
 </top-left>
 <width>
-<val>264.0</val>
+<val>274.0</val>
 </width>
 <height>
 <val>162.0</val>
@@ -22656,7 +22656,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>(1.0, 0.0, 0.0, 1.0, 522.0, -254.65722311589263)</val>
 </matrix>
 <points>
-<val>[(108.65262276785734, 159.30181540104883), (108.65262276785734, 267.8018154010489)]</val>
+<val>[(108.65262276785734, 159.30181540104883), (113.38747125270584, 267.8018154010489)]</val>
 </points>
 <head-connection>
 <ref refid="f74fe538-5203-11f1-b2f2-e8f408f10391"/>
@@ -22752,13 +22752,13 @@ existing classes or even new classes with specific responsibilities.</val>
 </UML:Parameter>
 <UML:InterfaceItem id="ed93049b-a8b2-11f1-8982-e8f408f10391">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 495.0, 62.99999999999997)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 492.0, 63.0)</val>
 </matrix>
 <top-left>
 <val>(0.0, 0.0)</val>
 </top-left>
 <width>
-<val>264.0</val>
+<val>274.0</val>
 </width>
 <height>
 <val>172.0</val>
@@ -22846,7 +22846,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>(1.0, 0.0, 0.0, 1.0, 625.0, 326.0)</val>
 </matrix>
 <points>
-<val>[(-2.0652173913043725, -91.0), (-1.0, 30.0)]</val>
+<val>[(-0.2192028985507477, -91.0), (-1.0, 30.0)]</val>
 </points>
 <head-connection>
 <ref refid="ed93049b-a8b2-11f1-8982-e8f408f10391"/>
@@ -22989,7 +22989,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>(0.0, 0.0)</val>
 </top-left>
 <width>
-<val>264.0</val>
+<val>274.0</val>
 </width>
 <height>
 <val>172.0</val>
@@ -23030,7 +23030,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>(1.0, 0.0, 0.0, 1.0, 269.6630434782609, -1413.3924992918046)</val>
 </matrix>
 <points>
-<val>[(115.03244524354363, 162.1893666624103), (115.03244524354363, 254.7636068282336)]</val>
+<val>[(115.03244524354363, 162.1893666624103), (120.94894102846047, 254.7636068282336)]</val>
 </points>
 <head-connection>
 <ref refid="ed446eb4-9347-11f1-a11d-e8f408f10391"/>
@@ -23130,7 +23130,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>(0.0, 0.0)</val>
 </top-left>
 <width>
-<val>264.0</val>
+<val>274.0</val>
 </width>
 <height>
 <val>172.0</val>
@@ -27322,7 +27322,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>(0.0, 0.0)</val>
 </top-left>
 <width>
-<val>240.0</val>
+<val>274.0</val>
 </width>
 <height>
 <val>172.0</val>
@@ -27410,7 +27410,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>(1.0, 0.0, 0.0, 1.0, 578.0, 294.0)</val>
 </matrix>
 <points>
-<val>[(12.0, 8.0), (12.0, 82.0)]</val>
+<val>[(28.149999999999977, 8.0), (12.0, 82.0)]</val>
 </points>
 <head-connection>
 <ref refid="0bcd4815-aa3c-11f1-bdba-e8f408f10391"/>
@@ -28444,6 +28444,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <ownedParameter>
 <reflist>
 <ref refid="236e423a-b434-11f1-8749-e8f408f10391"/>
+<ref refid="0d6142cc-bf45-11f1-b50a-e8f408f10391"/>
 </reflist>
 </ownedParameter>
 </UML:Operation>
@@ -28536,13 +28537,13 @@ existing classes or even new classes with specific responsibilities.</val>
 </UML:ClassDiagram>
 <UML:InterfaceItem id="66d296c9-b4fb-11f1-b496-e8f408f10391">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 503.0, 75.0)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 484.5, 48.0)</val>
 </matrix>
 <top-left>
 <val>(0.0, 0.0)</val>
 </top-left>
 <width>
-<val>240.0</val>
+<val>274.0</val>
 </width>
 <height>
 <val>190.0</val>
@@ -28630,7 +28631,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>(1.0, 0.0, 0.0, 1.0, 607.0, 247.0)</val>
 </matrix>
 <points>
-<val>[(16.0, 18.0), (14.5, 112.0)]</val>
+<val>[(14.5, -9.0), (14.5, 112.0)]</val>
 </points>
 <head-connection>
 <ref refid="66d296c9-b4fb-11f1-b496-e8f408f10391"/>
@@ -28903,5 +28904,16 @@ existing classes or even new classes with specific responsibilities.</val>
 <ref refid="3d34fcc8-b4fc-11f1-b031-e8f408f10391"/>
 </tail-connection>
 </UML:AssociationItem>
+<UML:Parameter id="0d6142cc-bf45-11f1-b50a-e8f408f10391">
+<name>
+<val>append</val>
+</name>
+<ownerFormalParam>
+<ref refid="2357c490-b434-11f1-9078-e8f408f10391"/>
+</ownerFormalParam>
+<typeValue>
+<val>boolean</val>
+</typeValue>
+</UML:Parameter>
 </model>
 </gaphor>
