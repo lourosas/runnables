@@ -128,7 +128,7 @@ public abstract class Stage extends SystemComponent{
    //
    protected String checkEngineErrors(){
       String error = null;
-      Iterable<Engine> it = this.engines.iterator();
+      Iterator<Engine> it = this.engines.iterator();
       try{
          while(it.hasNext()){
             EngineData data = (EngineData)it.next().monitor();
@@ -141,30 +141,36 @@ public abstract class Stage extends SystemComponent{
                }
             }
          }
-         return error;
+      }
+      catch(NullPointerException npe){
+         error = null;
       }
       catch(ClassCastException cce){
          cce.printStackTrace();
          System.exit(1);
       }
+      return error;
    }
 
    //
    //
    //
    protected void checkErrors(){
-      String engError = null;
-      String fsyError = null;
+      String error    = null;
       String pubError = null;
       System.out.println("*****************************************");
       System.out.println("Stage:  Check Errors");
-      engError = this.checkEngineErrors();
-      if(engError != null){
-         pubError = engError;
+      error = this.checkEngineErrors();
+      if(error != null){
+         pubError = pubError != null ? pubError+"\n"+error : error;
       }
-      fsyError = this.checkFuelSystemErrors();
-      if(fsyError != null){
-         pubError += fsyError;
+      error = this.checkFuelSystemErrors();
+      if(error != null){
+         pubError = pubError != null ? pubError+"\n"+error : error;
+      }
+      if(pubError != null){
+         this.publisher.publish(new RuntimeException(pubError));
+         this.monitorable.addError(pubError, false);
       }
       System.out.println("*****************************************");
    }

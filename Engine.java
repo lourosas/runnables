@@ -200,23 +200,21 @@ public abstract class Engine extends SystemComponent{
       System.out.println("Engine: Check Initialized State Errors");
       error = this.checkExhaustFlowRate(lowerLimit,upperLimit);
       if(error != null){
-         this.monitorable.addError(error, false);
          pubError = pubError != null ? pubError+"\n"+error : error;
       }
       error = this.checkFuelFlowRate(lowerLimit, upperLimit);
       if(error != null){
-         this.monitorable.addError(error,true);
          pubError = pubError != null ? pubError+"\n"+error : error;
       }
       lowerLimit = 273.15;
       upperLimit = 373.15;
       error = this.checkTemperature(lowerLimit, upperLimit);
       if(error != null){
-         this.monitorable.addError(error,true);
          pubError = pubError != null ? pubError+"\n"+error : error;
       }
       if(pubError != null){
          this.publisher.publish(new RuntimeException(pubError));
+         this.monitorable.addError(error,false);
       }
       System.out.println("***************************************");
    }

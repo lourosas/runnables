@@ -43,6 +43,35 @@ public class StageMonitorable implements Monitorable{
    //
    //
    //
+   private void setError(String error, boolean toAppend){
+      double            dw = this._stageData.dryWeight();
+      double            dm = this._stageData.dryMass();
+      String           err = this._stageData.error();
+      long             mod = this._stageData.model();
+      boolean          isE = this._stageData.isError();
+      if(toAppend && isE){
+         err += "\n" + error;
+      }
+      else{
+         err = error;
+         isE = true;
+      }
+      int              sgn = this._stageData.stageNumber();
+      int              nme = this._stageData.numberOfEngines();
+      double            lm = this._stageData.loadedMass();
+      double            mw = this._stageData.maxWeight();
+      double           tol = this._stageData.tolerance();
+      double           wgt = this._stageData.weight();
+      List<EngineData> enl = this._stageData.engineData();
+      FuelSystemData   fsd = this._stageData.fuelSystemData();
+      StageData sd = new GenericStageData(dw,dm,err,mod,isE,sgn,nme,
+                                          lm,mw,tol,wgt,enl,fsd);
+      this._stageData = sd;
+   }
+
+   //
+   //
+   //
    private void setUpEngineData(Object data){
       try{
          double            dw = this._stageData.dryWeight();
@@ -113,12 +142,20 @@ public class StageMonitorable implements Monitorable{
          //Set up the Engine Data...
          this.setUpEngineData(data);
       }
+      else if(type.toUpperCase().contains("FUEL SYSTEM")){}
    }
 
    //
    //
    //
-   public void addError(String error, boolean toAppend){}
+   public void addError(String error, boolean toAppend){
+      if(toAppend){
+          this.setError(error, toAppend);
+      }
+      else{
+         this.setError(error, false);
+      }
+   }
 
    //
    //
