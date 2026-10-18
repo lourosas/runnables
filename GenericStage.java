@@ -25,21 +25,11 @@ import rosas.lou.runnables.*;
 public class GenericStage extends Stage implements Runnable{
    private static boolean TOPRINT = true;
 
-   private LaunchStateSubstate.State INIT      = null; 
-   private LaunchStateSubstate.State PRELAUNCH = null;
-   private LaunchStateSubstate.State IGNITION  = null;
-   private LaunchStateSubstate.State LAUNCH    = null;
-
    private boolean               _kill;
    private Thread                _rt0;
    private boolean               _start;
 
    {
-      INIT      = LaunchStateSubstate.State.INITIALIZE;
-      PRELAUNCH = LaunchStateSubstate.State.PRELAUNCH;
-      IGNITION  = LaunchStateSubstate.State.IGNITION;
-      LAUNCH    = LaunchStateSubstate.State.LAUNCH;
-
       _kill      = false;
       _rt0       = null;
       _start     = false;

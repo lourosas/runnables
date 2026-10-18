@@ -83,9 +83,7 @@ public abstract class Stage extends SystemComponent{
             it.next().setSimulation(isSim);
          }
       }
-      catch(NullPointerException npe){
-         npe.printStackTrace();
-      }
+      catch(NullPointerException npe){}
       try{
          this.fuelSystem.setSimulation(isSim);
       }
@@ -244,8 +242,8 @@ public abstract class Stage extends SystemComponent{
       if(toMonitor){
          //Have one Simulation Mode and one for "Straight Measure"
          if(this.isSimulation){
-            System.out.println("************************************");
-            System.out.println("*******Stage:  Monitor Stage********");
+            System.out.println("***********************************");
+            System.out.println("*******Stage:  Monitor Stage*******");
             if(this.monitorable.monitor() == null){
                try{
                   synchronized(this.obj){
@@ -258,12 +256,13 @@ public abstract class Stage extends SystemComponent{
                   System.exit(1);
                }
             }
-            System.out.println("************************************");
+            System.out.println("***********************************");
          }
          else{}
       }
    }
 
+   /////////////////SystemComponent Protected Methods/////////////////
    //
    //
    //

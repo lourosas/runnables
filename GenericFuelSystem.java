@@ -55,11 +55,12 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
       this.setUpThread();
    }
 
-   //////////////////////////Private Methods//////////////////////////
+   ///////////////////////Protected Methods///////////////////////////
    //
    //
    //
-   private int getTotalPipesInStage(String file)throws IOException{
+   protected int getTotalPipesInStage(String file)throws IOException{
+      super.getTotalPipesInStage(file);
       int pipes    = 0;
       String pFile = file;
       LaunchSimulatorJsonFileReader read = null;
@@ -92,7 +93,8 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
    //
    //
    //
-   private int getTotalPumpsInStage(String file)throws IOException{
+   protected int getTotalPumpsInStage(String file)throws IOException{
+      super.getTotalPumpsInStage(file);
       int pumps    = 0;
       String pFile = file;
       LaunchSimulatorJsonFileReader read = null;
@@ -124,7 +126,8 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
    //
    //
    //
-   private void initializePipes(String file)throws IOException{
+   protected void initializePipes(String file)throws IOException{
+      super.initializePipes(file);
       try{
          int pipes  = this.getTotalPipesInStage(file);
          for(int i = 0; i < this.engines; ++i){
@@ -154,7 +157,8 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
    //
    //
    //
-   private void initializePumps(String file)throws IOException{
+   protected void initializePumps(String file)throws IOException{
+      super.initializePumps(file);
       try{
          int pn = this.getTotalPumpsInStage(file);
          for(int i = 0; i < pn; ++i){
@@ -180,7 +184,8 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
    //
    //
    //
-   private void initializeTanks(String file)throws IOException{
+   protected void initializeTanks(String file)throws IOException{
+      super.initializeTanks(file);
       try{
          //First Tank
          this.fuel     = new GenericTank(this.stage,1);
@@ -199,6 +204,7 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
       }
    }
 
+   //////////////////////////Private Methods//////////////////////////
    //
    //
    //
