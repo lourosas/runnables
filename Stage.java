@@ -126,10 +126,56 @@ public abstract class Stage extends SystemComponent{
    //
    //
    //
+   protected String checkEngineErrors(){
+      String error = null;
+      Iterable<Engine> it = this.engines.iterator();
+      try{
+         while(it.hasNext()){
+            EngineData data = (EngineData)it.next().monitor();
+            if(data.isError() && data.error() != null){
+               if(error == null){
+                  error = data.error();
+               }
+               else{
+                  error += "\n" + data.error();
+               }
+            }
+         }
+         return error;
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+   }
+
+   //
+   //
+   //
    protected void checkErrors(){
+      String engError = null;
+      String fsyError = null;
+      String pubError = null;
       System.out.println("*****************************************");
       System.out.println("Stage:  Check Errors");
+      engError = this.checkEngineErrors();
+      if(engError != null){
+         pubError = engError;
+      }
+      fsyError = this.checkFuelSystemErrors();
+      if(fsyError != null){
+         pubError += fsyError;
+      }
       System.out.println("*****************************************");
+   }
+
+   //
+   //
+   //
+   private String checkFuelSystemErrors(){
+      String error = null;
+
+      return error;
    }
 
    //
