@@ -161,7 +161,9 @@ public class StageMonitorable implements Monitorable{
    //
    //
    public Object monitor(){
-      return this._stageData;
+      synchronized(this._obj){
+         return this._stageData;
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////

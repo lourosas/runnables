@@ -173,7 +173,7 @@ public abstract class FuelSystem extends SystemComponent{
    //
    //
    protected void setMonitorable(){
-      //this.setMonitorable(new FuelSystemMonitorable());
+      this.setMonitorable(new FuelSystemMonitorable());
    }
 
    //////////////////StateMutuable Interface Overrides////////////////
