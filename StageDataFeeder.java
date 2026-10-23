@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 /*
-Copyright 2025 Lou Rosas
+Copyright 2026 Lou Rosas
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -214,7 +214,8 @@ public class StageDataFeeder implements DataFeeder, Runnable{
                if(this._stateSubstate.state() == INIT){
                   //Querry at every 1/10 of a second
                   if(counter++%100 == 0){
-                     check = true;
+                     check   = true;
+                     counter = 1;
                   }
                }
             }

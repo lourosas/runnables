@@ -115,7 +115,10 @@ public abstract class Stage extends SystemComponent{
          this.publisher.publish(stageData);
       }
       catch(NullPointerException npe){}
-      catch(ClassCastException cce){}
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
       System.out.println("*****************************************");
       System.out.println("Stage:  Alert Subscribers");
       System.out.println("*****************************************");

@@ -63,14 +63,14 @@ public abstract class FuelSystem extends SystemComponent{
    //
    public void setInitializable(Initializable init){
       super.setInitializable(init);
-      /*  NEED TO CREATE THE FUELSYSTEMDATAFEEDER
       if(this.isSimulation){
          if(this.dataFeeder == null){
-            this.dataFeeder = new FuelSystemDataFeeder(this.stage);
+            int stage       = this.stage;
+            int engines     = this.engines;
+            this.dataFeeder = new FuelSystemDataFeeder(stage,engines);
          }
          this.dataFeeder.addInitializable(this.initializable);
       }
-      */
    }
 
    //
@@ -98,17 +98,43 @@ public abstract class FuelSystem extends SystemComponent{
          }
       }
       catch(NullPointerException npe){ npe.printStackTrace(); }
-      /*  NEED TO CREATE THE FUELSYSTEMDATAFEEDER
       if(this.isSimulation && this.initializable != null){
          if(this.dataFeeder == null){
-            this.dataFeeder = new FuelSystemDataFeeder(this.stage);
+            int stage       = this.stage;
+            int engines     = this.engines;
+            this.dataFeeder = new FuelSystemDataFeeder(stage,engines);
          }
          this.dataFeeder.addInitializable(this.initializable);
+         this.dataFeeder.setStateSubstate(this.stateSubstate);
       }
-      */
    }
 
    /////////////////////////Protected Methods/////////////////////////
+   //
+   //
+   //
+   protected void alertSubscribers(){
+      try{
+         FuelSystemData fsd = null;
+         if(this.getStateSubstate() != null){
+            //Once the State is set, the Monitor Thread is running
+            fsd = (FuelSystemData)this.monitorable.monitor();
+         }
+         else{
+            fsd = (FuelSystemData)this.initializable.initialized();
+         }
+         this.publisher.publish(fsd);
+      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+      System.out.println("*****************************************");
+      System.out.println("Fuel System:  Alert Subscribers");
+      System.out.println("*****************************************");
+   }
+
    //
    //
    //

@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 /*
-Copyright 2025 Lou Rosas
+Copyright 2026 Lou Rosas
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -41,18 +41,12 @@ public class FuelSystemDataFeeder implements DataFeeder, Runnable{
    private LaunchStateSubstate.AscentSubstate    STG   = null;
    private LaunchStateSubstate.AscentSubstate    IGNE  = null;
 
-   //Read In...
-   private FuelSystemData       _initFuelSystemData;
    //Derived
    private FuelSystemData       _calcFuelSystemData;
-
+   private Initializable        _initializable;
    private LaunchStateSubstate  _stateSubstate;
    private Object               _obj;
    private Thread               _t0;
-
-   private List<PipeDataFeeder> _pipes;
-   private List<PumpDataFeeder> _pumps;
-   private List<TankDataFeeder> _tanks;
    
    private int                  _stage;
    private int                  _engines;
@@ -72,14 +66,11 @@ public class FuelSystemDataFeeder implements DataFeeder, Runnable{
       STG  = LaunchStateSubstate.AscentSubstate.STAGING;
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
    
-      _initFuelSystemData        = null;
       _calcFuelSystemData        = null;
+      _initializable             = null;
       _stateSubstate             = null;
       _obj                       = null;
       _t0                        = null;
-      _pipes                     = null;
-      _pumps                     = null;
-      _tanks                     = null;
       _stage                     = -1;
       _engines                   = -1;
    };
@@ -98,84 +89,8 @@ public class FuelSystemDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private void initializePipes(String file)throws IOException{
-      int totalTanks = 2; //Two Tanks per Stage-->in a FuelSystem
-      //Total Pipes = Total Tanks * Total Engines
-      int totalPipes = 2 * this._engines;
-      this._pipes = new LinkedList<PipeDataFeeder>();
-      for(int i = 0; i < totalTanks; ++i){
-         for(int j = 0; j < this._engines; ++j){
-            PipeDataFeeder f = null;
-            //Stage, Tank Number, Engine Number
-            f = new PipeDataFeeder(this._stage, i+1, j+1);
-            f.initialize(file);
-            this._pipes.add(f);
-         }
-      }
-   }
-
-   //
-   //
-   //
-   private void initializePumps(String file)throws IOException{
-      int totalPumps = 2; //One Pump for each Tank
-      this._pumps = new LinkedList<PumpDataFeeder>();
-      for(int i = 0; i < totalPumps; ++i){
-         //Tank Number must be Greater Than 0!
-         PumpDataFeeder f = new PumpDataFeeder(this._stage, i+1);
-         f.initialize(file);
-         this._pumps.add(f);
-      }
-   }
-
-   //
-   //
-   //
-   private void initializeTanks(String file)throws IOException{
-      int totalTanks = 2;
-      this._tanks = new LinkedList<TankDataFeeder>();
-      for(int i = 0; i < totalTanks; ++i){
-         //Tank Number must be greater than 0
-         TankDataFeeder f = new TankDataFeeder(this._stage, i+1);
-         f.initialize(file);
-         this._tanks.add(f);
-      }
-   }
-
-   //
-   //
-   //
-   private List<PipeData> measurePipes(){
-      List<PipeData> lst          = new LinkedList<PipeData>();
-      Iterator<PipeDataFeeder> it = this._pipes.iterator();
-      while(it.hasNext()){
-         lst.add((PipeData)(it.next().monitor()));
-      }
-      return lst;
-   }
-
-   //
-   //
-   //
-   private List<PumpData> measurePumps(){
-      List<PumpData> lst          = new LinkedList<PumpData>();
-      Iterator<PumpDataFeeder> it = this._pumps.iterator();
-      while(it.hasNext()){
-         lst.add((PumpData)(it.next().monitor()));
-      }
-      return lst;
-   }
-
-   //
-   //
-   //
-   private List<TankData> measureTanks(){
-      List<TankData> lst          = new LinkedList<TankData>();
-      Iterator<TankDataFeeder> it = this._tanks.iterator();
-      while(it.hasNext()){
-         lst.add((TankData)(it.next().monitor()));
-      }
-      return lst;
+   private void fuelSystemData(){
+      //Stub out for the moment
    }
 
    //
@@ -184,22 +99,6 @@ public class FuelSystemDataFeeder implements DataFeeder, Runnable{
    private void setEngineNumber(int engines){
       if(engines > 0){
          this._engines = engines;
-      }
-   }
-
-   //
-   //
-   //
-   private void setMeasuredData
-   (
-      List<PipeData> pipes,
-      List<PumpData> pumps,
-      List<TankData> tanks
-   ){
-      FuelSystemData f = null;
-      f = new GenericFuelSystemData(pipes,pumps,tanks);
-      synchronized(this._obj){
-         this._calcFuelSystemData = f;
       }
    }
 
@@ -225,21 +124,15 @@ public class FuelSystemDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void addDataFeeder(DataFeeder feeder){}
-
-   //
-   //
-   //
-   public void initialize(String file)throws IOException{
-      this.initializePipes(file);
-      this.initializePumps(file);
-      this.initializeTanks(file);
+   public void addInitializable(Initializable initializable){
+      this._initializable = initializable;
    }
 
    //
    //
    //
    public Object monitor(){
+      this.fuelSystemData();
       synchronized(this._obj){
          return this._calcFuelSystemData;
       }
@@ -249,21 +142,6 @@ public class FuelSystemDataFeeder implements DataFeeder, Runnable{
    //
    //
    public void setStateSubstate(LaunchStateSubstate stateSubstate){
-      Iterator<PipeDataFeeder> pit = this._pipes.iterator();
-      while(pit.hasNext()){
-         PipeDataFeeder f = pit.next();
-         f.setStateSubstate(stateSubstate);
-      }
-      Iterator<PumpDataFeeder> put = this._pumps.iterator();
-      while(put.hasNext()){
-         PumpDataFeeder f = put.next();
-         f.setStateSubstate(stateSubstate);
-      }
-      Iterator<TankDataFeeder> tat = this._tanks.iterator();
-      while(tat.hasNext()){
-         TankDataFeeder f = tat.next();
-         f.setStateSubstate(stateSubstate);
-      }
       this._stateSubstate = stateSubstate;
    }
 
@@ -280,15 +158,13 @@ public class FuelSystemDataFeeder implements DataFeeder, Runnable{
                if(this._stateSubstate.state() == INIT){
                   //Monitor every half-second
                   if(counter++%500 == 0){
-                     check = true;
+                     check   = true;
+                     counter = 1;
                   }
                }
             }
             if(check){
-               List<PipeData> pipes = this.measurePipes();
-               List<PumpData> pumps = this.measurePumps();
-               List<TankData> tanks = this.measureTanks();
-               this.setMeasuredData(pipes,pumps,tanks);
+               this.fuelSystemData();
                check = false;
             }
             Thread.sleep(1);
