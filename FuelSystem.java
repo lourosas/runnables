@@ -56,6 +56,8 @@ public abstract class FuelSystem extends SystemComponent{
       synchronized(this.obj){
          this.initializable.initialize(file);
       }
+      this.setMonitorable();
+      this.alertSubscribers();
    }
 
    //

@@ -49,17 +49,23 @@ public abstract class Tank extends SystemComponent{
          int num = this.number;
          this.setInitializable(new TankInitializable(stg, num));
       }
-      this.initializable.initialize(file);
-      //Initialization should be able to be handled at the Tank
-      //(Abstract Class) level...
-      try{
-         TankData tankData = null;
-         tankData = (TankData)this.initializable.initialized();
-         //Notify the Subscribers
-         this.publisher.publish(tankData);
+      synchronized(this.obj){
+         this.initializable.initialize(file);
       }
-      catch(NullPointerException npe){}
-      catch(ClassCastException cce){}
+   }
+
+   //
+   //
+   //
+   public void setInitializable(Initializable init){
+      super.setInitializable(init);
+      if(this.isSimulation){
+         if(this.dataFeeder == null){
+            int stg = this.stage;
+            int num = this.number;
+            this.dataFeeder = new TankDataFeeder(stg,num);
+         }
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////
