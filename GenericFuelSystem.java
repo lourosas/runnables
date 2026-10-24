@@ -147,6 +147,9 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
                }
             }
          }
+         System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+         System.out.println("Generic Fuel System Init Pipes");
+         System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
       }
       catch(ClassCastException cce){
          cce.printStackTrace();
@@ -174,6 +177,9 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
                this.pumps.add(p);
             }
          }
+         System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+         System.out.println("Generic Fuel System Init Pumps");
+         System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
       }
       catch(ClassCastException cce){
          cce.printStackTrace();
@@ -197,6 +203,9 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
          this.initializable.initializeData("tank data",td);
          td = (TankData)this.oxidizer.initializationStatus();
          this.initializable.initializeData("tank data",td);
+         System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+         System.out.println("Generic Fuel System Init Tanks");
+         System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
       }
       catch(ClassCastException cce){
          cce.printStackTrace();
@@ -240,29 +249,30 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
    //
    public void run(){
       try{
-         int count     = 0;
-         boolean check = false;
+         int     count   = 0;
+         boolean check   = false;
+         int     compare = -1;
          while(true){
             if(this._kill){
                throw new InterruptedException();
             }
             if(this.getStateSubstate() != null){
                if(this.getStateSubstate().state() == INIT){
-                  if(count++%100 == 0){
-                     check = true;
-                     count = 1; //Reset the counter
-                  }
+                  //Initialization State: check every .75 seconds
+                  compare = 750;
+               }
+               if((compare > 0) && (count++%compare == 0)){
+                  check = true;
+                  count = 1;
                }
             }
             if(check){
-               /*
-               List<TankData> tanks = this.monitorTanks();
-               List<PumpData> pumps = this.monitorPumps();
-               List<PipeData> pipes = this.monitorPipes();
-               this.setFuelSystemData(pipes, pumps, tanks);
+               this.monitorTanks();
+               this.monitorPumps();
+               this.monitorPipes();
+               this.setFuelSystemData();
                this.checkErrors();
                this.alertSubscribers();
-               */
                check = false;
             }
             Thread.sleep(1);

@@ -47,7 +47,7 @@ public abstract class FuelSystem extends SystemComponent{
    //
    //
    public void initializeComponent(String file)throws IOException{
-      System.out.println("Fuel System");
+      System.out.println("Fuel System Initialize");
       if(this.initializable == null){
          int st  = this.stage;
          int egs = this.engines;
@@ -138,6 +138,15 @@ public abstract class FuelSystem extends SystemComponent{
    //
    //
    //
+   protected void checkErrors(){
+      System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+      System.out.println("Fuel System:  Check Errors");
+      System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+   }
+
+   //
+   //
+   //
    protected int getTotalPipesInStage(String file)throws IOException{
       int pipes = 0;
 
@@ -167,6 +176,42 @@ public abstract class FuelSystem extends SystemComponent{
    //
    //
    protected void initializeTanks(String file)throws IOException{}
+
+   //
+   //
+   //
+   protected void monitorPipes(){
+      System.out.println("-----------------------------------------");
+      System.out.println("Fuel System:  Monitor Pipes");
+      System.out.println("-----------------------------------------");
+   }
+
+   //
+   //
+   //
+   protected void monitorPumps(){
+      System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+      System.out.println("Fuel System:  Monitor Pumps");
+      System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+   }
+
+   //
+   //
+   //
+   protected void monitorTanks(){
+      System.out.println("+++++++++++++++++++++++++++++++++++++++++");
+      System.out.println("Fuel System:  Monitor Tanks");
+      System.out.println("+++++++++++++++++++++++++++++++++++++++++");
+   }
+
+   //
+   //
+   //
+   protected void setFuelSystemData(){
+      System.out.println("*****************************************");
+      System.out.println("Fuel System:  setFuelSystemData");
+      System.out.println("*****************************************");
+   }
 
    /////////////////SystemComponent Protected Methods/////////////////
    //
