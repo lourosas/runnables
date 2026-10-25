@@ -331,23 +331,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void addDataFeeder(DataFeeder feeder){}
-
-   //
-   //
-   //
-   public void initialize(String file)throws IOException{
-      if(this._stage > 0 && this._number > 0){
-         //Tank Data File
-         String tdFile = file;
-         if(this.isPathFile(tdFile)){
-            LaunchSimulatorJsonFileReader read = null;
-            read = new LaunchSimulatorJsonFileReader(tdFile);
-            tdFile = read.readPathInfo().get("tank");
-         }
-         this.initializeTankData(tdFile);
-      }
-   }
+   public void addInitializable(Initializable init){}
 
    //
    //

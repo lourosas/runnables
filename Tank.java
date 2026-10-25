@@ -52,6 +52,8 @@ public abstract class Tank extends SystemComponent{
       synchronized(this.obj){
          this.initializable.initialize(file);
       }
+      this.setMonitorable();
+      this.alertSubscribers();
    }
 
    //
@@ -66,6 +68,30 @@ public abstract class Tank extends SystemComponent{
             this.dataFeeder = new TankDataFeeder(stg,num);
          }
       }
+      this.dataFeeder.addInitializable(this.initializable);
    }
+
+   //
+   //
+   //
+   public void setSimulation(boolean isSim){
+      super.setSimulation(isSim);
+      if(this.isSimulation && this.initializable != null){
+         //Grab or create the Data Feeder
+         //Add Initializable to the Data Feeder
+         //Set the substate to the Feeder
+         if(this.dataFeeder == null){
+            this.dataFeeder.addInitializable(this.initializable);
+            this.dataFeeder.setStateSubstate(this.stateSubstate);
+         }
+      }
+   }
+
+   /////////////////////////Protected Methods/////////////////////////
+   //
+   //
+   //
+   protected void alertSubscribers(){}
+
 }
 //////////////////////////////////////////////////////////////////////
