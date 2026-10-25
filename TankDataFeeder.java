@@ -91,6 +91,40 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private calculateCapacityInitialized(){
+      double capacity = Double.NaN;
+      try{
+         TankData td = (TankData)this._initializable.initialized();
+         //Initialization:  should be NO Capacity!!!
+         capacity          = 0.;
+         boolean found     = false;
+         double  tolerance = td.tolerance();
+         double  lowerLim  = capacity;
+         //Liters...best be at most a centiiliter!!!
+         double  upperLim  = 0.01;
+         Random  random    = new Random();
+         while(!found){
+            if(this._stateSubstate.state() == INIT){
+               capacity = lowerLim + (random.nextDouble());
+               if(capacity >= lowerLim && capacity <= upperLim){
+                  found = true;
+               }
+            }
+            else{
+               found = true;
+            }
+         }
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+      return capacity;
+   }
+
+   //
+   //
+   //
    private double calculateEmptyRateInitialized(){
       double emptyRate = Double.NaN;
       try{
@@ -104,8 +138,19 @@ public class TankDataFeeder implements DataFeeder, Runnable{
          //need to change the upper limit to something more
          //realistic
          //Better be at most milliliter/sec!!!
-         double upperLimit = 0.001;
-
+         double upperLim = 0.001;
+         Random random   = new Random();
+         while(!found){
+            if(this._stateSubstate.state() == INIT){
+               emptyRate = lowerLim +(random.nextDouble());
+               if(emptyRate >= lowerLim && emptyRate <= upperLim){
+                  found = true;
+               }
+            }
+            else{
+               found = true;
+            }
+         }
       }
       catch(ClassCastException cce){
          cce.printStackTrace();
@@ -120,6 +165,42 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    private double calculateMassLossRate(double rate, double den){
       return rate*den;  //L/s*kg/L= kg/s
    }
+
+   //
+   //
+   //
+   private double calculateTempInitialized(){
+      double temp = Double.NaN;
+      try{
+         TankData td = (TankData)this._initialized.initialized();
+         //In Initialization, temp should be anything within a typical
+         //normal range of atmostpheric temperatures--really not too
+         //hot...not too cold...roughly from the freezing point to the
+         //boiling point of water...
+         boolean found    = false;
+         double  lowerLim = 273.15;
+         double  upperLim = 373.15;
+         Random  random   = new Random();
+         int     seed     = 374; //Above the boiling pt of H2O
+         while(!found){
+            if(this._stateSubstate.state() == INIT){
+               temp = random.nextInt(seed) + random.nextDouble();
+               if(temp >= lowerLim && temp <= upperLim){
+                  found = true;
+               }
+            }
+            else{
+               found = true;
+            }
+         }
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+      return temp;
+   }
+
    //
    //
    //
@@ -134,7 +215,9 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    private double setCapacity(){
       synchronized(this._obj){
          double capacity = Double.NaN;
-
+         if(this._stateSubstate.state() == INIT){
+            capacity = this.calculateCapacityInitialized();
+         }
          return capacity;
       }
    }
@@ -156,6 +239,8 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    private void setMeasuredData(double cap,double rate,double temp){
+      //Make sure to include Calculate Mass Loss Rate and
+      //Calculate Rate
       synchronized(this._obj){}
    }
 
@@ -165,7 +250,9 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    private double setTemp(){
       synchronized(this._obj){
          double temp = Double.NaN;
-
+         if(this._stateSubstate.state() == INIT){
+            temp = this.calculateTempInitialized();
+         }
          return temp;
       }
    }
