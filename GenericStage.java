@@ -25,9 +25,9 @@ import rosas.lou.runnables.*;
 public class GenericStage extends Stage implements Runnable{
    private static boolean TOPRINT = true;
 
-   private boolean               _kill;
-   private Thread                _rt0;
-   private boolean               _start;
+   private boolean  _kill;
+   private Thread   _rt0;
+   private boolean  _start;
 
    {
       _kill      = false;

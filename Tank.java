@@ -43,7 +43,7 @@ public abstract class Tank extends SystemComponent{
    //
    //
    public void initializeComponent(String file)throws IOException{
-      System.out.println("Tank");
+      System.out.println("Initialize Tank");
       if(this.initializable == null){
          int stg = this.stage;
          int num = this.number;
@@ -67,8 +67,8 @@ public abstract class Tank extends SystemComponent{
             int num = this.number;
             this.dataFeeder = new TankDataFeeder(stg,num);
          }
+         this.dataFeeder.addInitializable(this.initializable);
       }
-      this.dataFeeder.addInitializable(this.initializable);
    }
 
    //
@@ -91,7 +91,85 @@ public abstract class Tank extends SystemComponent{
    //
    //
    //
-   protected void alertSubscribers(){}
+   protected void alertSubscribers(){
+      //Since this is a primitive type to the System, everything is
+      //handled at the Tank (Abstract) Level...
+      try{
+         TankData tankData = null;
+         if(this.getStateSubstate() != null){
+            //Once the State is set, the Monitoarble Thread is running
+            tankData = (TankData)this.monitorable.monitor();
+         }
+         else{
+            tankData = (TankData)this.initializable.initialized();
+         }
+         //Notify the Subscribers
+         this.publisher.publish(tankData);
+      }
+      catch(NullPointerException npe){
+         //Temporary prints
+         npe.printStackTrace();
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+      System.out.println("-----------------------------------------");
+      System.out.println("Tank:  Alert Subscribers");
+      System.out.println("-----------------------------------------");
+   }
 
+   //
+   //
+   //
+   protected void checkErrors(){
+      System.out.println("-----------------------------------------");
+      System.out.println("Tank:  Check Errors");
+      if(this.getStateSubstate() != null){
+         if(this.getStateSubstate().state() == INIT){
+            this.checkInitializedStateErrors();
+         }
+      }
+      System.out.println("-----------------------------------------");
+   }
+
+   //
+   //
+   //
+   private void checkInitializedStateErrors(){
+      System.out.println("-----------------------------------------");
+      System.out.println("Tank: Check Initialized State Errors");
+      System.out.println("-----------------------------------------");
+   }
+
+   //
+   //
+   //
+   protected void monitorTank(){
+      if(this.isSimulation){
+         System.out.println("--------------------------------------");
+         System.out.println("Tank:  Monitor Tank");
+         synchronized(this.obj){
+            try{
+               TankData data = null;
+               data = (TankData)this.dataFeeder.monitor();
+               this.monitorable.addData(data);
+            }
+            catch(ClassCastException cce){
+               cce.printStackTrace();
+               System.exit(1);
+            }
+         }
+         System.out.println("--------------------------------------");
+      }
+      else{}
+   }
+
+   //
+   //
+   //
+   protected void setMonitorable(){
+      this.setMonitorable(new StageMonitorable());
+   }
 }
 //////////////////////////////////////////////////////////////////////

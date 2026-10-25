@@ -67,26 +67,27 @@ public class GenericTank extends Tank implements Runnable{
    //
    public void run(){
       try{
-         int counter   = 0;
-         boolean check = false;
+         boolean check   = false;
+         int     compare = -1;
+         int     counter = 0;
          while(true){
             if(this._kill){
                throw new InterruptedException();
             }
             if(this.getStateSubstate() != null){
                if(this.getStateSubstate().state() == INIT){
-                  if(counter++%1000 == 0){
-                     //For Initialize, check every second...
-                     check = true;
-                  }
+                  //For Initialize, check every 5 seconds...
+                  compare = 5000;
+               }
+               if((compare > 0) && (counter++%compare == 0)){
+                  check   = true;
+                  counter = 1;
                }
             }
             if(check){
-               /*
                this.monitorTank();
                this.checkErrors();
                this.alertSubscribers();
-               */
                check = false;
             }
             Thread.sleep(1);

@@ -117,7 +117,10 @@ public abstract class Engine extends SystemComponent{
          this.publisher.publish(engineData);
       }
       catch(NullPointerException npe){}
-      catch(ClassCastException cce){}   
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }   
       System.out.println("*****************************************");
       System.out.println("Engine:  Alert Subscribers");
       System.out.println("*****************************************");
