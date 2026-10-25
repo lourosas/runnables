@@ -307,7 +307,9 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
       double flFlow = this.setFuelFlow();
       double temp   = this.setTemp();
       this.setMeasuredData(exFlow,flFlow,temp);
-      return this._calcEngineData;
+      synchronized(this._obj){
+         return this._calcEngineData;
+      }
    }
 
    //

@@ -44,6 +44,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    private LaunchStateSubstate.AscentSubstate    IGNE  = null;
 
    //Calculated
+   private Initializable          _initializable;
    private TankData               _calcTankData;
    private LaunchStateSubstate    _stateSubstate;
    private Object                 _obj; //Threading
@@ -68,6 +69,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
       _calcTankData     = null;
+      _initializable    = null;
       _stateSubstate    = null;
       _obj              = null;
       _t0               = null;
@@ -102,6 +104,46 @@ public class TankDataFeeder implements DataFeeder, Runnable{
 
    //
    //
+   //
+   private double setCapacity(){
+      synchronized(this._obj){
+         double capacity = Double.NaN;
+
+         return capacity;
+      }
+   }
+
+   //
+   //
+   //
+   private double setEmptyRate(){
+      synchronized(this._obj){
+         double emptyRate = Double.NaN;
+
+         return emptyRate;
+      }
+   }
+
+   //
+   //
+   //
+   private void setMeasuredData(double cap,double rate,double temp){
+      synchronized(this._obj){}
+   }
+
+   //
+   //
+   //
+   private double setTemp(){
+      synchronized(this._obj){
+         double temp = Double.NaN;
+
+         return temp;
+      }
+   }
+
+   //
+   //
    private void setUpNumber(int tankNumber){
       this._number = tankNumber > 0 ? tankNumber : -1;
    }
@@ -127,12 +169,18 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void addInitializable(Initializable init){}
+   public void addInitializable(Initializable init){
+      this._initializable = init;
+   }
 
    //
    //
    //
    public Object monitor(){
+      double cap = this.setCapacity();
+      double rte = this.setEmptyRate();
+      double tmp = this.setTemp();
+      this.setMeasuredData(cap, rte, tmp);
       synchronized(this._obj){
          return this._calcTankData;
       }
@@ -167,13 +215,11 @@ public class TankDataFeeder implements DataFeeder, Runnable{
                }
             }
             if(check){
-               /*
                double capacity = this.setCapacity();
                double rate     = this.setEmptyRate();
                //Mass Loss Rate
                double temp     = this.setTemp();
                this.setMeasuredData(capacity, rate, temp);
-               */
                check = false;
             }
             Thread.sleep(1);
