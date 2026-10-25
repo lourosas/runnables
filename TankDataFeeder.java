@@ -91,6 +91,32 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
+   private double calculateEmptyRateInitialized(){
+      double emptyRate = Double.NaN;
+      try{
+         TankData td = (TankData)this._initializable.initalized();
+         //Initialization:  should be NO empty rate!!!
+         emptyRate         = 0.;
+         boolean found     = false;
+         double  tolerance = td.tolerance();
+         double  lowerLin  = emptyRate;
+         //Liters per Sec:  needs to be VERY LOW!  Will Probably
+         //need to change the upper limit to something more
+         //realistic
+         //Better be at most milliliter/sec!!!
+         double upperLimit = 0.001;
+
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+      return emptyRate;
+   }
+
+   //
+   //
+   //
    private double calculateMassLossRate(double rate, double den){
       return rate*den;  //L/s*kg/L= kg/s
    }
@@ -119,7 +145,9 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    private double setEmptyRate(){
       synchronized(this._obj){
          double emptyRate = Double.NaN;
-
+         if(this._stateSubstate.state() == INIT){
+            emptyRate = this.calculateEmptyRateInitialized();
+         }
          return emptyRate;
       }
    }
