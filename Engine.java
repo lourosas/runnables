@@ -152,7 +152,7 @@ public abstract class Engine extends SystemComponent{
             ed = (EngineData)this.monitorable.monitor();
             this.exhaustFlowRate = ed.exhaustFlowRate();
             if(this.exhaustFlowRate<ll || this.exhaustFlowRate>ul){
-               String efr = String.format("%.4f",this.exhaustFlowRate);
+               String efr=String.format("%.4f",this.exhaustFlowRate);
                error = new String("Exhaust Flow Rate Error:  "+efr);
             }
          }

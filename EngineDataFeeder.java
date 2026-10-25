@@ -323,15 +323,18 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
    //
    public void run(){
       try{
-         int counter   = 0;
-         boolean check = false;
+         boolean check   = false;
+         int     compare = -1;
+         int     count   = 0;
          while(true){
             if(this._stateSubstate != null){
                if(this._stateSubstate.state() == INIT){
                   //In Initialize, query at 1/10 a second
-                  if(counter++%100 == 0){
-                     check = true;
-                  }
+                  compare = 100;
+               }
+               if((compare > 0) && (count++%compare == 0)){
+                  check = true;
+                  count = 1;
                }
             }
             if(check){

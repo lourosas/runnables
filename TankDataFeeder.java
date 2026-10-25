@@ -43,19 +43,11 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    private LaunchStateSubstate.AscentSubstate    STG   = null;
    private LaunchStateSubstate.AscentSubstate    IGNE  = null;
 
-   //Read In
-   private TankData               _initTankData;
    //Calculated
    private TankData               _calcTankData;
-
    private LaunchStateSubstate    _stateSubstate;
    private Object                 _obj; //Threading
-   private Random                 _random;
    private Thread                 _t0;
-
-   private boolean                _start;
-   //Singleton Implementation
-   private static TankDataFeeder  _instance;
 
    private int                    _stage;
    private int                    _number;
@@ -75,14 +67,10 @@ public class TankDataFeeder implements DataFeeder, Runnable{
       STG  = LaunchStateSubstate.AscentSubstate.STAGING;
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
-      _initTankData     = null;
       _calcTankData     = null;
       _stateSubstate    = null;
       _obj              = null;
       _t0               = null;
-      _random           = null;
-      _start            = false;
-      _instance         = null;
       _stage            = -1;
       _number           = -1;
    };
@@ -92,7 +80,6 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    public TankDataFeeder(int stage, int number){
-      this._random = new Random();
       this.setUpNumber(number);
       this.setUpStage(stage);
       this.setUpThread();
@@ -113,197 +100,6 @@ public class TankDataFeeder implements DataFeeder, Runnable{
       return cap*den*g + dw;
    }
 
-   //
-   //
-   //
-   private void initializeTankData(String file)throws IOException{
-      double cap = Double.NaN; double den = Double.NaN; int num = -1;
-      double dw  = Double.NaN; double er  = Double.NaN; int stg = -1;
-      String err = null; String fue = null; boolean isE = false;
-      double mlr = Double.NaN; long mod = Long.MIN_VALUE;
-      double temp = Double.NaN; double tol = Double.NaN;
-      double wgt = Double.NaN;
-      //Start a test print
-      System.out.println("Tank Data: "+file);
-      try{
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         List<Hashtable<String,String>> lst = read.readTankDataInfo();
-         Iterator<Hashtable<String,String>> it = lst.iterator();
-         while(it.hasNext()){
-            Hashtable<String,String> ht = it.next();
-            try{ stg = Integer.parseInt(ht.get("stage")); }
-            catch(NumberFormatException nfe){ stg = -1; }
-            try{ num = Integer.parseInt(ht.get("number")); }
-            catch(NumberFormatException nfe){ num = -1; }
-            if(this._stage == stg && this._number == num){
-               try{ cap = Double.parseDouble(ht.get("capacity"));}
-               catch(NumberFormatException nfe){ cap = Double.NaN; }
-               try{ den = Double.parseDouble(ht.get("density")); }
-               catch(NumberFormatException nfe){ den = Double.NaN; }
-               try{ dw = Double.parseDouble(ht.get("dryweight")); }
-               catch(NumberFormatException nfe){ dw = Double.NaN; }
-               try{ er = Double.parseDouble(ht.get("rate")); }
-               catch(NumberFormatException  nfe){ er = Double.NaN; }
-               fue = ht.get("fuel"); 
-               try{ mod = Long.parseLong(ht.get("model"),16); }
-               catch(NumberFormatException nfe){ mod=Long.MIN_VALUE; }
-               try{ temp=Double.parseDouble(ht.get("temperature")); }
-               catch(NumberFormatException nfe){ temp=Double.NaN; }
-               try{ tol = Double.parseDouble(ht.get("tolerance")); }
-               catch(NumberFormatException nfe){ tol = Double.NaN; }
-               //Weight needs calculation...init to Double.NaN!!
-               this._initTankData = new GenericTankData(
-                                                cap,//Capcity
-                                                den,//Density
-                                                dw, //Dry Weight
-                                                er, //Empty Rate
-                                                err,//Error
-                                                fue,//Fuel
-                                                isE,//isError
-                                                mlr,//Mass Loss Rate
-                                                mod,//Model
-                                                num,//Tank Number
-                                                stg,//Stage
-                                                temp,//Temperature
-                                                tol,//Tolerance
-                                                wgt);//Weight
-            }
-         }
-      }
-      catch(IOException ioe){
-         ioe.printStackTrace();
-         this._initTankData = null;
-         throw ioe;
-      }
-   }
-
-   //
-   //
-   //
-   private boolean isPathFile(String file)throws IOException{
-      boolean isPath = false;
-      try{
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         Hashtable<String,String> ht = read.readPathInfo();
-         if(read.readPathInfo().get("parameter") == null){
-            throw new NullPointerException("Not a Path File");
-         }
-         isPath = true;
-      }
-      catch(IOException ioe){
-         isPath = false;
-         ioe.printStackTrace(); //Temporary
-         throw ioe;
-      }
-      catch(NullPointerException npe){
-         isPath = false;
-         npe.printStackTrace(); //Temporary
-      }
-      finally{
-         return isPath;
-      }
-   }
-
-   //
-   //
-   //
-   private double setCapacity(){
-      double capacity = Double.NaN; double scale = Double.NaN;
-      double min      = Double.NaN; double max   = Double.NaN;
-      if(this._stateSubstate.state() == INIT){
-         //In the Initialize State, the Capacity should be 0!
-         //regardless of Substate...and no negative capacity...
-         max = 1. - this._initTankData.tolerance();
-         do{
-            capacity = this._random.nextDouble();
-         }while(capacity > max);
-      }
-      capacity = Math.round(capacity * 100.)/100.;
-      return capacity;
-   }
-
-   //
-   //
-   //
-   private double setEmptyRate(){
-      double rate = Double.NaN; double scale = Double.NaN;
-      double min  = Double.NaN; double max   = Double.NaN;
-      if(this._stateSubstate.state() == INIT){
-         //In the Initialize State, no Empty Rate regardless of
-         //Substate...and no negative rate
-         max = 1. - this._initTankData.tolerance();
-         do{
-            rate = this._random.nextDouble();
-         }while(rate > max);
-      }
-      rate     = Math.round(rate * 100.)/100.;
-      return rate;
-   }
-
-   //
-   //
-   //
-   private void setMeasuredData
-   (
-     double capacity,
-     double rate,
-     double temp
-   ){
-      String err = null; //Error
-      //Get the needed initialized data...error is not determined by
-      //the DataFeeder...temperature, rate and capacity are determined
-      double den  = this._initTankData.density();
-      double dw   = this._initTankData.dryWeight();
-      String fue  = this._initTankData.fuel();
-      boolean isE = false;
-      long   mdl  = this._initTankData.model();
-      int    tnk  = this._initTankData.number();
-      int    stg  = this._initTankData.stage();
-      double tol  = this._initTankData.tolerance();
-      double mlr  = this.calculateMassLossRate(rate, den);
-      double wgt  = this.calculateWeight(capacity, den, dw);
-
-      synchronized(this._obj){
-         this._calcTankData = new GenericTankData(
-                                       capacity, //capacity
-                                       den,      //density
-                                       dw,       //dry weight
-                                       rate,     //empty rate
-                                       err,      //error
-                                       fue,      //fuel
-                                       isE,      //isError
-                                       mlr,      //Mass Loss Rate
-                                       mdl,      //model
-                                       tnk,      //tank num
-                                       stg,      //stage
-                                       temp,     //Temperature
-                                       tol,      //Tolerance
-                                       wgt);     //Weight
-      }
-   }
-
-   //
-   //
-   //
-   private double setTemp(){
-      double temp = Double.NaN;  double min   = Double.NaN;
-      double max  = Double.NaN;  double scale = Double.NaN;
-      if(this._stateSubstate.state() == INIT){
-         //Temperature is insignificant in the Initialize State...
-         //put between the boiling and freezing point of water...
-         do{
-            min   = 273; max = 373;
-            temp  = (double)this._random.nextInt((int)(max + 1));
-            temp += this._random.nextDouble();
-         }while(temp < min || temp > max);
-      }
-      temp = Math.round(temp*100.)/100.;
-      return temp;
-   }
-
-   //
    //
    //
    private void setUpNumber(int tankNumber){
@@ -354,25 +150,30 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    public void run(){
-      int counter   = 0;
-      boolean check = false;
+      boolean check   = false;
+      int     counter = 0;
+      int     compare = -1;
       try{
          while(true){
             if(this._stateSubstate != null){
                if(this._stateSubstate.state() == INIT){
-                  if(counter++%1000 == 0){
-                     //In Initialize State, set the data every second
-                     //regardless of substate
-                     check = true;
-                  }
+                  //In Initialize State, set the data every second
+                  //regardless of substate
+                  compare = 1000;
+               }
+               if((compare > 0) && (counter++%compare == 0)){
+                  check   = true;
+                  counter = 1;
                }
             }
             if(check){
+               /*
                double capacity = this.setCapacity();
                double rate     = this.setEmptyRate();
                //Mass Loss Rate
                double temp     = this.setTemp();
                this.setMeasuredData(capacity, rate, temp);
+               */
                check = false;
             }
             Thread.sleep(1);
