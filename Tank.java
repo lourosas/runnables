@@ -81,9 +81,12 @@ public abstract class Tank extends SystemComponent{
          //Add Initializable to the Data Feeder
          //Set the substate to the Feeder
          if(this.dataFeeder == null){
-            this.dataFeeder.addInitializable(this.initializable);
-            this.dataFeeder.setStateSubstate(this.stateSubstate);
+            int stg = this.stage;
+            int num = this.number;
+            this.dataFeeder = new TankDataFeeder(stg,num);
          }
+         this.dataFeeder.addInitializable(this.initializable);
+         this.dataFeeder.setStateSubstate(this.stateSubstate);
       }
    }
 
@@ -106,10 +109,7 @@ public abstract class Tank extends SystemComponent{
          //Notify the Subscribers
          this.publisher.publish(tankData);
       }
-      catch(NullPointerException npe){
-         //Temporary prints
-         npe.printStackTrace();
-      }
+      catch(NullPointerException npe){}
       catch(ClassCastException cce){
          cce.printStackTrace();
          System.exit(1);
