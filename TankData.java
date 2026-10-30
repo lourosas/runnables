@@ -131,10 +131,12 @@ public abstract class TankData{
    public String   toString(){
       String data = new String("\nTankData: ");
       data += "\n------------------------------";
-      data += "\nCapacity:            "+this.capacity();
+      double cap = this.capacity();
+      data += "\nCapacity:            "+String.format("%.4f L",cap);
       data += "\nDensity:             "+this.density();
       data += "\nDry Weight:          "+this.dryWeight();
-      data += "\nEmpty Rate:          "+this.emptyRate();
+      double er = this.emptyRate();
+      data += "\nEmpty Rate:          "+String.format("%.4f L/s",er);
       data += "\nError:               "+this.error();
       data += "\nFuel:                "+this.fuel();
       data += "\nIs Error:            "+this.isError();
@@ -144,7 +146,7 @@ public abstract class TankData{
       data += "\nNumber:              "+this.number();
       data += "\nStage:               "+this.stage();
       double temp = this.temperature();
-      data += "\nTemperature:         "+String.format("%.2f",temp);
+      data += "\nTemperature:         "+String.format("%.2fK",temp);
       data += "\nTolerance:           "+this.tolerance();
       data += "\nWeight:              "+this.weight();
 

@@ -122,7 +122,61 @@ public abstract class Tank extends SystemComponent{
    //
    //
    //
+   protected String checkCapacity(double ll, double ul){
+      String error = null;
+      TankData td  = null;
+      try{
+         synchronized(this.obj){
+            td = (TankData)this.monitorable.monitor();
+            double capacity = td.capacity();
+            if(capacity < ll && capacity > ul){
+               String cpe = String.format("%.4f", capacity);
+               error = new String("Capacity Error: " + cpe);
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+      return error;
+   }
+
+   //
+   //
+   //
+   protected String checkEmptyRate(double ll, double ul){
+      String error = null;
+      TankData td  = null;
+      try{
+         synchronized(this.obj){
+            td = (TankDatga)this.monitorable.monitor();
+            double emptyRate = td.emptyRate();
+            if(emptyRate < ll || emptyRate > ul){
+               String ers = String.format("%.4f", emptyRate);
+               error = new String("Empty Rate Error: " + ers);
+            }
+         }
+      }
+      catch(NullPointerExceptin npe){}
+      catch(ClassCastException  cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+      return error;
+   }
+
+   //
+   //
+   //
    protected void checkErrors(){
+      //What all needs checking?
+      //Capacity
+      //Temp
+      //Empty Rate...
+      //the Derived values of Mass Loss Rate and current weight will
+      //reflect the Stability of the System...
       System.out.println("-----------------------------------------");
       System.out.println("Tank:  Check Errors");
       if(this.getStateSubstate() != null){
@@ -136,16 +190,55 @@ public abstract class Tank extends SystemComponent{
    //
    //
    //
-   private void checkInitializedStateErrors(){
-      //What all needs checking?
-      //Capacity
-      //Temp
-      //Empty Rate...
-      //the Derived values of Mass Loss Rate and current weight will
-      //reflect the Stability of the System...
+   protected void checkInitializedStateErrors(){
+      double lowerLimit   = 0.;
+      double upperLimit   = 0.001;
+      String error        = null;
+      String pubError     = null;
       System.out.println("-----------------------------------------");
       System.out.println("Tank: Check Initialized State Errors");
+      error = this.checkCapacity(lowerLimit,upperLimit);
+      if(error != null){
+         pubError = pubError != null ? pubError+"\n"+error : error;
+      }
+      error = this.checkEmptyRate(lowerLimit,upperLimit);
+      if(error != null){
+         pubError = pubError != null ? pubError+"\n"+error : error;
+      }
+      lowerLimit = 273.15;
+      upperLimit = 273.15;
+      error = this.checkTemperature(lowerLimit,upperLimit);
+      if(error != null){
+         pubError = pubError != null ? pubError+"\n"+error : error;
+      }
+      if(pubError != null){
+         this.publisher.publish(new RuntimeException(pubError));
+         this.monitorable.addError(error, false);
+      }
       System.out.println("-----------------------------------------");
+   }
+
+   //
+   //
+   //
+   protected String checkTemperature(double ll, double ul){
+      String error = null;
+      TankData td  = null;
+      try{
+         synchronized(this.obj){
+            td = (TankData)this.monitorable.monitor();
+            double temp = td.temperature();
+            if(temp < ll || temp > ul){
+               String tme = String.format("%.2f",temp);
+               error = new String("Temperature Error:  " + tme);
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
    }
 
    //
