@@ -257,7 +257,9 @@ public class EngineDataFeeder implements DataFeeder, Runnable{
                                   temp,  //Temperature
                                   ed.tolerance(),
                                   ed.total());
-      this._calcEngineData = ted;
+      synchronized(this._obj){
+         this._calcEngineData = ted;
+      }
    }
 
    //

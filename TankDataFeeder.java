@@ -91,7 +91,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private calculateCapacityInitialized(){
+   private double calculateCapacityInitialized(){
       double capacity = Double.NaN;
       try{
          TankData td = (TankData)this._initializable.initialized();
@@ -128,12 +128,12 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    private double calculateEmptyRateInitialized(){
       double emptyRate = Double.NaN;
       try{
-         TankData td = (TankData)this._initializable.initalized();
+         TankData td = (TankData)this._initializable.initialized();
          //Initialization:  should be NO empty rate!!!
          emptyRate         = 0.;
          boolean found     = false;
          double  tolerance = td.tolerance();
-         double  lowerLin  = emptyRate;
+         double  lowerLim  = emptyRate;
          //Liters per Sec:  needs to be VERY LOW!  Will Probably
          //need to change the upper limit to something more
          //realistic
@@ -172,7 +172,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    private double calculateTempInitialized(){
       double temp = Double.NaN;
       try{
-         TankData td = (TankData)this._initialized.initialized();
+         TankData td = (TankData)this._initializable.initialized();
          //In Initialization, temp should be anything within a typical
          //normal range of atmostpheric temperatures--really not too
          //hot...not too cold...roughly from the freezing point to the
@@ -240,8 +240,37 @@ public class TankDataFeeder implements DataFeeder, Runnable{
    //
    private void setMeasuredData(double cap,double rate,double temp){
       //Make sure to include Calculate Mass Loss Rate and
-      //Calculate Rate
-      synchronized(this._obj){}
+      //Calculate Weight--Need to indicate DERIVED in the design
+      TankData td = null;
+      try{
+         double mlr = Double.NaN;
+         double wgt = Double.NaN;
+         td  = (TankData)this._initializable.initialized();
+         mlr = this.calculateMassLossRate(rate,td.density());
+         wgt = this.calculateWeight(cap,td.density(),td.dryWeight());
+         TankData ttd = null;
+         ttd = new GenericTankData(cap, //Current Capacity
+                                    td.density(),
+                                    td.dryWeight(),
+                                    rate,  //Empty Rate
+                                    null,
+                                    td.fuel(),
+                                    false,
+                                    mlr, //Mass Loss Rate
+                                    td.model(),
+                                    td.number(),
+                                    td.stage(),
+                                    temp, //Current Temp
+                                    td.tolerance(),
+                                    wgt);  //Calculated Weight
+         synchronized(this._obj){
+            this._calcTankData = ttd;
+         }
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
    }
 
    //

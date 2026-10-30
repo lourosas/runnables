@@ -137,6 +137,12 @@ public abstract class Tank extends SystemComponent{
    //
    //
    private void checkInitializedStateErrors(){
+      //What all needs checking?
+      //Capacity
+      //Temp
+      //Empty Rate...
+      //the Derived values of Mass Loss Rate and current weight will
+      //reflect the Stability of the System...
       System.out.println("-----------------------------------------");
       System.out.println("Tank: Check Initialized State Errors");
       System.out.println("-----------------------------------------");
@@ -169,7 +175,7 @@ public abstract class Tank extends SystemComponent{
    //
    //
    protected void setMonitorable(){
-      this.setMonitorable(new StageMonitorable());
+      this.setMonitorable(new TankMonitorable());
    }
 }
 //////////////////////////////////////////////////////////////////////
