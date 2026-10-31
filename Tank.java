@@ -151,7 +151,7 @@ public abstract class Tank extends SystemComponent{
       TankData td  = null;
       try{
          synchronized(this.obj){
-            td = (TankDatga)this.monitorable.monitor();
+            td = (TankData)this.monitorable.monitor();
             double emptyRate = td.emptyRate();
             if(emptyRate < ll || emptyRate > ul){
                String ers = String.format("%.4f", emptyRate);
@@ -159,7 +159,7 @@ public abstract class Tank extends SystemComponent{
             }
          }
       }
-      catch(NullPointerExceptin npe){}
+      catch(NullPointerException npe){}
       catch(ClassCastException  cce){
          cce.printStackTrace();
          System.exit(1);
@@ -239,6 +239,7 @@ public abstract class Tank extends SystemComponent{
          cce.printStackTrace();
          System.exit(1);
       }
+      return error;
    }
 
    //
