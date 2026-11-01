@@ -267,6 +267,7 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
                }
             }
             if(check){
+               this.monitorFuelSystem();
                this.monitorTanks();
                this.monitorPumps();
                this.monitorPipes();

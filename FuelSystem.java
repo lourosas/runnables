@@ -182,6 +182,27 @@ public abstract class FuelSystem extends SystemComponent{
    //
    //
    //
+   protected void monitorFuelSystem(){
+      System.out.println("*****************************************");
+      System.out.println("Fuel System:  Monitor Fuel System");
+      if(this.isSimulation){
+         try{
+            FuelSystemData data = null;
+            data = (FuelSystemData)this.dataFeeder.monitor();
+            this.monitorable.addData(data);
+         }
+         catch(ClassCastException cce){
+            cce.printStackTrace();
+            System.exit(1);
+         }
+      }
+      else{}
+      System.out.println("*****************************************");
+   }
+
+   //
+   //
+   //
    protected void monitorPipes(){
       System.out.println("-----------------------------------------");
       System.out.println("Fuel System:  Monitor Pipes");
