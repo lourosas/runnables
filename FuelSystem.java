@@ -203,6 +203,8 @@ public abstract class FuelSystem extends SystemComponent{
    protected void monitorTanks(){
       System.out.println("+++++++++++++++++++++++++++++++++++++++++");
       System.out.println("Fuel System:  Monitor Tanks");
+      System.out.println(this.fuel.monitor());
+      System.out.println(this.oxidizer.monitor());
       System.out.println("+++++++++++++++++++++++++++++++++++++++++");
    }
 
