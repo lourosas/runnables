@@ -216,8 +216,11 @@ public abstract class Engine extends SystemComponent{
          pubError = pubError != null ? pubError+"\n"+error : error;
       }
       if(pubError != null){
-         this.publisher.publish(new RuntimeException(pubError));
          this.monitorable.addError(error,false);
+         try{
+            this.publisher.publish(new RuntimeException(pubError));
+         }
+         catch(NullPointerException npe){}
       }
       System.out.println("***************************************");
    }

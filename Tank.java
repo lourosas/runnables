@@ -206,14 +206,17 @@ public abstract class Tank extends SystemComponent{
          pubError = pubError != null ? pubError+"\n"+error : error;
       }
       lowerLimit = 273.15;
-      upperLimit = 273.15;
+      upperLimit = 373.15;
       error = this.checkTemperature(lowerLimit,upperLimit);
       if(error != null){
          pubError = pubError != null ? pubError+"\n"+error : error;
       }
       if(pubError != null){
-         this.publisher.publish(new RuntimeException(pubError));
          this.monitorable.addError(error, false);
+         try{
+            this.publisher.publish(new RuntimeException(pubError));
+         }
+         catch(NullPointerException npe){}
       }
       System.out.println("-----------------------------------------");
    }
@@ -251,6 +254,9 @@ public abstract class Tank extends SystemComponent{
          System.out.println("Tank:  Monitor Tank");
          synchronized(this.obj){
             try{
+               //The Monitor runs off its own Thread...so will have
+               //the Monitor will have to grab its own lock to
+               //ensure no race condition...
                TankData data = null;
                data = (TankData)this.dataFeeder.monitor();
                this.monitorable.addData(data);

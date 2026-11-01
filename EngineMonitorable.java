@@ -65,7 +65,9 @@ public class EngineMonitorable implements Monitorable{
          int      tot = this._engineData.total();
          EngineData ed= new GenericEngineData(eng,err,exr,isE,isI,ffr,
                                               mod,stg,temp,tol,tot);
-         this._engineData = ed;
+         synchronized(this._obj){
+            this._engineData = ed;
+         }
       }
       catch(ClassCastException cce){
          cce.printStackTrace();
@@ -116,7 +118,9 @@ public class EngineMonitorable implements Monitorable{
          int      tot = this._engineData.total();
          EngineData ed= new GenericEngineData(eng,err,exr,isE,isI,ffr,
                                                 mod,stg,temp,tol,tot);
-         this._engineData = ed;
+         synchronized(this._obj){
+            this._engineData = ed;
+         }
 
       }
       catch(ClassCastException cce){

@@ -39,11 +39,70 @@ public class TankMonitorable implements Monitorable{
       this._obj = new Object();
    }
 
+   //
+   //
+   //
+   private void setData(String type, Object data, boolean toAppend){
+      String inputType = type.toUpperCase();
+      if(inputType.contains("ERROR")){
+         this.setError(data,toAppend);
+      }
+   }
+
+   //
+   //
+   //
+   private void setError(Object data, boolean toAppend){
+      boolean toA = toAppend;
+      try{
+         double  cap  = this._tankData.capacity();
+         double  den  = this._tankData.density();
+         double  dw   = this._tankData.dryWeight();
+         double  er   = this._tankData.emptyRate();
+         String  err  = this._tankData.error();
+         String  fue  = this._tankData.fuel();
+         boolean isE  = this._tankData.isError();
+         double  mlr  = this._tankData.massLossRate();
+         long    mdl  = this._tankData.model();
+         int     num  = this._tankData.number();
+         int     stg  = this._tankData.stage();
+         double  temp = this._tankData.temperature();
+         double  tol  = this._tankData.tolerance();
+         double  wgt  = this._tankData.weight();
+         if(toAppend && isE){
+            err = err + "\n" + (String)data;
+         }
+         else{
+            err = (String)data;
+            isE = true;
+         }
+         TankData td = new GenericTankData(cap,den,dw,er,err,fue,isE,
+                                        mlr,mdl,num,stg,temp,tol,wgt);
+         synchronized(this._obj){
+            this._tankData = td;
+         }
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+   }
+
    //////////////////Monitor Interface Implementation/////////////////
    ///
    ///
    ///
-   public void addData(Object data){}
+   public void addData(Object data){
+      try{
+         synchronized(this._obj){
+            this._tankData = (TankData)data;
+         }
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+   }
 
    //
    //
@@ -53,7 +112,9 @@ public class TankMonitorable implements Monitorable{
    //
    //
    //
-   public void addError(String error, boolean toAppend){}
+   public void addError(String error, boolean toAppend){
+      this.setData("Error",error,toAppend);
+   }
 
    //
    //

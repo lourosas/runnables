@@ -165,7 +165,8 @@ public abstract class Rocket extends SystemComponent{
 
          }
          catch(ClassCastException cce){
-            rd = null;
+            cce.printStackTrace();
+            System.exit(1);
          }
          catch(NullPointerException npe){}
       }
