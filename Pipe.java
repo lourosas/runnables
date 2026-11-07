@@ -125,6 +125,20 @@ public abstract class Pipe extends SystemComponent{
       if(this.isSimulation){
          System.out.println("++++++++++++++++++++++++++++++++++++++");
          System.out.println("Pipe:  Monitor Pipe");
+         synchronized(this.obj){
+            try{
+               //The Monitor Instance runs off its own Thread...so, it
+               //will have to grab its own lock to ensure no race
+               //condition...
+               PipeData data = null;
+               data = (PipeData)this.dataFeeder.monitor();
+               this.monitorable.addData(data);
+            }
+            catch(ClassCastException cce){
+               cce.printStackTrace();
+               System.exit(1);
+            }
+         }
          System.out.println("++++++++++++++++++++++++++++++++++++++");
       }
       else{}
