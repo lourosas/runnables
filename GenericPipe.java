@@ -71,8 +71,9 @@ public class GenericPipe extends Pipe implements Runnable{
    //
    //
    public void run(){
-      int counter   = 0;
-      boolean check = false;
+      int     counter = 0;
+      int     compare = -1;
+      boolean check   = false;
       try{
          while(true){
             if(this._kill){
@@ -80,18 +81,18 @@ public class GenericPipe extends Pipe implements Runnable{
             }
             if(this.getStateSubstate() != null){
                if(this.getStateSubstate().state() == INIT){
-                  if(counter++%1500 == 0){
-                     check = true;
-                     counter = 1;//reset the counter
-                  }
+                  //In Initialize State, check every 7.5 secs
+                  compare = 7500;
+               }
+               if((compare > 0) && (counter++%compare == 0)){
+                  check   = true;
+                  counter = 1;//reset the counter
                }
             }
             if(check){
-               /*
                this.monitorPipe();
                this.checkErrors();
                this.alertSubscribers();
-               */
                check = false;
             }
             Thread.sleep(1);
