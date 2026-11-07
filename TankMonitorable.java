@@ -120,7 +120,9 @@ public class TankMonitorable implements Monitorable{
    //
    //
    public Object monitor(){
-      return this._tankData;
+      synchronized(this._obj){
+         return this._tankData;
+      }
    }
 }
 //////////////////////////////////////////////////////////////////////
