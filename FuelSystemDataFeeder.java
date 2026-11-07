@@ -97,6 +97,9 @@ public class FuelSystemDataFeeder implements DataFeeder, Runnable{
          System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
          System.out.println("Fuel System Data Feeder: "+fsd);
          System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+         synchronized(this._obj){
+            this._calcFuelSystemData = fsd;
+         }
       }
       catch(ClassCastException cce){
          cce.printStackTrace();
