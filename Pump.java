@@ -52,6 +52,8 @@ public abstract class Pump extends SystemComponent{
       this.initializable.initialize(file);
       //Similar to the Tank, the initialization should be able to be
       //handled at the Pump (abstract) level...
+      this.setMonitorable();
+      this.alertSubscribers();
       try{
          PumpData pumpData = null;
          pumpData = (PumpData)this.initializable.initialized();
@@ -61,5 +63,69 @@ public abstract class Pump extends SystemComponent{
       catch(NullPointerException npe){}
       catch(ClassCastException cce){}
    }
+
+   //
+   //
+   //
+   public void setInitializable(Initializable init){
+      super.setInitializable(init);
+      if(this.isSimulation){
+         if(this.dataFeeder == null){
+            int stg = this.stage;
+            int tn  = this.tankNumber;
+            this.dataFeeder = new PumpDataFeeder(stg,tn);
+         }
+      }
+      this.dataFeeder.addInitializable(this.initializable);
+   }
+
+   //
+   //
+   //
+   public void setSimulation(boolean isSim){
+      super.setSimulation(isSim);
+      if(this.dataFeeder == null){
+         int stg = this.stage;
+         int  tn = this.tankNumber;
+         this.dataFeeder = new PumpDataFeeder(stg, tn);
+      }
+      this.dataFeeder.addInitializable(this.initializable);
+      this.dataFeeder.setStateSubstate(this.stateSubstate);
+   }
+
+   /////////////////////////Protected Methods/////////////////////////
+   //
+   //
+   //
+   protected void alertSubscribers(){}
+
+   //
+   //
+   //
+   protected void checkErrors(){}
+
+   //
+   //
+   //
+   protected void checkInitializedStateErrors(){}
+
+   //
+   //
+   //
+   protected String checkPumpRate(double ll, double ul){
+      String error = null;
+      return error;
+   }
+
+   //
+   //
+   //
+   protected String checkTemperature(double ll, double ul){
+      String error = null;
+      return error;
+   }
+
+
+
 }
 //////////////////////////////////////////////////////////////////////

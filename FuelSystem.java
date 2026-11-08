@@ -222,6 +222,16 @@ public abstract class FuelSystem extends SystemComponent{
    protected void monitorPumps(){
       System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
       System.out.println("Fuel System:  Monitor Pumps");
+      try{
+         Iterator<Pump> it = this.pumps.iterator();
+         while(it.hasNext()){
+            System.out.println(it.next().monitor());
+         }
+      }
+      catch(NullPointerException npe){
+         //Test Prints REMOVE!!
+         npe.printStackTrace();
+      }
       System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
    }
 

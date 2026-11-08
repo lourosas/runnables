@@ -73,8 +73,8 @@ public abstract class Pipe extends SystemComponent{
             int tnk = this.tankNumber;
             this.dataFeeder = new PipeDataFeeder(stg,tnk,num);
          }
-         this.dataFeeder.addInitializable(this.initializable);
       }
+      this.dataFeeder.addInitializable(this.initializable);
    }
 
    //
