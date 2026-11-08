@@ -96,15 +96,16 @@ public abstract class PipeData{
    public String   toString(){
       String data = new String("\nPipe Data");
       data += "\n------------------------------";
-      data += "\nIs Error:                 "+this.isError();
-      data += "\nerror:                    "+this.error();
-      data += "\nto Engine:                "+this.number();
-      data += "\nrate:                     "+this.rate();
-      data += "\nstage:                    "+this.stage();
-      data += "\ntank:                     "+this.tank();
+      data += "\nIs Error:          "+this.isError();
+      data += "\nerror:             "+this.error();
+      data += "\nto Engine:         "+this.number();
+      double rt = this.rate();
+      data += "\nrate:              "+String.format("%.4f L/s",rt);
+      data += "\nstage:             "+this.stage();
+      data += "\ntank:              "+this.tank();
       double t = this.temperature();
-      data += "\ntemperature:              "+String.format("%.2f",t);
-      data += "\nFuel Type:                "+this.type();
+      data += "\ntemperature:       "+String.format("%.2fK",t);
+      data += "\nFuel Type:         "+this.type();
       return data;
    }
 

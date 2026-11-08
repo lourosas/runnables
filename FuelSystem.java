@@ -206,6 +206,13 @@ public abstract class FuelSystem extends SystemComponent{
    protected void monitorPipes(){
       System.out.println("-----------------------------------------");
       System.out.println("Fuel System:  Monitor Pipes");
+      try{
+         Iterator<Pipe> it = this.pipes.iterator();
+         while(it.hasNext()){
+            System.out.println(it.next().monitor());
+         }
+      }
+      catch(NullPointerException npe){}
       System.out.println("-----------------------------------------");
    }
 
