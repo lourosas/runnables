@@ -407,12 +407,12 @@ controlflow {
 <ref refid="fc170795-b4fb-11f1-af67-e8f408f10391"/>
 <ref refid="113d5b8f-d07d-11f1-a75e-e8f408f10391"/>
 <ref refid="39136f03-d07d-11f1-9f9e-e8f408f10391"/>
-<ref refid="4a503d1f-929d-11f1-a419-e8f408f10391"/>
 <ref refid="997e3214-dac1-11f1-968c-0b141d093742"/>
 <ref refid="f78e1001-dac1-11f1-9661-0b141d093742"/>
 <ref refid="2652fe3e-dac2-11f1-89f1-0b141d093742"/>
 <ref refid="1301dbcc-dac6-11f1-a280-0b141d093742"/>
 <ref refid="60c0e728-dac6-11f1-8949-0b141d093742"/>
+<ref refid="4a503d1f-929d-11f1-a419-e8f408f10391"/>
 </reflist>
 </packagedElement>
 </UML:Package>
@@ -29311,8 +29311,8 @@ existing classes or even new classes with specific responsibilities.</val>
 <UML:InterfaceRealization id="6a0fb067-dac1-11f1-8926-0b141d093742">
 <client>
 <reflist>
-<ref refid="9a90dd91-56e1-11f1-9fb1-6d2398b7e0e7"/>
 <ref refid="f74fa12e-5203-11f1-96fb-e8f408f10391"/>
+<ref refid="9a90dd91-56e1-11f1-9fb1-6d2398b7e0e7"/>
 </reflist>
 </client>
 <contract>
@@ -29328,8 +29328,8 @@ existing classes or even new classes with specific responsibilities.</val>
 </presentation>
 <supplier>
 <reflist>
-<ref refid="9a90dd91-56e1-11f1-9fb1-6d2398b7e0e7"/>
 <ref refid="f74fa12e-5203-11f1-96fb-e8f408f10391"/>
+<ref refid="9a90dd91-56e1-11f1-9fb1-6d2398b7e0e7"/>
 </reflist>
 </supplier>
 </UML:InterfaceRealization>
@@ -30050,7 +30050,7 @@ existing classes or even new classes with specific responsibilities.</val>
 <val>(1.0, 0.0, 0.0, 1.0, 3276.265751452906, -1364.879438655528)</val>
 </matrix>
 <points>
-<val>[(152.26084134413213, 150.08625), (58.430440207250285, 0.11078981571642998)]</val>
+<val>[(152.26084134413236, 120.38199081513562), (58.430440207250285, 0.11078981571642998)]</val>
 </points>
 <head-connection>
 <ref refid="7168c254-6daf-11f1-b55e-e8f408f10391"/>
