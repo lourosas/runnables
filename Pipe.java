@@ -66,7 +66,15 @@ public abstract class Pipe extends SystemComponent{
    //
    public void setInitializable(Initializable init){
       super.setInitializable(init);
-      //More to continue post here...
+      if(this.isSimulation){
+         if(this.dataFeeder == null){
+            int stg = this.stage;
+            int num = this.number;
+            int tnk = this.tankNumber;
+            this.dataFeeder = new PipeDataFeeder(stg,tnk,num);
+         }
+         this.dataFeeder.addInitializable(this.initializable);
+      }
    }
 
    //
@@ -74,7 +82,14 @@ public abstract class Pipe extends SystemComponent{
    //
    public void setSimulation(boolean isSim){
       super.setSimulation(isSim);
-      //More to continue post here...
+      if(this.dataFeeder == null){
+         int stg = this.stage;
+         int num = this.number;
+         int tnk = this.tankNumber;
+         this.dataFeeder = new PipeDataFeeder(stg,tnk,num);
+      }
+      this.dataFeeder.addInitializable(this.initializable);
+      this.dataFeeder.setStateSubstate(this.stateSubstate);
    }
 
    /////////////////////////Protected Methods/////////////////////////
@@ -115,7 +130,90 @@ public abstract class Pipe extends SystemComponent{
       //Temperature
       System.out.println("+++++++++++++++++++++++++++++++++++++++++");
       System.out.println("Pipe:  Check Errors");
+      if(this.getStateSubstate() != null){
+         if(this.getStateSubstate().state() == INIT){
+            this.checkInitializedStateErrors();
+         }
+      }
       System.out.println("+++++++++++++++++++++++++++++++++++++++++");
+   }
+
+   //
+   //
+   //
+   protected String checkFlowRate(double ll, double ul){
+      String error = null;
+      PipeData  pd = null;
+      try{
+         synchronized(this.obj){
+            pd = (PipeData)this.monitorable.monitor();
+            double flowRate = pd.rate();
+            if(flowRate < ll || flowRate > ul){
+               String fre = String.format("%.4f", flowRate);
+               error = new String("Flow Rate Error: " + fre);
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+      return error;
+   }
+
+   //
+   //
+   //
+   protected void checkInitializedStateErrors(){
+      double lowerLimit = 0.;
+      double upperLimit = 0.001;
+      String error      = null;
+      String pubError   = null;
+      System.out.println("+++++++++++++++++++++++++++++++++++++++++");
+      System.out.println("Pipe: Check Initialized State Errors");
+      error = this.checkFlowRate(lowerLimit, upperLimit);
+      if(error != null){
+         pubError = (pubError != null) ? pubError+"\n"+error : error;
+      }
+      lowerLimit = 273.15;
+      upperLimit = 373.15;
+      error = this.checkTemperature(lowerLimit, upperLimit);
+      if(error != null){
+         pubError = (pubError != null) ? pubError+"\n"+error : error;
+      }
+      if(pubError != null){
+         this.monitorable.addError(error, false);
+         try{
+            this.publisher.publish(new RuntimeException(pubError));
+         }
+         catch(NullPointerException npe){}
+      }
+      System.out.println("+++++++++++++++++++++++++++++++++++++++++");
+   }
+
+   //
+   //
+   //
+   protected String checkTemperature(double ll, double ul){
+      String error = null;
+      PipeData  pd = null;
+      try{
+         synchronized(this.obj){
+            pd = (PipeData)this.monitorable.monitor();
+            double temp = pd.temperature();
+            if(temp < ll || temp > ul){
+               String tme = String.format("%.2f", temp);
+               error = new String("Temperature Error:  " + tme);
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+      return error;
    }
 
    //

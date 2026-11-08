@@ -129,7 +129,7 @@ public abstract class Tank extends SystemComponent{
          synchronized(this.obj){
             td = (TankData)this.monitorable.monitor();
             double capacity = td.capacity();
-            if(capacity < ll && capacity > ul){
+            if(capacity < ll || capacity > ul){
                String cpe = String.format("%.4f", capacity);
                error = new String("Capacity Error: " + cpe);
             }

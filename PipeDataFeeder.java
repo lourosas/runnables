@@ -41,14 +41,11 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
    private LaunchStateSubstate.AscentSubstate    STG   = null;
    private LaunchStateSubstate.AscentSubstate    IGNE  = null;
 
-   //Read In
-   private PipeData            _initPipeData;
    //Derived
+   private Initializable       _initializable;
    private PipeData            _calcPipeData;
-
    private LaunchStateSubstate _stateSubstate;
    private Object              _obj;
-   private Random              _random;
    private Thread              _t0;
 
    private int                 _number; //Engine Number
@@ -70,11 +67,10 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
       STG  = LaunchStateSubstate.AscentSubstate.STAGING;
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
    
-      _initPipeData       = null;
       _calcPipeData       = null;
+      _initializable      = null;
       _stateSubstate      = null;
       _obj                = null;
-      _random             = null;
       _t0                 = null;
       _number             = -1; //Engine
       _stage              = -1;
@@ -85,7 +81,6 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
    //
    //number = Engine Number
    public PipeDataFeeder(int stage, int tank, int number){
-      this._random = new Random();
       this.setStageNumber(stage);
       this.setTankNumber(tank);
       this.setNumber(number);
@@ -96,143 +91,125 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   private void initializePipeData(String file){
-      String err = null; double flw = Double.NaN; //Derived
-      int num = this._number; boolean isE = false; int stg = -1;
-      int tnk = -1; double temp = Double.NaN;
-      double tol = Double.NaN; String ft = null;//Fuel Type
+   private double calculateFlowInitialized(){
+      double flowRate = Double.NaN;
       try{
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         List<Hashtable<String,String>> lst = read.readPipeDataInfo();
-         Iterator<Hashtable<String,String>> it = lst.iterator();
-         while(it.hasNext()){
-            Hashtable<String,String> ht = it.next();
-            //First, get Stage and Tank
-            try{ stg = Integer.parseInt(ht.get("stage")); }
-            catch(NumberFormatException npe){ stg = -1; }
-            try{ tnk = Integer.parseInt(ht.get("tanknumber")); }
-            catch(NumberFormatException npe){ tnk = -1; }
-            if(this._stage == stg && this._tank == tnk){
-               try{ flw = Double.parseDouble(ht.get("rate"));}
-               catch(NumberFormatException nfe){ flw = Double.NaN; }
-               try{ temp = Double.parseDouble(ht.get("temperature"));}
-               catch(NumberFormatException nfe){ temp = Double.NaN; }
-               try{ tol = Double.parseDouble(ht.get("tolerance")); }
-               catch(NumberFormatException nfe){ tol = Double.NaN; }
-               this._initPipeData = new GenericPipeData(
-                                             err, //error
-                                             flw, //Flow
-                                             num, //engine num
-                                             isE, //is Error
-                                             stg, //stage
-                                             tnk, //tank
-                                             temp,//temperature
-                                             tol, //tolerance
-                                             ft);
+         PipeData pd = (PipeData)this._initializable.initialized();
+         //Initialization:  NO FLOW RATE
+         flowRate          = 0.;
+         boolean found     = false;
+         double  lowerLim  = flowRate;
+         //Liters/Sec:  needs to be VERY LOW!!  Will probably need
+         //to change the upper limit to something more realistic
+         //Better be at most ml/sec!
+         double upperLim   = 0.001;
+         Random random     = new Random();
+         while(!found){
+            if(this._stateSubstate.state() == INIT){
+               flowRate = lowerLim + (random.nextDouble());
+               if(flowRate >= lowerLim && flowRate <= upperLim){
+                  found = true;
+               }
+            }
+            else{
+               found = true;
             }
          }
       }
-      catch(IOException ioe){
-         ioe.printStackTrace();
-         this._initPipeData = null;
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
       }
-
+      return flowRate;
    }
 
    //
    //
    //
-   private boolean isPathFile(String file){
-      boolean isPath = false;
+   private double calculateTempInitialized(){
+      double temp = Double.NaN;
       try{
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         Hashtable<String,String> ht = read.readPathInfo();
-         if(read.readPathInfo().get("parameter") == null){
-            throw new NullPointerException("Not a Path File");
+         PipeData pd = (PipeData)this._initializable.initialized();
+         //Temperature is insignificant in the Initialize State...
+         //Can literally return anything within reason...since
+         //measured in Kelvin, keep between 273-373...
+         boolean found     = false;
+         double  lowerLim  = 273.15;
+         double  upperLim  = 373.15;
+         Random  random    = new Random();
+         int     seed      = 374; //Above the Boiling point of H2O
+         while(!found){
+            if(this._stateSubstate.state() == INIT){
+               temp = random.nextInt(seed) + random.nextDouble();
+               if(temp >= lowerLim && temp <= upperLim){
+                  found = true;
+               }
+            }
+            else{
+               found = true;
+            }
          }
-         isPath = true;
+      
       }
-      catch(IOException ioe){
-         isPath = false;
-         ioe.printStackTrace(); //Temporary
-         throw ioe;
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
       }
-      catch(NullPointerException npe){
-         isPath = false;
-         npe.printStackTrace();  //Temporary
-      }
-      finally{
-         return isPath;
-      }
+      return temp;
    }
 
    //
    //
    //
    private double setFlow(){
-      double flow  = Double.NaN; double scale = Double.NaN;
-      double min   = Double.NaN; double max   = Double.NaN;
-      if(this._stateSubstate.state() == INIT){
-         //In the Initialize State, the flow SHOULD BE ZERO
-         //regardless of Substate!!!
-         //Cannot have a negative flow...
-         max = 1. - this._initPipeData.tolerance();
-         do{
-            flow = this._random.nextDouble();
-         }while(flow > max);
+      double flow = Double.NaN;
+      synchronized(this._obj){
+         if(this._stateSubstate.state() == INIT){
+            flow = this.calculateFlowInitialized();
+         }
+         return flow;
       }
-      flow = Math.round(flow * 100.) * 0.01;
-      return flow;
    }
 
    //
    //
    //
    private void setMeasuredData(double flow, double temp){
-      String err = null; //Error
-      String ft  = null; //Fuel Type
-      //Get the Approriate data from the Initialized Pipe Data...
-      //Error is not determined by the DataFeeder
-      //Flow and Temperature is determined...
-      int eng    = this._initPipeData.number();
-      int stg    = this._initPipeData.stage();
-      int tnk    = this._initPipeData.tank();
-      double tol = this._initPipeData.tolerance();
-
-      synchronized(this._obj){
-         this._calcPipeData = new GenericPipeData(
-                                          err,    //error
-                                          flow,   //flow
-                                          eng,    //engine number
-                                          false,  //is Error
-                                          stg,    //stage
-                                          tnk,    //tank
-                                          temp,   //Temperature
-                                          tol,    //tolerance
-                                          ft);    //Fuel Type
+      PipeData pd = null;
+      try{
+         pd = (PipeData)this._initializable.initialized();
+         PipeData tpd = null;
+         tpd = new GenericPipeData(pd.error(),
+                                   pd.isError(),
+                                   this._number,
+                                   flow,
+                                   this._stage,
+                                   this._tank,
+                                   temp,
+                                   pd.tolerance(),
+                                   pd.type());
+         synchronized(this._obj){
+            this._calcPipeData = tpd;
+         }
       }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+
    }
 
    //
    //
    //
    private double setTemp(){
-      double temp = Double.NaN; double min  = Double.NaN;
-      double max  = Double.NaN; 
-      if(this._stateSubstate.state() == INIT){
-         //Temperature is insignificant in the Initialize State...
-         //Can literally return anything within reason...since
-         //measured in Kelvin, keep between 273-373...
-         do{
-            min = 273.; max = 373.;
-            temp = (double)this._random.nextInt((int)(max+1));
-            temp += this._random.nextDouble();
-         }while(temp < min || temp > max);
+      double temp = Double.NaN;
+      synchronized(this._obj){
+         if(this._stateSubstate.state() == INIT){
+            temp = this.calculateTempInitialized();
+         }
+         return temp;
       }
-      temp = Math.round(temp * 100.) * 0.01;
-      return temp;
    }
 
    //Associated Engine Number
@@ -274,26 +251,17 @@ public class PipeDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void addDataFeeder(DataFeeder feeder){}
-
-   //
-   //
-   //
-   public void initialize(String file)throws IOException{
-      //Pipe Data File
-      String pdFile = file;
-      if(this.isPathFile(pdFile)){
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(pdFile);
-         pdFile = read.readPathInfo().get("tank");
-      }
-      this.initializePipeData(pdFile);
+   public void addInitializable(Initializable init){
+      this._initializable = init;
    }
 
    //
    //
    //
    public Object monitor(){
+      double flow = this.setFlow();
+      double temp = this.setTemp();
+      this.setMeasuredData(flow,temp);
       synchronized(this._obj){
          return this._calcPipeData;
       }
