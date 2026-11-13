@@ -43,6 +43,7 @@ public abstract class Pump extends SystemComponent{
    //
    //
    public void initializeComponent(String file)throws IOException{
+      //THIS NEEDS TO CHANGE!!!!!
       System.out.println("Pump");
       if(this.initializable == null){
          int stg = this.stage;
@@ -75,8 +76,8 @@ public abstract class Pump extends SystemComponent{
             int tn  = this.tankNumber;
             this.dataFeeder = new PumpDataFeeder(stg,tn);
          }
+         this.dataFeeder.addInitializable(this.initializable);
       }
-      this.dataFeeder.addInitializable(this.initializable);
    }
 
    //

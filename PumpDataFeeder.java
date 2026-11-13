@@ -41,14 +41,11 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
    private LaunchStateSubstate.AscentSubstate    STG   = null;
    private LaunchStateSubstate.AscentSubstate    IGNE  = null;
 
-   //Read In
-   private PumpData            _initPumpData;
    //Derived
+   private Initializable       _initializable;
    private PumpData            _calcPumpData;
-
    private LaunchStateSubstate _stateSubstate;
    private Object              _obj;
-   private Random              _random;
    private Thread              _t0;
 
    private int                 _stage; //Stage Number
@@ -69,11 +66,10 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
       STG  = LaunchStateSubstate.AscentSubstate.STAGING;
       IGNE = LaunchStateSubstate.AscentSubstate.IGNITEENGINES;
 
-      _initPumpData      = null;
       _calcPumpData      = null;
+      _initializable     = null;
       _stateSubstate     = null;
       _obj               = null;
-      _random            = null;
       _t0                = null;
       _stage             = -1;
       _tank              = -1;
@@ -84,133 +80,64 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
    //
    //
    public PumpDataFeeder(int stage, int tank){
-      this._random = new Random();
       this.setStageNumber(stage);
       this.setTankNumber(tank);
       this.setUpThread();
    }
 
    //////////////////////////Private Methods//////////////////////////
-   //
-   //
-   //
-   private void initializePumpData(String file)throws IOException{
-      String err = null; double flw = Double.NaN; //Derived
-      int tnk = this._tank;  boolean isE = false;
-      int stg = this._stage; double temp = Double.NaN;
-      double tol = Double.NaN; String ft = null; //Fuel Type
-      //Test Print
-      System.out.println("Pump Data:  "+file);
-      try{
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         List<Hashtable<String,String>> lst = read.readPumpDataInfo();
-         Iterator<Hashtable<String,String>> it = lst.iterator();
-         while(it.hasNext()){
-            Hashtable<String,String> ht = it.next();
-            //First, get the Stage and Tank
-            try{ stg = Integer.parseInt(ht.get("stage")); }
-            catch(NumberFormatException nfe){ stg = -1; }
-            try{ tnk = Integer.parseInt(ht.get("tanknumber"));}
-            catch(NumberFormatException nfe){ tnk = -1; }
-            if(this._stage == stg && this._tank == tnk){
-               try{ flw = Double.parseDouble(ht.get("rate")); }
-               catch(NumberFormatException nfe){ flw = Double.NaN; }
-               try{ temp = Double.parseDouble(ht.get("temperature"));}
-               catch(NumberFormatException nfe){ temp = Double.NaN; }
-               try{ tol = Double.parseDouble(ht.get("tolerance")); }
-               catch(NumberFormatException nfe){ tol = Double.NaN; }
-               this._initPumpData = new GenericPumpData(
-                                            err,  //error
-                                            flw,  //Flow Rate
-                                            tnk,  //Tank
-                                            isE,  //Is Error
-                                            stg,  //Stage
-                                            temp, //Temperature
-                                            tol,  //tolerance
-                                            ft);
-               System.out.println(this._initPumpData);
-            }
-         }
-      }
-      catch(IOException ioe){
-         ioe.printStackTrace();
-         this._initPumpData = null;
-         throw ioe;
-      }
+   ///Actually, more of the Pump Rate than the Flow Rate
+   ///
+   ///
+   private double calculateFlowInitialized(){
+      double pumpRate = Double.NaN;
+      return pumpRate;
    }
 
    //
    //
    //
-   private boolean isPathFile(String file){
-      System.out.println("Pump Data: "+file);
-      boolean isPath = false;
-      try{
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(file);
-         Hashtable<String,String> ht = read.readPathInfo();
-         if(read.readPathInfo().get("parameter") == null){
-            throw new NullPointerException("Not a Path File");
-         }
-         isPath = true;
-      }
-      catch(IOException ioe){
-         isPath = false;
-         ioe.printStackTrace();  //Temporary
-         throw ioe;
-      }
-      catch(NullPointerException npe){
-         isPath = false;
-         npe.printStackTrace();  //Temporary
-      }
-      finally{
-         return isPath;
-      }
-   }
-   
-   //
-   //
-   //
-   private void setMeasuredData(double flow, double temp){
-      String err = null; //Error
-      String ft  = null; //Fuel Type
-      //Get the appropriate data from the initialized pump data...
-      //error is not determined by the DataFeeder...
-      //Flow and Temp are determined...
-      int tnk    = this._initPumpData.index();
-      int stg    = this._initPumpData.stage();
-      double tol = this._initPumpData.tolerance();
-
-      synchronized(this._obj){
-         this._calcPumpData = new GenericPumpData(
-                                          err,   //error
-                                          flow,  //flow
-                                          tnk,   //Tank Number
-                                          false, //is Error
-                                          stg,   //Stage
-                                          temp,  //Temperature
-                                          tol,   //Tolerance
-                                          ft);   //Fuel Type
-      }
+   private double calculateTempInitialized(){
+      double temp = Double.NaN;
+      return temp;
    }
 
-   //
-   //
-   //
+   ///
+   ///
+   ///
    private double setFlow(){
-      double flow = Double.NaN; double scale = Double.NaN;
-      double min  = Double.NaN; double max   = Double.NaN;
-      if(this._stateSubstate.state() == INIT){
-         //In the Initialize State, the Pump should not be pumping!
-         //Regardless of Substate...and cannot have a Negative flow...
-         max = 1. - this._initPumpData.tolerance();
-         do{
-            flow = this._random.nextDouble();
-         }while(flow > max);
+      double flow = Double.NaN;
+      synchronized(this._obj){
+         if(this._stateSubstate.state() == INIT){
+            flow = this.calculateFlowInitialized();
+         }
+         return flow;
       }
-      flow = Math.round(flow * 100.) * 0.01;
-      return flow;
+   }
+
+   //
+   //
+   //
+   private void setMeasureableData(double flow, double temp){
+      PumpData pd = null;
+      try{
+         pd = (PumpData)this._initializable.initialized();
+         PumpData tpd = null;
+         tpd = new GenericPumpData(pd.error(),
+                                   pd.isError(),
+                                   flow,
+                                   this._stage,
+                                   this._tank,
+                                   temp,
+                                   pd.tolerance());
+         synchronized(this._obj){
+            this._calcPumpData = tpd;
+         }
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
    }
 
    //
@@ -235,19 +162,13 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
    //
    //
    private double setTemp(){
-      double temp = Double.NaN; double min = Double.NaN;
-      double max  = Double.NaN;
-      if(this._stateSubstate.state() == INIT){
-         //Temperature is insignificant in the Initialize State...
-         //put between the boiling and freezing point of water...
-         do{
-            min = 273.; max = 373.;
-            temp  = (double)this._random.nextInt((int)(max + 1));
-            temp += this._random.nextDouble();
-         }while(temp < min || temp > max);
+      double temp = Double.NaN;
+      synchronized(this._obj){
+         if(this._stateSubstate.state() == INIT){
+            temp = this.calculateTempInitialized();
+         }
+         return temp;
       }
-      temp = Math.round(temp * 100.) * 0.01;
-      return temp;
    }
 
    //
@@ -263,26 +184,17 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
    //
    //
    //
-   public void addDataFeeder(DataFeeder feeeder){}
-
-   //
-   //
-   //
-   public void initialize(String file)throws IOException{
-      //Pump Data File
-      String pdFile = file;
-      if(this.isPathFile(pdFile)){
-         LaunchSimulatorJsonFileReader read = null;
-         read = new LaunchSimulatorJsonFileReader(pdFile);
-         pdFile = read.readPathInfo().get("pump");
-      }
-      this.initializePumpData(pdFile);
+   public void addInitializable(Initializable init){
+      this._initializable = init;
    }
 
    //
    //
    //
    public Object monitor(){
+      double flow = this.setFlow();
+      double temp = this.setTemp();
+      this.setMeasureableData(flow,temp);
       synchronized(this._obj){
          return this._calcPumpData;
       }
@@ -315,7 +227,7 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
                if(check){
                   double flow = this.setFlow();
                   double temp = this.setTemp();
-                  this.setMeasuredData(flow, temp);
+                  this.setMeasureableData(flow, temp);
                   check = false;
                }
             }
