@@ -82,15 +82,15 @@ public abstract class PumpData{
    public String   toString(){
       String data = new String("\nPump Data");
       data += "\n------------------------------";
-      data += "\nIs Error                "+this.isError();
-      data += "\nerror:                  "+this.error();
+      data += "\nIs Error            "+this.isError();
+      data += "\nerror:              "+this.error();
       double rate = this.rate();
-      data += "\nrate:                   "+String.format("%.2f",rate);
-      data += "\nstage:                  "+this.stage();
-      data += "\ntank:                   "+this.tankNumber();
+      data += "\nrate:               "+String.format("%.2f L/s",rate);
+      data += "\nstage:              "+this.stage();
+      data += "\ntank:               "+this.tankNumber();
       double t = this.temperature();
-      data += "\ntemperture:             "+String.format("%.2f",t);
-      data += "\ntolerance:              "+this.tolerance();
+      data += "\ntemperture:         "+String.format("%.2fK",t);
+      data += "\ntolerance:          "+this.tolerance();
 
       return data;
    }

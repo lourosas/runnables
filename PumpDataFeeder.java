@@ -91,6 +91,33 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
    ///
    private double calculateFlowInitialized(){
       double pumpRate = Double.NaN;
+      try{
+         PumpData pd = (PumpData)this._initializable.initialized();
+         //Initialization:  NO PUMP RATE (PUMP IS OFF)
+         pumpRate         = 0.;
+         boolean found    = false;
+         double  lowerLim = pumpRate;
+         //Liters/Sec:  Since the pump is off, the uppper limit should
+         //be within the "noise" of the Measurement--the measurement
+         //Limitations
+         double upperLim  = 0.001;
+         Random random    = new Random();
+         while(!found){
+            if(this._stateSubstate.state() == INIT){
+               pumpRate = lowerLim + (random.nextDouble());
+               if(pumpRate >= lowerLim && pumpRate <= upperLim){
+                  found = true;
+               }
+            }
+            else{
+               found = true;
+            }
+         }
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
       return pumpRate;
    }
 
@@ -99,6 +126,31 @@ public class PumpDataFeeder implements DataFeeder, Runnable{
    //
    private double calculateTempInitialized(){
       double temp = Double.NaN;
+      try{
+         PumpData pd = (PumpData)this._initializable.initialized();
+         //Temperature is not significant in the Initialized State...
+         //Since measured in Kelvin, keep between 273-373...
+         boolean  found       = false;
+         double   lowerLim    = 273.15;
+         double   upperLim    = 373.15;
+         Random   random      = new Random();
+         int      seed        = 374;
+         while(!found){
+            if(this._stateSubstate.state() == INIT){
+               temp = random.nextInt(seed) + random.nextDouble();
+               if(temp >= lowerLim && temp <= upperLim){
+                  found = true;
+               }
+            }
+            else{
+               found = true;
+            }
+         }
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
       return temp;
    }
 
