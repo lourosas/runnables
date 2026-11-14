@@ -55,14 +55,6 @@ public abstract class Pump extends SystemComponent{
       //handled at the Pump (abstract) level...
       this.setMonitorable();
       this.alertSubscribers();
-      try{
-         PumpData pumpData = null;
-         pumpData = (PumpData)this.initializable.initialized();
-         //notify the Subscribers
-         this.publisher.publish(pumpData);
-      }
-      catch(NullPointerException npe){}
-      catch(ClassCastException cce){}
    }
 
    //
@@ -98,7 +90,30 @@ public abstract class Pump extends SystemComponent{
    //
    //
    //
-   protected void alertSubscribers(){}
+   protected void alertSubscribers(){
+      //Since this is a primitive type System Component, everything is
+      //handled at the abstract (Pump) level...
+      try{
+         PumpData pumpData = null;
+         if(this.getStateSubstate() != null){
+            //Once the State is set, the Monitorable Thread is running
+            pumpData = (PumpData)this.monitorable.monitor();
+         }
+         else{
+            pumpData = (PumpData)this.initializable.initialized();
+         }
+         //notify the Subscribers
+         this.publisher.publish(pumpData);
+      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+      System.out.println("/////////////////////////////////////////");
+      System.out.println("Pump:  Alert Subscribers");
+      System.out.println("/////////////////////////////////////////");
+   }
 
    //
    //
@@ -126,7 +141,12 @@ public abstract class Pump extends SystemComponent{
       return error;
    }
 
-
-
+   /////////////////SystemComponents Protected Methods////////////////
+   //
+   //
+   //
+   protected void setMonitorable(){
+      this.setMonitorable(new PumpMonitorable());
+   }
 }
 //////////////////////////////////////////////////////////////////////
