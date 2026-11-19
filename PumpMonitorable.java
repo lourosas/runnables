@@ -43,13 +43,59 @@ public class PumpMonitorable implements Monitorable{
    //
    //
    //
-   private void setData(String type, Object data, boolean toAppend){}
+   private void setData(String type, Object data, boolean toAppend){
+      String inputType = type.toUpperCase();
+      if(inputType.contains("ERROR")){
+         this.setError(data,toAppend);
+      }
+   }
+
+   //
+   //
+   //
+   private void setError(Object data, boolean toAppend){
+      try{
+         String   err = this._pumpData.error();
+         boolean  isE = this._pumpData.isError();
+         double   rte = this._pumpData.rate();
+         int      stg = this._pumpData.stage();
+         int      tkn = this._pumpData.tankNumber();
+         double   tmp = this._pumpData.temperature();
+         double   tol = this._pumpData.tolerance();
+         if(toAppend && isE){
+            err = err + "\n" + (String)data;
+         }
+         else{
+            err = (String)data;
+            isE = true;
+         }
+         PumpData pd = new GenericPumpData(err,isE,rte,stg,tkn,
+                                                             tmp,tol);
+         synchronized(this._obj){
+            this._pumpData = pd;
+         }
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+   }
 
    //////////////////Monitor Interface Implementation/////////////////
    //
    //
    //
-   public void addData(Object data){}
+   public void addData(Object data){
+      try{
+         synchronized(this._obj){
+            this._pumpData = (PumpData)data;
+         }
+      }
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
+   }
 
    //
    //
