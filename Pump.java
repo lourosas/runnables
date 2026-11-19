@@ -141,6 +141,11 @@ public abstract class Pump extends SystemComponent{
       return error;
    }
 
+   //
+   //
+   //
+   protected void monitorPump(){}
+
    /////////////////SystemComponents Protected Methods////////////////
    //
    //
