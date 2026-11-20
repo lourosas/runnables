@@ -85,7 +85,7 @@ public abstract class PumpData{
       data += "\nIs Error            "+this.isError();
       data += "\nerror:              "+this.error();
       double rate = this.rate();
-      data += "\nrate:               "+String.format("%.2f L/s",rate);
+      data += "\nrate:               "+String.format("%.4f L/s",rate);
       data += "\nstage:              "+this.stage();
       data += "\ntank:               "+this.tankNumber();
       double t = this.temperature();

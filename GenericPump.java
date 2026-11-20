@@ -82,11 +82,9 @@ public class GenericPump extends Pump implements Runnable{
                }
             }
             if(check){
-               /*
                this.monitorPump();
                this.checkErrors();
                this.alertSubscribers();
-               */
                check = false;
             }
             Thread.sleep(1);

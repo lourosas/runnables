@@ -183,11 +183,13 @@ public abstract class Pipe extends SystemComponent{
          pubError = (pubError != null) ? pubError+"\n"+error : error;
       }
       if(pubError != null){
-         this.monitorable.addError(error, false);
-         try{
-            this.publisher.publish(new RuntimeException(pubError));
+         synchronized(this.obj){
+            this.monitorable.addError(error, false);
+            try{
+               this.publisher.publish(new RuntimeException(pubError));
+            }
+            catch(NullPointerException npe){}
          }
-         catch(NullPointerException npe){}
       }
       System.out.println("+++++++++++++++++++++++++++++++++++++++++");
    }

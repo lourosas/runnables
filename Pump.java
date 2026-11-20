@@ -111,25 +111,80 @@ public abstract class Pump extends SystemComponent{
          System.exit(1);
       }
       System.out.println("/////////////////////////////////////////");
-      System.out.println("Pump:  Alert Subscribers");
+      System.out.println("\tPump:  Alert Subscribers");
       System.out.println("/////////////////////////////////////////");
    }
 
    //
    //
    //
-   protected void checkErrors(){}
+   protected void checkErrors(){
+      //What needs checking??
+      //Pump Rate
+      //Temperature (should indicate the temp of the fuel)
+      System.out.println("/////////////////////////////////////////");
+      System.out.println("\tPump:  Check Errors");
+      if(this.getStateSubstate() != null){
+         if(this.getStateSubstate().state() == INIT){
+            this.checkInitializedStateErrors();
+         }
+      }
+      System.out.println("/////////////////////////////////////////");
+   }
 
    //
    //
    //
-   protected void checkInitializedStateErrors(){}
+   protected void checkInitializedStateErrors(){
+      double lowerLimit = 0.;
+      double upperLimit = 0.001;
+      String error      = null;
+      String pubError   = null;
+      System.out.println("/////////////////////////////////////////");
+      System.out.println("Pump: Check Initialized State Errors");
+      error = this.checkPumpRate(upperLimit, lowerLimit);
+      if(error != null){
+         pubError = (pubError != null) ? pubError+"\n"+error : error;
+      }
+      lowerLimit = 273.15;
+      upperLimit = 373.15;
+      error = this.checkTemperature(lowerLimit, upperLimit);
+      if(error != null){
+         pubError = (pubError != null) ? pubError+"\n"+error : error;
+      }
+      if(pubError != null){
+         synchronized(this.obj){
+            this.monitorable.addError(error, false);
+            try{
+               this.publisher.publish(new RuntimeException(pubError));
+            }
+            catch(NullPointerException npe){}
+         }
+      }
+      System.out.println("/////////////////////////////////////////");
+   }
 
    //
    //
    //
    protected String checkPumpRate(double ll, double ul){
       String error = null;
+      PumpData  pd = null;
+      try{
+         synchronized(this.obj){
+            pd = (PumpData)this.monitorable.monitor();
+            double pumpRate = pd.rate();
+            if(pumpRate < ll || pumpRate > ul){
+               String pre = String.format("%.4f", pumpRate);
+               error = new String("Pump Rate Error: " + pre);
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
       return error;
    }
 
@@ -138,13 +193,50 @@ public abstract class Pump extends SystemComponent{
    //
    protected String checkTemperature(double ll, double ul){
       String error = null;
+      PumpData  pd = null;
+      try{
+         synchronized(this.obj){
+            pd = (PumpData)this.monitorable.monitor();
+            double temp = pd.temperature();
+            if(temp < ll || temp > ul){
+               String tme = String.format("%.2f", temp);
+               error = new String("Temperature Error: " + tme);
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+      catch(ClassCastException cce){
+         cce.printStackTrace();
+         System.exit(1);
+      }
       return error;
    }
 
    //
    //
    //
-   protected void monitorPump(){}
+   protected void monitorPump(){
+      if(this.isSimulation){
+         System.out.println("//////////////////////////////////////");
+         System.out.println("\tPump:  Monitor Pump");
+         synchronized(this.obj){
+            try{
+               //The Monitor Instance runs off of its own Thread...so,
+               //it will have to grab its own lock to ensure no race
+               //condition...
+               PumpData data = null;
+               data = (PumpData)this.dataFeeder.monitor();
+               this.monitorable.addData(data);
+            }
+            catch(ClassCastException cce){
+               cce.printStackTrace();
+               System.exit(1);
+            }
+         }
+         System.out.println("//////////////////////////////////////");
+      }
+      else{}
+   }
 
    /////////////////SystemComponents Protected Methods////////////////
    //
