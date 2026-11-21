@@ -24,8 +24,8 @@ import rosas.lou.runnables.*;
 
 public class GenericFuelSystem extends FuelSystem implements Runnable{
    private static boolean TOPRINT = true;
-   private boolean              _kill;
-   private Thread               _rt0;
+   private boolean _kill;
+   private Thread  _rt0;
    {
       fuel     = null;
       obj      = null;
@@ -268,9 +268,9 @@ public class GenericFuelSystem extends FuelSystem implements Runnable{
             }
             if(check){
                this.monitorFuelSystem();
-               this.monitorTanks();
-               this.monitorPumps();
-               this.monitorPipes();
+               //this.monitorTanks();
+               //this.monitorPumps();
+               //this.monitorPipes();
                this.setFuelSystemData();
                this.checkErrors();
                this.alertSubscribers();

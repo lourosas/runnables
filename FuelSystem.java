@@ -203,47 +203,54 @@ public abstract class FuelSystem extends SystemComponent{
    //
    //
    //
-   protected void monitorPipes(){
-      System.out.println("-----------------------------------------");
-      System.out.println("Fuel System:  Monitor Pipes");
+   protected List<PipeData> monitorPipes(){
+      List<PipeData> data = new LinkedList<PipeData>();
+      //System.out.println("-----------------------------------------");
+      //System.out.println("Fuel System:  Monitor Pipes");
       try{
          Iterator<Pipe> it = this.pipes.iterator();
          while(it.hasNext()){
-            System.out.println(it.next().monitor());
+            data.add((PipeData)(it.next().monitor()));
          }
       }
       catch(NullPointerException npe){}
-      System.out.println("-----------------------------------------");
+      //System.out.println("-----------------------------------------");
+      return data;
    }
 
    //
    //
    //
-   protected void monitorPumps(){
-      System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-      System.out.println("Fuel System:  Monitor Pumps");
+   protected List<PumpData> monitorPumps(){
+      List<PumpData> data = new LinkedList<PumpData>();
+      //System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+      //System.out.println("Fuel System:  Monitor Pumps");
       try{
          Iterator<Pump> it = this.pumps.iterator();
          while(it.hasNext()){
-            System.out.println(it.next().monitor());
+            data.add((PumpData)(it.next().monitor()));
          }
       }
-      catch(NullPointerException npe){
-         //Test Prints REMOVE!!
-         npe.printStackTrace();
-      }
-      System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+      catch(NullPointerException npe){}
+      //System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+      return data;
    }
 
    //
    //
    //
-   protected void monitorTanks(){
+   protected List<TankData> monitorTanks(){
+      /*
       System.out.println("+++++++++++++++++++++++++++++++++++++++++");
       System.out.println("Fuel System:  Monitor Tanks");
       System.out.println(this.fuel.monitor());
       System.out.println(this.oxidizer.monitor());
       System.out.println("+++++++++++++++++++++++++++++++++++++++++");
+      */
+      List<TankData> data = new LinkedList<TankData>();
+      data.add((TankData)this.fuel.monitor());
+      data.add((TankData)this.oxidizer.monitor());
+      return data;
    }
 
    //
@@ -252,6 +259,10 @@ public abstract class FuelSystem extends SystemComponent{
    protected void setFuelSystemData(){
       System.out.println("*****************************************");
       System.out.println("Fuel System:  setFuelSystemData");
+      //List<TankData> tdl = this.monitorTanks();
+      System.out.println(this.monitorTanks());
+      System.out.println(this.monitorPumps());
+      System.out.println(this.monitorPipes());
       System.out.println("*****************************************");
    }
 
