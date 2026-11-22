@@ -69,8 +69,8 @@ public class StageMonitorable implements Monitorable{
       this._stageData = sd;
    }
 
-   //
-   //
+   //This is definitely going to want to change!! To handle a List
+   //or just a single object!!
    //
    private void setUpEngineData(Object data){
       try{

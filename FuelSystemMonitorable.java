@@ -44,9 +44,8 @@ public class FuelSystemMonitorable implements Monitorable{
    //
    //
    //
-   private void setUpTankData(Object data){
+   private List<TankData> convertToTankDataList(Object data){
       List<TankData> tanks = null;
-      //tanks = (List<TankData>)data;
       if(data instanceof List<?> rawList){
          tanks = new LinkedList<TankData>();
          Iterator<?> it = rawList.iterator();
@@ -55,11 +54,25 @@ public class FuelSystemMonitorable implements Monitorable{
             try{
                tanks.add((TankData)obj);
             }
-            catch(ClassCastException cce){}
+            catch(ClassCastException cce){
+               System.out.println(cce);
+               System.exit(1);
+            }
          }
       }
+      return tanks;
+   }
+   //
+   //
+   //
+   //
+   private void setUpTankData(Object data){
+      List<TankData> tanks = this.convertToTankDataList(data);
+      /*
+      */
       //Temporary Prints!!!
-      System.out.println("FuelSystemMonitorable.setUpTankData() "+data);
+      System.out.println("FuelSystemMonitorable.setUpTankData() "+tanks);
+      //Continue saving this to Tank Data!!
    }
 
    ////////////////Monitorable Interface Implementation///////////////

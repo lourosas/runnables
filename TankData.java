@@ -148,7 +148,8 @@ public abstract class TankData{
       double temp = this.temperature();
       data += "\nTemperature:         "+String.format("%.2fK",temp);
       data += "\nTolerance:           "+this.tolerance();
-      data += "\nWeight:              "+this.weight();
+      double wght = this.weight();
+      data += "\nWeight:              "+String.format("%.2f N",wght);
 
       return data;
    }

@@ -246,11 +246,8 @@ public abstract class FuelSystem extends SystemComponent{
    protected void setFuelSystemData(){
       System.out.println("*****************************************");
       System.out.println("Fuel System:  setFuelSystemData");
-      //System.out.println(this.monitorTanks());
       this.monitorable.addData("Tanks", this.monitorTanks());
-      //System.out.println(this.monitorPumps());
       this.monitorable.addData("Pumps", this.monitorPumps());
-      //System.out.println(this.monitorPipes());
       this.monitorable.addData("Pipes", this.monitorPipes());
       System.out.println("*****************************************");
    }
