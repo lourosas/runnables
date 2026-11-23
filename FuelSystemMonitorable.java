@@ -46,20 +46,23 @@ public class FuelSystemMonitorable implements Monitorable{
    //
    private List<TankData> convertToTankDataList(Object data){
       List<TankData> tanks = null;
-      if(data instanceof List<?> rawList){
-         tanks = new LinkedList<TankData>();
-         Iterator<?> it = rawList.iterator();
-         while(it.hasNext()){
-            Object obj = it.next();
-            try{
-               tanks.add((TankData)obj);
-            }
-            catch(ClassCastException cce){
-               System.out.println(cce);
-               System.exit(1);
+      try{
+         if(data instanceof List<?> rawList){
+            tanks = new LinkedList<TankData>();
+            Iterator<?> it = rawList.iterator();
+            while(it.hasNext()){
+               Object obj = it.next();
+               try{
+                  tanks.add((TankData)obj);
+               }
+               catch(ClassCastException cce){
+                  System.out.println(cce);
+                  System.exit(1);
+               }
             }
          }
       }
+      catch(NullPointerException npe){}
       return tanks;
    }
    //
@@ -68,11 +71,39 @@ public class FuelSystemMonitorable implements Monitorable{
    //
    private void setUpTankData(Object data){
       List<TankData> tanks = this.convertToTankDataList(data);
-      /*
-      */
-      //Temporary Prints!!!
-      System.out.println("FuelSystemMonitorable.setUpTankData() "+tanks);
-      //Continue saving this to Tank Data!!
+      try{
+         int            ngs = this._fuelSystemData.engines();
+         int            stg = this._fuelSystemData.stage();
+         List<PipeData> pid = this._fuelSystemData.pipes();
+         List<PumpData> pud = this._fuelSystemData.pumps();
+         List<TankData> tkd = this._fuelSystemData.tanks();
+         if(tanks == null){
+            if(data == null){
+               tanks = null;
+            }
+            else{
+               TankData td = null;
+               try{
+                  td = (TankData)td;
+               }
+               catch(ClassCastException cce){
+                  cce.printStackTrace();
+                  System.exit(1);
+               }
+               try{
+                  tanks.add(td);
+               }
+               catch(NullPointerException npe){
+                  tanks = new LinkedList<TankData>();
+                  tanks.add(td);
+               }
+            }
+         }
+         FuelSystemData gfsd = null;
+         gfsd = new GenericFuelSystemData(ngs,stg,pid,pud,tanks);
+         this._fuelSystemData = gfsd;
+      }
+      catch(NullPointerException npe){}
    }
 
    ////////////////Monitorable Interface Implementation///////////////
