@@ -102,6 +102,9 @@ public class FuelSystemMonitorable implements Monitorable{
          FuelSystemData gfsd = null;
          gfsd = new GenericFuelSystemData(ngs,stg,pid,pud,tanks);
          this._fuelSystemData = gfsd;
+         //Temp Prints REMOVE
+         System.out.print("FuelSystemMonitorable ");
+         System.out.println(this._fuelSystemData);
       }
       catch(NullPointerException npe){}
    }

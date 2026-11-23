@@ -43,6 +43,32 @@ public class StageMonitorable implements Monitorable{
    //
    //
    //
+   //
+   private List<EngineData> convertToEngineDataList(Object data){
+      List<EngineData> enl = null;
+      try{
+         if(data instanceof List<?> rawList){
+            enl = new LinkedList<EngineData>();
+            Iterator<?> it = rawList.iterator();
+            while(it.hasNext()){
+               Object obj = it.next();
+               try{
+                  enl.add((EngineData)obj);
+               }
+               catch(ClassCastException cce){
+                  System.out.println(cce);
+                  System.exit(1);
+               }
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+      return enl;
+   }
+
+   //
+   //
+   //
    private void setError(String error, boolean toAppend){
       double            dw = this._stageData.dryWeight();
       double            dm = this._stageData.dryMass();
@@ -73,6 +99,7 @@ public class StageMonitorable implements Monitorable{
    //or just a single object!!
    //
    private void setUpEngineData(Object data){
+      List<EngineData> enl = this.convertToEngineDataList(data);
       try{
          double            dw = this._stageData.dryWeight();
          double            dm = this._stageData.dryMass();
@@ -85,29 +112,32 @@ public class StageMonitorable implements Monitorable{
          double            mw = this._stageData.maxWeight();
          double           tol = this._stageData.tolerance();
          double           wgt = this._stageData.weight();
-         List<EngineData> enl = this._stageData.engineData();
+         //List<EngineData> enl = this._stageData.engineData();
          FuelSystemData   fsd = this._stageData.fuelSystemData();
-         //If the data is null, clear out the Engine data:  adding
-         //fresh data...do not append the data to the Engine Data List
-         if(data == null){
-            //set the List to Null
-            enl = null;
-         }
-         else{
-            EngineData ed = null;
-            try{
-               ed = (EngineData)data;
+         if(enl == null){
+            //If the data is null, clear out the Engine 
+            //data:  adding fresh data...do not append the data to
+            //the Engine Data List
+            if(data == null){
+               //set the List to Null
+               enl = null;
             }
-            catch(ClassCastException cce){
-               cce.printStackTrace();
-               System.exit(1);
-            }
-            try{
-               enl.add(ed);
-            }
-            catch(NullPointerException npe){
-               enl = new LinkedList<EngineData>();
-               enl.add(ed);
+            else{
+               EngineData ed = null;
+               try{
+                  ed = (EngineData)data;
+               }
+               catch(ClassCastException cce){
+                  cce.printStackTrace();
+                  System.exit(1);
+               }
+               try{
+                  enl.add(ed);
+               }
+               catch(NullPointerException npe){
+                  enl = new LinkedList<EngineData>();
+                  enl.add(ed);
+               }
             }
          }
          StageData sd = new GenericStageData(dw,dm,err,mod,isE,sgn,
