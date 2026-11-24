@@ -199,20 +199,20 @@ public abstract class Tank extends SystemComponent{
       System.out.println("Tank: Check Initialized State Errors");
       error = this.checkCapacity(lowerLimit,upperLimit);
       if(error != null){
-         pubError = pubError != null ? pubError+"\n"+error : error;
+         pubError = (pubError != null) ? pubError+"\n"+error : error;
       }
       error = this.checkEmptyRate(lowerLimit,upperLimit);
       if(error != null){
-         pubError = pubError != null ? pubError+"\n"+error : error;
+         pubError = (pubError != null) ? pubError+"\n"+error : error;
       }
       lowerLimit = 273.15;
       upperLimit = 373.15;
       error = this.checkTemperature(lowerLimit,upperLimit);
       if(error != null){
-         pubError = pubError != null ? pubError+"\n"+error : error;
+         pubError = (pubError != null) ? pubError+"\n"+error : error;
       }
       if(pubError != null){
-         this.monitorable.addError(error, false);
+         this.monitorable.addError(pubError, false);
          try{
             this.publisher.publish(new RuntimeException(pubError));
          }

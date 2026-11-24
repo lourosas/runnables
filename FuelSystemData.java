@@ -130,7 +130,7 @@ public abstract class FuelSystemData{
             if(pd.isError()){
                if(!this.isError()){ this.isError(true); }
                if(this.error() == null){ this.error(pd.error()); }
-               else{ this.error(this.error()+" "+pd.error()); }
+               else{ this.error(this.error()+"\n"+pd.error()); }
             }
          }
       }
@@ -142,7 +142,7 @@ public abstract class FuelSystemData{
             if(pd.isError()){
                if(!this.isError()){ this.isError(true); }
                if(this.error() == null){ this.error(pd.error()); }
-               else{ this.error(this.error()+" "+pd.error()); }
+               else{ this.error(this.error()+"\n"+pd.error()); }
             }
          }
       }
@@ -154,7 +154,7 @@ public abstract class FuelSystemData{
             if(td.isError()){
                if(!this.isError()){ this.isError(true); }
                if(this.error() == null){ this.error(td.error()); }
-               else{ this.error(this.error()+" "+td.error()); }
+               else{ this.error(this.error()+"\n"+td.error()); }
             }
          }
       }

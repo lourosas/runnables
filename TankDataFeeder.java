@@ -101,7 +101,7 @@ public class TankDataFeeder implements DataFeeder, Runnable{
          double  tolerance = td.tolerance();
          double  lowerLim  = capacity;
          //Liters...best be at most a centiiliter!!!
-         double  upperLim  = 0.01;
+         double  upperLim  = 0.001;
          Random  random    = new Random();
          while(!found){
             if(this._stateSubstate.state() == INIT){
