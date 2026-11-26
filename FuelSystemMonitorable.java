@@ -43,6 +43,31 @@ public class FuelSystemMonitorable implements Monitorable{
    //
    //
    //
+   private List<PipeData> convertToPipeDataList(Object data){
+      List<PipeData> pipes = null;
+      try{
+         if(data instanceof List<?> rawList){
+            pipes = new LinkedList<PipeData>();
+            Iterator<?> it = rawList.iterator();
+            while(it.hasNext()){
+               Object obj = it.next();
+               try{
+                  pipes.add((PipeData)data);
+               }
+               catch(ClassCastException cce){
+                  System.out.println(cce);
+                  System.exit(1);
+               }
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+      return pipes;
+   }
+
+   //
+   //
+   //
    //
    private List<PumpData> convertToPumpDataList(Object data){
       List<PumpData> pumps = null;
@@ -95,6 +120,20 @@ public class FuelSystemMonitorable implements Monitorable{
    //
    //
    //
+   private void setUpPipeData(Object data){
+      List<PipeData> pipes = this.convertToPipeDataList(data);
+      try{
+         int            ngs = this._fuelSystemData.engines();
+         int            stg = this._fuelSystemData.stage();
+         List<PumpData> pud = this._fuelSystemData.pumps();
+         List<TankData> tkd = this._fuelSystemData.tanks();
+      }
+      catch(NullPointerException npe){}
+}
+
+   //
+   //
+   //
    private void setUpPumpData(Object data){
       List<PumpData> pumps = this.convertToPumpDataList(data);
       try{
@@ -103,6 +142,19 @@ public class FuelSystemMonitorable implements Monitorable{
          List<PipeData>  pid = this._fuelSystemData.pipes();
          List<TankData>  tkd = this._fuelSystemData.tanks();
          if(pumps == null){
+            if(data == null){
+               pumps = null;
+            }
+            else{
+               PumpData pd = null;
+               try{
+                  pd = (PumpData)data;
+               }
+               catch(ClassCastException cce){
+                  cce.printStackTrace();
+                  System.exit(1);
+               }
+            }
          }
          FuelSystemData gfsd = null;
          gfsd = new GenericFuelSystemData(ngs,stg,pid,pumps,tkd);
@@ -132,7 +184,7 @@ public class FuelSystemMonitorable implements Monitorable{
             else{
                TankData td = null;
                try{
-                  td = (TankData)td;
+                  td = (TankData)data;
                }
                catch(ClassCastException cce){
                   cce.printStackTrace();
@@ -179,7 +231,9 @@ public class FuelSystemMonitorable implements Monitorable{
       if(type.toUpperCase().contains("TANKS")){
          this.setUpTankData(data);
       }
-      else if(type.toUpperCase().contains("PIPES")){}
+      else if(type.toUpperCase().contains("PIPES")){
+         this.setUpPipeData(data);
+      }
       else if(type.toUpperCase().contains("PUMPS")){
          this.setUpPumpData(data);
       }
