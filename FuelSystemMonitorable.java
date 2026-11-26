@@ -44,6 +44,32 @@ public class FuelSystemMonitorable implements Monitorable{
    //
    //
    //
+   private List<PumpData> convertToPumpDataList(Object data){
+      List<PumpData> pumps = null;
+      try{
+         if(data instanceof List<?> rawList){
+            pumps = new LinkedList<TankData>();
+            Iterator<?> it = rawList.iterator();
+            while(it.hasNext()){
+               Object obj = it.next();
+               try{
+                  pumps.add((PumpData)obj);
+               }
+               catch(ClassCastException cce){
+                  System.out.println(cce);
+                  System.exit(1);
+               }
+            }
+         }
+      }
+      catch(NullPointerException npe){}
+      return pumps;
+   }
+
+   //
+   //
+   //
+   //
    private List<TankData> convertToTankDataList(Object data){
       List<TankData> tanks = null;
       try{
@@ -65,6 +91,14 @@ public class FuelSystemMonitorable implements Monitorable{
       catch(NullPointerException npe){}
       return tanks;
    }
+
+   //
+   //
+   //
+   private void setUpPumpData(Object data){
+      List<PumpData> = this.convertToPumpDataList(data);
+   }
+
    //
    //
    //
@@ -102,9 +136,6 @@ public class FuelSystemMonitorable implements Monitorable{
          FuelSystemData gfsd = null;
          gfsd = new GenericFuelSystemData(ngs,stg,pid,pud,tanks);
          this._fuelSystemData = gfsd;
-         //Temp Prints REMOVE
-         System.out.print("FuelSystemMonitorable ");
-         System.out.println(this._fuelSystemData);
       }
       catch(NullPointerException npe){}
    }
@@ -132,6 +163,13 @@ public class FuelSystemMonitorable implements Monitorable{
       if(type.toUpperCase().contains("TANKS")){
          this.setUpTankData(data);
       }
+      else if(type.toUpperCase().contains("PIPES")){}
+      else if(type.toUpperCase().contains("PUMPS")){
+         this.setUpPumpData(data);
+      }
+      //Temp Prints REMOVE
+      System.out.print("FuelSystemMonitorable ");
+      System.out.println(this._fuelSystemData);
    }
 
    //
