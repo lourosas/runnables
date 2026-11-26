@@ -48,7 +48,7 @@ public class FuelSystemMonitorable implements Monitorable{
       List<PumpData> pumps = null;
       try{
          if(data instanceof List<?> rawList){
-            pumps = new LinkedList<TankData>();
+            pumps = new LinkedList<PumpData>();
             Iterator<?> it = rawList.iterator();
             while(it.hasNext()){
                Object obj = it.next();
@@ -96,7 +96,21 @@ public class FuelSystemMonitorable implements Monitorable{
    //
    //
    private void setUpPumpData(Object data){
-      List<PumpData> = this.convertToPumpDataList(data);
+      List<PumpData> pumps = this.convertToPumpDataList(data);
+      try{
+         int             ngs = this._fuelSystemData.engines();
+         int             stg = this._fuelSystemData.stage();
+         List<PipeData>  pid = this._fuelSystemData.pipes();
+         List<TankData>  tkd = this._fuelSystemData.tanks();
+         if(pumps == null){
+         }
+         FuelSystemData gfsd = null;
+         gfsd = new GenericFuelSystemData(ngs,stg,pid,pumps,tkd);
+         synchronized(this._obj){
+            this._fuelSystemData = gfsd;
+         }
+      }
+      catch(NullPointerException npe){}
    }
 
    //
@@ -135,7 +149,9 @@ public class FuelSystemMonitorable implements Monitorable{
          }
          FuelSystemData gfsd = null;
          gfsd = new GenericFuelSystemData(ngs,stg,pid,pud,tanks);
-         this._fuelSystemData = gfsd;
+         synchronized(this._obj){
+            this._fuelSystemData = gfsd;
+         }
       }
       catch(NullPointerException npe){}
    }
