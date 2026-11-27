@@ -271,9 +271,6 @@ public class FuelSystemMonitorable implements Monitorable{
       else if(type.toUpperCase().contains("PUMPS")){
          this.setUpPumpData(data);
       }
-      //Temp Prints REMOVE
-      System.out.print("FuelSystemMonitorable ");
-      System.out.println(this._fuelSystemData);
    }
 
    //
