@@ -93,10 +93,6 @@ public class FuelSystemDataFeeder implements DataFeeder, Runnable{
       FuelSystemData fsd = null;
       try{
          fsd = (FuelSystemData)this._initializable.initialized();
-         //Test Prints...remove
-         System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-         System.out.println("Fuel System Data Feeder: "+fsd);
-         System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
          synchronized(this._obj){
             this._calcFuelSystemData = fsd;
          }

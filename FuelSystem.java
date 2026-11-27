@@ -137,14 +137,10 @@ public abstract class FuelSystem extends SystemComponent{
       System.out.println("*****************************************");
    }
 
+   //Nothing currently to do in this method...FuelSystemData is a
+   //Clearing House for the Compoenent Data
    //
-   //
-   //
-   protected void checkErrors(){
-      System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-      System.out.println("Fuel System:  Check Errors");
-      System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-   }
+   protected void checkErrors(){}
 
    //
    //
