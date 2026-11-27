@@ -52,7 +52,7 @@ public class FuelSystemMonitorable implements Monitorable{
             while(it.hasNext()){
                Object obj = it.next();
                try{
-                  pipes.add((PipeData)data);
+                  pipes.add((PipeData)obj);
                }
                catch(ClassCastException cce){
                   System.out.println(cce);
@@ -127,6 +127,33 @@ public class FuelSystemMonitorable implements Monitorable{
          int            stg = this._fuelSystemData.stage();
          List<PumpData> pud = this._fuelSystemData.pumps();
          List<TankData> tkd = this._fuelSystemData.tanks();
+         if(pipes == null){
+            if(data == null){
+               pipes = null;
+            }
+            else{
+               PipeData pd = null;
+               try{
+                  pd = (PipeData)data;
+               }
+               catch(ClassCastException cce){
+                  cce.printStackTrace();
+                  System.exit(1);
+               }
+               try{
+                  pipes.add(pd);
+               }
+               catch(NullPointerException npe){
+                  pipes = new LinkedList<PipeData>();
+                  pipes.add(pd);
+               }
+            }
+         }
+         FuelSystemData gfsd = null;
+         gfsd = new GenericFuelSystemData(ngs,stg,pipes,pud,tkd);
+         synchronized(this._obj){
+            this._fuelSystemData = gfsd;
+         }
       }
       catch(NullPointerException npe){}
 }
@@ -144,7 +171,7 @@ public class FuelSystemMonitorable implements Monitorable{
          if(pumps == null){
             if(data == null){
                pumps = null;
-            }
+}
             else{
                PumpData pd = null;
                try{
@@ -153,6 +180,13 @@ public class FuelSystemMonitorable implements Monitorable{
                catch(ClassCastException cce){
                   cce.printStackTrace();
                   System.exit(1);
+               }
+               try{
+                  pumps.add(pd);
+               }
+               catch(NullPointerException npe){
+                  pumps = new LinkedList<PumpData>();
+                  pumps.add(pd);
                }
             }
          }
