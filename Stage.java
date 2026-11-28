@@ -202,70 +202,71 @@ public abstract class Stage extends SystemComponent{
    //
    //
    //
-   protected void monitorEngines(){
-      System.out.println("*****************************************");
-      System.out.println("Stage:  Monitor Engines");
-      //First, clear out the Engine Data in the Stage...
-      this.monitorable.addData("Engine Data", null);
-      Iterator<Engine> it = this.engines.iterator();
+   protected List<EngineData> monitorEngines(){
+      List<EngineData> data = new LinkedList<EngineData>();
       try{
-         //Then, add new monitored data to the Monitorable...
+         Iterator<Engine> it = this.engines.iterator();
          while(it.hasNext()){
-            synchronized(this.obj){
-               EngineData data = (EngineData)it.next().monitor();
-               this.monitorable.addData("Engine Data",data);
-            }
+            data.add((EngineData)(it.next().monitor()));
          }
       }
-      catch(ClassCastException cce){
-         cce.printStackTrace();
-         System.exit(1);
-      }
       catch(NullPointerException npe){}
-      System.out.println("*****************************************");
+      //Test Prints--remove
+      System.out.println("Stage: monitorEngines: "+data);
+      return data;
    }
 
    //
    //
    //
-   protected void monitorFuelSystem(){
+   protected List<FuelSystemData> monitorFuelSystem(){
       System.out.println("*****************************************");
       System.out.println("Stage:  Monitor Fuel System");
       System.out.println("*****************************************");
+      return null;
    }
 
-   //The Stage Monitoring only needs to happen in Initialization and
-   //only needs to happen once.  This is due in actual simulation,
-   //there is nothing of the Stage to monitor outside of the
-   //Compnents--whch are monitored independantly.
+   //
+   //
+   //
    protected void monitorStage(){
-      boolean toMonitor = false;
-      if(this.stateSubstate.state() == INIT){
-         if(this.monitorable.monitor() == null){
-            toMonitor = true;
-         }
-      }
-      if(toMonitor){
-         //Have one Simulation Mode and one for "Straight Measure"
-         if(this.isSimulation){
-            System.out.println("***********************************");
-            System.out.println("*******Stage:  Monitor Stage*******");
-            if(this.monitorable.monitor() == null){
-               try{
-                  synchronized(this.obj){
-                     StageData d=(StageData)this.dataFeeder.monitor();
-                     this.monitorable.addData(d);
-                  }
-               }
-               catch(ClassCastException cce){
-                  cce.printStackTrace();
-                  System.exit(1);
-               }
+      System.out.println("-----------------------------------------");
+      System.out.println("\tStage:  Monitor Stage");
+      if(this.isSimulation){
+         try{
+            synchronized(this.obj){
+               StageData d = (StageData)this.dataFeeder.monitor();
+               this.monitorable.addData(d);
             }
-            System.out.println("***********************************");
          }
-         else{}
+         catch(ClassCastException cce){
+            cce.printStackTrace();
+            System.exit(1);
+         }
       }
+      else{}
+      System.out.println("-----------------------------------------");
+   }
+
+   //
+   //
+   //
+   protected void setEngineData(){
+      System.out.println("-----------------------------------------");
+      System.out.println("\tStage:  setEngineData()");
+      this.monitorable.addData("Engines", this.monitorEngines());
+      System.out.println("-----------------------------------------");
+   }
+
+   //
+   //
+   //
+   protected void setFuelSystemData(){
+      System.out.println("-----------------------------------------");
+      System.out.println("\tStage:  setFuelSystemData()");
+      List<FuelSystemData> fsd = this.monitorFuelSystem();
+      this.monitorable.addData("Fuel System",fsd);
+      System.out.println("-----------------------------------------");
    }
 
    /////////////////SystemComponent Protected Methods/////////////////
